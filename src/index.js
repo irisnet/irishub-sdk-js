@@ -11,15 +11,14 @@ class IrisClient {
      * @param uri
      * @returns {IrisClient}
      */
-    constructor(uri){
-        let provider = ProviderFactory.create(uri);
-        this.provider = provider;
+    constructor(uri = "http://irisnet-lcd.rainbow.one/"){
+        this.provider = ProviderFactory.create(uri);
         return new Proxy(this, {
             get: (target, name) => {
                 if(target[name]) {
                     return target[name];
                 }
-                let factory = new MethodFactory(provider);
+                let factory = new MethodFactory(this.provider);
                 let fn = function (...args) {
                     let o = factory.createMethod(name);
                     return Reflect.apply(o[name],o,args);
@@ -30,7 +29,17 @@ class IrisClient {
     }
 
     /**
+     *  change provider by uri
      *
+     * @param uri
+     */
+    setUri(uri){
+        this.provider = ProviderFactory.create(uri);
+    }
+
+    /**
+     *
+     * if provider is WsProvider, close the websocket's connection
      */
     close(){
         this.provider.close()
