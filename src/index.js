@@ -11,8 +11,8 @@ class IrisClient {
      * @param uri
      * @returns {IrisClient}
      */
-    constructor(uri = "http://irisnet-lcd.rainbow.one/"){
-        this.provider = ProviderFactory.create(uri);
+    constructor(uri = "https://rpc.irisnet.org/",option = {}){
+        this.provider = ProviderFactory.create(uri,option);
         return new Proxy(this, {
             get: (target, name) => {
                 if(target[name]) {
