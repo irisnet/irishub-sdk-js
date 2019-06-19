@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "build": "rm -rf lib && npx babel src -d lib",
-    "build:docs": "npx jsdoc-to-markdown -f src/index.js > docs/root.md & npx jsdoc-to-markdown -f src/modules/**/*.js > docs/module.md & npx jsdoc-to-markdown -f src/net/*.js > docs/net.md",
+    "build:docs": "npx jsdoc-to-markdown -f src/modules/**/*.js > docs/api.md",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
@@ -17,7 +17,7 @@
     "websocket-stream": "^5.5.0",
     "ndjson": "^1.5.0",
     "camelcase": "^5.3.1",
-    "iris-crypto": "git+https://github.com/irisnet/irisnet-crypto.git#v1.3.2 "
+    "iris-crypto": "git+https://github.com/irisnet/irisnet-crypto.git#develop"
   },
   "devDependencies": {
     "chai": "^4.1.2",

@@ -4,11 +4,17 @@ const axios = require("axios");
 class HttpProvider{
     /**
      *
-     * @param url
+     * @param {string} - lcd's url
+     * @param {object} - other configurable parameters
+     * @return {HttpProvider}
      */
-    constructor(url){
+    constructor(url,opt){
+        let timeout = opt.timeout ? opt.timeout : 2000;
         this._url = url;
-        this._httpClient = axios.create({ baseURL:url })
+        this._httpClient = axios.create({
+            baseURL:url,
+            timeout:timeout,
+        })
     }
 
     /**
@@ -28,7 +34,7 @@ class HttpProvider{
      * @param opts
      */
     post(url, data, opts) {
-        throw new Error("not implement")
+        return this._execute("post", url,data,opts)
     }
 
     /**
@@ -70,7 +76,7 @@ class HttpProvider{
             method,
             url: path,
             ...opts
-        }
+        };
 
         if (params) {
             if (method === "get") {
@@ -88,8 +94,14 @@ class HttpProvider{
                 let error = err;
                 try {
                     const msgObj = err.response && err.response.data;
-                    error = new Error(msgObj.message);
-                    error.code = msgObj.code
+                    let message = msgObj.message ? msgObj.message : msgObj;
+                    if(typeof message == "object"){
+                        message = JSON.stringify(message)
+                    }
+                    message = `request api [${path}] failed,cause:${message}`;
+                    const code = msgObj.code ? msgObj.code : err.response.status;
+                    error = new Error(message);
+                    error.code = code
                 } catch (err) {
                     throw error
                 }

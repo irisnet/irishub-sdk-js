@@ -33,6 +33,17 @@ const isEmpty = (obj) => {
     }
 };
 
+const deepCopy = (obj) => {
+    if(typeof obj != 'object'){
+        return obj;
+    }
+    let o = {};
+    for ( let attr in obj) {
+        o[attr] = deepCopy(obj[attr]);
+    }
+    return o;
+};
+
 module.exports = class Utils {
     static isString(obj){
         return isString(obj)
@@ -58,5 +69,9 @@ module.exports = class Utils {
             });
         }
         return u
+    }
+
+    static deepCopy(obj){
+        return deepCopy(obj)
     }
 };

@@ -6,9 +6,11 @@ const Websocket = require("websocket-stream");
 class WsProvider extends EventEmitter{
     /**
      *
-     * @param url
+     * @param {string} - lcd's url
+     * @param {object} - other configurable parameters
+     * @return {HttpProvider}
      */
-    constructor(url){
+    constructor(url,option){
         super();
         this.url = `${url}/websocket`;
         this.connect();

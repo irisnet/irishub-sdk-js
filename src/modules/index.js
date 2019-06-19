@@ -1,20 +1,26 @@
-/**
- * @module MethodFactory
- */
 const Bank = require("./bank");
 const Stake = require("./stake");
+const Tm = require("./tm");
+const Version = require("./version");
+const Slashing = require("./slashing");
+const Gov = require("./gov");
+const Distribution = require("./distr");
 
-class MethodFactory {
+class ModuleManager {
 
     /**
      *
      * @param provider
      */
-    constructor(provider){
+    constructor(provider,opt){
         this.provider = provider;
-        this.methods = {};
-        this._register(new Bank(provider));
-        this._register(new Stake(provider));
+        this._add(new Bank(provider,opt));
+        this._add(new Stake(provider,opt));
+        this._add(new Tm(provider,opt));
+        this._add(new Version(provider,opt));
+        this._add(new Slashing(provider,opt));
+        this._add(new Gov(provider,opt));
+        this._add(new Distribution(provider,opt));
     }
 
     /**
@@ -42,8 +48,11 @@ class MethodFactory {
      * @param module
      * @private
      */
-    _register(module){
+    _add(module){
        Object.getOwnPropertyNames(Object.getPrototypeOf(module)).forEach((name) => {
+           if(!this.methods){
+               this.methods = {}
+           }
            if(name !== "constructor"){
                if(this.methods[name]){
                    throw new Error(`method : ${name} has already register`)
@@ -54,4 +63,4 @@ class MethodFactory {
 
     }
 }
-module.exports = MethodFactory;
+module.exports = ModuleManager;

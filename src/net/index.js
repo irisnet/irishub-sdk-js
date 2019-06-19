@@ -3,6 +3,48 @@ const HttpProvider = require("./http-provider");
 const Url = require("url");
 const wsProto = ["ws:", "wss:"];
 const httpProto = ["http:", "https:"];
+const allProto = wsProto.concat(httpProto);
+
+
+class ProviderFactory{
+    /**
+     * @return {ProviderFactory}
+     */
+    constructor(){}
+
+    /**
+     * create a agent of network by uri
+     *
+     * @param {string} - lcd's url
+     * @returns {HttpProvider|Error|WsProvider}
+     */
+    static create(server,option = {}){
+        if(typeof server !== "string"){
+           return server
+        }
+        let { protocol, hostname, port } = Url.parse(server);
+        // default to http
+        if (!allProto.includes(protocol)) {
+            let p = Url.parse(`http://${server}`);
+            protocol = p.protocol;
+            hostname = p.hostname;
+            port = p.port
+        }
+        server = !port ? `${protocol}//${hostname}` : `${protocol}//${hostname}:${port}`;
+
+        if (wsProto.includes(protocol)) {
+            return new WsProvider(server,option)
+        } else if (httpProto.includes(protocol)) {
+            return new HttpProvider(server,option)
+        } else {
+            return Error("invalid protocol")
+        }
+    }
+
+    static getEvent(){
+        return Event
+    }
+}
 
 const queryForEvent = (type,...param) =>{
     let args = new Array();
@@ -18,9 +60,15 @@ const buildQuery = (param) =>{
 };
 
 class Event {
+
+    /**
+     * @return {Event}
+     */
+    constructor(){}
+
     /**
      *
-     * @param hash
+     * @param {string} - transaction's hash
      * @returns {{query: *}}
      */
     static queryTxForEvent(hash){
@@ -29,7 +77,7 @@ class Event {
 
     /**
      *
-     * @param type
+     * @param type {string} - event's type,valid value : NewBlock|NewBlockHeader|Tx|ValidatorSetUpdates|CompleteProposal|Lock|NewRound|NewRoundStep|Polka|Relock|TimeoutPropose|TimeoutWait|Unlock|ValidBlock|Vote
      * @param param
      * @returns {{query: *}}
      */
@@ -57,25 +105,4 @@ Event.Unlock = queryForEvent("Unlock");
 Event.ValidBlock = queryForEvent("ValidBlock");
 Event.Vote = queryForEvent("Vote");
 
-class ProviderFactory{
-
-    /**
-     *
-     * @param uri
-     * @returns {HttpProvider|Error|WsProvider}
-     */
-    static create(uri){
-        let { protocol, hostname, port } = Url.parse(uri);
-        uri = !port ? `${protocol}//${hostname}` : `${protocol}//${hostname}:${port}`;
-
-        if (wsProto.includes(protocol)) {
-            return new WsProvider(uri)
-        } else if (httpProto.includes(protocol)) {
-            return new HttpProvider(uri)
-        } else {
-            return Error("invalid protocol")
-        }
-    }
-}
-
-module.exports = {ProviderFactory,Event};
+module.exports = ProviderFactory;
