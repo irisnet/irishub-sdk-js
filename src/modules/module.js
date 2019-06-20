@@ -53,7 +53,7 @@ class AbstractModule {
     async __getAndSetChainId() {
         let chain_id = this.opt.chain_id;
         if (!chain_id) {
-            let nodeInfo = this.__getNodeInfo();
+            let nodeInfo = await this.__getNodeInfo();
             chain_id = nodeInfo.network
         }
         this.opt.chain_id = chain_id;
