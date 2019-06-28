@@ -9,7 +9,7 @@ const assert = chai.assert;
 describe('test modules', function () {
     let client = new IrisClient(lcdUrl,{
         network:"testnet",
-        chain_id: "rainbow-dev",
+        //chain_id: "rainbow-dev",
         chain: "iris",
         timeout:10000,
         fee:{denom: "iris-atto", amount: 600000000000000000},
@@ -17,10 +17,10 @@ describe('test modules', function () {
         mode:"sync", //async | commit | sync
     });
 
-    // it('should router', function () {
-    //     let router = require("../src/modules/router");
-    //     console.log(router.getSubRouter("iris"))
-    // });
+    it('should router', function () {
+        let router = require("../src/modules/router");
+        console.log(router.getSubRouter("iris"))
+    });
 
     describe('should crypto module', async function() {
         it('should createAccount', function () {
@@ -34,11 +34,12 @@ describe('test modules', function () {
         it('should custom Provider', async function () {
             let provider = {
                 get : (url,opts) =>{
+                    console.log(url);
                     return "hello"
                 }
             };
             let client2 = new IrisClient(provider);
-            let res = await client2.getValidators(1,2);
+            let res = await client2.getValidators();
             console.log(res);
 
             let account = client2.getCrypto().create('english');

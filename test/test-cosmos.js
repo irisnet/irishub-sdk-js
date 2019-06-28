@@ -17,11 +17,6 @@ describe('test modules', function () {
         mode:"sync", //async | commit | sync
     });
 
-    // it('should router', function () {
-    //     let router = require("../src/modules/router");
-    //     console.log(router.getSubRouter("iris"))
-    // });
-
     describe('should crypto module', async function() {
         it('should createAccount', function () {
             let crypto = client.getCrypto();
@@ -61,7 +56,7 @@ describe('test modules', function () {
             let memo = "1";
             let private_key = "4F13455BE209B262E8F28D610B8396F8BB0C8318154C1719EF055BDA44EA9EFF";
             let result = await client.transfer(from,to,amount,{memo,private_key});
-            assert.equal(result.hash,result.resp.txhash)
+            assert.equal(result.hash,result.resp.txhash);
         });
     });
 

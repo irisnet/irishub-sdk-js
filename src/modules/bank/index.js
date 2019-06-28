@@ -1,6 +1,5 @@
 const Utils = require("../../utils");
 const AbstractModule = require("../module");
-const Router = require("../router");
 
 class Bank extends AbstractModule{
     /**
