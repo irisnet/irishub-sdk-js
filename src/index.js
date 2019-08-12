@@ -1,6 +1,6 @@
 import {ModuleManager} from "./modules"
 import {ProviderFactory} from "./net"
-import {isEmpty} from "./utils"
+import {isEmpty,optional} from "./utils"
 import {defaultOpts, defaultServer, rpcMethods} from "./constants"
 import * as crypto from "iris-crypto"
 
@@ -23,11 +23,11 @@ export class IrisClient {
 
     __init(option) {
         this.option = {
-            chain: option.chain ? option.chain : defaultOpts.chain,
-            network: option.network ? option.network : defaultOpts.network,
-            fee: option.fee ? option.fee : defaultOpts.fee,
-            gas: option.gas ? option.gas : defaultOpts.gas,
-            timeout: option.timeout ? option.timeout : defaultOpts.timeout,
+            chain: optional(option.chain,defaultOpts.chain),
+            network: optional(option.network,defaultOpts.network),
+            fee: optional(option.fee,defaultOpts.fee),
+            gas: optional(option.gas,defaultOpts.gas),
+            timeout: optional(option.timeout,defaultOpts.timeout),
         }
     }
 
@@ -123,4 +123,3 @@ for (let name of rpcMethods) {
             })
     }
 }
-IrisClient.prototype.event = ProviderFactory.getEvent();

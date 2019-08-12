@@ -1,4 +1,5 @@
 import {IrisClient} from "../src"
+import {createEvent,EventType} from "../src/constants"
 const lcdUrl = "irisnet-lcd.dev.rainbow.one";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
@@ -228,15 +229,16 @@ describe('test modules', function () {
         });
     });
 
-    // describe('should ws', function () {
-    //     this.timeout(10000);
-    //     it("should subscribe", async function(){
-    //         let wsClient = client.clone(`ws://${rpcUrl}`);
-    //         await new Promise(() => {
-    //             wsClient.subscribe(client.event.NewBlock, (events) => {
-    //                 console.log(JSON.stringify(events));
-    //             })
-    //         })
-    //     });
-    // });
+    describe('should ws', function () {
+        this.timeout(10000);
+        it("should subscribe", async function(){
+            let wsClient = client.clone(`ws://${rpcUrl}`);
+            await new Promise(() => {
+                let event = createEvent(EventType.NewBlock);
+                wsClient.subscribe(event, (events) => {
+                    console.log(JSON.stringify(events));
+                })
+            })
+        });
+    });
 });

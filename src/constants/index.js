@@ -42,3 +42,26 @@ export const rpcMethods = [
     "abci_query",
     "abci_info"
 ];
+export const createEvent = (type, ...param) => {
+    let args = new Array();
+    args.push(`tm.event='${type}'`);
+    args = [...args, ...param];
+    return {query: args.join(" AND ")}
+};
+
+export const EventType = {};
+EventType.NewBlock = "NewBlock";
+EventType.NewBlockHeader = "NewBlockHeader";
+EventType.Tx = "Tx";
+EventType.ValidatorSetUpdates = "ValidatorSetUpdates";
+EventType.CompleteProposal = "CompleteProposal";
+EventType.Lock = "Lock";
+EventType.NewRound = "NewRound";
+EventType.NewRoundStep = "NewRoundStep";
+EventType.Polka = "Polka";
+EventType.Relock = "Relock";
+EventType.TimeoutPropose = "TimeoutPropose";
+EventType.TimeoutWait = "TimeoutWait";
+EventType.Unlock = "Unlock";
+EventType.ValidBlock = "ValidBlock";
+EventType.Vote = "Vote";
