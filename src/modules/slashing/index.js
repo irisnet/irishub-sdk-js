@@ -1,5 +1,6 @@
-const AbstractModule = require("../module");
-class Slashing extends AbstractModule{
+import {AbstractModule} from "../module"
+
+export class Slashing extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -20,5 +21,3 @@ class Slashing extends AbstractModule{
         return super.__get("getSigningInfo",valPubkey);
     }
 }
-
-module.exports = Slashing;

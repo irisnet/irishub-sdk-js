@@ -1,5 +1,6 @@
-const AbstractModule = require("../module");
-class Tm extends AbstractModule{
+import {AbstractModule} from "../module"
+
+export class Tm extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -67,5 +68,3 @@ class Tm extends AbstractModule{
         return super.__get("getTx",hash);
     }
 }
-
-module.exports = Tm;

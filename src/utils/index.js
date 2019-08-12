@@ -1,16 +1,16 @@
-const isString = (obj) => {
+export const isString = (obj) => {
     return typeof obj === "string"
 };
 
-const isBuffer = (obj) => {
+export const isBuffer = (obj) => {
     return Buffer.isBuffer(obj)
 };
 
-const isArray = (obj) => {
+export const isArray = (obj) => {
     return Array.isArray(obj)
 };
 
-const isEmpty = (obj) => {
+export const isEmpty = (obj) => {
     switch (typeof obj) {
         case "undefined": {
             return true
@@ -33,45 +33,28 @@ const isEmpty = (obj) => {
     }
 };
 
-const deepCopy = (obj) => {
-    if(typeof obj != 'object'){
+export const deepCopy = (obj) => {
+    if (typeof obj != 'object') {
         return obj;
     }
     let o = {};
-    for ( let attr in obj) {
+    for (let attr in obj) {
         o[attr] = deepCopy(obj[attr]);
     }
     return o;
 };
 
-module.exports = class Utils {
-    static isString(obj){
-        return isString(obj)
+export const parseUrl = (url, ...args) => {
+    let u = url;
+    if (Array.isArray(args)) {
+        args.forEach((param) => {
+            u = u.replace("%s", param)
+        });
     }
+    return u
+};
 
-    static isBuffer(obj){
-        return isBuffer(obj)
-    }
-
-    static isArray(obj){
-        return isArray(obj)
-    }
-
-    static isEmpty(obj) {
-        return isEmpty(obj)
-    }
-
-    static parseUrl(url,...args){
-        let u = url;
-        if (Array.isArray(args)) {
-            args.forEach((param) =>{
-                u = u.replace("%s",param)
-            });
-        }
-        return u
-    }
-
-    static deepCopy(obj){
-        return deepCopy(obj)
-    }
+export const optional = (value, option) => {
+    if (isEmpty(value)) return option;
+    return value
 };

@@ -1,4 +1,4 @@
-const IrisClient = require("../src");
+import {IrisClient} from "../src"
 const lcdUrl = "http://192.168.150.31:31317";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "http://192.168.150.31:26657";
@@ -69,12 +69,12 @@ describe('test modules', function () {
 
     describe('should Distr module', async function() {
         it('should getWithdrawAddr', async function () {
-            let res = await client.getWithdrawAddr("faa10xj3gsy6zfje94x7gu8mxxas08a9ugcn4n3v5m");
+            let res = await client.getWithdrawAddr("cosmos12qf750gjjlxpslxefnnql3egu350c6qn3h09z0");
             assert.isNotNull(res);
         });
 
         it('should queryRewards', async function () {
-            let res = await client.queryRewards("faa10xj3gsy6zfje94x7gu8mxxas08a9ugcn4n3v5m");
+            let res = await client.queryRewards("cosmos12qf750gjjlxpslxefnnql3egu350c6qn3h09z0");
             assert.isNotNull(res);
         });
     });

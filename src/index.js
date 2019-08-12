@@ -1,23 +1,12 @@
-const ProviderFactory = require("./net");
-const ModuleManager = require("./modules");
+import {ModuleManager} from "./modules"
+import {ProviderFactory} from "./net"
+import {isEmpty} from "./utils"
+import {defaultOpts, defaultServer, rpcMethods} from "./constants"
+import * as crypto from "iris-crypto"
+
 const camel = require("camelcase");
-const crypto = require("iris-crypto");
-const utils = require("./utils");
 
-const defaultOpts = {
-    network:"mainnet",
-    chain_id: "irishub",
-    chain: "iris",
-    timeout:2000,
-    fee:{denom: "iris-atto", amount: 600000000000000000},
-    gas:30000,
-    mode:"sync",
-    simulate:false
-};
-
-const defaultServer = "https://rpc.irisnet.org/";
-
-class IrisClient {
+export class IrisClient {
 
     /**
      * javascript client for irishub,wrap all functions that under modules package
@@ -26,19 +15,19 @@ class IrisClient {
      * @param option {object} - other configurable parameters
      * @returns {IrisClient}
      */
-    constructor(server = defaultServer ,option = defaultOpts){
+    constructor(server = defaultServer, option = defaultOpts) {
         this.__init(option);
-        this.provider = ProviderFactory.create(server,option);
-        return this.__createProxy(this.provider,option)
+        this.provider = ProviderFactory.create(server, option);
+        return this.__createProxy(this.provider, option)
     }
 
-    __init(option){
+    __init(option) {
         this.option = {
-            chain : option.chain ? option.chain : defaultOpts.chain,
-            network : option.network ? option.network : defaultOpts.network,
-            fee : option.fee ? option.fee : defaultOpts.fee,
-            gas :  option.gas ? option.gas :defaultOpts.gas,
-            timeout : option.timeout ? option.timeout :defaultOpts.timeout,
+            chain: option.chain ? option.chain : defaultOpts.chain,
+            network: option.network ? option.network : defaultOpts.network,
+            fee: option.fee ? option.fee : defaultOpts.fee,
+            gas: option.gas ? option.gas : defaultOpts.gas,
+            timeout: option.timeout ? option.timeout : defaultOpts.timeout,
         }
     }
 
@@ -49,19 +38,19 @@ class IrisClient {
      * @return {IrisClient}
      * @private
      */
-    __createProxy(provider,option){
+    __createProxy(provider, option) {
         //overwrite property
         this.provider = provider;
         this.option = option;
         return new Proxy(this, {
             get: (target, name) => {
-                if(target[name]) {
+                if (target[name]) {
                     return target[name];
                 }
-                let factory = new ModuleManager(provider,option);
+                let factory = new ModuleManager(provider, option);
                 let fn = function (...args) {
                     let o = factory.createMethod(name);
-                    return Reflect.apply(o[name],o,args);
+                    return Reflect.apply(o[name], o, args);
                 };
                 return fn;
             }
@@ -73,24 +62,24 @@ class IrisClient {
      *
      * @param uri {string} - lcd's uri
      */
-    clone(uri,option){
+    clone(uri, option) {
         let provider = this.provider;
-        if (!utils.isEmpty(uri)){
+        if (!isEmpty(uri)) {
             provider = ProviderFactory.create(uri);
         }
 
-        if (utils.isEmpty(option)){
+        if (isEmpty(option)) {
             option = this.option;
         }
 
-        return this.__createProxy(provider,option)
+        return this.__createProxy(provider, option)
     }
 
     /**
      *
      * if provider is WsProvider, close the websocket's connection
      */
-    close(){
+    close() {
         this.provider.close()
     }
 
@@ -99,8 +88,8 @@ class IrisClient {
      *
      * @return {Crypto}
      */
-    getCrypto(){
-        return crypto.getCrypto(this.option.chain,this.option.network)
+    getCrypto() {
+        return crypto.getCrypto(this.option.chain, this.option.network)
     }
 
     /**
@@ -108,8 +97,8 @@ class IrisClient {
      *
      * @return {Crypto}
      */
-    getBuilder(){
-        return crypto.getBuilder(this.option.chain,this.option.network)
+    getBuilder() {
+        return crypto.getBuilder(this.option.chain, this.option.network)
     }
 
     /**
@@ -118,40 +107,13 @@ class IrisClient {
      * @param tx {Tx}
      * @param opts {Object}
      */
-    sendRawTransaction(tx,opts){
-        return this.provider.post("tx/broadcast",tx, {
+    sendRawTransaction(tx, opts) {
+        return this.provider.post("tx/broadcast", tx, {
             timeout: opts.timeout
-        }); //TODO should support cosmos
+        });
     }
 }
 
-let rpcMethods = [
-    "subscribe",
-    "unsubscribe",
-    "unsubscribe_all",
-
-    "status",
-    "net_info",
-    "blockchain",
-    "genesis",
-    "health",
-    "block",
-    "block_results",
-    "validators",
-    "consensus_state",
-    "dump_consensus_state",
-    "broadcast_tx_commit",
-    "broadcast_tx_sync",
-    "broadcast_tx_async",
-    "unconfirmed_txs",
-    "num_unconfirmed_txs",
-    "commit",
-    "tx",
-    "tx_search",
-
-    "abci_query",
-    "abci_info"
-];
 // add methods to IrisClient class
 for (let name of rpcMethods) {
     IrisClient.prototype[camel(name)] = function (args, listener) {
@@ -162,4 +124,3 @@ for (let name of rpcMethods) {
     }
 }
 IrisClient.prototype.event = ProviderFactory.getEvent();
-module.exports = IrisClient;

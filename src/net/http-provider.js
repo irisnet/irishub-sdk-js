@@ -1,7 +1,7 @@
-const Utils = require("../utils/index");
+import {isString,isBuffer} from "../utils"
 const axios = require("axios");
 
-class HttpProvider{
+export class HttpProvider{
     /**
      *
      * @param {string} - lcd's url
@@ -75,7 +75,7 @@ class HttpProvider{
         const options = {
             method,
             url: path,
-            ...opts
+            opts
         };
 
         if (params) {
@@ -114,9 +114,9 @@ function convertHttpArgs (url, args) {
     args = args || {};
     const search = [];
     for (let k in args) {
-        if(Utils.isString(args[k])) {
+        if(isString(args[k])) {
             search.push(`${k}="${args[k]}"`)
-        } else if(Utils.isBuffer(args[k])){
+        } else if(isBuffer(args[k])){
             search.push(`${k}=0x${args[k].toString("hex")}`)
         } else {
             search.push(`${k}=${args[k]}`)
@@ -124,4 +124,3 @@ function convertHttpArgs (url, args) {
     }
     return `${url}?${search.join("&")}`
 }
-module.exports = HttpProvider;

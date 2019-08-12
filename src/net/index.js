@@ -1,12 +1,12 @@
-const WsProvider = require("./ws-provider");
-const HttpProvider = require("./http-provider");
+import {WsProvider} from "./ws-provider"
+import {HttpProvider} from "./http-provider"
+
 const Url = require("url");
 const wsProto = ["ws:", "wss:"];
 const httpProto = ["http:", "https:"];
 const allProto = wsProto.concat(httpProto);
 
-
-class ProviderFactory{
+export class ProviderFactory{
     /**
      * @return {ProviderFactory}
      */
@@ -59,7 +59,7 @@ const buildQuery = (param) =>{
     return {query:param}
 };
 
-class Event {
+export class Event {
 
     /**
      * @return {Event}
@@ -104,5 +104,3 @@ Event.TimeoutWait = queryForEvent("TimeoutWait");
 Event.Unlock = queryForEvent("Unlock");
 Event.ValidBlock = queryForEvent("ValidBlock");
 Event.Vote = queryForEvent("Vote");
-
-module.exports = ProviderFactory;

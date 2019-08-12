@@ -1,12 +1,12 @@
-const Bank = require("./bank");
-const Stake = require("./stake");
-const Tm = require("./tm");
-const Version = require("./version");
-const Slashing = require("./slashing");
-const Gov = require("./gov");
-const Distribution = require("./distr");
+import {Bank} from "./bank";
+import {Stake} from "./stake";
+import {Tm} from "./tm";
+import {Version} from "./version";
+import {Slashing} from "./slashing";
+import {Gov} from "./gov";
+import {Distribution} from "./distr";
 
-class ModuleManager {
+export class ModuleManager {
 
     /**
      *
@@ -63,4 +63,3 @@ class ModuleManager {
 
     }
 }
-module.exports = ModuleManager;

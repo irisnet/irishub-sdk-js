@@ -1,7 +1,7 @@
-const Utils = require("../../utils");
-const AbstractModule = require("../module");
+import {isEmpty} from "../../utils"
+import {AbstractModule} from "../module"
 
-class Distribution extends AbstractModule{
+export class Distribution extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -18,7 +18,7 @@ class Distribution extends AbstractModule{
      * @return {Promise}
      */
     getWithdrawAddr(delegator){
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
         return super.__get("getWithdrawAddr",delegator);
@@ -30,7 +30,7 @@ class Distribution extends AbstractModule{
      * @return {Promise}
      */
     queryRewards(delegator){
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
         return super.__get("queryRewards",delegator);
@@ -73,5 +73,3 @@ class Distribution extends AbstractModule{
         return super.__sendTransaction(delegator,msg,config);
     }
 }
-
-module.exports = Distribution;

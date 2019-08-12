@@ -1,7 +1,7 @@
-const Utils = require("../../utils");
-const AbstractModule = require("../module");
+import {isEmpty} from "../../utils"
+import {AbstractModule} from "../module"
 
-class Bank extends AbstractModule{
+export class Bank extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -29,7 +29,7 @@ class Bank extends AbstractModule{
      * @returns {*}
      */
     getCoinType(coinType) {
-        if (Utils.isEmpty(coinType)) {
+        if (isEmpty(coinType)) {
             throw new Error("coinType is empty");
         }
         return super.__get("getCoinType",coinType)
@@ -61,5 +61,3 @@ class Bank extends AbstractModule{
         return super.__sendTransaction(from,msg,config);
     }
 }
-
-module.exports = Bank;

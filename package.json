@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --compilers js:babel-core/register",
     "build": "rm -rf lib && npx babel src -d lib",
     "build:docs": "npx jsdoc-to-markdown -f src/modules/**/*.js > docs/api.md",
     "prepublishOnly": "npm run build"
@@ -17,35 +17,14 @@
     "websocket-stream": "^5.5.0",
     "ndjson": "^1.5.0",
     "camelcase": "^5.3.1",
+    "bignumber.js": "^9.0.0",
     "iris-crypto": "git+https://github.com/irisnet/irisnet-crypto.git#develop"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
-    "mocha": "^4.1.0",
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-transform-async-to-generator": "^7.1.0",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.1.5",
-    "babel-core": "^7.0.0-0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^23.6.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "jsdoc-to-markdown": "^4.0.1"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-async-to-generator",
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-transform-runtime"
-    ]
-  },
-  "files": [
-    "lib/*"
-  ]
+    "jsdoc-to-markdown": "^4.0.1",
+    "mocha": "^4.1.0"
+  }
 }

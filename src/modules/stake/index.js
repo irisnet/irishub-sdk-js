@@ -1,6 +1,7 @@
-const Utils = require("../../utils");
-const AbstractModule = require("../module");
-class Stake extends AbstractModule{
+import {isEmpty} from "../../utils"
+import {AbstractModule} from "../module"
+
+export class Stake extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -29,7 +30,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getValidator(validator) {
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getValidator",validator);
@@ -42,7 +43,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getDelegations(delegator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
         return super.__get("getDelegations",delegator);
@@ -55,7 +56,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getDelegationsByValidator(validator) {
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getDelegationsByValidator",validator);
@@ -68,7 +69,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getUbDelegations(delegator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
         return super.__get("getUbDelegations",delegator);
@@ -81,7 +82,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getUbDelegationsByValidator(validator) {
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getUbDelegationsByValidator",validator);
@@ -94,7 +95,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getReDelegations(delegator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
         return super.__get("getReDelegations",delegator);
@@ -107,7 +108,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getReDelegationsByValidator(validator) {
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getReDelegationsByValidator",validator);
@@ -120,7 +121,7 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getAllValidatorsByDelegator(delegator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
         return super.__get("getAllValidatorsByDelegator",delegator);
@@ -134,10 +135,10 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getValidatorByDelegator(delegator, validator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getValidatorByDelegator",delegator,validator);
@@ -150,10 +151,10 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getDelegation(delegator, validator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getDelegation",delegator,validator);
@@ -167,10 +168,10 @@ class Stake extends AbstractModule{
      * @return {Promise}
      */
     getUbDelegation(delegator, validator) {
-        if (Utils.isEmpty(delegator)) {
+        if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        if (Utils.isEmpty(validator)) {
+        if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
         return super.__get("getUbDelegation",delegator,validator);
@@ -241,5 +242,3 @@ class Stake extends AbstractModule{
         return super.__sendTransaction(delegator,msg,config);
     }
 }
-
-module.exports = Stake;

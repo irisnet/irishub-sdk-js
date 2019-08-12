@@ -1,11 +1,10 @@
-const IrisClient = require("../src");
+import {IrisClient} from "../src"
 const lcdUrl = "irisnet-lcd.dev.rainbow.one";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
 
 const chai = require('chai');
 const assert = chai.assert;
-
 describe('test modules', function () {
     let client = new IrisClient(lcdUrl,{
         network:"testnet",
@@ -17,11 +16,6 @@ describe('test modules', function () {
         mode:"sync", //async | commit | sync
     });
 
-    it('should router', function () {
-        let router = require("../src/modules/router");
-        console.log(router.getSubRouter("iris"))
-    });
-
     describe('should crypto module', async function() {
         it('should createAccount', function () {
             let crypto = client.getCrypto();
@@ -30,7 +24,7 @@ describe('test modules', function () {
         });
     });
 
-    describe('should IrisClient',function () {
+    describe('should Client',function () {
         it('should custom Provider', async function () {
             let provider = {
                 get : (url,opts) =>{

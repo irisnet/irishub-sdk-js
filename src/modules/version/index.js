@@ -1,5 +1,6 @@
-const AbstractModule = require("../module");
-class Version extends AbstractModule{
+import {AbstractModule} from "../module"
+
+export class Version extends AbstractModule{
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -28,5 +29,3 @@ class Version extends AbstractModule{
         return super.__get("getNodeVersion");
     }
 }
-
-module.exports = Version;
