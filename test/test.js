@@ -4,6 +4,7 @@ const lcdUrl = "irisnet-lcd.dev.rainbow.one";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
 import {parseRat} from '../src/utils'
+import {IrisRouter} from '../src/modules/router-iris'
 const chai = require('chai');
 const assert = chai.assert;
 describe('test modules', function () {
@@ -22,6 +23,9 @@ describe('test modules', function () {
             let crypto = client.getCrypto();
             let account = crypto.create('english');
             assert.isNotNull(account);
+        });
+        it('should getRouter', function () {
+            console.log(JSON.stringify(client))
         });
     });
 
@@ -242,8 +246,8 @@ describe('test modules', function () {
         });
     });
 
-    describe('should utils',function () {
-        const a1 = parseRat("0.010");
-        console.log(JSON.stringify(a1))
+    describe('should coinswap',async function () {
+        let amt = await client.tradeExactIrisForTokens("btc",1000);
+        console.log(amt);
     })
 });

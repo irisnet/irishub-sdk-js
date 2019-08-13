@@ -44,8 +44,8 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Address of output token.
      * @param inputIrisAmount {number} - The input amount of Iris.
      */
-    tradeExactIrisForTokens(outputTokenDenom,inputIrisAmount){
-        let pool = this.getReservePool(outputTokenDenom);
+    async tradeExactIrisForTokens(outputTokenDenom,inputIrisAmount){
+        let pool = await this.getReservePool(outputTokenDenom);
         return getInputPrice(inputIrisAmount,pool.iris.amount,pool.token.amount,pool.fee)
     }
 
@@ -54,8 +54,8 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param outputTokenAmount {number} - Denom of output token.
      */
-    tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount){
-        let pool = this.getReservePool(outputTokenDenom);
+    async tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount){
+        let pool = await this.getReservePool(outputTokenDenom);
         return getOutputPrice(outputTokenDenom,pool.iris.amount,pool.token.amount,pool.fee)
     }
 
@@ -64,8 +64,8 @@ export class CoinSwap extends AbstractModule{
      * @param inputTokenDenom {string} - Denom of input token.
      * @param inputTokenAmount {number} - Amount of input token.
      */
-    tradeExactTokensForIris(inputTokenDenom,inputTokenAmount){
-        let pool = this.getReservePool(inputTokenDenom);
+    async tradeExactTokensForIris(inputTokenDenom,inputTokenAmount){
+        let pool = await this.getReservePool(inputTokenDenom);
         return getInputPrice(inputTokenAmount,pool.token.amount,pool.iris.amount,pool.fee)
     }
 
@@ -74,8 +74,8 @@ export class CoinSwap extends AbstractModule{
      * @param inputTokenDenom {string} - Denom of input token.
      * @param outputIrisAmount {number} - The output amount of iris
      */
-    tradeTokensForExactIris(inputTokenDenom,outputIrisAmount){
-        let pool = this.getReservePool(inputTokenDenom);
+    async tradeTokensForExactIris(inputTokenDenom,outputIrisAmount){
+        let pool = await this.getReservePool(inputTokenDenom);
         return getOutputPrice(outputIrisAmount,pool.token.amount,pool.iris.amount,pool.fee)
     }
 
@@ -85,8 +85,8 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param inputTokenAmount {number} - The input amount of tokens
      */
-    tradeExactTokensForTokens(inputTokenDenom,outputTokenDenom,inputTokenAmount){
-        let irisAmount = this.tradeExactTokensForIris(inputTokenDenom,inputTokenAmount);
+    async tradeExactTokensForTokens(inputTokenDenom,outputTokenDenom,inputTokenAmount){
+        let irisAmount = await this.tradeExactTokensForIris(inputTokenDenom,inputTokenAmount);
         return this.tradeExactIrisForTokens(outputTokenDenom,irisAmount)
     }
 
@@ -96,8 +96,8 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param outputTokenAmount {number} - The output amount of tokens
      */
-    tradeTokensForExactTokens(inputTokenDenom,outputTokenDenom,outputTokenAmount){
-        let irisAmount = this.tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount);
+    async tradeTokensForExactTokens(inputTokenDenom,outputTokenDenom,outputTokenAmount){
+        let irisAmount = await this.tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount);
         return this.tradeTokensForExactIris(inputTokenDenom,outputTokenAmount)
     }
 }
