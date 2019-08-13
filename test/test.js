@@ -3,7 +3,7 @@ import {createEvent,EventType} from "../src/constants"
 const lcdUrl = "irisnet-lcd.dev.rainbow.one";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
-
+import {parseRat} from '../src/utils'
 const chai = require('chai');
 const assert = chai.assert;
 describe('test modules', function () {
@@ -241,4 +241,9 @@ describe('test modules', function () {
             })
         });
     });
+
+    describe('should utils',function () {
+        const a1 = parseRat("0.010");
+        console.log(JSON.stringify(a1))
+    })
 });

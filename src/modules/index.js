@@ -5,6 +5,7 @@ import {Version} from "./version";
 import {Slashing} from "./slashing";
 import {Gov} from "./gov";
 import {Distribution} from "./distr";
+import {CoinSwap} from "./coinswap";
 
 export class ModuleManager {
 
@@ -21,6 +22,7 @@ export class ModuleManager {
         this._add(new Slashing(provider,opt));
         this._add(new Gov(provider,opt));
         this._add(new Distribution(provider,opt));
+        this._add(new CoinSwap(provider,opt));
     }
 
     /**

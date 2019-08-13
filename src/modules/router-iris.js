@@ -176,4 +176,10 @@ subRouter.set("broadcast",(args) =>{
     return apiUrl
 });
 
+//coinswap
+subRouter.set("getReservePool",(args) =>{
+    let apiUrl = parseUrl("/coinswap/liquidities/%s",args);
+    return apiUrl
+});
+
 export const IrisRouter = subRouter;
