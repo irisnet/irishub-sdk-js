@@ -1,6 +1,7 @@
 import * as crypto from "iris-crypto"
 import {isEmpty,deepCopy,optional} from "../utils"
 import {ApiRouter} from "./router"
+import {Method} from "../constants"
 
 export class AbstractModule {
 
@@ -24,7 +25,7 @@ export class AbstractModule {
         if (isEmpty(address)) {
             throw new Error("address is empty");
         }
-        return this.__get("getAccount",address)
+        return this.__get(Method.GetAccount,address)
     }
 
 
@@ -34,7 +35,7 @@ export class AbstractModule {
      * @return {Promise}
      */
     async __getNodeInfo(){
-        return this.__get("getNodeInfo");
+        return this.__get(Method.GetNodeInfo);
     }
 
     async __get(method,...args){
@@ -151,7 +152,7 @@ export class AbstractModule {
             stdTx = builder.buildAndSignTx(req, opts.private_key);
         }
 
-        let urlHandler = ApiRouter.getSubRouter(this.opt.chain).get("broadcast");
+        let urlHandler = ApiRouter.getSubRouter(this.opt.chain).get(Method.Broadcast);
         if(!urlHandler){
             throw new Error(`no handler found broadcast`);
         }

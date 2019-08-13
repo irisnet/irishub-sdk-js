@@ -1,30 +1,31 @@
 import {isEmpty,parseUrl} from "../utils"
+import {Method} from "../constants";
 
 let subRouter = new Map();
-subRouter.set("getAccount",(args) =>{
+subRouter.set(Method.GetAccount,(args) =>{
     return parseUrl("/auth/accounts/%s",...args)
 });
-subRouter.set("getCoinType",(args) =>{
+subRouter.set(Method.GetCoinType,(args) =>{
     throw new Error("cosmos don't support the api[getCoinType]")
 });
 
-subRouter.set("getTokenStats",(args) =>{
+subRouter.set(Method.GetTokenStats,(args) =>{
     throw new Error("cosmos don't support the api[getTokenStats]")
 });
 
 //distribution
-subRouter.set("getWithdrawAddr",(args) =>{
+subRouter.set(Method.GetWithdrawAddr,(args) =>{
     return parseUrl("/distribution/delegators/%s/withdraw_address",...args)
 });
-subRouter.set("queryRewards",(args) =>{
+subRouter.set(Method.QueryRewards,(args) =>{
     return parseUrl("/distribution/delegators/%s/rewards",...args)
 });
-subRouter.set("getCommunityTax",(args) =>{
+subRouter.set(Method.GetCommunityTax,(args) =>{
     throw new Error("cosmos don't support the api")
 });
 
 //gov
-subRouter.set("getProposals",(args) =>{
+subRouter.set(Method.GetProposals,(args) =>{
     let param = new Array();
     if (!isEmpty(args[0])){
         param.push(`voter=${args[0]}`);
@@ -42,79 +43,79 @@ subRouter.set("getProposals",(args) =>{
     let queryString = param.join("&");
     return `/gov/proposals?${queryString}`;
 });
-subRouter.set("getProposal",(args) =>{
+subRouter.set(Method.GetProposal,(args) =>{
     return parseUrl("/gov/proposals/%s",...args)
 });
-subRouter.set("getDeposits",(args) =>{
+subRouter.set(Method.GetDeposits,(args) =>{
     return parseUrl("/gov/proposals/%s/deposits",...args)
 });
-subRouter.set("getDeposit",(args) =>{
+subRouter.set(Method.GetDeposit,(args) =>{
     return parseUrl("/gov/proposals/%s/deposits/%s",...args)
 });
-subRouter.set("getVotes",(args) =>{
+subRouter.set(Method.GetVotes,(args) =>{
     return parseUrl("/gov/proposals/%s/votes",...args)
 });
-subRouter.set("getVote",(args) =>{
+subRouter.set(Method.GetVote,(args) =>{
     return parseUrl("/gov/proposals/%s/votes/%s",...args)
 });
-subRouter.set("getParams",(args) =>{
+subRouter.set(Method.GetParams,(args) =>{
     throw new Error("cosmos don't support the api")
 });
 
 //slashing
-subRouter.set("getSigningInfo",(args) =>{
+subRouter.set(Method.GetSigningInfo,(args) =>{
     return parseUrl("/slashing/validators/%s/signing_info",...args)
 });
 
 //stake
-subRouter.set("getValidators",(args) =>{
+subRouter.set(Method.GetValidators,(args) =>{
     return "/staking/validators"
 });
-subRouter.set("getValidator",(args) =>{
+subRouter.set(Method.GetValidator,(args) =>{
     return parseUrl("/staking/validators/%s",...args)
 });
-subRouter.set("getDelegations",(args) =>{
+subRouter.set(Method.GetDelegations,(args) =>{
     return parseUrl("/staking/delegators/%s/delegations",...args)
 });
-subRouter.set("getDelegationsByValidator",(args) =>{
+subRouter.set(Method.GetDelegationsByValidator,(args) =>{
     return parseUrl("/staking/validators/%s/delegations",...args)
 });
-subRouter.set("getUbDelegations",(args) =>{
+subRouter.set(Method.GetUbDelegations,(args) =>{
     return parseUrl("/staking/delegators/%s/unbonding_delegations",...args)
 });
-subRouter.set("getUbDelegationsByValidator",(args) =>{
+subRouter.set(Method.GetUbDelegationsByValidator,(args) =>{
     return parseUrl("/staking/validators/%s/unbonding-delegations",...args)
 });
-subRouter.set("getReDelegations",(args) =>{
+subRouter.set(Method.GetReDelegations,(args) =>{
     throw new Error("cosmos don't support the api[getReDelegations]")
 });
-subRouter.set("getReDelegationsByValidator",(args) =>{
+subRouter.set(Method.GetReDelegationsByValidator,(args) =>{
     throw new Error("cosmos don't support the api[getReDelegationsByValidator]")
 });
-subRouter.set("getAllValidatorsByDelegator",(args) =>{
+subRouter.set(Method.GetAllValidatorsByDelegator,(args) =>{
     return parseUrl("/staking/delegators/%s/validators",...args)
 });
-subRouter.set("getValidatorByDelegator",(args) =>{
+subRouter.set(Method.GetValidatorByDelegator,(args) =>{
     return parseUrl("/staking/delegators/%s/validators/%s",...args)
 });
-subRouter.set("getDelegation",(args) =>{
+subRouter.set(Method.GetDelegation,(args) =>{
     return parseUrl("/staking/delegators/%s/delegations/%s",...args)
 });
-subRouter.set("getUbDelegation",(args) =>{
+subRouter.set(Method.GetUbDelegation,(args) =>{
     return parseUrl("/staking/delegators/%s/unbonding-delegations/%s",...args)
 });
-subRouter.set("getStakePool",(args) =>{
+subRouter.set(Method.GetStakePool,(args) =>{
     return "/staking/pool"
 });
 
 //tm
-subRouter.set("getNodeInfo",(args) =>{
+subRouter.set(Method.GetNodeInfo,(args) =>{
     return "/node_info"
 });
-subRouter.set("getSyncing",(args) =>{
+subRouter.set(Method.GetSyncing,(args) =>{
     return "/syncing"
 });
-subRouter.set("getBlock",(args) =>{
+subRouter.set(Method.GetBlock,(args) =>{
     let uri = "/blocks/%s";
     if (args > 0){
         uri = parseUrl(uri, args);
@@ -123,10 +124,10 @@ subRouter.set("getBlock",(args) =>{
     }
     return uri
 });
-subRouter.set("getBlockResult",(args) =>{
+subRouter.set(Method.GetBlockResult,(args) =>{
     throw new Error("cosmos don't support the api[getBlockResult]")
 });
-subRouter.set("getValidatorSet",(args) =>{
+subRouter.set(Method.GetValidatorSet,(args) =>{
     let uri = "/validatorsets/%s";
     if (args > 0){
         uri = parseUrl(uri, args);
@@ -135,19 +136,26 @@ subRouter.set("getValidatorSet",(args) =>{
     }
     return uri
 });
-subRouter.set("getTx",(args) =>{
+subRouter.set(Method.GetTx,(args) =>{
     return parseUrl("/txs/%s",...args)
 });
 
-subRouter.set("getLcdVersion",(args) =>{
+subRouter.set(Method.GetLcdVersion,(args) =>{
     return "/version"
 });
 
-subRouter.set("getNodeVersion",(args) =>{
+subRouter.set(Method.GetNodeVersion,(args) =>{
     return "/node_version"
 });
 
-subRouter.set("broadcast",(args) =>{
+subRouter.set(Method.Broadcast,(args) =>{
     return "/txs"
 });
+
+
+//coinswap
+subRouter.set(Method.GetReservePool,(args) =>{
+    throw new Error("cosmos don't support the api[getReservePool]")
+});
+
 export const CosmosRouter = subRouter;

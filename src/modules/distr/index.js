@@ -1,5 +1,6 @@
 import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Distribution extends AbstractModule{
     /**
@@ -21,7 +22,7 @@ export class Distribution extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
-        return super.__get("getWithdrawAddr",delegator);
+        return super.__get(Method.GetWithdrawAddr,delegator);
     }
 
     /**
@@ -33,7 +34,7 @@ export class Distribution extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
-        return super.__get("queryRewards",delegator);
+        return super.__get(Method.QueryRewards,delegator);
     }
 
     /**
@@ -42,7 +43,7 @@ export class Distribution extends AbstractModule{
      * @return {Promise}
      */
     getCommunityTax(){
-        return super.__get("getCommunityTax");
+        return super.__get(Method.GetCommunityTax);
     }
 
     /**

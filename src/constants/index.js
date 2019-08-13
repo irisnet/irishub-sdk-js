@@ -65,3 +65,48 @@ EventType.TimeoutWait = "TimeoutWait";
 EventType.Unlock = "Unlock";
 EventType.ValidBlock = "ValidBlock";
 EventType.Vote = "Vote";
+
+export const Method = {};
+Method.GetAccount = "getAccount";
+Method.GetCoinType = "getCoinType";
+Method.GetTokenStats = "getTokenStats";
+
+Method.GetWithdrawAddr = "getWithdrawAddr";
+Method.QueryRewards = "queryRewards";
+Method.GetCommunityTax = "getCommunityTax";
+
+Method.GetProposals = "getProposals";
+Method.GetProposal = "getProposal";
+Method.GetDeposits = "getDeposits";
+Method.GetDeposit = "getDeposit";
+Method.GetVotes = "getVotes";
+Method.GetVote = "getVote";
+Method.GetParams = "getParams";
+Method.GetSigningInfo = "getSigningInfo";
+
+Method.GetValidators = "getValidators";
+Method.GetValidator = "getValidator";
+Method.GetDelegations = "getDelegations";
+Method.GetDelegationsByValidator = "getDelegationsByValidator";
+Method.GetUbDelegations = "getUbDelegations";
+Method.GetUbDelegationsByValidator = "getUbDelegationsByValidator";
+Method.GetReDelegations = "getReDelegations";
+Method.GetReDelegationsByValidator = "getReDelegationsByValidator";
+Method.GetAllValidatorsByDelegator = "getAllValidatorsByDelegator";
+Method.GetValidatorByDelegator = "getValidatorByDelegator";
+Method.GetDelegation = "getDelegation";
+Method.GetUbDelegation = "getUbDelegation";
+Method.GetStakePool = "getStakePool";
+
+Method.GetNodeInfo = "getNodeInfo";
+Method.GetSyncing = "getSyncing";
+Method.GetBlock = "getBlock";
+Method.GetBlockResult = "getBlockResult";
+Method.GetValidatorSet = "getValidatorSet";
+Method.GetTx = "getTx";
+Method.Broadcast = "broadcast";
+
+Method.GetReservePool = "getReservePool";
+
+Method.GetLcdVersion = "getLcdVersion";
+Method.GetNodeVersion = "getNodeVersion";

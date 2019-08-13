@@ -1,5 +1,6 @@
 import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Stake extends AbstractModule{
     /**
@@ -20,7 +21,7 @@ export class Stake extends AbstractModule{
      * @return {Promise}
      */
     getValidators(page, size) {
-        return super.__get("getValidators",page, size);
+        return super.__get(Method.GetValidators,page, size);
     }
 
     /**
@@ -33,7 +34,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getValidator",validator);
+        return super.__get(Method.GetValidator,validator);
     }
 
     /**
@@ -46,7 +47,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get("getDelegations",delegator);
+        return super.__get(Method.GetDelegations,delegator);
     }
 
     /**
@@ -59,7 +60,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getDelegationsByValidator",validator);
+        return super.__get(Method.GetDelegationsByValidator,validator);
     }
 
     /**
@@ -72,7 +73,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get("getUbDelegations",delegator);
+        return super.__get(Method.GetUbDelegations,delegator);
     }
 
     /**
@@ -85,7 +86,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getUbDelegationsByValidator",validator);
+        return super.__get(Method.GetUbDelegationsByValidator,validator);
     }
 
     /**
@@ -98,7 +99,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get("getReDelegations",delegator);
+        return super.__get(Method.GetReDelegations,delegator);
     }
 
     /**
@@ -111,7 +112,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getReDelegationsByValidator",validator);
+        return super.__get(Method.GetReDelegationsByValidator,validator);
     }
 
     /**
@@ -124,7 +125,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get("getAllValidatorsByDelegator",delegator);
+        return super.__get(Method.GetAllValidatorsByDelegator,delegator);
     }
 
     /**
@@ -141,7 +142,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getValidatorByDelegator",delegator,validator);
+        return super.__get(Method.GetValidatorByDelegator,delegator,validator);
     }
 
     /**
@@ -157,7 +158,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getDelegation",delegator,validator);
+        return super.__get(Method.GetDelegation,delegator,validator);
     }
 
     /**
@@ -174,7 +175,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get("getUbDelegation",delegator,validator);
+        return super.__get(Method.GetUbDelegation,delegator,validator);
     }
 
     /**
@@ -183,7 +184,7 @@ export class Stake extends AbstractModule{
      * @return {Promise}
      */
     getStakePool() {
-        return super.__get("getStakePool");
+        return super.__get(Method.GetStakePool);
     }
 
     /**

@@ -1,4 +1,5 @@
 import {isEmpty} from "../../utils"
+import {Method} from "../../constants"
 import {AbstractModule} from "../module"
 
 export class Bank extends AbstractModule{
@@ -32,7 +33,7 @@ export class Bank extends AbstractModule{
         if (isEmpty(coinType)) {
             throw new Error("coinType is empty");
         }
-        return super.__get("getCoinType",coinType)
+        return super.__get(Method.GetCoinType,coinType)
     }
 
     /**
@@ -41,7 +42,7 @@ export class Bank extends AbstractModule{
      * @returns {*}
      */
     getTokenStats() {
-        return super.__get("getTokenStats")
+        return super.__get(Method.GetTokenStats)
     }
 
     /**

@@ -2,6 +2,7 @@ import {ensureAllUInt256,parseRat} from "../../utils"
 import {_0,_1} from "../../constants"
 import BigNumber from 'bignumber.js'
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class CoinSwap extends AbstractModule{
     /**
@@ -14,10 +15,30 @@ export class CoinSwap extends AbstractModule{
         super(provider,opt)
     }
 
+    /**
+     *
+     * @param denom
+     * @return {Promise<*>}
+     */
     getReservePool(denom){
-        return super.__get("getReservePool",denom)
+        return super.__get(Method.GetReservePool,denom)
     }
 
+    /**
+     *
+     * @param input
+     * @param output
+     * @param deadline
+     * @param is_buy_order
+     * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
+     */
+    swap(input,output,deadline,is_buy_order,config = {}){
+        //TODO
+        let msg = {
+        };
+        config.txType = "swap-order";
+        return super.__sendTransaction(input.address,msg,config);
+    }
     /**
      * The function facilitates trading an exact amount of Iris for a specified token.
      * @param outputTokenDenom {string} - Address of output token.

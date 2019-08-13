@@ -1,4 +1,5 @@
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Slashing extends AbstractModule{
     /**
@@ -18,6 +19,6 @@ export class Slashing extends AbstractModule{
      * @return {Promise}
      */
     getSigningInfo(valPubkey){
-        return super.__get("getSigningInfo",valPubkey);
+        return super.__get(Method.GetSigningInfo,valPubkey);
     }
 }

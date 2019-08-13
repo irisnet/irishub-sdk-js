@@ -1,5 +1,6 @@
 import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Gov extends AbstractModule{
     /**
@@ -22,7 +23,7 @@ export class Gov extends AbstractModule{
      * @return {Promise}
      */
     getProposals(voter,depositor,status,limit){
-        return super.__get("getProposals",voter,depositor,status,limit);
+        return super.__get(Method.GetProposals,voter,depositor,status,limit);
     }
 
     /**
@@ -35,7 +36,7 @@ export class Gov extends AbstractModule{
         if (isEmpty(proposalId)) {
             throw new Error("proposalId is empty");
         }
-        return super.__get("getProposal",proposalId);
+        return super.__get(Method.GetProposal,proposalId);
     }
 
     /**
@@ -48,7 +49,7 @@ export class Gov extends AbstractModule{
         if (isEmpty(proposalId)) {
             throw new Error("proposalId is empty");
         }
-        return super.__get("getDeposits",proposalId);
+        return super.__get(Method.GetDeposits,proposalId);
     }
 
     /**
@@ -65,7 +66,7 @@ export class Gov extends AbstractModule{
         if (isEmpty(depositor)) {
             throw new Error("depositor is empty");
         }
-        return super.__get("getDeposit",proposalId,depositor);
+        return super.__get(Method.GetDeposit,proposalId,depositor);
     }
 
     /**
@@ -78,7 +79,7 @@ export class Gov extends AbstractModule{
         if (isEmpty(proposalId)) {
             throw new Error("proposalId is empty");
         }
-        return super.__get("getVotes",proposalId);
+        return super.__get(Method.GetVotes,proposalId);
     }
 
     /**
@@ -95,7 +96,7 @@ export class Gov extends AbstractModule{
         if (isEmpty(voter)) {
             throw new Error("voter is empty");
         }
-        return super.__get("getVote",proposalId,voter);
+        return super.__get(Method.GetVote,proposalId,voter);
     }
 
     /**
@@ -108,6 +109,6 @@ export class Gov extends AbstractModule{
         if (isEmpty(module)) {
             throw new Error("module is empty");
         }
-        return super.__get("getParams",module);
+        return super.__get(Method.GetParams,module);
     }
 }

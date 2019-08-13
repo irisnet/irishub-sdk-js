@@ -1,4 +1,5 @@
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Version extends AbstractModule{
     /**
@@ -17,7 +18,7 @@ export class Version extends AbstractModule{
      * @return {Promise}
      */
     getLcdVersion(){
-        return super.__get("getLcdVersion");
+        return super.__get(Method.GetLcdVersion);
     }
 
     /**
@@ -26,6 +27,6 @@ export class Version extends AbstractModule{
      * @return {Promise}
      */
     getNodeVersion(){
-        return super.__get("getNodeVersion");
+        return super.__get(Method.GetNodeVersion);
     }
 }

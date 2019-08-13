@@ -1,4 +1,5 @@
 import {AbstractModule} from "../module"
+import {Method} from "../../constants"
 
 export class Tm extends AbstractModule{
     /**
@@ -26,7 +27,7 @@ export class Tm extends AbstractModule{
      * @return {Promise}
      */
     getSyncing(){
-        return super.__get("getSyncing");
+        return super.__get(Method.GetSyncing);
     }
 
     /**
@@ -36,7 +37,7 @@ export class Tm extends AbstractModule{
      * @return {Promise}
      */
     getBlock(height){
-        return super.__get("getBlock",height);
+        return super.__get(Method.GetBlock,height);
     }
 
     /**
@@ -46,7 +47,7 @@ export class Tm extends AbstractModule{
      * @return {Promise}
      */
     getBlockResult(height){
-        return super.__get("getBlockResult",height);
+        return super.__get(Method.GetBlockResult,height);
     }
 
     /**
@@ -55,7 +56,7 @@ export class Tm extends AbstractModule{
      * @return {Promise}
      */
     getValidatorSet(height){
-        return super.__get("getValidatorSet",height);
+        return super.__get(Method.GetValidatorSet,height);
     }
 
     /**
@@ -65,6 +66,6 @@ export class Tm extends AbstractModule{
      * @return {Promise}
      */
     getTx(hash){
-        return super.__get("getTx",hash);
+        return super.__get(Method.GetTx,hash);
     }
 }
