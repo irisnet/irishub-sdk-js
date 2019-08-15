@@ -102,7 +102,7 @@ export class CoinSwap extends AbstractModule {
      */
     async tradeIrisForExactTokens(outputTokenDenom, outputTokenAmount) {
         let pool = await this.getReservePool(outputTokenDenom);
-        return getOutputPrice(outputTokenDenom, pool.iris.amount, pool.token.amount, pool.fee)
+        return getOutputPrice(outputTokenAmount, pool.iris.amount, pool.token.amount, pool.fee)
     }
 
     /**
@@ -157,17 +157,13 @@ function getInputPrice(inputAmount, inputReserve, outputReserve, fee) {
     ensureAllUInt256([inputAmount, inputReserve, outputReserve]);
 
     let deltaFee = parseRat(new BigNumber(1).minus(fee));
-    console.log("deltaFee",JSON.stringify(deltaFee));
     if (inputReserve.isLessThanOrEqualTo(_0) || outputReserve.isLessThanOrEqualTo(_0)) {
         throw Error(`Both inputReserve '${inputReserve}' and outputReserve '${outputReserve}' must be non-zero.`)
     }
 
     const inputAmountWithFee = inputAmount.multipliedBy(deltaFee.numerator);
-    console.log("inputAmountWithFee",JSON.stringify(inputAmountWithFee));
     const numerator = inputAmountWithFee.multipliedBy(outputReserve);
-    console.log("numerator",JSON.stringify(numerator));
     const denominator = inputReserve.multipliedBy(deltaFee.denominator).plus(inputAmountWithFee);
-    console.log("denominator",JSON.stringify(denominator));
     const outputAmount = numerator.dividedToIntegerBy(denominator);
 
     ensureAllUInt256([inputAmountWithFee, numerator, denominator, outputAmount]);

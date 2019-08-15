@@ -256,10 +256,10 @@ describe('test modules', function () {
 
         it('should addLiquidity', async function () {
             let maxToken = {
-                denom: "btc-min",
-                amount: "10"
+                denom: "bny-min",
+                amount: "10000000000000000000000"
             };
-            let exactIrisAmt = "10000000000000000000000";
+            let exactIrisAmt = "200000000000000000000000";
             let minLiquidity = "100000000000000000";
             let result = await client.addLiquidity(maxToken,exactIrisAmt,minLiquidity,deadline,sender,config);
             console.log(JSON.stringify(result));
@@ -302,7 +302,24 @@ describe('test modules', function () {
         });
 
         it('should tradeExactIrisForTokens', async function () {
-            let amt = await client.tradeExactIrisForTokens("u-btc",1000000000000000000000);
+            let amt = await client.tradeExactIrisForTokens("u-bny",30000000000000000000);
+            console.log(amt/1000000000000000000);
+        });
+        it('should tradeIrisForExactTokens', async function () {
+            let amt = await client.tradeIrisForExactTokens("u-bny",5);
+            console.log(amt.toString());
+        });
+        it('should tradeExactTokensForIris', async function () {
+            let amt = await client.tradeExactTokensForIris("u-bny",2000000000000000000);
+            console.log(amt.toString());
+        });
+        it('should tradeTokensForExactIris', async function () {
+            let amt = await client.tradeTokensForExactIris("u-bny",100000000000000000000);
+            console.log(amt.toString());
+        });
+
+        it('should tradeExactTokensForTokens', async function () {
+            let amt = await client.tradeExactTokensForTokens("u-bny","u-btc",100000000000000000000);
             console.log(amt.toString());
         });
     })
