@@ -93,7 +93,7 @@ export const parseRat = (ratStr) => {
     let m = b.length;
     let intPart = new BigNumber(Number.parseInt(a) * Math.pow(10, m));
 
-    let denominator = (a === "0" ? Math.pow(10, m) : intPart);
+    let denominator = new BigNumber(a === "0" ? Math.pow(10, m) : intPart);
     let numerator = new BigNumber(b).plus(intPart);
 
     return {

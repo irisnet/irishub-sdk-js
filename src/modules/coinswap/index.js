@@ -1,18 +1,18 @@
-import {ensureAllUInt256,parseRat} from "../../utils"
-import {_0,_1} from "../../constants"
+import {ensureAllUInt256, parseRat} from "../../utils"
+import {_0, _1} from "../../constants"
 import BigNumber from 'bignumber.js'
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class CoinSwap extends AbstractModule{
+export class CoinSwap extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Bank}
      */
-    constructor(provider,opt) {
-        super(provider,opt)
+    constructor(provider, opt) {
+        super(provider, opt)
     }
 
     /**
@@ -20,8 +20,50 @@ export class CoinSwap extends AbstractModule{
      * @param denom
      * @return {Promise<*>}
      */
-    getReservePool(denom){
-        return super.__get(Method.GetReservePool,denom)
+    getReservePool(denom) {
+        return super.__get(Method.GetReservePool, denom)
+    }
+
+    /**
+     *
+     * @param maxToken
+     * @param irisAmt
+     * @param minLiquidity
+     * @param deadline
+     * @param sender
+     * @param config
+     * @return {Promise<{resp: *, hash: string}>}
+     */
+    addLiquidity(maxToken, irisAmt, minLiquidity, deadline, sender, config) {
+        let msg = {
+            max_token: maxToken,
+            exact_iris_amt: irisAmt,
+            min_liquidity: minLiquidity,
+            deadline: deadline
+        };
+        config.txType = "add_liquidity";
+        return super.__sendTransaction(sender, msg, config);
+    }
+
+    /**
+     *
+     * @param minToken
+     * @param withdrawLiquidity
+     * @param minIrisAmt
+     * @param deadline
+     * @param sender
+     * @param config
+     * @return {Promise<{resp: *, hash: string}>}
+     */
+    removeLiquidity(minToken, withdrawLiquidity, minIrisAmt, deadline, sender, config) {
+        let msg = {
+            min_token: minToken,
+            withdraw_liquidity: withdrawLiquidity,
+            min_iris_amt: minIrisAmt,
+            deadline: deadline
+        };
+        config.txType = "remove_liquidity";
+        return super.__sendTransaction(sender, msg, config);
     }
 
     /**
@@ -32,21 +74,25 @@ export class CoinSwap extends AbstractModule{
      * @param is_buy_order
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      */
-    swap(input,output,deadline,is_buy_order,config = {}){
-        //TODO
+    swap(input, output, deadline, isBuyOrder, config = {}) {
         let msg = {
+            input: input,
+            output: output,
+            deadline: deadline,
+            isBuyOrder: isBuyOrder
         };
-        config.txType = "swap-order";
-        return super.__sendTransaction(input.address,msg,config);
+        config.txType = "swap_order";
+        return super.__sendTransaction(input.address, msg, config);
     }
+
     /**
      * The function facilitates trading an exact amount of Iris for a specified token.
      * @param outputTokenDenom {string} - Address of output token.
      * @param inputIrisAmount {number} - The input amount of Iris.
      */
-    async tradeExactIrisForTokens(outputTokenDenom,inputIrisAmount){
+    async tradeExactIrisForTokens(outputTokenDenom, inputIrisAmount) {
         let pool = await this.getReservePool(outputTokenDenom);
-        return getInputPrice(inputIrisAmount,pool.iris.amount,pool.token.amount,pool.fee)
+        return getInputPrice(inputIrisAmount, pool.iris.amount, pool.token.amount, pool.fee)
     }
 
     /**
@@ -54,9 +100,9 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param outputTokenAmount {number} - Denom of output token.
      */
-    async tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount){
+    async tradeIrisForExactTokens(outputTokenDenom, outputTokenAmount) {
         let pool = await this.getReservePool(outputTokenDenom);
-        return getOutputPrice(outputTokenDenom,pool.iris.amount,pool.token.amount,pool.fee)
+        return getOutputPrice(outputTokenDenom, pool.iris.amount, pool.token.amount, pool.fee)
     }
 
     /**
@@ -64,9 +110,9 @@ export class CoinSwap extends AbstractModule{
      * @param inputTokenDenom {string} - Denom of input token.
      * @param inputTokenAmount {number} - Amount of input token.
      */
-    async tradeExactTokensForIris(inputTokenDenom,inputTokenAmount){
+    async tradeExactTokensForIris(inputTokenDenom, inputTokenAmount) {
         let pool = await this.getReservePool(inputTokenDenom);
-        return getInputPrice(inputTokenAmount,pool.token.amount,pool.iris.amount,pool.fee)
+        return getInputPrice(inputTokenAmount, pool.token.amount, pool.iris.amount, pool.fee)
     }
 
     /**
@@ -74,9 +120,9 @@ export class CoinSwap extends AbstractModule{
      * @param inputTokenDenom {string} - Denom of input token.
      * @param outputIrisAmount {number} - The output amount of iris
      */
-    async tradeTokensForExactIris(inputTokenDenom,outputIrisAmount){
+    async tradeTokensForExactIris(inputTokenDenom, outputIrisAmount) {
         let pool = await this.getReservePool(inputTokenDenom);
-        return getOutputPrice(outputIrisAmount,pool.token.amount,pool.iris.amount,pool.fee)
+        return getOutputPrice(outputIrisAmount, pool.token.amount, pool.iris.amount, pool.fee)
     }
 
     /**
@@ -85,9 +131,9 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param inputTokenAmount {number} - The input amount of tokens
      */
-    async tradeExactTokensForTokens(inputTokenDenom,outputTokenDenom,inputTokenAmount){
-        let irisAmount = await this.tradeExactTokensForIris(inputTokenDenom,inputTokenAmount);
-        return this.tradeExactIrisForTokens(outputTokenDenom,irisAmount)
+    async tradeExactTokensForTokens(inputTokenDenom, outputTokenDenom, inputTokenAmount) {
+        let irisAmount = await this.tradeExactTokensForIris(inputTokenDenom, inputTokenAmount);
+        return this.tradeExactIrisForTokens(outputTokenDenom, irisAmount)
     }
 
     /**
@@ -96,9 +142,9 @@ export class CoinSwap extends AbstractModule{
      * @param outputTokenDenom {string} - Denom of output token.
      * @param outputTokenAmount {number} - The output amount of tokens
      */
-    async tradeTokensForExactTokens(inputTokenDenom,outputTokenDenom,outputTokenAmount){
-        let irisAmount = await this.tradeIrisForExactTokens(outputTokenDenom,outputTokenAmount);
-        return this.tradeTokensForExactIris(inputTokenDenom,outputTokenAmount)
+    async tradeTokensForExactTokens(inputTokenDenom, outputTokenDenom, outputTokenAmount) {
+        let irisAmount = await this.tradeIrisForExactTokens(outputTokenDenom, outputTokenAmount);
+        return this.tradeTokensForExactIris(inputTokenDenom, outputTokenAmount)
     }
 }
 
@@ -108,16 +154,20 @@ function getInputPrice(inputAmount, inputReserve, outputReserve, fee) {
     outputReserve = new BigNumber(outputReserve);
     fee = new BigNumber(fee);
 
-    ensureAllUInt256([inputAmount, inputReserve, outputReserve,fee]);
+    ensureAllUInt256([inputAmount, inputReserve, outputReserve]);
 
     let deltaFee = parseRat(new BigNumber(1).minus(fee));
+    console.log("deltaFee",JSON.stringify(deltaFee));
     if (inputReserve.isLessThanOrEqualTo(_0) || outputReserve.isLessThanOrEqualTo(_0)) {
         throw Error(`Both inputReserve '${inputReserve}' and outputReserve '${outputReserve}' must be non-zero.`)
     }
 
-    const inputAmountWithFee  = inputAmount.multipliedBy(deltaFee.numerator);
-    const numerator  = inputAmountWithFee.multipliedBy(outputReserve);
-    const denominator  = inputReserve.multipliedBy(deltaFee.denominator).plus(inputAmountWithFee);
+    const inputAmountWithFee = inputAmount.multipliedBy(deltaFee.numerator);
+    console.log("inputAmountWithFee",JSON.stringify(inputAmountWithFee));
+    const numerator = inputAmountWithFee.multipliedBy(outputReserve);
+    console.log("numerator",JSON.stringify(numerator));
+    const denominator = inputReserve.multipliedBy(deltaFee.denominator).plus(inputAmountWithFee);
+    console.log("denominator",JSON.stringify(denominator));
     const outputAmount = numerator.dividedToIntegerBy(denominator);
 
     ensureAllUInt256([inputAmountWithFee, numerator, denominator, outputAmount]);
@@ -125,7 +175,7 @@ function getInputPrice(inputAmount, inputReserve, outputReserve, fee) {
     return outputAmount
 }
 
-function getOutputPrice(outputAmount , inputReserve , outputReserve, fee) {
+function getOutputPrice(outputAmount, inputReserve, outputReserve, fee) {
     outputAmount = new BigNumber(outputAmount);
     inputReserve = new BigNumber(inputReserve);
     outputReserve = new BigNumber(outputReserve);

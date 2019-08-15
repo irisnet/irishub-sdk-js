@@ -18,7 +18,7 @@
     "ndjson": "^1.5.0",
     "camelcase": "^5.3.1",
     "bignumber.js": "^9.0.0",
-    "iris-crypto": "git+https://github.com/irisnet/irisnet-crypto.git#develop"
+    "iris-crypto": "git+https://github.com/zhiqiang-bianjie/irisnet-crypto.git#coinswap"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

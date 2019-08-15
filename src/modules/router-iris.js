@@ -3,7 +3,7 @@ import {Method} from "../constants"
 
 let subRouter = new Map();
 subRouter.set(Method.GetAccount,(args) =>{
-    return parseUrl("/auth/accounts/%s",...args) //TODO
+    return parseUrl("/bank/accounts/%s",...args)
 });
 subRouter.set(Method.GetCoinType,(args) =>{
     return parseUrl("/bank/coins/%s",...args)
@@ -114,7 +114,7 @@ subRouter.set(Method.GetStakePool,(args) =>{
 
 //tm
 subRouter.set(Method.GetNodeInfo,(args) =>{
-    return "/node_info"
+    return "/node-info"
 });
 subRouter.set(Method.GetSyncing,(args) =>{
     return "/syncing"
