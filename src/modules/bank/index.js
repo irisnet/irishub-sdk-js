@@ -1,3 +1,4 @@
+/** @module bank */
 import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
 import {AbstractModule} from "../module"

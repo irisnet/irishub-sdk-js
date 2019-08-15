@@ -1,3 +1,4 @@
+/** @module version */
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 

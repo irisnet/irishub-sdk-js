@@ -1,3 +1,4 @@
+/** @module stake */
 import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"

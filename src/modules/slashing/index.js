@@ -1,3 +1,4 @@
+/** @module slashing */
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 

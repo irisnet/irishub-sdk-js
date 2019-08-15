@@ -1,3 +1,4 @@
+/** @module tendermint */
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 

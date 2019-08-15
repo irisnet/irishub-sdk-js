@@ -1,3 +1,4 @@
+/** @module coinswap */
 import {ensureAllUInt256, parseRat} from "../../utils"
 import {_0, _1} from "../../constants"
 import BigNumber from 'bignumber.js'
@@ -17,8 +18,8 @@ export class CoinSwap extends AbstractModule {
 
     /**
      *
-     * @param denom
-     * @return {Promise<*>}
+     * @param denom {string} - uni denom of token,such as u-btc
+     * @return {Promise<*>} - reserve pool information
      */
     getReservePool(denom) {
         return super.__get(Method.GetReservePool, denom)
@@ -26,12 +27,12 @@ export class CoinSwap extends AbstractModule {
 
     /**
      *
-     * @param maxToken
-     * @param irisAmt
-     * @param minLiquidity
-     * @param deadline
-     * @param sender
-     * @param config
+     * @param maxToken {Coin} - deposited token
+     * @param irisAmt {number} - amount of iris deposited
+     * @param minLiquidity {number} - amount of uni token
+     * @param deadline {number} - timestamp
+     * @param sender {string} - address of deposit
+     * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
     addLiquidity(maxToken, irisAmt, minLiquidity, deadline, sender, config) {
@@ -47,12 +48,12 @@ export class CoinSwap extends AbstractModule {
 
     /**
      *
-     * @param minToken
-     * @param withdrawLiquidity
-     * @param minIrisAmt
-     * @param deadline
-     * @param sender
-     * @param config
+     * @param minToken {number} - amount of token retrieved
+     * @param withdrawLiquidity {Coin} - uni withdraw
+     * @param minIrisAmt {number} - amount of iris retrieved
+     * @param deadline {number} - timestamp
+     * @param sender {string} - address of sender
+     * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
     removeLiquidity(minToken, withdrawLiquidity, minIrisAmt, deadline, sender, config) {
@@ -68,10 +69,10 @@ export class CoinSwap extends AbstractModule {
 
     /**
      *
-     * @param input
-     * @param output
-     * @param deadline
-     * @param is_buy_order
+     * @param input  {Coin} - user spending tokens
+     * @param output {Coin} - user received tokens
+     * @param ddeadline {number} - timestamp
+     * @param isBuyOrder {boolean}
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      */
     swap(input, output, deadline, isBuyOrder, config = {}) {
