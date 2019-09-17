@@ -2,15 +2,15 @@
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Version extends AbstractModule{
+export class Version extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Version}
      */
-    constructor(provider,opt) {
-        super(provider,opt);
+    constructor(provider, opt) {
+        super(provider, opt);
     }
 
     /**
@@ -18,7 +18,7 @@ export class Version extends AbstractModule{
      *
      * @return {Promise}
      */
-    getLcdVersion(){
+    getLcdVersion() {
         return super.__get(Method.GetLcdVersion);
     }
 
@@ -27,7 +27,7 @@ export class Version extends AbstractModule{
      *
      * @return {Promise}
      */
-    getNodeVersion(){
+    getNodeVersion() {
         return super.__get(Method.GetNodeVersion);
     }
 }

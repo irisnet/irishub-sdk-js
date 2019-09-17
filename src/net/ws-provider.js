@@ -3,14 +3,14 @@ const Pumpify = require("pumpify").obj;
 const Ndjson = require("ndjson");
 const Websocket = require("websocket-stream");
 
-export class WsProvider extends EventEmitter{
+export class WsProvider extends EventEmitter {
     /**
      *
      * @param {string} - lcd's url
      * @param {object} - other configurable parameters
      * @return {HttpProvider}
      */
-    constructor(url,option){
+    constructor(url, option) {
         super();
         this.url = `${url}/websocket`;
         this.connect();
@@ -45,7 +45,7 @@ export class WsProvider extends EventEmitter{
      * @param listener
      * @returns {Promise<any>}
      */
-    call(method, args, listener){
+    call(method, args, listener) {
         let self = this;
         return new Promise((resolve, reject) => {
             let id = Math.random().toString(36);
@@ -72,7 +72,7 @@ export class WsProvider extends EventEmitter{
                     resolve(res)
                 })
             }
-            let payload = { jsonrpc: "2.0", id, method, params };
+            let payload = {jsonrpc: "2.0", id, method, params};
             this.ws.write(payload)
         })
     };
@@ -80,13 +80,13 @@ export class WsProvider extends EventEmitter{
     /**
      *
      */
-    close(){
+    close() {
         this.closed = true;
         this.ws.destroy()
     }
 }
 
-function convertWsArgs (args) {
+function convertWsArgs(args) {
     args = args || {};
     for (let k in args) {
         let v = args[k];

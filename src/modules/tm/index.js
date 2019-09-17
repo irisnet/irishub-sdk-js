@@ -2,15 +2,15 @@
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Tm extends AbstractModule{
+export class Tm extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Tm}
      */
-    constructor(provider,opt) {
-        super(provider,opt);
+    constructor(provider, opt) {
+        super(provider, opt);
     }
 
     /**
@@ -18,7 +18,7 @@ export class Tm extends AbstractModule{
      *
      * @return {Promise}
      */
-    getNodeInfo(){
+    getNodeInfo() {
         return super.__getNodeInfo();
     }
 
@@ -27,7 +27,7 @@ export class Tm extends AbstractModule{
      *
      * @return {Promise}
      */
-    getSyncing(){
+    getSyncing() {
         return super.__get(Method.GetSyncing);
     }
 
@@ -37,8 +37,8 @@ export class Tm extends AbstractModule{
      * @param height {number} - block's height,optional,if null,will return the latest block
      * @return {Promise}
      */
-    getBlock(height){
-        return super.__get(Method.GetBlock,height);
+    getBlock(height) {
+        return super.__get(Method.GetBlock, height);
     }
 
     /**
@@ -47,8 +47,8 @@ export class Tm extends AbstractModule{
      * @param height {number} - block's height,optional,if null,will return the latest block's result
      * @return {Promise}
      */
-    getBlockResult(height){
-        return super.__get(Method.GetBlockResult,height);
+    getBlockResult(height) {
+        return super.__get(Method.GetBlockResult, height);
     }
 
     /**
@@ -56,8 +56,8 @@ export class Tm extends AbstractModule{
      * @param height {number} - block's height,optional,if null,will return the latest validator set
      * @return {Promise}
      */
-    getValidatorSet(height){
-        return super.__get(Method.GetValidatorSet,height);
+    getValidatorSet(height) {
+        return super.__get(Method.GetValidatorSet, height);
     }
 
     /**
@@ -66,7 +66,7 @@ export class Tm extends AbstractModule{
      * @param hash {string} - transaction's hash
      * @return {Promise}
      */
-    getTx(hash){
-        return super.__get(Method.GetTx,hash);
+    getTx(hash) {
+        return super.__get(Method.GetTx, hash);
     }
 }

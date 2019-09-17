@@ -1,5 +1,5 @@
 import * as crypto from "iris-crypto"
-import {isEmpty,deepCopy,optional} from "../utils"
+import {isEmpty, deepCopy, optional} from "../utils"
 import {ApiRouter} from "./router"
 import {Method} from "../constants"
 
@@ -25,7 +25,7 @@ export class AbstractModule {
         if (isEmpty(address)) {
             throw new Error("address is empty");
         }
-        return this.__get(Method.GetAccount,address)
+        return this.__get(Method.GetAccount, address)
     }
 
 
@@ -34,13 +34,13 @@ export class AbstractModule {
      *
      * @return {Promise}
      */
-    async __getNodeInfo(){
+    async __getNodeInfo() {
         return this.__get(Method.GetNodeInfo);
     }
 
-    async __get(method,...args){
+    async __get(method, ...args) {
         let urlHandler = ApiRouter.getSubRouter(this.opt.chain).get(method);
-        if(!urlHandler){
+        if (!urlHandler) {
             throw new Error(`no handler found ${method}`);
         }
         return this.provider.get(urlHandler(args));
@@ -66,19 +66,19 @@ export class AbstractModule {
             config = {}
         }
         let conf = deepCopy(config);
-        conf.fee = optional(conf.fee,this.opt.fee);
-        conf.gas = optional(conf.gas,this.opt.gas);
-        conf.memo = optional(conf.memo,this.opt.memo);
-        conf.timeout = optional(conf.timeout,this.opt.timeout);
-        conf.chain = optional(conf.chain,this.opt.chain);
-        conf.network = optional(conf.network,this.opt.network);
-        conf.pub_key = optional(conf.pub_key,this.opt.pub_key);
-        conf.private_key = optional(conf.private_key,this.opt.private_key);
-        conf.chain_id = optional(conf.chain_id,await this.__getAndSetChainId());
-        conf.mode = optional(conf.mode,this.opt.mode);
-        conf.mode = optional(conf.mode,'sync');
-        conf.simulate = optional(conf.simulate,this.opt.simulate);
-        conf.simulate = optional(conf.simulate,false);
+        conf.fee = optional(conf.fee, this.opt.fee);
+        conf.gas = optional(conf.gas, this.opt.gas);
+        conf.memo = optional(conf.memo, this.opt.memo);
+        conf.timeout = optional(conf.timeout, this.opt.timeout);
+        conf.chain = optional(conf.chain, this.opt.chain);
+        conf.network = optional(conf.network, this.opt.network);
+        conf.pub_key = optional(conf.pub_key, this.opt.pub_key);
+        conf.private_key = optional(conf.private_key, this.opt.private_key);
+        conf.chain_id = optional(conf.chain_id, await this.__getAndSetChainId());
+        conf.mode = optional(conf.mode, this.opt.mode);
+        conf.mode = optional(conf.mode, 'sync');
+        conf.simulate = optional(conf.simulate, this.opt.simulate);
+        conf.simulate = optional(conf.simulate, false);
 
         if (isEmpty(conf.fee)) {
             throw new Error("fee is empty")
@@ -142,18 +142,18 @@ export class AbstractModule {
         };
         let builder = crypto.getBuilder(opts.chain, opts.network);
         let stdTx;
-        if(opts.simulate){
-            if(!opts.pub_key){
+        if (opts.simulate) {
+            if (!opts.pub_key) {
                 throw new Error("in simulate mode,you must provide address's public key(bech32|hex)")
             }
             stdTx = builder.buildTx(req);
             stdTx.SetPubKey(opts.pub_key);
-        }else {
+        } else {
             stdTx = builder.buildAndSignTx(req, opts.private_key);
         }
 
         let urlHandler = ApiRouter.getSubRouter(this.opt.chain).get(Method.Broadcast);
-        if(!urlHandler){
+        if (!urlHandler) {
             throw new Error(`no handler found broadcast`);
         }
         return this.provider.post(urlHandler(opts), stdTx.GetData(), {

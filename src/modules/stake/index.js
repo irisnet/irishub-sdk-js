@@ -3,15 +3,15 @@ import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Stake extends AbstractModule{
+export class Stake extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return opt {Stake}
      */
-    constructor(provider,opt) {
-        super(provider,opt)
+    constructor(provider, opt) {
+        super(provider, opt)
     }
 
     /**
@@ -22,7 +22,7 @@ export class Stake extends AbstractModule{
      * @return {Promise}
      */
     getValidators(page, size) {
-        return super.__get(Method.GetValidators,page, size);
+        return super.__get(Method.GetValidators, page, size);
     }
 
     /**
@@ -35,7 +35,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetValidator,validator);
+        return super.__get(Method.GetValidator, validator);
     }
 
     /**
@@ -48,7 +48,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get(Method.GetDelegations,delegator);
+        return super.__get(Method.GetDelegations, delegator);
     }
 
     /**
@@ -61,7 +61,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetDelegationsByValidator,validator);
+        return super.__get(Method.GetDelegationsByValidator, validator);
     }
 
     /**
@@ -74,7 +74,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get(Method.GetUbDelegations,delegator);
+        return super.__get(Method.GetUbDelegations, delegator);
     }
 
     /**
@@ -87,7 +87,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetUbDelegationsByValidator,validator);
+        return super.__get(Method.GetUbDelegationsByValidator, validator);
     }
 
     /**
@@ -100,7 +100,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get(Method.GetReDelegations,delegator);
+        return super.__get(Method.GetReDelegations, delegator);
     }
 
     /**
@@ -113,7 +113,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetReDelegationsByValidator,validator);
+        return super.__get(Method.GetReDelegationsByValidator, validator);
     }
 
     /**
@@ -126,7 +126,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty")
         }
-        return super.__get(Method.GetAllValidatorsByDelegator,delegator);
+        return super.__get(Method.GetAllValidatorsByDelegator, delegator);
     }
 
     /**
@@ -143,7 +143,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetValidatorByDelegator,delegator,validator);
+        return super.__get(Method.GetValidatorByDelegator, delegator, validator);
     }
 
     /**
@@ -159,7 +159,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetDelegation,delegator,validator);
+        return super.__get(Method.GetDelegation, delegator, validator);
     }
 
     /**
@@ -176,7 +176,7 @@ export class Stake extends AbstractModule{
         if (isEmpty(validator)) {
             throw new Error("validator is empty")
         }
-        return super.__get(Method.GetUbDelegation,delegator,validator);
+        return super.__get(Method.GetUbDelegation, delegator, validator);
     }
 
     /**
@@ -197,13 +197,13 @@ export class Stake extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    delegate(delegator,validator,amount,config = {}){
+    delegate(delegator, validator, amount, config = {}) {
         let msg = {
             validator_addr: validator,
             delegation: amount
         };
         config.txType = "delegate";
-        return super.__sendTransaction(delegator,msg,config);
+        return super.__sendTransaction(delegator, msg, config);
     }
 
     /**
@@ -216,14 +216,14 @@ export class Stake extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    redelegate(delegator,srcVarAddr,dstVarAddr,shares,config = {}){
+    redelegate(delegator, srcVarAddr, dstVarAddr, shares, config = {}) {
         let msg = {
             validator_src_addr: srcVarAddr,
             validator_dst_addr: dstVarAddr,
             shares_amount: shares
         };
         config.txType = "redelegate";
-        return super.__sendTransaction(delegator,msg,config);
+        return super.__sendTransaction(delegator, msg, config);
     }
 
     /**
@@ -235,12 +235,12 @@ export class Stake extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    undelegate(delegator,valAddr,shares,config = {}){
+    undelegate(delegator, valAddr, shares, config = {}) {
         let msg = {
             validator_addr: valAddr,
             shares_amount: shares
         };
         config.txType = "begin_unbonding";
-        return super.__sendTransaction(delegator,msg,config);
+        return super.__sendTransaction(delegator, msg, config);
     }
 }

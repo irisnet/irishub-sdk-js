@@ -6,11 +6,12 @@ const wsProto = ["ws:", "wss:"];
 const httpProto = ["http:", "https:"];
 const allProto = wsProto.concat(httpProto);
 
-export class ProviderFactory{
+export class ProviderFactory {
     /**
      * @return {ProviderFactory}
      */
-    constructor(){}
+    constructor() {
+    }
 
     /**
      * create a agent of network by uri
@@ -18,11 +19,11 @@ export class ProviderFactory{
      * @param {string} - lcd's url
      * @returns {HttpProvider|Error|WsProvider}
      */
-    static create(server,option = {}){
-        if(typeof server !== "string"){
-           return server
+    static create(server, option = {}) {
+        if (typeof server !== "string") {
+            return server
         }
-        let { protocol, hostname, port } = Url.parse(server);
+        let {protocol, hostname, port} = Url.parse(server);
         // default to http
         if (!allProto.includes(protocol)) {
             let p = Url.parse(`http://${server}`);
@@ -33,9 +34,9 @@ export class ProviderFactory{
         server = !port ? `${protocol}//${hostname}` : `${protocol}//${hostname}:${port}`;
 
         if (wsProto.includes(protocol)) {
-            return new WsProvider(server,option)
+            return new WsProvider(server, option)
         } else if (httpProto.includes(protocol)) {
-            return new HttpProvider(server,option)
+            return new HttpProvider(server, option)
         } else {
             return Error("invalid protocol")
         }

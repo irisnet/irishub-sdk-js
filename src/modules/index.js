@@ -13,16 +13,16 @@ export class ModuleManager {
      *
      * @param provider
      */
-    constructor(provider,opt){
+    constructor(provider, opt) {
         this.provider = provider;
-        this._add(new Bank(provider,opt));
-        this._add(new Stake(provider,opt));
-        this._add(new Tm(provider,opt));
-        this._add(new Version(provider,opt));
-        this._add(new Slashing(provider,opt));
-        this._add(new Gov(provider,opt));
-        this._add(new Distribution(provider,opt));
-        this._add(new CoinSwap(provider,opt));
+        this._add(new Bank(provider, opt));
+        this._add(new Stake(provider, opt));
+        this._add(new Tm(provider, opt));
+        this._add(new Version(provider, opt));
+        this._add(new Slashing(provider, opt));
+        this._add(new Gov(provider, opt));
+        this._add(new Distribution(provider, opt));
+        this._add(new CoinSwap(provider, opt));
     }
 
     /**
@@ -30,7 +30,7 @@ export class ModuleManager {
      * @param name
      * @returns {boolean}
      */
-    hasMethod(name){
+    hasMethod(name) {
         return typeof this.methods[name] !== 'undefined';
     };
 
@@ -39,7 +39,7 @@ export class ModuleManager {
      * @param name
      */
     createMethod(name) {
-        if (this.hasMethod(name)){
+        if (this.hasMethod(name)) {
             return this.methods[name];
         }
         throw new Error(`not found this method:${name}`)
@@ -50,18 +50,18 @@ export class ModuleManager {
      * @param module
      * @private
      */
-    _add(module){
-       Object.getOwnPropertyNames(Object.getPrototypeOf(module)).forEach((name) => {
-           if(!this.methods){
-               this.methods = {}
-           }
-           if(name !== "constructor"){
-               if(this.methods[name]){
-                   throw new Error(`method : ${name} has already register`)
-               }
-               this.methods[name] = module
-           }
-       })
+    _add(module) {
+        Object.getOwnPropertyNames(Object.getPrototypeOf(module)).forEach((name) => {
+            if (!this.methods) {
+                this.methods = {}
+            }
+            if (name !== "constructor") {
+                if (this.methods[name]) {
+                    throw new Error(`method : ${name} has already register`)
+                }
+                this.methods[name] = module
+            }
+        })
 
     }
 }

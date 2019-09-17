@@ -3,15 +3,15 @@ import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
 import {AbstractModule} from "../module"
 
-export class Bank extends AbstractModule{
+export class Bank extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Bank}
      */
-    constructor(provider,opt) {
-        super(provider,opt)
+    constructor(provider, opt) {
+        super(provider, opt)
     }
 
     /**
@@ -34,7 +34,7 @@ export class Bank extends AbstractModule{
         if (isEmpty(coinType)) {
             throw new Error("coinType is empty");
         }
-        return super.__get(Method.GetCoinType,coinType)
+        return super.__get(Method.GetCoinType, coinType)
     }
 
     /**
@@ -54,12 +54,12 @@ export class Bank extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async transfer(from,to,tokens,config = {}){
+    async transfer(from, to, tokens, config = {}) {
         let msg = {
             to: to,
             coins: tokens
         };
         config.txType = "transfer";
-        return super.__sendTransaction(from,msg,config);
+        return super.__sendTransaction(from, msg, config);
     }
 }

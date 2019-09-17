@@ -2,15 +2,15 @@
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Slashing extends AbstractModule{
+export class Slashing extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Slashing}
      */
-    constructor(provider,opt) {
-        super(provider,opt);
+    constructor(provider, opt) {
+        super(provider, opt);
     }
 
     /**
@@ -19,7 +19,7 @@ export class Slashing extends AbstractModule{
      * @param valPubkey {string} - validator's consensus public key
      * @return {Promise}
      */
-    getSigningInfo(valPubkey){
-        return super.__get(Method.GetSigningInfo,valPubkey);
+    getSigningInfo(valPubkey) {
+        return super.__get(Method.GetSigningInfo, valPubkey);
     }
 }

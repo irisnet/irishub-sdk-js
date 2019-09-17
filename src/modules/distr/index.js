@@ -3,15 +3,15 @@ import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Distribution extends AbstractModule{
+export class Distribution extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
      * @return {Distribution}
      */
-    constructor(provider,opt) {
-        super(provider,opt)
+    constructor(provider, opt) {
+        super(provider, opt)
     }
 
     /**
@@ -19,11 +19,11 @@ export class Distribution extends AbstractModule{
      * @param delegator {string} - delegator's address
      * @return {Promise}
      */
-    getWithdrawAddr(delegator){
+    getWithdrawAddr(delegator) {
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
-        return super.__get(Method.GetWithdrawAddr,delegator);
+        return super.__get(Method.GetWithdrawAddr, delegator);
     }
 
     /**
@@ -31,11 +31,11 @@ export class Distribution extends AbstractModule{
      * @param delegator {string} - delegator's address
      * @return {Promise}
      */
-    queryRewards(delegator){
+    queryRewards(delegator) {
         if (isEmpty(delegator)) {
             throw new Error("delegator is empty");
         }
-        return super.__get(Method.QueryRewards,delegator);
+        return super.__get(Method.QueryRewards, delegator);
     }
 
     /**
@@ -43,7 +43,7 @@ export class Distribution extends AbstractModule{
      *
      * @return {Promise}
      */
-    getCommunityTax(){
+    getCommunityTax() {
         return super.__get(Method.GetCommunityTax);
     }
 
@@ -54,9 +54,9 @@ export class Distribution extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    withdrawAllRewards(delegator,config = {}){
+    withdrawAllRewards(delegator, config = {}) {
         config.txType = "withdraw_delegation_rewards_all";
-        return super.__sendTransaction(delegator,null,config);
+        return super.__sendTransaction(delegator, null, config);
     }
 
     /**
@@ -67,11 +67,11 @@ export class Distribution extends AbstractModule{
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    withdrawRewards(delegator,varAddr,config = {}){
+    withdrawRewards(delegator, varAddr, config = {}) {
         let msg = {
             validator_addr: varAddr,
         };
         config.txType = "withdraw_delegation_reward";
-        return super.__sendTransaction(delegator,msg,config);
+        return super.__sendTransaction(delegator, msg, config);
     }
 }

@@ -1,6 +1,6 @@
 import {ModuleManager} from "./modules"
 import {ProviderFactory} from "./net"
-import {isEmpty,optional} from "./utils"
+import {isEmpty, optional} from "./utils"
 import {defaultOpts, defaultServer, rpcMethods} from "./constants"
 import * as crypto from "iris-crypto"
 
@@ -23,11 +23,11 @@ export class IrisClient {
 
     __init(option) {
         this.option = {
-            chain: optional(option.chain,defaultOpts.chain),
-            network: optional(option.network,defaultOpts.network),
-            fee: optional(option.fee,defaultOpts.fee),
-            gas: optional(option.gas,defaultOpts.gas),
-            timeout: optional(option.timeout,defaultOpts.timeout),
+            chain: optional(option.chain, defaultOpts.chain),
+            network: optional(option.network, defaultOpts.network),
+            fee: optional(option.fee, defaultOpts.fee),
+            gas: optional(option.gas, defaultOpts.gas),
+            timeout: optional(option.timeout, defaultOpts.timeout),
         }
     }
 

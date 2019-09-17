@@ -233,18 +233,18 @@ describe('test modules', function () {
         });
     });
 
-    describe('should ws', function () {
-        this.timeout(10000);
-        it("should subscribe", async function(){
-            let wsClient = client.clone(`ws://${rpcUrl}`);
-            await new Promise(() => {
-                let event = createEvent(EventType.NewBlock);
-                wsClient.subscribe(event, (events) => {
-                    console.log(JSON.stringify(events));
-                })
-            })
-        });
-    });
+    // describe('should ws', function () {
+    //     this.timeout(10000);
+    //     it("should subscribe", async function(){
+    //         let wsClient = client.clone(`ws://${rpcUrl}`);
+    //         await new Promise(() => {
+    //             let event = createEvent(EventType.NewBlock);
+    //             wsClient.subscribe(event, (events) => {
+    //                 console.log(JSON.stringify(events));
+    //             })
+    //         })
+    //     });
+    // });
 
     describe('should coinswap', function () {
 
