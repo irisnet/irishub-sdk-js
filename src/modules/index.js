@@ -1,11 +1,11 @@
-import {Bank} from "./bank";
-import {Stake} from "./stake";
-import {Tm} from "./tm";
-import {Version} from "./version";
-import {Slashing} from "./slashing";
-import {Gov} from "./gov";
-import {Distribution} from "./distr";
-import {CoinSwap} from "./coinswap";
+import Bank from "./bank";
+import Stake from "./stake";
+import Tm from "./tm";
+import Version from "./version";
+import Slashing from "./slashing";
+import Gov from "./gov";
+import Distribution from "./distr";
+import CoinSwap from "./coinswap";
 
 export default class ModuleManager {
 
@@ -14,7 +14,6 @@ export default class ModuleManager {
      * @param provider
      */
     constructor(provider, opt) {
-        this.provider = provider;
         this.register(new Bank(provider, opt))
             .register(new Stake(provider, opt))
             .register(new Tm(provider, opt))
@@ -55,7 +54,7 @@ export default class ModuleManager {
             if (!this.methods) {
                 this.methods = {}
             }
-            if (name !== "constructor") {
+            if (name !== "constructor" && !name.startsWith("_")){
                 if (this.methods[name]) {
                     throw new Error(`method : ${name} has already register`)
                 }

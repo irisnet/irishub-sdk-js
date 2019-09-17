@@ -3,7 +3,7 @@ import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Stake extends AbstractModule {
+export default class Stake extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network

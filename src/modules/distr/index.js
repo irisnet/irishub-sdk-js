@@ -3,7 +3,7 @@ import {isEmpty} from "../../utils"
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Distribution extends AbstractModule {
+export default class Distribution extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network

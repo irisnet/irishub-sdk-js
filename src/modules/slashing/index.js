@@ -2,7 +2,7 @@
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class Slashing extends AbstractModule {
+export default class Slashing extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network

@@ -1,5 +1,5 @@
 import ModuleManager from "./modules"
-import {ProviderFactory} from "./net"
+import ProviderFactory from "./net"
 import {isEmpty, optional} from "./utils"
 import {defaultOpts, defaultServer, rpcMethods} from "./constants"
 import * as crypto from "iris-crypto"

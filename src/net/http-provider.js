@@ -2,7 +2,7 @@ import {isString, isBuffer} from "../utils"
 
 const axios = require("axios");
 
-export class HttpProvider {
+export default class HttpProvider {
     /**
      *
      * @param {string} - lcd's url

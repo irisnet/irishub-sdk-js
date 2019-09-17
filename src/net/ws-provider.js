@@ -3,7 +3,7 @@ const Pumpify = require("pumpify").obj;
 const Ndjson = require("ndjson");
 const Websocket = require("websocket-stream");
 
-export class WsProvider extends EventEmitter {
+export default class WsProvider extends EventEmitter {
     /**
      *
      * @param {string} - lcd's url

@@ -3,7 +3,7 @@ import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
 import {AbstractModule} from "../module"
 
-export class Bank extends AbstractModule {
+export default class Bank extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network

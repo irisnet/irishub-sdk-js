@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import {AbstractModule} from "../module"
 import {Method} from "../../constants"
 
-export class CoinSwap extends AbstractModule {
+export default class CoinSwap extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network

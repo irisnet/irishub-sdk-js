@@ -1,12 +1,12 @@
-import {WsProvider} from "./ws-provider"
-import {HttpProvider} from "./http-provider"
+import WsProvider from "./ws-provider"
+import HttpProvider from "./http-provider"
 
 const Url = require("url");
 const wsProto = ["ws:", "wss:"];
 const httpProto = ["http:", "https:"];
 const allProto = wsProto.concat(httpProto);
 
-export class ProviderFactory {
+export default class ProviderFactory {
     /**
      * @return {ProviderFactory}
      */
