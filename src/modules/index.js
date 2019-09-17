@@ -15,14 +15,14 @@ export default class ModuleManager {
      */
     constructor(provider, opt) {
         this.provider = provider;
-        this._add(new Bank(provider, opt));
-        this._add(new Stake(provider, opt));
-        this._add(new Tm(provider, opt));
-        this._add(new Version(provider, opt));
-        this._add(new Slashing(provider, opt));
-        this._add(new Gov(provider, opt));
-        this._add(new Distribution(provider, opt));
-        this._add(new CoinSwap(provider, opt));
+        this.register(new Bank(provider, opt))
+            .register(new Stake(provider, opt))
+            .register(new Tm(provider, opt))
+            .register(new Version(provider, opt))
+            .register(new Slashing(provider, opt))
+            .register(new Gov(provider, opt))
+            .register(new Distribution(provider, opt))
+            .register(new CoinSwap(provider, opt));
     }
 
     /**
@@ -50,7 +50,7 @@ export default class ModuleManager {
      * @param module
      * @private
      */
-    _add(module) {
+    register(module) {
         Object.getOwnPropertyNames(Object.getPrototypeOf(module)).forEach((name) => {
             if (!this.methods) {
                 this.methods = {}
@@ -61,7 +61,7 @@ export default class ModuleManager {
                 }
                 this.methods[name] = module
             }
-        })
-
+        });
+        return this;
     }
 }
