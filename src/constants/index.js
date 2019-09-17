@@ -49,64 +49,59 @@ export const createEvent = (type, ...param) => {
     return {query: args.join(" AND ")}
 };
 
-export const EventType = {};
-EventType.NewBlock = "NewBlock";
-EventType.NewBlockHeader = "NewBlockHeader";
-EventType.Tx = "Tx";
-EventType.ValidatorSetUpdates = "ValidatorSetUpdates";
-EventType.CompleteProposal = "CompleteProposal";
-EventType.Lock = "Lock";
-EventType.NewRound = "NewRound";
-EventType.NewRoundStep = "NewRoundStep";
-EventType.Polka = "Polka";
-EventType.Relock = "Relock";
-EventType.TimeoutPropose = "TimeoutPropose";
-EventType.TimeoutWait = "TimeoutWait";
-EventType.Unlock = "Unlock";
-EventType.ValidBlock = "ValidBlock";
-EventType.Vote = "Vote";
+export const EventType = {
+    NewBlock:               "NewBlock",
+    NewBlockHeader:         "NewBlockHeader",
+    Tx:                     "Tx",
+    ValidatorSetUpdates:    "ValidatorSetUpdates",
+    CompleteProposal:       "CompleteProposal",
+    Lock:                   "Lock",
+    NewRound:               "NewRound",
+    NewRoundStep:           "NewRoundStep",
+    Polka:                  "Polka",
+    Relock:                 "Relock",
+    TimeoutPropose:         "TimeoutPropose",
+    TimeoutWait:            "TimeoutWait",
+    Unlock:                 "Unlock",
+    ValidBlock:             "ValidBlock",
+    Vote:                   "Vote"
+};
 
-export const Method = {};
-Method.GetAccount = "getAccount";
-Method.GetCoinType = "getCoinType";
-Method.GetTokenStats = "getTokenStats";
-
-Method.GetWithdrawAddr = "getWithdrawAddr";
-Method.QueryRewards = "queryRewards";
-Method.GetCommunityTax = "getCommunityTax";
-
-Method.GetProposals = "getProposals";
-Method.GetProposal = "getProposal";
-Method.GetDeposits = "getDeposits";
-Method.GetDeposit = "getDeposit";
-Method.GetVotes = "getVotes";
-Method.GetVote = "getVote";
-Method.GetParams = "getParams";
-Method.GetSigningInfo = "getSigningInfo";
-
-Method.GetValidators = "getValidators";
-Method.GetValidator = "getValidator";
-Method.GetDelegations = "getDelegations";
-Method.GetDelegationsByValidator = "getDelegationsByValidator";
-Method.GetUbDelegations = "getUbDelegations";
-Method.GetUbDelegationsByValidator = "getUbDelegationsByValidator";
-Method.GetReDelegations = "getReDelegations";
-Method.GetReDelegationsByValidator = "getReDelegationsByValidator";
-Method.GetAllValidatorsByDelegator = "getAllValidatorsByDelegator";
-Method.GetValidatorByDelegator = "getValidatorByDelegator";
-Method.GetDelegation = "getDelegation";
-Method.GetUbDelegation = "getUbDelegation";
-Method.GetStakePool = "getStakePool";
-
-Method.GetNodeInfo = "getNodeInfo";
-Method.GetSyncing = "getSyncing";
-Method.GetBlock = "getBlock";
-Method.GetBlockResult = "getBlockResult";
-Method.GetValidatorSet = "getValidatorSet";
-Method.GetTx = "getTx";
-Method.Broadcast = "broadcast";
-
-Method.GetReservePool = "getReservePool";
-
-Method.GetLcdVersion = "getLcdVersion";
-Method.GetNodeVersion = "getNodeVersion";
+export const Method = {
+    GetAccount:                         "getAccount",
+    GetCoinType:                        "getCoinType",
+    GetTokenStats:                      "getTokenStats",
+    GetWithdrawAddr:                    "getWithdrawAddr",
+    QueryRewards:                       "queryRewards",
+    GetCommunityTax:                    "getCommunityTax",
+    GetProposals:                       "getProposals",
+    GetProposal:                        "getProposal",
+    GetDeposits:                        "getDeposits",
+    GetVotes:                           "getVotes",
+    GetVote:                            "getVote",
+    GetParams:                          "getParams",
+    GetSigningInfo:                     "getSigningInfo",
+    GetValidators:                      "getValidators",
+    GetValidator:                       "getValidator",
+    GetDelegations:                     "getDelegations",
+    GetDelegationsByValidator:          "getDelegationsByValidator",
+    GetUbDelegations:                   "getUbDelegations",
+    GetUbDelegationsByValidator:        "getUbDelegationsByValidator",
+    GetReDelegations:                   "getReDelegations",
+    GetReDelegationsByValidator:        "getReDelegationsByValidator",
+    GetAllValidatorsByDelegator:        "getAllValidatorsByDelegator",
+    GetValidatorByDelegator:            "getValidatorByDelegator",
+    GetDelegation:                      "getDelegation",
+    GetUbDelegation:                    "getUbDelegation",
+    GetStakePool:                       "getStakePool",
+    GetNodeInfo:                        "getNodeInfo",
+    GetSyncing:                         "getSyncing",
+    GetBlock:                           "getBlock",
+    GetBlockResult:                     "getBlockResult",
+    GetValidatorSet:                    "getValidatorSet",
+    GetTx:                              "getTx",
+    Broadcast:                          "broadcast",
+    GetReservePool:                     "getReservePool",
+    GetLcdVersion:                      "getLcdVersion",
+    GetNodeVersion:                     "getNodeVersion",
+};
