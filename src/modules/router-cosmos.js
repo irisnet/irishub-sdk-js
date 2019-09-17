@@ -158,4 +158,4 @@ subRouter.set(Method.GetReservePool, (args) => {
     throw new Error("cosmos don't support the api[getReservePool]")
 });
 
-export const CosmosRouter = subRouter;
+export default subRouter;

@@ -1,6 +1,6 @@
 import * as crypto from "iris-crypto"
 import {isEmpty, deepCopy, optional} from "../utils"
-import {ApiRouter} from "./router"
+import ApiRouter from "./router"
 import {Method} from "../constants"
 
 export class AbstractModule {

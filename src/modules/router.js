@@ -1,9 +1,11 @@
-import {IrisRouter} from "./router-iris"
-import {CosmosRouter} from "./router-cosmos"
+import IrisRouter from "./router-iris"
+import CosmosRouter from "./router-cosmos"
 
-export const ApiRouter = {};
-ApiRouter.getSubRouter = function (chain) {
-    return ApiRouter[chain]
+let ApiRouter;
+export default ApiRouter = {
+    getSubRouter : (chain) => {
+        return ApiRouter[chain]
+    },
+    iris : IrisRouter,
+    cosmos : CosmosRouter,
 };
-ApiRouter.iris = IrisRouter;
-ApiRouter.cosmos = CosmosRouter;

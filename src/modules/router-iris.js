@@ -183,4 +183,4 @@ subRouter.set(Method.GetReservePool, (args) => {
     return apiUrl
 });
 
-export const IrisRouter = subRouter;
+export default subRouter;

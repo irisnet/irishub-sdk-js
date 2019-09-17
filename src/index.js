@@ -1,4 +1,4 @@
-import {ModuleManager} from "./modules"
+import ModuleManager from "./modules"
 import {ProviderFactory} from "./net"
 import {isEmpty, optional} from "./utils"
 import {defaultOpts, defaultServer, rpcMethods} from "./constants"

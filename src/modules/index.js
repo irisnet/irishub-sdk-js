@@ -7,7 +7,7 @@ import {Gov} from "./gov";
 import {Distribution} from "./distr";
 import {CoinSwap} from "./coinswap";
 
-export class ModuleManager {
+export default class ModuleManager {
 
     /**
      *
