@@ -1,6 +1,6 @@
 /** @module gov */
 import {isEmpty} from "../../utils"
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class Gov extends AbstractModule {

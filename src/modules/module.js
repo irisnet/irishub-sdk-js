@@ -3,7 +3,7 @@ import {isEmpty, deepCopy, optional} from "../utils"
 import ApiRouter from "./router"
 import {Method} from "../constants"
 
-export class AbstractModule {
+export default class AbstractModule {
 
     /**
      *

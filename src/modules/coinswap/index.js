@@ -2,7 +2,7 @@
 import {ensureAllUInt256, parseRat} from "../../utils"
 import {_0, _1} from "../../constants"
 import BigNumber from 'bignumber.js'
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class CoinSwap extends AbstractModule {

@@ -1,6 +1,6 @@
 /** @module distribution */
 import {isEmpty} from "../../utils"
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class Distribution extends AbstractModule {

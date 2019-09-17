@@ -1,7 +1,7 @@
 /** @module bank */
 import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 
 export default class Bank extends AbstractModule {
     /**

@@ -1,5 +1,5 @@
 /** @module version */
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class Version extends AbstractModule {

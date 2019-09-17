@@ -1,5 +1,5 @@
 /** @module slashing */
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class Slashing extends AbstractModule {

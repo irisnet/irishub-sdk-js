@@ -1,5 +1,5 @@
 /** @module tendermint */
-import {AbstractModule} from "../module"
+import AbstractModule from "../module"
 import {Method} from "../../constants"
 
 export default class Tm extends AbstractModule {
