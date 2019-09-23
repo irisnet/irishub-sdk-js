@@ -17,14 +17,14 @@ export default class Rand extends AbstractModule {
     /**
      * Query a random number by the specified request id
      *
-     * @param request_id {string} - the request id
+     * @param requestId {string} - the request id
      * @return {Promise}
      */
-    getRand(request_id) {
-        if (isEmpty(request_id)) {
+    getRand(requestId) {
+        if (isEmpty(requestId)) {
             throw new Error("request id is empty");
         }
-        return super.__get(Method.GetRand, request_id);
+        return super.__get(Method.GetRand, requestId);
     }
 
     /**
@@ -44,14 +44,14 @@ export default class Rand extends AbstractModule {
      * request a random number (TODO)
      *
      * @param consumer {string} - consumer's address
-     * @param block_interval {string} - block interval after which the requested random number will be generated
+     * @param blockInterval {string} - block interval after which the requested random number will be generated
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async requestRand(consumer, block_interval,config = {}) {
+    async requestRand(consumer, blockInterval,config = {}) {
         let msg = {
             consumer: consumer,
-            blockInterval: block_interval,
+            blockInterval: blockInterval,
         };
         config.txType = "request_rand";
         return super.__sendTransaction(consumer, msg, config);
