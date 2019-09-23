@@ -110,10 +110,7 @@ export class IrisClient {
      */
     sendRawTransaction(tx, opts) {
         let chain = optional(opts.chain,this.option.chain);
-        let urlHandler = ApiRouter.getSubRouter(chain).get(Method.Broadcast);
-        if(!urlHandler){
-            throw new Error(`no handler found broadcast`);
-        }
+        let urlHandler = ApiRouter.getHandler(chain,Method.Broadcast);
         return this.provider.post(urlHandler(opts), tx, {
             timeout: opts.timeout
         });
