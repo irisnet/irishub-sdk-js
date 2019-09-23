@@ -474,7 +474,7 @@ delegator withdraw rewards from a validators
         * [.getDeposit(proposalId, depositor)](#module_gov..Gov+getDeposit) ⇒ <code>Promise</code>
         * [.getVotes(proposalId)](#module_gov..Gov+getVotes) ⇒ <code>Promise</code>
         * [.getVote(proposalId, voter)](#module_gov..Gov+getVote) ⇒ <code>Promise</code>
-        * [.getParams(module)](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
+        * [.getParams()](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
 
 <a name="module_gov..Gov"></a>
 
@@ -489,7 +489,7 @@ delegator withdraw rewards from a validators
     * [.getDeposit(proposalId, depositor)](#module_gov..Gov+getDeposit) ⇒ <code>Promise</code>
     * [.getVotes(proposalId)](#module_gov..Gov+getVotes) ⇒ <code>Promise</code>
     * [.getVote(proposalId, voter)](#module_gov..Gov+getVote) ⇒ <code>Promise</code>
-    * [.getParams(module)](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
+    * [.getParams()](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
 
 <a name="new_module_gov..Gov_new"></a>
 
@@ -573,15 +573,10 @@ Query vote information by proposalId and voter address
 
 <a name="module_gov..Gov+getParams"></a>
 
-#### gov.getParams(module) ⇒ <code>Promise</code>
-Query governance parameters
+#### gov.getParams() ⇒ <code>Promise</code>
+Query all parameters
 
 **Kind**: instance method of [<code>Gov</code>](#module_gov..Gov)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| module | <code>string</code> | module's symbol,valid values can be "gov","stake","bank","auth" |
-
 <a name="module_htlc"></a>
 
 ## htlc

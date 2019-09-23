@@ -101,16 +101,12 @@ class Gov extends AbstractModule {
     }
 
     /**
-     * Query governance parameters
+     * Query all parameters
      *
-     * @param module {string} - module's symbol,valid values can be "gov","stake","bank","auth"
      * @return {Promise}
      */
-    getParams(module) {
-        if (isEmpty(module)) {
-            throw new Error("module is empty");
-        }
-        return super.__get(Method.GetParams, module);
+    getParams() {
+        return super.__get(Method.GetParams);
     }
 }
 
