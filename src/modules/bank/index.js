@@ -2,7 +2,6 @@
 import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
 import AbstractModule from "../module"
-import Asset from "../asset";
 
 class Bank extends AbstractModule {
     /**
