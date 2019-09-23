@@ -7,6 +7,8 @@ import Gov from "./gov";
 import Distribution from "./distr";
 import CoinSwap from "./coinswap";
 import Asset from "./asset";
+import HTLC from "./htlc";
+import Rand from "./rand";
 
 export default class ModuleManager {
 
@@ -23,7 +25,9 @@ export default class ModuleManager {
             .register(new Gov(provider, opt))
             .register(new Distribution(provider, opt))
             .register(new CoinSwap(provider, opt))
-            .register(new Asset(provider, opt));
+            .register(new Asset(provider, opt))
+            .register(new HTLC(provider, opt))
+            .register(new Rand(provider, opt));
     }
 
     /**

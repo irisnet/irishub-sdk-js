@@ -218,4 +218,21 @@ subRouter.set(Method.GetTokenFee, (args) => {
     return parseUrl("/asset/fees/tokens/%s", args);
 });
 
+//htlc
+subRouter.set(Method.GetHTLC, (args) => {
+    return parseUrl("/htlc/htlcs/%s", args);
+});
+
+//rand
+subRouter.set(Method.GetRand, (args) => {
+    return parseUrl("/rand/rands/%s", args);
+});
+subRouter.set(Method.GetPendingRands, (args) => {
+    let url = `/rand/queue`;
+    if (!isEmpty(args)) {
+        url = `${url}?height=${args}`
+    }
+    return url
+});
+
 export default subRouter;

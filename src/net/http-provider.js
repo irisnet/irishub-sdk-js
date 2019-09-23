@@ -5,8 +5,8 @@ const axios = require("axios");
 export default class HttpProvider {
     /**
      *
-     * @param {string} - lcd's url
-     * @param {object} - other configurable parameters
+     * @param url {string} - lcd's url
+     * @param opt {object} - other configurable parameters
      * @return {HttpProvider}
      */
     constructor(url, opt) {
@@ -25,6 +25,7 @@ export default class HttpProvider {
      * @returns {*}
      */
     get(url, opts) {
+        console.log(url);
         return this._execute("get", url, null, opts)
     }
 

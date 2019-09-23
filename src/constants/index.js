@@ -110,4 +110,7 @@ export const Method = {
     GetGateways:                        "getGateways",
     GetGatewayFee:                      "getGatewayFee",
     GetTokenFee:                        "getTokenFee",
+    GetHTLC:                            "getHTLC",
+    GetRand:                            "getRand",
+    GetPendingRands:                    "getPendingRands",
 };

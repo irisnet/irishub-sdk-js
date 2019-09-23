@@ -8,7 +8,7 @@ export default class Asset extends AbstractModule {
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
-     * @return {Slashing}
+     * @return {Asset}
      */
     constructor(provider, opt) {
         super(provider, opt);

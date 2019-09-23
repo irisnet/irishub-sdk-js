@@ -1,7 +1,7 @@
 import {IrisClient} from "../src"
 import {createEvent,EventType} from "../src/constants"
-const lcdUrl = "https://rpc.irisnet.org";
-//const lcdUrl = "http://192.168.150.31:31317";
+//const lcdUrl = "https://rpc.irisnet.org";
+const lcdUrl = "127.0.0.1:1317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
 import {parseRat} from '../src/utils'
 import {IrisRouter} from '../src/modules/router-iris'
@@ -352,6 +352,13 @@ describe('test modules', function () {
 
         it("should getTokenFee", async function(){
             let token = await client.getTokenFee("axon");
+            assert.isNotNull(token);
+        });
+    });
+
+    describe('should htlc', function () {
+        it("should getToken", async function(){
+            let token = await client.getHTLC("axon");
             assert.isNotNull(token);
         });
     });
