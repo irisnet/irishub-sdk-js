@@ -213,7 +213,7 @@ Get token statistics, such as total loose tokens, total bonded token and total b
         * [.getReservePool(denom)](#module_coinswap..CoinSwap+getReservePool) ⇒ <code>Promise.&lt;\*&gt;</code>
         * [.addLiquidity(maxToken, irisAmt, minLiquidity, deadline, sender, config)](#module_coinswap..CoinSwap+addLiquidity) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
         * [.removeLiquidity(minToken, withdrawLiquidity, minIrisAmt, deadline, sender, config)](#module_coinswap..CoinSwap+removeLiquidity) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
-        * [.swap(input, output, ddeadline, isBuyOrder, config)](#module_coinswap..CoinSwap+swap)
+        * [.swap(input, output, deadline, isBuyOrder, config)](#module_coinswap..CoinSwap+swap)
         * [.tradeExactIrisForTokens(outputTokenDenom, inputIrisAmount)](#module_coinswap..CoinSwap+tradeExactIrisForTokens)
         * [.tradeIrisForExactTokens(outputTokenDenom, outputTokenAmount)](#module_coinswap..CoinSwap+tradeIrisForExactTokens)
         * [.tradeExactTokensForIris(inputTokenDenom, inputTokenAmount)](#module_coinswap..CoinSwap+tradeExactTokensForIris)
@@ -231,7 +231,7 @@ Get token statistics, such as total loose tokens, total bonded token and total b
     * [.getReservePool(denom)](#module_coinswap..CoinSwap+getReservePool) ⇒ <code>Promise.&lt;\*&gt;</code>
     * [.addLiquidity(maxToken, irisAmt, minLiquidity, deadline, sender, config)](#module_coinswap..CoinSwap+addLiquidity) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
     * [.removeLiquidity(minToken, withdrawLiquidity, minIrisAmt, deadline, sender, config)](#module_coinswap..CoinSwap+removeLiquidity) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
-    * [.swap(input, output, ddeadline, isBuyOrder, config)](#module_coinswap..CoinSwap+swap)
+    * [.swap(input, output, deadline, isBuyOrder, config)](#module_coinswap..CoinSwap+swap)
     * [.tradeExactIrisForTokens(outputTokenDenom, inputIrisAmount)](#module_coinswap..CoinSwap+tradeExactIrisForTokens)
     * [.tradeIrisForExactTokens(outputTokenDenom, outputTokenAmount)](#module_coinswap..CoinSwap+tradeIrisForExactTokens)
     * [.tradeExactTokensForIris(inputTokenDenom, inputTokenAmount)](#module_coinswap..CoinSwap+tradeExactTokensForIris)
@@ -288,14 +288,14 @@ Get token statistics, such as total loose tokens, total bonded token and total b
 
 <a name="module_coinswap..CoinSwap+swap"></a>
 
-#### coinSwap.swap(input, output, ddeadline, isBuyOrder, config)
+#### coinSwap.swap(input, output, deadline, isBuyOrder, config)
 **Kind**: instance method of [<code>CoinSwap</code>](#module_coinswap..CoinSwap)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | input | <code>Coin</code> | user spending tokens |
 | output | <code>Coin</code> | user received tokens |
-| ddeadline | <code>number</code> | timestamp |
+| deadline | <code>number</code> | timestamp |
 | isBuyOrder | <code>boolean</code> |  |
 | config | <code>Object</code> | config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options |
 

@@ -4,14 +4,13 @@ import {_0, _1} from "../../constants"
 import BigNumber from 'bignumber.js'
 import AbstractModule from "../module"
 import {Method} from "../../constants"
-import Bank from "../bank";
 
 class CoinSwap extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
      * @param opt {object} - other configurable parameters
-     * @return {Bank}
+     * @return {CoinSwap}
      */
     constructor(provider, opt) {
         super(provider, opt)
@@ -72,7 +71,7 @@ class CoinSwap extends AbstractModule {
      *
      * @param input  {Coin} - user spending tokens
      * @param output {Coin} - user received tokens
-     * @param ddeadline {number} - timestamp
+     * @param deadline {number} - timestamp
      * @param isBuyOrder {boolean}
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      */
