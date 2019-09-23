@@ -101,12 +101,13 @@ class Gov extends AbstractModule {
     }
 
     /**
-     * Query all parameters
+     * Query parameters
      *
+     * @param module {string} - module's symbol,valid values can be "gov","stake","bank","auth"
      * @return {Promise}
      */
-    getParams() {
-        return super.__get(Method.GetParams);
+    getParams(module) {
+        return super.__get(Method.GetParams, module);
     }
 }
 

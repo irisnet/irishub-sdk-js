@@ -58,8 +58,12 @@ subRouter.set(Method.GetVotes, (args) => {
 subRouter.set(Method.GetVote, (args) => {
     return parseUrl("/gov/proposals/%s/votes/%s", ...args)
 });
-subRouter.set(Method.GetParams, () => {
-    return "/params"
+subRouter.set(Method.GetParams, (args) => {
+    let url = "/params";
+    if (!isEmpty(args)) {
+        url = `${url}?module=${args}`
+    }
+    return url;
 });
 
 //slashing
