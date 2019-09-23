@@ -17,9 +17,13 @@ export default class ApiRouter {
 
     static getHandler(chain,method){
         let handler = ApiRouter.getSubRouter(chain).get(method);
-        if(!handler){
+        if(typeof handler !== "function"){
             throw new Error(`unsupport method: chain:${chain},method:${method}`)
         }
         return handler
+    }
+
+    static getPath(chain, method, args) {
+        return ApiRouter.getHandler(chain,method)(args)
     }
 }

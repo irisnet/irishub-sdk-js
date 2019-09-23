@@ -331,7 +331,7 @@ describe('test modules', function () {
         });
 
         it("should getTokens", async function(){
-            let token = await client.getTokens("native","","");
+            let token = await client.getTokens("native","1","2");
             assert.isNotNull(token);
         });
 
