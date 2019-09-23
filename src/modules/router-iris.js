@@ -179,8 +179,43 @@ subRouter.set(Method.Broadcast, (args) => {
 
 //coinswap
 subRouter.set(Method.GetReservePool, (args) => {
-    let apiUrl = parseUrl("/coinswap/liquidities/%s", args);
-    return apiUrl
+    return parseUrl("/coinswap/liquidities/%s", args);
+});
+
+//asset
+subRouter.set(Method.GetToken, (args) => {
+    return parseUrl("/asset/tokens/%s", args);
+});
+subRouter.set(Method.GetTokens, (args) => {
+    let param = new Array();
+    if (!isEmpty(args[0])) {
+        param.push(`source=${args[0]}`);
+    }
+    if (!isEmpty(args[1])) {
+        param.push(`gateway=${args[1]}`);
+    }
+    if (!isEmpty(args[2])) {
+        param.push(`owner=${args[2]}`);
+    }
+
+    let queryString = param.join("&");
+    return `/asset/tokens?${queryString}`
+});
+subRouter.set(Method.GetGateway, (args) => {
+    return parseUrl("/asset/gateways/%s", args);
+});
+subRouter.set(Method.GetGateways, (args) => {
+    let url = `/asset/gateways`;
+    if (!isEmpty(args)) {
+        url = `${url}?owner=${args}`
+    }
+    return url
+});
+subRouter.set(Method.GetGatewayFee, (args) => {
+    return parseUrl("/asset/fees/gateways/%s", args);
+});
+subRouter.set(Method.GetTokenFee, (args) => {
+    return parseUrl("/asset/fees/tokens/%s", args);
 });
 
 export default subRouter;

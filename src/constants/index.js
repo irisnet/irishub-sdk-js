@@ -104,4 +104,10 @@ export const Method = {
     GetReservePool:                     "getReservePool",
     GetLcdVersion:                      "getLcdVersion",
     GetNodeVersion:                     "getNodeVersion",
+    GetToken:                           "getToken",
+    GetTokens:                          "getTokens",
+    GetGateway:                         "getGateway",
+    GetGateways:                        "getGateways",
+    GetGatewayFee:                      "getGatewayFee",
+    GetTokenFee:                        "getTokenFee",
 };

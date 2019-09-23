@@ -6,6 +6,7 @@ import Slashing from "./slashing";
 import Gov from "./gov";
 import Distribution from "./distr";
 import CoinSwap from "./coinswap";
+import Asset from "./asset";
 
 export default class ModuleManager {
 
@@ -21,7 +22,8 @@ export default class ModuleManager {
             .register(new Slashing(provider, opt))
             .register(new Gov(provider, opt))
             .register(new Distribution(provider, opt))
-            .register(new CoinSwap(provider, opt));
+            .register(new CoinSwap(provider, opt))
+            .register(new Asset(provider, opt));
     }
 
     /**

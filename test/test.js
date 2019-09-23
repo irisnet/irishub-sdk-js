@@ -1,6 +1,6 @@
 import {IrisClient} from "../src"
 import {createEvent,EventType} from "../src/constants"
-const lcdUrl = "localhost:1317";
+const lcdUrl = "https://rpc.irisnet.org";
 //const lcdUrl = "http://192.168.150.31:31317";
 const rpcUrl = "irisnet-rpc.dev.rainbow.one";
 import {parseRat} from '../src/utils'
@@ -322,5 +322,37 @@ describe('test modules', function () {
             let amt = await client.tradeExactTokensForTokens("u-bny","u-btc",100000000000000000000);
             console.log(amt.toString());
         });
-    })
+    });
+
+    describe('should asset', function () {
+        it("should getToken", async function(){
+            let token = await client.getToken("axon");
+            assert.isNotNull(token);
+        });
+
+        it("should getTokens", async function(){
+            let token = await client.getTokens("native","","");
+            assert.isNotNull(token);
+        });
+
+        it("should getGateway", async function(){
+            let token = await client.getGateway("sss");
+            assert.isNull(token);
+        });
+
+        it("should getGateways", async function(){
+            let token = await client.getGateways();
+            assert.isNotNull(token);
+        });
+
+        it("should getGatewayFee", async function(){
+            let token = await client.getGatewayFee("");
+            assert.isNotNull(token);
+        });
+
+        it("should getTokenFee", async function(){
+            let token = await client.getTokenFee("axon");
+            assert.isNotNull(token);
+        });
+    });
 });
