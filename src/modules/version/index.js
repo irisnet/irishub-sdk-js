@@ -2,7 +2,7 @@
 import AbstractModule from "../module"
 import {Method} from "../../constants"
 
-export default class Version extends AbstractModule {
+class Version extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -31,3 +31,5 @@ export default class Version extends AbstractModule {
         return super.__get(Method.GetNodeVersion);
     }
 }
+
+export default Version;

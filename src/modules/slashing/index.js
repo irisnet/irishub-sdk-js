@@ -2,7 +2,7 @@
 import AbstractModule from "../module"
 import {Method} from "../../constants"
 
-export default class Slashing extends AbstractModule {
+class Slashing extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -23,3 +23,5 @@ export default class Slashing extends AbstractModule {
         return super.__get(Method.GetSigningInfo, valPubkey);
     }
 }
+
+export default Slashing;

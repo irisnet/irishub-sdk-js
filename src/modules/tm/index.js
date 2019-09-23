@@ -2,7 +2,7 @@
 import AbstractModule from "../module"
 import {Method} from "../../constants"
 
-export default class Tm extends AbstractModule {
+class Tm extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -70,3 +70,5 @@ export default class Tm extends AbstractModule {
         return super.__get(Method.GetTx, hash);
     }
 }
+
+export default Tm;

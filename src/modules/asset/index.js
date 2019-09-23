@@ -3,7 +3,7 @@ import AbstractModule from "../module"
 import {Method} from "../../constants"
 import {isEmpty} from "../../utils"
 
-export default class Asset extends AbstractModule {
+class Asset extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -88,3 +88,5 @@ export default class Asset extends AbstractModule {
         return super.__get(Method.GetTokenFee, id);
     }
 }
+
+export default Asset;

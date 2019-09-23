@@ -3,7 +3,7 @@ import {isEmpty} from "../../utils"
 import AbstractModule from "../module"
 import {Method} from "../../constants"
 
-export default class Stake extends AbstractModule {
+class Stake extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -244,3 +244,5 @@ export default class Stake extends AbstractModule {
         return super.__sendTransaction(delegator, msg, config);
     }
 }
+
+export default Stake;

@@ -2,8 +2,9 @@
 import {isEmpty} from "../../utils"
 import {Method} from "../../constants"
 import AbstractModule from "../module"
+import Asset from "../asset";
 
-export default class Bank extends AbstractModule {
+class Bank extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -63,3 +64,5 @@ export default class Bank extends AbstractModule {
         return super.__sendTransaction(from, msg, config);
     }
 }
+
+export default Bank;

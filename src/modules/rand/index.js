@@ -3,7 +3,7 @@ import AbstractModule from "../module"
 import {Method} from "../../constants"
 import {isEmpty} from "../../utils"
 
-export default class Rand extends AbstractModule {
+class Rand extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -57,3 +57,5 @@ export default class Rand extends AbstractModule {
         return super.__sendTransaction(consumer, msg, config);
     }
 }
+
+export default Rand;

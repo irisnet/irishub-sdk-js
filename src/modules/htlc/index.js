@@ -3,7 +3,7 @@ import AbstractModule from "../module"
 import {Method} from "../../constants"
 import {isEmpty} from "../../utils"
 
-export default class HTLC extends AbstractModule {
+class HTLC extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -90,3 +90,5 @@ export default class HTLC extends AbstractModule {
         return super.__sendTransaction(sender, msg, config);
     }
 }
+
+export default HTLC;

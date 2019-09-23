@@ -4,8 +4,9 @@ import {_0, _1} from "../../constants"
 import BigNumber from 'bignumber.js'
 import AbstractModule from "../module"
 import {Method} from "../../constants"
+import Bank from "../bank";
 
-export default class CoinSwap extends AbstractModule {
+class CoinSwap extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -191,3 +192,5 @@ function getOutputPrice(outputAmount, inputReserve, outputReserve, fee) {
     ensureAllUInt256([numerator, denominator, inputAmount]);
     return inputAmount
 }
+
+export default CoinSwap;

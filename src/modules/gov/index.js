@@ -3,7 +3,7 @@ import {isEmpty} from "../../utils"
 import AbstractModule from "../module"
 import {Method} from "../../constants"
 
-export default class Gov extends AbstractModule {
+class Gov extends AbstractModule {
     /**
      *
      * @param provider {WsProvider|HttpProvider} - agent of network
@@ -113,3 +113,5 @@ export default class Gov extends AbstractModule {
         return super.__get(Method.GetParams, module);
     }
 }
+
+export default Gov;
