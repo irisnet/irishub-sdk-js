@@ -475,6 +475,8 @@ delegator withdraw rewards from a validators
         * [.getVotes(proposalId)](#module_gov..Gov+getVotes) ⇒ <code>Promise</code>
         * [.getVote(proposalId, voter)](#module_gov..Gov+getVote) ⇒ <code>Promise</code>
         * [.getParams(module)](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
+        * [.deposit(depositor, proposalId, amount, config)](#module_gov..Gov+deposit) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
+        * [.vote(voter, proposalId, option, config)](#module_gov..Gov+vote) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
 
 <a name="module_gov..Gov"></a>
 
@@ -490,6 +492,8 @@ delegator withdraw rewards from a validators
     * [.getVotes(proposalId)](#module_gov..Gov+getVotes) ⇒ <code>Promise</code>
     * [.getVote(proposalId, voter)](#module_gov..Gov+getVote) ⇒ <code>Promise</code>
     * [.getParams(module)](#module_gov..Gov+getParams) ⇒ <code>Promise</code>
+    * [.deposit(depositor, proposalId, amount, config)](#module_gov..Gov+deposit) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
+    * [.vote(voter, proposalId, option, config)](#module_gov..Gov+vote) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
 
 <a name="new_module_gov..Gov_new"></a>
 
@@ -581,6 +585,34 @@ Query parameters
 | Param | Type | Description |
 | --- | --- | --- |
 | module | <code>string</code> | module's symbol,valid values can be "gov","stake","bank","auth" |
+
+<a name="module_gov..Gov+deposit"></a>
+
+#### gov.deposit(depositor, proposalId, amount, config) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
+Send transaction to deposit tokens to a proposal
+
+**Kind**: instance method of [<code>Gov</code>](#module_gov..Gov)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| depositor | <code>string</code> | address of the depositor |
+| proposalId | <code>int</code> | iD of the proposal |
+| amount | <code>Array.&lt;Coin&gt;</code> | coins to add to the proposal's deposit |
+| config | <code>Object</code> | config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options |
+
+<a name="module_gov..Gov+vote"></a>
+
+#### gov.vote(voter, proposalId, option, config) ⇒ <code>Promise.&lt;{resp: \*, hash: string}&gt;</code>
+Vote a proposal
+
+**Kind**: instance method of [<code>Gov</code>](#module_gov..Gov)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| voter | <code>string</code> | address of the voter |
+| proposalId | <code>int</code> | iD of the proposal |
+| option | <code>int</code> | option from OptionSet chosen by the voter |
+| config | <code>Object</code> | config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options |
 
 <a name="module_htlc"></a>
 
