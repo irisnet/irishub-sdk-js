@@ -54,7 +54,7 @@ class Bank extends AbstractModule {
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async transfer(from, to, tokens, config = {}) {
+    transfer(from, to, tokens, config = {}) {
         let msg = {
             to: to,
             coins: tokens

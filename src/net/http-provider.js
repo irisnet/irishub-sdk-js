@@ -25,7 +25,6 @@ export default class HttpProvider {
      * @returns {*}
      */
     get(url, opts) {
-        console.log(url);
         return this._execute("get", url, null, opts)
     }
 

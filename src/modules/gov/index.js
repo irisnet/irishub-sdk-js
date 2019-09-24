@@ -109,6 +109,42 @@ class Gov extends AbstractModule {
     getParams(module) {
         return super.__get(Method.GetParams, module);
     }
+
+    /**
+     * Send transaction to deposit tokens to a proposal
+     *
+     * @param depositor {string} - address of the depositor
+     * @param proposalId {int} - iD of the proposal
+     * @param amount {Coin[]} - coins to add to the proposal's deposit
+     * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
+     * @return {Promise<{resp: *, hash: string}>}
+     */
+    deposit(depositor, proposalId, amount, config = {}) {
+        let msg = {
+            proposal_id: proposalId,
+            amount: amount
+        };
+        config.txType = "deposit";
+        return super.__sendTransaction(depositor, msg, config);
+    }
+
+    /**
+     * Vote a proposal
+     *
+     * @param voter {string} - address of the voter
+     * @param proposalId {int} - iD of the proposal
+     * @param option {int} - option from OptionSet chosen by the voter
+     * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
+     * @return {Promise<{resp: *, hash: string}>}
+     */
+    vote(voter, proposalId, option, config = {}) {
+        let msg = {
+            proposal_id: proposalId,
+            option: option
+        };
+        config.txType = "vote";
+        return super.__sendTransaction(voter, msg, config);
+    }
 }
 
 export default Gov;

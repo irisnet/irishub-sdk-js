@@ -186,6 +186,7 @@ describe('test modules', function () {
     });
 
     describe('should gov module', async function() {
+        this.timeout(10000);
         it('should getProposals', async function () {
             let res = await client.getProposals(null,null,"Rejected");
             assert.isNotNull(res);
@@ -213,6 +214,29 @@ describe('test modules', function () {
         it('should getParams', async function () {
             let res = await client.getParams("stake");
             assert.isNotNull(res);
+        });
+
+        it('should deposit', async function () {
+            let depositor = "faa1f3vflz39qr5sjzfkqmkzkr5dy7t646wyexy92y";
+            let memo = "1";
+            let private_key = "80D45E1FAB9ACF59254F23C376E3AEAF139C847CD7A3126CDFD5216568730C90";
+            let gas = 30000;
+            let fee = {denom: "iris-atto", amount: 600000000000000000};
+            let amount = [{denom: "iris-atto", amount: 30000000000000000000000}];
+            let mode = "commit";
+            let res = await client.deposit(depositor,3,amount,{fee,gas,memo,private_key,mode});
+            console.log(JSON.stringify(res))
+        });
+
+        it('should vote', async function () {
+            let voter = "faa1f3vflz39qr5sjzfkqmkzkr5dy7t646wyexy92y";
+            let memo = "1";
+            let private_key = "80D45E1FAB9ACF59254F23C376E3AEAF139C847CD7A3126CDFD5216568730C90";
+            let gas = 30000;
+            let fee = {denom: "iris-atto", amount: 600000000000000000};
+            let mode = "commit";
+            let res = await client.vote(voter,2,0x01,{fee,gas,memo,private_key,mode});
+            console.log(JSON.stringify(res))
         });
     });
 
