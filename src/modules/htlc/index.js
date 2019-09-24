@@ -40,7 +40,7 @@ class HTLC extends AbstractModule {
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async createHTLC(sender, receiver, receiverOnOtherChain, hashLock, amount, timeLock, timestamp, config = {}) {
+    createHTLC(sender, receiver, receiverOnOtherChain, hashLock, amount, timeLock, timestamp, config = {}) {
         let msg = {
             sender: sender,
             receiver: receiver,
@@ -63,7 +63,7 @@ class HTLC extends AbstractModule {
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async claimHTLC(sender,hashLock,secret,config = {}) {
+    claimHTLC(sender,hashLock,secret,config = {}) {
         let msg = {
             sender: sender,
             hashLock: hashLock,
@@ -81,7 +81,7 @@ class HTLC extends AbstractModule {
      * @param config {Object} - config information includes: fee,gas,memo,timeout,network,chain,privateKey.if some properties is null ,will use the IrisClient default options
      * @return {Promise<{resp: *, hash: string}>}
      */
-    async refundHTLC(sender,hashLock,config = {}) {
+    refundHTLC(sender,hashLock,config = {}) {
         let msg = {
             sender: sender,
             hashLock: hashLock,
