@@ -1,0 +1,27 @@
+{
+  "name": "irishub-sdk",
+  "version": "0.0.1",
+  "description": "IRISHub JavaScript SDK",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "Apache-2.0",
+  "keywords": ["irishub", "irishub-sdk", "irisnet", "cosmos"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc -p .",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run check"
+  },
+  "devDependencies": {
+    "gts": "^1.1.2",
+    "typescript": "~3.7.0",
+    "@types/node": "^10.0.3"
+  }
+}

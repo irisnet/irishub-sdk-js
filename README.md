@@ -1,2 +1,3 @@
-# sdk-js
-IRIS Network JavaScript SDK
+# irishub-sdk-js
+
+IRISHub JavaScript SDK
