@@ -1,5 +1,5 @@
 {
-  "name": "irishub-sdk",
+  "name": "@irisnet/irishub-sdk",
   "version": "0.0.1",
   "description": "IRISHub JavaScript SDK",
   "main": "build/src/index.js",
@@ -8,9 +8,14 @@
     "build/src"
   ],
   "license": "Apache-2.0",
-  "keywords": ["irishub", "irishub-sdk", "irisnet", "cosmos"],
+  "keywords": [
+    "irishub",
+    "irishub-sdk",
+    "irisnet",
+    "cosmos"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config test/jest.config.js",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
@@ -20,8 +25,13 @@
     "posttest": "yarn run check"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^10.0.3",
     "gts": "^1.1.2",
-    "typescript": "~3.7.0",
-    "@types/node": "^10.0.3"
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.3"
   }
 }
