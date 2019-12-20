@@ -7,10 +7,11 @@ const hexRegex = /^([0-9A-Fa-f]{2})*$/;
 
 export class Utils {
   /**
-   * @param {string} str - ASCII string
-   * @returns {arrayBuffer}
+   * String to ArrayBuffer
+   * @param str ASCII string
+   * @returns Uint8Array
    */
-  static str2ab(str: string) {
+  static str2ab(str: string): Uint8Array {
     if (typeof str !== 'string') {
       throw new Error('str2ab expects a string');
     }
@@ -22,10 +23,11 @@ export class Utils {
   }
 
   /**
-   * @param {arrayBuffer} arr
-   * @returns {string} HEX string
+   * ArrayBuffer to String
+   * @param arr Uint8Array
+   * @returns HEX string
    */
-  static ab2hexstring(arr: Uint8Array) {
+  static ab2hexstring(arr: Uint8Array): string {
     if (typeof arr !== 'object') {
       throw new Error('ab2hexstring expects an array');
     }
@@ -39,17 +41,18 @@ export class Utils {
   }
 
   /**
-   * @param {string} str - ASCII string
-   * @returns {string} HEX string
+   * String to Hex String
+   * @param str ASCII string
+   * @returns HEX string
    */
-  static str2hexstring(str: string) {
+  static str2hexstring(str: string): string {
     return Utils.ab2hexstring(Utils.str2ab(str));
   }
 
   /**
-   * convert an integer to big endian hex and add leading zeros
-   * @param {Number} num
-   * @returns {string}
+   * Convert an integer to big endian hex and add leading zeros
+   * @param num The number to be converted
+   * @returns HEX string
    */
   static int2hex(num: number) {
     if (typeof num !== 'number') {
@@ -61,10 +64,10 @@ export class Utils {
 
   /**
    * Converts a number to a big endian hexstring of a suitable size, optionally little endian
-   * @param {Number} num
-   * @param {Number} size - The required size in bytes, eg 1 for Uint8, 2 for Uint16. Defaults to 1.
-   * @param {boolean} littleEndian - Encode the hex in little endian form
-   * @return {string}
+   * @param num Number to convert
+   * @param size The required size in bytes, eg 1 for Uint8, 2 for Uint16. Defaults to 1.
+   * @param littleEndian Encode the hex in little endian form
+   * @returns HEX string
    */
   static num2hexstring(num: number, size = 1, littleEndian = false) {
     if (typeof num !== 'number') throw new Error('num must be numeric');
@@ -85,8 +88,8 @@ export class Utils {
 
   /**
    * Converts a number to a variable length Int. Used for array length header
-   * @param {Number} num - The number
-   * @returns {string} hexstring of the variable Int.
+   * @param num Number to convert
+   * @returns HEX string of the variable Int.
    */
   static num2VarInt(num: number) {
     if (num < 0xfd) {
@@ -105,10 +108,10 @@ export class Utils {
 
   /**
    * Reverses an array. Accepts arrayBuffer.
-   * @param {Array} arr
-   * @returns {Uint8Array}
+   * @param arr Array to reverse
+   * @returns Reversed array
    */
-  static reverseArray(arr: Uint8Array) {
+  static reverseArray(arr: Uint8Array): Uint8Array {
     if (typeof arr !== 'object' || !arr.length) {
       throw new Error('reverseArray expects an array');
     }
@@ -124,10 +127,10 @@ export class Utils {
    * Reverses a HEX string, treating 2 chars as a byte.
    * @example
    * reverseHex('abcdef') = 'efcdab'
-   * @param {string} hex - HEX string
-   * @return {string} HEX string reversed in 2s.
+   * @param hex HEX string
+   * @returns HEX string reversed in 2s.
    */
-  static reverseHex(hex: string) {
+  static reverseHex(hex: string): string {
     Utils.ensureHex(hex);
     let out = '';
     for (let i = hex.length - 2; i >= 0; i -= 2) {
@@ -142,10 +145,10 @@ export class Utils {
    * isHex('0101') = true
    * isHex('') = true
    * isHex('0x01') = false
-   * @param {string} str
-   * @return {boolean}
+   * @param str
+   * @returns {boolean}
    */
-  static isHex(str: string) {
+  static isHex(str: string): boolean {
     try {
       return hexRegex.test(str);
     } catch (err) {
@@ -155,7 +158,7 @@ export class Utils {
 
   /**
    * Throws an error if input is not hexstring.
-   * @param {string} str
+   * @param str
    */
   static ensureHex(str: string) {
     if (!Utils.isHex(str)) {
@@ -165,10 +168,10 @@ export class Utils {
 
   /**
    * Computes a SHA256 followed by a RIPEMD160.
-   * @param {string} hex message to hash
-   * @returns {string} hash output
+   * @param hex Message to hash
+   * @returns Hash output
    */
-  static sha256ripemd160(hex: string) {
+  static sha256ripemd160(hex: string): string {
     if (typeof hex !== 'string') {
       throw new Error('sha256ripemd160 expects a string');
     }
@@ -182,10 +185,10 @@ export class Utils {
 
   /**
    * Computes a single SHA256 digest.
-   * @param {string} hex message to hash
-   * @returns {string} hash output
+   * @param hex Message to hash
+   * @returns Hash output
    */
-  static sha256(hex: string) {
+  static sha256(hex: string): string {
     if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');
     if (hex.length % 2 !== 0) {
       throw new Error(`invalid hex string length: ${hex}`);
@@ -196,10 +199,10 @@ export class Utils {
 
   /**
    * Computes a single SHA3 (Keccak) digest.
-   * @param {string} hex message to hash
-   * @returns {string} hash output
+   * @param hex Message to hash
+   * @returns Hash output
    */
-  static sha3(hex: string) {
+  static sha3(hex: string): string {
     if (typeof hex !== 'string') throw new Error('sha3 expects a hex string');
     if (hex.length % 2 !== 0) {
       throw new Error(`invalid hex string length: ${hex}`);
