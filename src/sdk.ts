@@ -1,4 +1,5 @@
 import * as consts from './constants';
+import * as modules from './modules';
 
 /**
  * IRISHub SDK
@@ -8,6 +9,11 @@ export class Sdk {
    * IRISHub SDK Config
    */
   config: SdkConfig;
+
+  /**
+   * Key management module
+   */
+  keys: modules.Keys;
 
   /**
    * IRISHub SDK Constructor
@@ -21,6 +27,7 @@ export class Sdk {
     keyDAO: KeyDAO
   ) {
     this.config = new SdkConfig(node, network, chainId, gas, fee, keyDAO);
+    this.keys = new modules.Keys(this);
   }
 
   /**
@@ -113,6 +120,11 @@ export class SdkConfig {
    */
   keyDAO: KeyDAO;
 
+  /**
+   * Bech32 prefix of the address
+   */
+  bech32Prefix: string;
+
   constructor(
     node: string,
     network: consts.Network,
@@ -127,6 +139,7 @@ export class SdkConfig {
     this.gas = gas;
     this.fee = fee;
     this.keyDAO = keyDAO;
+    this.bech32Prefix = network === consts.Network.Mainnet ? 'iaa' : 'faa';
   }
 }
 
@@ -134,15 +147,30 @@ export class SdkConfig {
  * Key DAO Interface, to be implemented by apps if they need the key management.
  */
 export interface KeyDAO {
-  save(): boolean;
-  read(): string;
+
+  /**
+   * Save the keystore to app, throws error if the save fails.
+   *
+   * @param name Name of the key
+   * @param keystore The keystore object
+   * @returns
+   */
+  write(name: string, keystore: object): any;
+
+  /**
+   * Get the keystore by key name
+   *
+   * @param name Name of the key
+   * @returns The keystore object
+   */
+  read(name: string): object;
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
-  save(): boolean {
-    throw new Error('Method not implemented.');
+  write(name: string, keystore: object) {
+    throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
-  read(): string {
-    throw new Error('Method not implemented.');
+  read(name: string): object {
+    throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
 }

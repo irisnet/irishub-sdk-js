@@ -1,14 +1,8 @@
-// import * as iris from '../src';
-
-import { Crypto } from '../src/modules';
+import * as iris from '../src';
 
 test('Crypto', () => {
-  const mnemonic = Crypto.generateMnemonic();
-  console.log('mnemonic: ' + mnemonic);
-  const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
-  console.log('private key: ' + privKey);
-  const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
-  console.log('public key: ' + pubKey);
-  const addr = Crypto.getAddressFromPublicKey(pubKey, 'iaa');
-  console.log('address: ' + addr);
+  const sdk = iris.newSdk('localhost:26657');
+  const keys = sdk.keys.add('name', '123456');
+  console.log(keys.address);
+  console.log(keys.mnemonic);
 });

@@ -259,12 +259,12 @@ export class Crypto {
    * @param password The password.
    * @returns The private key
    */
-  static getPrivateKeyFromKeyStore(keystore: string, password: string): string {
+  static getPrivateKeyFromKeyStore(keystore: string | object, password: string): string {
     if (!is.string(password)) {
       throw new Error('No password given.');
     }
 
-    const json = is.object(keystore) ? keystore : JSON.parse(keystore);
+    const json = is.object(keystore) ? keystore : JSON.parse(keystore.toString());
     const kdfparams = json.crypto.kdfparams;
 
     if (kdfparams.prf !== 'hmac-sha256') {
