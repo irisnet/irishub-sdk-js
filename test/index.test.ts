@@ -1,27 +1,28 @@
 import * as iris from '../src';
 
-test('newSdk', () => {
+test('Init Sdk', () => {
   const node = 'localhost:26657';
+
+  const sdk = iris.newSdk(node);
+  expect(sdk.config.chainId).toBe('irishub');
+  expect(sdk.config.fee).toBe('0.6iris');
+  expect(sdk.config.gas).toBe(100000);
+  expect(sdk.config.network).toBe(iris.Network.Mainnet);
+  expect(sdk.config.node).toBe(node);
+
   const chainId = 'test';
   const fee = '0.3iris';
   const gas = 50000;
   const network = iris.Network.Testnet;
 
-  let sdk = new iris.Sdk(node);
-  expect(sdk.chainId).toBe(iris.Consts.defaultChainId);
-  expect(sdk.fee).toBe(iris.Consts.defaultFees);
-  expect(sdk.gas).toBe(iris.Consts.defaultGas);
-  expect(sdk.network).toBe(iris.Consts.defaultNetwork);
-  expect(sdk.node).toBe(node);
-
-  sdk = sdk
+  sdk
     .withChainId(chainId)
     .withFee(fee)
     .withGas(gas)
     .withNetwork(network);
-  expect(sdk.chainId).toBe(chainId);
-  expect(sdk.fee).toBe(fee);
-  expect(sdk.gas).toBe(gas);
-  expect(sdk.network).toBe(network);
-  expect(sdk.node).toBe(node);
+  expect(sdk.config.chainId).toBe(chainId);
+  expect(sdk.config.fee).toBe(fee);
+  expect(sdk.config.gas).toBe(gas);
+  expect(sdk.config.network).toBe(network);
+  expect(sdk.config.node).toBe(node);
 });

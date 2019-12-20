@@ -1,8 +1,11 @@
 {
   "extends": "./node_modules/gts/tsconfig-google.json",
+  "allowJs": true,
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "build"
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true
   },
   "include": [
     "src/**/*.ts",
