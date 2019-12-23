@@ -147,23 +147,26 @@ export class SdkConfig {
  * Key DAO Interface, to be implemented by apps if they need the key management.
  */
 export interface KeyDAO {
-
   /**
    * Save the keystore to app, throws error if the save fails.
    *
    * @param name Name of the key
    * @param keystore The keystore object
-   * @returns
    */
-  write(name: string, keystore: object): any;
+  write(name: string, keystore: object): void;
 
   /**
-   * Get the keystore by key name
+   * Get the keystore by name
    *
    * @param name Name of the key
    * @returns The keystore object
    */
   read(name: string): object;
+
+  /**
+   * Delete keystore by name
+   */
+  delete(name: string): void;
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
@@ -171,6 +174,9 @@ export class DefaultKeyDAOImpl implements KeyDAO {
     throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
   read(name: string): object {
+    throw new Error('Method not implemented. Please implement KeyDAO first.');
+  }
+  delete(name: string) {
     throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
 }

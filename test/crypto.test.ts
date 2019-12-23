@@ -1,12 +1,27 @@
 import { Crypto } from '../src/modules';
 
 test('Crypto', () => {
+  // Generates mnemonic
   const mnemonic = Crypto.generateMnemonic();
-  console.log('mnemonic: ' + mnemonic);
+  expect(mnemonic.split(' ').length).toBe(24);
+
+  // Gets a private key from mnemonic words.
   const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
-  console.log('private key: ' + privKey);
+
+  // Calculates the public key from a given private key.
   const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
-  console.log('public key: ' + pubKey);
-  const addr = Crypto.getAddressFromPublicKey(pubKey, 'iaa');
-  console.log('address: ' + addr);
+
+  // Gets an address from a public key hex.
+  const address = Crypto.getAddressFromPublicKey(pubKey, 'iaa');
+  expect(address.substring(0, 3)).toBe('iaa');
+
+  // Generate keystore
+  const keystore = Crypto.generateKeyStore(privKey, 'password', 'iaa');
+  expect(JSON.parse(JSON.stringify(keystore)).address).toBe(address);
+
+  // Get private key from keystore
+  const privKey1 = Crypto.getPrivateKeyFromKeyStore(keystore, 'password');
+  expect(privKey1).toBe(privKey);
+
+  // TODO
 });

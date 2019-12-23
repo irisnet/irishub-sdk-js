@@ -1,4 +1,5 @@
 export * from './constants';
+export { KeyDAO } from './sdk';
 
 import * as sdk from './sdk';
 import * as consts from './constants';

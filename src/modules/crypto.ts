@@ -1,12 +1,12 @@
-import csprng from 'secure-random';
+import * as csprng from 'secure-random';
 import * as bech32 from 'bech32';
-import cryp from 'crypto-browserify';
-import uuid from 'uuid';
-import is from 'is_js';
+import * as cryp from 'crypto-browserify';
+import * as uuid from 'uuid';
+import * as is from 'is_js';
 import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
 import { ec as EC } from 'elliptic';
-import ecc from 'tiny-secp256k1';
+import * as ecc from 'tiny-secp256k1';
 import { Utils } from '../utils';
 
 // secp256k1 privkey is 32 bytes
@@ -144,6 +144,7 @@ export class Crypto {
   /**
    * Gets an address from a private key.
    * @param privateKeyHex The private key hexstring
+   * @param prefix Bech32 prefix
    * @returns The address
    */
   static getAddressFromPrivateKey(
@@ -198,9 +199,14 @@ export class Crypto {
    * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
    * @param privateKeyHex The private key hexstring.
    * @param password The password.
+   * @param prefix Bech32 prefix
    * @returns The keystore object.
    */
-  static generateKeyStore(privateKeyHex: string, password: string): object {
+  static generateKeyStore(
+    privateKeyHex: string,
+    password: string,
+    prefix: string
+  ): object {
     const salt = cryp.randomBytes(32);
     const iv = cryp.randomBytes(16);
     const cipherAlg = 'aes-256-ctr';
@@ -229,16 +235,14 @@ export class Crypto {
       cipher.update(Buffer.from(privateKeyHex, 'hex')),
       cipher.final(),
     ]);
-    const bufferValue = Buffer.concat([
-      derivedKey.slice(16, 32),
-      Buffer.from(ciphertext.toString(), 'hex'),
-    ]);
+    const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
 
     return {
       version: 1,
       id: uuid.v4({
         random: cryp.randomBytes(16),
       }),
+      address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
       crypto: {
         ciphertext: ciphertext.toString('hex'),
         cipherparams: {
@@ -259,12 +263,17 @@ export class Crypto {
    * @param password The password.
    * @returns The private key
    */
-  static getPrivateKeyFromKeyStore(keystore: string | object, password: string): string {
+  static getPrivateKeyFromKeyStore(
+    keystore: string | object,
+    password: string
+  ): string {
     if (!is.string(password)) {
       throw new Error('No password given.');
     }
 
-    const json = is.object(keystore) ? keystore : JSON.parse(keystore.toString());
+    const json = is.object(keystore)
+      ? keystore
+      : JSON.parse(keystore.toString());
     const kdfparams = json.crypto.kdfparams;
 
     if (kdfparams.prf !== 'hmac-sha256') {
