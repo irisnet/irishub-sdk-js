@@ -16,6 +16,12 @@ export class Keys {
    * @returns Bech32 address and mnemonic
    */
   add(name: string, password: string): { address: string; mnemonic: string } {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
       throw new Error(`Key with name '${name}' exists`);
@@ -48,6 +54,15 @@ export class Keys {
    * @returns Bech32 address
    */
   recover(name: string, password: string, mnemonic: string): string {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
+    if (is.empty(mnemonic)) {
+      throw new Error(`Mnemonic of the key can not be empty`);
+    }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
       throw new Error(`Key with name '${name}' exists`);
@@ -80,6 +95,15 @@ export class Keys {
    * @returns Bech32 address
    */
   import(name: string, password: string, keystore: string | object): string {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
+    if (is.empty(keystore)) {
+      throw new Error(`Keystore can not be empty`);
+    }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
       throw new Error(`Key with name '${name}' exists`);
@@ -105,6 +129,12 @@ export class Keys {
    * @returns Keystore json
    */
   export(name: string, password: string): string {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
       throw new Error(`Key with name '${name}' not found`);
@@ -123,6 +153,12 @@ export class Keys {
    * @param password Password of the key
    */
   delete(name: string, password: string) {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
       throw new Error(`Key with name '${name}' not found`);
@@ -142,6 +178,9 @@ export class Keys {
    * @returns Bech32 address
    */
   show(name: string) {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
       throw new Error(`Key with name '${name}' not found`);
@@ -151,4 +190,6 @@ export class Keys {
       : JSON.parse(keystore.toString());
     return keystoreObj.address;
   }
+
+  // TODO: Ledger support
 }
