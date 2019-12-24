@@ -658,6 +658,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@irisnet/amino-js@git+https://github.com/zhangyelong/amino-js#extend":
+  version "0.4.4"
+  resolved "git+https://github.com/zhangyelong/amino-js#fb53306585e46c6410a6b17a21d934b1a376a0bd"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -817,25 +821,6 @@
   integrity sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==
   dependencies:
     defer-to-connect "^1.0.1"
-
-"@tendermint/amino-js@git+https://github.com/zhangyelong/amino-js#master":
-  version "0.6.2"
-  resolved "git+https://github.com/zhangyelong/amino-js#9d133acd18e41f56b9c2059a47b6c7f31acf92e5"
-  dependencies:
-    "@tendermint/belt" "0.2.1"
-    "@tendermint/types" "0.1.1"
-
-"@tendermint/belt@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@tendermint/belt/-/belt-0.2.1.tgz#f1f0df8f2c1847d175b5aa6968b3389de34f3f2b"
-  integrity sha512-Z3byTEpbSfrMaNx431pr8P4nrFshWz7WiFqxv/cTVgRENCVfndygOz0W15qC1pgqBhhnQPLEnmdP/GIyiS7JWg==
-  dependencies:
-    "@tendermint/types" "0.1.1"
-
-"@tendermint/types@0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@tendermint/types/-/types-0.1.1.tgz#7e50643a6e634d9a47aa746c50653811a83c72e2"
-  integrity sha512-jMEz5tJ3ncA8903N2DoPD6EJawSyORRSyWvQbmxyz8ONiugjOKvoesMzz/xIioe1Ekzf6YJnw/3RI+kT9qdNyg==
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"
