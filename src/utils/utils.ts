@@ -5,7 +5,7 @@ import * as RIPEMD160 from 'crypto-js/ripemd160';
 
 const hexRegex = /^([0-9A-Fa-f]{2})*$/;
 
-export class Utils {
+export default class Utils {
   /**
    * String to ArrayBuffer
    * @param str ASCII string
@@ -16,6 +16,22 @@ export class Utils {
       throw new Error('str2ab expects a string');
     }
     const result = new Uint8Array(str.length);
+    for (let i = 0, strLen = str.length; i < strLen; i++) {
+      result[i] = str.charCodeAt(i);
+    }
+    return result;
+  }
+
+  /**
+   * String to Byte Array
+   * @param str ASCII string
+   * @returns Uint8Array
+   */
+  static str2ba(str: string): number[] {
+    if (typeof str !== 'string') {
+      throw new Error('str2ba expects a string');
+    }
+    const result = [];
     for (let i = 0, strLen = str.length; i < strLen; i++) {
       result[i] = str.charCodeAt(i);
     }
@@ -47,6 +63,15 @@ export class Utils {
    */
   static str2hexstring(str: string): string {
     return Utils.ab2hexstring(Utils.str2ab(str));
+  }
+
+  /**
+   * Object to Hex String
+   * @param obj Json Object
+   * @returns HEX string
+   */
+  static obj2hexstring(obj: object): string {
+    return Utils.str2hexstring(JSON.stringify(obj));
   }
 
   /**

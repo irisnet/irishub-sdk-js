@@ -1,9 +1,10 @@
 import * as Amino from '@irisnet/amino-js';
 import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import Utils from '../utils';
+import Utils from '../utils/utils';
 import SdkError from '../errors';
 import * as is from 'is_js';
+import * as types from '../types';
 
 export default class RpcClient {
   instance: AxiosInstance;
@@ -35,19 +36,19 @@ export default class RpcClient {
    *
    * @param method Tendermint RPC method
    * @param params Request params
-   * @returns
+   * @returns {T}
    */
-  request(method: string, params: object = {}) {
-    const data = JSON.stringify({
+  request<T>(method: string, params: object = {}): Promise<T> {
+    const data = {
       jsonrpc: '2.0',
       id: 'jsonrpc-client',
       method: method,
       params: params,
-    });
+    };
 
     return this.instance
-      .request({
-        params: data,
+      .request<types.JSONRPCResponse<T>>({
+        data: data,
       })
       .then(response => {
         const res = response.data;
@@ -56,7 +57,7 @@ export default class RpcClient {
         if (res.error) {
           const err = new SdkError(res.error.message);
           err.code = res.error.code;
-          err.log = res.error.log;
+          err.log = res.error.data;
           throw err;
         }
 

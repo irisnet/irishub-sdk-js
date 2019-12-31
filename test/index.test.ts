@@ -12,7 +12,7 @@ test('Init Sdk', () => {
 
   const chainId = 'test';
   const fee = '0.3iris';
-  const gas = 50000;
+  const gas = '50000';
   const network = iris.Network.Testnet;
 
   sdk

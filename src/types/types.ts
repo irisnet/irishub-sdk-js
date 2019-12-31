@@ -7,9 +7,9 @@ export interface Msg {
 }
 
 /** @TODO document */
-export interface Tx {
+export interface Tx<T> {
   type: string;
-  value: TxValue;
+  value: T;
 }
 
 /** @TODO document */
@@ -19,4 +19,17 @@ export interface TxValue {}
 export interface Coin {
   denom: string;
   amount: string;
+}
+
+export interface JSONRPCResponse<T> {
+  jsonrpc: string;
+  id:      string;
+  error:   JsonRpcError;
+  result:  T;
+}
+
+export interface JsonRpcError {
+  code: number;
+  message: string;
+  data: string;
 }

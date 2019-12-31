@@ -1,5 +1,8 @@
-import * as consts from './constants';
+import * as consts from './types/constants';
 import * as modules from './modules';
+import RpcClient from './nets/rpc-client';
+import { AxiosRequestConfig } from 'axios';
+import * as types from './types';
 
 /**
  * IRISHub SDK
@@ -11,9 +14,24 @@ export class Sdk {
   config: SdkConfig;
 
   /**
+   * Auth module
+   */
+  auth: modules.Auth;
+
+  /**
+   * Bank module
+   */
+  bank: modules.Bank;
+
+  /**
    * Key management module
    */
   keys: modules.Keys;
+
+  /**
+   * Tx module
+   */
+  tx: modules.Tx;
 
   /**
    * IRISHub SDK Constructor
@@ -22,12 +40,24 @@ export class Sdk {
     node: string,
     network: consts.Network,
     chainId: string,
-    gas: number,
+    gas: string,
     fee: string,
-    keyDAO: KeyDAO
+    keyDAO: KeyDAO,
+    rpcConfig: AxiosRequestConfig
   ) {
-    this.config = new SdkConfig(node, network, chainId, gas, fee, keyDAO);
+    this.config = new SdkConfig(
+      node,
+      network,
+      chainId,
+      gas,
+      fee,
+      keyDAO,
+      rpcConfig
+    );
+    this.auth = new modules.Auth(this);
+    this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
+    this.tx = new modules.Tx(this);
   }
 
   /**
@@ -69,7 +99,7 @@ export class Sdk {
    * @param gas Default gas limit
    * @returns The SDK itself
    */
-  withGas(gas: number) {
+  withGas(gas: string) {
     this.config.gas = gas;
     return this;
   }
@@ -77,11 +107,25 @@ export class Sdk {
   /**
    * Set default fees
    *
-   * @param fee Default fees
+   * @param fee Default fee amount of iris-atto
    * @returns The SDK itself
    */
   withFee(fee: string) {
     this.config.fee = fee;
+    return this;
+  }
+
+  /**
+   * Set Axios config for tendermint rpc requests, refer to: https://github.com/axios/axios#request-config.
+   *
+   * Note the `baseURL` is set by `SdkConfig.node` and cannot be overwritten by this config
+   *
+   * @param rpcConfig Axios config for tendermint rpc requests
+   * @returns The SDK itself
+   */
+  withRpcConfig(rpcConfig: AxiosRequestConfig) {
+    rpcConfig.baseURL = this.config.node;
+    this.config.rpcClient = new RpcClient(rpcConfig);
     return this;
   }
 }
@@ -108,10 +152,10 @@ export class SdkConfig {
   /**
    * Default gas limit
    */
-  gas: number;
+  gas: string;
 
   /**
-   * Default fees
+   * Default fee amount of iris-atto
    */
   fee: string;
 
@@ -125,13 +169,19 @@ export class SdkConfig {
    */
   bech32Prefix: string;
 
+  /**
+   * Axios client for tendermint rpc requests
+   */
+  rpcClient: RpcClient;
+
   constructor(
     node: string,
     network: consts.Network,
     chainId: string,
-    gas: number,
+    gas: string,
     fee: string,
-    keyDAO: KeyDAO
+    keyDAO: KeyDAO,
+    rpcConfig: AxiosRequestConfig
   ) {
     this.node = node;
     this.network = network;
@@ -140,6 +190,8 @@ export class SdkConfig {
     this.fee = fee;
     this.keyDAO = keyDAO;
     this.bech32Prefix = network === consts.Network.Mainnet ? 'iaa' : 'faa';
+    rpcConfig.baseURL = this.node;
+    this.rpcClient = new RpcClient(rpcConfig);
   }
 }
 
@@ -153,7 +205,7 @@ export interface KeyDAO {
    * @param name Name of the key
    * @param keystore The keystore object
    */
-  write(name: string, keystore: object): void;
+  write(name: string, keystore: types.Keystore): void;
 
   /**
    * Get the keystore by name
@@ -161,19 +213,20 @@ export interface KeyDAO {
    * @param name Name of the key
    * @returns The keystore object
    */
-  read(name: string): object;
+  read(name: string): types.Keystore;
 
   /**
    * Delete keystore by name
+   * @param name Name of the key
    */
   delete(name: string): void;
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
-  write(name: string, keystore: object) {
+  write(name: string, keystore: types.Keystore) {
     throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
-  read(name: string): object {
+  read(name: string): types.Keystore {
     throw new Error('Method not implemented. Please implement KeyDAO first.');
   }
   delete(name: string) {

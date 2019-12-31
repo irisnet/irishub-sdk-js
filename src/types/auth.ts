@@ -22,3 +22,18 @@ export interface StdSignature {
   account_number: string;
   sequence: string;
 }
+
+export interface BaseTx {
+  from: string;
+  password: string;
+  gas?: string | undefined;
+  fee?: string | undefined;
+  memo?: string | undefined;
+  mode?: BroadcastMode | undefined;
+}
+
+export enum BroadcastMode {
+  Sync = 0,
+  Async,
+  Commit,
+}

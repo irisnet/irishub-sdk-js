@@ -8,8 +8,10 @@ export default class SdkError extends Error {
    * Initialize SdkError with Tendermint error msg
    * @param msg Tendermint error msg
    */
-  constructor(msg: string) {
+  constructor(msg: string, code: number = 0, log: string = '') {
     super(msg);
     this.name = 'SdkError';
+    this.code = code;
+    this.log = log;
   }
 }

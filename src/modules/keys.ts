@@ -1,6 +1,7 @@
 import { Sdk } from '../sdk';
-import { Crypto } from './crypto';
+import { Crypto } from '../utils/crypto';
 import * as is from 'is_js';
+import * as types from '../types';
 
 export class Keys {
   sdk: Sdk;
@@ -94,7 +95,11 @@ export class Keys {
    * @param  keystore Keystore json or object
    * @returns Bech32 address
    */
-  import(name: string, password: string, keystore: string | object): string {
+  import(
+    name: string,
+    password: string,
+    keystore: string | types.Keystore
+  ): string {
     if (is.empty(name)) {
       throw new Error(`Name of the key can not be empty`);
     }

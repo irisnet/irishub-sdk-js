@@ -1,6 +1,6 @@
-import { Crypto } from '../src/modules';
+import { Crypto } from '../src/utils/crypto';
 
-test('Crypto', () => {
+test('Crypto', async () => {
   // Generates mnemonic
   const mnemonic = Crypto.generateMnemonic();
   expect(mnemonic.split(' ').length).toBe(24);
@@ -24,4 +24,6 @@ test('Crypto', () => {
   expect(privKey1).toBe(privKey);
 
   // TODO
+
+
 });

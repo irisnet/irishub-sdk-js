@@ -7,7 +7,8 @@ import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
 import { ec as EC } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
-import { Utils } from '../utils';
+import Utils from './utils';
+import * as types from '../types';
 
 // secp256k1 privkey is 32 bytes
 const PRIVKEY_LEN = 32;
@@ -61,12 +62,34 @@ export class Crypto {
   /**
    * Encodes an address from input data bytes.
    * @param pubkey The public key to encode
-   * @param prefix The address prefix
+   * @param hrp The address prefix
    * @param type The output type (default: hex)
+   * @returns Bech32 address
    */
-  static encodeAddress(pubkey: string, prefix = 'iaa', type = 'hex') {
+  static encodeAddress(pubkey: string, hrp = 'iaa', type = 'hex') {
     const words = bech32.toWords(Buffer.from(pubkey, type));
-    return bech32.encode(prefix, words);
+    return bech32.encode(hrp, words);
+  }
+
+  /**
+   * ConvertAndEncode converts from a base64 encoded byte array to base32 encoded byte string and then to bech32
+   * @param hrp The address prefix
+   * @param data Base64 encoded byte array
+   * @returns Bech32 address
+   */
+  static convertAndEncode(hrp: string, data: number[]) {
+    const converted = Crypto.convertBits(data, 8, 5, true);
+    return bech32.encode(hrp, converted);
+  }
+
+  /**
+   * DecodeAndConvert decodes a bech32 encoded string and converts to base64 encoded bytes
+   * @param address Bech32 address
+   * @returns Base64 encoded bytes
+   */
+  static decodeAndConvert(address: string): number[] {
+    const decodeAddress = bech32.decode(address);
+    return Crypto.convertBits(decodeAddress.words, 5, 8, false);
   }
 
   /**
@@ -206,7 +229,7 @@ export class Crypto {
     privateKeyHex: string,
     password: string,
     prefix: string
-  ): object {
+  ): types.Keystore {
     const salt = cryp.randomBytes(32);
     const iv = cryp.randomBytes(16);
     const cipherAlg = 'aes-256-ctr';
@@ -362,5 +385,40 @@ export class Crypto {
       return child.privateKey.toString('hex');
     }
     return seed.toString('hex');
+  }
+
+  /**
+   * Copy from https://github.com/sipa/bech32/blob/master/ref/javascript/segwit_addr.js
+   */
+  private static convertBits(
+    data: number[],
+    frombits: number,
+    tobits: number,
+    pad: boolean
+  ): number[] {
+    let acc = 0;
+    let bits = 0;
+    let ret = [];
+    let maxv = (1 << tobits) - 1;
+    for (let p = 0; p < data.length; ++p) {
+      let value = data[p];
+      if (value < 0 || value >> frombits !== 0) {
+        return [];
+      }
+      acc = (acc << frombits) | value;
+      bits += frombits;
+      while (bits >= tobits) {
+        bits -= tobits;
+        ret.push((acc >> bits) & maxv);
+      }
+    }
+    if (pad) {
+      if (bits > 0) {
+        ret.push((acc << (tobits - bits)) & maxv);
+      }
+    } else if (bits >= frombits || (acc << (tobits - bits)) & maxv) {
+      return [];
+    }
+    return ret;
   }
 }

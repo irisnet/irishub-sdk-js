@@ -1,11 +1,12 @@
 import * as iris from '../src';
+import * as types from '../src/types';
 
 class TestKeyDAO implements iris.KeyDAO {
-  keyMap: { [key: string]: object } = {};
-  write(name: string, keystore: object) {
+  keyMap: { [key: string]: types.Keystore } = {};
+  write(name: string, keystore: types.Keystore) {
     this.keyMap[name] = keystore;
   }
-  read(name: string): object {
+  read(name: string): types.Keystore {
     return this.keyMap[name];
   }
   delete(name: string) {
@@ -16,11 +17,11 @@ class TestKeyDAO implements iris.KeyDAO {
 test('Keys', () => {
   const password = 'password';
   // Init SDK
-  const sdk = iris.newSdk('localhost:26657').withKeyDAO(new TestKeyDAO());
+  const sdk = iris.newSdk('localhost:26657', iris.Network.Testnet).withKeyDAO(new TestKeyDAO());
 
   // Create a new key
   const addedKey = sdk.keys.add('name1', password);
-  expect(addedKey.address.substring(0, 3)).toBe('iaa');
+  expect(addedKey.address.substring(0, 3)).toBe('faa');
   expect(addedKey.mnemonic.split(' ').length).toBe(24);
 
   // Recover a key
@@ -34,7 +35,7 @@ test('Keys', () => {
   // Export keystore of a key
   const keystore = sdk.keys.export('name1', password);
   const keystoreObj = JSON.parse(keystore.toString());
-
+console.log(keystore.toString());
   expect(keystoreObj.address).toBe(addedKey.address);
 
   // Import a keystore

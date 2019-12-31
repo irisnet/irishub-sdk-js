@@ -9,3 +9,4 @@ declare module 'uuid';
 declare module 'is_js';
 declare module 'elliptic';
 declare module 'tiny-secp256k1';
+declare var window: any;

@@ -1,8 +1,9 @@
 import { Sdk } from '../sdk';
-import Crypto from './crypto';
 import * as is from 'is_js';
 import * as types from '../types';
 import SdkError from '../errors';
+import { Crypto } from '../utils/crypto';
+import * as Amino from '@irisnet/amino-js';
 
 export class Tx {
   sdk: Sdk;
@@ -15,7 +16,7 @@ export class Tx {
    * @param signedTx The tx object with signature
    * @returns The result object of broadcasting
    */
-  broadcastTxAsync(signedTx: object): types.ResultBroadcastTx {
+  broadcastTxAsync(signedTx: object): Promise<types.ResultBroadcastTxAsync> {
     return this.broadcastTx(signedTx, 'broadcast_tx_async');
   }
 
@@ -24,7 +25,7 @@ export class Tx {
    * @param signedTx The tx object with signature
    * @returns The result object of broadcasting
    */
-  broadcastTxSync(signedTx: object): types.ResultBroadcastTx {
+  broadcastTxSync(signedTx: object): Promise<types.ResultBroadcastTxAsync> {
     return this.broadcastTx(signedTx, 'broadcast_tx_sync');
   }
 
@@ -33,29 +34,28 @@ export class Tx {
    * @param signedTx The tx object with signature
    * @returns The result object of broadcasting
    */
-  broadcastTxCommit(signedTx: object): types.ResultBroadcastTxCommit {
-    const result = this.sdk.config.rpcClient.request(
-      'broadcast_tx_commit',
-      signedTx
-    );
+  broadcastTxCommit(signedTx: object): Promise<types.ResultBroadcastTx> {
+    return this.sdk.config.rpcClient
+      .request<types.ResultBroadcastTx>('broadcast_tx_commit', signedTx)
+      .then(response => {
+        // Check tx error
+        if (response.check_tx && response.check_tx.code > 0) {
+          const err = new SdkError('Check tx error');
+          err.code = response.check_tx.code;
+          err.log = response.check_tx.log;
+          throw err;
+        }
 
-    // Check tx error
-    if (result.check_tx.code > 0) {
-      const err = new SdkError('Check tx error');
-      err.code = result.check_tx.code;
-      err.log = result.check_tx.log;
-      throw err;
-    }
+        // Deliver tx error
+        if (response.deliver_tx && response.deliver_tx.code > 0) {
+          const err = new SdkError('Deliver tx error');
+          err.code = response.deliver_tx.code;
+          err.log = response.deliver_tx.log;
+          throw err;
+        }
 
-    // Deliver tx error
-    if (result.deliver_tx.code > 0) {
-      const err = new SdkError('Deliver tx error');
-      err.code = result.deliver_tx.code;
-      err.log = result.deliver_tx.log;
-      throw err;
-    }
-
-    return result;
+        return response;
+      });
   }
 
   /**
@@ -67,21 +67,52 @@ export class Tx {
   private broadcastTx(
     signedTx: object,
     method: string
-  ): types.ResultBroadcastTx {
+  ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
     if (is.not.inArray(method, ['broadcast_tx_sync', 'broadcast_tx_async'])) {
       throw new Error(`Unsupported broadcast method: ${method}`);
     }
 
-    const result = this.sdk.config.rpcClient.request(method, signedTx);
+    return this.sdk.config.rpcClient
+      .request<types.ResultBroadcastTxAsync>(method, signedTx)
+      .then(response => {
+        console.log(response);
+        if (response.code && response.code > 0) {
+          const err = new SdkError(response.data);
+          err.code = response.code;
+          err.log = response.log;
+          throw err;
+        }
 
-    if (result.code > 0) {
-      const err = new SdkError(result.data);
-      err.code = result.code;
-      err.log = result.log;
-      throw err;
+        return response;
+      });
+  }
+
+  /**
+   * Single sign a transaction
+   *
+   * @param unsignedTx StdTx with no signatures
+   * @param name Name of the key to sign the tx
+   * @param password Password of the key
+   * @returns The signed tx
+   */
+  sign(unsignedTx: types.Tx<types.StdTx>, name: string, password: string): void {
+    if (is.empty(name)) {
+      throw new Error(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new Error(`Password of the key can not be empty`);
+    }
+    const keystore = this.sdk.config.keyDAO.read(name);
+    if (!keystore) {
+      throw new Error(`Key with name '${name}' not found`);
     }
 
-    return result;
+    const addr = keystore.address;
+    const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
+
+    const txBytes = Amino.marshalTx(unsignedTx, true);
+    // const signature = Crypto.generateSignature(txBytes.toString(), privKey);
+    // unsignedTx.value.signatures[0] = signature;
   }
 }
