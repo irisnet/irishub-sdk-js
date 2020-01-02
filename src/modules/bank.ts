@@ -29,7 +29,6 @@ export class Bank {
     return this.sdk.config.rpcClient
       .request<types.AbciQueryResponse>('abci_query', params)
       .then(response => {
-        console.log(response);
         if (response.response) {
           if (response.response.value) {
             const value = Buffer.from(
@@ -49,7 +48,7 @@ export class Bank {
       });
   }
 
-  send(
+  async send(
     to: string,
     amount: types.Coin[],
     baseTx: types.BaseTx
@@ -80,18 +79,22 @@ export class Bank {
     const unsignedTx = this.sdk.auth.newStdTx(msgs, baseTx);
 
     // Sign Tx
-    const signedTx = this.sdk.tx.sign(unsignedTx, baseTx.from, baseTx.password);
+    const signedTx = await this.sdk.tx.sign(
+      unsignedTx,
+      baseTx.from,
+      baseTx.password
+    );
 
     // Broadcast Tx
     switch (baseTx.mode) {
       case types.BroadcastMode.Commit:
-        return this.sdk.tx.broadcastTxCommit(unsignedTx);
+        return this.sdk.tx.broadcastTxCommit(signedTx);
       case types.BroadcastMode.Sync:
-        return this.sdk.tx.broadcastTxSync(unsignedTx).then(response => {
+        return this.sdk.tx.broadcastTxSync(signedTx).then(response => {
           return types.newResultBroadcastTx(response.hash);
         });
       default:
-        return this.sdk.tx.broadcastTxAsync(unsignedTx).then(response => {
+        return this.sdk.tx.broadcastTxAsync(signedTx).then(response => {
           return types.newResultBroadcastTx(response.hash);
         });
     }

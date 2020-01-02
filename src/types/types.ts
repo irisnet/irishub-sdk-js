@@ -7,6 +7,9 @@ export interface Msg {
 }
 
 /** @TODO document */
+export interface MsgValue {}
+
+/** @TODO document */
 export interface Tx<T> {
   type: string;
   value: T;

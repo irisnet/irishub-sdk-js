@@ -2,6 +2,7 @@ import * as hexEncoding from 'crypto-js/enc-hex';
 import * as SHA3 from 'crypto-js/sha3';
 import * as SHA256 from 'crypto-js/sha256';
 import * as RIPEMD160 from 'crypto-js/ripemd160';
+import * as is from 'is_js';
 
 const hexRegex = /^([0-9A-Fa-f]{2})*$/;
 
@@ -234,5 +235,17 @@ export default class Utils {
     }
     const hexEncoded = hexEncoding.parse(hex);
     return SHA3(hexEncoded).toString();
+  }
+
+  static sortObject(obj: any): any {
+    if (obj === null) return null;
+    if (is.not.object(obj)) return obj;
+    if (is.array(obj)) return obj.map(Utils.sortObject);
+    const sortedKeys = Object.keys(obj).sort();
+    const result: { [k: string]: any } = {};
+    sortedKeys.forEach(key => {
+      result[key] = Utils.sortObject(obj[key]);
+    });
+    return result;
   }
 }

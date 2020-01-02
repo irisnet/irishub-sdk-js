@@ -24,6 +24,4 @@ test('Crypto', async () => {
   expect(privKey1).toBe(privKey);
 
   // TODO
-
-
 });

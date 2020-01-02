@@ -189,7 +189,7 @@ export class Crypto {
   static generateSignature(
     signBytesHex: string,
     privateKey: string | Buffer
-  ): string {
+  ): Buffer {
     const msgHash = Utils.sha256(signBytesHex);
     const msgHashHex = Buffer.from(msgHash, 'hex');
     const signature = ecc.sign(
@@ -232,7 +232,7 @@ export class Crypto {
   ): types.Keystore {
     const salt = cryp.randomBytes(32);
     const iv = cryp.randomBytes(16);
-    const cipherAlg = 'aes-256-ctr';
+    const cipherAlg = 'aes-128-ctr';
 
     const kdf = 'pbkdf2';
     const kdfparams = {
@@ -249,7 +249,7 @@ export class Crypto {
       kdfparams.dklen,
       'sha256'
     );
-    const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 32), iv);
+    const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
     if (!cipher) {
       throw new Error('Unsupported cipher');
     }
@@ -328,7 +328,7 @@ export class Crypto {
 
     const decipher = cryp.createDecipheriv(
       json.crypto.cipher,
-      derivedKey.slice(0, 32),
+      derivedKey.slice(0, 16),
       Buffer.from(json.crypto.cipherparams.iv, 'hex')
     );
     const privateKey = Buffer.concat([

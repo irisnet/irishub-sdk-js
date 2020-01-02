@@ -18,7 +18,7 @@ test('Bank', async () => {
   const name = 'name';
   const password = 'password';
   // Init SDK
-  const sdk = iris.newSdk('http://localhost:26657', iris.Network.Testnet).withKeyDAO(new TestKeyDAO());
+  const sdk = iris.newSdk('http://localhost:26657', iris.Network.Testnet, 'test').withKeyDAO(new TestKeyDAO()).withRpcConfig({ timeout: 10000 });
 
   const key = sdk.keys.recover(
     name,
@@ -27,25 +27,21 @@ test('Bank', async () => {
   );
 
   const amount: types.Coin[] = [
-    { denom: 'iris-atto', amount: '10000000000000000000' },
+    { denom: 'iris-atto', amount: '1000000000000000000' },
   ];
 
   const baseTx: types.BaseTx = {
     from: name,
     password: password,
+    mode: 2
   };
-//   await sdk.bank
-//     .send('faa169x02pq8km0rvum8tgqseexaq7dk5mx57cpyc4', amount, baseTx)
-//     .then(res => {
-//       console.log(res);
-//     })
-//     .catch(error => {
-//       console.log(error);
-//     });
+  await sdk.bank
+    .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
+    .then(res => {
+      console.log(JSON.stringify(res));
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
-  await sdk.bank.getAccount('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7').then(res => {
-      console.log(res);
-  }).catch(err => {
-      console.log(err);
-  });
 });

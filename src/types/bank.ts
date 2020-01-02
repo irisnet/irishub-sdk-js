@@ -1,7 +1,7 @@
-import { Coin } from './types';
+import { Coin, MsgValue } from './types';
 
 /** @TODO document */
-export interface MsgSend {
+export interface MsgSend extends MsgValue {
   inputs: Input[];
   outputs: Output[];
 }
