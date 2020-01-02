@@ -3,6 +3,7 @@ import * as modules from './modules';
 import RpcClient from './nets/rpc-client';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
+import SdkError from './errors';
 
 /**
  * IRISHub SDK
@@ -224,12 +225,18 @@ export interface KeyDAO {
 
 export class DefaultKeyDAOImpl implements KeyDAO {
   write(name: string, keystore: types.Keystore) {
-    throw new Error('Method not implemented. Please implement KeyDAO first.');
+    throw new SdkError(
+      'Method not implemented. Please implement KeyDAO first.'
+    );
   }
   read(name: string): types.Keystore {
-    throw new Error('Method not implemented. Please implement KeyDAO first.');
+    throw new SdkError(
+      'Method not implemented. Please implement KeyDAO first.'
+    );
   }
   delete(name: string) {
-    throw new Error('Method not implemented. Please implement KeyDAO first.');
+    throw new SdkError(
+      'Method not implemented. Please implement KeyDAO first.'
+    );
   }
 }

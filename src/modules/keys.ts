@@ -1,5 +1,6 @@
 import { Sdk } from '../sdk';
 import { Crypto } from '../utils/crypto';
+import SdkError from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
@@ -18,14 +19,14 @@ export class Keys {
    */
   add(name: string, password: string): { address: string; mnemonic: string } {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
-      throw new Error(`Key with name '${name}' exists`);
+      throw new SdkError(`Key with name '${name}' exists`);
     }
     const mnemonic = Crypto.generateMnemonic();
     const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
@@ -56,17 +57,17 @@ export class Keys {
    */
   recover(name: string, password: string, mnemonic: string): string {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     if (is.empty(mnemonic)) {
-      throw new Error(`Mnemonic of the key can not be empty`);
+      throw new SdkError(`Mnemonic of the key can not be empty`);
     }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
-      throw new Error(`Key with name '${name}' exists`);
+      throw new SdkError(`Key with name '${name}' exists`);
     }
 
     const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
@@ -101,17 +102,17 @@ export class Keys {
     keystore: string | types.Keystore
   ): string {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     if (is.empty(keystore)) {
-      throw new Error(`Keystore can not be empty`);
+      throw new SdkError(`Keystore can not be empty`);
     }
     const exists = this.sdk.config.keyDAO.read(name);
     if (exists) {
-      throw new Error(`Key with name '${name}' exists`);
+      throw new SdkError(`Key with name '${name}' exists`);
     }
 
     // Check keystore password
@@ -135,14 +136,14 @@ export class Keys {
    */
   export(name: string, password: string): string {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
-      throw new Error(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`);
     }
 
     // Check keystore password
@@ -159,14 +160,14 @@ export class Keys {
    */
   delete(name: string, password: string) {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
-      throw new Error(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`);
     }
 
     // Check keystore password
@@ -184,11 +185,11 @@ export class Keys {
    */
   show(name: string) {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
-      throw new Error(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`);
     }
     const keystoreObj = is.object(keystore)
       ? keystore

@@ -9,6 +9,7 @@ import { ec as EC } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import Utils from './utils';
 import * as types from '../types';
+import SdkError from '../errors';
 
 // secp256k1 privkey is 32 bytes
 const PRIVKEY_LEN = 32;
@@ -127,7 +128,7 @@ export class Crypto {
    */
   static getPublicKeyFromPrivateKey(privateKeyHex: string): string {
     if (!privateKeyHex || privateKeyHex.length !== PRIVKEY_LEN * 2) {
-      throw new Error('invalid privateKey');
+      throw new SdkError('invalid privateKey');
     }
     const curve = new EC(CURVE);
     const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
@@ -212,7 +213,7 @@ export class Crypto {
     publicKeyHex: string
   ): string {
     const publicKey = Buffer.from(publicKeyHex, 'hex');
-    if (!ecc.isPoint(publicKey)) throw new Error('Invalid public key provided');
+    if (!ecc.isPoint(publicKey)) throw new SdkError('Invalid public key provided');
     const msgHash = Utils.sha256(signBytesHex);
     const msgHashHex = Buffer.from(msgHash, 'hex');
     return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
@@ -251,7 +252,7 @@ export class Crypto {
     );
     const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
     if (!cipher) {
-      throw new Error('Unsupported cipher');
+      throw new SdkError('Unsupported cipher');
     }
 
     const ciphertext = Buffer.concat([
@@ -291,7 +292,7 @@ export class Crypto {
     password: string
   ): string {
     if (!is.string(password)) {
-      throw new Error('No password given.');
+      throw new SdkError('No password given.');
     }
 
     const json = is.object(keystore)
@@ -300,7 +301,7 @@ export class Crypto {
     const kdfparams = json.crypto.kdfparams;
 
     if (kdfparams.prf !== 'hmac-sha256') {
-      throw new Error('Unsupported parameters to PBKDF2');
+      throw new SdkError('Unsupported parameters to PBKDF2');
     }
 
     const derivedKey = cryp.pbkdf2Sync(
@@ -320,7 +321,7 @@ export class Crypto {
       // the sha256 mac was not compatible with ethereum keystores, so it was changed to sha3 for mainnet.
       const macLegacy = Utils.sha256(bufferValue.toString('hex'));
       if (macLegacy !== json.crypto.mac) {
-        throw new Error(
+        throw new SdkError(
           'Keystore mac check failed (sha3 & sha256) wrong password?'
         );
       }
@@ -370,7 +371,7 @@ export class Crypto {
     password = ''
   ): string {
     if (!bip39.validateMnemonic(mnemonic)) {
-      throw new Error('wrong mnemonic format');
+      throw new SdkError('wrong mnemonic format');
     }
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     if (derive) {
@@ -380,7 +381,7 @@ export class Crypto {
         typeof child === 'undefined' ||
         typeof child.privateKey === 'undefined'
       ) {
-        throw new Error('error getting private key from mnemonic');
+        throw new SdkError('error getting private key from mnemonic');
       }
       return child.privateKey.toString('hex');
     }

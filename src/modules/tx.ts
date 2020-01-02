@@ -84,7 +84,7 @@ export class Tx {
   ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
     if (is.not.inArray(method, ['broadcast_tx_sync', 'broadcast_tx_async'])) {
-      throw new Error(`Unsupported broadcast method: ${method}`);
+      throw new SdkError(`Unsupported broadcast method: ${method}`);
     }
 
     const txBytes = Amino.marshalTx(signedTx);
@@ -115,21 +115,21 @@ export class Tx {
     password: string
   ): Promise<types.Tx<types.StdTx>> {
     if (is.empty(name)) {
-      throw new Error(`Name of the key can not be empty`);
+      throw new SdkError(`Name of the key can not be empty`);
     }
     if (is.empty(password)) {
-      throw new Error(`Password of the key can not be empty`);
+      throw new SdkError(`Password of the key can not be empty`);
     }
     if (
       is.undefined(unsignedTx) ||
       is.undefined(unsignedTx.value) ||
       is.undefined(unsignedTx.value.msg)
     ) {
-      throw new Error(`Msgs can not be empty`);
+      throw new SdkError(`Msgs can not be empty`);
     }
     const keystore = this.sdk.config.keyDAO.read(name);
     if (!keystore) {
-      throw new Error(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`);
     }
 
     // Build msg to sign

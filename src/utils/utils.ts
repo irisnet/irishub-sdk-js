@@ -3,6 +3,7 @@ import * as SHA3 from 'crypto-js/sha3';
 import * as SHA256 from 'crypto-js/sha256';
 import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
+import SdkError from '../errors';
 
 const hexRegex = /^([0-9A-Fa-f]{2})*$/;
 
@@ -14,7 +15,7 @@ export default class Utils {
    */
   static str2ab(str: string): Uint8Array {
     if (typeof str !== 'string') {
-      throw new Error('str2ab expects a string');
+      throw new SdkError('str2ab expects a string');
     }
     const result = new Uint8Array(str.length);
     for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -30,7 +31,7 @@ export default class Utils {
    */
   static str2ba(str: string): number[] {
     if (typeof str !== 'string') {
-      throw new Error('str2ba expects a string');
+      throw new SdkError('str2ba expects a string');
     }
     const result = [];
     for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -46,7 +47,7 @@ export default class Utils {
    */
   static ab2hexstring(arr: Uint8Array): string {
     if (typeof arr !== 'object') {
-      throw new Error('ab2hexstring expects an array');
+      throw new SdkError('ab2hexstring expects an array');
     }
     let result = '';
     for (let i = 0; i < arr.length; i++) {
@@ -82,7 +83,7 @@ export default class Utils {
    */
   static int2hex(num: number) {
     if (typeof num !== 'number') {
-      throw new Error('int2hex expects a number');
+      throw new SdkError('int2hex expects a number');
     }
     const h = num.toString(16);
     return h.length % 2 ? '0' + h : h;
@@ -96,9 +97,9 @@ export default class Utils {
    * @returns HEX string
    */
   static num2hexstring(num: number, size = 1, littleEndian = false) {
-    if (typeof num !== 'number') throw new Error('num must be numeric');
+    if (typeof num !== 'number') throw new SdkError('num must be numeric');
     if (num < 0) throw new RangeError('num is unsigned (>= 0)');
-    if (size % 1 !== 0) throw new Error('size must be a whole integer');
+    if (size % 1 !== 0) throw new SdkError('size must be a whole integer');
     if (!Number.isSafeInteger(num)) {
       throw new RangeError(`num (${num}) must be a safe integer`);
     }
@@ -139,7 +140,7 @@ export default class Utils {
    */
   static reverseArray(arr: Uint8Array): Uint8Array {
     if (typeof arr !== 'object' || !arr.length) {
-      throw new Error('reverseArray expects an array');
+      throw new SdkError('reverseArray expects an array');
     }
     const result = new Uint8Array(arr.length);
     for (let i = 0; i < arr.length; i++) {
@@ -188,7 +189,7 @@ export default class Utils {
    */
   static ensureHex(str: string) {
     if (!Utils.isHex(str)) {
-      throw new Error(`Expected a hexstring but got ${str}`);
+      throw new SdkError(`Expected a hexstring but got ${str}`);
     }
   }
 
@@ -199,10 +200,10 @@ export default class Utils {
    */
   static sha256ripemd160(hex: string): string {
     if (typeof hex !== 'string') {
-      throw new Error('sha256ripemd160 expects a string');
+      throw new SdkError('sha256ripemd160 expects a string');
     }
     if (hex.length % 2 !== 0) {
-      throw new Error(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`);
     }
     const hexEncoded = hexEncoding.parse(hex);
     const programSha256 = SHA256(hexEncoded);
@@ -215,9 +216,9 @@ export default class Utils {
    * @returns Hash output
    */
   static sha256(hex: string): string {
-    if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');
+    if (typeof hex !== 'string') throw new SdkError('sha256 expects a hex string');
     if (hex.length % 2 !== 0) {
-      throw new Error(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`);
     }
     const hexEncoded = hexEncoding.parse(hex);
     return SHA256(hexEncoded).toString();
@@ -229,9 +230,9 @@ export default class Utils {
    * @returns Hash output
    */
   static sha3(hex: string): string {
-    if (typeof hex !== 'string') throw new Error('sha3 expects a hex string');
+    if (typeof hex !== 'string') throw new SdkError('sha3 expects a hex string');
     if (hex.length % 2 !== 0) {
-      throw new Error(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`);
     }
     const hexEncoded = hexEncoding.parse(hex);
     return SHA3(hexEncoded).toString();
