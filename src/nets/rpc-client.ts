@@ -17,10 +17,10 @@ export default class RpcClient {
    */
   constructor(config: AxiosRequestConfig) {
     if (is.empty(config)) {
-      throw new Error('RpcClient Config not initialized');
+      throw new SdkError('RpcClient Config not initialized');
     }
     if (is.empty(config.baseURL)) {
-      throw new Error('baseURL of RpcClient cannot be empty');
+      throw new SdkError('baseURL of RpcClient cannot be empty');
     }
     if (is.empty(config.timeout)) {
       config.timeout = 2000; // Set default timeout
@@ -55,10 +55,7 @@ export default class RpcClient {
 
         // Internal error
         if (res.error) {
-          const err = new SdkError(res.error.message);
-          err.code = res.error.code;
-          err.log = res.error.data;
-          throw err;
+          throw new SdkError(res.error.message, res.error.code, res.error.data);
         }
 
         return res.result;

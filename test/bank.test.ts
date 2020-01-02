@@ -17,15 +17,18 @@ class TestKeyDAO implements iris.KeyDAO {
 test('Bank', async () => {
   const name = 'name';
   const password = 'password';
+  
   // Init SDK
   const sdk = iris.newSdk('http://localhost:26657', iris.Network.Testnet, 'test').withKeyDAO(new TestKeyDAO()).withRpcConfig({ timeout: 10000 });
 
+  // Add a key
   const key = sdk.keys.recover(
     name,
     password,
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
+  // Send coins
   const amount: types.Coin[] = [
     { denom: 'iris-atto', amount: '1000000000000000000' },
   ];
