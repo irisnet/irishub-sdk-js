@@ -17,6 +17,11 @@ export class Bank {
     // TODO
   }
 
+  /**
+   * Get account info from blockchain
+   * @param address Bech32 address
+   * @returns { Promise<AminoTypes.BaseAccount> }
+   */
   getAccount(address: string): Promise<AminoTypes.BaseAccount> {
     // Build account query params
     const params: types.AbciQueryRequest = {
@@ -48,6 +53,13 @@ export class Bank {
       });
   }
 
+  /**
+   * Send coins
+   * @param to Recipient bech32 address
+   * @param amount Coins to be sent
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.ResultBroadcastTx> }
+   */
   async send(
     to: string,
     amount: types.Coin[],

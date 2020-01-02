@@ -33,8 +33,9 @@ test('Bank', async () => {
   const baseTx: types.BaseTx = {
     from: name,
     password: password,
-    mode: 2
+    mode: types.BroadcastMode.Commit
   };
+
   await sdk.bank
     .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
     .then(res => {

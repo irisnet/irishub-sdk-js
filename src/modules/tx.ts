@@ -107,7 +107,7 @@ export class Tx {
    * @param unsignedTx StdTx with no signatures
    * @param name Name of the key to sign the tx
    * @param password Password of the key
-   * @returns The signed tx
+   * @returns { Promise<types.Tx<types.StdTx>> } The signed tx
    */
   async sign(
     unsignedTx: types.Tx<types.StdTx>,
