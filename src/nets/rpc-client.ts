@@ -10,7 +10,7 @@ export default class RpcClient {
   instance: AxiosInstance;
 
   /**
-   *
+   * Initialize Tendermint JSON RPC Client
    * @param url Rpc address of irishub node
    * @param config The other configurations, refer to { AxiosRequestConfig }
    * @returns { RpcClient }
@@ -32,7 +32,7 @@ export default class RpcClient {
   }
 
   /**
-   * Post Tendermint RPC request
+   * Post Tendermint JSON RPC Request
    *
    * @param method Tendermint RPC method
    * @param params Request params

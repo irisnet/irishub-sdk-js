@@ -53,9 +53,19 @@ export class Keys {
    * @param name Name of the key
    * @param password Password for encrypting the keystore
    * @param mnemonic Mnemonic of the key
+   * @param derive Derive a private key using the default HD path (default: true)
+   * @param index The bip44 address index (default: 0)
+   * @param saltPassword A passphrase for generating the salt, according to bip39
    * @returns Bech32 address
    */
-  recover(name: string, password: string, mnemonic: string): string {
+  recover(
+    name: string,
+    password: string,
+    mnemonic: string,
+    derive = true,
+    index = 0,
+    saltPassword = ''
+  ): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -70,7 +80,12 @@ export class Keys {
       throw new SdkError(`Key with name '${name}' exists`);
     }
 
-    const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
+    const privKey = Crypto.getPrivateKeyFromMnemonic(
+      mnemonic,
+      derive,
+      index,
+      saltPassword
+    );
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,

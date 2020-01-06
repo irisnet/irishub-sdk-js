@@ -18,7 +18,7 @@ const DECODED_ADDRESS_LEN = 20;
 const CURVE = 'secp256k1';
 
 //hdpath
-const HDPATH = "44'/118'/0'/0/0";
+const HDPATH = "44'/118'/0'/0/";
 
 const ec = new EC(CURVE);
 
