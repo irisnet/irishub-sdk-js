@@ -2,11 +2,12 @@ import * as iris from '../src';
 import * as types from '../src/types';
 
 class TestKeyDAO implements iris.KeyDAO {
-  keyMap: { [key: string]: types.Keystore } = {};
-  write(name: string, keystore: types.Keystore) {
+  keyMap: { [key: string]: types.Keystore | types.Key } = {};
+  write(name: string, keystore: types.Keystore | types.Key) {
+    console.log(keystore);
     this.keyMap[name] = keystore;
   }
-  read(name: string): types.Keystore {
+  read(name: string): types.Keystore | types.Key {
     return this.keyMap[name];
   }
   delete(name: string) {
@@ -17,7 +18,9 @@ class TestKeyDAO implements iris.KeyDAO {
 test('Keys', () => {
   const password = 'password';
   // Init SDK
-  const sdk = iris.newSdk('localhost:26657', iris.Network.Testnet).withKeyDAO(new TestKeyDAO());
+  const sdk = iris
+    .newSdk({ node: 'localhost:26657', network: iris.Network.Testnet, keyStoreType: types.StoreType.Key})
+    .withKeyDAO(new TestKeyDAO());
 
   // Create a new key
   const addedKey = sdk.keys.add('name1', password);
@@ -33,9 +36,8 @@ test('Keys', () => {
   expect(recoveredKeyAddr).toBe(addedKey.address);
 
   // Export keystore of a key
-  const keystore = sdk.keys.export('name1', password);
+  const keystore = sdk.keys.export('name1', password, password);
   const keystoreObj = JSON.parse(keystore.toString());
-console.log(keystore.toString());
   expect(keystoreObj.address).toBe(addedKey.address);
 
   // Import a keystore

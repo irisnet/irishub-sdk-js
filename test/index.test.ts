@@ -3,7 +3,7 @@ import * as iris from '../src';
 test('Init Sdk', () => {
   const node = 'localhost:26657';
 
-  const sdk = iris.newSdk(node);
+  const sdk = iris.newSdk({ node: node });
   expect(sdk.config.chainId).toBe('irishub');
   expect(sdk.config.fee).toBe('0.6iris');
   expect(sdk.config.gas).toBe(100000);

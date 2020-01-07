@@ -31,7 +31,7 @@ export class Bank {
       }),
     };
 
-    return this.sdk.config.rpcClient
+    return this.sdk.rpcClient
       .request<types.AbciQueryResponse>('abci_query', params)
       .then(response => {
         if (response.response) {

@@ -213,7 +213,8 @@ export class Crypto {
     publicKeyHex: string
   ): string {
     const publicKey = Buffer.from(publicKeyHex, 'hex');
-    if (!ecc.isPoint(publicKey)) throw new SdkError('Invalid public key provided');
+    if (!ecc.isPoint(publicKey))
+      throw new SdkError('Invalid public key provided');
     const msgHash = Utils.sha256(signBytesHex);
     const msgHashHex = Buffer.from(msgHash, 'hex');
     return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
@@ -224,12 +225,14 @@ export class Crypto {
    * @param privateKeyHex The private key hexstring.
    * @param password The password.
    * @param prefix Bech32 prefix
+   * @param iterations Number of iterations. Defaults to 262144
    * @returns The keystore object.
    */
   static generateKeyStore(
     privateKeyHex: string,
     password: string,
-    prefix: string
+    prefix: string,
+    iterations: number = 262144
   ): types.Keystore {
     const salt = cryp.randomBytes(32);
     const iv = cryp.randomBytes(16);
@@ -239,7 +242,7 @@ export class Crypto {
     const kdfparams = {
       dklen: 32,
       salt: salt.toString('hex'),
-      c: 262144,
+      c: iterations,
       prf: 'hmac-sha256',
     };
 

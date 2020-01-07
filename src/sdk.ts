@@ -12,7 +12,12 @@ export class Sdk {
   /**
    * IRISHub SDK Config
    */
-  config: SdkConfig;
+  config: DefaultSdkConfig;
+
+  /**
+   * Axios client for tendermint rpc requests
+   */
+  rpcClient: RpcClient;
 
   /**
    * Auth module
@@ -37,24 +42,15 @@ export class Sdk {
   /**
    * IRISHub SDK Constructor
    */
-  constructor(
-    node: string,
-    network: consts.Network,
-    chainId: string,
-    gas: string,
-    fee: string,
-    keyDAO: KeyDAO,
-    rpcConfig: AxiosRequestConfig
-  ) {
-    this.config = new SdkConfig(
-      node,
-      network,
-      chainId,
-      gas,
-      fee,
-      keyDAO,
-      rpcConfig
-    );
+  constructor(config: DefaultSdkConfig) {
+    console.log(JSON.stringify(config));
+    this.config = config;
+    this.config.bech32Prefix =
+      config.network === consts.Network.Mainnet ? 'iaa' : 'faa';
+    this.config.rpcConfig.baseURL = this.config.node;
+    this.rpcClient = new RpcClient(this.config.rpcConfig);
+
+    // Modules
     this.auth = new modules.Auth(this);
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
@@ -126,7 +122,8 @@ export class Sdk {
    */
   withRpcConfig(rpcConfig: AxiosRequestConfig) {
     rpcConfig.baseURL = this.config.node;
-    this.config.rpcClient = new RpcClient(rpcConfig);
+    this.config.rpcConfig = rpcConfig;
+    this.rpcClient = new RpcClient(this.config.rpcConfig);
     return this;
   }
 }
@@ -134,7 +131,7 @@ export class Sdk {
 /**
  * IRISHub SDK Config
  */
-export class SdkConfig {
+export interface SdkConfig {
   /**
    * IRISHub node rpc address
    */
@@ -143,56 +140,68 @@ export class SdkConfig {
   /**
    * IRISHub network type, mainnet / testnet
    */
-  network: consts.Network;
+  network?: consts.Network;
 
   /**
    * IRISHub chain-id
    */
-  chainId: string;
+  chainId?: string;
 
   /**
    * Default gas limit
    */
-  gas: string;
+  gas?: string;
 
   /**
    * Default fee amount of iris-atto
    */
-  fee: string;
+  fee?: string;
 
   /**
    * Key DAO Implemention
    */
+  keyDAO?: KeyDAO;
+
+  /**
+   * Bech32 prefix of the address, will be overwritten by network type
+   */
+  bech32Prefix?: string;
+
+  /**
+   * Axios request config for tendermint rpc requests
+   */
+  rpcConfig?: AxiosRequestConfig;
+
+  /**
+   * Save the key as a keystore or private key
+   */
+  keyStoreType?: types.StoreType;
+}
+
+/**
+ * Default IRISHub SDK Config
+ */
+export class DefaultSdkConfig implements SdkConfig {
+  node: string;
+  network: consts.Network;
+  chainId: string;
+  gas: string;
+  fee: string;
   keyDAO: KeyDAO;
-
-  /**
-   * Bech32 prefix of the address
-   */
   bech32Prefix: string;
+  rpcConfig: AxiosRequestConfig;
+  keyStoreType: types.StoreType;
 
-  /**
-   * Axios client for tendermint rpc requests
-   */
-  rpcClient: RpcClient;
-
-  constructor(
-    node: string,
-    network: consts.Network,
-    chainId: string,
-    gas: string,
-    fee: string,
-    keyDAO: KeyDAO,
-    rpcConfig: AxiosRequestConfig
-  ) {
-    this.node = node;
-    this.network = network;
-    this.chainId = chainId;
-    this.gas = gas;
-    this.fee = fee;
-    this.keyDAO = keyDAO;
-    this.bech32Prefix = network === consts.Network.Mainnet ? 'iaa' : 'faa';
-    rpcConfig.baseURL = this.node;
-    this.rpcClient = new RpcClient(rpcConfig);
+  constructor() {
+    this.node = '';
+    this.network = types.Network.Mainnet;
+    this.chainId = 'irishub';
+    this.gas = '100000';
+    this.fee = '6000000000000000000';
+    this.keyDAO = new DefaultKeyDAOImpl();
+    this.bech32Prefix = '';
+    this.rpcConfig = { timeout: 2000 };
+    this.keyStoreType = types.StoreType.Keystore;
   }
 }
 
@@ -206,7 +215,7 @@ export interface KeyDAO {
    * @param name Name of the key
    * @param keystore The keystore object
    */
-  write(name: string, keystore: types.Keystore): void;
+  write(name: string, keystore: types.Keystore | types.Key): void;
 
   /**
    * Get the keystore by name
@@ -214,7 +223,7 @@ export interface KeyDAO {
    * @param name Name of the key
    * @returns The keystore object
    */
-  read(name: string): types.Keystore;
+  read(name: string): types.Keystore | types.Key;
 
   /**
    * Delete keystore by name

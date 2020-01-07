@@ -45,7 +45,7 @@ export class Tx {
     signedTx: types.Tx<types.StdTx>
   ): Promise<types.ResultBroadcastTx> {
     const txBytes = marshalTx(signedTx);
-    return this.sdk.config.rpcClient
+    return this.sdk.rpcClient
       .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
         tx: bytesToBase64(txBytes),
       })
@@ -88,7 +88,7 @@ export class Tx {
     }
 
     const txBytes = Amino.marshalTx(signedTx);
-    return this.sdk.config.rpcClient
+    return this.sdk.rpcClient
       .request<types.ResultBroadcastTxAsync>(method, {
         tx: bytesToBase64(txBytes),
       })

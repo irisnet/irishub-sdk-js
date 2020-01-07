@@ -2,6 +2,8 @@ import * as iris from '../src';
 import * as types from '../src/types';
 
 class TestKeyDAO implements iris.KeyDAO {
+  storeType: types.StoreType = types.StoreType.Keystore;
+
   keyMap: { [key: string]: types.Keystore } = {};
   write(name: string, keystore: types.Keystore) {
     this.keyMap[name] = keystore;
@@ -17,9 +19,12 @@ class TestKeyDAO implements iris.KeyDAO {
 test('Bank', async () => {
   const name = 'name';
   const password = 'password';
-  
+
   // Init SDK
-  const sdk = iris.newSdk('http://localhost:26657', iris.Network.Testnet, 'test').withKeyDAO(new TestKeyDAO()).withRpcConfig({ timeout: 10000 });
+  const sdk = iris
+    .newSdk({node: 'http://localhost:26657', network: iris.Network.Testnet, chainId: 'test'})
+    .withKeyDAO(new TestKeyDAO())
+    .withRpcConfig({ timeout: 10000 });
 
   // Add a key
   const key = sdk.keys.recover(
@@ -36,7 +41,7 @@ test('Bank', async () => {
   const baseTx: types.BaseTx = {
     from: name,
     password: password,
-    mode: types.BroadcastMode.Commit
+    mode: types.BroadcastMode.Commit,
   };
 
   await sdk.bank
@@ -47,5 +52,4 @@ test('Bank', async () => {
     .catch(error => {
       console.log(error);
     });
-
 });
