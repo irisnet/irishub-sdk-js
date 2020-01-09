@@ -107,6 +107,7 @@ export class Tx {
    * @param stdTx StdTx with no signatures
    * @param name Name of the key to sign the tx
    * @param password Password of the key
+   * @param offline Offline signing, default `false`
    * @returns { Promise<types.Tx<types.StdTx>> } The signed tx
    */
   async sign(
@@ -163,7 +164,7 @@ export class Tx {
       msgs: msgs,
       sequence: sig.sequence,
     };
-    
+
     // Signing
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
     const signature = Crypto.generateSignature(
