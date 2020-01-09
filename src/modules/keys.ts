@@ -201,23 +201,16 @@ export class Keys {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    let keystore: types.Keystore;
-    if (this.sdk.config.keyStoreType === types.StoreType.Key) {
-      const key: types.Key = <types.Key>keyObj;
-      keystore = Crypto.generateKeyStore(
-        key.privKey,
-        keystorePassword,
-        this.sdk.config.bech32Prefix
-      );
-    } else {
-      const privKey = Crypto.getPrivateKeyFromKeyStore(keyObj, keyPassword);
-      keystore = Crypto.generateKeyStore(
-        privKey,
-        keystorePassword,
-        this.sdk.config.bech32Prefix
-      );
-    }
+    const privKey =
+      this.sdk.config.keyStoreType === types.StoreType.Key
+        ? (<types.Key>keyObj).privKey
+        : Crypto.getPrivateKeyFromKeyStore(keyObj, keyPassword);
 
+    const keystore = Crypto.generateKeyStore(
+      privKey,
+      keystorePassword,
+      this.sdk.config.bech32Prefix
+    );
     return JSON.stringify(keystore);
   }
 
