@@ -104,15 +104,16 @@ export class Tx {
   /**
    * Single sign a transaction
    *
-   * @param unsignedTx StdTx with no signatures
+   * @param stdTx StdTx with no signatures
    * @param name Name of the key to sign the tx
    * @param password Password of the key
    * @returns { Promise<types.Tx<types.StdTx>> } The signed tx
    */
   async sign(
-    unsignedTx: types.Tx<types.StdTx>,
+    stdTx: types.Tx<types.StdTx>,
     name: string,
-    password: string
+    password: string,
+    offline: boolean = false
   ): Promise<types.Tx<types.StdTx>> {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -121,9 +122,9 @@ export class Tx {
       throw new SdkError(`Password of the key can not be empty`);
     }
     if (
-      is.undefined(unsignedTx) ||
-      is.undefined(unsignedTx.value) ||
-      is.undefined(unsignedTx.value.msg)
+      is.undefined(stdTx) ||
+      is.undefined(stdTx.value) ||
+      is.undefined(stdTx.value.msg)
     ) {
       throw new SdkError(`Msgs can not be empty`);
     }
@@ -132,22 +133,37 @@ export class Tx {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    // Build msg to sign
-    const addr = keystore.address;
-    const account = await this.sdk.bank.getAccount(addr);
     const msgs: types.MsgValue[] = [];
-    unsignedTx.value.msg.forEach(msg => {
+    stdTx.value.msg.forEach(msg => {
       msgs.push(msg.value);
     });
-    const signMsg: types.StdSignMsg = {
-      account_number: account.account_number,
-      chain_id: this.sdk.config.chainId,
-      fee: unsignedTx.value.fee,
-      memo: unsignedTx.value.memo,
-      msgs: msgs,
-      sequence: account.sequence,
-    };
 
+    if (!offline) { // Query account info from block chain
+      const addr = keystore.address;
+      const account = await this.sdk.bank.getAccount(addr);
+      const sigs: types.StdSignature[] = [
+        {
+          pub_key: account.public_key,
+          account_number: account.account_number,
+          sequence: account.sequence,
+          signature: '',
+        },
+      ];
+
+      stdTx.value.signatures = sigs;
+    }
+
+    // Build msg to sign
+    const sig: types.StdSignature = stdTx.value.signatures[0];
+    const signMsg: types.StdSignMsg = {
+      account_number: sig.account_number,
+      chain_id: this.sdk.config.chainId,
+      fee: stdTx.value.fee,
+      memo: stdTx.value.memo,
+      msgs: msgs,
+      sequence: sig.sequence,
+    };
+    
     // Signing
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
     const signature = Crypto.generateSignature(
@@ -155,17 +171,7 @@ export class Tx {
       privKey
     );
 
-    const sigs: types.StdSignature[] = [
-      {
-        pub_key: account.public_key,
-        account_number: account.account_number,
-        sequence: account.sequence,
-        signature: signature.toString('base64'),
-      },
-    ];
-
-    unsignedTx.value.signatures = sigs;
-
-    return unsignedTx;
+    stdTx.value.signatures[0].signature = signature.toString('base64');
+    return stdTx;
   }
 }
