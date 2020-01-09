@@ -6,6 +6,7 @@ import * as Amino from '@irisnet/amino-js';
 import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
 import Utils from '../utils/utils';
+import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
 
 export class Bank {
   sdk: Sdk;
@@ -65,43 +66,47 @@ export class Bank {
 
     const from = this.sdk.keys.show(baseTx.from);
 
-    const inputs: types.Input[] = [{ address: from, coins: amount }];
-    const outputs: types.Output[] = [{ address: to, coins: amount }];
-
-    const msgSend: types.MsgSend = {
-      inputs: inputs,
-      outputs: outputs,
-    };
-
     const msgs: types.Msg[] = [
-      {
-        type: 'irishub/bank/Send',
-        value: msgSend,
-      },
+      new MsgSend(
+        [{ address: from, coins: amount }],
+        [{ address: to, coins: amount }]
+      ),
     ];
 
-    // Build Unsigned Tx
-    const unsignedTx = this.sdk.auth.newStdTx(msgs, baseTx);
+    return this.sdk.tx.buildAndSend(msgs, baseTx);
+  }
 
-    // Sign Tx
-    const signedTx = await this.sdk.tx.sign(
-      unsignedTx,
-      baseTx.from,
-      baseTx.password
-    );
+  /**
+   * Burn coins
+   * @param amount Coins to be burnt
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.ResultBroadcastTx> }
+   */
+  async burn(
+    amount: types.Coin[],
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const from = this.sdk.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [new MsgBurn(from, amount)];
 
-    // Broadcast Tx
-    switch (baseTx.mode) {
-      case types.BroadcastMode.Commit:
-        return this.sdk.tx.broadcastTxCommit(signedTx);
-      case types.BroadcastMode.Sync:
-        return this.sdk.tx.broadcastTxSync(signedTx).then(response => {
-          return types.newResultBroadcastTx(response.hash);
-        });
-      default:
-        return this.sdk.tx.broadcastTxAsync(signedTx).then(response => {
-          return types.newResultBroadcastTx(response.hash);
-        });
-    }
+    return this.sdk.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Set Memo Regexp
+   * @param to Recipient bech32 address
+   * @param amount Coins to be sent
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.ResultBroadcastTx> }
+   */
+  async setMemoRegexp(
+    memoRegexp: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    
+    const from = this.sdk.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
+
+    return this.sdk.tx.buildAndSend(msgs, baseTx);
   }
 }

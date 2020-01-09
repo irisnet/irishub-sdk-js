@@ -43,7 +43,6 @@ export class Sdk {
    * IRISHub SDK Constructor
    */
   constructor(config: DefaultSdkConfig) {
-    console.log(JSON.stringify(config));
     this.config = config;
     this.config.bech32Prefix =
       config.network === consts.Network.Mainnet ? 'iaa' : 'faa';

@@ -1,13 +1,11 @@
-import { MsgSend } from './bank';
+import { MsgSend, MsgBurn, MsgSetMemoRegexp } from './bank';
 
 /** @TODO document */
 export interface Msg {
   type: string;
-  value: MsgSend;
+  value: object;
+  getSignBytes(): object;
 }
-
-/** @TODO document */
-export interface MsgValue {}
 
 /** @TODO document */
 export interface Tx<T> {

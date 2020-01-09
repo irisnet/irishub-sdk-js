@@ -1,5 +1,5 @@
 import { PubKey } from '@irisnet/amino-js/types';
-import { Coin, Msg, TxValue, MsgValue } from './types';
+import { Coin, Msg, TxValue } from './types';
 
 /** @TODO document */
 export interface StdTx extends TxValue {
@@ -43,6 +43,6 @@ export interface StdSignMsg {
   chain_id: string;
   fee: StdFee;
   memo: string;
-  msgs: MsgValue[];
+  msgs: object[];
   sequence: string;
 }

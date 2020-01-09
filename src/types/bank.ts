@@ -1,9 +1,60 @@
-import { Coin, MsgValue } from './types';
+import { Coin, Msg } from './types';
 
 /** @TODO document */
-export interface MsgSend extends MsgValue {
-  inputs: Input[];
-  outputs: Output[];
+export class MsgSend implements Msg {
+  type: string;
+  value: {
+    inputs: Input[];
+    outputs: Output[];
+  };
+
+  constructor(inputs: Input[], outputs: Output[]) {
+    this.type = 'irishub/bank/Send';
+    this.value = {
+      inputs: inputs,
+      outputs: outputs,
+    };
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+}
+
+export class MsgBurn implements Msg {
+  type: string;
+  value: {
+    owner: string;
+    coins: Coin[];
+  };
+
+  constructor(owner: string, coins: Coin[]) {
+    this.type = 'irishub/bank/Burn';
+    this.value = {
+      owner: owner,
+      coins: coins,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+export class MsgSetMemoRegexp implements Msg {
+  type: string;
+  value: { owner: string; memo_regexp: string };
+  constructor(owner: string, memoRegexp: string) {
+    this.type = 'irishub/bank/SetMemoRegexp';
+    this.value = {
+      owner: owner,
+      memo_regexp: memoRegexp,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
 }
 
 /** @TODO document */

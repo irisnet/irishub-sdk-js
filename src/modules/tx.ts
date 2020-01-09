@@ -15,11 +15,53 @@ export class Tx {
   }
 
   /**
+   * Build, sign and broadcast the msgs
+   * @param msgs Msgs to be sent
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.ResultBroadcastTx> }
+   */
+  async buildAndSend(
+    msgs: types.Msg[],
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    // Build Unsigned Tx
+    const unsignedTx = this.sdk.auth.newStdTx(msgs, baseTx);
+    // Sign Tx
+    const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
+    // Broadcast Tx
+    return this.broadcast(signedTx, baseTx.mode);
+  }
+
+  /**
+   * Broadcast a tx
+   * @param signedTx The tx object with signatures
+   * @param mode Broadcast mode
+   * @returns { Promise<types.ResultBroadcastTx> }
+   */
+  broadcast(
+    signedTx: types.Tx<types.StdTx>,
+    mode?: types.BroadcastMode
+  ): Promise<types.ResultBroadcastTx> {
+    switch (mode) {
+      case types.BroadcastMode.Commit:
+        return this.broadcastTxCommit(signedTx);
+      case types.BroadcastMode.Sync:
+        return this.broadcastTxSync(signedTx).then(response => {
+          return types.newResultBroadcastTx(response.hash);
+        });
+      default:
+        return this.broadcastTxAsync(signedTx).then(response => {
+          return types.newResultBroadcastTx(response.hash);
+        });
+    }
+  }
+
+  /**
    * Broadcast tx async
-   * @param signedTx The tx object with signature
+   * @param signedTx The tx object with signatures
    * @returns The result object of broadcasting
    */
-  broadcastTxAsync(
+  private broadcastTxAsync(
     signedTx: types.Tx<types.StdTx>
   ): Promise<types.ResultBroadcastTxAsync> {
     return this.broadcastTx(signedTx, 'broadcast_tx_async');
@@ -30,7 +72,7 @@ export class Tx {
    * @param signedTx The tx object with signature
    * @returns The result object of broadcasting
    */
-  broadcastTxSync(
+  private broadcastTxSync(
     signedTx: types.Tx<types.StdTx>
   ): Promise<types.ResultBroadcastTxAsync> {
     return this.broadcastTx(signedTx, 'broadcast_tx_sync');
@@ -38,10 +80,10 @@ export class Tx {
 
   /**
    * Broadcast tx and wait for it to be included in a block.
-   * @param signedTx The tx object with signature
+   * @param signedTx The tx object with signatures
    * @returns The result object of broadcasting
    */
-  broadcastTxCommit(
+  private broadcastTxCommit(
     signedTx: types.Tx<types.StdTx>
   ): Promise<types.ResultBroadcastTx> {
     const txBytes = marshalTx(signedTx);
@@ -75,7 +117,7 @@ export class Tx {
   /**
    * Broadcast tx sync or async
    * @private
-   * @param signedTx The tx object with signature
+   * @param signedTx The tx object with signatures
    * @returns The result object of broadcasting
    */
   private broadcastTx(
@@ -134,12 +176,13 @@ export class Tx {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    const msgs: types.MsgValue[] = [];
+    const msgs: object[] = [];
     stdTx.value.msg.forEach(msg => {
-      msgs.push(msg.value);
+      msgs.push(msg.getSignBytes());
     });
 
-    if (!offline) { // Query account info from block chain
+    if (!offline) {
+      // Query account info from block chain
       const addr = keystore.address;
       const account = await this.sdk.bank.getAccount(addr);
       const sigs: types.StdSignature[] = [
