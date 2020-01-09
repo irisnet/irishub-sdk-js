@@ -31,26 +31,19 @@ export class Bank {
       }),
     };
 
-    return this.sdk.rpcClient
-      .request<types.AbciQueryResponse>('abci_query', params)
-      .then(response => {
-        if (response.response) {
-          if (response.response.value) {
-            const value = Buffer.from(
-              response.response.value,
-              'base64'
-            ).toString();
-            return JSON.parse(value).value;
-          } else if (response.response.code) {
-            throw new SdkError(
-              'Bad Request',
-              response.response.code,
-              response.response.log
-            ); // TODO
-          }
-        }
-        throw new SdkError('Bad Request'); // TODO
-      });
+    return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(params);
+  }
+
+  getTokenStats(tokenId: string): Promise<types.TokenStats> {
+    // Build account query params
+    const params: types.AbciQueryRequest = {
+      path: 'custom/acc/tokenStats',
+      data: Utils.obj2hexstring({
+        TokenId: tokenId,
+      }),
+    };
+
+    return this.sdk.rpcClient.abciQuery<types.TokenStats>(params);
   }
 
   /**

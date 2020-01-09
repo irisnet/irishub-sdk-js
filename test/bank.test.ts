@@ -16,13 +16,17 @@ class TestKeyDAO implements iris.KeyDAO {
   }
 }
 
-test('Bank', async () => {
+describe('Bank Tests', () => {
   const name = 'name';
   const password = 'password';
 
   // Init SDK
   const sdk = iris
-    .newSdk({node: 'http://localhost:26657', network: iris.Network.Testnet, chainId: 'test'})
+    .newSdk({
+      node: 'http://localhost:26657',
+      network: iris.Network.Testnet,
+      chainId: 'test',
+    })
     .withKeyDAO(new TestKeyDAO())
     .withRpcConfig({ timeout: 10000 });
 
@@ -33,23 +37,38 @@ test('Bank', async () => {
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
-  // Send coins
-  const amount: types.Coin[] = [
-    { denom: 'iris-atto', amount: '1000000000000000000' },
-  ];
+  test('send', async () => {
+    const amount: types.Coin[] = [
+      {
+        denom: 'iris-atto',
+        amount: '1000000000000000000',
+      },
+    ];
 
-  const baseTx: types.BaseTx = {
-    from: name,
-    password: password,
-    mode: types.BroadcastMode.Commit,
-  };
+    const baseTx: types.BaseTx = {
+      from: name,
+      password: password,
+      mode: types.BroadcastMode.Commit,
+    };
 
-  await sdk.bank
-    .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
-    .then(res => {
-      console.log(JSON.stringify(res));
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    await sdk.bank
+      .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
+      .then(res => {
+        console.log(JSON.stringify(res));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
+
+  test('getTokenStats', async () => {
+    await sdk.bank
+      .getTokenStats('iris')
+      .then(res => {
+        console.log(JSON.stringify(res));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 });

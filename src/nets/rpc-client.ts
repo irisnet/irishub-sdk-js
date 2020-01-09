@@ -61,4 +61,31 @@ export default class RpcClient {
         return res.result;
       });
   }
+
+  abciQuery<T>(params: types.AbciQueryRequest): Promise<T> {
+    return this.request<types.AbciQueryResponse>('abci_query', params).then(
+      response => {
+        if (response.response) {
+          if (response.response.value) {
+            const value = Buffer.from(
+              response.response.value,
+              'base64'
+            ).toString();
+            const res = JSON.parse(value);
+            if (res.type && res.value) {
+              return res.value;
+            }
+            return res;
+          } else if (response.response.code) {
+            throw new SdkError(
+              'Bad Request',
+              response.response.code,
+              response.response.log
+            ); // TODO
+          }
+        }
+        throw new SdkError('Bad Request'); // TODO
+      }
+    );
+  }
 }
