@@ -37,38 +37,53 @@ describe('Bank Tests', () => {
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
-  test('send', async () => {
-    const amount: types.Coin[] = [
-      {
-        denom: 'iris-atto',
-        amount: '1000000000000000000',
-      },
-    ];
+  describe('Send Coins', () => {
+    test('send', async () => {
+      const amount: types.Coin[] = [
+        {
+          denom: 'iris-atto',
+          amount: '1000000000000000000',
+        },
+      ];
 
-    const baseTx: types.BaseTx = {
-      from: name,
-      password: password,
-      mode: types.BroadcastMode.Commit,
-    };
+      const baseTx: types.BaseTx = {
+        from: name,
+        password: password,
+        mode: types.BroadcastMode.Commit,
+      };
 
-    await sdk.bank
-      .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
-      .then(res => {
-        console.log(JSON.stringify(res));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      await sdk.bank
+        .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   });
 
-  test('getTokenStats', async () => {
-    await sdk.bank
-      .getTokenStats('iris')
-      .then(res => {
-        console.log(JSON.stringify(res));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  describe('Get Token Stats', () => {
+    test('get single token stats', async () => {
+      await sdk.bank
+        .getTokenStats('iris')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('get all token stats', async () => {
+      await sdk.bank
+        .getTokenStats()
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   });
 });

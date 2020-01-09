@@ -34,12 +34,12 @@ export class Bank {
     return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(params);
   }
 
-  getTokenStats(tokenId: string): Promise<types.TokenStats> {
+  getTokenStats(tokenID?: string): Promise<types.TokenStats> {
     // Build account query params
     const params: types.AbciQueryRequest = {
       path: 'custom/acc/tokenStats',
       data: Utils.obj2hexstring({
-        TokenId: tokenId,
+        TokenId: tokenID,
       }),
     };
 
