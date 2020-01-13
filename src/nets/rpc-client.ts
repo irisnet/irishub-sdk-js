@@ -62,7 +62,14 @@ export default class RpcClient {
       });
   }
 
-  abciQuery<T>(params: types.AbciQueryRequest): Promise<T> {
+  abciQuery<T>(path: string, data?: object): Promise<T> {
+    const params: types.AbciQueryRequest = {
+      path: path,
+    };
+    if (data) {
+      params.data = Utils.obj2hexstring(data);
+    }
+
     return this.request<types.AbciQueryResponse>('abci_query', params).then(
       response => {
         if (response.response) {
@@ -72,9 +79,9 @@ export default class RpcClient {
               'base64'
             ).toString();
             const res = JSON.parse(value);
-            if (res.type && res.value) {
-              return res.value;
-            }
+
+            if (!res) return <T> {};
+            if (res.type && res.value) return res.value;
             return res;
           } else if (response.response.code) {
             throw new SdkError(

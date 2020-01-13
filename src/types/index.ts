@@ -5,3 +5,5 @@ export * from './types';
 export * from './keystore';
 export * from './result-broadcast-tx';
 export * from './abci-query';
+export * from './stake';
+export * from './params';

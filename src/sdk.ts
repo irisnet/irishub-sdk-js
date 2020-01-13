@@ -35,6 +35,11 @@ export class Sdk {
   keys: modules.Keys;
 
   /**
+   * Staking module
+   */
+  stake: modules.Stake;
+
+  /**
    * Tx module
    */
   tx: modules.Tx;
@@ -54,6 +59,7 @@ export class Sdk {
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
+    this.stake = new modules.Stake(this);
   }
 
   /**

@@ -24,27 +24,21 @@ export class Bank {
    * @returns { Promise<AminoTypes.BaseAccount> }
    */
   getAccount(address: string): Promise<AminoTypes.BaseAccount> {
-    // Build account query params
-    const params: types.AbciQueryRequest = {
-      path: 'custom/acc/account',
-      data: Utils.obj2hexstring({
+    return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(
+      'custom/acc/account',
+      {
         Address: address,
-      }),
-    };
-
-    return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(params);
+      }
+    );
   }
 
   getTokenStats(tokenID?: string): Promise<types.TokenStats> {
-    // Build account query params
-    const params: types.AbciQueryRequest = {
-      path: 'custom/acc/tokenStats',
-      data: Utils.obj2hexstring({
+    return this.sdk.rpcClient.abciQuery<types.TokenStats>(
+      'custom/acc/tokenStats',
+      {
         TokenId: tokenID,
-      }),
-    };
-
-    return this.sdk.rpcClient.abciQuery<types.TokenStats>(params);
+      }
+    );
   }
 
   /**
@@ -103,7 +97,6 @@ export class Bank {
     memoRegexp: string,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    
     const from = this.sdk.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
 
