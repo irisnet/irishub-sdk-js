@@ -1,2 +1,2 @@
 # sdk-js
-IRIS Hub SDK for JavaScript
+JavaScript SDK for IRIS Hub
