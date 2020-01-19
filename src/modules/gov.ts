@@ -22,4 +22,22 @@ export class Gov {
       }
     );
   }
+
+  queryProposals(
+    params?: types.QueryProposalsParams
+  ): Promise<types.Proposal[]> {
+    let queryParams = {};
+    if (params) {
+      queryParams = {
+        Voter: params.Voter,
+        Depositor: params.Depositor,
+        ProposalStatus: params.ProposalStatus,
+        Limit: String(params.Limit),
+      };
+    }
+    return this.client.rpcClient.abciQuery<types.Proposal[]>(
+      'custom/gov/proposals',
+      queryParams
+    );
+  }
 }

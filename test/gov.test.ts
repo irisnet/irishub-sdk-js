@@ -50,5 +50,17 @@ describe('Gov Tests', () => {
           console.log(error);
         });
     });
+    test('query proposals', async () => {
+      await client.gov
+        .queryProposals({
+          Limit: 2
+        })
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   });
 });

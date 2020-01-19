@@ -60,3 +60,10 @@ export interface Proposal {
     };
   };
 }
+
+export interface QueryProposalsParams {
+  Voter?: string;
+  Depositor?: string;
+  ProposalStatus?: string;
+  Limit?: number;
+}
