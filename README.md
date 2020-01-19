@@ -1,3 +1,3 @@
 # (WIP) irishub-sdk-js
 
-IRISHub JavaScript SDK
+JavaScript SDK for IRIS Hub
