@@ -1,4 +1,4 @@
-import { Coin } from './types';
+import { Coin, Msg, Pubkey } from './types';
 
 export interface Validator {
   operator_address: string;
@@ -65,4 +65,86 @@ export interface Redelegation {
   balance: Coin;
   shares_src: string;
   shares_dst: string;
+}
+
+export class MsgDelegate implements Msg {
+  type: string;
+  value: {
+    delegator_addr: string;
+    validator_addr: string;
+    delegation: Coin;
+  };
+
+  constructor(delegatorAddr: string, validatorAddr: string, delegation: Coin) {
+    this.type = 'irishub/stake/MsgDelegate';
+    this.value = {
+      delegator_addr: delegatorAddr,
+      validator_addr: validatorAddr,
+      delegation: delegation,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+export class MsgUndelegate implements Msg {
+  type: string;
+  value: {
+    delegator_addr: string;
+    validator_addr: string;
+    shares_amount: string;
+  };
+
+  constructor(
+    delegatorAddr: string,
+    validatorAddr: string,
+    sharesAmount: string
+  ) {
+    this.type = 'irishub/stake/BeginUnbonding';
+    this.value = {
+      delegator_addr: delegatorAddr,
+      validator_addr: validatorAddr,
+      shares_amount: sharesAmount,
+    };
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+}
+
+export class MsgRedelegate implements Msg {
+  type: string;
+  value: {
+    delegator_addr: string;
+    validator_src_addr: string;
+    validator_dst_addr: string;
+    shares_amount: string;
+  };
+
+  constructor(
+    delegatorAddr: string,
+    validatorSrcAddr: string,
+    validatorDstAddr: string,
+    sharesAmount: string
+  ) {
+    this.type = 'irishub/stake/BeginRedelegate';
+    this.value = {
+      delegator_addr: delegatorAddr,
+      validator_src_addr: validatorSrcAddr,
+      validator_dst_addr: validatorDstAddr,
+      shares_amount: sharesAmount,
+    };
+  }
+
+  getSignBytes(): object {
+    return {
+      delegator_addr: this.value.delegator_addr,
+      validator_src_addr: this.value.validator_src_addr,
+      validator_dst_addr: this.value.validator_dst_addr,
+      shares: this.value.shares_amount,
+    };
+  }
 }

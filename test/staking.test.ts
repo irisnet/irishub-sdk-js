@@ -39,6 +39,12 @@ describe('Staking Tests', () => {
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
+  const baseTx: types.BaseTx = {
+    from: name,
+    password: password,
+    mode: types.BroadcastMode.Commit,
+  };
+
   describe('Query', () => {
     test('query delegation', async () => {
       await sdk.stake
@@ -188,5 +194,67 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+  });
+
+  describe('Delegate', () => {
+    test(
+      'delegate',
+      async () => {
+        await sdk.stake
+          .delegate(
+            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
+            { denom: 'iris-atto', amount: '5000000000000000000' },
+            baseTx
+          )
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+  });
+  describe('Unbond', () => {
+    test(
+      'unbond',
+      async () => {
+        await sdk.stake
+          .unbond(
+            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
+            '100000000000000000',
+            baseTx
+          )
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+  });
+  describe('Redelegate', () => {
+    test(
+      'redelegate',
+      async () => {
+        await sdk.stake
+          .redelegate(
+            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
+            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
+            '10000000000000000',
+            baseTx
+          )
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
   });
 });

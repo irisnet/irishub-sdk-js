@@ -202,7 +202,7 @@ export class DefaultSdkConfig implements SdkConfig {
     this.network = types.Network.Mainnet;
     this.chainId = 'irishub';
     this.gas = '100000';
-    this.fee = '6000000000000000000';
+    this.fee = '600000000000000000';
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = '';
     this.rpcConfig = { timeout: 2000 };

@@ -122,10 +122,10 @@ describe('Bank Tests', () => {
     );
   });
 
-  describe('Get Token Stats', () => {
-    test('get single token stats', async () => {
+  describe('Query Token Stats', () => {
+    test('query single token stats', async () => {
       await sdk.bank
-        .getTokenStats('iris')
+        .queryTokenStats('iris')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -134,9 +134,9 @@ describe('Bank Tests', () => {
         });
     });
 
-    test('get all token stats', async () => {
+    test('query all token stats', async () => {
       await sdk.bank
-        .getTokenStats()
+        .queryTokenStats()
         .then(res => {
           console.log(JSON.stringify(res));
         })

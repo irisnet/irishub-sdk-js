@@ -14,16 +14,16 @@ export class Bank {
     this.sdk = sdk;
   }
 
-  getCoinType(tokenName: string) {
+  queryCoinType(tokenName: string) {
     // TODO
   }
 
   /**
-   * Get account info from blockchain
+   * Query account info from blockchain
    * @param address Bech32 address
    * @returns { Promise<AminoTypes.BaseAccount> }
    */
-  getAccount(address: string): Promise<AminoTypes.BaseAccount> {
+  queryAccount(address: string): Promise<AminoTypes.BaseAccount> {
     return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(
       'custom/acc/account',
       {
@@ -32,7 +32,12 @@ export class Bank {
     );
   }
 
-  getTokenStats(tokenID?: string): Promise<types.TokenStats> {
+  /**
+   * Query token statics
+   * @param tokenID Identity of the token
+   * @returns { Promise<types.TokenStats> }
+   */
+  queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
     return this.sdk.rpcClient.abciQuery<types.TokenStats>(
       'custom/acc/tokenStats',
       {
@@ -92,7 +97,7 @@ export class Bank {
    * @param amount Coins to be sent
    * @param baseTx { types.BaseTx }
    * @returns { Promise<types.ResultBroadcastTx> }
-   */
+   */ 
   async setMemoRegexp(
     memoRegexp: string,
     baseTx: types.BaseTx

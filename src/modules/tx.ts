@@ -87,6 +87,7 @@ export class Tx {
     signedTx: types.Tx<types.StdTx>
   ): Promise<types.ResultBroadcastTx> {
     const txBytes = marshalTx(signedTx);
+
     return this.sdk.rpcClient
       .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
         tx: bytesToBase64(txBytes),
@@ -184,7 +185,7 @@ export class Tx {
     if (!offline) {
       // Query account info from block chain
       const addr = keystore.address;
-      const account = await this.sdk.bank.getAccount(addr);
+      const account = await this.sdk.bank.queryAccount(addr);
       const sigs: types.StdSignature[] = [
         {
           pub_key: account.public_key,
@@ -214,7 +215,6 @@ export class Tx {
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey
     );
-
     stdTx.value.signatures[0].signature = signature.toString('base64');
     return stdTx;
   }

@@ -1,5 +1,3 @@
-import { MsgSend, MsgBurn, MsgSetMemoRegexp } from './bank';
-
 /** @TODO document */
 export interface Msg {
   type: string;
@@ -33,4 +31,9 @@ export interface JsonRpcError {
   code: number;
   message: string;
   data: string;
+}
+
+export interface Pubkey {
+  type: string;
+  value: string;
 }
