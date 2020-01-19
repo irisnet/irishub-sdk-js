@@ -6,13 +6,13 @@ import * as types from './types';
 import SdkError from './errors';
 
 /**
- * IRISHub SDK
+ * IRISHub Client
  */
-export class Sdk {
+export class Client {
   /**
-   * IRISHub SDK Config
+   * IRISHub Client Config
    */
-  config: DefaultSdkConfig;
+  config: DefaultClientConfig;
 
   /**
    * Axios client for tendermint rpc requests
@@ -47,7 +47,7 @@ export class Sdk {
   /**
    * IRISHub SDK Constructor
    */
-  constructor(config: DefaultSdkConfig) {
+  constructor(config: DefaultClientConfig) {
     this.config = config;
     this.config.bech32Prefix =
       config.network === consts.Network.Mainnet ? 'iaa' : 'faa';
@@ -136,7 +136,7 @@ export class Sdk {
 /**
  * IRISHub SDK Config
  */
-export interface SdkConfig {
+export interface ClientConfig {
   /**
    * IRISHub node rpc address
    */
@@ -184,9 +184,9 @@ export interface SdkConfig {
 }
 
 /**
- * Default IRISHub SDK Config
+ * Default IRISHub Client Config
  */
-export class DefaultSdkConfig implements SdkConfig {
+export class DefaultClientConfig implements ClientConfig {
   node: string;
   network: consts.Network;
   chainId: string;

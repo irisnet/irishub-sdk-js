@@ -1,13 +1,13 @@
-import { Sdk } from '../sdk';
+import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import SdkError from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
 export class Keys {
-  sdk: Sdk;
-  constructor(sdk: Sdk) {
-    this.sdk = sdk;
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
   }
 
   /**
@@ -24,7 +24,7 @@ export class Keys {
     if (is.empty(password)) {
       throw new SdkError(`Password of the key can not be empty`);
     }
-    const exists = this.sdk.config.keyDAO.read(name);
+    const exists = this.client.config.keyDAO.read(name);
     if (exists) {
       throw new SdkError(`Key with name '${name}' already exists`);
     }
@@ -33,11 +33,11 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.sdk.config.bech32Prefix
+      this.client.config.bech32Prefix
     );
 
     let keyObj: types.Keystore | types.Key;
-    if (this.sdk.config.keyStoreType === types.StoreType.Key) {
+    if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
         address: address,
         password: password,
@@ -47,13 +47,13 @@ export class Keys {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.sdk.config.bech32Prefix,
+        this.client.config.bech32Prefix,
         2
       );
     }
 
     // Save the key to app
-    this.sdk.config.keyDAO.write(name, keyObj);
+    this.client.config.keyDAO.write(name, keyObj);
 
     return { address, mnemonic };
   }
@@ -86,7 +86,7 @@ export class Keys {
     if (is.empty(mnemonic)) {
       throw new SdkError(`Mnemonic of the key can not be empty`);
     }
-    const exists = this.sdk.config.keyDAO.read(name);
+    const exists = this.client.config.keyDAO.read(name);
     if (exists) {
       throw new SdkError(`Key with name '${name}' exists`);
     }
@@ -100,11 +100,11 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.sdk.config.bech32Prefix
+      this.client.config.bech32Prefix
     );
 
     let keyObj: types.Keystore | types.Key;
-    if (this.sdk.config.keyStoreType === types.StoreType.Key) {
+    if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
         address: address,
         password: password,
@@ -114,13 +114,13 @@ export class Keys {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.sdk.config.bech32Prefix,
+        this.client.config.bech32Prefix,
         2
       );
     }
 
     // Save the key to app
-    this.sdk.config.keyDAO.write(name, keyObj);
+    this.client.config.keyDAO.write(name, keyObj);
 
     return address;
   }
@@ -147,7 +147,7 @@ export class Keys {
     if (is.empty(keystore)) {
       throw new SdkError(`Keystore can not be empty`);
     }
-    const exists = this.sdk.config.keyDAO.read(name);
+    const exists = this.client.config.keyDAO.read(name);
     if (exists) {
       throw new SdkError(`Key with name '${name}' exists`);
     }
@@ -156,11 +156,11 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.sdk.config.bech32Prefix
+      this.client.config.bech32Prefix
     );
 
     let keyObj: types.Keystore | types.Key;
-    if (this.sdk.config.keyStoreType === types.StoreType.Key) {
+    if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
         address: address,
         password: password,
@@ -170,13 +170,13 @@ export class Keys {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.sdk.config.bech32Prefix,
+        this.client.config.bech32Prefix,
         2
       );
     }
 
     // Save the key to app
-    this.sdk.config.keyDAO.write(name, keyObj);
+    this.client.config.keyDAO.write(name, keyObj);
 
     return keyObj.address;
   }
@@ -196,20 +196,20 @@ export class Keys {
     if (is.empty(keyPassword)) {
       throw new SdkError(`Password of the key can not be empty`);
     }
-    const keyObj = this.sdk.config.keyDAO.read(name);
+    const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
     const privKey =
-      this.sdk.config.keyStoreType === types.StoreType.Key
+      this.client.config.keyStoreType === types.StoreType.Key
         ? (<types.Key>keyObj).privKey
         : Crypto.getPrivateKeyFromKeyStore(keyObj, keyPassword);
 
     const keystore = Crypto.generateKeyStore(
       privKey,
       keystorePassword,
-      this.sdk.config.bech32Prefix
+      this.client.config.bech32Prefix
     );
     return JSON.stringify(keystore);
   }
@@ -227,18 +227,18 @@ export class Keys {
     if (is.empty(password)) {
       throw new SdkError(`Password of the key can not be empty`);
     }
-    const keyObj = this.sdk.config.keyDAO.read(name);
+    const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    if (this.sdk.config.keyStoreType === types.StoreType.Keystore) {
+    if (this.client.config.keyStoreType === types.StoreType.Keystore) {
       // Check keystore password
       Crypto.getPrivateKeyFromKeyStore(keyObj, password);
     }
 
     // Delete the key from app
-    this.sdk.config.keyDAO.delete(name);
+    this.client.config.keyDAO.delete(name);
   }
 
   /**
@@ -251,7 +251,7 @@ export class Keys {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
-    const keystore = this.sdk.config.keyDAO.read(name);
+    const keystore = this.client.config.keyDAO.read(name);
     if (!keystore) {
       throw new SdkError(`Key with name '${name}' not found`);
     }

@@ -1,4 +1,4 @@
-import { Sdk } from '../sdk';
+import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as is from 'is_js';
 import * as types from '../types';
@@ -9,16 +9,16 @@ import Utils from '../utils/utils';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/stake';
 
 export class Stake {
-  sdk: Sdk;
-  constructor(sdk: Sdk) {
-    this.sdk = sdk;
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
   }
 
   queryDelegation(
     delegatorAddr: string,
     validatorAddr: string
   ): Promise<types.Delegation> {
-    return this.sdk.rpcClient.abciQuery<types.Delegation>(
+    return this.client.rpcClient.abciQuery<types.Delegation>(
       'custom/stake/delegation',
       {
         DelegatorAddr: delegatorAddr,
@@ -28,7 +28,7 @@ export class Stake {
   }
 
   queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.Delegation[]>(
+    return this.client.rpcClient.abciQuery<types.Delegation[]>(
       'custom/stake/delegatorDelegations',
       {
         DelegatorAddr: delegatorAddr,
@@ -40,7 +40,7 @@ export class Stake {
     delegatorAddr: string,
     validatorAddr: string
   ): Promise<types.UnbondingDelegation> {
-    return this.sdk.rpcClient.abciQuery<types.UnbondingDelegation>(
+    return this.client.rpcClient.abciQuery<types.UnbondingDelegation>(
       'custom/stake/unbondingDelegation',
       {
         DelegatorAddr: delegatorAddr,
@@ -52,7 +52,7 @@ export class Stake {
   queryUnbondingDelegations(
     delegatorAddr: string
   ): Promise<types.UnbondingDelegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.UnbondingDelegation[]>(
+    return this.client.rpcClient.abciQuery<types.UnbondingDelegation[]>(
       'custom/stake/delegatorUnbondingDelegations',
       {
         DelegatorAddr: delegatorAddr,
@@ -65,7 +65,7 @@ export class Stake {
     srcValidatorAddr: string,
     dstValidatorAddr: string
   ): Promise<types.Redelegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.Redelegation[]>(
+    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
       'custom/stake/redelegation',
       {
         DelegatorAddr: delegatorAddr,
@@ -76,7 +76,7 @@ export class Stake {
   }
 
   queryRedelegations(delegatorAddr: string): Promise<types.Redelegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.Redelegation[]>(
+    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
       'custom/stake/delegatorRedelegations',
       {
         DelegatorAddr: delegatorAddr,
@@ -85,7 +85,7 @@ export class Stake {
   }
 
   queryDelegationsTo(validatorAddr: string): Promise<types.Delegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.Delegation[]>(
+    return this.client.rpcClient.abciQuery<types.Delegation[]>(
       'custom/stake/validatorDelegations',
       {
         ValidatorAddr: validatorAddr,
@@ -96,7 +96,7 @@ export class Stake {
   queryUnbondingDelegationsFrom(
     validatorAddr: string
   ): Promise<types.UnbondingDelegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.UnbondingDelegation[]>(
+    return this.client.rpcClient.abciQuery<types.UnbondingDelegation[]>(
       'custom/stake/validatorUnbondingDelegations',
       {
         ValidatorAddr: validatorAddr,
@@ -105,7 +105,7 @@ export class Stake {
   }
 
   queryRedelegationsFrom(validatorAddr: string): Promise<types.Redelegation[]> {
-    return this.sdk.rpcClient.abciQuery<types.Redelegation[]>(
+    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
       'custom/stake/validatorRedelegations',
       {
         ValidatorAddr: validatorAddr,
@@ -114,7 +114,7 @@ export class Stake {
   }
 
   queryValidator(address: string): Promise<types.Validator> {
-    return this.sdk.rpcClient.abciQuery<types.Validator>(
+    return this.client.rpcClient.abciQuery<types.Validator>(
       'custom/stake/validator',
       {
         ValidatorAddr: address,
@@ -126,7 +126,7 @@ export class Stake {
     page: number,
     size: number = 100
   ): Promise<types.Validator[]> {
-    return this.sdk.rpcClient.abciQuery<types.Validator[]>(
+    return this.client.rpcClient.abciQuery<types.Validator[]>(
       'custom/stake/validators',
       {
         Page: page,
@@ -136,11 +136,11 @@ export class Stake {
   }
 
   queryPool(): Promise<types.StakePool> {
-    return this.sdk.rpcClient.abciQuery<types.StakePool>('custom/stake/pool');
+    return this.client.rpcClient.abciQuery<types.StakePool>('custom/stake/pool');
   }
 
   queryParams(): Promise<types.StakeParams> {
-    return this.sdk.rpcClient.abciQuery<types.StakeParams>(
+    return this.client.rpcClient.abciQuery<types.StakeParams>(
       'custom/stake/parameters'
     );
   }
@@ -154,11 +154,11 @@ export class Stake {
     amount: types.Coin,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    const delegatorAddr = this.sdk.keys.show(baseTx.from);
+    const delegatorAddr = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgDelegate(delegatorAddr, validatorAddr, amount),
     ];
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
@@ -171,7 +171,7 @@ export class Stake {
     amount: string,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    const delegatorAddr = this.sdk.keys.show(baseTx.from);
+    const delegatorAddr = this.client.keys.show(baseTx.from);
     const validator = await this.queryValidator(validatorAddr);
 
     const shares =
@@ -184,7 +184,7 @@ export class Stake {
         this.appendZero(String(shares), 10)
       ),
     ];
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
@@ -198,7 +198,7 @@ export class Stake {
     amount: string,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    const delegatorAddr = this.sdk.keys.show(baseTx.from);
+    const delegatorAddr = this.client.keys.show(baseTx.from);
     const srcValidator = await this.queryValidator(validatorSrcAddr);
 
     const shares =
@@ -212,7 +212,7 @@ export class Stake {
         this.appendZero(String(shares), 10)
       ),
     ];
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**

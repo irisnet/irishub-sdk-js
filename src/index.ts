@@ -1,7 +1,7 @@
 export * from './types/constants';
-export { KeyDAO } from './sdk';
+export { KeyDAO } from './client';
 
-import * as sdk from './sdk';
+import { Client, ClientConfig, DefaultClientConfig } from './client';
 import * as types from './types';
 import { AxiosRequestConfig } from 'axios';
 
@@ -18,8 +18,8 @@ import { AxiosRequestConfig } from 'axios';
  *
  * @returns New IRISHub SDK Instance
  */
-export function newSdk(config: sdk.SdkConfig): sdk.Sdk {
-  const copyConfig = new sdk.DefaultSdkConfig();
+export function newClient(config: ClientConfig): Client {
+  const copyConfig = new DefaultClientConfig();
   Object.assign(copyConfig, config);
-  return new sdk.Sdk(copyConfig);
+  return new Client(copyConfig);
 }

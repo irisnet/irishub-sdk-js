@@ -22,9 +22,9 @@ describe('Bank Tests', () => {
   const name = 'name';
   const password = 'password';
 
-  // Init SDK
-  const sdk = iris
-    .newSdk({
+  // Init Client
+  const client = iris
+    .newClient({
       node: 'http://localhost:26657',
       network: iris.Network.Testnet,
       chainId: 'test',
@@ -33,7 +33,7 @@ describe('Bank Tests', () => {
     .withRpcConfig({ timeout: timeout });
 
   // Add a key
-  const key = sdk.keys.recover(
+  const key = client.keys.recover(
     name,
     password,
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
@@ -56,7 +56,7 @@ describe('Bank Tests', () => {
           mode: types.BroadcastMode.Commit,
         };
 
-        await sdk.bank
+        await client.bank
           .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
@@ -86,7 +86,7 @@ describe('Bank Tests', () => {
           mode: types.BroadcastMode.Commit,
         };
 
-        await sdk.bank
+        await client.bank
           .burn(amount, baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
@@ -109,7 +109,7 @@ describe('Bank Tests', () => {
           mode: types.BroadcastMode.Commit,
         };
 
-        await sdk.bank
+        await client.bank
           .setMemoRegexp('test*', baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
@@ -124,7 +124,7 @@ describe('Bank Tests', () => {
 
   describe('Query Token Stats', () => {
     test('query single token stats', async () => {
-      await sdk.bank
+      await client.bank
         .queryTokenStats('iris')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -135,7 +135,7 @@ describe('Bank Tests', () => {
     });
 
     test('query all token stats', async () => {
-      await sdk.bank
+      await client.bank
         .queryTokenStats()
         .then(res => {
           console.log(JSON.stringify(res));

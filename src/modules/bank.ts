@@ -1,4 +1,4 @@
-import { Sdk } from '../sdk';
+import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as is from 'is_js';
 import * as types from '../types';
@@ -9,9 +9,9 @@ import Utils from '../utils/utils';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
 
 export class Bank {
-  sdk: Sdk;
-  constructor(sdk: Sdk) {
-    this.sdk = sdk;
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
   }
 
   queryCoinType(tokenName: string) {
@@ -24,7 +24,7 @@ export class Bank {
    * @returns { Promise<AminoTypes.BaseAccount> }
    */
   queryAccount(address: string): Promise<AminoTypes.BaseAccount> {
-    return this.sdk.rpcClient.abciQuery<AminoTypes.BaseAccount>(
+    return this.client.rpcClient.abciQuery<AminoTypes.BaseAccount>(
       'custom/acc/account',
       {
         Address: address,
@@ -38,7 +38,7 @@ export class Bank {
    * @returns { Promise<types.TokenStats> }
    */
   queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
-    return this.sdk.rpcClient.abciQuery<types.TokenStats>(
+    return this.client.rpcClient.abciQuery<types.TokenStats>(
       'custom/acc/tokenStats',
       {
         TokenId: tokenID,
@@ -59,11 +59,11 @@ export class Bank {
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     // Validate bech32 address
-    if (!Crypto.checkAddress(to, this.sdk.config.bech32Prefix)) {
+    if (!Crypto.checkAddress(to, this.client.config.bech32Prefix)) {
       throw new SdkError('Invalid bech32 address');
     }
 
-    const from = this.sdk.keys.show(baseTx.from);
+    const from = this.client.keys.show(baseTx.from);
 
     const msgs: types.Msg[] = [
       new MsgSend(
@@ -72,7 +72,7 @@ export class Bank {
       ),
     ];
 
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
@@ -85,10 +85,10 @@ export class Bank {
     amount: types.Coin[],
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    const from = this.sdk.keys.show(baseTx.from);
+    const from = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgBurn(from, amount)];
 
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
@@ -102,9 +102,9 @@ export class Bank {
     memoRegexp: string,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
-    const from = this.sdk.keys.show(baseTx.from);
+    const from = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
 
-    return this.sdk.tx.buildAndSend(msgs, baseTx);
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 }

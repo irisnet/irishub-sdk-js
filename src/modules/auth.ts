@@ -1,4 +1,4 @@
-import { Sdk } from '../sdk';
+import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import Utils from '../utils/utils';
 import * as types from '../types';
@@ -7,17 +7,17 @@ import * as is from 'is_js';
 const addressStoreKeyPrefix = 'account:';
 
 export class Auth {
-  sdk: Sdk;
+  client: Client;
   defaultStdFee: types.StdFee;
 
-  constructor(sdk: Sdk) {
-    this.sdk = sdk;
+  constructor(client: Client) {
+    this.client = client;
     const fees: types.Coin[] = [
-      { denom: 'iris-atto', amount: this.sdk.config.fee },
+      { denom: 'iris-atto', amount: this.client.config.fee },
     ];
     this.defaultStdFee = {
       amount: fees,
-      gas: this.sdk.config.gas,
+      gas: this.client.config.gas,
     };
   }
 

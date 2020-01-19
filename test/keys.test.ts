@@ -17,18 +17,18 @@ class TestKeyDAO implements iris.KeyDAO {
 
 test('Keys', () => {
   const password = 'password';
-  // Init SDK
-  const sdk = iris
-    .newSdk({ node: 'localhost:26657', network: iris.Network.Testnet, keyStoreType: types.StoreType.Key})
+  // Init Client
+  const client = iris
+    .newClient({ node: 'localhost:26657', network: iris.Network.Testnet, keyStoreType: types.StoreType.Key})
     .withKeyDAO(new TestKeyDAO());
 
   // Create a new key
-  const addedKey = sdk.keys.add('name1', password);
+  const addedKey = client.keys.add('name1', password);
   expect(addedKey.address.substring(0, 3)).toBe('faa');
   expect(addedKey.mnemonic.split(' ').length).toBe(24);
 
   // Recover a key
-  const recoveredKeyAddr = sdk.keys.recover(
+  const recoveredKeyAddr = client.keys.recover(
     'name2',
     password,
     addedKey.mnemonic
@@ -36,21 +36,21 @@ test('Keys', () => {
   expect(recoveredKeyAddr).toBe(addedKey.address);
 
   // Export keystore of a key
-  const keystore = sdk.keys.export('name1', password, password);
+  const keystore = client.keys.export('name1', password, password);
   const keystoreObj = JSON.parse(keystore.toString());
   expect(keystoreObj.address).toBe(addedKey.address);
 
   // Import a keystore
-  const importedKeyAddr = sdk.keys.import('name3', password, keystore);
+  const importedKeyAddr = client.keys.import('name3', password, keystore);
   expect(importedKeyAddr).toBe(addedKey.address);
 
   // Show address of a key
-  const showAddr = sdk.keys.show('name1');
+  const showAddr = client.keys.show('name1');
   expect(showAddr).toBe(addedKey.address);
 
   // Delete a key
-  sdk.keys.delete('name1', password);
+  client.keys.delete('name1', password);
   expect(() => {
-    sdk.keys.show('name1');
+    client.keys.show('name1');
   }).toThrow("Key with name 'name1' not found");
 });

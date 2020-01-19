@@ -1,4 +1,4 @@
-import { Sdk } from '../sdk';
+import { Client } from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
 import SdkError from '../errors';
@@ -9,9 +9,9 @@ import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
 import Utils from '../utils/utils';
 
 export class Tx {
-  sdk: Sdk;
-  constructor(sdk: Sdk) {
-    this.sdk = sdk;
+  client: Client;
+  constructor(client: Client) {
+    this.client = client;
   }
 
   /**
@@ -25,7 +25,7 @@ export class Tx {
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     // Build Unsigned Tx
-    const unsignedTx = this.sdk.auth.newStdTx(msgs, baseTx);
+    const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
     // Broadcast Tx
@@ -88,7 +88,7 @@ export class Tx {
   ): Promise<types.ResultBroadcastTx> {
     const txBytes = marshalTx(signedTx);
 
-    return this.sdk.rpcClient
+    return this.client.rpcClient
       .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
         tx: bytesToBase64(txBytes),
       })
@@ -131,7 +131,7 @@ export class Tx {
     }
 
     const txBytes = Amino.marshalTx(signedTx);
-    return this.sdk.rpcClient
+    return this.client.rpcClient
       .request<types.ResultBroadcastTxAsync>(method, {
         tx: bytesToBase64(txBytes),
       })
@@ -172,7 +172,7 @@ export class Tx {
     ) {
       throw new SdkError(`Msgs can not be empty`);
     }
-    const keystore = this.sdk.config.keyDAO.read(name);
+    const keystore = this.client.config.keyDAO.read(name);
     if (!keystore) {
       throw new SdkError(`Key with name '${name}' not found`);
     }
@@ -185,7 +185,7 @@ export class Tx {
     if (!offline) {
       // Query account info from block chain
       const addr = keystore.address;
-      const account = await this.sdk.bank.queryAccount(addr);
+      const account = await this.client.bank.queryAccount(addr);
       const sigs: types.StdSignature[] = [
         {
           pub_key: account.public_key,
@@ -202,7 +202,7 @@ export class Tx {
     const sig: types.StdSignature = stdTx.value.signatures[0];
     const signMsg: types.StdSignMsg = {
       account_number: sig.account_number,
-      chain_id: this.sdk.config.chainId,
+      chain_id: this.client.config.chainId,
       fee: stdTx.value.fee,
       memo: stdTx.value.memo,
       msgs: msgs,
