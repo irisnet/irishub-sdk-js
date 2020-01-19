@@ -7,3 +7,4 @@ export * from './result-broadcast-tx';
 export * from './abci-query';
 export * from './stake';
 export * from './params';
+export * from './gov';
