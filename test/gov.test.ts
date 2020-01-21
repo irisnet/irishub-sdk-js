@@ -120,31 +120,48 @@ describe('Gov Tests', () => {
   //   });
   // });
 
+  const initDeposit: types.Coin[] = [
+    {
+      denom: 'iris-atto',
+      amount: '1000000000000000000000',
+    },
+  ];
+  // describe('Submit ParameterChange Proposal', () => {
+  //   test(
+  //     'submitParameterChangeProposal',
+  //     async () => {
+  //       const params: types.ChangeParameter[] = [
+  //         {
+  //           subspace: 'slashing',
+  //           key: 'MaxEvidenceAge',
+  //           value: '51840',
+  //         },
+  //       ];
+  //       await client.gov
+  //         .submitParameterChangeProposal(
+  //           'Title',
+  //           'Desc',
+  //           initDeposit,
+  //           params,
+  //           baseTx
+  //         )
+  //         .then(res => {
+  //           console.log(JSON.stringify(res));
+  //         })
+  //         .catch(error => {
+  //           console.log(error);
+  //         });
+  //     },
+  //     timeout
+  //   );
+  // });
+
   describe('Submit ParameterChange Proposal', () => {
     test(
       'submitParameterChangeProposal',
       async () => {
-        const amount: types.Coin[] = [
-          {
-            denom: 'iris-atto',
-            amount: '1000000000000000000000',
-          },
-        ];
-        const params: types.ChangeParameter[] = [
-          {
-            subspace: 'slashing',
-            key: 'MaxEvidenceAge',
-            value: '51840',
-          },
-        ];
         await client.gov
-          .submitParameterChangeProposal(
-            'Title',
-            'Desc',
-            amount,
-            params,
-            baseTx
-          )
+          .submitPlainTextProposal('Title', 'Desc', initDeposit, baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })

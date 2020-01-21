@@ -95,6 +95,7 @@ export interface BaseProposal {
   initial_deposit: Coin[];
 }
 
+// ------------------- ParameterChangeProposal -------------------------
 export interface ParameterChangeProposal extends BaseProposal {
   params: ChangeParameter[];
 }
@@ -126,17 +127,37 @@ export class MsgSubmitParameterChangeProposal implements Msg {
       },
     };
   }
+}
 
-  toJSON(): Msg {
+// ------------------- PlainTextProposal -------------------------
+export interface PlainTextProposal extends BaseProposal {
+  params?: null;
+}
+
+export class MsgSubmitPlainTextProposal implements Msg {
+  type: string;
+  value: PlainTextProposal;
+
+  constructor(params: PlainTextProposal) {
+    this.type = 'irishub/gov/MsgSubmitProposal';
+    params.proposal_type = 'PlainText';
+    params.params = null; // TODO: Historical issue: PlainText proposal must specify the `params` to be null
+    this.value = params;
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+
+  marshal(): Msg {
     return {
       type: this.type,
       value: {
-        proposal_type: ProposalType.ParameterChange,
+        proposal_type: ProposalType.PlainText,
         title: this.value.title,
         description: this.value.description,
         proposer: this.value.proposer,
         initial_deposit: this.value.initial_deposit,
-        params: this.value.params,
       },
     };
   }

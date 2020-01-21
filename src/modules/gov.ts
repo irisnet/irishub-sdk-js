@@ -6,7 +6,10 @@ import * as Amino from '@irisnet/amino-js';
 import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
 import Utils from '../utils/utils';
-import { MsgSubmitParameterChangeProposal } from '../types/gov';
+import {
+  MsgSubmitParameterChangeProposal,
+  MsgSubmitPlainTextProposal,
+} from '../types/gov';
 
 export class Gov {
   client: Client;
@@ -106,6 +109,25 @@ export class Gov {
         proposer: proposer,
         initial_deposit: initialDeposit,
         params: params,
+      }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  async submitPlainTextProposal(
+    title: string,
+    description: string,
+    initialDeposit: types.Coin[],
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const proposer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgSubmitPlainTextProposal({
+        title: title,
+        description: description,
+        proposer: proposer,
+        initial_deposit: initialDeposit,
       }),
     ];
 
