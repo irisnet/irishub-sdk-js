@@ -2,7 +2,8 @@
 export interface Msg {
   type: string;
   value: object;
-  getSignBytes(): object;
+  getSignBytes?(): object;
+  marshal?(): Msg;
 }
 
 /** @TODO document */

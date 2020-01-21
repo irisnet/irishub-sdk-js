@@ -26,8 +26,11 @@ export class Tx {
   ): Promise<types.ResultBroadcastTx> {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
+    console.log(JSON.stringify(unsignedTx));
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
+    console.log(JSON.stringify(signedTx));
+
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }
@@ -42,15 +45,17 @@ export class Tx {
     signedTx: types.Tx<types.StdTx>,
     mode?: types.BroadcastMode
   ): Promise<types.ResultBroadcastTx> {
+    signedTx = this.marshal(signedTx);
+    const txBytes = marshalTx(signedTx);
     switch (mode) {
       case types.BroadcastMode.Commit:
-        return this.broadcastTxCommit(signedTx);
+        return this.broadcastTxCommit(txBytes);
       case types.BroadcastMode.Sync:
-        return this.broadcastTxSync(signedTx).then(response => {
+        return this.broadcastTxSync(txBytes).then(response => {
           return types.newResultBroadcastTx(response.hash);
         });
       default:
-        return this.broadcastTxAsync(signedTx).then(response => {
+        return this.broadcastTxAsync(txBytes).then(response => {
           return types.newResultBroadcastTx(response.hash);
         });
     }
@@ -62,9 +67,9 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxAsync(
-    signedTx: types.Tx<types.StdTx>
+    txBytes: Uint8Array
   ): Promise<types.ResultBroadcastTxAsync> {
-    return this.broadcastTx(signedTx, 'broadcast_tx_async');
+    return this.broadcastTx(txBytes, 'broadcast_tx_async');
   }
 
   /**
@@ -73,9 +78,9 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxSync(
-    signedTx: types.Tx<types.StdTx>
+    txBytes: Uint8Array
   ): Promise<types.ResultBroadcastTxAsync> {
-    return this.broadcastTx(signedTx, 'broadcast_tx_sync');
+    return this.broadcastTx(txBytes, 'broadcast_tx_sync');
   }
 
   /**
@@ -84,10 +89,8 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxCommit(
-    signedTx: types.Tx<types.StdTx>
+    txBytes: Uint8Array
   ): Promise<types.ResultBroadcastTx> {
-    const txBytes = marshalTx(signedTx);
-
     return this.client.rpcClient
       .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
         tx: bytesToBase64(txBytes),
@@ -122,7 +125,7 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTx(
-    signedTx: types.Tx<types.StdTx>,
+    txBytes: Uint8Array,
     method: string
   ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
@@ -130,7 +133,6 @@ export class Tx {
       throw new SdkError(`Unsupported broadcast method: ${method}`);
     }
 
-    const txBytes = Amino.marshalTx(signedTx);
     return this.client.rpcClient
       .request<types.ResultBroadcastTxAsync>(method, {
         tx: bytesToBase64(txBytes),
@@ -142,6 +144,17 @@ export class Tx {
 
         return response;
       });
+  }
+
+  private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
+    let copyStdTx: types.Tx<types.StdTx> = stdTx;
+    Object.assign(copyStdTx, stdTx);
+    stdTx.value.msg.forEach((msg, idx, array) => {
+      if (msg.marshal) {
+        copyStdTx.value.msg[idx] = msg.marshal();
+      }
+    });
+    return copyStdTx;
   }
 
   /**
@@ -179,7 +192,9 @@ export class Tx {
 
     const msgs: object[] = [];
     stdTx.value.msg.forEach(msg => {
-      msgs.push(msg.getSignBytes());
+      if (msg.getSignBytes) {
+        msgs.push(msg.getSignBytes());
+      }
     });
 
     if (!offline) {
@@ -211,6 +226,7 @@ export class Tx {
 
     // Signing
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
+    console.log(JSON.stringify(Utils.sortObject(signMsg))); // Test signbytes
     const signature = Crypto.generateSignature(
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey

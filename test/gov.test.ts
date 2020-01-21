@@ -25,7 +25,7 @@ describe('Gov Tests', () => {
   // Init Client
   const client = iris
     .newClient({
-      node: 'http://10.2.10.140:26657',
+      node: 'http://localhost:26657',
       network: iris.Network.Testnet,
       chainId: 'test',
     })
@@ -39,28 +39,120 @@ describe('Gov Tests', () => {
     'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
-  describe('Query', () => {
-    test('query proposal', async () => {
-      await client.gov
-        .queryProposal(164)
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-    test('query proposals', async () => {
-      await client.gov
-        .queryProposals({
-          Limit: 2
-        })
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
+  const baseTx: types.BaseTx = {
+    from: name,
+    password: password,
+    mode: types.BroadcastMode.Commit,
+  };
+
+  // describe('Query', () => {
+  //   test('query proposal', async () => {
+  //     await client.gov
+  //       .queryProposal(164)
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query proposals', async () => {
+  //     await client.gov
+  //       .queryProposals({
+  //         Limit: 1,
+  //       })
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query vote', async () => {
+  //     await client.gov
+  //       .queryVote(1, 'faa1rug6dlx3rugu50ha0a35at6fwv2sss9l9amknx')
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query votes', async () => {
+  //     await client.gov
+  //       .queryVotes(2)
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query deposit', async () => {
+  //     await client.gov
+  //       .queryDeposit(260, 'faa1rug6dlx3rugu50ha0a35at6fwv2sss9l9amknx')
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query deposits', async () => {
+  //     await client.gov
+  //       .queryDeposits(260)
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  //   test('query tally', async () => {
+  //     await client.gov
+  //       .queryTally(260)
+  //       .then(res => {
+  //         console.log(JSON.stringify(res));
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   });
+  // });
+
+  describe('Submit ParameterChange Proposal', () => {
+    test(
+      'submitParameterChangeProposal',
+      async () => {
+        const amount: types.Coin[] = [
+          {
+            denom: 'iris-atto',
+            amount: '1000000000000000000000',
+          },
+        ];
+        const params: types.ChangeParameter[] = [
+          {
+            subspace: 'slashing',
+            key: 'MaxEvidenceAge',
+            value: '51840',
+          },
+        ];
+        await client.gov
+          .submitParameterChangeProposal(
+            'Title',
+            'Desc',
+            amount,
+            params,
+            baseTx
+          )
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
   });
 });
