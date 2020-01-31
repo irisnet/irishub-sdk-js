@@ -223,4 +223,21 @@ describe('Gov Tests', () => {
       timeout
     );
   });
+
+  describe('Vote', () => {
+    test(
+      'vote',
+      async () => {
+        await client.gov
+          .vote(1, types.VoteOption.Yes, baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+  });
 });

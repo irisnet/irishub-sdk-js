@@ -15,6 +15,14 @@ export enum CommunityTaxUsageType {
   Grant = 0x03,
 }
 
+export enum VoteOption {
+  Empty = 0x00,
+  Yes = 0x01,
+  Abstain = 0x02,
+  No = 0x03,
+  NoWithVeto = 0x04,
+}
+
 export interface BasicProposalResult {
   proposal_id: string;
   title: string;
@@ -220,6 +228,39 @@ export class MsgDeposit implements Msg {
   }
 
   getSignBytes(): object {
-    return this;
+    return this.value;
+  }
+}
+
+export class MsgVote implements Msg {
+  type: string;
+  value: {
+    proposal_id: string;
+    voter: string;
+    option: string;
+  };
+
+  constructor(proposalID: string, voter: string, option: VoteOption) {
+    this.type = 'irishub/gov/MsgVote';
+    this.value = {
+      proposal_id: proposalID,
+      voter: voter,
+      option: VoteOption[option],
+    };
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+
+  marshal(): Msg {
+    return {
+      type: this.type,
+      value: {
+        proposal_id: this.value.proposal_id,
+        voter: this.value.voter,
+        option: VoteOption[this.value.option],
+      },
+    };
   }
 }

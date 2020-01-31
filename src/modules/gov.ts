@@ -13,6 +13,7 @@ import {
   CommunityTaxUsageType,
   MsgSubmitCommunityTaxUsageProposal,
   MsgDeposit,
+  MsgVote,
 } from '../types/gov';
 
 export class Gov {
@@ -172,6 +173,17 @@ export class Gov {
     const msgs: types.Msg[] = [
       new MsgDeposit(String(proposalID), depositor, amount),
     ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  async vote(
+    proposalID: number,
+    option: types.VoteOption,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const voter = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [new MsgVote(String(proposalID), voter, option)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
