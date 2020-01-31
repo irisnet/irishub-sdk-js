@@ -9,6 +9,9 @@ import Utils from '../utils/utils';
 import {
   MsgSubmitParameterChangeProposal,
   MsgSubmitPlainTextProposal,
+  ProposalType,
+  CommunityTaxUsageType,
+  MsgSubmitCommunityTaxUsageProposal,
 } from '../types/gov';
 
 export class Gov {
@@ -128,6 +131,31 @@ export class Gov {
         description: description,
         proposer: proposer,
         initial_deposit: initialDeposit,
+      }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  async submitCommunityTaxUsageProposal(
+    title: string,
+    description: string,
+    initialDeposit: types.Coin[],
+    usage: CommunityTaxUsageType,
+    dest_address: string,
+    percent: number,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const proposer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgSubmitCommunityTaxUsageProposal({
+        title: title,
+        description: description,
+        proposer: proposer,
+        initial_deposit: initialDeposit,
+        usage: CommunityTaxUsageType[usage],
+        dest_address: dest_address,
+        percent: String(percent),
       }),
     ];
 

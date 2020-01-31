@@ -1,12 +1,18 @@
 import { Coin, Msg } from './types';
 
-enum ProposalType {
-  ParameterChange = 0x01,
+export enum ProposalType {
+  Parameter = 0x01,
   SoftwareUpgrade = 0x02,
   SystemHalt = 0x03,
   CommunityTaxUsage = 0x04,
   PlainText = 0x05,
   TokenAddition = 0x06,
+}
+
+export enum CommunityTaxUsageType {
+  Burn = 0x01,
+  Distribute = 0x02,
+  Grant = 0x03,
 }
 
 export interface BasicProposalResult {
@@ -93,12 +99,11 @@ export interface BaseProposal {
   description: string;
   proposer: string;
   initial_deposit: Coin[];
+  params?: ChangeParameter[] | null;
 }
 
 // ------------------- ParameterChangeProposal -------------------------
-export interface ParameterChangeProposal extends BaseProposal {
-  params: ChangeParameter[];
-}
+export interface ParameterChangeProposal extends BaseProposal {}
 
 export class MsgSubmitParameterChangeProposal implements Msg {
   type: string;
@@ -106,7 +111,7 @@ export class MsgSubmitParameterChangeProposal implements Msg {
 
   constructor(params: ParameterChangeProposal) {
     this.type = 'irishub/gov/MsgSubmitProposal';
-    params.proposal_type = 'Parameter';
+    params.proposal_type = ProposalType[ProposalType.Parameter];
     this.value = params;
   }
 
@@ -118,7 +123,7 @@ export class MsgSubmitParameterChangeProposal implements Msg {
     return {
       type: this.type,
       value: {
-        proposal_type: ProposalType.ParameterChange,
+        proposal_type: ProposalType.Parameter,
         title: this.value.title,
         description: this.value.description,
         proposer: this.value.proposer,
@@ -130,9 +135,7 @@ export class MsgSubmitParameterChangeProposal implements Msg {
 }
 
 // ------------------- PlainTextProposal -------------------------
-export interface PlainTextProposal extends BaseProposal {
-  params?: null;
-}
+export interface PlainTextProposal extends BaseProposal {}
 
 export class MsgSubmitPlainTextProposal implements Msg {
   type: string;
@@ -140,8 +143,8 @@ export class MsgSubmitPlainTextProposal implements Msg {
 
   constructor(params: PlainTextProposal) {
     this.type = 'irishub/gov/MsgSubmitProposal';
-    params.proposal_type = 'PlainText';
-    params.params = null; // TODO: Historical issue: PlainText proposal must specify the `params` to be null
+    params.proposal_type = ProposalType[ProposalType.PlainText];
+    params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
     this.value = params;
   }
 
@@ -154,6 +157,42 @@ export class MsgSubmitPlainTextProposal implements Msg {
       type: this.type,
       value: {
         proposal_type: ProposalType.PlainText,
+        title: this.value.title,
+        description: this.value.description,
+        proposer: this.value.proposer,
+        initial_deposit: this.value.initial_deposit,
+      },
+    };
+  }
+}
+
+// ------------------- CommunityTaxUsageProposal -------------------------
+export interface CommunityTaxUsageProposal extends BaseProposal {
+  usage: string;
+  dest_address: string;
+  percent: string;
+}
+
+export class MsgSubmitCommunityTaxUsageProposal implements Msg {
+  type: string;
+  value: CommunityTaxUsageProposal;
+
+  constructor(params: CommunityTaxUsageProposal) {
+    this.type = 'irishub/gov/MsgSubmitCommunityTaxUsageProposal';
+    params.proposal_type = ProposalType[ProposalType.CommunityTaxUsage];
+    params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
+    this.value = params;
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+
+  marshal(): Msg {
+    return {
+      type: this.type,
+      value: {
+        proposal_type: ProposalType.CommunityTaxUsage,
         title: this.value.title,
         description: this.value.description,
         proposer: this.value.proposer,
