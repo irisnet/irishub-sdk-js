@@ -45,6 +45,11 @@ export class Client {
   tx: modules.Tx;
 
   /**
+   * Gov module
+   */
+  gov: modules.Gov;
+
+  /**
    * IRISHub SDK Constructor
    */
   constructor(config: DefaultClientConfig) {
@@ -60,6 +65,7 @@ export class Client {
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
     this.stake = new modules.Stake(this);
+    this.gov = new modules.Gov(this);
   }
 
   /**
