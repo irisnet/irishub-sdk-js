@@ -12,6 +12,7 @@ import {
   ProposalType,
   CommunityTaxUsageType,
   MsgSubmitCommunityTaxUsageProposal,
+  MsgDeposit,
 } from '../types/gov';
 
 export class Gov {
@@ -157,6 +158,19 @@ export class Gov {
         dest_address: dest_address,
         percent: String(percent),
       }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  async deposit(
+    proposalID: number,
+    amount: types.Coin[],
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const depositor = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgDeposit(String(proposalID), depositor, amount),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);

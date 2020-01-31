@@ -201,3 +201,25 @@ export class MsgSubmitCommunityTaxUsageProposal implements Msg {
     };
   }
 }
+
+export class MsgDeposit implements Msg {
+  type: string;
+  value: {
+    proposal_id: string;
+    depositor: string;
+    amount: Coin[];
+  };
+
+  constructor(proposalID: string, depositor: string, amount: Coin[]) {
+    this.type = 'irishub/gov/MsgDeposit';
+    this.value = {
+      proposal_id: proposalID,
+      depositor: depositor,
+      amount: amount,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}

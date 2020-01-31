@@ -197,4 +197,30 @@ describe('Gov Tests', () => {
       timeout
     );
   });
+
+  describe('Deposit', () => {
+    test(
+      'deposit',
+      async () => {
+        await client.gov
+          .deposit(
+            1,
+            [
+              {
+                denom: 'iris-atto',
+                amount: '1000000000000000000000',
+              },
+            ],
+            baseTx
+          )
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+  });
 });
