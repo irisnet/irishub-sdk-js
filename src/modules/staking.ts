@@ -6,9 +6,9 @@ import * as Amino from '@irisnet/amino-js';
 import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
 import Utils from '../utils/utils';
-import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/stake';
+import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
 
-export class Stake {
+export class Staking {
   client: Client;
   constructor(client: Client) {
     this.client = client;

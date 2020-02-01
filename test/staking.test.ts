@@ -47,7 +47,7 @@ describe('Staking Tests', () => {
 
   describe('Query', () => {
     test('query delegation', async () => {
-      await client.stake
+      await client.staking
         .queryDelegation(
           'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
           'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
@@ -60,7 +60,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query delegations of a delegator', async () => {
-      await client.stake
+      await client.staking
         .queryDelegations('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -70,7 +70,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query unbonding delegation', async () => {
-      await client.stake
+      await client.staking
         .queryUnbondingDelegation(
           'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
           'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een'
@@ -83,7 +83,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query unbonding delegations of a delegator', async () => {
-      await client.stake
+      await client.staking
         .queryUnbondingDelegations('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -93,7 +93,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query redelegation', async () => {
-      await client.stake
+      await client.staking
         .queryRedelegation(
           'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
           'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
@@ -107,7 +107,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query redelegations of a delegator', async () => {
-      await client.stake
+      await client.staking
         .queryRedelegations('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -117,7 +117,7 @@ describe('Staking Tests', () => {
         });
     });
     test('query delegations to a validator', async () => {
-      await client.stake
+      await client.staking
         .queryDelegationsTo('fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -128,7 +128,7 @@ describe('Staking Tests', () => {
     });
 
     test('query unbonding delegations from a validator', async () => {
-      await client.stake
+      await client.staking
         .queryUnbondingDelegationsFrom(
           'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een'
         )
@@ -141,7 +141,7 @@ describe('Staking Tests', () => {
     });
 
     test('query redelegations from a validator', async () => {
-      await client.stake
+      await client.staking
         .queryRedelegationsFrom('fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -152,7 +152,7 @@ describe('Staking Tests', () => {
     });
 
     test('query a validator', async () => {
-      await client.stake
+      await client.staking
         .queryValidator('fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -163,7 +163,7 @@ describe('Staking Tests', () => {
     });
 
     test('query all validators', async () => {
-      await client.stake
+      await client.staking
         .queryValidators(1)
         .then(res => {
           console.log(JSON.stringify(res));
@@ -174,7 +174,7 @@ describe('Staking Tests', () => {
     });
 
     test('query pool', async () => {
-      await client.stake
+      await client.staking
         .queryPool()
         .then(res => {
           console.log(JSON.stringify(res));
@@ -185,7 +185,7 @@ describe('Staking Tests', () => {
     });
 
     test('query params', async () => {
-      await client.stake
+      await client.staking
         .queryParams()
         .then(res => {
           console.log(JSON.stringify(res));
@@ -200,7 +200,7 @@ describe('Staking Tests', () => {
     test(
       'delegate',
       async () => {
-        await client.stake
+        await client.staking
           .delegate(
             'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
             { denom: 'iris-atto', amount: '5000000000000000000' },
@@ -220,7 +220,7 @@ describe('Staking Tests', () => {
     test(
       'unbond',
       async () => {
-        await client.stake
+        await client.staking
           .unbond(
             'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
             '100000000000000000',
@@ -240,7 +240,7 @@ describe('Staking Tests', () => {
     test(
       'redelegate',
       async () => {
-        await client.stake
+        await client.staking
           .redelegate(
             'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
             'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',

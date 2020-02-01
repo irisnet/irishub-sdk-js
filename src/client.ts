@@ -37,7 +37,7 @@ export class Client {
   /**
    * Staking module
    */
-  stake: modules.Stake;
+  staking: modules.Staking;
 
   /**
    * Tx module
@@ -64,7 +64,7 @@ export class Client {
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
-    this.stake = new modules.Stake(this);
+    this.staking = new modules.Staking(this);
     this.gov = new modules.Gov(this);
   }
 
