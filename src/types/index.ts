@@ -8,3 +8,4 @@ export * from './abci-query';
 export * from './staking';
 export * from './params';
 export * from './gov';
+export * from './slashing';

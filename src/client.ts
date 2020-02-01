@@ -5,53 +5,36 @@ import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
 import SdkError from './errors';
 
-/**
- * IRISHub Client
- */
+/** IRISHub Client */
 export class Client {
-  /**
-   * IRISHub Client Config
-   */
+  /** IRISHub Client Config */
   config: DefaultClientConfig;
 
-  /**
-   * Axios client for tendermint rpc requests
-   */
+  /** Axios client for tendermint rpc requests */
   rpcClient: RpcClient;
 
-  /**
-   * Auth module
-   */
+  /** Auth module */
   auth: modules.Auth;
 
-  /**
-   * Bank module
-   */
+  /** Bank module */
   bank: modules.Bank;
 
-  /**
-   * Key management module
-   */
+  /** Key management module */
   keys: modules.Keys;
 
-  /**
-   * Staking module
-   */
+  /** Staking module */
   staking: modules.Staking;
 
-  /**
-   * Tx module
-   */
+  /** Tx module */
   tx: modules.Tx;
 
-  /**
-   * Gov module
-   */
+  /** Gov module */
   gov: modules.Gov;
 
-  /**
-   * IRISHub SDK Constructor
-   */
+  /** Slashing module */
+  slashing: modules.Slashing;
+
+  /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
     this.config.bech32Prefix =
@@ -139,59 +122,37 @@ export class Client {
   }
 }
 
-/**
- * IRISHub SDK Config
- */
+/** IRISHub SDK Config */
 export interface ClientConfig {
-  /**
-   * IRISHub node rpc address
-   */
+  /** IRISHub node rpc address */
   node: string;
 
-  /**
-   * IRISHub network type, mainnet / testnet
-   */
+  /** IRISHub network type, mainnet / testnet */
   network?: consts.Network;
 
-  /**
-   * IRISHub chain-id
-   */
+  /** IRISHub chain-id */
   chainId?: string;
 
-  /**
-   * Default gas limit
-   */
+  /** Default gas limit */
   gas?: string;
 
-  /**
-   * Default fee amount of iris-atto
-   */
+  /** Default fee amount of iris-atto */
   fee?: string;
 
-  /**
-   * Key DAO Implemention
-   */
+  /** Key DAO Implemention */
   keyDAO?: KeyDAO;
 
-  /**
-   * Bech32 prefix of the address, will be overwritten by network type
-   */
+  /** Bech32 prefix of the address, will be overwritten by network type */
   bech32Prefix?: string;
 
-  /**
-   * Axios request config for tendermint rpc requests
-   */
+  /** Axios request config for tendermint rpc requests */
   rpcConfig?: AxiosRequestConfig;
 
-  /**
-   * Save the key as a keystore or private key
-   */
+  /** Save the key as a keystore or private key */
   keyStoreType?: types.StoreType;
 }
 
-/**
- * Default IRISHub Client Config
- */
+/** Default IRISHub Client Config */
 export class DefaultClientConfig implements ClientConfig {
   node: string;
   network: consts.Network;

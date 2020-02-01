@@ -5,3 +5,4 @@ export * from './keys';
 export * from './tx';
 export * from './staking';
 export * from './gov';
+export * from './slashing';
