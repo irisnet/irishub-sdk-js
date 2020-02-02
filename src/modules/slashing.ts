@@ -7,10 +7,14 @@ export class Slashing {
   constructor(client: Client) {
     this.client = client;
   }
- 
-  async unjail(
-    baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+
+  queryParams(): Promise<types.SlashingParams> {
+    return this.client.rpcClient.abciQuery<types.SlashingParams>(
+      'custom/slashing/parameters'
+    );
+  }
+
+  async unjail(baseTx: types.BaseTx): Promise<types.ResultBroadcastTx> {
     const address = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgUnjail(address)];
 

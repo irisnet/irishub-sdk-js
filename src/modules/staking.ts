@@ -139,8 +139,8 @@ export class Staking {
     return this.client.rpcClient.abciQuery<types.StakePool>('custom/stake/pool');
   }
 
-  queryParams(): Promise<types.StakeParams> {
-    return this.client.rpcClient.abciQuery<types.StakeParams>(
+  queryParams(): Promise<types.StakingParams> {
+    return this.client.rpcClient.abciQuery<types.StakingParams>(
       'custom/stake/parameters'
     );
   }

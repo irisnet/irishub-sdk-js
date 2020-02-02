@@ -33,7 +33,7 @@ export interface StakePool {
   bonded_tokens: string;
 }
 
-export interface StakeParams {
+export interface StakingParams {
   unbonding_time: string;
   max_validators: number;
 }
