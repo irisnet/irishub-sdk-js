@@ -93,11 +93,10 @@ export class Bank {
 
   /**
    * Set Memo Regexp
-   * @param to Recipient bech32 address
-   * @param amount Coins to be sent
+   * @param memoRegexp
    * @param baseTx { types.BaseTx }
    * @returns { Promise<types.ResultBroadcastTx> }
-   */ 
+   */
   async setMemoRegexp(
     memoRegexp: string,
     baseTx: types.BaseTx

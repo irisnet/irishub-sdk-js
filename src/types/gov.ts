@@ -259,7 +259,7 @@ export class MsgVote implements Msg {
       value: {
         proposal_id: this.value.proposal_id,
         voter: this.value.voter,
-        option: VoteOption[this.value.option],
+        option: (<any>VoteOption)[this.value.option],
       },
     };
   }

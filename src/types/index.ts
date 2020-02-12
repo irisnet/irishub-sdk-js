@@ -9,3 +9,4 @@ export * from './staking';
 export * from './params';
 export * from './gov';
 export * from './slashing';
+export * from './distribution';
