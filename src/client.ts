@@ -49,6 +49,7 @@ export class Client {
     this.tx = new modules.Tx(this);
     this.staking = new modules.Staking(this);
     this.gov = new modules.Gov(this);
+    this.slashing = new modules.Slashing(this);
   }
 
   /**

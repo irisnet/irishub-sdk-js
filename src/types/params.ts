@@ -1,6 +1,6 @@
-import { StakeParams } from './stake';
+import { StakingParams } from './staking';
 
 export interface Params {
   type: string;
-  value: StakeParams;
+  value: StakingParams;
 }
