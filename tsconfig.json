@@ -8,6 +8,10 @@
     "sourceMap": true,
     "types": ["jest", "node"]
   },
+  "typedocOptions": {
+    "mode": "file",
+    "out": "docs"
+  },
   "include": [
     "src/**/*.ts",
     "test/**/*.ts"

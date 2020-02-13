@@ -20,6 +20,7 @@
     "clean": "gts clean",
     "compile": "tsc -p .",
     "fix": "gts fix",
+    "docs": "npx typedoc",
     "prepare": "yarn run compile",
     "pretest": "yarn run compile",
     "posttest": "yarn run check"
@@ -32,6 +33,7 @@
     "gts": "^1.1.2",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
+    "typedoc": "^0.16.9",
     "typescript": "^3.7.3"
   },
   "dependencies": {
