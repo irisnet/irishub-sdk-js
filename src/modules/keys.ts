@@ -1,11 +1,20 @@
-import { Client } from '../client';
+import { Client, KeyDAO } from '../client';
 import { Crypto } from '../utils/crypto';
 import SdkError from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
+/**
+ * This module allows you to manage your local tendermint keystore (wallets) for iris.
+ * 
+ * **NOTE:** You need to implement the [[KeyDAO]] Interface first.
+ * 
+ * @category Modules
+ */
 export class Keys {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }

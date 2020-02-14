@@ -82,10 +82,17 @@ export interface ProposalResult {
   };
 }
 
+/**
+ * Params for querying proposals
+ */
 export interface QueryProposalsParams {
+  /** Bech32 voter address */
   voter?: string;
+  /** Bech32 depositor address */
   depositor?: string;
+  /** Proposal status: passed / rejected */
   proposalStatus?: string;
+  /** Limit to the latest [number] of proposals. Default to all proposals */
   limit?: number;
 }
 

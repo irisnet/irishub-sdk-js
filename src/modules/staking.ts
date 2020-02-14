@@ -8,12 +8,28 @@ import SdkError from '../errors';
 import Utils from '../utils/utils';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
 
+/**
+ * This module provides staking functionalities for validators and delegators
+ *
+ * [More Details](https://www.irisnet.org/docs/features/stake.html)
+ * 
+ * @category Modules
+ */
 export class Staking {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }
 
+  /**
+   * Query a delegation based on delegator address and validator address
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @param validatorAddr Bech32 validator address
+   * @returns
+   */
   queryDelegation(
     delegatorAddr: string,
     validatorAddr: string
@@ -27,6 +43,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all delegations made from one delegator
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @returns
+   */
   queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
       'custom/stake/delegatorDelegations',
@@ -36,6 +58,13 @@ export class Staking {
     );
   }
 
+  /**
+   * Query an unbonding-delegation record based on delegator and validator address
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @param validatorAddr Bech32 validator address
+   * @returns
+   */
   queryUnbondingDelegation(
     delegatorAddr: string,
     validatorAddr: string
@@ -49,6 +78,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all unbonding-delegations records for one delegator
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @returns
+   */
   queryUnbondingDelegations(
     delegatorAddr: string
   ): Promise<types.UnbondingDelegation[]> {
@@ -60,6 +95,14 @@ export class Staking {
     );
   }
 
+  /**
+   * Query a redelegation record based on delegator and a source and destination validator address
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @param srcValidatorAddr Bech32 source validator address
+   * @param dstValidatorAddr Bech32 destination validator address
+   * @returns
+   */
   queryRedelegation(
     delegatorAddr: string,
     srcValidatorAddr: string,
@@ -75,6 +118,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all redelegations records for one delegator
+   *
+   * @param delegatorAddr Bech32 delegator address
+   * @returns
+   */
   queryRedelegations(delegatorAddr: string): Promise<types.Redelegation[]> {
     return this.client.rpcClient.abciQuery<types.Redelegation[]>(
       'custom/stake/delegatorRedelegations',
@@ -84,6 +133,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all delegations to one validator
+   *
+   * @param validatorAddr Bech32 validator address
+   * @returns
+   */
   queryDelegationsTo(validatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
       'custom/stake/validatorDelegations',
@@ -93,6 +148,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all unbonding delegatations from a validator
+   *
+   * @param validatorAddr Bech32 validator address
+   * @returns
+   */
   queryUnbondingDelegationsFrom(
     validatorAddr: string
   ): Promise<types.UnbondingDelegation[]> {
@@ -104,6 +165,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query all outgoing redelegatations from a validator
+   *
+   * @param validatorAddr Bech32 validator address
+   * @returns
+   */
   queryRedelegationsFrom(validatorAddr: string): Promise<types.Redelegation[]> {
     return this.client.rpcClient.abciQuery<types.Redelegation[]>(
       'custom/stake/validatorRedelegations',
@@ -113,6 +180,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query a validator
+   *
+   * @param address Bech32 validator address
+   * @returns
+   */
   queryValidator(address: string): Promise<types.Validator> {
     return this.client.rpcClient.abciQuery<types.Validator>(
       'custom/stake/validator',
@@ -122,6 +195,12 @@ export class Staking {
     );
   }
 
+  /**
+   * Query for all validators
+   * @param page Page number
+   * @param size Page size
+   * @returns
+   */
   queryValidators(
     page: number,
     size: number = 100
@@ -135,10 +214,20 @@ export class Staking {
     );
   }
 
+  /**
+   * Query the current staking pool values
+   * @returns
+   */
   queryPool(): Promise<types.StakePool> {
-    return this.client.rpcClient.abciQuery<types.StakePool>('custom/stake/pool');
+    return this.client.rpcClient.abciQuery<types.StakePool>(
+      'custom/stake/pool'
+    );
   }
 
+  /**
+   * Query the current staking parameters information
+   * @returns
+   */
   queryParams(): Promise<types.StakingParams> {
     return this.client.rpcClient.abciQuery<types.StakingParams>(
       'custom/stake/parameters'
@@ -149,6 +238,14 @@ export class Staking {
 
   // TODO: Do we need `Create Validator` function?
 
+  /**
+   * Delegate liquid tokens to an validator
+   *
+   * @param validatorAddr Bech32 validator address
+   * @param amount Amount to be delegated to the validator
+   * @param baseTx
+   * @returns
+   */
   delegate(
     validatorAddr: string,
     amount: types.Coin,
@@ -163,8 +260,10 @@ export class Staking {
 
   /**
    * Undelegate from a validator
-   * @param validatorAddr
-   * @param amount Amount to be unbonded in iris-atto
+   * @param validatorAddr Bech32 validator address
+   * @param amount Amount to be unbonded from the validator
+   * @param baseTx
+   * @returns
    */
   async unbond(
     validatorAddr: string,
@@ -188,9 +287,11 @@ export class Staking {
   }
 
   /**
-   * Undelegate from a validator
-   * @param validatorAddr
-   * @param amount Amount to be unbonded in iris-atto
+   * Redelegate illiquid tokens from one validator to another
+   * @param validatorSrcAddr Bech32 source validator address
+   * @param validatorDstAddr Bech32 destination validator address
+   * @param amount Amount to be redelegated
+   * @param baseTx
    */
   async redelegate(
     validatorSrcAddr: string,
@@ -217,6 +318,7 @@ export class Staking {
 
   /**
    * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
+   * @hidden
    */
   private appendZero(num: string, count: number): string {
     const length = num.length;

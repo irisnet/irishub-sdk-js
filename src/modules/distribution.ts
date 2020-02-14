@@ -8,12 +8,28 @@ import {
   MsgWithdrawDelegatorRewardsAll,
 } from '../types/distribution';
 
+/**
+ * This module is in charge of distributing collected transaction fee and inflated token to all validators and delegators.
+ * To reduce computation stress, a lazy distribution strategy is brought in. lazy means that the benefit won't be paid directly to contributors automatically.
+ * The contributors are required to explicitly send transactions to withdraw their benefit, otherwise, their benefit will be kept in the global pool.
+ *
+ * [More Details](https://www.irisnet.org/docs/features/distribution.html)
+ * 
+ * @category Modules
+ */
 export class Distribution {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }
 
+  /**
+   * Query all the rewards of a validator or a delegator
+   * @param address Bech32 account address
+   * @returns
+   */
   queryRewards(address: string): Promise<types.Rewards> {
     return this.client.rpcClient.abciQuery<types.Rewards>(
       'custom/distr/rewards',
@@ -24,10 +40,10 @@ export class Distribution {
   }
 
   /**
-   * Set withdraw address
-   * @param withdrawAddr Bech32 address
-   * @param baseTx { types.BaseTx }
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * Set another address to receive the rewards instead of using the delegator address
+   * @param withdrawAddr Bech32 account address
+   * @param baseTx
+   * @returns
    */
   async setWithdrawAddr(
     withdrawAddr: string,
@@ -40,7 +56,7 @@ export class Distribution {
   }
 
   /**
-   * Withdraw rewards
+   * Withdraw rewards to the withdraw-address(default to the delegator address, you can set to another address via [[setWithdrawAddr]])
    * @param isValidator also withdraw validator's commission
    * @param onlyFromValidator only withdraw from this validator address
    * @param baseTx { types.BaseTx }

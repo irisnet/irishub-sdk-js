@@ -8,8 +8,15 @@ import { marshalTx } from '@irisnet/amino-js';
 import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
 import Utils from '../utils/utils';
 
+/**
+ * Tx module allows you to sign or broadcast transactions
+ * 
+ * @category Modules
+ */
 export class Tx {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }
@@ -17,8 +24,8 @@ export class Tx {
   /**
    * Build, sign and broadcast the msgs
    * @param msgs Msgs to be sent
-   * @param baseTx { types.BaseTx }
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @param baseTx
+   * @returns
    */
   async buildAndSend(
     msgs: types.Msg[],
@@ -39,7 +46,7 @@ export class Tx {
    * Broadcast a tx
    * @param signedTx The tx object with signatures
    * @param mode Broadcast mode
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @returns
    */
   broadcast(
     signedTx: types.Tx<types.StdTx>,
@@ -63,8 +70,8 @@ export class Tx {
 
   /**
    * Broadcast tx async
-   * @param signedTx The tx object with signatures
-   * @returns The result object of broadcasting
+   * @param txBytes The tx bytes with signatures
+   * @returns
    */
   private broadcastTxAsync(
     txBytes: Uint8Array
@@ -74,7 +81,7 @@ export class Tx {
 
   /**
    * Broadcast tx sync
-   * @param signedTx The tx object with signature
+   * @param txBytes The tx bytes with signatures
    * @returns The result object of broadcasting
    */
   private broadcastTxSync(
@@ -85,7 +92,7 @@ export class Tx {
 
   /**
    * Broadcast tx and wait for it to be included in a block.
-   * @param signedTx The tx object with signatures
+   * @param txBytes The tx bytes with signatures
    * @returns The result object of broadcasting
    */
   private broadcastTxCommit(
@@ -164,7 +171,7 @@ export class Tx {
    * @param name Name of the key to sign the tx
    * @param password Password of the key
    * @param offline Offline signing, default `false`
-   * @returns { Promise<types.Tx<types.StdTx>> } The signed tx
+   * @returns The signed tx
    */
   async sign(
     stdTx: types.Tx<types.StdTx>,
