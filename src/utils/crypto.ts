@@ -11,18 +11,22 @@ import Utils from './utils';
 import * as types from '../types';
 import SdkError from '../errors';
 
-// secp256k1 privkey is 32 bytes
-const PRIVKEY_LEN = 32;
-const MNEMONIC_LEN = 256;
-const DECODED_ADDRESS_LEN = 20;
-const CURVE = 'secp256k1';
-
-//hdpath
-const HDPATH = "44'/118'/0'/0/";
-
-const ec = new EC(CURVE);
-
+/**
+ * Crypto Utils
+ * @hidden
+ */
 export class Crypto {
+  // secp256k1 privkey is 32 bytes
+  static PRIVKEY_LEN = 32;
+  static MNEMONIC_LEN = 256;
+  static DECODED_ADDRESS_LEN = 20;
+  static CURVE = 'secp256k1';
+
+  //hdpath
+  static HDPATH = "44'/118'/0'/0/";
+
+  static ec = new EC(Crypto.CURVE);
+
   /**
    * Decodes an address in bech32 format.
    * @param address The bech32 address to decode
@@ -48,7 +52,7 @@ export class Crypto {
       const decodedAddress = bech32.decode(address);
       const decodedAddressLength = Crypto.decodeAddress(address).length;
       if (
-        decodedAddressLength === DECODED_ADDRESS_LEN &&
+        decodedAddressLength === Crypto.DECODED_ADDRESS_LEN &&
         decodedAddress.prefix === hrp
       ) {
         return true;
@@ -98,7 +102,7 @@ export class Crypto {
    * @param len The output length (default: 32 bytes)
    * @returns An entropy bytes hexstring
    */
-  static generatePrivateKey(len: number = PRIVKEY_LEN): string {
+  static generatePrivateKey(len: number = Crypto.PRIVKEY_LEN): string {
     return Utils.ab2hexstring(csprng(len));
   }
 
@@ -117,7 +121,7 @@ export class Crypto {
    * @returns Public key hexstring
    */
   static getPublicKey(publicKey: string): string {
-    const keyPair = ec.keyFromPublic(publicKey, 'hex');
+    const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
     return keyPair.getPublic();
   }
 
@@ -127,10 +131,10 @@ export class Crypto {
    * @returns Public key hexstring
    */
   static getPublicKeyFromPrivateKey(privateKeyHex: string): string {
-    if (!privateKeyHex || privateKeyHex.length !== PRIVKEY_LEN * 2) {
+    if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
       throw new SdkError('invalid privateKey');
     }
-    const curve = new EC(CURVE);
+    const curve = new EC(Crypto.CURVE);
     const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
     const unencodedPubKey = keypair.getPublic().encode('hex');
     return unencodedPubKey;
@@ -143,7 +147,7 @@ export class Crypto {
    * @returns Public key hexstring
    */
   static generatePubKey(privateKey: Buffer): string {
-    const curve = new EC(CURVE);
+    const curve = new EC(Crypto.CURVE);
     const keypair = curve.keyFromPrivate(privateKey);
     return keypair.getPublic();
   }
@@ -156,7 +160,7 @@ export class Crypto {
    * @returns The address
    */
   static getAddressFromPublicKey(publicKeyHex: string, prefix: string): string {
-    const pubKey = ec.keyFromPublic(publicKeyHex, 'hex');
+    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
     const pubPoint = pubKey.getPublic();
     const compressed = pubPoint.encodeCompressed();
     const hexed = Utils.ab2hexstring(compressed);
@@ -349,7 +353,7 @@ export class Crypto {
    * @returns Mnemonic
    */
   static generateMnemonic(): string {
-    return bip39.generateMnemonic(MNEMONIC_LEN);
+    return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
   }
 
   /**
@@ -379,7 +383,7 @@ export class Crypto {
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     if (derive) {
       const master = bip32.fromSeed(seed);
-      const child = master.derivePath(HDPATH + index);
+      const child = master.derivePath(Crypto.HDPATH + index);
       if (
         typeof child === 'undefined' ||
         typeof child.privateKey === 'undefined'

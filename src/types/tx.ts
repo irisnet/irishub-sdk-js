@@ -27,16 +27,3 @@ export interface ResultTx {
   tags: string[];
 }
 
-export function newResultBroadcastTx(
-  hash: string,
-  check_tx?: ResultTx,
-  deliver_tx?: ResultTx,
-  height?: number
-): ResultBroadcastTx {
-  return {
-    hash: hash,
-    check_tx: check_tx,
-    deliver_tx: deliver_tx,
-    height: height,
-  };
-}

@@ -5,8 +5,10 @@ import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
 import SdkError from '../errors';
 
-const hexRegex = /^([0-9A-Fa-f]{2})*$/;
-
+/**
+ * IRISHub SDK JS Utils
+ * @hidden
+ */
 export default class Utils {
   /**
    * String to ArrayBuffer
@@ -177,6 +179,7 @@ export default class Utils {
    */
   static isHex(str: string): boolean {
     try {
+      const hexRegex = /^([0-9A-Fa-f]{2})*$/;
       return hexRegex.test(str);
     } catch (err) {
       return false;
@@ -216,7 +219,8 @@ export default class Utils {
    * @returns Hash output
    */
   static sha256(hex: string): string {
-    if (typeof hex !== 'string') throw new SdkError('sha256 expects a hex string');
+    if (typeof hex !== 'string')
+      throw new SdkError('sha256 expects a hex string');
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }
@@ -230,7 +234,8 @@ export default class Utils {
    * @returns Hash output
    */
   static sha3(hex: string): string {
-    if (typeof hex !== 'string') throw new SdkError('sha3 expects a hex string');
+    if (typeof hex !== 'string')
+      throw new SdkError('sha3 expects a hex string');
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }

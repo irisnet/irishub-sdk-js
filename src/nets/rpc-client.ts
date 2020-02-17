@@ -6,14 +6,18 @@ import SdkError from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
+/**
+ * Tendermint JSON RPC Client
+ */
 export default class RpcClient {
+  /** @hidden */
   instance: AxiosInstance;
 
   /**
    * Initialize Tendermint JSON RPC Client
    * @param url Rpc address of irishub node
-   * @param config The other configurations, refer to { AxiosRequestConfig }
-   * @returns { RpcClient }
+   * @param config The other configurations, refer to { [[AxiosRequestConfig]] }
+   * @returns
    */
   constructor(config: AxiosRequestConfig) {
     if (is.empty(config)) {
@@ -36,7 +40,7 @@ export default class RpcClient {
    *
    * @param method Tendermint RPC method
    * @param params Request params
-   * @returns {T}
+   * @returns
    */
   request<T>(method: string, params: object = {}): Promise<T> {
     const data = {
@@ -62,6 +66,13 @@ export default class RpcClient {
       });
   }
 
+  /**
+   * Tendermint ABCI Query
+   * 
+   * @param path Querier path
+   * @param data Input params
+   * @returns
+   */
   abciQuery<T>(path: string, data?: object): Promise<T> {
     const params: types.AbciQueryRequest = {
       path: path,
@@ -80,7 +91,7 @@ export default class RpcClient {
             ).toString();
             const res = JSON.parse(value);
 
-            if (!res) return <T> {};
+            if (!res) return <T>{};
             if (res.type && res.value) return res.value;
             return res;
           } else if (response.response.code) {

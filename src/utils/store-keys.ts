@@ -2,6 +2,10 @@ import AddressUtils from './address';
 import Utils from './utils';
 import { Crypto } from './crypto';
 
+/**
+ * @Unused
+ * @hidden
+ */
 export default class StoreKeys {
   static addressStoreKeyPrefix = Utils.str2ba('account:');
   static globalAccountNumberKey = Utils.str2ba('globalAccountNumber');

@@ -1,4 +1,7 @@
-/** @TODO document */
+/** 
+ * Base Msg
+ * @hidden
+ */
 export interface Msg {
   type: string;
   value: object;
@@ -6,21 +9,31 @@ export interface Msg {
   marshal?(): Msg;
 }
 
-/** @TODO document */
+/** 
+ * Base Tx
+ * @hidden
+ */
 export interface Tx<T> {
   type: string;
   value: T;
 }
 
-/** @TODO document */
+/** Abstract Tx Value */
 export interface TxValue {}
 
-/** @TODO document */
+/** 
+ * Base Coin
+ * @hidden
+ */
 export interface Coin {
   denom: string;
   amount: string;
 }
 
+/** 
+ * Base JSONRPCResponse
+ * @hidden
+ */
 export interface JSONRPCResponse<T> {
   jsonrpc: string;
   id:      string;
@@ -28,12 +41,19 @@ export interface JSONRPCResponse<T> {
   result:  T;
 }
 
+/** 
+ * JsonRpc Error
+ */
 export interface JsonRpcError {
   code: number;
   message: string;
   data: string;
 }
 
+/** 
+ * Base Pubkey
+ * @hidden
+ */
 export interface Pubkey {
   type: string;
   value: string;

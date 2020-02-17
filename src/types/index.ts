@@ -3,7 +3,7 @@ export * from './bank';
 export * from './constants';
 export * from './types';
 export * from './keystore';
-export * from './result-broadcast-tx';
+export * from './tx';
 export * from './abci-query';
 export * from './staking';
 export * from './params';

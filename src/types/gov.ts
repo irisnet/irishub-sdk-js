@@ -1,5 +1,9 @@
 import { Coin, Msg } from './types';
 
+/**
+ * Proposal Types
+ * @hidden
+ */
 export enum ProposalType {
   Parameter = 0x01,
   SoftwareUpgrade = 0x02,
@@ -9,12 +13,18 @@ export enum ProposalType {
   TokenAddition = 0x06,
 }
 
+/**
+ * Types for community tax usage
+ */
 export enum CommunityTaxUsageType {
   Burn = 0x01,
   Distribute = 0x02,
   Grant = 0x03,
 }
 
+/**
+ * Vote options
+ */
 export enum VoteOption {
   Empty = 0x00,
   Yes = 0x01,
@@ -23,6 +33,9 @@ export enum VoteOption {
   NoWithVeto = 0x04,
 }
 
+/**
+ * Basic proposal result properties
+ */
 export interface BasicProposalResult {
   proposal_id: string;
   title: string;
@@ -38,6 +51,7 @@ export interface BasicProposalResult {
   proposer: string;
 }
 
+/** Voting statistics of a proposal */
 export interface TallyResult {
   yes: string;
   abstain: string;
@@ -46,23 +60,29 @@ export interface TallyResult {
   system_voting_power: string;
 }
 
+/** Integrated proposal result properties */
 export interface ProposalResult {
+  /** Basic properties */
   BasicProposal: BasicProposalResult;
+  /** Software upgrade properties */
   ProtocolDefinition: {
     version: string;
     software: string;
     height: string;
     threshold: string;
   };
+  /** Parameter change properties */
   Params: {
     key: string;
     value: string;
   };
+  /** Community tax usage properties */
   TaxUsage: {
     usage: string;
     dest_address: string;
     percent: string;
   };
+  /** Token addition properties */
   f_token: {
     base_token: {
       id: string;
@@ -82,9 +102,7 @@ export interface ProposalResult {
   };
 }
 
-/**
- * Params for querying proposals
- */
+/** Params for querying proposals */
 export interface QueryProposalsParams {
   /** Bech32 voter address */
   voter?: string;
@@ -96,18 +114,30 @@ export interface QueryProposalsParams {
   limit?: number;
 }
 
+/** Voting result */
 export interface VoteResult {
+  /** Bech32 voter address */
   voter: string;
+  /** Proposal ID */
   proposal_id: string;
+  /** Vote option */
   option: string;
 }
 
+/** Parameter to change */
 export interface ChangeParameter {
+  /** Subspace of the parameter, e.g. `mint` is the subspace of `mint/Inflation` */
   subspace: string;
+  /** Key of the parameter, e.g. `Inflation` is the key of `mint/Inflation` */
   key: string;
+  /** New value of the parameter */
   value: string;
 }
 
+/** 
+ * Base params for submitting a proposal
+ * @hidden
+ */
 export interface BaseProposal {
   proposal_type?: string;
   title: string;
@@ -118,8 +148,17 @@ export interface BaseProposal {
 }
 
 // ------------------- ParameterChangeProposal -------------------------
+
+/** 
+ * Params for submitting a ParameterChangeProposal
+ * @hidden
+ */
 export interface ParameterChangeProposal extends BaseProposal {}
 
+/**
+ * Msg struct for submitting a ParameterChangeProposal
+ * @hidden
+ */
 export class MsgSubmitParameterChangeProposal implements Msg {
   type: string;
   value: ParameterChangeProposal;
@@ -150,8 +189,17 @@ export class MsgSubmitParameterChangeProposal implements Msg {
 }
 
 // ------------------- PlainTextProposal -------------------------
+
+/** 
+ * Params for submitting a PlainTextProposal
+ * @hidden
+ */
 export interface PlainTextProposal extends BaseProposal {}
 
+/**
+ * Msg struct for submitting a PlainTextProposal
+ * @hidden
+ */
 export class MsgSubmitPlainTextProposal implements Msg {
   type: string;
   value: PlainTextProposal;
@@ -182,12 +230,21 @@ export class MsgSubmitPlainTextProposal implements Msg {
 }
 
 // ------------------- CommunityTaxUsageProposal -------------------------
+
+/** 
+ * Params for submitting a CommunityTaxUsageProposal
+ * @hidden
+ */
 export interface CommunityTaxUsageProposal extends BaseProposal {
   usage: string;
   dest_address: string;
   percent: string;
 }
 
+/**
+ * Msg struct for submitting a CommunityTaxUsageProposal
+ * @hidden
+ */
 export class MsgSubmitCommunityTaxUsageProposal implements Msg {
   type: string;
   value: CommunityTaxUsageProposal;
@@ -217,6 +274,10 @@ export class MsgSubmitCommunityTaxUsageProposal implements Msg {
   }
 }
 
+/**
+ * Msg struct for depositing to an active proposal in `depositing` period
+ * @hidden
+ */
 export class MsgDeposit implements Msg {
   type: string;
   value: {
@@ -239,6 +300,10 @@ export class MsgDeposit implements Msg {
   }
 }
 
+/**
+ * Msg struct for voting to an active proposal in `voting` period
+ * @hidden
+ */
 export class MsgVote implements Msg {
   type: string;
   value: {

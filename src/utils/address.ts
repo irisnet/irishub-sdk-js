@@ -1,6 +1,10 @@
 import Utils from './utils';
 import { Crypto } from './crypto';
 
+/**
+ * Utilities for address operations
+ * @hidden
+ */
 export default class AddressUtils {
   /**
    * Convert bech32 address to hex string

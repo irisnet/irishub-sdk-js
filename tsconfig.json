@@ -10,6 +10,7 @@
   },
   "typedocOptions": {
     "mode": "file",
+    "inputFiles": ["./src"],
     "out": "docs"
   },
   "include": [

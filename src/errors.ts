@@ -1,3 +1,4 @@
+/** IRISHub SDK Error */
 export default class SdkError extends Error {
   /** Tendermint error code */
   code: number = 0;

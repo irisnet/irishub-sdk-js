@@ -20,7 +20,7 @@ import {
  * This module provides governance functionalities
  *
  * [More Details](https://www.irisnet.org/docs/features/governance.html)
- * 
+ *
  * @category Modules
  */
 export class Gov {

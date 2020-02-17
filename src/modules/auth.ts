@@ -4,8 +4,6 @@ import Utils from '../utils/utils';
 import * as types from '../types';
 import * as is from 'is_js';
 
-const addressStoreKeyPrefix = 'account:';
-
 /**
  * Auth module is only used to build `StdTx`
  * 

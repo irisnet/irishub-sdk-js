@@ -1,5 +1,9 @@
 import { Coin, Msg } from './types';
 
+/**
+ * Msg struct for changing the withdraw address for a delegator (or validator self-delegation)
+ * @hidden
+ */
 export class MsgSetWithdrawAddress implements Msg {
   type: string;
   value: {
@@ -20,6 +24,10 @@ export class MsgSetWithdrawAddress implements Msg {
   }
 }
 
+/**
+ * Msg struct for delegation withdraw for all of the delegator's delegations
+ * @hidden
+ */
 export class MsgWithdrawDelegatorRewardsAll implements Msg {
   type: string;
   value: {
@@ -38,6 +46,10 @@ export class MsgWithdrawDelegatorRewardsAll implements Msg {
   }
 }
 
+/**
+ * Msg struct for delegation withdraw from a single validator
+ * @hidden
+ */
 export class MsgWithdrawDelegatorReward implements Msg {
   type: string;
   value: {
@@ -58,6 +70,10 @@ export class MsgWithdrawDelegatorReward implements Msg {
   }
 }
 
+/**
+ * Msg struct for validator withdraw
+ * @hidden
+ */
 export class MsgWithdrawValidatorRewardsAll implements Msg {
   type: string;
   value: {
@@ -76,13 +92,20 @@ export class MsgWithdrawValidatorRewardsAll implements Msg {
   }
 }
 
+/** Common rewards struct */
 export interface Rewards {
+  /** Total rewards */
   total: Coin[];
+  /** Delegation rewards */
   delegations: DelegationRewards[];
+  /** Validator commission rewards */
   commission: Coin[];
 }
 
+/** Delegaion rewards */
 export interface DelegationRewards {
+  /** Delegation rewards from which validator */
   validator: string;
+  /** Delegation rewards */
   reward: Coin[];
 }

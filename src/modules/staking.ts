@@ -218,8 +218,8 @@ export class Staking {
    * Query the current staking pool values
    * @returns
    */
-  queryPool(): Promise<types.StakePool> {
-    return this.client.rpcClient.abciQuery<types.StakePool>(
+  queryPool(): Promise<types.StakingPool> {
+    return this.client.rpcClient.abciQuery<types.StakingPool>(
       'custom/stake/pool'
     );
   }
