@@ -1,5 +1,6 @@
 import { Coin, Msg, Pubkey } from './types';
 
+/** Validator details */
 export interface Validator {
   operator_address: string;
   consensus_pubkey: string;
@@ -14,6 +15,7 @@ export interface Validator {
   commission: Commission;
 }
 
+/** Validator commission */
 export interface Commission {
   rate: string;
   max_rate: string;
@@ -21,6 +23,7 @@ export interface Commission {
   update_time: string;
 }
 
+/** Validator basic information */
 export interface ValidatorDescription {
   moniker: string;
   identity: string;
@@ -28,16 +31,27 @@ export interface ValidatorDescription {
   details: string;
 }
 
-export interface StakePool {
+/** Staking statistics */
+export interface StakingPool {
+  /** Non-bonded tokens */
   loose_tokens: string;
+  /** Bonded tokens */
   bonded_tokens: string;
 }
 
+/**
+ * Gov params for Staking module 
+ * 
+ * [More Details](https://www.irisnet.org/docs/concepts/gov-params.html#parameters-in-stake)
+ */
 export interface StakingParams {
+  /** How many blocks will it take for receiving the tokens since unbonding */
   unbonding_time: string;
+  /** Maximum number of active validators */
   max_validators: number;
 }
 
+/** Delegation information */
 export interface Delegation {
   delegator_addr: string;
   validator_addr: string;
@@ -45,6 +59,7 @@ export interface Delegation {
   height: string;
 }
 
+/** UnbondingDelegation information */
 export interface UnbondingDelegation {
   tx_hash: string;
   delegator_addr: string;
@@ -55,6 +70,7 @@ export interface UnbondingDelegation {
   balance: Coin;
 }
 
+/** Redelegation information */
 export interface Redelegation {
   delegator_addr: string;
   validator_src_addr: string;
@@ -67,6 +83,10 @@ export interface Redelegation {
   shares_dst: string;
 }
 
+/** 
+ * Msg struct for delegating to a validator
+ * @hidden
+ */
 export class MsgDelegate implements Msg {
   type: string;
   value: {
@@ -89,6 +109,10 @@ export class MsgDelegate implements Msg {
   }
 }
 
+/** 
+ * Msg struct for undelegating from a validator
+ * @hidden
+ */
 export class MsgUndelegate implements Msg {
   type: string;
   value: {
@@ -115,6 +139,10 @@ export class MsgUndelegate implements Msg {
   }
 }
 
+/** 
+ * Msg struct for redelegating illiquid tokens from one validator to another
+ * @hidden
+ */
 export class MsgRedelegate implements Msg {
   type: string;
   value: {

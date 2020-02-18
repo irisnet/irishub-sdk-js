@@ -4,12 +4,17 @@ import Utils from '../utils/utils';
 import * as types from '../types';
 import * as is from 'is_js';
 
-const addressStoreKeyPrefix = 'account:';
-
+/**
+ * Auth module is only used to build `StdTx`
+ * 
+ * @category Modules
+ */
 export class Auth {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   defaultStdFee: types.StdFee;
-
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
     const fees: types.Coin[] = [
@@ -21,6 +26,18 @@ export class Auth {
     };
   }
 
+  /**
+   * Generate a new `StdTx` which is a standard way to wrap Msgs with Fee and Signatures.
+   *
+   * **NOTE:** The first signature is the fee payer
+   *
+   * @param msgs Msgs to be sent
+   * @param baseTx Base params of the transaction
+   * @param sigs Signatures of the transaction, defaults to []
+   * @param memo Memo of the transaction
+   *
+   * @returns
+   */
   newStdTx(
     msgs: types.Msg[],
     baseTx: types.BaseTx,
@@ -46,5 +63,4 @@ export class Auth {
       },
     };
   }
-
 }

@@ -1,7 +1,7 @@
 import { PubKey } from '@irisnet/amino-js/types';
 import { Coin, Msg, TxValue } from './types';
 
-/** @TODO document */
+/** Standard Tx */
 export interface StdTx extends TxValue {
   msg: Msg[];
   fee: StdFee;
@@ -9,13 +9,13 @@ export interface StdTx extends TxValue {
   memo: string;
 }
 
-/** @TODO document */
+/** Standard Fee */
 export interface StdFee {
   amount: Coin[];
   gas: string;
 }
 
-/** @TODO document */
+/** Standard Signature */
 export interface StdSignature {
   pub_key: PubKey;
   signature: string;
@@ -23,8 +23,11 @@ export interface StdSignature {
   sequence: string;
 }
 
+/** Base params for the transaction */
 export interface BaseTx {
+  /** Name of the key */
   from: string;
+  /** Password of the key */
   password: string;
   gas?: string | undefined;
   fee?: string | undefined;
@@ -32,12 +35,19 @@ export interface BaseTx {
   mode?: BroadcastMode | undefined;
 }
 
+/**
+ * Broadcast Mode
+ * - Sync: Broadcast transactions synchronously and wait for the recipient node to validate the txs
+ * - Async: Broadcast transactions asynchronously and returns immediately
+ * - Commit: Broadcast transactions and wait until the transactions are included by a block
+ */
 export enum BroadcastMode {
   Sync = 0,
   Async,
   Commit,
 }
 
+/** Standard Msg to sign */
 export interface StdSignMsg {
   account_number: string;
   chain_id: string;

@@ -8,12 +8,24 @@ import SdkError from '../errors';
 import Utils from '../utils/utils';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
 
+/**
+ * This module is mainly used to transfer coins between accounts,
+ * query account balances, and provide common offline transaction signing and broadcasting methods.
+ * In addition, the available units of tokens in the IRIShub system are defined using [coin-type](https://www.irisnet.org/docs/concepts/coin-type.html).
+ *
+ * [More Details](https://www.irisnet.org/docs/features/bank.html)
+ * 
+ * @category Modules
+ */
 export class Bank {
+  /** @hidden */
   client: Client;
+  /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }
 
+  /** @hidden */
   queryCoinType(tokenName: string) {
     // TODO
   }
@@ -21,7 +33,7 @@ export class Bank {
   /**
    * Query account info from blockchain
    * @param address Bech32 address
-   * @returns { Promise<AminoTypes.BaseAccount> }
+   * @returns
    */
   queryAccount(address: string): Promise<AminoTypes.BaseAccount> {
     return this.client.rpcClient.abciQuery<AminoTypes.BaseAccount>(
@@ -33,9 +45,9 @@ export class Bank {
   }
 
   /**
-   * Query token statics
+   * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
    * @param tokenID Identity of the token
-   * @returns { Promise<types.TokenStats> }
+   * @returns
    */
   queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
     return this.client.rpcClient.abciQuery<types.TokenStats>(
@@ -51,7 +63,7 @@ export class Bank {
    * @param to Recipient bech32 address
    * @param amount Coins to be sent
    * @param baseTx { types.BaseTx }
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @returns
    */
   async send(
     to: string,
@@ -79,7 +91,7 @@ export class Bank {
    * Burn coins
    * @param amount Coins to be burnt
    * @param baseTx { types.BaseTx }
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @returns
    */
   async burn(
     amount: types.Coin[],
@@ -92,10 +104,10 @@ export class Bank {
   }
 
   /**
-   * Set Memo Regexp
+   * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
    * @param memoRegexp
    * @param baseTx { types.BaseTx }
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @returns
    */
   async setMemoRegexp(
     memoRegexp: string,
