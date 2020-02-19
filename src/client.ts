@@ -1,6 +1,7 @@
 import * as consts from './types/constants';
 import * as modules from './modules';
 import RpcClient from './nets/rpc-client';
+import EventListener from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
 import SdkError from './errors';
@@ -12,6 +13,9 @@ export class Client {
 
   /** Axios client for tendermint rpc requests */
   rpcClient: RpcClient;
+
+  /** WebSocket event listener */
+  eventListener: EventListener;
 
   /** Auth module */
   auth: modules.Auth;
@@ -41,6 +45,7 @@ export class Client {
       config.network === consts.Network.Mainnet ? 'iaa' : 'faa';
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
+    this.eventListener = new EventListener(this.config.node);
 
     // Modules
     this.auth = new modules.Auth(this);
