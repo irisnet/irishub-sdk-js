@@ -163,10 +163,12 @@ export enum Event {
   Action = 'action',
   Sender = 'sender',
   Recipient = 'recipient',
+  // TODO: more
 }
 
 export enum EventAction {
   Send = 'send',
   Burn = 'burn',
   SetMemoRegexp = 'set-memo-regexp',
+  // TODO: more
 }
