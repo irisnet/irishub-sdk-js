@@ -1,6 +1,5 @@
-import * as Amino from '@irisnet/amino-js';
+import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import Utils from '../utils/utils';
 import SdkError from '../errors';
 import { Client } from '../client';
@@ -10,19 +9,19 @@ import * as EventEmitter from 'events';
 import { obj as Pumpify } from 'pumpify';
 import * as Ndjson from 'ndjson';
 import * as Websocket from 'websocket-stream';
-import { Interface } from 'readline';
+import { strict } from 'assert';
 
 /**
  * IRISHub Event Listener
  */
 export class EventListener {
   /** @hidden */
-  private client: Client;
+  private url: string;
   private ws: any;
   private em: EventEmitter;
 
-  constructor(client: Client) {
-    this.client = client;
+  constructor(url: string) {
+    this.url = url;
     this.em = new EventEmitter();
   }
 
@@ -30,13 +29,9 @@ export class EventListener {
    * Initialize ws client
    */
   connect(): void {
-    this.ws = Pumpify(
-      Ndjson.stringify(),
-      Websocket(this.client.config.node + '/websocket')
-    );
+    this.ws = Pumpify(Ndjson.stringify(), Websocket(this.url + '/websocket'));
     this.ws.on('data', (resp: string) => {
       const data = JSON.parse(resp);
-      console.log(JSON.stringify(data));
       if (!data.id) {
         this.em.emit('error', 'Unexpected response: ' + JSON.stringify(data));
       }
@@ -115,12 +110,13 @@ export class EventListener {
       .addCondition(Event.Type, eventType)
       .build();
 
+    console.log(JSON.stringify(query));
     this.ws.write({
       jsonrpc: '2.0',
       method: 'subscribe',
-      id: { id },
+      id: id,
       params: {
-        query: { query },
+        query: query,
       },
     });
 
@@ -132,29 +128,49 @@ export class EventListener {
           undefined
         );
       }
-      const eventBlock: types.EventDataNewBlock = data.data.value;
-      callback(undefined, data);
+
+      if (!data || !data.data || !data.data.value) {
+        return;
+      }
+
+      const blockData = data.data.value;
+
+      // Decode txs
+      console.log(blockData.data);
+      if (blockData.block && blockData.block.data && blockData.block.data.txs) {
+        const txs: string[] = blockData.block.data.txs;
+        const decodedTxs = new Array<types.Tx<types.StdTx>>();
+        txs.forEach(msg => {
+          decodedTxs.push(
+            unmarshalTx(base64ToBytes(msg)) as types.Tx<types.StdTx>
+          );
+        });
+        blockData.block.data.txs = decodedTxs;
+        console.log(JSON.stringify(decodedTxs));
+      }
+
+      const eventBlock = blockData as types.EventDataNewBlock;
+      callback(undefined, eventBlock);
     });
 
     // Return an EventSubscription instance, so client could use to unsubscribe this context
-    return { id, query, callback };
+    return { id, query };
   }
 }
 
 export interface EventSubscription {
   id: string;
   query: string;
-  callback: (error?: SdkError, block?: types.EventDataNewBlock) => void;
 }
 
 export class EventQueryBuilder {
-  private condition: Array<{ K: string; V: string }> = [];
+  private conditions = new Array<string>();
   addCondition(event: Event, value: string | EventAction): EventQueryBuilder {
-    this.condition.push({ K: event, V: "'" + value + "'" });
+    this.conditions.push(event + "='" + value + "'");
     return this;
   }
   build(): string {
-    return this.condition.join('&');
+    return this.conditions.join('&');
   }
 }
 

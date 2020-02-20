@@ -3,9 +3,8 @@ import * as is from 'is_js';
 import * as types from '../types';
 import SdkError from '../errors';
 import { Crypto } from '../utils/crypto';
-import * as Amino from '@irisnet/amino-js';
 import { marshalTx } from '@irisnet/amino-js';
-import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+import { bytesToBase64 } from '@tendermint/belt';
 import Utils from '../utils/utils';
 
 /**

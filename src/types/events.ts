@@ -1,3 +1,6 @@
+import { Tx } from './types';
+import { StdTx } from './auth'
+
 export interface EventDataNewBlock {
   block: EventDataBlock;
   result_begin_block: EventDataResultBeginBlock;
@@ -12,7 +15,7 @@ export interface EventDataBlock {
 }
 
 export interface EventDataBlockData {
-  txs: string[];
+  txs: Array<Tx<StdTx>>;
 }
 
 export interface EventDataEvidence {
