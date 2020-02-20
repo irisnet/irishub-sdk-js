@@ -251,6 +251,68 @@ export class EventListener {
     // Return an EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
+
+  /**
+   * Subscribe Tx
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeTx(
+    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
+  ): EventSubscription {
+    // Build and send subscription
+    const eventType = 'Tx';
+    const id = eventType + Math.random().toString(16);
+    const query = new EventQueryBuilder()
+      .addCondition(Event.Type, eventType)
+      .build();
+
+    this.ws.write({
+      jsonrpc: '2.0',
+      method: 'subscribe',
+      id,
+      params: {
+        query,
+      },
+    });
+
+    // Listen for new blocks, decode and callback
+    this.em.on(id + '#event', (error, data) => {
+      if (error) {
+        callback(
+          new SdkError(error.message, error.code, error.data),
+          undefined
+        );
+      }
+
+      if (
+        !data ||
+        !data.data ||
+        !data.data.value ||
+        !data.data.value.TxResult
+      ) {
+        return;
+      }
+
+      const txResult = data.data.value.TxResult;
+      txResult.tx = unmarshalTx(base64ToBytes(txResult.tx));
+
+      if (txResult.result.tags) {
+        const tags = txResult.result.tags as types.EventDataTag[];
+        const decodedTags = new Array<types.EventDataTag>();
+        tags.forEach(element => {
+          const key = Utils.base64ToString(element.key);
+          const value = Utils.base64ToString(element.value);
+          decodedTags.push({ key, value });
+        });
+        txResult.result.tags = decodedTags;
+      }
+      callback(undefined, txResult);
+    });
+
+    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    return { id, query };
+  }
 }
 
 export interface EventSubscription {
