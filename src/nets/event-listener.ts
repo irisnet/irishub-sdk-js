@@ -107,7 +107,7 @@ export class EventListener {
     const eventType = 'NewBlock';
     const id = eventType + Math.random().toString(16);
     const query = new EventQueryBuilder()
-      .addCondition(Event.Type, eventType)
+      .addCondition(EventKey.Type, eventType)
       .build();
 
     this.ws.write({
@@ -168,7 +168,7 @@ export class EventListener {
     const eventType = 'NewBlockHeader';
     const id = eventType + Math.random().toString(16);
     const query = new EventQueryBuilder()
-      .addCondition(Event.Type, eventType)
+      .addCondition(EventKey.Type, eventType)
       .build();
 
     this.ws.write({
@@ -215,7 +215,7 @@ export class EventListener {
     const eventType = 'ValidatorSetUpdates';
     const id = eventType + Math.random().toString(16);
     const query = new EventQueryBuilder()
-      .addCondition(Event.Type, eventType)
+      .addCondition(EventKey.Type, eventType)
       .build();
 
     this.ws.write({
@@ -251,25 +251,106 @@ export class EventListener {
     // Return an EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
+
+  /**
+   * Subscribe Tx
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeTx(
+    conditions: EventQueryBuilder,
+    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
+  ): EventSubscription {
+    // Build and send subscription
+    const eventType = 'Tx';
+    const id = eventType + Math.random().toString(16);
+    const queryBuilder = conditions ? conditions : new EventQueryBuilder()
+    const query = queryBuilder.addCondition(EventKey.Type, eventType).build();
+
+    this.ws.write({
+      jsonrpc: '2.0',
+      method: 'subscribe',
+      id,
+      params: {
+        query,
+      },
+    });
+
+    // Listen for new blocks, decode and callback
+    this.em.on(id + '#event', (error, data) => {
+      if (error) {
+        callback(
+          new SdkError(error.message, error.code, error.data),
+          undefined
+        );
+      }
+
+      if (
+        !data ||
+        !data.data ||
+        !data.data.value ||
+        !data.data.value.TxResult
+      ) {
+        return;
+      }
+
+      const txResult = data.data.value.TxResult;
+      txResult.tx = unmarshalTx(base64ToBytes(txResult.tx));
+
+      // Decode tags from base64
+      if (txResult.result.tags) {
+        const tags = txResult.result.tags as types.EventDataTag[];
+        const decodedTags = new Array<types.EventDataTag>();
+        tags.forEach(element => {
+          const key = Utils.base64ToString(element.key);
+          const value = Utils.base64ToString(element.value);
+          decodedTags.push({ key, value });
+        });
+        txResult.result.tags = decodedTags;
+      }
+      callback(undefined, txResult);
+    });
+
+    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    return { id, query };
+  }
 }
 
+/**
+ * Returns by subscriptions, for clients to unscribe the specified events
+ */
 export interface EventSubscription {
   id: string;
   query: string;
 }
 
+/**
+ * A builder for building event query strings
+ */
 export class EventQueryBuilder {
   private conditions = new Array<string>();
-  addCondition(event: Event, value: string | EventAction): EventQueryBuilder {
-    this.conditions.push(event + "='" + value + "'");
+
+  /**
+   * Add a query condition
+   * @param eventKey 
+   * @param value 
+   * @returns The builder itself
+   */
+  addCondition(eventKey: EventKey, value: string | EventAction): EventQueryBuilder {
+    this.conditions.push(eventKey + "='" + value + "'");
     return this;
   }
+
+  /**
+   * Convert the current builder to the query string
+   * @returns The query string
+   */
   build(): string {
-    return this.conditions.join('&');
+    return this.conditions.join(' and ');
   }
 }
 
-export enum Event {
+export enum EventKey {
   Type = 'tm.event',
   Action = 'action',
   Sender = 'sender',

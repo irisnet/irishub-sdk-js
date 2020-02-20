@@ -254,4 +254,8 @@ export default class Utils {
     });
     return result;
   }
+
+  static base64ToString(b64: string): string {
+    return Buffer.from(b64, 'base64').toString();
+  }
 }

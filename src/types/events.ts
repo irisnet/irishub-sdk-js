@@ -20,6 +20,25 @@ export interface EventDataValidatorSetUpdates {
   proposer_priority: string;
 }
 
+export interface EventDataResultTx {
+  height: string;
+  index: number;
+  tx: Tx<StdTx>;
+  result: {
+    log: string;
+    gas_wanted: string;
+    gas_used: string;
+    tags: EventDataTag[];
+  };
+}
+
+export interface EventDataBlock {
+  header: EventDataBlockHeader;
+  data: EventDataBlockData;
+  evidence: EventDataEvidence[];
+  last_commit: EventDataLastCommit;
+}
+
 export interface EventDataBlockHeader {
   version: EventDataVersion;
   chain_id: string;
@@ -39,38 +58,12 @@ export interface EventDataBlockHeader {
   proposer_address: string;
 }
 
-export interface EventDataBlock {
-  header: EventDataHeader;
-  data: EventDataBlockData;
-  evidence: EventDataEvidence[];
-  last_commit: EventDataLastCommit;
-}
-
 export interface EventDataBlockData {
   txs: Array<Tx<StdTx>>;
 }
 
 export interface EventDataEvidence {
   // TODO
-}
-
-export interface EventDataHeader {
-  version: EventDataVersion;
-  chain_id: string;
-  height: string;
-  time: string;
-  num_txs: string;
-  total_txs: string;
-  last_block_id: EventDataBlockID;
-  last_commit_hash: string;
-  data_hash: string;
-  validators_hash: string;
-  next_validators_hash: string;
-  consensus_hash: string;
-  app_hash: string;
-  last_results_hash: string;
-  evidence_hash: string;
-  proposer_address: string;
 }
 
 export interface EventDataBlockID {
