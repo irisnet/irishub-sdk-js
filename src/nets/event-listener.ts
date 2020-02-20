@@ -199,6 +199,58 @@ export class EventListener {
     // Return an EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
+
+  /**
+   * Subscribe ValidatorSet Updates
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeValidatorSetUpdates(
+    callback: (
+      error?: SdkError,
+      block?: types.EventDataValidatorSetUpdates[]
+    ) => void
+  ): EventSubscription {
+    // Build and send subscription
+    const eventType = 'ValidatorSetUpdates';
+    const id = eventType + Math.random().toString(16);
+    const query = new EventQueryBuilder()
+      .addCondition(Event.Type, eventType)
+      .build();
+
+    this.ws.write({
+      jsonrpc: '2.0',
+      method: 'subscribe',
+      id,
+      params: {
+        query,
+      },
+    });
+
+    // Listen for new blocks, decode and callback
+    this.em.on(id + '#event', (error, data) => {
+      if (error) {
+        callback(
+          new SdkError(error.message, error.code, error.data),
+          undefined
+        );
+      }
+
+      if (
+        !data.data ||
+        !data.data.value ||
+        !data.data.value.validator_updates
+      ) {
+        return;
+      }
+      const eventValidatorUpdates = data.data.value
+        .validator_updates as types.EventDataValidatorSetUpdates[];
+      callback(undefined, eventValidatorUpdates);
+    });
+
+    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    return { id, query };
+  }
 }
 
 export interface EventSubscription {
