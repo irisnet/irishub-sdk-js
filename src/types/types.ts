@@ -13,7 +13,7 @@ export interface Msg {
  * Base Tx
  * @hidden
  */
-export interface Tx<T> {
+export interface Tx<T extends TxValue> {
   type: string;
   value: T;
 }

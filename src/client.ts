@@ -1,7 +1,7 @@
 import * as consts from './types/constants';
 import * as modules from './modules';
 import RpcClient from './nets/rpc-client';
-import EventListener from './nets/event-listener';
+import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
 import SdkError from './errors';
