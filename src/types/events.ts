@@ -1,4 +1,4 @@
-import { Tx } from './types';
+import { Tx, Pubkey as ValPubKey } from './types';
 import { StdTx } from './auth';
 
 export interface EventDataNewBlock {
@@ -11,6 +11,13 @@ export interface EventDataNewBlockHeader {
   header: EventDataBlockHeader;
   result_begin_block: EventDataResultBeginBlock;
   result_end_block: EventDataResultEndBlock;
+}
+
+export interface EventDataValidatorSetUpdates {
+  address: string;
+  pub_key: ValPubKey;
+  voting_power: string;
+  proposer_priority: string;
 }
 
 export interface EventDataBlockHeader {
