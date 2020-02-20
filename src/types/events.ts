@@ -1,6 +1,14 @@
 import { Tx, Pubkey as ValPubKey } from './types';
 import { StdTx } from './auth';
 
+/**
+ * Returns by subscriptions, for clients to unscribe the specified events
+ */
+export interface EventSubscription {
+  id: string;
+  query: string;
+}
+
 export interface EventDataNewBlock {
   block: EventDataBlock;
   result_begin_block: EventDataResultBeginBlock;

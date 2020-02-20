@@ -7,6 +7,11 @@ import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
 import Utils from '../utils/utils';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
+import {
+  EventQueryBuilder,
+  EventKey,
+  EventAction,
+} from '../nets/event-listener';
 
 /**
  * This module is mainly used to transfer coins between accounts,
@@ -14,7 +19,7 @@ import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
  * In addition, the available units of tokens in the IRIShub system are defined using [coin-type](https://www.irisnet.org/docs/concepts/coin-type.html).
  *
  * [More Details](https://www.irisnet.org/docs/features/bank.html)
- * 
+ *
  * @category Modules
  */
 export class Bank {
@@ -117,5 +122,30 @@ export class Bank {
     const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Subscribe Send Txs
+   * @param conditions Query conditions for the subscription
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeSendTx(
+    conditions: { sender?: string; recipient?: string },
+    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
+  ): types.EventSubscription {
+    const queryBuilder = new EventQueryBuilder().addCondition(
+      EventKey.Action,
+      EventAction.Send
+    );
+
+    if (conditions.sender) {
+      queryBuilder.addCondition(EventKey.Sender, conditions.sender);
+    }
+    if (conditions.recipient) {
+      queryBuilder.addCondition(EventKey.Recipient, conditions.recipient);
+    }
+
+    return this.client.eventListener.subscribeTx(queryBuilder, callback);
   }
 }
