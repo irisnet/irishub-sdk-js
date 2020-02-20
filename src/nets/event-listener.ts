@@ -110,13 +110,12 @@ export class EventListener {
       .addCondition(Event.Type, eventType)
       .build();
 
-    console.log(JSON.stringify(query));
     this.ws.write({
       jsonrpc: '2.0',
       method: 'subscribe',
-      id: id,
+      id,
       params: {
-        query: query,
+        query,
       },
     });
 
@@ -151,6 +150,50 @@ export class EventListener {
 
       const eventBlock = blockData as types.EventDataNewBlock;
       callback(undefined, eventBlock);
+    });
+
+    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    return { id, query };
+  }
+
+  /**
+   * Subscribe NewBlockHeader
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeNewBlockHeader(
+    callback: (error?: SdkError, block?: types.EventDataNewBlockHeader) => void
+  ): EventSubscription {
+    // Build and send subscription
+    const eventType = 'NewBlockHeader';
+    const id = eventType + Math.random().toString(16);
+    const query = new EventQueryBuilder()
+      .addCondition(Event.Type, eventType)
+      .build();
+
+    this.ws.write({
+      jsonrpc: '2.0',
+      method: 'subscribe',
+      id,
+      params: {
+        query,
+      },
+    });
+
+    // Listen for new blocks, decode and callback
+    this.em.on(id + '#event', (error, data) => {
+      if (error) {
+        callback(
+          new SdkError(error.message, error.code, error.data),
+          undefined
+        );
+      }
+
+      if (!data.data || !data.data.value) {
+        return;
+      }
+      const eventBlockHeader = data.data.value as types.EventDataNewBlockHeader;
+      callback(undefined, eventBlockHeader);
     });
 
     // Return an EventSubscription instance, so client could use to unsubscribe this context

@@ -1,10 +1,35 @@
 import { Tx } from './types';
-import { StdTx } from './auth'
+import { StdTx } from './auth';
 
 export interface EventDataNewBlock {
   block: EventDataBlock;
   result_begin_block: EventDataResultBeginBlock;
   result_end_block: EventDataResultEndBlock;
+}
+
+export interface EventDataNewBlockHeader {
+  header: EventDataBlockHeader;
+  result_begin_block: EventDataResultBeginBlock;
+  result_end_block: EventDataResultEndBlock;
+}
+
+export interface EventDataBlockHeader {
+  version: EventDataVersion;
+  chain_id: string;
+  height: string;
+  time: string;
+  num_txs: string;
+  total_txs: string;
+  last_block_id: EventDataBlockID;
+  last_commit_hash: string;
+  data_hash: string;
+  validators_hash: string;
+  next_validators_hash: string;
+  consensus_hash: string;
+  app_hash: string;
+  last_results_hash: string;
+  evidence_hash: string;
+  proposer_address: string;
 }
 
 export interface EventDataBlock {
