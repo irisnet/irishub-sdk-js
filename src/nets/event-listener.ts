@@ -1,15 +1,13 @@
 import { unmarshalTx } from '@irisnet/amino-js';
-import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+import { base64ToBytes } from '@tendermint/belt';
 import Utils from '../utils/utils';
 import SdkError from '../errors';
-import { Client } from '../client';
-import * as is from 'is_js';
 import * as types from '../types';
 import * as EventEmitter from 'events';
 import { obj as Pumpify } from 'pumpify';
 import * as Ndjson from 'ndjson';
 import * as Websocket from 'websocket-stream';
-import { strict } from 'assert';
+import { Crypto } from '../utils/crypto';
 
 /**
  * IRISHub Event Listener
@@ -75,34 +73,38 @@ export class EventListener {
     });
   }
 
-  unscribe(event: EventSubscription): void {
+  /**
+   * Unsubscribe the specified event
+   * @param subscription The event subscription instance
+   */
+  unscribe(subscription: types.EventSubscription): void {
     // Unsubscribe all from server
     this.ws.write({
       jsonrpc: '2.0',
       method: 'unsubscribe',
-      id: 'unsubscribe#' + event.id,
+      id: 'unsubscribe#' + subscription.id,
       params: {
-        query: event.query,
+        query: subscription.query,
       },
     });
 
-    this.em.on('unsubscribe#' + event.id, (error, data) => {
+    this.em.on('unsubscribe#' + subscription.id, (error, data) => {
       console.log(error);
       console.log(data);
       // Remove listeners
-      this.em.removeAllListeners(event.id + '#event');
-      this.em.removeAllListeners('unsubscribe#' + event.id + '#event');
+      this.em.removeAllListeners(subscription.id + '#event');
+      this.em.removeAllListeners('unsubscribe#' + subscription.id + '#event');
     });
   }
 
   /**
-   * Subscribe NewBlock
+   * Subscribe new block notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeNewBlock(
-    callback: (error?: SdkError, block?: types.EventDataNewBlock) => void
-  ): EventSubscription {
+    callback: (error?: SdkError, data?: types.EventDataNewBlock) => void
+  ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'NewBlock';
     const id = eventType + Math.random().toString(16);
@@ -152,18 +154,18 @@ export class EventListener {
       callback(undefined, eventBlock);
     });
 
-    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
 
   /**
-   * Subscribe NewBlockHeader
+   * Subscribe new block header notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeNewBlockHeader(
-    callback: (error?: SdkError, block?: types.EventDataNewBlockHeader) => void
-  ): EventSubscription {
+    callback: (error?: SdkError, data?: types.EventDataNewBlockHeader) => void
+  ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'NewBlockHeader';
     const id = eventType + Math.random().toString(16);
@@ -196,21 +198,21 @@ export class EventListener {
       callback(undefined, eventBlockHeader);
     });
 
-    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
 
   /**
-   * Subscribe ValidatorSet Updates
+   * Subscribe validator set update notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeValidatorSetUpdates(
     callback: (
       error?: SdkError,
-      block?: types.EventDataValidatorSetUpdates[]
+      data?: types.EventDataValidatorSetUpdates[]
     ) => void
-  ): EventSubscription {
+  ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'ValidatorSetUpdates';
     const id = eventType + Math.random().toString(16);
@@ -248,23 +250,23 @@ export class EventListener {
       callback(undefined, eventValidatorUpdates);
     });
 
-    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
 
   /**
-   * Subscribe Tx
+   * Subscribe successful Txs notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeTx(
     conditions: EventQueryBuilder,
-    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
-  ): EventSubscription {
+    callback: (error?: SdkError, data?: types.EventDataResultTx) => void
+  ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'Tx';
     const id = eventType + Math.random().toString(16);
-    const queryBuilder = conditions ? conditions : new EventQueryBuilder()
+    const queryBuilder = conditions ? conditions : new EventQueryBuilder();
     const query = queryBuilder.addCondition(EventKey.Type, eventType).build();
 
     this.ws.write({
@@ -304,24 +306,22 @@ export class EventListener {
         tags.forEach(element => {
           const key = Utils.base64ToString(element.key);
           const value = Utils.base64ToString(element.value);
-          decodedTags.push({ key, value });
+          decodedTags.push({
+            key,
+            value,
+          });
         });
         txResult.result.tags = decodedTags;
       }
+
+      txResult.hash = Crypto.generateTxHash(txResult.tx);
+
       callback(undefined, txResult);
     });
 
-    // Return an EventSubscription instance, so client could use to unsubscribe this context
+    // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
-}
-
-/**
- * Returns by subscriptions, for clients to unscribe the specified events
- */
-export interface EventSubscription {
-  id: string;
-  query: string;
 }
 
 /**
@@ -332,11 +332,14 @@ export class EventQueryBuilder {
 
   /**
    * Add a query condition
-   * @param eventKey 
-   * @param value 
+   * @param eventKey
+   * @param value
    * @returns The builder itself
    */
-  addCondition(eventKey: EventKey, value: string | EventAction): EventQueryBuilder {
+  addCondition(
+    eventKey: EventKey,
+    value: string | EventAction
+  ): EventQueryBuilder {
     this.conditions.push(eventKey + "='" + value + "'");
     return this;
   }

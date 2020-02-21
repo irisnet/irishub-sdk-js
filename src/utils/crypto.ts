@@ -10,6 +10,7 @@ import * as ecc from 'tiny-secp256k1';
 import Utils from './utils';
 import * as types from '../types';
 import SdkError from '../errors';
+import { marshalTx } from '@irisnet/amino-js';
 
 /**
  * Crypto Utils
@@ -393,6 +394,15 @@ export class Crypto {
       return child.privateKey.toString('hex');
     }
     return seed.toString('hex');
+  }
+
+  /**
+   * Generate Tx hash from stdTx
+   * @param tx
+   * @throws if the tx is invlid of unsupported tx type
+   */
+  static generateTxHash(tx: types.Tx<types.StdTx>): string {
+    return Utils.sha256(Utils.ab2hexstring(marshalTx(tx))).toUpperCase();
   }
 
   /**

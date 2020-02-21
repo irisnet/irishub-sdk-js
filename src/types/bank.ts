@@ -2,7 +2,7 @@ import { Coin, Msg } from './types';
 
 /**
  * Msg for sending coins
- * 
+ *
  * @hidden
  */
 export class MsgSend implements Msg {
@@ -27,7 +27,7 @@ export class MsgSend implements Msg {
 
 /**
  * Msg for burning coins
- * 
+ *
  * @hidden
  */
 export class MsgBurn implements Msg {
@@ -52,7 +52,7 @@ export class MsgBurn implements Msg {
 
 /**
  * Msg for setting memo regexp for an address
- *  
+ *
  * @hidden
  */
 export class MsgSetMemoRegexp implements Msg {
@@ -94,4 +94,12 @@ export interface TokenStats {
   burned_tokens: Coin[];
   /** Total supply */
   total_supply: Coin[];
+}
+
+export interface EventDataMsgSend {
+  height: string;
+  hash: string;
+  from: string;
+  to: string;
+  amount: Coin[];
 }

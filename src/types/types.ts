@@ -4,7 +4,7 @@
  */
 export interface Msg {
   type: string;
-  value: object;
+  value: any;
   getSignBytes?(): object;
   marshal?(): Msg;
 }
