@@ -40,8 +40,8 @@ export interface StakingPool {
 }
 
 /**
- * Gov params for Staking module 
- * 
+ * Gov params for Staking module
+ *
  * [More Details](https://www.irisnet.org/docs/concepts/gov-params.html#parameters-in-stake)
  */
 export interface StakingParams {
@@ -83,7 +83,7 @@ export interface Redelegation {
   shares_dst: string;
 }
 
-/** 
+/**
  * Msg struct for delegating to a validator
  * @hidden
  */
@@ -109,7 +109,7 @@ export class MsgDelegate implements Msg {
   }
 }
 
-/** 
+/**
  * Msg struct for undelegating from a validator
  * @hidden
  */
@@ -139,7 +139,7 @@ export class MsgUndelegate implements Msg {
   }
 }
 
-/** 
+/**
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
@@ -175,4 +175,42 @@ export class MsgRedelegate implements Msg {
       shares: this.value.shares_amount,
     };
   }
+}
+
+/**
+ * Msg struct for updating validator informations
+ * @hidden
+ */
+export class MsgEditValidator implements Msg {
+  type: string;
+  value: {
+    Description: ValidatorDescription;
+    address: string;
+    commission_rate: number;
+  };
+
+  constructor(
+    description: ValidatorDescription,
+    address: string,
+    commissionRate: number
+  ) {
+    this.type = 'irishub/stake/MsgEditValidator';
+    this.value = {
+      Description: description,
+      address,
+      commission_rate: commissionRate,
+    };
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+}
+
+export interface EventDataMsgEditValidator {
+  height: string;
+  hash: string;
+  description: ValidatorDescription;
+  address: string;
+  commission_rate: number;
 }

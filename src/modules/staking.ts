@@ -1,18 +1,18 @@
 import { Client } from '../client';
-import { Crypto } from '../utils/crypto';
-import * as is from 'is_js';
 import * as types from '../types';
-import * as Amino from '@irisnet/amino-js';
-import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
-import Utils from '../utils/utils';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
+import {
+  EventQueryBuilder,
+  EventKey,
+  EventAction,
+} from '../nets/event-listener';
 
 /**
  * This module provides staking functionalities for validators and delegators
  *
  * [More Details](https://www.irisnet.org/docs/features/stake.html)
- * 
+ *
  * @category Modules
  */
 export class Staking {
@@ -314,6 +314,55 @@ export class Staking {
       ),
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Subscribe validator information updates
+   * @param conditions Query conditions for the subscription
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeValidatorInfoUpdates(
+    conditions: { validatorAddress?: string },
+    callback: (error?: SdkError, data?: types.EventDataMsgEditValidator) => void
+  ): types.EventSubscription {
+    const queryBuilder = new EventQueryBuilder().addCondition(
+      EventKey.Action,
+      EventAction.EditValidator
+    );
+
+    if (conditions.validatorAddress) {
+      queryBuilder.addCondition(
+        EventKey.DestinationValidator,
+        conditions.validatorAddress
+      );
+    }
+
+    const subscription = this.client.eventListener.subscribeTx(
+      queryBuilder,
+      (error, data) => {
+        if (error) {
+          callback(error);
+        }
+        data?.tx.value.msg.forEach(msg => {
+          if (msg.type !== 'irishub/stake/MsgEditValidator') return;
+          const msgEditValidator = msg as types.MsgEditValidator;
+          const height = data.height;
+          const hash = data.hash;
+          const description = msgEditValidator.value.Description;
+          const address = msgEditValidator.value.address;
+          const commission_rate = msgEditValidator.value.commission_rate;
+          callback(undefined, {
+            height,
+            hash,
+            description,
+            address,
+            commission_rate,
+          });
+        });
+      }
+    );
+    return subscription;
   }
 
   /**
