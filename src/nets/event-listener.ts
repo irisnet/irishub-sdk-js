@@ -97,12 +97,12 @@ export class EventListener {
   }
 
   /**
-   * Subscribe NewBlock
+   * Subscribe new block notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeNewBlock(
-    callback: (error?: SdkError, block?: types.EventDataNewBlock) => void
+    callback: (error?: SdkError, data?: types.EventDataNewBlock) => void
   ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'NewBlock';
@@ -158,12 +158,12 @@ export class EventListener {
   }
 
   /**
-   * Subscribe NewBlockHeader
+   * Subscribe new block header notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeNewBlockHeader(
-    callback: (error?: SdkError, block?: types.EventDataNewBlockHeader) => void
+    callback: (error?: SdkError, data?: types.EventDataNewBlockHeader) => void
   ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'NewBlockHeader';
@@ -202,14 +202,14 @@ export class EventListener {
   }
 
   /**
-   * Subscribe ValidatorSet Updates
+   * Subscribe validator set update notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeValidatorSetUpdates(
     callback: (
       error?: SdkError,
-      block?: types.EventDataValidatorSetUpdates[]
+      data?: types.EventDataValidatorSetUpdates[]
     ) => void
   ): types.EventSubscription {
     // Build and send subscription
@@ -254,13 +254,13 @@ export class EventListener {
   }
 
   /**
-   * Subscribe Tx
+   * Subscribe successful Txs notifications
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeTx(
     conditions: EventQueryBuilder,
-    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
+    callback: (error?: SdkError, data?: types.EventDataResultTx) => void
   ): types.EventSubscription {
     // Build and send subscription
     const eventType = 'Tx';

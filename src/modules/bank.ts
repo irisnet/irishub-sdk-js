@@ -1,11 +1,8 @@
 import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
-import * as is from 'is_js';
 import * as types from '../types';
-import * as Amino from '@irisnet/amino-js';
 import * as AminoTypes from '@irisnet/amino-js/types';
 import SdkError from '../errors';
-import Utils from '../utils/utils';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
 import {
   EventQueryBuilder,
@@ -131,21 +128,42 @@ export class Bank {
    * @returns
    */
   subscribeSendTx(
-    conditions: { sender?: string; recipient?: string },
-    callback: (error?: SdkError, block?: types.EventDataResultTx) => void
+    conditions: { from?: string; to?: string },
+    callback: (error?: SdkError, data?: types.EventDataMsgSend) => void
   ): types.EventSubscription {
     const queryBuilder = new EventQueryBuilder().addCondition(
       EventKey.Action,
       EventAction.Send
     );
 
-    if (conditions.sender) {
-      queryBuilder.addCondition(EventKey.Sender, conditions.sender);
+    if (conditions.from) {
+      queryBuilder.addCondition(EventKey.Sender, conditions.from);
     }
-    if (conditions.recipient) {
-      queryBuilder.addCondition(EventKey.Recipient, conditions.recipient);
+    if (conditions.to) {
+      queryBuilder.addCondition(EventKey.Recipient, conditions.to);
     }
 
-    return this.client.eventListener.subscribeTx(queryBuilder, callback);
+    const subscription = this.client.eventListener.subscribeTx(
+      queryBuilder,
+      (error, data) => {
+        console.log(data);
+        if (error) {
+          callback(error);
+        }
+        data?.tx.value.msg.forEach(msg => {
+          if (msg.type !== 'irishub/bank/Send') return;
+          const msgSend = msg as types.MsgSend;
+          const height = data.height;
+          const hash = Crypto.generateTxHash(data.tx);
+          msgSend.value.inputs.forEach((input: types.Input, index: number) => {
+            const from = input.address;
+            const to = msgSend.value.outputs[index].address;
+            const amount = input.coins;
+            callback(undefined, { height, hash, from, to, amount });
+          });
+        });
+      }
+    );
+    return subscription;
   }
 }
