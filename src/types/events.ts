@@ -30,6 +30,7 @@ export interface EventDataValidatorSetUpdates {
 
 export interface EventDataResultTx {
   height: string;
+  hash: string;
   index: number;
   tx: Tx<StdTx>;
   result: {

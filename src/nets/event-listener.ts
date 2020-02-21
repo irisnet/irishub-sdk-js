@@ -7,6 +7,7 @@ import * as EventEmitter from 'events';
 import { obj as Pumpify } from 'pumpify';
 import * as Ndjson from 'ndjson';
 import * as Websocket from 'websocket-stream';
+import { Crypto } from '../utils/crypto';
 
 /**
  * IRISHub Event Listener
@@ -305,10 +306,16 @@ export class EventListener {
         tags.forEach(element => {
           const key = Utils.base64ToString(element.key);
           const value = Utils.base64ToString(element.value);
-          decodedTags.push({ key, value });
+          decodedTags.push({
+            key,
+            value,
+          });
         });
         txResult.result.tags = decodedTags;
       }
+
+      txResult.hash = Crypto.generateTxHash(txResult.tx);
+
       callback(undefined, txResult);
     });
 

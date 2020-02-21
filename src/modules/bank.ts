@@ -146,7 +146,6 @@ export class Bank {
     const subscription = this.client.eventListener.subscribeTx(
       queryBuilder,
       (error, data) => {
-        console.log(data);
         if (error) {
           callback(error);
         }
@@ -154,7 +153,7 @@ export class Bank {
           if (msg.type !== 'irishub/bank/Send') return;
           const msgSend = msg as types.MsgSend;
           const height = data.height;
-          const hash = Crypto.generateTxHash(data.tx);
+          const hash = data.hash;
           msgSend.value.inputs.forEach((input: types.Input, index: number) => {
             const from = input.address;
             const to = msgSend.value.outputs[index].address;
