@@ -8,6 +8,7 @@ import { obj as Pumpify } from 'pumpify';
 import * as Ndjson from 'ndjson';
 import * as Websocket from 'websocket-stream';
 import { Crypto } from '../utils/crypto';
+import * as is from 'is_js';
 
 /**
  * IRISHub Event Listener
@@ -305,7 +306,10 @@ export class EventListener {
         const decodedTags = new Array<types.EventDataTag>();
         tags.forEach(element => {
           const key = Utils.base64ToString(element.key);
-          const value = Utils.base64ToString(element.value);
+          const value =
+            !element.value || is.empty(element.value)
+              ? ''
+              : Utils.base64ToString(element.value);
           decodedTags.push({
             key,
             value,
@@ -358,6 +362,7 @@ export enum EventKey {
   Action = 'action',
   Sender = 'sender',
   Recipient = 'recipient',
+  DestinationValidator = 'destination-validator',
   // TODO: more
 }
 
@@ -365,5 +370,6 @@ export enum EventAction {
   Send = 'send',
   Burn = 'burn',
   SetMemoRegexp = 'set-memo-regexp',
+  EditValidator = 'edit_validator',
   // TODO: more
 }
