@@ -41,8 +41,26 @@ export class Client {
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
+    if (!this.config.rpcConfig) this.config.rpcConfig = {};
+
     this.config.bech32Prefix =
-      config.network === consts.Network.Mainnet ? 'iaa' : 'faa';
+      config.network === consts.Network.Mainnet
+        ? {
+            AccAddr: 'iaa',
+            AccPub: 'iap',
+            ValAddr: 'iva',
+            ValPub: 'ivp',
+            ConsAddr: 'ica',
+            ConsPub: 'icp',
+          }
+        : {
+            AccAddr: 'faa',
+            AccPub: 'fap',
+            ValAddr: 'fva',
+            ValPub: 'fvp',
+            ConsAddr: 'fca',
+            ConsPub: 'fcp',
+          };
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
     this.eventListener = new EventListener(this.config.node);
@@ -148,8 +166,8 @@ export interface ClientConfig {
   /** Key DAO Implemention */
   keyDAO?: KeyDAO;
 
-  /** Bech32 prefix of the address, will be overwritten by network type */
-  bech32Prefix?: string;
+  /** Bech32 prefix of the network, will be overwritten by network type */
+  bech32Prefix?: Bech32Prefix;
 
   /** Axios request config for tendermint rpc requests */
   rpcConfig?: AxiosRequestConfig;
@@ -166,7 +184,7 @@ export class DefaultClientConfig implements ClientConfig {
   gas: string;
   fee: string;
   keyDAO: KeyDAO;
-  bech32Prefix: string;
+  bech32Prefix: Bech32Prefix;
   rpcConfig: AxiosRequestConfig;
   keyStoreType: types.StoreType;
 
@@ -177,7 +195,7 @@ export class DefaultClientConfig implements ClientConfig {
     this.gas = '100000';
     this.fee = '600000000000000000';
     this.keyDAO = new DefaultKeyDAOImpl();
-    this.bech32Prefix = '';
+    this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };
     this.keyStoreType = types.StoreType.Keystore;
   }
@@ -208,6 +226,18 @@ export interface KeyDAO {
    * @param name Name of the key
    */
   delete(name: string): void;
+}
+
+/**
+ * Bech32 Prefix
+ */
+export interface Bech32Prefix {
+  AccAddr: string;
+  AccPub: string;
+  ValAddr: string;
+  ValPub: string;
+  ConsAddr: string;
+  ConsPub: string;
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {

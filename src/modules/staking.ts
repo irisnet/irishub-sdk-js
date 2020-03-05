@@ -396,11 +396,11 @@ export class Staking {
         }
 
         data?.forEach(event => {
-          const bech32Address = Crypto.encodeAddress(event.address, 'fca');
+          const bech32Address = Crypto.encodeAddress(event.address, this.client.config.bech32Prefix.ConsAddr);
           const bech32Pubkey = Crypto.encodeAddress(
             Utils.ab2hexstring(marshalPubKey(event.pub_key, false)),
-            'fcp'
-          ); // TODO: configurable bech32 prefixes
+            this.client.config.bech32Prefix.ConsPub
+          );
           const update: types.ExtendedEventDataValidatorSetUpdates = {
             address: event.address,
             pub_key: event.pub_key,
