@@ -52,7 +52,7 @@ describe('Bank Tests', () => {
 
         const baseTx: types.BaseTx = {
           from: name,
-          password: password,
+          password,
           mode: types.BroadcastMode.Commit,
         };
 
@@ -82,7 +82,7 @@ describe('Bank Tests', () => {
 
         const baseTx: types.BaseTx = {
           from: name,
-          password: password,
+          password,
           mode: types.BroadcastMode.Commit,
         };
 
@@ -105,7 +105,7 @@ describe('Bank Tests', () => {
       async () => {
         const baseTx: types.BaseTx = {
           from: name,
-          password: password,
+          password,
           mode: types.BroadcastMode.Commit,
         };
 
@@ -123,26 +123,34 @@ describe('Bank Tests', () => {
   });
 
   describe('Query Token Stats', () => {
-    test('query single token stats', async () => {
-      await client.bank
-        .queryTokenStats('iris')
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
+    test(
+      'query single token stats',
+      async () => {
+        await client.bank
+          .queryTokenStats('iris')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
 
-    test('query all token stats', async () => {
-      await client.bank
-        .queryTokenStats()
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
+    test(
+      'query all token stats',
+      async () => {
+        await client.bank
+          .queryTokenStats()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
   });
 });

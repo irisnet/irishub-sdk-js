@@ -79,7 +79,7 @@ export class Tx {
     stdTx: types.Tx<types.StdTx>,
     name: string,
     password: string,
-    offline: boolean = false
+    offline = false
   ): Promise<types.Tx<types.StdTx>> {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -129,13 +129,12 @@ export class Tx {
       chain_id: this.client.config.chainId,
       fee: stdTx.value.fee,
       memo: stdTx.value.memo,
-      msgs: msgs,
+      msgs,
       sequence: sig.sequence,
     };
 
     // Signing
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
-    console.log(JSON.stringify(Utils.sortObject(signMsg))); // Test signbytes
     const signature = Crypto.generateSignature(
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey
@@ -230,7 +229,7 @@ export class Tx {
   }
 
   private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
-    let copyStdTx: types.Tx<types.StdTx> = stdTx;
+    const copyStdTx: types.Tx<types.StdTx> = stdTx;
     Object.assign(copyStdTx, stdTx);
     stdTx.value.msg.forEach((msg, idx, array) => {
       if (msg.marshal) {
@@ -242,15 +241,15 @@ export class Tx {
 
   private newResultBroadcastTx(
     hash: string,
-    check_tx?: types.ResultTx,
-    deliver_tx?: types.ResultTx,
+    checkTx?: types.ResultTx,
+    deliverTx?: types.ResultTx,
     height?: number
   ): types.ResultBroadcastTx {
     return {
-      hash: hash,
-      check_tx: check_tx,
-      deliver_tx: deliver_tx,
-      height: height,
+      hash,
+      check_tx: checkTx,
+      deliver_tx: deliverTx,
+      height,
     };
   }
 }
