@@ -7,7 +7,7 @@ import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
 import { ec as EC } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
-import Utils from './utils';
+import { Utils } from './utils';
 import * as types from '../types';
 import SdkError from '../errors';
 import { marshalTx } from '@irisnet/amino-js';
@@ -78,12 +78,12 @@ export class Crypto {
   }
 
   /**
-   * ConvertAndEncode converts from a base64 encoded byte array to base32 encoded byte string and then to bech32
+   * ConvertAndEncode converts from a base64 encoded byte array to bach32 encoded byte string and then to bech32
    * @param hrp The address prefix
    * @param data Base64 encoded byte array
    * @returns Bech32 address
    */
-  static convertAndEncode(hrp: string, data: number[]) {
+  static convertAndEncode(hrp: string, data: Uint8Array) {
     const converted = Crypto.convertBits(data, 8, 5, true);
     return bech32.encode(hrp, converted);
   }
@@ -409,7 +409,7 @@ export class Crypto {
    * Copy from https://github.com/sipa/bech32/blob/master/ref/javascript/segwit_addr.js
    */
   private static convertBits(
-    data: number[],
+    data: Uint8Array,
     frombits: number,
     tobits: number,
     pad: boolean

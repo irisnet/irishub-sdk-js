@@ -1,4 +1,4 @@
-import { Crypto } from '../src/utils/crypto';
+import { Crypto } from '../src/utils';
 
 test('Crypto', async () => {
   // Generates mnemonic
@@ -23,5 +23,8 @@ test('Crypto', async () => {
   const privKey1 = Crypto.getPrivateKeyFromKeyStore(keystore, 'password');
   expect(privKey1).toBe(privKey);
 
+  console.log(Crypto.encodeAddress('2F36E18CF00DA1568F72AAFD98D94C8D472022C7', 'fca'));
+
+  console.log(Buffer.from('bXbzqbOidvLADyfR/cLVm2o6L9vcpPh+PF6O8m2sOQ4=', 'hex'));
   // TODO
 });

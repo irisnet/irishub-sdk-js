@@ -1,6 +1,4 @@
 import { Client } from '../client';
-import { Crypto } from '../utils/crypto';
-import Utils from '../utils/utils';
 import * as types from '../types';
 import * as is from 'is_js';
 

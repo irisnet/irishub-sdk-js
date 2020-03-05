@@ -2,10 +2,9 @@ import { Client } from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
 import SdkError from '../errors';
-import { Crypto } from '../utils/crypto';
+import { Utils, Crypto } from '../utils';
 import { marshalTx } from '@irisnet/amino-js';
 import { bytesToBase64 } from '@tendermint/belt';
-import Utils from '../utils/utils';
 
 /**
  * Tx module allows you to sign or broadcast transactions

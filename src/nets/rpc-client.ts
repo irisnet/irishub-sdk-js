@@ -1,7 +1,5 @@
-import * as Amino from '@irisnet/amino-js';
-import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import Utils from '../utils/utils';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { Utils } from '../utils';
 import SdkError from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
@@ -68,7 +66,7 @@ export default class RpcClient {
 
   /**
    * Tendermint ABCI Query
-   * 
+   *
    * @param path Querier path
    * @param data Input params
    * @returns

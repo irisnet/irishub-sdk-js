@@ -30,7 +30,7 @@ describe('Bank Tests', () => {
       chainId: 'test',
     })
     .withKeyDAO(new TestKeyDAO())
-    .withRpcConfig({ timeout: timeout });
+    .withRpcConfig({ timeout });
 
   // Add a key
   const key = client.keys.recover(

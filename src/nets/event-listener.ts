@@ -1,13 +1,12 @@
 import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
-import Utils from '../utils/utils';
 import SdkError from '../errors';
 import * as types from '../types';
 import * as EventEmitter from 'events';
 import { obj as Pumpify } from 'pumpify';
 import * as Ndjson from 'ndjson';
 import * as Websocket from 'websocket-stream';
-import { Crypto } from '../utils/crypto';
+import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 
 /**
