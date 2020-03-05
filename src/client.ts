@@ -38,6 +38,9 @@ export class Client {
   /** Slashing module */
   slashing: modules.Slashing;
 
+  /** Distribution module */
+  distribution: modules.Distribution;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -73,6 +76,7 @@ export class Client {
     this.staking = new modules.Staking(this);
     this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
+    this.distribution = new modules.Distribution(this);
   }
 
   /**

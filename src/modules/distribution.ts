@@ -14,7 +14,7 @@ import {
  * The contributors are required to explicitly send transactions to withdraw their benefit, otherwise, their benefit will be kept in the global pool.
  *
  * [More Details](https://www.irisnet.org/docs/features/distribution.html)
- * 
+ *
  * @category Modules
  */
 export class Distribution {
@@ -34,7 +34,7 @@ export class Distribution {
     return this.client.rpcClient.abciQuery<types.Rewards>(
       'custom/distr/rewards',
       {
-        address: address,
+        address,
       }
     );
   }
@@ -57,22 +57,24 @@ export class Distribution {
 
   /**
    * Withdraw rewards to the withdraw-address(default to the delegator address, you can set to another address via [[setWithdrawAddr]])
-   * @param isValidator also withdraw validator's commission
-   * @param onlyFromValidator only withdraw from this validator address
    * @param baseTx { types.BaseTx }
+   * @param onlyFromValidator only withdraw from this validator address
+   * @param isValidator also withdraw validator's commission, can be set to `true` only if the `onlyFromValidator` is specified
    * @returns { Promise<types.ResultBroadcastTx> }
    */
   async withdrawRewards(
-    isValidator: boolean,
-    onlyFromValidator: string,
-    baseTx: types.BaseTx
+    baseTx: types.BaseTx,
+    onlyFromValidator = '',
+    isValidator = false
   ): Promise<types.ResultBroadcastTx> {
     const from = this.client.keys.show(baseTx.from);
     let msgs: types.Msg[];
-    if (isValidator) {
-      msgs = [new MsgWithdrawValidatorRewardsAll(from)];
-    } else if (is.not.empty(onlyFromValidator)) {
-      msgs = [new MsgWithdrawDelegatorReward(from, onlyFromValidator)];
+    if (is.not.empty(onlyFromValidator)) {
+      if (isValidator) {
+        msgs = [new MsgWithdrawValidatorRewardsAll(onlyFromValidator)];
+      } else {
+        msgs = [new MsgWithdrawDelegatorReward(from, onlyFromValidator)];
+      }
     } else {
       msgs = [new MsgWithdrawDelegatorRewardsAll(from)];
     }

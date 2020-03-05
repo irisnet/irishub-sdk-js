@@ -6,3 +6,4 @@ export * from './tx';
 export * from './staking';
 export * from './gov';
 export * from './slashing';
+export * from './distribution';

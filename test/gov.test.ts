@@ -30,7 +30,7 @@ describe('Gov Tests', () => {
       chainId: 'test',
     })
     .withKeyDAO(new TestKeyDAO())
-    .withRpcConfig({ timeout: timeout });
+    .withRpcConfig({ timeout });
 
   // Add a key
   const key = client.keys.recover(
@@ -41,7 +41,7 @@ describe('Gov Tests', () => {
 
   const baseTx: types.BaseTx = {
     from: name,
-    password: password,
+    password,
     mode: types.BroadcastMode.Commit,
   };
 
