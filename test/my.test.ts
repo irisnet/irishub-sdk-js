@@ -1,111 +1,139 @@
+// import * as iris from '../src';
+
+// export interface SdkError {}
+// export interface Block {}
+// export interface BlockHeader {}
+// export interface TxResult {}
+// export interface ValidatorUpdates {}
+
+// export class EventListener {
+//   private url: string;
+//   private ws: WebSocket;
+//   private em: EventEmitter;
+
+//   constructor(url: string) {
+//     this.url = url;
+//   }
+
+//   connect(): void {
+//     this.ws = new WebSocket(this.url);
+//     this.em = new EventEmitter();
+//     this.ws.on('data', data => {
+//       // 根据请求ID将监听到的数据路由给指定的订阅者
+//       this.em.emit(data.id, data.error, data.result);
+//     });
+//     this.ws.on('error', err => {
+//       this.em.emit('error', err);
+//     });
+//     // on xxx
+//   }
+
+//   disconnect(): void {
+//     this.ws.destroy();
+//   }
+
+//   subscribeNewBlock(callback: (block: Block) => any): Subscription {
+//     callback('Block');
+//   }
+
+//   subscribeNewBlockHeader(
+//     callback: (blockHeader: BlockHeader) => any
+//   ): Subscription {
+//     callback('BlockHeader');
+//   }
+
+//   subscribeValidatorSetUpdates(
+//     callback: (validatorUpdates: ValidatorUpdates) => any
+//   ): Subscription {
+//     callback('validatorUpdates');
+//   }
+
+//   // Tx 订阅不应再细分具体类型，因为订阅参数中可能不包含 `action`
+//   subscribeTx(
+//     query: EventQueryBuilder,
+//     callback: (tx: TxResult) => any
+//   ): Subscription {
+//     // 发送订阅请求
+//     // 监听
+//     // Decode
+//     // 回调
+//     callback('TxResult');
+//   }
+
+//   onError(callback: (error: SdkError) => any): void {}
+// }
+
+// export class Subscription {
+//   private query: EventQueryBuilder;
+//   unsubscribe() {}
+// }
+
+// export class EventQueryBuilder {
+//   condition: Map<string, string>;
+//   addCondition(event: Event, value: string): EventQueryBuilder {}
+//   build(): string {}
+// }
+
+// export enum Event {
+//   Action = 0,
+//   Sender,
+//   Recipient,
+//   xxx,
+// }
+
+// export class EventAction {
+//   Send = 'send';
+//   Burn = 'burn';
+//   SetMemoRegexp = 'set-memo-regexp';
+//   xxx;
+// }
+
+// describe('Tests', () => {
+//   test('Test', () => {
+//     const listener = new EventLisener();
+//     listener.subscribeNewBlock(function(error: string, block: Block) {
+//       console.log(block);
+//     });
+//   });
+// });
+import {
+  EventListener,
+  EventQueryBuilder,
+  EventKey,
+  EventAction,
+} from '../src/nets/event-listener';
+import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
+import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+import { Utils } from '../src/utils/utils';
 import * as iris from '../src';
-import * as types from '../src/types';
-import {MsgSubmitParameterChangeProposal} from '../src/types/gov';
 
-class TestKeyDAO implements iris.KeyDAO {
-  storeType: types.StoreType = types.StoreType.Keystore;
-
-  keyMap: { [key: string]: types.Keystore } = {};
-  write(name: string, keystore: types.Keystore) {
-    this.keyMap[name] = keystore;
-  }
-  read(name: string): types.Keystore {
-    return this.keyMap[name];
-  }
-  delete(name: string) {
-    delete this.keyMap[name];
-  }
-}
-
-const timeout = 10000;
-
-describe('Tests', () => {
-  const name = 'name';
-  const password = 'password';
-
+test('test', async () => {
   // Init Client
-  const client = iris
-    .newClient({
-      node: 'http://localhost:26657',
-      network: iris.Network.Testnet,
-      chainId: 'test',
-    })
-    .withKeyDAO(new TestKeyDAO())
-    .withRpcConfig({ timeout: timeout });
+  const client = iris.newClient({
+    node: 'http://localhost:26657',
+    network: iris.Network.Testnet,
+    chainId: 'test',
+  });
 
-  // Add a key
-  const key = client.keys.recover(
-    name,
-    password,
-    'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
+  client.eventListener.connect();
+  client.bank.subscribeSendTx(
+    {
+      from: 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
+    },
+    (error, data) => {
+      console.log(data);
+    }
   );
 
-  const baseTx: types.BaseTx = {
-    from: name,
-    password: password,
-    mode: types.BroadcastMode.Commit,
-  };
-
-  // test('test', async () => {
-  //   const s = {
-  //     type: 'irishub/bank/StdTx',
-  //     value: {
-  //       msg: [
-  //         {
-  //           getSignBytes: (): object => {return {};},
-  //           type: 'irishub/gov/MsgSubmitProposal',
-  //           value: {
-  //             proposal_type: 'Parameter',
-  //             title: 'Title',
-  //             description: 'Desc',
-  //             proposer: 'faa1gwr3espfjtz9su9x40p635dgfvm4ph9v6ydky5',
-  //             initial_deposit: [
-  //               { denom: 'iris-atto', amount: '1000000000000000000000' },
-  //             ],
-  //             params: [
-  //               { subspace: 'slashing', key: 'MaxEvidenceAge', value: '51840' },
-  //             ],
-  //           },
-  //         },
-  //       ],
-  //       fee: {
-  //         amount: [{ denom: 'iris-atto', amount: '600000000000000000' }],
-  //         gas: '100000',
-  //       },
-  //       signatures: [
-  //         {
-  //           pub_key: {
-  //             type: 'tendermint/PubKeySecp256k1',
-  //             value: 'A7WWEEPjNr8w7dAyZwZ0dChuNdzFiBCLMA3TWv7aNSPr',
-  //           },
-  //           account_number: '3',
-  //           sequence: '37',
-  //           signature:
-  //             '/58+jBNL14zpXwvCT4lKmaHU6RSNDeJLZzjIvWA8tPMf0gkQ1ddcyxITnYp9OXL/XVUWo+mdxvNzAyTfrQqexg==',
-  //         },
-  //       ],
-  //       memo: '',
-  //     },
-  //   };
-  //   await client.tx.broadcast(s, types.BroadcastMode.Commit).then(res => {
-  //     console.log(JSON.stringify(res));
-  //   }).catch(err => {
-  //     console.log(JSON.stringify(err))
-  //   })
-  // });
-
-  test('test', () => {
-    const t = new MsgSubmitParameterChangeProposal({
-      proposal_type: 'Parameter',
-      title: 'title',
-      description: 'description',
-      proposer: 'proposer',
-      initial_deposit: [{ denom: 'iris-atto', amount: '10' }],
-      params: [{ subspace: '', key: '', value: '' }],
-    });
-
-    console.log(JSON.stringify(t));
-
-    console.log(JSON.parse(JSON.stringify(t)));
+  client.staking.subscribeValidatorInfoUpdates({}, (error, data) => {
+    console.log(JSON.stringify(data));
   });
-});
+
+  await timeout(1000000);
+}, 1000000);
+
+function timeout(ms: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}

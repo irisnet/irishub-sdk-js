@@ -28,6 +28,12 @@ export interface EventDataValidatorSetUpdates {
   proposer_priority: string;
 }
 
+export interface ExtendedEventDataValidatorSetUpdates
+  extends EventDataValidatorSetUpdates {
+  bech32_address: string;
+  bech32_pub_key: string;
+}
+
 export interface EventDataResultTx {
   height: string;
   hash: string;

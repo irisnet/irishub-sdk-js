@@ -7,6 +7,8 @@ import {
   EventKey,
   EventAction,
 } from '../nets/event-listener';
+import { Utils, Crypto } from '../utils';
+import { marshalPubKey } from '@irisnet/amino-js';
 
 /**
  * This module provides staking functionalities for validators and delegators
@@ -318,7 +320,7 @@ export class Staking {
 
   /**
    * Subscribe validator information updates
-   * @param conditions Query conditions for the subscription
+   * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }
    * @param callback A function to receive notifications
    * @returns
    */
@@ -366,7 +368,64 @@ export class Staking {
   }
 
   /**
+   * Subscribe validator set updates
+   * @param conditions Query conditions for the subscription { validatorPubKeys: string[] - The `icp` (or `fcp` on testnets) prefixed bech32 validator consensus pubkey }
+   * @param callback A function to receive notifications
+   * @returns
+   */
+  subscribeValidatorSetUpdates(
+    conditions: { validatorConsPubKeys?: string[] },
+    callback: (
+      error?: SdkError,
+      data?: types.ExtendedEventDataValidatorSetUpdates
+    ) => void
+  ): types.EventSubscription {
+    // Add pubkeys to the set
+    const listeningSet = new Set<string>();
+    if (conditions.validatorConsPubKeys) {
+      conditions.validatorConsPubKeys.forEach(pubkey => {
+        listeningSet.add(pubkey);
+      });
+    }
+
+    // Subscribe notifications from blockchain
+    const subscription = this.client.eventListener.subscribeValidatorSetUpdates(
+      (error, data) => {
+        if (error) {
+          callback(error);
+        }
+
+        data?.forEach(event => {
+          const bech32Address = Crypto.encodeAddress(event.address, 'fca');
+          const bech32Pubkey = Crypto.encodeAddress(
+            Utils.ab2hexstring(marshalPubKey(event.pub_key, false)),
+            'fcp'
+          ); // TODO: configurable bech32 prefixes
+          const update: types.ExtendedEventDataValidatorSetUpdates = {
+            address: event.address,
+            pub_key: event.pub_key,
+            voting_power: event.voting_power,
+            proposer_priority: event.proposer_priority,
+            bech32_address: bech32Address,
+            bech32_pub_key: bech32Pubkey,
+          };
+          if (listeningSet.size > 0) {
+            if (listeningSet.has(update.bech32_pub_key)) {
+              callback(undefined, update);
+            }
+          } else {
+            callback(undefined, update);
+          }
+        });
+      }
+    );
+    return subscription;
+  }
+
+  /**
    * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
+   *
+   * Removing on irishub v1.0
    * @hidden
    */
   private appendZero(num: string, count: number): string {

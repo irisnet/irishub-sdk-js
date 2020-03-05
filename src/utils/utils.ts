@@ -9,7 +9,7 @@ import SdkError from '../errors';
  * IRISHub SDK JS Utils
  * @hidden
  */
-export default class Utils {
+export class Utils {
   /**
    * String to ArrayBuffer
    * @param str ASCII string

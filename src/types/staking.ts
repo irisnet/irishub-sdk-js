@@ -214,3 +214,10 @@ export interface EventDataMsgEditValidator {
   address: string;
   commission_rate: number;
 }
+
+export interface EventDataValidatorSet {
+  address: string;
+  pub_key: string;
+  voting_power: string;
+  proposer_priority: string;
+}

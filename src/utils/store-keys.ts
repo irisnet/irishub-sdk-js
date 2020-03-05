@@ -1,12 +1,12 @@
 import AddressUtils from './address';
-import Utils from './utils';
+import { Utils } from './utils';
 import { Crypto } from './crypto';
 
 /**
  * @Unused
  * @hidden
  */
-export default class StoreKeys {
+export class StoreKeys {
   static addressStoreKeyPrefix = Utils.str2ba('account:');
   static globalAccountNumberKey = Utils.str2ba('globalAccountNumber');
   static TotalLoosenTokenKey = Utils.str2ba('totalLoosenToken');
