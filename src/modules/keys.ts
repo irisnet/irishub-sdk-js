@@ -13,7 +13,7 @@ import * as types from '../types';
  */
 export class Keys {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;

@@ -21,7 +21,7 @@ import {
  */
 export class Bank {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;

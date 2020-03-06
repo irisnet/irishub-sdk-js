@@ -19,7 +19,7 @@ import {
  */
 export class Distribution {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;

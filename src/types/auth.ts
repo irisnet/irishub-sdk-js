@@ -17,8 +17,8 @@ export interface StdFee {
 
 /** Standard Signature */
 export interface StdSignature {
-  pub_key: PubKey;
-  signature: string;
+  pub_key?: PubKey;
+  signature?: string;
   account_number: string;
   sequence: string;
 }

@@ -19,7 +19,7 @@ import { marshalPubKey } from '@irisnet/amino-js';
  */
 export class Staking {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;

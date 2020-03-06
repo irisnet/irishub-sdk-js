@@ -15,7 +15,7 @@ import SdkError from '../errors';
  */
 export class Slashing {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;

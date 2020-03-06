@@ -142,6 +142,24 @@ export class Crypto {
   }
 
   /**
+   * Calculates the Secp256k1 public key from a given private key.
+   * @param privateKeyHex The private key hexstring
+   * @returns Tendermint public key
+   */
+  static getPublicKeySecp256k1FromPrivateKey(
+    privateKeyHex: string
+  ): types.Pubkey {
+    const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
+    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
+    const pubPoint = pubKey.getPublic();
+    const compressed = pubPoint.encodeCompressed();
+    return {
+      type: 'tendermint/PubKeySecp256k1',
+      value: Buffer.from(compressed).toString('base64'),
+    };
+  }
+
+  /**
    * PubKey performs the point-scalar multiplication from the privKey on the
    * generator point to get the pubkey.
    * @param privateKey
@@ -218,8 +236,9 @@ export class Crypto {
     publicKeyHex: string
   ): string {
     const publicKey = Buffer.from(publicKeyHex, 'hex');
-    if (!ecc.isPoint(publicKey))
+    if (!ecc.isPoint(publicKey)) {
       throw new SdkError('Invalid public key provided');
+    }
     const msgHash = Utils.sha256(signBytesHex);
     const msgHashHex = Buffer.from(msgHash, 'hex');
     return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));

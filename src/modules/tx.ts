@@ -13,7 +13,7 @@ import { bytesToBase64 } from '@tendermint/belt';
  */
 export class Tx {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -31,10 +31,8 @@ export class Tx {
   ): Promise<types.ResultBroadcastTx> {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
-    console.log(JSON.stringify(unsignedTx));
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
-    console.log(JSON.stringify(signedTx));
 
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
@@ -139,7 +137,9 @@ export class Tx {
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey
     );
-    stdTx.value.signatures[0].signature = signature.toString('base64');
+    sig.signature = signature.toString('base64');
+    sig.pub_key = Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
+    stdTx.value.signatures[0] = sig;
     return stdTx;
   }
 

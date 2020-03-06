@@ -4,12 +4,12 @@ import * as is from 'is_js';
 
 /**
  * Auth module is only used to build `StdTx`
- * 
+ *
  * @category Modules
  */
 export class Auth {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   defaultStdFee: types.StdFee;
   /** @hidden */
