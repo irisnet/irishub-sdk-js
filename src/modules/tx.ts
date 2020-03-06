@@ -33,7 +33,6 @@ export class Tx {
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
-
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }

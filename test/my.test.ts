@@ -96,44 +96,66 @@
 //     });
 //   });
 // });
-import {
-  EventListener,
-  EventQueryBuilder,
-  EventKey,
-  EventAction,
-} from '../src/nets/event-listener';
-import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
-import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
-import { Utils } from '../src/utils/utils';
-import * as iris from '../src';
 
-test('test', async () => {
-  // Init Client
-  const client = iris.newClient({
-    node: 'http://localhost:26657',
-    network: iris.Network.Testnet,
-    chainId: 'test',
-  });
+// Test events
+// import {
+//   EventListener,
+//   EventQueryBuilder,
+//   EventKey,
+//   EventAction,
+// } from '../src/nets/event-listener';
+// import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
+// import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+// import { Utils } from '../src/utils/utils';
+// import * as iris from '../src';
 
-  client.eventListener.connect();
-  client.bank.subscribeSendTx(
-    {
-      from: 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-    },
-    (error, data) => {
-      console.log(data);
-    }
+// test('test', async () => {
+//   // Init Client
+//   const client = iris.newClient({
+//     node: 'http://localhost:26657',
+//     network: iris.Network.Testnet,
+//     chainId: 'test',
+//   });
+
+//   client.eventListener.connect();
+//   client.bank.subscribeSendTx(
+//     {
+//       from: 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
+//     },
+//     (error, data) => {
+//       console.log(data);
+//     }
+//   );
+
+//   client.staking.subscribeValidatorInfoUpdates({}, (error, data) => {
+//     console.log(JSON.stringify(data));
+//   });
+
+//   await timeout(1000000);
+// }, 1000000);
+
+// function timeout(ms: number) {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, ms);
+//   });
+// }
+
+import { Crypto, Utils } from '../src/utils';
+import * as Amino from '@irisnet/amino-js';
+
+test('Crypto', async () => {
+  // Gets a private key from mnemonic words.
+  const privKey = Crypto.getPrivateKeyFromMnemonic(
+    'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
   );
 
-  client.staking.subscribeValidatorInfoUpdates({}, (error, data) => {
-    console.log(JSON.stringify(data));
-  });
+  // Calculates the public key from a given private key.
+  const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privKey);
 
-  await timeout(1000000);
-}, 1000000);
+  console.log(publicKeyHex);
+  const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
+  const pubPoint = pubKey.getPublic();
+  const compressed = pubPoint.encodeCompressed();
+  console.log(Buffer.from(compressed).toString('base64'));
 
-function timeout(ms: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
+});
