@@ -1,4 +1,4 @@
-import AddressUtils from './address';
+import { AddressUtils } from './address';
 import { Utils } from './utils';
 import { Crypto } from './crypto';
 

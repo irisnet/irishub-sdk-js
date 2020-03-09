@@ -6,14 +6,14 @@ import * as types from '../types';
 
 /**
  * This module allows you to manage your local tendermint keystore (wallets) for iris.
- * 
+ *
  * **NOTE:** You need to implement the [[KeyDAO]] Interface first.
- * 
+ *
  * @category Modules
  */
 export class Keys {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -42,21 +42,21 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.client.config.bech32Prefix
+      this.client.config.bech32Prefix.AccAddr
     );
 
     let keyObj: types.Keystore | types.Key;
     if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
-        address: address,
-        password: password,
-        privKey: privKey,
+        address,
+        password,
+        privKey,
       };
     } else {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.client.config.bech32Prefix,
+        this.client.config.bech32Prefix.AccAddr,
         2
       );
     }
@@ -109,21 +109,21 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.client.config.bech32Prefix
+      this.client.config.bech32Prefix.AccAddr
     );
 
     let keyObj: types.Keystore | types.Key;
     if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
-        address: address,
-        password: password,
-        privKey: privKey,
+        address,
+        password,
+        privKey,
       };
     } else {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.client.config.bech32Prefix,
+        this.client.config.bech32Prefix.AccAddr,
         2
       );
     }
@@ -165,21 +165,21 @@ export class Keys {
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
-      this.client.config.bech32Prefix
+      this.client.config.bech32Prefix.AccAddr
     );
 
     let keyObj: types.Keystore | types.Key;
     if (this.client.config.keyStoreType === types.StoreType.Key) {
       keyObj = {
-        address: address,
-        password: password,
-        privKey: privKey,
+        address,
+        password,
+        privKey,
       };
     } else {
       keyObj = Crypto.generateKeyStore(
         privKey,
         password,
-        this.client.config.bech32Prefix,
+        this.client.config.bech32Prefix.AccAddr,
         2
       );
     }
@@ -212,13 +212,13 @@ export class Keys {
 
     const privKey =
       this.client.config.keyStoreType === types.StoreType.Key
-        ? (<types.Key>keyObj).privKey
+        ? (keyObj as types.Key).privKey
         : Crypto.getPrivateKeyFromKeyStore(keyObj, keyPassword);
 
     const keystore = Crypto.generateKeyStore(
       privKey,
       keystorePassword,
-      this.client.config.bech32Prefix
+      this.client.config.bech32Prefix.AccAddr
     );
     return JSON.stringify(keystore);
   }

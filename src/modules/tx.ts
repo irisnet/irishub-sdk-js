@@ -13,7 +13,7 @@ import { bytesToBase64 } from '@tendermint/belt';
  */
 export class Tx {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -31,11 +31,8 @@ export class Tx {
   ): Promise<types.ResultBroadcastTx> {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
-    console.log(JSON.stringify(unsignedTx));
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
-    console.log(JSON.stringify(signedTx));
-
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }
@@ -79,7 +76,7 @@ export class Tx {
     stdTx: types.Tx<types.StdTx>,
     name: string,
     password: string,
-    offline: boolean = false
+    offline = false
   ): Promise<types.Tx<types.StdTx>> {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -129,18 +126,19 @@ export class Tx {
       chain_id: this.client.config.chainId,
       fee: stdTx.value.fee,
       memo: stdTx.value.memo,
-      msgs: msgs,
+      msgs,
       sequence: sig.sequence,
     };
 
     // Signing
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
-    console.log(JSON.stringify(Utils.sortObject(signMsg))); // Test signbytes
     const signature = Crypto.generateSignature(
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey
     );
-    stdTx.value.signatures[0].signature = signature.toString('base64');
+    sig.signature = signature.toString('base64');
+    sig.pub_key = Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
+    stdTx.value.signatures[0] = sig;
     return stdTx;
   }
 
@@ -230,7 +228,7 @@ export class Tx {
   }
 
   private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
-    let copyStdTx: types.Tx<types.StdTx> = stdTx;
+    const copyStdTx: types.Tx<types.StdTx> = stdTx;
     Object.assign(copyStdTx, stdTx);
     stdTx.value.msg.forEach((msg, idx, array) => {
       if (msg.marshal) {
@@ -242,15 +240,15 @@ export class Tx {
 
   private newResultBroadcastTx(
     hash: string,
-    check_tx?: types.ResultTx,
-    deliver_tx?: types.ResultTx,
+    checkTx?: types.ResultTx,
+    deliverTx?: types.ResultTx,
     height?: number
   ): types.ResultBroadcastTx {
     return {
-      hash: hash,
-      check_tx: check_tx,
-      deliver_tx: deliver_tx,
-      height: height,
+      hash,
+      check_tx: checkTx,
+      deliver_tx: deliverTx,
+      height,
     };
   }
 }

@@ -1,12 +1,26 @@
-import * as types from '../src/types';
 import { BaseTest } from './basetest';
+import * as types from '../src/types';
 
-const timeout = 10000;
-
-describe('Bank Tests', () => {
-  describe('Send', () => {
+describe('Distribution Tests', () => {
+  describe('Query Rewards', () => {
     test(
-      'send coins',
+      'query rewards',
+      async () => {
+        await BaseTest.getClient().distribution
+          .queryRewards('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('Set Withdraw Address', () => {
+    test(
+      'set withdraw address',
       async () => {
         const amount: types.Coin[] = [
           {
@@ -15,11 +29,27 @@ describe('Bank Tests', () => {
           },
         ];
 
+        await BaseTest.getClient().distribution
+          .setWithdrawAddr('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', BaseTest.baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('Withdraw Rewards', () => {
+    test(
+      'withdraw delegation rewards from a specified validator',
+      async () => {
+
         await BaseTest.getClient()
-          .bank.send(
-            'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-            amount,
-            BaseTest.baseTx
+          .distribution.withdrawRewards(
+            BaseTest.baseTx,
+            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
           )
           .then(res => {
             console.log(JSON.stringify(res));
@@ -27,81 +57,39 @@ describe('Bank Tests', () => {
           .catch(error => {
             console.log(error);
           });
-      },
-      timeout
+      }
     );
-  });
 
-  describe('Burn', () => {
     test(
-      'burn coins',
+      'withdraw all delegation rewards',
       async () => {
-        const amount: types.Coin[] = [
-          {
-            denom: 'iris-atto',
-            amount: '1000000000000000000',
-          },
-        ];
-
         await BaseTest.getClient()
-          .bank.burn(amount, BaseTest.baseTx)
+          .distribution.withdrawRewards(BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })
           .catch(error => {
             console.log(error);
           });
-      },
-      timeout
+      }
     );
-  });
 
-  describe('Set Memo Regexp', () => {
     test(
-      'set memo regexp',
+      'withdraw all rewards (delegation and validator commission)',
       async () => {
         await BaseTest.getClient()
-          .bank.setMemoRegexp('test*', BaseTest.baseTx)
+          .distribution.withdrawRewards(
+            BaseTest.baseTx,
+            'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een',
+            true
+          )
           .then(res => {
             console.log(JSON.stringify(res));
           })
           .catch(error => {
             console.log(error);
           });
-      },
-      timeout
-    );
-  });
-
-  describe('Query Token Stats', () => {
-    test(
-      'query single token stats',
-      async () => {
-        await BaseTest.getClient()
-          .bank.queryTokenStats('iris')
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
-      timeout
-    );
-
-    test(
-      'query all token stats',
-      async () => {
-        await BaseTest.getClient()
-          .bank.queryTokenStats()
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      },
-      timeout
+      }
     );
   });
 });

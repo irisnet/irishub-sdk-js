@@ -21,7 +21,7 @@ import {
  */
 export class Bank {
   /** @hidden */
-  client: Client;
+  private client: Client;
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -73,7 +73,7 @@ export class Bank {
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     // Validate bech32 address
-    if (!Crypto.checkAddress(to, this.client.config.bech32Prefix)) {
+    if (!Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
       throw new SdkError('Invalid bech32 address');
     }
 

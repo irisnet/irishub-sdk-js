@@ -7,7 +7,7 @@ import * as types from '../types';
 /**
  * Tendermint JSON RPC Client
  */
-export default class RpcClient {
+export class RpcClient {
   /** @hidden */
   instance: AxiosInstance;
 
@@ -44,13 +44,12 @@ export default class RpcClient {
     const data = {
       jsonrpc: '2.0',
       id: 'jsonrpc-client',
-      method: method,
-      params: params,
+      method,
+      params,
     };
-
     return this.instance
       .request<types.JSONRPCResponse<T>>({
-        data: data,
+        data,
       })
       .then(response => {
         const res = response.data;
@@ -73,7 +72,7 @@ export default class RpcClient {
    */
   abciQuery<T>(path: string, data?: object): Promise<T> {
     const params: types.AbciQueryRequest = {
-      path: path,
+      path,
     };
     if (data) {
       params.data = Utils.obj2hexstring(data);
@@ -89,7 +88,7 @@ export default class RpcClient {
             ).toString();
             const res = JSON.parse(value);
 
-            if (!res) return <T>{};
+            if (!res) return {};
             if (res.type && res.value) return res.value;
             return res;
           } else if (response.response.code) {

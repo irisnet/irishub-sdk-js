@@ -52,7 +52,7 @@ export class MsgUnjail implements Msg {
   constructor(address: string) {
     this.type = 'irishub/slashing/MsgUnjail';
     this.value = {
-      address: address,
+      address,
     };
   }
 

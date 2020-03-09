@@ -15,8 +15,8 @@ export class MsgSend implements Msg {
   constructor(inputs: Input[], outputs: Output[]) {
     this.type = 'irishub/bank/Send';
     this.value = {
-      inputs: inputs,
-      outputs: outputs,
+      inputs,
+      outputs,
     };
   }
 
@@ -40,8 +40,8 @@ export class MsgBurn implements Msg {
   constructor(owner: string, coins: Coin[]) {
     this.type = 'irishub/bank/Burn';
     this.value = {
-      owner: owner,
-      coins: coins,
+      owner,
+      coins,
     };
   }
 
@@ -61,7 +61,7 @@ export class MsgSetMemoRegexp implements Msg {
   constructor(owner: string, memoRegexp: string) {
     this.type = 'irishub/bank/SetMemoRegexp';
     this.value = {
-      owner: owner,
+      owner,
       memo_regexp: memoRegexp,
     };
   }
