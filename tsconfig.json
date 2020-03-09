@@ -6,7 +6,8 @@
     "module": "commonjs",
     "outDir": "dist",
     "sourceMap": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "resolveJsonModule": true,
   },
   "typedocOptions": {
     "mode": "file",
@@ -15,6 +16,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts"
+    "test/**/*.ts", "test/jest.config.js"
   ]
 }

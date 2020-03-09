@@ -140,22 +140,15 @@
 //   });
 // }
 
-import { Crypto, Utils } from '../src/utils';
-import * as Amino from '@irisnet/amino-js';
+// import { Crypto, Utils } from '../src/utils';
+// import * as Amino from '@irisnet/amino-js';
+
+// beforeAll(() => console.log(global.t));
+afterAll(() => console.log('1 - afterAll'));
+beforeEach(() => console.log('1 - beforeEach'));
+afterEach(() => console.log('1 - afterEach'));
 
 test('Crypto', async () => {
-  // Gets a private key from mnemonic words.
-  const privKey = Crypto.getPrivateKeyFromMnemonic(
-    'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
-  );
-
-  // Calculates the public key from a given private key.
-  const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privKey);
-
-  console.log(publicKeyHex);
-  const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-  const pubPoint = pubKey.getPublic();
-  const compressed = pubPoint.encodeCompressed();
-  console.log(Buffer.from(compressed).toString('base64'));
+  
 
 });

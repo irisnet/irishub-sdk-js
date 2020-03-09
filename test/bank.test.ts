@@ -1,44 +1,9 @@
-import * as iris from '../src';
 import * as types from '../src/types';
-
-class TestKeyDAO implements iris.KeyDAO {
-  storeType: types.StoreType = types.StoreType.Keystore;
-
-  keyMap: { [key: string]: types.Keystore } = {};
-  write(name: string, keystore: types.Keystore) {
-    this.keyMap[name] = keystore;
-  }
-  read(name: string): types.Keystore {
-    return this.keyMap[name];
-  }
-  delete(name: string) {
-    delete this.keyMap[name];
-  }
-}
+import { BaseTest } from './basetest';
 
 const timeout = 10000;
 
 describe('Bank Tests', () => {
-  const name = 'name';
-  const password = 'password';
-
-  // Init Client
-  const client = iris
-    .newClient({
-      node: 'http://localhost:26657',
-      network: iris.Network.Testnet,
-      chainId: 'test',
-    })
-    .withKeyDAO(new TestKeyDAO())
-    .withRpcConfig({ timeout });
-
-  // Add a key
-  const key = client.keys.recover(
-    name,
-    password,
-    'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
-  );
-
   describe('Send', () => {
     test(
       'send coins',
@@ -50,14 +15,12 @@ describe('Bank Tests', () => {
           },
         ];
 
-        const baseTx: types.BaseTx = {
-          from: name,
-          password,
-          mode: types.BroadcastMode.Commit,
-        };
-
-        await client.bank
-          .send('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', amount, baseTx)
+        await BaseTest.getClient()
+          .bank.send(
+            'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
+            amount,
+            BaseTest.baseTx
+          )
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -80,14 +43,8 @@ describe('Bank Tests', () => {
           },
         ];
 
-        const baseTx: types.BaseTx = {
-          from: name,
-          password,
-          mode: types.BroadcastMode.Commit,
-        };
-
-        await client.bank
-          .burn(amount, baseTx)
+        await BaseTest.getClient()
+          .bank.burn(amount, BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -103,14 +60,8 @@ describe('Bank Tests', () => {
     test(
       'set memo regexp',
       async () => {
-        const baseTx: types.BaseTx = {
-          from: name,
-          password,
-          mode: types.BroadcastMode.Commit,
-        };
-
-        await client.bank
-          .setMemoRegexp('test*', baseTx)
+        await BaseTest.getClient()
+          .bank.setMemoRegexp('test*', BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -126,8 +77,8 @@ describe('Bank Tests', () => {
     test(
       'query single token stats',
       async () => {
-        await client.bank
-          .queryTokenStats('iris')
+        await BaseTest.getClient()
+          .bank.queryTokenStats('iris')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -141,8 +92,8 @@ describe('Bank Tests', () => {
     test(
       'query all token stats',
       async () => {
-        await client.bank
-          .queryTokenStats()
+        await BaseTest.getClient()
+          .bank.queryTokenStats()
           .then(res => {
             console.log(JSON.stringify(res));
           })

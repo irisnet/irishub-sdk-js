@@ -3,7 +3,7 @@ import * as iris from '../src';
 test('Init Client', () => {
   const node = 'localhost:26657';
 
-  const client = iris.newClient({ node: node });
+  const client = iris.newClient({ node });
   expect(client.config.chainId).toBe('irishub');
   expect(client.config.fee).toBe('600000000000000000');
   expect(client.config.gas).toBe('100000');
