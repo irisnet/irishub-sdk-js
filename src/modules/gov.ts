@@ -163,11 +163,11 @@ export class Gov {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitParameterChangeProposal({
-        title: title,
-        description: description,
-        proposer: proposer,
+        title,
+        description,
+        proposer,
         initial_deposit: initialDeposit,
-        params: params,
+        params,
       }),
     ];
 
@@ -194,9 +194,9 @@ export class Gov {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitPlainTextProposal({
-        title: title,
-        description: description,
-        proposer: proposer,
+        title,
+        description,
+        proposer,
         initial_deposit: initialDeposit,
       }),
     ];
@@ -225,19 +225,19 @@ export class Gov {
     description: string,
     initialDeposit: types.Coin[],
     usage: CommunityTaxUsageType,
-    dest_address: string,
+    destAddress: string,
     percent: number,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitCommunityTaxUsageProposal({
-        title: title,
-        description: description,
-        proposer: proposer,
+        title,
+        description,
+        proposer,
         initial_deposit: initialDeposit,
         usage: CommunityTaxUsageType[usage],
-        dest_address: dest_address,
+        dest_address: destAddress,
         percent: String(percent),
       }),
     ];

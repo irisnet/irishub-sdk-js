@@ -64,3 +64,35 @@ export interface ServiceFee {
   address: string;
   coins: Coin[];
 }
+
+/**
+ * Msg struct for creating a new service definition
+ * @hidden
+ */
+export class MsgDefineService implements Msg {
+  type: string;
+  value: {
+    name: string;
+    description?: string;
+    tags?: string[];
+    author: string;
+    author_description?: string;
+    schemas: string;
+  };
+
+  constructor(definition: {
+    name: string;
+    author: string;
+    schemas: string;
+    description?: string;
+    tags?: string[];
+    author_description?: string;
+  }) {
+    this.type = 'irishub/service/MsgDefineService';
+    this.value = definition;
+  }
+
+  getSignBytes(): object {
+    return this.value;
+  }
+}

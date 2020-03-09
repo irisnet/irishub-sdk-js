@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { MsgUnjail } from '../types/slashing';
+import { MsgDefineService } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
 
@@ -173,4 +173,36 @@ export class Service {
     );
   }
 
+  /**
+   * Creating a new service definition
+   *
+   * @param definition Service definition
+   * @param baseTx
+   * @returns
+   */
+  async defineService(
+    definition: {
+      name: string;
+      schemas: string;
+      description?: string;
+      tags?: string[];
+      author_description?: string;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const author = this.client.keys.show(baseTx.from);
+
+    const msgs: types.Msg[] = [
+      new MsgDefineService({
+        name: definition.name,
+        author,
+        schemas: definition.schemas,
+        description: definition.description,
+        tags: definition.tags,
+        author_description: definition.author_description,
+      }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
 }
