@@ -264,3 +264,99 @@ export class MsgSetServiceWithdrawAddress implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for refunding deposit from a service binding
+ * @hidden
+ */
+export class MsgRefundServiceDeposit implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    provider: string;
+  };
+
+  constructor(serviceName: string, provider: string) {
+    this.type = 'irishub/service/MsgRefundServiceDeposit';
+    this.value = {
+      service_name: serviceName,
+      provider,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+/**
+ * Msg struct for resuming a request context
+ * @hidden
+ */
+export class MsgStartRequestContext implements Msg {
+  type: string;
+  value: {
+    request_context_id: string;
+    consumer: string;
+  };
+
+  constructor(requestContextID: string, consumer: string) {
+    this.type = 'irishub/service/MsgStartRequestContext';
+    this.value = {
+      request_context_id: requestContextID,
+      consumer,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+/**
+ * Msg struct for pausing a request context
+ * @hidden
+ */
+export class MsgPauseRequestContext implements Msg {
+  type: string;
+  value: {
+    request_context_id: string;
+    consumer: string;
+  };
+
+  constructor(requestContextID: string, consumer: string) {
+    this.type = 'irishub/service/MsgPauseRequestContext';
+    this.value = {
+      request_context_id: requestContextID,
+      consumer,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+/**
+ * Msg struct for killing a request context
+ * @hidden
+ */
+export class MsgKillRequestContext implements Msg {
+  type: string;
+  value: {
+    request_context_id: string;
+    consumer: string;
+  };
+
+  constructor(requestContextID: string, consumer: string) {
+    this.type = 'irishub/service/MsgKillRequestContext';
+    this.value = {
+      request_context_id: requestContextID,
+      consumer,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}

@@ -7,6 +7,10 @@ import {
   MsgDisableServiceBinding,
   MsgEnableServiceBinding,
   MsgSetServiceWithdrawAddress,
+  MsgRefundServiceDeposit,
+  MsgStartRequestContext,
+  MsgPauseRequestContext,
+  MsgKillRequestContext,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -364,6 +368,82 @@ export class Service {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSetServiceWithdrawAddress(withdrawAddress, provider),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Refund deposits from the specified service binding
+   *
+   * @param serviceName Service name
+   * @param baseTx
+   * @returns
+   */
+  async refundServiceDeposit(
+    serviceName: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgRefundServiceDeposit(serviceName, provider),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Start the specified request context
+   *
+   * @param requestContextID
+   * @param baseTx
+   * @returns
+   */
+  async startRequestContext(
+    requestContextID: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const consumer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgStartRequestContext(requestContextID, consumer),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Pause the specified request context
+   *
+   * @param requestContextID
+   * @param baseTx
+   * @returns
+   */
+  async pauseRequestContext(
+    requestContextID: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const consumer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgPauseRequestContext(requestContextID, consumer),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Kill the specified request context
+   *
+   * @param requestContextID
+   * @param baseTx
+   * @returns
+   */
+  async killRequestContext(
+    requestContextID: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const consumer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgKillRequestContext(requestContextID, consumer),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
