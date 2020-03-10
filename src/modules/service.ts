@@ -1,6 +1,10 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { MsgDefineService, MsgBindService } from '../types/service';
+import {
+  MsgDefineService,
+  MsgBindService,
+  MsgUpdateServiceBinding,
+} from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
 import { Coin } from '../types';
@@ -210,23 +214,51 @@ export class Service {
   /**
    * Bind an existing service definition
    *
-   * @param binding Service definition
+   * @param binding Service binding
    * @param baseTx
    * @returns
    */
   async bindService(
     binding: {
       serviceName: string;
-      provider: string;
       deposit: Coin[];
       pricing: string;
     },
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgBindService({
         service_name: binding.serviceName,
-        provider: binding.provider,
+        provider,
+        deposit: binding.deposit,
+        pricing: binding.pricing,
+      }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Update the specified service binding
+   *
+   * @param binding Service definition
+   * @param baseTx
+   * @returns
+   */
+  async updateServiceBinding(
+    binding: {
+      serviceName: string;
+      deposit: Coin[];
+      pricing: string;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgUpdateServiceBinding({
+        service_name: binding.serviceName,
+        provider,
         deposit: binding.deposit,
         pricing: binding.pricing,
       }),

@@ -124,3 +124,31 @@ export class MsgBindService implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for updating a service binding
+ * @hidden
+ */
+export class MsgUpdateServiceBinding implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    provider: string;
+    deposit: Coin[];
+    pricing: string;
+  };
+
+  constructor(binding: {
+    service_name: string;
+    provider: string;
+    deposit: Coin[];
+    pricing: string;
+  }) {
+    this.type = 'irishub/service/MsgUpdateServiceBinding';
+    this.value = binding;
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
