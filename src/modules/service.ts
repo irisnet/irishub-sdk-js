@@ -6,6 +6,7 @@ import {
   MsgUpdateServiceBinding,
   MsgDisableServiceBinding,
   MsgEnableServiceBinding,
+  MsgRequestService,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -287,6 +288,7 @@ export class Service {
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
+
   /**
    * Enable an unavailable service binding
    *
@@ -304,5 +306,47 @@ export class Service {
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Call a service
+   *
+   * @hidden
+   * @param request Service request
+   * @param baseTx
+   * @returns
+   */
+  async invokeService(
+    request: {
+      serviceName: string;
+      providers: string[];
+      input: string;
+      serviceFeeCap: Coin[];
+      timeout: number;
+      superMode: boolean;
+      repeated: boolean;
+      repeatedFrequency: number;
+      repeatedTotal: number;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    // const consumer = this.client.keys.show(baseTx.from);
+    // const msgs: types.Msg[] = [
+    //   new MsgRequestService({
+    //     service_name: request.serviceName,
+    //     providers: request.providers,
+    //     consumer,
+    //     input: request.input,
+    //     service_fee_cap: request.serviceFeeCap,
+    //     timeout: request.timeout,
+    //     super_mode: request.superMode,
+    //     repeated: request.repeated,
+    //     repeated_frequency: request.repeatedFrequency,
+    //     repeated_total: request.repeatedTotal,
+    //   }),
+    // ];
+
+    // return this.client.tx.buildAndSend(msgs, baseTx);
+    throw new SdkError('Not supported');
   }
 }

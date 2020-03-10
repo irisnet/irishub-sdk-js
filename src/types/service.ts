@@ -200,3 +200,43 @@ export class MsgEnableServiceBinding implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for invoking a service
+ * @hidden
+ */
+export class MsgRequestService implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    providers: string[];
+    consumer: string;
+    input: string;
+    service_fee_cap: Coin[];
+    timeout: number;
+    super_mode: boolean;
+    repeated: boolean;
+    repeated_frequency: number;
+    repeated_total: number;
+  };
+
+  constructor(request: {
+    service_name: string;
+    providers: string[];
+    consumer: string;
+    input: string;
+    service_fee_cap: Coin[];
+    timeout: number;
+    super_mode: boolean;
+    repeated: boolean;
+    repeated_frequency: number;
+    repeated_total: number;
+  }) {
+    this.type = 'irishub/service/MsgRequestService';
+    this.value = request;
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
