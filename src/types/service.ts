@@ -152,3 +152,51 @@ export class MsgUpdateServiceBinding implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for disabling a service binding
+ * @hidden
+ */
+export class MsgDisableServiceBinding implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    provider: string;
+  };
+
+  constructor(serviceName: string, provider: string) {
+    this.type = 'irishub/service/MsgDisableService';
+    this.value = {
+      service_name: serviceName,
+      provider,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+/**
+ * Msg struct for enabling a service binding
+ * @hidden
+ */
+export class MsgEnableServiceBinding implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    provider: string;
+  };
+
+  constructor(serviceName: string, provider: string) {
+    this.type = 'irishub/service/MsgEnableService';
+    this.value = {
+      service_name: serviceName,
+      provider,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}

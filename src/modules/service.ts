@@ -4,6 +4,8 @@ import {
   MsgDefineService,
   MsgBindService,
   MsgUpdateServiceBinding,
+  MsgDisableServiceBinding,
+  MsgEnableServiceBinding,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -242,7 +244,7 @@ export class Service {
   /**
    * Update the specified service binding
    *
-   * @param binding Service definition
+   * @param binding Service binding
    * @param baseTx
    * @returns
    */
@@ -262,6 +264,43 @@ export class Service {
         deposit: binding.deposit,
         pricing: binding.pricing,
       }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Disable an available service binding
+   *
+   * @param serviceName Service name
+   * @param baseTx
+   * @returns
+   */
+  async disableServiceBinding(
+    serviceName: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgDisableServiceBinding(serviceName, provider),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+  /**
+   * Enable an unavailable service binding
+   *
+   * @param serviceName Service name
+   * @param baseTx
+   * @returns
+   */
+  async enableServiceBinding(
+    serviceName: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgEnableServiceBinding(serviceName, provider),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
