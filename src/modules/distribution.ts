@@ -41,16 +41,16 @@ export class Distribution {
 
   /**
    * Set another address to receive the rewards instead of using the delegator address
-   * @param withdrawAddr Bech32 account address
+   * @param withdrawAddress Bech32 account address
    * @param baseTx
    * @returns
    */
   async setWithdrawAddr(
-    withdrawAddr: string,
+    withdrawAddress: string,
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     const from = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [new MsgSetWithdrawAddress(from, withdrawAddr)];
+    const msgs: types.Msg[] = [new MsgSetWithdrawAddress(from, withdrawAddress)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }

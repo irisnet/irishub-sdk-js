@@ -6,7 +6,7 @@ import {
   MsgUpdateServiceBinding,
   MsgDisableServiceBinding,
   MsgEnableServiceBinding,
-  MsgRequestService,
+  MsgSetServiceWithdrawAddress,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -348,5 +348,24 @@ export class Service {
 
     // return this.client.tx.buildAndSend(msgs, baseTx);
     throw new SdkError('Not supported');
+  }
+
+  /**
+   * Set a withdrawal address for a provider
+   *
+   * @param withdrawAddress Bech32 account address
+   * @param baseTx
+   * @returns
+   */
+  async setWithdrawAddress(
+    withdrawAddress: string,
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgSetServiceWithdrawAddress(withdrawAddress, provider),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 }
