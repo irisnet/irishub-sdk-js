@@ -360,3 +360,37 @@ export class MsgKillRequestContext implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for invoking a service
+ * @hidden
+ */
+export class MsgUpdateRequestContext implements Msg {
+  type: string;
+  value: {
+    request_context_id: string;
+    providers: string[];
+    service_fee_cap: Coin[];
+    timeout: number;
+    repeated_frequency: number;
+    repeated_total: number;
+    consumer: string;
+  };
+
+  constructor(request: {
+    request_context_id: string;
+    providers: string[];
+    service_fee_cap: Coin[];
+    timeout: number;
+    repeated_frequency: number;
+    repeated_total: number;
+    consumer: string;
+  }) {
+    this.type = 'irishub/service/MsgUpdateRequestContext';
+    this.value = request;
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}

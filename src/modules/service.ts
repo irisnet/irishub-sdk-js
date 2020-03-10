@@ -11,6 +11,7 @@ import {
   MsgStartRequestContext,
   MsgPauseRequestContext,
   MsgKillRequestContext,
+  MsgUpdateRequestContext,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -444,6 +445,40 @@ export class Service {
     const consumer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgKillRequestContext(requestContextID, consumer),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Update the specified request context
+   *
+   * @param requestContextID
+   * @param baseTx
+   * @returns
+   */
+  async updateRequestContext(
+    request: {
+      request_context_id: string;
+      providers: string[];
+      service_fee_cap?: Coin[];
+      timeout?: number;
+      repeated_frequency?: number;
+      repeated_total?: number;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const consumer = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgUpdateRequestContext({
+        request_context_id: request.request_context_id,
+        providers: request.providers,
+        service_fee_cap: request.service_fee_cap || [],
+        timeout: request.timeout || 0,
+        repeated_frequency: request.repeated_frequency || 0,
+        repeated_total: request.repeated_total || 0,
+        consumer,
+      }),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
