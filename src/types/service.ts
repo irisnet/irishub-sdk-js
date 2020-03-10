@@ -93,6 +93,34 @@ export class MsgDefineService implements Msg {
   }
 
   getSignBytes(): object {
-    return this.value;
+    return this;
+  }
+}
+
+/**
+ * Msg struct for binding a service definition
+ * @hidden
+ */
+export class MsgBindService implements Msg {
+  type: string;
+  value: {
+    service_name: string;
+    provider: string;
+    deposit: Coin[];
+    pricing: string;
+  };
+
+  constructor(binding: {
+    service_name: string;
+    provider: string;
+    deposit: Coin[];
+    pricing: string;
+  }) {
+    this.type = 'irishub/service/MsgBindService';
+    this.value = binding;
+  }
+
+  getSignBytes(): object {
+    return this;
   }
 }
