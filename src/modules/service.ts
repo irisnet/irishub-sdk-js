@@ -13,6 +13,7 @@ import {
   MsgKillRequestContext,
   MsgUpdateRequestContext,
   MsgWithdrawEarnedFees,
+  MsgWithdrawTax,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -495,8 +496,26 @@ export class Service {
     baseTx: types.BaseTx
   ): Promise<types.ResultBroadcastTx> {
     const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [new MsgWithdrawEarnedFees(provider)];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Withdraw the service tax to the speicified destination address by the trustee
+   *
+   * @param destAddress
+   * @param baseTx
+   * @returns
+   */
+  async withdrawTax(
+    destAddress: string,
+    amount: Coin[],
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const trustee = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
-      new MsgWithdrawEarnedFees(provider),
+      new MsgWithdrawTax(trustee, destAddress, amount),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);

@@ -415,3 +415,29 @@ export class MsgWithdrawEarnedFees implements Msg {
     return this;
   }
 }
+
+/**
+ * Msg struct for withdrawing the service tax
+ * @hidden
+ */
+export class MsgWithdrawTax implements Msg {
+  type: string;
+  value: {
+    trustee: string;
+    dest_address: string;
+    amount: Coin[];
+  };
+
+  constructor(trustee: string, destAddress: string, amount: Coin[]) {
+    this.type = 'irishub/service/MsgWithdrawTax';
+    this.value = {
+      trustee,
+      dest_address: destAddress,
+      amount,
+    };
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
