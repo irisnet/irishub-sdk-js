@@ -242,7 +242,6 @@ export class MsgRequestService implements Msg {
 }
 
 /**
- * Msg struct for setting the withdrawal address for a provider
  * @hidden
  */
 export class MsgSetServiceWithdrawAddress implements Msg {
@@ -388,6 +387,28 @@ export class MsgUpdateRequestContext implements Msg {
   }) {
     this.type = 'irishub/service/MsgUpdateRequestContext';
     this.value = request;
+  }
+
+  getSignBytes(): object {
+    return this;
+  }
+}
+
+/**
+ * Msg struct for withdrawing the fees earned by the provider
+ * @hidden
+ */
+export class MsgWithdrawEarnedFees implements Msg {
+  type: string;
+  value: {
+    provider: string;
+  };
+
+  constructor(provider: string) {
+    this.type = 'irishub/service/MsgWithdrawEarnedFees';
+    this.value = {
+      provider,
+    };
   }
 
   getSignBytes(): object {

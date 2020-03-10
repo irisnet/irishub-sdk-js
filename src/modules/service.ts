@@ -12,6 +12,7 @@ import {
   MsgPauseRequestContext,
   MsgKillRequestContext,
   MsgUpdateRequestContext,
+  MsgWithdrawEarnedFees,
 } from '../types/service';
 import SdkError from '../errors';
 import { Utils } from '../utils';
@@ -453,7 +454,7 @@ export class Service {
   /**
    * Update the specified request context
    *
-   * @param requestContextID
+   * @param request Params to be updated
    * @param baseTx
    * @returns
    */
@@ -479,6 +480,23 @@ export class Service {
         repeated_total: request.repeated_total || 0,
         consumer,
       }),
+    ];
+
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Withdraw the earned fees to the specified provider
+   *
+   * @param baseTx
+   * @returns
+   */
+  async withdrawEarnedFees(
+    baseTx: types.BaseTx
+  ): Promise<types.ResultBroadcastTx> {
+    const provider = this.client.keys.show(baseTx.from);
+    const msgs: types.Msg[] = [
+      new MsgWithdrawEarnedFees(provider),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
