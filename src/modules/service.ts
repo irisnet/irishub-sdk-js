@@ -20,6 +20,7 @@ import { Utils } from '../utils';
 import { Coin } from '../types';
 
 /**
+ * @todo docs
  * @category Modules
  */
 export class Service {
@@ -33,6 +34,7 @@ export class Service {
   /**
    * Query a service definition
    *
+   * @param serviceName The unique service name
    * @returns
    */
   queryDefinition(serviceName: string): Promise<types.ServiceDefinition> {
@@ -47,6 +49,8 @@ export class Service {
   /**
    * Query a service binding
    *
+   * @param serviceName The unique service name
+   * @param provider Bech32 provider address
    * @returns
    */
   queryBinding(
@@ -65,6 +69,7 @@ export class Service {
   /**
    * Query service bindings by service name
    *
+   * @param serviceName The unique service name
    * @returns
    */
   queryBindings(serviceName: string): Promise<types.ServiceBinding[]> {
@@ -79,6 +84,7 @@ export class Service {
   /**
    * Query a service request
    *
+   * @param requestID The ID of the request
    * @returns
    */
   queryRequest(requestID: string): Promise<types.ServiceRequest> {
@@ -93,6 +99,8 @@ export class Service {
   /**
    * Query all requests of a specified service and provider
    *
+   * @param serviceName The unique service name
+   * @param provider Bech32 provider address
    * @returns
    */
   queryRequests(
@@ -111,6 +119,8 @@ export class Service {
   /**
    * Query all requests of a specified request context ID and batch counter
    *
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
+   * @param batchCounter The sequence number of the request context
    * @returns
    */
   queryRequestsByReqCtx(
@@ -129,6 +139,7 @@ export class Service {
   /**
    * Query a request context
    *
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @returns
    */
   queryRequestContext(
@@ -145,6 +156,7 @@ export class Service {
   /**
    * Query a service response
    *
+   * @param requestID The ID of the request
    * @returns
    */
   queryResponse(requestID: string): Promise<types.ServiceResponse> {
@@ -159,6 +171,8 @@ export class Service {
   /**
    * Query service responses
    *
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
+   * @param batchCounter The sequence number of the request context
    * @returns
    */
   queryResponses(
@@ -177,6 +191,7 @@ export class Service {
   /**
    * Query service fee
    *
+   * @param provider Bech32 provider address
    * @returns
    */
   queryFees(provider: string): Promise<types.ServiceFee> {
@@ -280,7 +295,7 @@ export class Service {
   /**
    * Disable an available service binding
    *
-   * @param serviceName Service name
+   * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
    */
@@ -299,7 +314,7 @@ export class Service {
   /**
    * Enable an unavailable service binding
    *
-   * @param serviceName Service name
+   * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
    */
@@ -379,7 +394,7 @@ export class Service {
   /**
    * Refund deposits from the specified service binding
    *
-   * @param serviceName Service name
+   * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
    */
@@ -398,7 +413,7 @@ export class Service {
   /**
    * Start the specified request context
    *
-   * @param requestContextID
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
    */
@@ -417,7 +432,7 @@ export class Service {
   /**
    * Pause the specified request context
    *
-   * @param requestContextID
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
    */
@@ -436,7 +451,7 @@ export class Service {
   /**
    * Kill the specified request context
    *
-   * @param requestContextID
+   * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
    */
@@ -504,7 +519,7 @@ export class Service {
   /**
    * Withdraw the service tax to the speicified destination address by the trustee
    *
-   * @param destAddress
+   * @param destAddress The speicified destination address to receive the service tax
    * @param baseTx
    * @returns
    */
@@ -520,4 +535,6 @@ export class Service {
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
+
+  // Service listeners not supported in browser
 }
