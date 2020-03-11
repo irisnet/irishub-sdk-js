@@ -180,7 +180,7 @@ describe('Staking Tests', () => {
   describe('Unbond', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
-        .staking.unbond(
+        .staking.undelegate(
           'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
           '100000000000000000',
           BaseTest.baseTx

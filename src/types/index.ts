@@ -11,4 +11,5 @@ export * from './gov';
 export * from './slashing';
 export * from './distribution';
 export * from './service';
+export * from './oracle';
 export * from './events';

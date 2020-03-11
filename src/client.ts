@@ -41,6 +41,12 @@ export class Client {
   /** Distribution module */
   distribution: modules.Distribution;
 
+  /** Service module */
+  service: modules.Service;
+
+  /** Oracle module */
+  oracle: modules.Oracle;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -77,6 +83,8 @@ export class Client {
     this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
     this.distribution = new modules.Distribution(this);
+    this.service = new modules.Service(this);
+    this.oracle = new modules.Oracle(this);
   }
 
   /**
