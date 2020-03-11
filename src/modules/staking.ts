@@ -267,7 +267,7 @@ export class Staking {
    * @param baseTx
    * @returns
    */
-  async unbond(
+  async undelegate(
     validatorAddr: string,
     amount: string,
     baseTx: types.BaseTx
