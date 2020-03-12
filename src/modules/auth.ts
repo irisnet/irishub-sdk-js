@@ -40,7 +40,7 @@ export class Auth {
     msgs: types.Msg[],
     baseTx: types.BaseTx,
     sigs: types.StdSignature[] = [],
-    memo: string = ''
+    memo = ''
   ): types.Tx<types.StdTx> {
     const stdFee: types.StdFee = { amount: [], gas: '' };
     Object.assign(stdFee, this.defaultStdFee); // Copy from default std fee
@@ -57,7 +57,7 @@ export class Auth {
         msg: msgs,
         fee: stdFee,
         signatures: sigs,
-        memo: memo,
+        memo,
       },
     };
   }

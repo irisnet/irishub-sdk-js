@@ -58,3 +58,9 @@ export interface Pubkey {
   type: string;
   value: string;
 }
+
+/** Tag struct */
+export interface Tag {
+  key: string;
+  value: string;
+}

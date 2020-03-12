@@ -1,5 +1,6 @@
 import { Tx, Pubkey as ValPubKey } from './types';
 import { StdTx } from './auth';
+import { Tag } from './types';
 
 /**
  * Returns by subscriptions, for clients to unscribe the specified events
@@ -43,7 +44,7 @@ export interface EventDataResultTx {
     log: string;
     gas_wanted: string;
     gas_used: string;
-    tags: EventDataTag[];
+    tags: Tag[];
   };
 }
 
@@ -113,17 +114,12 @@ export interface EventDataPrecommit {
 }
 
 export interface EventDataResultBeginBlock {
-  tags: EventDataTag[];
-}
-
-export interface EventDataTag {
-  key: string;
-  value: string;
+  tags: Tag[];
 }
 
 export interface EventDataResultEndBlock {
   validator_updates: EventDataValidatorUpdate[];
-  tags: EventDataTag[];
+  tags: Tag[];
 }
 
 export interface EventDataValidatorUpdate {

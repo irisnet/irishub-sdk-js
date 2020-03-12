@@ -58,7 +58,7 @@ export class Random {
     blockInterval: number,
     baseTx: types.BaseTx,
     callback?: (error?: SdkError, data?: types.RandomInfo) => void
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
 
     const msgs: types.Msg[] = [new MsgRequestRand(consumer, blockInterval)];

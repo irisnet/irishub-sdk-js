@@ -44,7 +44,7 @@ export class Slashing {
   async unjail(
     validatorAddr: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const msgs: types.Msg[] = [new MsgUnjail(validatorAddr)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
