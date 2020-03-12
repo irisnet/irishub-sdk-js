@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
 import { marshalTx } from '@irisnet/amino-js';
 import { bytesToBase64 } from '@tendermint/belt';
@@ -177,20 +177,12 @@ export class Tx {
       .then(response => {
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
-          throw new SdkError(
-            'Check tx error',
-            response.check_tx.code,
-            response.check_tx.log
-          );
+          throw new SdkError(response.check_tx.log, response.check_tx.code);
         }
 
         // Deliver tx error
         if (response.deliver_tx && response.deliver_tx.code > 0) {
-          throw new SdkError(
-            'Deliver tx error',
-            response.deliver_tx.code,
-            response.deliver_tx.log
-          );
+          throw new SdkError(response.deliver_tx.log, response.deliver_tx.code);
         }
 
         if (response.deliver_tx && response.deliver_tx.tags) {
@@ -235,7 +227,7 @@ export class Tx {
       })
       .then(response => {
         if (response.code && response.code > 0) {
-          throw new SdkError(response.data, response.code, response.log);
+          throw new SdkError(response.data, response.code);
         }
 
         return response;
@@ -245,7 +237,7 @@ export class Tx {
   private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
     const copyStdTx: types.Tx<types.StdTx> = stdTx;
     Object.assign(copyStdTx, stdTx);
-    stdTx.value.msg.forEach((msg, idx, array) => {
+    stdTx.value.msg.forEach((msg, idx) => {
       if (msg.marshal) {
         copyStdTx.value.msg[idx] = msg.marshal();
       }

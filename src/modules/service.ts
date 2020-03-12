@@ -15,7 +15,7 @@ import {
   MsgWithdrawEarnedFees,
   MsgWithdrawTax,
 } from '../types/service';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { Utils } from '../utils';
 import { Coin } from '../types';
 

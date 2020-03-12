@@ -3,7 +3,7 @@ import * as SHA3 from 'crypto-js/sha3';
 import * as SHA256 from 'crypto-js/sha256';
 import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 
 /**
  * IRISHub SDK JS Utils

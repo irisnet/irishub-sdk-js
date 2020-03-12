@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Utils } from '../utils';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
@@ -56,7 +56,7 @@ export class RpcClient {
 
         // Internal error
         if (res.error) {
-          throw new SdkError(res.error.message, res.error.code, res.error.data);
+          throw new SdkError(res.error.message, res.error.code);
         }
 
         return res.result;
@@ -94,12 +94,11 @@ export class RpcClient {
           } else if (response.response.code) {
             throw new SdkError(
               'Bad Request',
-              response.response.code,
-              response.response.log
-            ); // TODO
+              response.response.code
+            );
           }
         }
-        throw new SdkError('Bad Request'); // TODO
+        throw new SdkError('Bad Request');
       }
     );
   }

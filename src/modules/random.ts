@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { MsgRequestRand } from '../types/random';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { BroadcastMode } from '../types';
 
 /**

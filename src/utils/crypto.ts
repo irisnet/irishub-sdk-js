@@ -9,7 +9,7 @@ import { ec as EC } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { marshalTx } from '@irisnet/amino-js';
 
 /**

@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { MsgUnjail } from '../types/slashing';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 
 /**
  * In Proof-of-Stake blockchain, validators will get block provisions by staking their token.
