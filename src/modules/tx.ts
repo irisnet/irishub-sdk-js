@@ -28,7 +28,7 @@ export class Tx {
   async buildAndSend(
     msgs: types.Msg[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
     // Sign Tx
@@ -46,7 +46,7 @@ export class Tx {
   broadcast(
     signedTx: types.Tx<types.StdTx>,
     mode?: types.BroadcastMode
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     signedTx = this.marshal(signedTx);
     const txBytes = marshalTx(signedTx);
     switch (mode) {
@@ -54,11 +54,11 @@ export class Tx {
         return this.broadcastTxCommit(txBytes);
       case types.BroadcastMode.Sync:
         return this.broadcastTxSync(txBytes).then(response => {
-          return this.newResultBroadcastTx(response.hash);
+          return this.newTxResult(response.hash);
         });
       default:
         return this.broadcastTxAsync(txBytes).then(response => {
-          return this.newResultBroadcastTx(response.hash);
+          return this.newTxResult(response.hash);
         });
     }
   }
@@ -169,9 +169,7 @@ export class Tx {
    * @param txBytes The tx bytes with signatures
    * @returns The result object of broadcasting
    */
-  private broadcastTxCommit(
-    txBytes: Uint8Array
-  ): Promise<types.ResultBroadcastTx> {
+  private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
     return this.client.rpcClient
       .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
         tx: bytesToBase64(txBytes),
@@ -195,7 +193,24 @@ export class Tx {
           );
         }
 
-        return response;
+        if (response.deliver_tx && response.deliver_tx.tags) {
+          const decodedTags: types.Tag[] = [];
+          response.deliver_tx.tags.forEach(tag => {
+            decodedTags.push({
+              key: Utils.base64ToString(tag.key),
+              value: Utils.base64ToString(tag.value),
+            });
+          });
+          response.deliver_tx.tags = decodedTags;
+        }
+        return {
+          hash: response.hash,
+          height: response.height,
+          gas_wanted: response.deliver_tx?.gas_wanted,
+          gas_used: response.deliver_tx?.gas_used,
+          info: response.deliver_tx?.info,
+          tags: response.deliver_tx?.tags,
+        };
       });
   }
 
@@ -238,17 +253,18 @@ export class Tx {
     return copyStdTx;
   }
 
-  private newResultBroadcastTx(
+  private newTxResult(
     hash: string,
-    checkTx?: types.ResultTx,
-    deliverTx?: types.ResultTx,
-    height?: number
-  ): types.ResultBroadcastTx {
+    height?: number,
+    deliverTx?: types.ResultTx
+  ): types.TxResult {
     return {
       hash,
-      check_tx: checkTx,
-      deliver_tx: deliverTx,
       height,
+      gas_wanted: deliverTx?.gas_wanted,
+      gas_used: deliverTx?.gas_used,
+      info: deliverTx?.info,
+      tags: deliverTx?.tags,
     };
   }
 }

@@ -219,7 +219,7 @@ export class Service {
       author_description?: string;
     },
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const author = this.client.keys.show(baseTx.from);
 
     const msgs: types.Msg[] = [
@@ -250,7 +250,7 @@ export class Service {
       pricing: string;
     },
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgBindService({
@@ -278,7 +278,7 @@ export class Service {
       pricing: string;
     },
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgUpdateServiceBinding({
@@ -302,7 +302,7 @@ export class Service {
   async disableServiceBinding(
     serviceName: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgDisableServiceBinding(serviceName, provider),
@@ -321,7 +321,7 @@ export class Service {
   async enableServiceBinding(
     serviceName: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgEnableServiceBinding(serviceName, provider),
@@ -351,7 +351,7 @@ export class Service {
       repeatedTotal: number;
     },
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     // const consumer = this.client.keys.show(baseTx.from);
     // const msgs: types.Msg[] = [
     //   new MsgRequestService({
@@ -382,7 +382,7 @@ export class Service {
   async setWithdrawAddress(
     withdrawAddress: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSetServiceWithdrawAddress(withdrawAddress, provider),
@@ -401,7 +401,7 @@ export class Service {
   async refundServiceDeposit(
     serviceName: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgRefundServiceDeposit(serviceName, provider),
@@ -420,7 +420,7 @@ export class Service {
   async startRequestContext(
     requestContextID: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgStartRequestContext(requestContextID, consumer),
@@ -439,7 +439,7 @@ export class Service {
   async pauseRequestContext(
     requestContextID: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgPauseRequestContext(requestContextID, consumer),
@@ -458,7 +458,7 @@ export class Service {
   async killRequestContext(
     requestContextID: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgKillRequestContext(requestContextID, consumer),
@@ -484,7 +484,7 @@ export class Service {
       repeated_total?: number;
     },
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgUpdateRequestContext({
@@ -509,7 +509,7 @@ export class Service {
    */
   async withdrawEarnedFees(
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgWithdrawEarnedFees(provider)];
 
@@ -527,7 +527,7 @@ export class Service {
     destAddress: string,
     amount: Coin[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const trustee = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgWithdrawTax(trustee, destAddress, amount),

@@ -252,7 +252,7 @@ export class Staking {
     validatorAddr: string,
     amount: types.Coin,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgDelegate(delegatorAddr, validatorAddr, amount),
@@ -271,7 +271,7 @@ export class Staking {
     validatorAddr: string,
     amount: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
     const validator = await this.queryValidator(validatorAddr);
 
@@ -300,7 +300,7 @@ export class Staking {
     validatorDstAddr: string,
     amount: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
     const srcValidator = await this.queryValidator(validatorSrcAddr);
 

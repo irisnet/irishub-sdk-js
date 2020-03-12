@@ -71,7 +71,7 @@ export class Bank {
     to: string,
     amount: types.Coin[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     // Validate bech32 address
     if (!Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
       throw new SdkError('Invalid bech32 address');
@@ -98,7 +98,7 @@ export class Bank {
   async burn(
     amount: types.Coin[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgBurn(from, amount)];
 
@@ -114,7 +114,7 @@ export class Bank {
   async setMemoRegexp(
     memoRegexp: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
 

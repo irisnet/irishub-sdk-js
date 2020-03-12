@@ -301,8 +301,8 @@ export class EventListener {
 
       // Decode tags from base64
       if (txResult.result.tags) {
-        const tags = txResult.result.tags as types.EventDataTag[];
-        const decodedTags = new Array<types.EventDataTag>();
+        const tags = txResult.result.tags as types.Tag[];
+        const decodedTags = new Array<types.Tag>();
         tags.forEach(element => {
           const key = Utils.base64ToString(element.key);
           const value =

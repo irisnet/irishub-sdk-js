@@ -159,7 +159,7 @@ export class Gov {
     initialDeposit: types.Coin[],
     params: types.ChangeParameter[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitParameterChangeProposal({
@@ -190,7 +190,7 @@ export class Gov {
     description: string,
     initialDeposit: types.Coin[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitPlainTextProposal({
@@ -228,7 +228,7 @@ export class Gov {
     destAddress: string,
     percent: number,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgSubmitCommunityTaxUsageProposal({
@@ -259,7 +259,7 @@ export class Gov {
     proposalID: number,
     amount: types.Coin[],
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const depositor = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [
       new MsgDeposit(String(proposalID), depositor, amount),
@@ -280,7 +280,7 @@ export class Gov {
     proposalID: number,
     option: types.VoteOption,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const voter = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgVote(String(proposalID), voter, option)];
 

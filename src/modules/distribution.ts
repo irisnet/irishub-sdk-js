@@ -48,7 +48,7 @@ export class Distribution {
   async setWithdrawAddr(
     withdrawAddress: string,
     baseTx: types.BaseTx
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgSetWithdrawAddress(from, withdrawAddress)];
 
@@ -60,13 +60,13 @@ export class Distribution {
    * @param baseTx { types.BaseTx }
    * @param onlyFromValidator only withdraw from this validator address
    * @param isValidator also withdraw validator's commission, can be set to `true` only if the `onlyFromValidator` is specified
-   * @returns { Promise<types.ResultBroadcastTx> }
+   * @returns { Promise<types.TxResult> }
    */
   async withdrawRewards(
     baseTx: types.BaseTx,
     onlyFromValidator = '',
     isValidator = false
-  ): Promise<types.ResultBroadcastTx> {
+  ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
     let msgs: types.Msg[];
     if (is.not.empty(onlyFromValidator)) {
