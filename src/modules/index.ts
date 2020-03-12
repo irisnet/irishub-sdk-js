@@ -9,3 +9,4 @@ export * from './slashing';
 export * from './distribution';
 export * from './service';
 export * from './oracle';
+export * from './random';
