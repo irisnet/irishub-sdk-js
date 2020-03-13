@@ -4,7 +4,9 @@ import { RpcClient } from './nets/rpc-client';
 import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
-import SdkError from './errors';
+import { SdkError } from './errors';
+import * as AES from 'crypto-js/aes';
+import * as ENC from 'crypto-js/enc-utf8';
 
 /** IRISHub Client */
 export class Client {
@@ -47,6 +49,9 @@ export class Client {
   /** Oracle module */
   oracle: modules.Oracle;
 
+  /** Random module */
+  random: modules.Random;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -85,6 +90,14 @@ export class Client {
     this.distribution = new modules.Distribution(this);
     this.service = new modules.Service(this);
     this.oracle = new modules.Oracle(this);
+    this.random = new modules.Random(this);
+
+    // Set default encrypt/decrypt methods
+    if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
+      const defaultKeyDAO = new DefaultKeyDAOImpl();
+      this.config.keyDAO.encrypt = defaultKeyDAO.encrypt;
+      this.config.keyDAO.decrypt = defaultKeyDAO.decrypt;
+    }
   }
 
   /**
@@ -94,6 +107,12 @@ export class Client {
    * @returns The SDK itself
    */
   withKeyDAO(keyDAO: KeyDAO) {
+    // Set default encrypt/decrypt methods
+    if (!keyDAO.encrypt || !keyDAO.decrypt) {
+      const defaultKeyDAO = new DefaultKeyDAOImpl();
+      keyDAO.encrypt = defaultKeyDAO.encrypt;
+      keyDAO.decrypt = defaultKeyDAO.decrypt;
+    }
     this.config.keyDAO = keyDAO;
     return this;
   }
@@ -183,9 +202,6 @@ export interface ClientConfig {
 
   /** Axios request config for tendermint rpc requests */
   rpcConfig?: AxiosRequestConfig;
-
-  /** Save the key as a keystore or private key */
-  keyStoreType?: types.StoreType;
 }
 
 /** Default IRISHub Client Config */
@@ -198,7 +214,6 @@ export class DefaultClientConfig implements ClientConfig {
   keyDAO: KeyDAO;
   bech32Prefix: Bech32Prefix;
   rpcConfig: AxiosRequestConfig;
-  keyStoreType: types.StoreType;
 
   constructor() {
     this.node = '';
@@ -209,7 +224,6 @@ export class DefaultClientConfig implements ClientConfig {
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };
-    this.keyStoreType = types.StoreType.Keystore;
   }
 }
 
@@ -218,26 +232,46 @@ export class DefaultClientConfig implements ClientConfig {
  */
 export interface KeyDAO {
   /**
-   * Save the keystore to app, throws error if the save fails.
+   * Save the encrypted private key to app
    *
    * @param name Name of the key
-   * @param keystore The keystore object
+   * @param key The encrypted private key object
+   * @throws `SdkError` if the save fails.
    */
-  write(name: string, keystore: types.Keystore | types.Key): void;
+  write(name: string, key: types.Key): void;
 
   /**
-   * Get the keystore by name
+   * Get the encrypted private key by name
    *
    * @param name Name of the key
-   * @returns The keystore object
+   * @returns The encrypted private key object or undefined
    */
-  read(name: string): types.Keystore | types.Key;
+  read(name: string): types.Key;
 
   /**
-   * Delete keystore by name
+   * Delete the key by name
    * @param name Name of the key
+   * @throws `SdkError` if the deletion fails.
    */
   delete(name: string): void;
+
+  /**
+   * Optional function to encrypt the private key by yourself. Default to AES Encryption
+   * @param privKey The plain private key
+   * @param password The password to encrypt the private key
+   * @returns The encrypted private key
+   * @throws `SdkError` if encrypt failed
+   */
+  encrypt?(privKey: string, password: string): string;
+
+  /**
+   * Optional function to decrypt the private key by yourself. Default to AES Decryption
+   * @param encrptedPrivKey The encrpted private key
+   * @param password The password to decrypt the private key
+   * @returns The plain private key
+   * @throws `SdkError` if decrypt failed
+   */
+  decrypt?(encrptedPrivKey: string, password: string): string;
 }
 
 /**
@@ -253,19 +287,34 @@ export interface Bech32Prefix {
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
-  write(name: string, keystore: types.Keystore) {
+  write(name: string, key: types.Key): void {
     throw new SdkError(
       'Method not implemented. Please implement KeyDAO first.'
     );
   }
-  read(name: string): types.Keystore {
+  read(name: string): types.Key {
     throw new SdkError(
       'Method not implemented. Please implement KeyDAO first.'
     );
   }
-  delete(name: string) {
+  delete(name: string): void {
     throw new SdkError(
       'Method not implemented. Please implement KeyDAO first.'
     );
+  }
+  encrypt(privKey: string, password: string): string {
+    const encrypted = AES.encrypt(privKey, password).toString();
+    if (!encrypted) {
+      throw new SdkError('Private key encrypt failed');
+    }
+    return encrypted;
+  }
+
+  decrypt(encrptedPrivKey: string, password: string): string {
+    const decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+    if (!decrypted) {
+      throw new SdkError('Wrong password');
+    }
+    return decrypted;
   }
 }

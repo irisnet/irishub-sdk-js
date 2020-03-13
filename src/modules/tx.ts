@@ -84,15 +84,18 @@ export class Tx {
     if (is.empty(password)) {
       throw new SdkError(`Password of the key can not be empty`);
     }
-    if (
-      is.undefined(stdTx) ||
-      is.undefined(stdTx.value) ||
-      is.undefined(stdTx.value.msg)
-    ) {
-      throw new SdkError(`Msgs can not be empty`);
+    if (!this.client.config.keyDAO.decrypt) {
+      throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
-    const keystore = this.client.config.keyDAO.read(name);
-    if (!keystore) {
+      if (
+        is.undefined(stdTx) ||
+        is.undefined(stdTx.value) ||
+        is.undefined(stdTx.value.msg)
+      ) {
+        throw new SdkError(`Msgs can not be empty`);
+      }
+    const keyObj = this.client.config.keyDAO.read(name);
+    if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
@@ -105,7 +108,7 @@ export class Tx {
 
     if (!offline) {
       // Query account info from block chain
-      const addr = keystore.address;
+      const addr = keyObj.address;
       const account = await this.client.bank.queryAccount(addr);
       const sigs: types.StdSignature[] = [
         {
@@ -131,7 +134,7 @@ export class Tx {
     };
 
     // Signing
-    const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
     const signature = Crypto.generateSignature(
       Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
       privKey

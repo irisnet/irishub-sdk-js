@@ -17,7 +17,6 @@ export interface Keystore {
  */
 export interface Key {
   address: string;
-  password?: string;
   privKey: string;
 }
 

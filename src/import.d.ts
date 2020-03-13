@@ -7,6 +7,7 @@ declare module 'crypto-js/sha256';
 declare module 'crypto-js/ripemd160';
 declare module 'crypto-js/tripledes';
 declare module 'crypto-browserify';
+declare module 'crypto-js/aes';
 declare module 'uuid';
 declare module 'is_js';
 declare module 'elliptic';
