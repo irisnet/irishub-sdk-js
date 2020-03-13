@@ -56,32 +56,32 @@ const CODES_V17 = {
 };
 
 // Map error codes in irishub v0.17 to v1.0
-const errorMap: any = {};
-errorMap[CODESPACE_ROOT] = {};
-errorMap[CODESPACE_ROOT][CODES_V17.OK] = CODES.OK;
-errorMap[CODESPACE_ROOT][CODES_V17.Internal] = CODES.Internal;
-errorMap[CODESPACE_ROOT][CODES_V17.TxDecode] = CODES.TxDecode;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidSequence] = CODES.InvalidSequence;
-errorMap[CODESPACE_ROOT][CODES_V17.Unauthorized] = CODES.Unauthorized;
-errorMap[CODESPACE_ROOT][CODES_V17.InsufficientFunds] = CODES.InsufficientFunds;
-errorMap[CODESPACE_ROOT][CODES_V17.UnknownRequest] = CODES.UnknownRequest;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidAddress] = CODES.InvalidAddress;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidPubkey] = CODES.InvalidPubkey;
-errorMap[CODESPACE_ROOT][CODES_V17.UnknownAddress] = CODES.UnknownAddress;
-errorMap[CODESPACE_ROOT][CODES_V17.InsufficientCoins] = CODES.InsufficientFunds;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidCoins] = CODES.InvalidCoins;
-errorMap[CODESPACE_ROOT][CODES_V17.OutOfGas] = CODES.OutOfGas;
-errorMap[CODESPACE_ROOT][CODES_V17.MemoTooLarge] = CODES.MemoTooLarge;
-errorMap[CODESPACE_ROOT][CODES_V17.InsufficientFee] = CODES.InsufficientFee;
-errorMap[CODESPACE_ROOT][CODES_V17.OutOfService] = CODES.UnknownRequest; // Unused
-errorMap[CODESPACE_ROOT][CODES_V17.TooManySignatures] = CODES.TooManySignatures;
-errorMap[CODESPACE_ROOT][CODES_V17.GasPriceTooLow] = CODES.InsufficientFee;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidGas] = CODES.InvalidRequest;
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidTxFee] = CODES.InvalidRequest; //
-errorMap[CODESPACE_ROOT][CODES_V17.InvalidFeeDenom] = CODES.InvalidRequest; // Only used in ValidateFee for genesis
-errorMap[CODESPACE_ROOT][CODES_V17.ExceedsTxSize] = CODES.TxTooLarge;
-errorMap[CODESPACE_ROOT][CODES_V17.ServiceTxLimit] = CODES.InvalidRequest;
-errorMap[CODESPACE_ROOT][CODES_V17.PaginationParams] = CODES.InvalidRequest;
+const errorMap = new Map<string, number>([
+  [CODESPACE_ROOT + CODES_V17.OK, CODES.OK],
+  [CODESPACE_ROOT + CODES_V17.Internal, CODES.Internal],
+  [CODESPACE_ROOT + CODES_V17.TxDecode, CODES.TxDecode],
+  [CODESPACE_ROOT + CODES_V17.InvalidSequence, CODES.InvalidSequence],
+  [CODESPACE_ROOT + CODES_V17.Unauthorized, CODES.Unauthorized],
+  [CODESPACE_ROOT + CODES_V17.InsufficientFunds, CODES.InsufficientFunds],
+  [CODESPACE_ROOT + CODES_V17.UnknownRequest, CODES.UnknownRequest],
+  [CODESPACE_ROOT + CODES_V17.InvalidAddress, CODES.InvalidAddress],
+  [CODESPACE_ROOT + CODES_V17.InvalidPubkey, CODES.InvalidPubkey],
+  [CODESPACE_ROOT + CODES_V17.UnknownAddress, CODES.UnknownAddress],
+  [CODESPACE_ROOT + CODES_V17.InsufficientCoins, CODES.InsufficientFunds],
+  [CODESPACE_ROOT + CODES_V17.InvalidCoins, CODES.InvalidCoins],
+  [CODESPACE_ROOT + CODES_V17.OutOfGas, CODES.OutOfGas],
+  [CODESPACE_ROOT + CODES_V17.MemoTooLarge, CODES.MemoTooLarge],
+  [CODESPACE_ROOT + CODES_V17.InsufficientFee, CODES.InsufficientFee],
+  [CODESPACE_ROOT + CODES_V17.OutOfService, CODES.UnknownRequest], // Unused
+  [CODESPACE_ROOT + CODES_V17.TooManySignatures, CODES.TooManySignatures],
+  [CODESPACE_ROOT + CODES_V17.GasPriceTooLow, CODES.InsufficientFee],
+  [CODESPACE_ROOT + CODES_V17.InvalidGas, CODES.InvalidRequest],
+  [CODESPACE_ROOT + CODES_V17.InvalidTxFee, CODES.InvalidRequest],
+  [CODESPACE_ROOT + CODES_V17.InvalidFeeDenom, CODES.InvalidRequest], // Only used in ValidateFee for genesis
+  [CODESPACE_ROOT + CODES_V17.ExceedsTxSize, CODES.TxTooLarge],
+  [CODESPACE_ROOT + CODES_V17.ServiceTxLimit, CODES.InvalidRequest],
+  [CODESPACE_ROOT + CODES_V17.PaginationParams, CODES.InvalidRequest],
+]);
 
 /** IRISHub SDK Error */
 export class SdkError extends Error {
@@ -96,7 +96,7 @@ export class SdkError extends Error {
    */
   constructor(msg: string, code = CODES.InvalidRequest) {
     super(msg);
-    const mappedCode = errorMap[this.codespace][code];
+    const mappedCode = errorMap.get(this.codespace + code);
     this.code = mappedCode ? mappedCode : CODES.InvalidRequest;
   }
 }

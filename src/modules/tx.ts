@@ -175,6 +175,7 @@ export class Tx {
         tx: bytesToBase64(txBytes),
       })
       .then(response => {
+        console.log(response);
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           throw new SdkError(response.check_tx.log, response.check_tx.code);
