@@ -10,13 +10,11 @@ export class Consts {
 
 /** Test KeyDAO */
 export class TestKeyDAO implements iris.KeyDAO {
-  storeType: types.StoreType = types.StoreType.Keystore;
-
-  keyMap: { [key: string]: types.Keystore } = {};
-  write(name: string, keystore: types.Keystore) {
-    this.keyMap[name] = keystore;
+  keyMap: { [key: string]: types.Key } = {};
+  write(name: string, key: types.Key) {
+    this.keyMap[name] = key;
   }
-  read(name: string): types.Keystore {
+  read(name: string): types.Key {
     return this.keyMap[name];
   }
   delete(name: string) {
@@ -25,7 +23,6 @@ export class TestKeyDAO implements iris.KeyDAO {
 }
 
 export class BaseTest {
-
   static baseTx: types.BaseTx = {
     from: Consts.keyName,
     password: Consts.keyPassword,
@@ -38,6 +35,7 @@ export class BaseTest {
         node: 'http://localhost:26657',
         network: iris.Network.Testnet,
         chainId: 'test',
+        gas: '100000',
       })
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
