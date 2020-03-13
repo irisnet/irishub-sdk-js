@@ -2,7 +2,7 @@ import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
 import * as AminoTypes from '@irisnet/amino-js/types';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
 import {
   EventQueryBuilder,

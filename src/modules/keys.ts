@@ -1,6 +1,6 @@
 import { Client, KeyDAO } from '../client';
 import { Crypto } from '../utils/crypto';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 

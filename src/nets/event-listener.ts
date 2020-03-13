@@ -1,6 +1,6 @@
 import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import * as types from '../types';
 import * as EventEmitter from 'events';
 import { obj as Pumpify } from 'pumpify';
@@ -125,7 +125,7 @@ export class EventListener {
     this.em.on(id + '#event', (error, data) => {
       if (error) {
         callback(
-          new SdkError(error.message, error.code, error.data),
+          new SdkError(error.message, error.code),
           undefined
         );
       }
@@ -186,7 +186,7 @@ export class EventListener {
     this.em.on(id + '#event', (error, data) => {
       if (error) {
         callback(
-          new SdkError(error.message, error.code, error.data),
+          new SdkError(error.message, error.code),
           undefined
         );
       }
@@ -233,7 +233,7 @@ export class EventListener {
     this.em.on(id + '#event', (error, data) => {
       if (error) {
         callback(
-          new SdkError(error.message, error.code, error.data),
+          new SdkError(error.message, error.code),
           undefined
         );
       }
@@ -282,7 +282,7 @@ export class EventListener {
     this.em.on(id + '#event', (error, data) => {
       if (error) {
         callback(
-          new SdkError(error.message, error.code, error.data),
+          new SdkError(error.message, error.code),
           undefined
         );
       }

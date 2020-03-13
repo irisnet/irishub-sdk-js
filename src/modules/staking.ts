@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
-import SdkError from '../errors';
+import { SdkError } from '../errors';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
 import {
   EventQueryBuilder,
