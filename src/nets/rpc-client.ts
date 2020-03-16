@@ -78,28 +78,26 @@ export class RpcClient {
       params.data = Utils.obj2hexstring(data);
     }
 
-    return this.request<types.AbciQueryResponse>('abci_query', params).then(
-      response => {
-        if (response.response) {
-          if (response.response.value) {
-            const value = Buffer.from(
-              response.response.value,
-              'base64'
-            ).toString();
-            const res = JSON.parse(value);
+    return this.request<types.AbciQueryResponse>(
+      types.RpcMethods.AbciQuery,
+      params
+    ).then(response => {
+      if (response.response) {
+        if (response.response.value) {
+          const value = Buffer.from(
+            response.response.value,
+            'base64'
+          ).toString();
+          const res = JSON.parse(value);
 
-            if (!res) return {};
-            if (res.type && res.value) return res.value;
-            return res;
-          } else if (response.response.code) {
-            throw new SdkError(
-              'Bad Request',
-              response.response.code
-            );
-          }
+          if (!res) return {};
+          if (res.type && res.value) return res.value;
+          return res;
+        } else if (response.response.code) {
+          throw new SdkError('Bad Request', response.response.code);
         }
-        throw new SdkError('Bad Request');
       }
-    );
+      throw new SdkError('Bad Request');
+    });
   }
 }

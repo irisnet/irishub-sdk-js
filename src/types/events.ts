@@ -1,6 +1,24 @@
-import { Tx, Pubkey as ValPubKey } from './types';
+import { Tx, Pubkey as ValPubKey, Tag } from './types';
 import { StdTx } from './auth';
-import { Tag } from './types';
+import { SdkError } from '../errors';
+
+export enum RpcMethods {
+  BroadcastTxSync = 'broadcast_tx_sync',
+  BroadcastTxAsync = 'broadcast_tx_async',
+  BroadcastTxCommit = 'broadcast_tx_commit',
+  AbciQuery = 'abci_query',
+  Subscribe = 'subscribe',
+  Unsubscribe = 'unsubscribe',
+  UnsubscribeAll = 'unsubscribe_all',
+  Health = 'health',
+}
+
+export enum EventTypes {
+  NewBlock = 'NewBlock',
+  NewBlockHeader = 'NewBlockHeader',
+  ValidatorSetUpdates = 'ValidatorSetUpdates',
+  Tx = 'Tx',
+}
 
 /**
  * Returns by subscriptions, for clients to unscribe the specified events
@@ -8,6 +26,8 @@ import { Tag } from './types';
 export interface EventSubscription {
   id: string;
   query: string;
+  eventType: EventTypes;
+  callback: (error?: SdkError, data?: any) => void;
 }
 
 export interface EventDataNewBlock {

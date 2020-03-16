@@ -87,13 +87,13 @@ export class Tx {
     if (!this.client.config.keyDAO.decrypt) {
       throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
-      if (
-        is.undefined(stdTx) ||
-        is.undefined(stdTx.value) ||
-        is.undefined(stdTx.value.msg)
-      ) {
-        throw new SdkError(`Msgs can not be empty`);
-      }
+    if (
+      is.undefined(stdTx) ||
+      is.undefined(stdTx.value) ||
+      is.undefined(stdTx.value.msg)
+    ) {
+      throw new SdkError(`Msgs can not be empty`);
+    }
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
@@ -153,7 +153,7 @@ export class Tx {
   private broadcastTxAsync(
     txBytes: Uint8Array
   ): Promise<types.ResultBroadcastTxAsync> {
-    return this.broadcastTx(txBytes, 'broadcast_tx_async');
+    return this.broadcastTx(txBytes, types.RpcMethods.BroadcastTxAsync);
   }
 
   /**
@@ -164,7 +164,7 @@ export class Tx {
   private broadcastTxSync(
     txBytes: Uint8Array
   ): Promise<types.ResultBroadcastTxAsync> {
-    return this.broadcastTx(txBytes, 'broadcast_tx_sync');
+    return this.broadcastTx(txBytes, types.RpcMethods.BroadcastTxSync);
   }
 
   /**
@@ -174,7 +174,7 @@ export class Tx {
    */
   private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
     return this.client.rpcClient
-      .request<types.ResultBroadcastTx>('broadcast_tx_commit', {
+      .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
         tx: bytesToBase64(txBytes),
       })
       .then(response => {
@@ -221,7 +221,12 @@ export class Tx {
     method: string
   ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
-    if (is.not.inArray(method, ['broadcast_tx_sync', 'broadcast_tx_async'])) {
+    if (
+      is.not.inArray(method, [
+        types.RpcMethods.BroadcastTxSync,
+        types.RpcMethods.BroadcastTxAsync,
+      ])
+    ) {
       throw new SdkError(`Unsupported broadcast method: ${method}`);
     }
 
