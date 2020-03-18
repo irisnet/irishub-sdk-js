@@ -148,6 +148,7 @@ export class Bank {
       (error, data) => {
         if (error) {
           callback(error);
+          return;
         }
         data?.tx.value.msg.forEach(msg => {
           if (msg.type !== 'irishub/bank/Send') return;

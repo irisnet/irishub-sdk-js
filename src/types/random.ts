@@ -2,6 +2,7 @@ import { Coin, Msg } from './types';
 
 export interface RandomInfo {
   request_tx_hash: string;
+  request_id: string;
   height: number;
   value: string;
 }

@@ -26,8 +26,6 @@ export enum EventTypes {
 export interface EventSubscription {
   id: string;
   query: string;
-  eventType: EventTypes;
-  callback: (error?: SdkError, data?: any) => void;
 }
 
 export interface EventDataNewBlock {

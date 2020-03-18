@@ -6,15 +6,22 @@ import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
 
+interface Subscription {
+  id: string;
+  query: string;
+  eventType: types.EventTypes;
+  callback: (error?: SdkError, data?: any) => void;
+}
+
 class EventDAO {
-  private subscriptions = new Map<string, types.EventSubscription>();
-  setSubscription(id: string, subscription: types.EventSubscription): void {
+  private subscriptions = new Map<string, Subscription>();
+  setSubscription(id: string, subscription: Subscription): void {
     this.subscriptions.set(id, subscription);
   }
   deleteSubscription(id: string): void {
     this.subscriptions.delete(id);
   }
-  getAllSubscriptions(): Map<string, types.EventSubscription> {
+  getAllSubscriptions(): Map<string, Subscription> {
     return this.subscriptions;
   }
   clear(): void {
@@ -120,7 +127,9 @@ export class EventListener {
                   resolve();
                 });
               }, 5000);
-            }).then(() => { resolve(); });
+            }).then(() => {
+              resolve();
+            });
           }
           reject(err);
           return;
@@ -139,37 +148,35 @@ export class EventListener {
 
   /**
    * Subscribe new block notifications
+   * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
    */
   subscribeNewBlock(
-    callback: (error?: SdkError, data?: types.EventDataNewBlock) => void
+    callback: (error?: SdkError, data?: types.EventDataNewBlock) => void,
+    conditions?: EventQueryBuilder
   ): types.EventSubscription {
     // Build and send subscription
     const eventType = types.EventTypes.NewBlock;
-    const id = eventType;
-    const query = new EventQueryBuilder()
-      .addCondition(EventKey.Type, eventType)
-      .build();
+    const id = eventType + Math.random().toString(16);
+    const queryBuilder = conditions ? conditions : new EventQueryBuilder();
+    const query = queryBuilder.addCondition(EventKey.Type, eventType).build();
 
-    // Check if we have already subscribed the `NewBlock` event or not
-    if (this.wsClient.eventEmitter.listeners(id + '#event').length === 0) {
-      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
-    }
+    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
 
     // Listen for new blocks, decode and callback
     this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
       this.newBlockHandler(callback, error, data);
     });
 
-    const subscription = { id, query, eventType, callback };
-    this.eventDAO.setSubscription(id, subscription);
+    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
-    return subscription;
+    return { id, query };
   }
 
   /**
    * Subscribe new block header notifications
+   * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
    */
@@ -190,14 +197,14 @@ export class EventListener {
       this.newBlockHeaderHandler(callback, error, data);
     });
 
-    const subscription = { id, query, eventType, callback };
-    this.eventDAO.setSubscription(id, subscription);
+    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
-    return subscription;
+    return { id, query };
   }
 
   /**
    * Subscribe validator set update notifications
+   * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
    */
@@ -221,14 +228,14 @@ export class EventListener {
       this.validatorSetUpdatesHandler(callback, error, data);
     });
 
-    const subscription = { id, query, eventType, callback };
-    this.eventDAO.setSubscription(id, subscription);
+    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
-    return subscription;
+    return { id, query };
   }
 
   /**
    * Subscribe successful Txs notifications
+   * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
    */
@@ -249,10 +256,9 @@ export class EventListener {
       this.txHandler(callback, error, data);
     });
 
-    const subscription = { id, query, eventType, callback };
-    this.eventDAO.setSubscription(id, subscription);
+    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
-    return subscription;
+    return { id, query };
   }
 
   /**
@@ -267,7 +273,7 @@ export class EventListener {
       subscription.query
     );
     this.wsClient.eventEmitter.on(
-      'unsubscribe#' + subscription.id + '#event',
+      'unsubscribe#' + subscription.id,
       (error, data) => {
         console.log(error);
         console.log(data);
@@ -277,7 +283,7 @@ export class EventListener {
         );
         // Remove the current `unsubscribe` operation listener
         this.wsClient.eventEmitter.removeAllListeners(
-          'unsubscribe#' + subscription.id + '#event'
+          'unsubscribe#' + subscription.id
         );
       }
     );
