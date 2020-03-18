@@ -1,1 +1,1 @@
-global.setTimeout(10000);
+// global.setTimeout(10000);

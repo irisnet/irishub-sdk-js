@@ -1,5 +1,7 @@
 // import * as iris from '../src';
 
+import { Utils } from '../src/utils';
+
 // export interface SdkError {}
 // export interface Block {}
 // export interface BlockHeader {}
@@ -98,18 +100,17 @@
 // });
 
 // Test events
-// import {
-//   EventListener,
-//   EventQueryBuilder,
-//   EventKey,
-//   EventAction,
-// } from '../src/nets/event-listener';
-// import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
-// import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
-// import { Utils } from '../src/utils/utils';
-// import * as iris from '../src';
+import {
+  EventListener,
+  EventQueryBuilder,
+  EventKey,
+  EventAction,
+} from '../src/nets/event-listener';
+import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
+import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+import * as iris from '../src';
 
-// test('test', async () => {
+// test('test client', async () => {
 //   // Init Client
 //   const client = iris.newClient({
 //     node: 'http://localhost:26657',
@@ -134,21 +135,54 @@
 //   await timeout(1000000);
 // }, 1000000);
 
+test('test listener', async () => {
+  const eventListener = new EventListener('http://localhost:26657');
+  await eventListener.connect();
+  eventListener.subscribeNewBlock((err, data) => {
+    console.log(JSON.stringify(data));
+  })
+  await timeout(20000);
+  eventListener.disconnect();
+  await timeout(50000);
+}, 1000000);
+
+function timeout(ms: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
+// const WebSocket = require('ws');
+// test('Crypto', async () => {
+//   const eventListener: any = {};
+//   const subscriptions = {};
+
+//   const ws = new WebSocket('wss://echo.websocket.org/', {
+//     origin: 'https://websocket.org',
+//   });
+
+//   ws.on('open', function open() {
+//     console.log('connected');
+//     // Initialize subscriptions on connected
+//     eventListener.subscribeAll(subscriptions);
+//     setTimeout(() => {
+//       // ws.send("call health");
+//     }, 5000);
+//   });
+
+//   ws.on('close', function close() {
+//     console.log('disconnected');
+//   });
+
+//   ws.on('message', function incoming(data: any) {
+
+//   });
+
+//   await timeout(1000000);
+// }, 1000000);
+
 // function timeout(ms: number) {
 //   return new Promise(resolve => {
 //     setTimeout(resolve, ms);
 //   });
 // }
-
-// import { Crypto, Utils } from '../src/utils';
-// import * as Amino from '@irisnet/amino-js';
-
-// beforeAll(() => console.log(global.t));
-afterAll(() => console.log('1 - afterAll'));
-beforeEach(() => console.log('1 - beforeEach'));
-afterEach(() => console.log('1 - afterEach'));
-
-test('Crypto', async () => {
-  
-
-});

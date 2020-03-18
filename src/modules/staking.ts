@@ -345,6 +345,7 @@ export class Staking {
       (error, data) => {
         if (error) {
           callback(error);
+          return;
         }
         data?.tx.value.msg.forEach(msg => {
           if (msg.type !== 'irishub/stake/MsgEditValidator') return;
