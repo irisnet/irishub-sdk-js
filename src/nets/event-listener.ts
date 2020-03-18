@@ -6,14 +6,7 @@ import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
 
-export interface EventDAO {
-  setSubscription(id: string, subscription: types.EventSubscription): void;
-  deleteSubscription(id: string): void;
-  getAllSubscriptions(): Map<string, types.EventSubscription>;
-  clear(): void;
-}
-
-class DefaultEventDAO implements EventDAO {
+class EventDAO {
   private subscriptions = new Map<string, types.EventSubscription>();
   setSubscription(id: string, subscription: types.EventSubscription): void {
     this.subscriptions.set(id, subscription);
@@ -25,7 +18,7 @@ class DefaultEventDAO implements EventDAO {
     return this.subscriptions;
   }
   clear(): void {
-    this.subscriptions = new Map<string, types.EventSubscription>();
+    this.subscriptions.clear();
   }
 }
 
@@ -36,88 +29,112 @@ export class EventListener {
   /** @hidden */
   private wsClient: WsClient;
   private eventDAO: EventDAO;
-  constructor(url: string, eventDAO?: EventDAO) {
+
+  constructor(url: string) {
     this.wsClient = new WsClient(url);
-    this.eventDAO = eventDAO ? eventDAO : new DefaultEventDAO();
+    this.eventDAO = new EventDAO();
   }
 
   /**
    * Connect to server
    */
-  async connect(): Promise<boolean> {
-    const promise = this.wsClient.connect();
-    promise.then(connected => {
-      if (connected) {
-        const subscriptions = this.eventDAO.getAllSubscriptions();
-        if (subscriptions) {
-          subscriptions.forEach(sub => {
-            // Re-Subscribe
-            this.wsClient.send(types.RpcMethods.Subscribe, sub.id, sub.query);
+  async connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.wsClient
+        .connect()
+        .then(() => {
+          const subscriptions = this.eventDAO.getAllSubscriptions();
+          if (subscriptions) {
+            subscriptions.forEach(sub => {
+              // Re-Subscribe
+              console.log('Re-subscribe: ' + sub.query);
+              this.wsClient.send(types.RpcMethods.Subscribe, sub.id, sub.query);
 
-            switch (sub.eventType) {
-              case types.EventTypes.NewBlock: {
-                // Listen for new blocks, decode and callback
-                this.wsClient.eventEmitter.on(
-                  sub.id + '#event',
-                  (error, data) => {
-                    this.newBlockHandler(sub.callback, error, data);
-                  }
-                );
-                return;
+              switch (sub.eventType) {
+                case types.EventTypes.NewBlock: {
+                  // Listen for new blocks, decode and callback
+                  this.wsClient.eventEmitter.on(
+                    sub.id + '#event',
+                    (error, data) => {
+                      this.newBlockHandler(sub.callback, error, data);
+                    }
+                  );
+                  return;
+                }
+                case types.EventTypes.NewBlockHeader: {
+                  // Listen for new block headers, decode and callback
+                  this.wsClient.eventEmitter.on(
+                    sub.id + '#event',
+                    (error, data) => {
+                      this.newBlockHandler(sub.callback, error, data);
+                    }
+                  );
+                  return;
+                }
+                case types.EventTypes.ValidatorSetUpdates: {
+                  // Listen for validator set updates, decode and callback
+                  this.wsClient.eventEmitter.on(
+                    sub.id + '#event',
+                    (error, data) => {
+                      this.validatorSetUpdatesHandler(
+                        sub.callback,
+                        error,
+                        data
+                      );
+                    }
+                  );
+                  return;
+                }
+                case types.EventTypes.Tx: {
+                  // Listen for txs, decode and callback
+                  this.wsClient.eventEmitter.on(
+                    sub.id + '#event',
+                    (error, data) => {
+                      this.txHandler(sub.callback, error, data);
+                    }
+                  );
+                  return;
+                }
+                default: {
+                  return;
+                }
               }
-              case types.EventTypes.NewBlockHeader: {
-                // Listen for new block headers, decode and callback
-                this.wsClient.eventEmitter.on(
-                  sub.id + '#event',
-                  (error, data) => {
-                    this.newBlockHandler(sub.callback, error, data);
-                  }
-                );
-                return;
-              }
-              case types.EventTypes.ValidatorSetUpdates: {
-                // Listen for new block headers, decode and callback
-                this.wsClient.eventEmitter.on(
-                  sub.id + '#event',
-                  (error, data) => {
-                    this.validatorSetUpdatesHandler(sub.callback, error, data);
-                  }
-                );
-                return;
-              }
-              case types.EventTypes.Tx: {
-                // Listen for new block headers, decode and callback
-                this.wsClient.eventEmitter.on(
-                  sub.id + '#event',
-                  (error, data) => {
-                    this.txHandler(sub.callback, error, data);
-                  }
-                );
-                return;
-              }
-              default: {
-                return;
-              }
-            }
-          });
-        }
-      }
+            });
+          }
+          resolve();
+        })
+        .catch(err => {
+          if (
+            err.error &&
+            is.inArray(err.error.code, [
+              'ENOTFOUND',
+              'ECONNREFUSED',
+              'ECONNRESET',
+            ])
+          ) {
+            // try reconnecting every 5s
+            console.log('Reconnecting...');
+            return new Promise(resolve => {
+              setTimeout(() => {
+                this.connect().then(() => {
+                  resolve();
+                });
+              }, 5000);
+            }).then(() => { resolve(); });
+          }
+          reject(err);
+          return;
+        });
     });
-
-    return promise;
   }
 
   /**
-   * Disconnect from server
+   * Disconnect from server and clear all the listeners
    */
-  async disconnect(): Promise<boolean> {
-    const promise = this.wsClient.disconnect();
-    promise.then(disconnected => {
-      if (disconnected) {
-        this.eventDAO.clear();
-      }
+  async disconnect(): Promise<void> {
+    return this.wsClient.disconnect().then(() => {
+      this.eventDAO.clear();
     });
-    return promise;
   }
 
   /**
@@ -130,12 +147,15 @@ export class EventListener {
   ): types.EventSubscription {
     // Build and send subscription
     const eventType = types.EventTypes.NewBlock;
-    const id = eventType + Math.random().toString(16);
+    const id = eventType;
     const query = new EventQueryBuilder()
       .addCondition(EventKey.Type, eventType)
       .build();
 
-    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+    // Check if we have already subscribed the `NewBlock` event or not
+    if (this.wsClient.eventEmitter.listeners(id + '#event').length === 0) {
+      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+    }
 
     // Listen for new blocks, decode and callback
     this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
@@ -239,7 +259,7 @@ export class EventListener {
    * Unsubscribe the specified event
    * @param subscription The event subscription instance
    */
-  unscribe(subscription: types.EventSubscription): void {
+  unsubscribe(subscription: types.EventSubscription): void {
     // Unsubscribe the specified event from server
     this.wsClient.send(
       types.RpcMethods.Unsubscribe,

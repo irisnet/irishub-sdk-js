@@ -20,18 +20,21 @@ export class WsClient {
   /**
    * Initialize ws client
    */
-  async connect(): Promise<boolean> {
+  async connect(): Promise<void> {
     return new Promise((reslove, reject) => {
       this.ws = new Websocket(this.url + '/websocket');
 
-      if (!this.ws) return;
+      if (!this.ws) {
+        reject('Websocket client not initialized'); // Should not happen
+        return;
+      }
 
       this.ws.onopen = () => {
         console.log('Websocket connected');
-        reslove(true);
+        reslove();
       };
 
-      this.ws.onclose = function close() {
+      this.ws.onclose = () => {
         console.log('Websocket disconnected');
       };
 
@@ -49,7 +52,8 @@ export class WsClient {
 
       this.ws.onerror = (err: Websocket.ErrorEvent) => {
         console.log('Websocket error');
-        this.eventEmitter.emit('error', err.message);
+        this.eventEmitter.emit('wserror', err);
+        reject(err);
       };
     });
   }
@@ -57,21 +61,24 @@ export class WsClient {
   /**
    * Disconnect from server
    */
-  async disconnect(): Promise<boolean> {
+  async disconnect(): Promise<void> {
     return new Promise((reslove, reject) => {
       // Unsubscribe all from server
       this.send(types.RpcMethods.UnsubscribeAll, 'unsubscribe_all');
-      this.eventEmitter.on('unsubscribe_all#event', (error, data) => {
-        console.log(error);
-        console.log(data);
+      this.eventEmitter.on('unsubscribe_all', (error, data) => {
+        if (error) {
+          reject(error);
+        }
 
-        if (!this.ws) return;
-
+        if (!this.ws) {
+          reject('Websocket client not initialized'); // Should not happen
+          return;
+        }
         // Destroy ws instance
         this.ws.terminate();
         // Remove all listeners
         this.eventEmitter.removeAllListeners();
-        reslove(true);
+        reslove();
       });
     });
   }
