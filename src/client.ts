@@ -22,6 +22,9 @@ export class Client {
   /** Auth module */
   auth: modules.Auth;
 
+  /** Asset module */
+  asset: modules.Asset;
+
   /** Bank module */
   bank: modules.Bank;
 
@@ -81,6 +84,7 @@ export class Client {
 
     // Modules
     this.auth = new modules.Auth(this);
+    this.asset = new modules.Asset(this);
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);

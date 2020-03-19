@@ -14,3 +14,4 @@ export * from './service';
 export * from './oracle';
 export * from './random';
 export * from './events';
+export * from './asset';
