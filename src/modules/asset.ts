@@ -29,10 +29,10 @@ export class Asset {
 
   /**
    * Query details of a group of tokens
-   * @param owner The token owner address
+   * @param owner The optional token owner address
    * @returns
    */
-  queryTokens(owner: string): Promise<types.Token[]> {
+  queryTokens(owner?: string): Promise<types.Token[]> {
     return this.client.rpcClient.abciQuery<types.Token[]>(
       'custom/asset/tokens',
       {
