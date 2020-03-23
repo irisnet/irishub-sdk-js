@@ -195,14 +195,7 @@ export class Tx {
         }
 
         if (response.deliver_tx && response.deliver_tx.tags) {
-          const decodedTags: types.Tag[] = [];
-          response.deliver_tx.tags.forEach(tag => {
-            decodedTags.push({
-              key: Utils.base64ToString(tag.key),
-              value: Utils.base64ToString(tag.value),
-            });
-          });
-          response.deliver_tx.tags = decodedTags;
+          response.deliver_tx.tags = Utils.decodeTags(response.deliver_tx.tags);;
         }
         return {
           hash: response.hash,

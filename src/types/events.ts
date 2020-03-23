@@ -2,17 +2,6 @@ import { Tx, Pubkey as ValPubKey, Tag } from './types';
 import { StdTx } from './auth';
 import { SdkError } from '../errors';
 
-export enum RpcMethods {
-  BroadcastTxSync = 'broadcast_tx_sync',
-  BroadcastTxAsync = 'broadcast_tx_async',
-  BroadcastTxCommit = 'broadcast_tx_commit',
-  AbciQuery = 'abci_query',
-  Subscribe = 'subscribe',
-  Unsubscribe = 'unsubscribe',
-  UnsubscribeAll = 'unsubscribe_all',
-  Health = 'health',
-}
-
 export enum EventTypes {
   NewBlock = 'NewBlock',
   NewBlockHeader = 'NewBlockHeader',
