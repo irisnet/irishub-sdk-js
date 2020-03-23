@@ -79,11 +79,9 @@ export class Bank {
 
     const from = this.client.keys.show(baseTx.from);
 
+    const coins = await this.client.utils.toMinCoins(amount);
     const msgs: types.Msg[] = [
-      new MsgSend(
-        [{ address: from, coins: amount }],
-        [{ address: to, coins: amount }]
-      ),
+      new MsgSend([{ address: from, coins }], [{ address: to, coins }]),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -100,7 +98,9 @@ export class Bank {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [new MsgBurn(from, amount)];
+
+    const coins = await this.client.utils.toMinCoins(amount);
+    const msgs: types.Msg[] = [new MsgBurn(from, coins)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }

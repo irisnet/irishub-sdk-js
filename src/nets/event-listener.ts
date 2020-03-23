@@ -314,7 +314,6 @@ export class EventListener {
         );
       });
       blockData.block.data.txs = decodedTxs;
-      console.log(JSON.stringify(decodedTxs));
     }
 
     const eventBlock = blockData as types.EventDataNewBlock;

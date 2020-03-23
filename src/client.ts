@@ -55,6 +55,9 @@ export class Client {
   /** Random module */
   random: modules.Random;
 
+  /** Utils module */
+  utils: modules.Utils;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -83,8 +86,8 @@ export class Client {
     this.eventListener = new EventListener(this.config.node);
 
     // Modules
-    this.auth = new modules.Auth(this);
     this.asset = new modules.Asset(this);
+    this.utils = new modules.Utils(this);
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
@@ -95,6 +98,7 @@ export class Client {
     this.service = new modules.Service(this);
     this.oracle = new modules.Oracle(this);
     this.random = new modules.Random(this);
+    this.auth = new modules.Auth(this);
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
@@ -157,10 +161,10 @@ export class Client {
   /**
    * Set default fees
    *
-   * @param fee Default fee amount of iris-atto
+   * @param fee Default fee amount
    * @returns The SDK itself
    */
-  withFee(fee: string) {
+  withFee(fee: types.Coin) {
     this.config.fee = fee;
     return this;
   }
@@ -195,8 +199,8 @@ export interface ClientConfig {
   /** Default gas limit */
   gas?: string;
 
-  /** Default fee amount of iris-atto */
-  fee?: string;
+  /** Default fee amount */
+  fee?: types.Coin;
 
   /** Key DAO Implemention */
   keyDAO?: KeyDAO;
@@ -214,7 +218,7 @@ export class DefaultClientConfig implements ClientConfig {
   network: consts.Network;
   chainId: string;
   gas: string;
-  fee: string;
+  fee: types.Coin;
   keyDAO: KeyDAO;
   bech32Prefix: Bech32Prefix;
   rpcConfig: AxiosRequestConfig;
@@ -224,7 +228,7 @@ export class DefaultClientConfig implements ClientConfig {
     this.network = types.Network.Mainnet;
     this.chainId = 'irishub';
     this.gas = '100000';
-    this.fee = '600000000000000000';
+    this.fee = { amount: '0.6', denom: 'iris' };
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };

@@ -13,8 +13,5 @@ declare module 'is_js';
 declare module 'elliptic';
 declare module 'tiny-secp256k1';
 declare module 'events';
-declare module 'pumpify';
-declare module 'ndjson';
-declare module 'websocket-stream';
 
 declare var window: any;

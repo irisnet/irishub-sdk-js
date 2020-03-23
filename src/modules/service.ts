@@ -252,11 +252,12 @@ export class Service {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
+    const deposit = await this.client.utils.toMinCoins(binding.deposit);
     const msgs: types.Msg[] = [
       new MsgBindService({
         service_name: binding.serviceName,
         provider,
-        deposit: binding.deposit,
+        deposit,
         pricing: binding.pricing,
       }),
     ];
@@ -280,11 +281,12 @@ export class Service {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
+    const deposit = await this.client.utils.toMinCoins(binding.deposit);
     const msgs: types.Msg[] = [
       new MsgUpdateServiceBinding({
         service_name: binding.serviceName,
         provider,
-        deposit: binding.deposit,
+        deposit,
         pricing: binding.pricing,
       }),
     ];
@@ -486,11 +488,14 @@ export class Service {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const consumer = this.client.keys.show(baseTx.from);
+    const serviceFeeCap = request.service_fee_cap
+      ? await this.client.utils.toMinCoins(request.service_fee_cap)
+      : [];
     const msgs: types.Msg[] = [
       new MsgUpdateRequestContext({
         request_context_id: request.request_context_id,
         providers: request.providers,
-        service_fee_cap: request.service_fee_cap || [],
+        service_fee_cap: serviceFeeCap,
         timeout: request.timeout || 0,
         repeated_frequency: request.repeated_frequency || 0,
         repeated_total: request.repeated_total || 0,
@@ -507,9 +512,7 @@ export class Service {
    * @param baseTx
    * @returns
    */
-  async withdrawEarnedFees(
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
+  async withdrawEarnedFees(baseTx: types.BaseTx): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
     const msgs: types.Msg[] = [new MsgWithdrawEarnedFees(provider)];
 
@@ -529,9 +532,8 @@ export class Service {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const trustee = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [
-      new MsgWithdrawTax(trustee, destAddress, amount),
-    ];
+    const coins = await this.client.utils.toMinCoins(amount);
+    const msgs: types.Msg[] = [new MsgWithdrawTax(trustee, destAddress, coins)];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
