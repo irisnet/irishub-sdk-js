@@ -55,6 +55,9 @@ export class Client {
   /** Random module */
   random: modules.Random;
 
+  /** Utils module */
+  utils: modules.Utils;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -95,6 +98,7 @@ export class Client {
     this.service = new modules.Service(this);
     this.oracle = new modules.Oracle(this);
     this.random = new modules.Random(this);
+    this.utils = new modules.Utils(this);
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {

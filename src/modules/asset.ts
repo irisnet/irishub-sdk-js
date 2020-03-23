@@ -1,5 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
+import * as is from 'is_js';
+import { SdkError } from '../errors';
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
@@ -22,8 +24,11 @@ export class Asset {
    * @returns
    */
   queryToken(symbol: string): Promise<types.Token> {
+    if (is.empty(symbol)) {
+      throw new SdkError('symbol can not be empty');
+    }
     return this.client.rpcClient.abciQuery<types.Token>('custom/asset/token', {
-      Symbol: symbol,
+      Symbol: this.getCoinName(symbol),
     });
   }
 
@@ -53,5 +58,29 @@ export class Asset {
         Symbol: symbol,
       }
     );
+  }
+
+  /**
+   * Get coin name by denom
+   *
+   * **NOTE:** For iris units in irishub v0.17, only support `iris` and `iris-atto`
+   *
+   * @param denom
+   */
+  private getCoinName(denom: string): string {
+    denom = denom.toLowerCase();
+
+    if (denom === types.IRIS || denom === types.IRIS_ATTO) {
+      return types.IRIS;
+    }
+
+    if (
+      !denom.startsWith(types.IRIS + '-') &&
+      !denom.endsWith(types.MIN_UNIT_SUFFIX)
+    ) {
+      return denom;
+    }
+
+    return denom.substr(0, denom.indexOf(types.MIN_UNIT_SUFFIX));
   }
 }
