@@ -161,12 +161,13 @@ export class Gov {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
+    const coins = await this.client.utils.toMinCoins(initialDeposit);
     const msgs: types.Msg[] = [
       new MsgSubmitParameterChangeProposal({
         title,
         description,
         proposer,
-        initial_deposit: initialDeposit,
+        initial_deposit: coins,
         params,
       }),
     ];
@@ -192,12 +193,13 @@ export class Gov {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
+    const coins = await this.client.utils.toMinCoins(initialDeposit);
     const msgs: types.Msg[] = [
       new MsgSubmitPlainTextProposal({
         title,
         description,
         proposer,
-        initial_deposit: initialDeposit,
+        initial_deposit: coins,
       }),
     ];
 
@@ -230,12 +232,14 @@ export class Gov {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const proposer = this.client.keys.show(baseTx.from);
+
+    const coins = await this.client.utils.toMinCoins(initialDeposit);
     const msgs: types.Msg[] = [
       new MsgSubmitCommunityTaxUsageProposal({
         title,
         description,
         proposer,
-        initial_deposit: initialDeposit,
+        initial_deposit: coins,
         usage: CommunityTaxUsageType[usage],
         dest_address: destAddress,
         percent: String(percent),
@@ -261,8 +265,10 @@ export class Gov {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const depositor = this.client.keys.show(baseTx.from);
+
+    const coins = await this.client.utils.toMinCoins(amount);
     const msgs: types.Msg[] = [
-      new MsgDeposit(String(proposalID), depositor, amount),
+      new MsgDeposit(String(proposalID), depositor, coins),
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);

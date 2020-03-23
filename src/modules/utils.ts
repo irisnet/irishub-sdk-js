@@ -26,9 +26,10 @@ export class Utils {
   /**
    * Convert the coin object to min unit
    *
+   * @param coin Coin object to be converted
    * @returns
    */
-  toMinCoin(coin: types.Coin): Promise<types.Coin> {
+  async toMinCoin(coin: types.Coin): Promise<types.Coin> {
     return new Promise<types.Coin>((resolve, reject) => {
       const amt = this.math.bignumber!(coin.amount);
       const token = this.tokenMap.get(coin.denom);
@@ -59,11 +60,29 @@ export class Utils {
   }
 
   /**
+   * Convert the coin array to min unit
+   * @param coins Coin array to be converted
+   * @returns
+   */
+  async toMinCoins(coins: types.Coin[]): Promise<types.Coin[]> {
+    return new Promise<types.Coin[]>(resolve => {
+      const promises = new Array<Promise<types.Coin>>();
+      coins.forEach(amt => {
+        const promise = this.toMinCoin(amt);
+        promises.push(promise);
+      });
+      Promise.all(promises).then(coins => {
+        resolve(coins);
+      })
+    });
+  }
+
+  /**
    * Convert the coin object to main unit
    *
    * @returns
    */
-  toMainCoin(coin: types.Coin): Promise<types.Coin> {
+  async toMainCoin(coin: types.Coin): Promise<types.Coin> {
     return new Promise<types.Coin>((resolve, reject) => {
       const amt = this.math.bignumber!(coin.amount);
       const token = this.tokenMap.get(coin.denom);
@@ -90,6 +109,24 @@ export class Utils {
         .catch(err => {
           reject(err);
         });
+    });
+  }
+
+  /**
+   * Convert the coin array to main unit
+   * @param coins Coin array to be converted
+   * @returns
+   */
+  async toMainCoins(coins: types.Coin[]): Promise<types.Coin[]> {
+    return new Promise<types.Coin[]>(resolve => {
+      const promises = new Array<Promise<types.Coin>>();
+      coins.forEach(amt => {
+        const promise = this.toMainCoin(amt);
+        promises.push(promise);
+      });
+      Promise.all(promises).then(coins => {
+        resolve(coins);
+      });
     });
   }
 }

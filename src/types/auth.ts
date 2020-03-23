@@ -30,7 +30,7 @@ export interface BaseTx {
   /** Password of the key */
   password: string;
   gas?: string | undefined;
-  fee?: string | undefined;
+  fee?: Coin | undefined;
   memo?: string | undefined;
   mode?: BroadcastMode | undefined;
 }

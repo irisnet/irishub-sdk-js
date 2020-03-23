@@ -15,13 +15,11 @@ export class Auth {
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
-    const fees: types.Coin[] = [
-      { denom: 'iris-atto', amount: this.client.config.fee },
-    ];
     this.defaultStdFee = {
-      amount: fees,
+      amount: [this.client.config.fee],
       gas: this.client.config.gas,
     };
+    console.log(JSON.stringify(this.defaultStdFee));
   }
 
   /**
@@ -45,9 +43,11 @@ export class Auth {
     const stdFee: types.StdFee = { amount: [], gas: '' };
     Object.assign(stdFee, this.defaultStdFee); // Copy from default std fee
 
-    if (baseTx.fee && is.not.empty(baseTx.fee)) {
-      stdFee.amount = [{ denom: 'iris-atto', amount: baseTx.fee }];
+    if (baseTx.fee) {
+      stdFee.amount = [baseTx.fee];
     }
+    console.log(JSON.stringify(stdFee));
+
     if (baseTx.gas && is.not.empty(baseTx.gas)) {
       stdFee.gas = baseTx.gas;
     }
