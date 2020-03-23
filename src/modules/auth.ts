@@ -19,7 +19,6 @@ export class Auth {
       amount: [this.client.config.fee],
       gas: this.client.config.gas,
     };
-    console.log(JSON.stringify(this.defaultStdFee));
   }
 
   /**
@@ -46,7 +45,6 @@ export class Auth {
     if (baseTx.fee) {
       stdFee.amount = [baseTx.fee];
     }
-    console.log(JSON.stringify(stdFee));
 
     if (baseTx.gas && is.not.empty(baseTx.gas)) {
       stdFee.gas = baseTx.gas;

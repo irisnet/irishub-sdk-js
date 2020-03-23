@@ -31,14 +31,11 @@ export class Tx {
   ): Promise<types.TxResult> {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
-    console.log(JSON.stringify(unsignedTx));
 
     const fee = await this.client.utils.toMinCoins(
       unsignedTx.value.fee.amount
     );
-    console.log(JSON.stringify(fee));
     unsignedTx.value.fee.amount = fee;
-    console.log(JSON.stringify(unsignedTx));
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
@@ -187,7 +184,6 @@ export class Tx {
         tx: bytesToBase64(txBytes),
       })
       .then(response => {
-        console.log(response);
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           throw new SdkError(response.check_tx.log, response.check_tx.code);
