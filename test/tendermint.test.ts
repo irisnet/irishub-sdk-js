@@ -59,4 +59,20 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+  test(
+    'query tx by hash',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryTx(
+          '0D0B65520771CE6F74267230B30C14F64EE732751EDA79547FCA881841BA5E51'
+        )
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
 });

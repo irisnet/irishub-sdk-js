@@ -1,4 +1,5 @@
-import { Tag } from './types'
+import { Tx, Tag } from './types';
+import { StdTx } from './auth';
 
 /** BroadcastTx Result, compatible with `Sync` and `Async` */
 export interface ResultBroadcastTxAsync {
@@ -34,5 +35,22 @@ export interface ResultTx {
   gas_used: number;
   gas_wanted: number;
   info: string;
+  tags: Tag[];
+}
+
+/** Tx query result */
+export interface ResultTxQuery {
+  hash: string;
+  height: string;
+  index: number;
+  tx_result: ResultInnerTxQuery;
+  tx: Tx<StdTx>;
+}
+
+/** Tx query inner result */
+export interface ResultInnerTxQuery {
+  log: string;
+  gasWanted: string;
+  gasUsed: string;
   tags: Tag[];
 }

@@ -15,6 +15,8 @@ export enum RpcMethods {
   Health = 'health',
   Block = 'block',
   BlockResults = 'block_results',
+  Tx = 'tx',
+  TxSearch = 'tx_search',
 }
 
 export const IRIS = 'iris',

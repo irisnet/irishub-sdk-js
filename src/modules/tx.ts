@@ -32,9 +32,7 @@ export class Tx {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
 
-    const fee = await this.client.utils.toMinCoins(
-      unsignedTx.value.fee.amount
-    );
+    const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
     unsignedTx.value.fee.amount = fee;
 
     // Sign Tx
@@ -84,71 +82,76 @@ export class Tx {
     password: string,
     offline = false
   ): Promise<types.Tx<types.StdTx>> {
-    if (is.empty(name)) {
-      throw new SdkError(`Name of the key can not be empty`);
-    }
-    if (is.empty(password)) {
-      throw new SdkError(`Password of the key can not be empty`);
-    }
-    if (!this.client.config.keyDAO.decrypt) {
-      throw new SdkError(`Decrypt method of KeyDAO not implemented`);
-    }
-    if (
-      is.undefined(stdTx) ||
-      is.undefined(stdTx.value) ||
-      is.undefined(stdTx.value.msg)
-    ) {
-      throw new SdkError(`Msgs can not be empty`);
-    }
-    const keyObj = this.client.config.keyDAO.read(name);
-    if (!keyObj) {
-      throw new SdkError(`Key with name '${name}' not found`);
-    }
-
-    const msgs: object[] = [];
-    stdTx.value.msg.forEach(msg => {
-      if (msg.getSignBytes) {
-        msgs.push(msg.getSignBytes());
+    return new Promise<types.Tx<types.StdTx>>(async (resolve, reject) => {
+      if (is.empty(name)) {
+        return reject(new SdkError(`Name of the key can not be empty`));
       }
+      if (is.empty(password)) {
+        return reject(new SdkError(`Password of the key can not be empty`));
+      }
+      if (!this.client.config.keyDAO.decrypt) {
+        return reject(new SdkError(`Decrypt method of KeyDAO not implemented`));
+      }
+      if (
+        is.undefined(stdTx) ||
+        is.undefined(stdTx.value) ||
+        is.undefined(stdTx.value.msg)
+      ) {
+        return reject(new SdkError(`Msgs can not be empty`));
+      }
+      const keyObj = this.client.config.keyDAO.read(name);
+      if (!keyObj) {
+        return reject(new SdkError(`Key with name '${name}' not found`));
+      }
+
+      const msgs: object[] = [];
+      stdTx.value.msg.forEach(msg => {
+        if (msg.getSignBytes) {
+          msgs.push(msg.getSignBytes());
+        }
+      });
+
+      if (!offline) {
+        // Query account info from block chain
+        const addr = keyObj.address;
+        const account = await this.client.bank.queryAccount(addr);
+        const sigs: types.StdSignature[] = [
+          {
+            pub_key: account.public_key,
+            account_number: account.account_number,
+            sequence: account.sequence,
+            signature: '',
+          },
+        ];
+
+        stdTx.value.signatures = sigs;
+      }
+
+      // Build msg to sign
+      const sig: types.StdSignature = stdTx.value.signatures[0];
+      const signMsg: types.StdSignMsg = {
+        account_number: sig.account_number,
+        chain_id: this.client.config.chainId,
+        fee: stdTx.value.fee,
+        memo: stdTx.value.memo,
+        msgs,
+        sequence: sig.sequence,
+      };
+
+      // Signing
+      const privKey = this.client.config.keyDAO.decrypt(
+        keyObj.privKey,
+        password
+      );
+      const signature = Crypto.generateSignature(
+        Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
+        privKey
+      );
+      sig.signature = signature.toString('base64');
+      sig.pub_key = Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
+      stdTx.value.signatures[0] = sig;
+      return resolve(stdTx);
     });
-
-    if (!offline) {
-      // Query account info from block chain
-      const addr = keyObj.address;
-      const account = await this.client.bank.queryAccount(addr);
-      const sigs: types.StdSignature[] = [
-        {
-          pub_key: account.public_key,
-          account_number: account.account_number,
-          sequence: account.sequence,
-          signature: '',
-        },
-      ];
-
-      stdTx.value.signatures = sigs;
-    }
-
-    // Build msg to sign
-    const sig: types.StdSignature = stdTx.value.signatures[0];
-    const signMsg: types.StdSignMsg = {
-      account_number: sig.account_number,
-      chain_id: this.client.config.chainId,
-      fee: stdTx.value.fee,
-      memo: stdTx.value.memo,
-      msgs,
-      sequence: sig.sequence,
-    };
-
-    // Signing
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-    const signature = Crypto.generateSignature(
-      Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
-      privKey
-    );
-    sig.signature = signature.toString('base64');
-    sig.pub_key = Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
-    stdTx.value.signatures[0] = sig;
-    return stdTx;
   }
 
   /**
@@ -179,33 +182,41 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
-    return this.client.rpcClient
-      .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
-        tx: bytesToBase64(txBytes),
-      })
-      .then(response => {
-        // Check tx error
-        if (response.check_tx && response.check_tx.code > 0) {
-          throw new SdkError(response.check_tx.log, response.check_tx.code);
-        }
+    return new Promise<types.TxResult>((resolve, reject) => {
+      this.client.rpcClient
+        .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
+          tx: bytesToBase64(txBytes),
+        })
+        .then(response => {
+          // Check tx error
+          if (response.check_tx && response.check_tx.code > 0) {
+            return reject(
+              new SdkError(response.check_tx.log, response.check_tx.code)
+            );
+          }
 
-        // Deliver tx error
-        if (response.deliver_tx && response.deliver_tx.code > 0) {
-          throw new SdkError(response.deliver_tx.log, response.deliver_tx.code);
-        }
+          // Deliver tx error
+          if (response.deliver_tx && response.deliver_tx.code > 0) {
+            return reject(
+              new SdkError(response.deliver_tx.log, response.deliver_tx.code)
+            );
+          }
 
-        if (response.deliver_tx && response.deliver_tx.tags) {
-          response.deliver_tx.tags = Utils.decodeTags(response.deliver_tx.tags);;
-        }
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: response.deliver_tx?.gas_wanted,
-          gas_used: response.deliver_tx?.gas_used,
-          info: response.deliver_tx?.info,
-          tags: response.deliver_tx?.tags,
-        };
-      });
+          if (response.deliver_tx && response.deliver_tx.tags) {
+            response.deliver_tx.tags = Utils.decodeTags(
+              response.deliver_tx.tags
+            );
+          }
+          return resolve({
+            hash: response.hash,
+            height: response.height,
+            gas_wanted: response.deliver_tx?.gas_wanted,
+            gas_used: response.deliver_tx?.gas_used,
+            info: response.deliver_tx?.info,
+            tags: response.deliver_tx?.tags,
+          });
+        });
+    });
   }
 
   /**
@@ -218,27 +229,29 @@ export class Tx {
     txBytes: Uint8Array,
     method: string
   ): Promise<types.ResultBroadcastTxAsync> {
-    // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
-    if (
-      is.not.inArray(method, [
-        types.RpcMethods.BroadcastTxSync,
-        types.RpcMethods.BroadcastTxAsync,
-      ])
-    ) {
-      throw new SdkError(`Unsupported broadcast method: ${method}`);
-    }
+    return new Promise<types.ResultBroadcastTxAsync>((resolve, reject) => {
+      // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
+      if (
+        is.not.inArray(method, [
+          types.RpcMethods.BroadcastTxSync,
+          types.RpcMethods.BroadcastTxAsync,
+        ])
+      ) {
+        return reject(new SdkError(`Unsupported broadcast method: ${method}`));
+      }
 
-    return this.client.rpcClient
-      .request<types.ResultBroadcastTxAsync>(method, {
-        tx: bytesToBase64(txBytes),
-      })
-      .then(response => {
-        if (response.code && response.code > 0) {
-          throw new SdkError(response.data, response.code);
-        }
+      return this.client.rpcClient
+        .request<types.ResultBroadcastTxAsync>(method, {
+          tx: bytesToBase64(txBytes),
+        })
+        .then(response => {
+          if (response.code && response.code > 0) {
+            return reject(new SdkError(response.data, response.code));
+          }
 
-        return response;
-      });
+          return resolve(response);
+        });
+    });
   }
 
   private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
