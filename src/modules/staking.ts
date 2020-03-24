@@ -408,10 +408,10 @@ export class Staking {
             voting_power: event.voting_power,
             proposer_priority: event.proposer_priority,
             bech32_address: bech32Address,
-            bech32_pub_key: bech32Pubkey,
+            bech32_pubkey: bech32Pubkey,
           };
           if (listeningSet.size > 0) {
-            if (listeningSet.has(update.bech32_pub_key)) {
+            if (listeningSet.has(update.bech32_pubkey)) {
               callback(undefined, update);
             }
           } else {

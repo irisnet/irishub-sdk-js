@@ -1,9 +1,9 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { unmarshalTx } from '@irisnet/amino-js';
+import { unmarshalTx, marshalPubKey } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
-import { Utils } from '../utils';
+import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
 
@@ -42,7 +42,7 @@ export class Tendermint {
             });
             res.block.data.txs = decodedTxs;
           }
-          resolve(res as types.Block);
+          return resolve(res as types.Block);
         })
         .catch(err => {
           reject(err);
@@ -83,7 +83,7 @@ export class Tendermint {
               res.results.BeginBlock.tags = Utils.decodeTags(beginBlock.tags);
             }
           }
-          resolve(res as types.BlockResult);
+          return resolve(res as types.BlockResult);
         })
         .catch(err => {
           reject(err);
@@ -96,8 +96,8 @@ export class Tendermint {
    * @param hash The tx hash
    * @returns
    */
-  queryTx(hash: string): Promise<types.ResultTxQuery> {
-    return new Promise<types.ResultTxQuery>((resolve, reject) => {
+  queryTx(hash: string): Promise<types.QueryTxResult> {
+    return new Promise<types.QueryTxResult>((resolve, reject) => {
       this.client.rpcClient
         .request<any>(RpcMethods.Tx, {
           hash: base64Encoding.stringify(hexEncoding.parse(hash)),
@@ -106,7 +106,50 @@ export class Tendermint {
           // Decode tags
           res.tx_result.tags = Utils.decodeTags(res.tx_result.tags);
           res.tx = unmarshalTx(base64ToBytes(res.tx)) as types.Tx<types.StdTx>;
-          resolve(res as types.ResultTxQuery);
+          return resolve(res as types.QueryTxResult);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * Query validator set at a certain height or the latest height
+   * @param height The block height
+   * @returns
+   */
+  queryValidators(height?: number): Promise<types.QueryValidatorResult> {
+    return new Promise<types.QueryValidatorResult>((resolve, reject) => {
+      const params = height ? { height: String(height) } : {};
+      this.client.rpcClient
+        .request<any>(RpcMethods.Validators, params)
+        .then(res => {
+          const result: types.QueryValidatorResult = {
+            block_height: res.block_height,
+            validators: [],
+          };
+          if (res.validators) {
+            res.validators.forEach((v: any) => {
+              const bech32Address = Crypto.encodeAddress(
+                v.address,
+                this.client.config.bech32Prefix.ConsAddr
+              );
+              const bech32Pubkey = Crypto.encodeAddress(
+                Utils.ab2hexstring(marshalPubKey(v.pub_key, false)),
+                this.client.config.bech32Prefix.ConsPub
+              );
+              result.validators.push({
+                bech32_address: bech32Address,
+                bech32_pubkey: bech32Pubkey,
+                address: v.address,
+                pub_key: v.pub_key,
+                voting_power: v.voting_power,
+                proposer_priority: v.proposer_priority,
+              });
+            });
+          }
+          return resolve(result);
         })
         .catch(err => {
           reject(err);

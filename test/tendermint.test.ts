@@ -75,4 +75,32 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+  test(
+    'query latest validators',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryValidators()
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'query validators by height',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryValidators(2)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
 });

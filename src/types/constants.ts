@@ -17,6 +17,7 @@ export enum RpcMethods {
   BlockResults = 'block_results',
   Tx = 'tx',
   TxSearch = 'tx_search',
+  Validators = 'validators',
 }
 
 export const IRIS = 'iris',

@@ -39,16 +39,16 @@ export interface ResultTx {
 }
 
 /** Tx query result */
-export interface ResultTxQuery {
+export interface QueryTxResult {
   hash: string;
   height: string;
   index: number;
-  tx_result: ResultInnerTxQuery;
+  tx_result: QueryTxInnerResult;
   tx: Tx<StdTx>;
 }
 
 /** Tx query inner result */
-export interface ResultInnerTxQuery {
+export interface QueryTxInnerResult {
   log: string;
   gasWanted: string;
   gasUsed: string;

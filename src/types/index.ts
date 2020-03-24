@@ -17,3 +17,4 @@ export * from './events';
 export * from './asset';
 export * from './block';
 export * from './block-result';
+export * from './validator';

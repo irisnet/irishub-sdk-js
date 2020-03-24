@@ -1,6 +1,5 @@
 import { Tx, Pubkey as ValPubKey, Tag } from './types';
 import { StdTx } from './auth';
-import { SdkError } from '../errors';
 
 export enum EventTypes {
   NewBlock = 'NewBlock',
@@ -39,7 +38,7 @@ export interface EventDataValidatorSetUpdates {
 export interface ExtendedEventDataValidatorSetUpdates
   extends EventDataValidatorSetUpdates {
   bech32_address: string;
-  bech32_pub_key: string;
+  bech32_pubkey: string;
 }
 
 export interface EventDataResultTx {
