@@ -2,11 +2,7 @@ import { Client } from '../client';
 import * as types from '../types';
 import { SdkError } from '../errors';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
-import {
-  EventQueryBuilder,
-  EventKey,
-  EventAction,
-} from '../types';
+import { EventQueryBuilder, EventKey, EventAction } from '../types';
 import { Utils, Crypto } from '../utils';
 import { marshalPubKey } from '@irisnet/amino-js';
 
@@ -329,14 +325,14 @@ export class Staking {
     callback: (error?: SdkError, data?: types.EventDataMsgEditValidator) => void
   ): types.EventSubscription {
     const queryBuilder = new EventQueryBuilder().addCondition(
-      EventKey.Action,
-      EventAction.EditValidator
+      new types.Condition(EventKey.Action).eq(EventAction.EditValidator)
     );
 
     if (conditions.validatorAddress) {
       queryBuilder.addCondition(
-        EventKey.DestinationValidator,
-        conditions.validatorAddress
+        new types.Condition(EventKey.DestinationValidator).eq(
+          conditions.validatorAddress
+        )
       );
     }
 
@@ -397,7 +393,10 @@ export class Staking {
         }
 
         data?.forEach(event => {
-          const bech32Address = Crypto.encodeAddress(event.address, this.client.config.bech32Prefix.ConsAddr);
+          const bech32Address = Crypto.encodeAddress(
+            event.address,
+            this.client.config.bech32Prefix.ConsAddr
+          );
           const bech32Pubkey = Crypto.encodeAddress(
             Utils.ab2hexstring(marshalPubKey(event.pub_key, false)),
             this.client.config.bech32Prefix.ConsPub
