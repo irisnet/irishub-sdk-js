@@ -6,6 +6,7 @@ import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
+import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
  * Tendermint module provides tendermint rpc queriers implementation
@@ -103,7 +104,7 @@ export class Tendermint {
           hash: base64Encoding.stringify(hexEncoding.parse(hash)),
         })
         .then(res => {
-          // Decode tags
+          // Decode tags and tx
           res.tx_result.tags = Utils.decodeTags(res.tx_result.tags);
           res.tx = unmarshalTx(base64ToBytes(res.tx)) as types.Tx<types.StdTx>;
           return resolve(res as types.QueryTxResult);
@@ -150,6 +151,41 @@ export class Tendermint {
             });
           }
           return resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * Search txs
+   * @returns
+   */
+  searchTxs(
+    conditions: EventQueryBuilder,
+    page?: number,
+    size?: number
+  ): Promise<types.SearchTxsResult> {
+    return new Promise<types.SearchTxsResult>((resolve, reject) => {
+      this.client.rpcClient
+        .request<any>(RpcMethods.TxSearch, {
+          query: conditions.build(),
+          page,
+          per_page: size,
+        })
+        .then(res => {
+          if (res.txs) {
+            const txs: types.QueryTxResult[] = [];
+            // Decode tags and txs
+            res.txs.forEach((tx: any) => {
+              tx.tx_result.tags = Utils.decodeTags(tx.tx_result.tags);
+              tx.tx = unmarshalTx(base64ToBytes(tx.tx));
+              txs.push(tx);
+            });
+            res.txs = txs;
+            return resolve(res as types.SearchTxsResult);
+          }
         })
         .catch(err => {
           reject(err);

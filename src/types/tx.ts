@@ -54,3 +54,9 @@ export interface QueryTxInnerResult {
   gasUsed: string;
   tags: Tag[];
 }
+
+/** Txs search result */
+export interface SearchTxsResult {
+  txs: QueryTxResult[];
+  total_count: string;
+}

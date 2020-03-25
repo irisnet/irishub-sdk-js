@@ -1,4 +1,5 @@
 import { BaseTest } from './basetest';
+import * as types from '../src/types';
 
 const timeout = 10000;
 
@@ -94,6 +95,24 @@ describe('Tendermint Tests', () => {
     async () => {
       await BaseTest.getClient()
         .tendermint.queryValidators(2)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'search txs',
+    async () => {
+      const condition = new types.EventQueryBuilder().addCondition(
+        types.EventKey.Action,
+        types.EventAction.Send
+      );
+      await BaseTest.getClient()
+        .tendermint.searchTxs(condition)
         .then(res => {
           console.log(JSON.stringify(res));
         })

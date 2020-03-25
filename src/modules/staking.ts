@@ -6,7 +6,7 @@ import {
   EventQueryBuilder,
   EventKey,
   EventAction,
-} from '../nets/event-listener';
+} from '../types';
 import { Utils, Crypto } from '../utils';
 import { marshalPubKey } from '@irisnet/amino-js';
 
