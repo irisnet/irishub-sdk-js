@@ -15,3 +15,7 @@ export * from './oracle';
 export * from './random';
 export * from './events';
 export * from './asset';
+export * from './block';
+export * from './block-result';
+export * from './validator';
+export * from './query-builder';

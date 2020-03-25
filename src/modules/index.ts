@@ -12,3 +12,5 @@ export * from './oracle';
 export * from './random';
 export * from './asset';
 export * from './utils';
+export * from './tendermint';
+

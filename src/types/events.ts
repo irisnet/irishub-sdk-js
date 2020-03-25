@@ -1,17 +1,5 @@
 import { Tx, Pubkey as ValPubKey, Tag } from './types';
 import { StdTx } from './auth';
-import { SdkError } from '../errors';
-
-export enum RpcMethods {
-  BroadcastTxSync = 'broadcast_tx_sync',
-  BroadcastTxAsync = 'broadcast_tx_async',
-  BroadcastTxCommit = 'broadcast_tx_commit',
-  AbciQuery = 'abci_query',
-  Subscribe = 'subscribe',
-  Unsubscribe = 'unsubscribe',
-  UnsubscribeAll = 'unsubscribe_all',
-  Health = 'health',
-}
 
 export enum EventTypes {
   NewBlock = 'NewBlock',
@@ -50,7 +38,7 @@ export interface EventDataValidatorSetUpdates {
 export interface ExtendedEventDataValidatorSetUpdates
   extends EventDataValidatorSetUpdates {
   bech32_address: string;
-  bech32_pub_key: string;
+  bech32_pubkey: string;
 }
 
 export interface EventDataResultTx {

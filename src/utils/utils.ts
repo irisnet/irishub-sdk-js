@@ -4,6 +4,7 @@ import * as SHA256 from 'crypto-js/sha256';
 import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
 import { SdkError } from '../errors';
+import * as types from '../types';
 
 /**
  * IRISHub SDK JS Utils
@@ -257,5 +258,25 @@ export class Utils {
 
   static base64ToString(b64: string): string {
     return Buffer.from(b64, 'base64').toString();
+  }
+
+  /**
+   * Decode base64 encoded tags
+   * @param tags
+   */
+  static decodeTags(tags: types.Tag[]): types.Tag[] {
+    const decodedTags: types.Tag[] = [];
+
+    if (!tags || tags.length === 0) {
+      return decodedTags;
+    }
+    
+    tags.forEach((tag: types.Tag) => {
+      decodedTags.push({
+        key: Utils.base64ToString(tag.key),
+        value: Utils.base64ToString(tag.value),
+      });
+    });
+    return decodedTags;
   }
 }

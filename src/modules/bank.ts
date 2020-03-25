@@ -4,11 +4,7 @@ import * as types from '../types';
 import * as AminoTypes from '@irisnet/amino-js/types';
 import { SdkError } from '../errors';
 import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
-import {
-  EventQueryBuilder,
-  EventKey,
-  EventAction,
-} from '../nets/event-listener';
+import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
  * This module is mainly used to transfer coins between accounts,
