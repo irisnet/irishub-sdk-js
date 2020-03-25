@@ -49,6 +49,7 @@ export interface QueryTxResult {
 
 /** Tx query inner result */
 export interface QueryTxInnerResult {
+  code: string;
   log: string;
   gasWanted: string;
   gasUsed: string;
