@@ -20,42 +20,38 @@ export class WsClient {
   /**
    * Initialize ws client
    */
-  async connect(): Promise<void> {
-    return new Promise((reslove, reject) => {
-      this.ws = new Websocket(this.url + '/websocket');
+  connect(): void {
+    this.ws = new Websocket(this.url + '/websocket');
+    if (!this.ws) {
+      throw new SdkError('Websocket client not initialized'); // Should not happen
+    }
 
-      if (!this.ws) {
-        reject('Websocket client not initialized'); // Should not happen
-        return;
+    this.ws.onopen = () => {
+      console.log('Websocket connected');
+      this.eventEmitter.emit('open');
+    };
+
+    this.ws.onclose = () => {
+      console.log('Websocket disconnected');
+      this.eventEmitter.emit('close');
+    };
+
+    this.ws.onmessage = (resp: Websocket.MessageEvent) => {
+      const data = JSON.parse(resp.data.toString());
+      if (!data.id) {
+        this.eventEmitter.emit(
+          'error',
+          'Unexpected response: ' + JSON.stringify(data)
+        );
       }
+      // Route the data to the specified subscriber based on the request ID
+      this.eventEmitter.emit(data.id, data.error, data.result);
+    };
 
-      this.ws.onopen = () => {
-        console.log('Websocket connected');
-        reslove();
-      };
-
-      this.ws.onclose = () => {
-        console.log('Websocket disconnected');
-      };
-
-      this.ws.onmessage = (resp: Websocket.MessageEvent) => {
-        const data = JSON.parse(resp.data.toString());
-        if (!data.id) {
-          this.eventEmitter.emit(
-            'error',
-            'Unexpected response: ' + JSON.stringify(data)
-          );
-        }
-        // Route the data to the specified subscriber based on the request ID
-        this.eventEmitter.emit(data.id, data.error, data.result);
-      };
-
-      this.ws.onerror = (err: Websocket.ErrorEvent) => {
-        console.log('Websocket error');
-        this.eventEmitter.emit('wserror', err);
-        reject(err);
-      };
-    });
+    this.ws.onerror = (err: Websocket.ErrorEvent) => {
+      console.log('Websocket error');
+      this.eventEmitter.emit('error', err);
+    };
   }
 
   /**
@@ -64,23 +60,32 @@ export class WsClient {
   async disconnect(): Promise<void> {
     return new Promise((reslove, reject) => {
       // Unsubscribe all from server
-      this.send(types.RpcMethods.UnsubscribeAll, 'unsubscribe_all');
-      this.eventEmitter.on('unsubscribe_all', (error, data) => {
+      const id = 'unsubscribe_all';
+      this.send(types.RpcMethods.UnsubscribeAll, id);
+      this.eventEmitter.on(id, (error, data) => {
         if (error) {
-          reject(error);
+          throw new SdkError(error.message);
         }
 
         if (!this.ws) {
-          reject('Websocket client not initialized'); // Should not happen
-          return;
+          throw new SdkError('Websocket client not initialized'); // Should not happen
         }
-        // Destroy ws instance
-        this.ws.terminate();
+
         // Remove all listeners
         this.eventEmitter.removeAllListeners();
+        // Destroy ws instance
+        this.ws.terminate();
+
         reslove();
       });
     });
+  }
+
+  /**
+   * Check if the ws client is connected or not
+   */
+  isReady(): boolean {
+    return this.ws?.readyState === 1;
   }
 
   /**
