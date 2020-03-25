@@ -102,9 +102,6 @@ import { Utils } from '../src/utils';
 // Test events
 import {
   EventListener,
-  EventQueryBuilder,
-  EventKey,
-  EventAction,
 } from '../src/nets/event-listener';
 import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
