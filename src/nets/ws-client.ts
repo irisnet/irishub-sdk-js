@@ -58,11 +58,11 @@ export class WsClient {
    * Disconnect from server
    */
   async disconnect(): Promise<void> {
-    return new Promise((reslove, reject) => {
+    return new Promise((reslove) => {
       // Unsubscribe all from server
       const id = 'unsubscribe_all';
       this.send(types.RpcMethods.UnsubscribeAll, id);
-      this.eventEmitter.on(id, (error, data) => {
+      this.eventEmitter.on(id, (error) => {
         if (error) {
           throw new SdkError(error.message);
         }

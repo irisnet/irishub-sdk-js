@@ -78,6 +78,7 @@ export interface EventDataBlockHeader {
   last_results_hash: string;
   evidence_hash: string;
   proposer_address: string;
+  bech32_proposer_address: string;
 }
 
 export interface EventDataBlockData {

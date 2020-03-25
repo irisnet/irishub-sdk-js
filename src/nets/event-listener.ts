@@ -70,7 +70,7 @@ export class EventListener {
             case types.EventTypes.NewBlockHeader: {
               // Listen for new block headers, decode and callback
               this.wsClient.eventEmitter.on(event, (error, data) => {
-                this.newBlockHandler(sub.callback, error, data);
+                this.newBlockHeaderHandler(sub.callback, error, data);
               });
               return;
             }
@@ -323,6 +323,14 @@ export class EventListener {
       blockData.block.data.txs = decodedTxs;
     }
 
+    // Decode proposer address
+    if (blockData.block) {
+      blockData.block.header.bech32_proposer_address = Crypto.encodeAddress(
+        blockData.block.header.proposer_address,
+        this.client.config.bech32Prefix.ConsAddr
+      );
+    }
+
     // Decode begin block tags
     if (blockData.result_begin_block) {
       blockData.result_begin_block.tags = Utils.decodeTags(
@@ -340,11 +348,14 @@ export class EventListener {
       if (blockData.result_end_block.validator_updates) {
         const validators: types.EventDataValidatorUpdate[] = [];
         blockData.result_end_block.validator_updates.forEach((v: any) => {
-          const type = v.pub_key.type === 'secp256k1' ? 'tendermint/PubKeySecp256k1' : 'tendermint/PubKeyEd25519';
+          const type =
+            v.pub_key.type === 'secp256k1'
+              ? 'tendermint/PubKeySecp256k1'
+              : 'tendermint/PubKeyEd25519';
           const valPubkey: types.Pubkey = {
             type,
-            value: v.pub_key.data
-          }
+            value: v.pub_key.data,
+          };
           const bech32Pubkey = Crypto.encodeAddress(
             Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
             this.client.config.bech32Prefix.ConsPub
@@ -375,8 +386,54 @@ export class EventListener {
     if (!data.data || !data.data.value) {
       return;
     }
-    const eventBlockHeader = data.data.value as types.EventDataNewBlockHeader;
-    callback(undefined, eventBlockHeader);
+
+    const blockHeader = data.data.value;
+    // Decode proposer address
+    blockHeader.header.bech32_proposer_address = Crypto.encodeAddress(
+      blockHeader.header.proposer_address,
+      this.client.config.bech32Prefix.ConsAddr
+    );
+
+    // Decode begin block tags
+    if (blockHeader.result_begin_block) {
+      blockHeader.result_begin_block.tags = Utils.decodeTags(
+        blockHeader.result_begin_block.tags
+      );
+    }
+
+    if (blockHeader.result_end_block) {
+      // Decode end block tags
+      blockHeader.result_end_block.tags = Utils.decodeTags(
+        blockHeader.result_end_block.tags
+      );
+
+      // Decode validator updates
+      if (blockHeader.result_end_block.validator_updates) {
+        const validators: types.EventDataValidatorUpdate[] = [];
+        blockHeader.result_end_block.validator_updates.forEach((v: any) => {
+          const type =
+            v.pub_key.type === 'secp256k1'
+              ? 'tendermint/PubKeySecp256k1'
+              : 'tendermint/PubKeyEd25519';
+          const valPubkey: types.Pubkey = {
+            type,
+            value: v.pub_key.data,
+          };
+          const bech32Pubkey = Crypto.encodeAddress(
+            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            this.client.config.bech32Prefix.ConsPub
+          );
+          validators.push({
+            bech32_pubkey: bech32Pubkey,
+            pub_key: valPubkey,
+            voting_power: v.power,
+          });
+        });
+        blockHeader.result_end_block.validator_updates = validators;
+      }
+    }
+
+    callback(undefined, blockHeader as types.EventDataNewBlockHeader);
   }
 
   private validatorSetUpdatesHandler(

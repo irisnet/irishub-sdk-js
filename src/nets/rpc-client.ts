@@ -47,23 +47,21 @@ export class RpcClient {
       method,
       params,
     };
-    return new Promise<T>((resolve, reject) => {
-      this.instance
-        .request<types.JSONRPCResponse<T>>({
-          data,
-        })
-        .then(response => {
-          const res = response.data;
+    return this.instance
+      .request<types.JSONRPCResponse<T>>({
+        data,
+      })
+      .then(response => {
+        const res = response.data;
 
-          // Internal error
-          if (res.error) {
-            console.log(res.error);
-            return reject(new SdkError(res.error.message, res.error.code));
-          }
+        // Internal error
+        if (res.error) {
+          console.log(res.error);
+          throw new SdkError(res.error.message, res.error.code);
+        }
 
-          return resolve(res.result);
-        });
-    });
+        return res.result;
+      });
   }
 
   /**
