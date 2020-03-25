@@ -86,7 +86,7 @@ export class Client {
           };
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
-    this.eventListener = new EventListener(this.config.node);
+    this.eventListener = new EventListener(this);
 
     // Modules
     this.asset = new modules.Asset(this);

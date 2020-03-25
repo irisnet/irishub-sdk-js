@@ -6,7 +6,8 @@ import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
 import { EventQueryBuilder, EventKey } from '../types';
-import * as Websocket from 'isomorphic-ws';
+import { marshalPubKey } from '@irisnet/amino-js';
+import { Client } from '../client';
 
 interface Subscription {
   id: string;
@@ -37,10 +38,15 @@ class EventDAO {
 export class EventListener {
   /** @hidden */
   private wsClient: WsClient;
+  /** @hidden */
   private eventDAO: EventDAO;
+  /** @hidden */
+  private client: Client;
 
-  constructor(url: string) {
-    this.wsClient = new WsClient(url);
+  /** @hidden */
+  constructor(client: Client) {
+    this.client = client;
+    this.wsClient = new WsClient(this.client.config.node);
     this.eventDAO = new EventDAO();
 
     this.wsClient.eventEmitter.on('open', () => {
@@ -147,7 +153,12 @@ export class EventListener {
       });
     }
 
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
+    });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -176,7 +187,12 @@ export class EventListener {
       });
     }
 
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
+    });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -207,7 +223,12 @@ export class EventListener {
         this.validatorSetUpdatesHandler(callback, error, data);
       });
     }
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
+    });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -237,7 +258,12 @@ export class EventListener {
         this.txHandler(callback, error, data);
       });
     }
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
+    });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -295,6 +321,42 @@ export class EventListener {
         );
       });
       blockData.block.data.txs = decodedTxs;
+    }
+
+    // Decode begin block tags
+    if (blockData.result_begin_block) {
+      blockData.result_begin_block.tags = Utils.decodeTags(
+        blockData.result_begin_block.tags
+      );
+    }
+
+    if (blockData.result_end_block) {
+      // Decode end block tags
+      blockData.result_end_block.tags = Utils.decodeTags(
+        blockData.result_end_block.tags
+      );
+
+      // Decode validator updates
+      if (blockData.result_end_block.validator_updates) {
+        const validators: types.EventDataValidatorUpdate[] = [];
+        blockData.result_end_block.validator_updates.forEach((v: any) => {
+          const type = v.pub_key.type === 'secp256k1' ? 'tendermint/PubKeySecp256k1' : 'tendermint/PubKeyEd25519';
+          const valPubkey: types.Pubkey = {
+            type,
+            value: v.pub_key.data
+          }
+          const bech32Pubkey = Crypto.encodeAddress(
+            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            this.client.config.bech32Prefix.ConsPub
+          );
+          validators.push({
+            bech32_pubkey: bech32Pubkey,
+            pub_key: valPubkey,
+            voting_power: v.power,
+          });
+        });
+        blockData.result_end_block.validator_updates = validators;
+      }
     }
 
     const eventBlock = blockData as types.EventDataNewBlock;

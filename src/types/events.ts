@@ -129,11 +129,7 @@ export interface EventDataResultEndBlock {
 }
 
 export interface EventDataValidatorUpdate {
-  pub_key: EventDataPubKey;
-  power: number;
-}
-
-export interface EventDataPubKey {
-  type: string;
-  data: string;
+  bech32_pubkey: string;
+  pub_key: ValPubKey;
+  voting_power: string;
 }
