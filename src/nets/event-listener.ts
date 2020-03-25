@@ -161,7 +161,9 @@ export class EventListener {
     const eventType = types.EventTypes.NewBlock;
     const id = eventType + Math.random().toString(16);
     const queryBuilder = conditions ? conditions : new EventQueryBuilder();
-    const query = queryBuilder.addCondition(EventKey.Type, eventType).build();
+    const query = queryBuilder
+      .addCondition(new types.Condition(EventKey.Type).eq(eventType))
+      .build();
 
     this.wsClient.send(types.RpcMethods.Subscribe, id, query);
 
@@ -188,7 +190,7 @@ export class EventListener {
     const eventType = types.EventTypes.NewBlockHeader;
     const id = eventType + Math.random().toString(16);
     const query = new EventQueryBuilder()
-      .addCondition(EventKey.Type, eventType)
+      .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
     this.wsClient.send(types.RpcMethods.Subscribe, id, query);
@@ -219,7 +221,7 @@ export class EventListener {
     const eventType = types.EventTypes.ValidatorSetUpdates;
     const id = eventType + Math.random().toString(16);
     const query = new EventQueryBuilder()
-      .addCondition(EventKey.Type, eventType)
+      .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
     this.wsClient.send(types.RpcMethods.Subscribe, id, query);
@@ -248,7 +250,9 @@ export class EventListener {
     const eventType = types.EventTypes.Tx;
     const id = eventType + Math.random().toString(16);
     const queryBuilder = conditions ? conditions : new EventQueryBuilder();
-    const query = queryBuilder.addCondition(EventKey.Type, eventType).build();
+    const query = queryBuilder
+      .addCondition(new types.Condition(EventKey.Type).eq(eventType))
+      .build();
 
     this.wsClient.send(types.RpcMethods.Subscribe, id, query);
 

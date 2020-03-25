@@ -108,8 +108,7 @@ describe('Tendermint Tests', () => {
     'search txs',
     async () => {
       const condition = new types.EventQueryBuilder().addCondition(
-        types.EventKey.Action,
-        types.EventAction.Send
+        new types.Condition(types.EventKey.Action).eq(types.EventAction.Send)
       );
       await BaseTest.getClient()
         .tendermint.searchTxs(condition)

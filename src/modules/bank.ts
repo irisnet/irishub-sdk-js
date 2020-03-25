@@ -128,15 +128,16 @@ export class Bank {
     callback: (error?: SdkError, data?: types.EventDataMsgSend) => void
   ): types.EventSubscription {
     const queryBuilder = new EventQueryBuilder().addCondition(
-      EventKey.Action,
-      EventAction.Send
+      new types.Condition(EventKey.Action).eq(EventAction.Send)
     );
 
     if (conditions.from) {
-      queryBuilder.addCondition(EventKey.Sender, conditions.from);
+      queryBuilder.addCondition(
+        new types.Condition(EventKey.Sender).eq(conditions.from)
+      );
     }
     if (conditions.to) {
-      queryBuilder.addCondition(EventKey.Recipient, conditions.to);
+      queryBuilder.addCondition(new types.Condition(EventKey.Recipient).eq(conditions.to));
     }
 
     const subscription = this.client.eventListener.subscribeTx(

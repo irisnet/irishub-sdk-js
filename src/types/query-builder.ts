@@ -1,8 +1,60 @@
+import { SdkError } from '../errors';
+import * as is from 'is_js';
+
+export class Condition {
+  private key: EventKey;
+  private value: string | EventAction;
+  private op: string;
+
+  constructor(key: EventKey) {
+    this.key = key;
+    this.value = '';
+    this.op = '';
+  }
+
+  lte(value: string): Condition {
+    return this.fill(value, '<=');
+  }
+
+  gte(value: string): Condition {
+    return this.fill(value, '>=');
+  }
+
+  le(value: string): Condition {
+    return this.fill(value, '<');
+  }
+
+  ge(value: string): Condition {
+    return this.fill(value, '>');
+  }
+
+  eq(value: string): Condition {
+    return this.fill(value, '=');
+  }
+
+  contains(value: string): Condition {
+    return this.fill(value, 'CONTAINS');
+  }
+
+  toString(): string {
+    if (is.empty(this.key) || is.empty(this.value) || is.empty(this.op)) {
+      throw new SdkError('invalid condition');
+    }
+    return this.key + this.op + "'" + this.value + "'";
+  }
+
+  private fill(value: string, op: string): Condition {
+    this.value = value;
+    this.op = op;
+    return this;
+  }
+}
+
 /**
  * A builder for building event query strings
  */
 export class EventQueryBuilder {
-  private conditions = new Array<string>();
+  private conditions = new Array<Condition>();
 
   /**
    * Add a query condition
@@ -10,11 +62,8 @@ export class EventQueryBuilder {
    * @param value
    * @returns The builder itself
    */
-  addCondition(
-    eventKey: EventKey,
-    value: string | EventAction
-  ): EventQueryBuilder {
-    this.conditions.push(eventKey + "='" + value + "'");
+  addCondition(condition: Condition): EventQueryBuilder {
+    this.conditions.push(condition);
     return this;
   }
 
@@ -23,7 +72,14 @@ export class EventQueryBuilder {
    * @returns The query string
    */
   build(): string {
-    return this.conditions.join(' and ');
+    let query = '';
+    this.conditions.forEach((c, index) => {
+      if (index > 0) {
+        query += ' AND ';
+      }
+      query += c.toString();
+    });
+    return query;
   }
 }
 
