@@ -14,6 +14,7 @@ import { EventQueryBuilder, EventKey, EventAction } from '../types';
  * [More Details](https://www.irisnet.org/docs/features/bank.html)
  *
  * @category Modules
+ * @since v0.17
  */
 export class Bank {
   /** @hidden */
@@ -27,6 +28,7 @@ export class Bank {
    * Get the cointype of a token
    *
    * @deprecated Please refer to [[asset.queryToken]]
+   * @since v0.17
    */
   queryCoinType(tokenName: string) {
     throw new SdkError('Not supported');
@@ -36,6 +38,7 @@ export class Bank {
    * Query account info from blockchain
    * @param address Bech32 address
    * @returns
+   * @since v0.17
    */
   queryAccount(address: string): Promise<AminoTypes.BaseAccount> {
     return this.client.rpcClient.abciQuery<AminoTypes.BaseAccount>(
@@ -50,6 +53,7 @@ export class Bank {
    * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
    * @param tokenID Identity of the token
    * @returns
+   * @since v0.17
    */
   queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
     return this.client.rpcClient.abciQuery<types.TokenStats>(
@@ -66,6 +70,7 @@ export class Bank {
    * @param amount Coins to be sent
    * @param baseTx { types.BaseTx }
    * @returns
+   * @since v0.17
    */
   async send(
     to: string,
@@ -92,6 +97,7 @@ export class Bank {
    * @param amount Coins to be burnt
    * @param baseTx { types.BaseTx }
    * @returns
+   * @since v0.17
    */
   async burn(
     amount: types.Coin[],
@@ -110,6 +116,7 @@ export class Bank {
    * @param memoRegexp
    * @param baseTx { types.BaseTx }
    * @returns
+   * @since v0.17
    */
   async setMemoRegexp(
     memoRegexp: string,
@@ -126,6 +133,7 @@ export class Bank {
    * @param conditions Query conditions for the subscription
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeSendTx(
     conditions: { from?: string; to?: string },

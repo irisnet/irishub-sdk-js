@@ -10,6 +10,7 @@ import { bytesToBase64 } from '@tendermint/belt';
  * Tx module allows you to sign or broadcast transactions
  *
  * @category Modules
+ * @since v0.17
  */
 export class Tx {
   /** @hidden */
@@ -24,6 +25,7 @@ export class Tx {
    * @param msgs Msgs to be sent
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async buildAndSend(
     msgs: types.Msg[],
@@ -46,6 +48,7 @@ export class Tx {
    * @param signedTx The tx object with signatures
    * @param mode Broadcast mode
    * @returns
+   * @since v0.17
    */
   broadcast(
     signedTx: types.Tx<types.StdTx>,
@@ -75,6 +78,7 @@ export class Tx {
    * @param password Password of the key
    * @param offline Offline signing, default `false`
    * @returns The signed tx
+   * @since v0.17
    */
   async sign(
     stdTx: types.Tx<types.StdTx>,

@@ -6,6 +6,7 @@ import * as is from 'is_js';
  * Auth module is only used to build `StdTx`
  *
  * @category Modules
+ * @since v0.17
  */
 export class Auth {
   /** @hidden */
@@ -32,6 +33,7 @@ export class Auth {
    * @param memo Memo of the transaction
    *
    * @returns
+   * @since v0.17
    */
   newStdTx(
     msgs: types.Msg[],

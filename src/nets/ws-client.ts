@@ -5,11 +5,14 @@ import { SdkError } from '../errors';
 
 /**
  * IRISHub Websocket Client
+ * @since v0.17
  */
 export class WsClient {
   /** @hidden */
   private url: string;
+  /** @hidden */
   private ws?: Websocket;
+  /** Event emitter */
   eventEmitter: EventEmitter;
 
   constructor(url: string) {
@@ -19,6 +22,7 @@ export class WsClient {
 
   /**
    * Initialize ws client
+   * @since v0.17
    */
   connect(): void {
     this.ws = new Websocket(this.url + '/websocket');
@@ -56,13 +60,14 @@ export class WsClient {
 
   /**
    * Disconnect from server
+   * @since v0.17
    */
   async disconnect(): Promise<void> {
-    return new Promise((reslove) => {
+    return new Promise(reslove => {
       // Unsubscribe all from server
       const id = 'unsubscribe_all';
       this.send(types.RpcMethods.UnsubscribeAll, id);
-      this.eventEmitter.on(id, (error) => {
+      this.eventEmitter.on(id, error => {
         if (error) {
           throw new SdkError(error.message);
         }
@@ -83,6 +88,7 @@ export class WsClient {
 
   /**
    * Check if the ws client is connected or not
+   * @since v0.17
    */
   isReady(): boolean {
     return this.ws?.readyState === 1;
@@ -93,6 +99,7 @@ export class WsClient {
    * @param method The tendermint rpc method
    * @param id The request id which is the same as the incoming response
    * @param query The tendermint query string
+   * @since v0.17
    */
   send(method: string, id: string, query?: string): void {
     if (!this.ws) {

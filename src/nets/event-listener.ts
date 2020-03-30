@@ -9,6 +9,7 @@ import { EventQueryBuilder, EventKey } from '../types';
 import { marshalPubKey } from '@irisnet/amino-js';
 import { Client } from '../client';
 
+/** Internal subscription interface */
 interface Subscription {
   id: string;
   query: string;
@@ -16,6 +17,7 @@ interface Subscription {
   callback: (error?: SdkError, data?: any) => void;
 }
 
+/** Internal event dao for caching the events */
 class EventDAO {
   private subscriptions = new Map<string, Subscription>();
   setSubscription(id: string, subscription: Subscription): void {
@@ -34,6 +36,7 @@ class EventDAO {
 
 /**
  * IRISHub Event Listener
+ * @since v0.17
  */
 export class EventListener {
   /** @hidden */
@@ -113,6 +116,7 @@ export class EventListener {
 
   /**
    * Connect to server
+   * @since v0.17
    */
   connect(): void {
     this.wsClient.connect();
@@ -120,6 +124,7 @@ export class EventListener {
 
   /**
    * Disconnect from server and clear all the listeners
+   * @since v0.17
    */
   async disconnect(): Promise<void> {
     return this.wsClient.disconnect().then(() => {
@@ -132,6 +137,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeNewBlock(
     callback: (error?: SdkError, data?: types.EventDataNewBlock) => void,
@@ -168,6 +174,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeNewBlockHeader(
     callback: (error?: SdkError, data?: types.EventDataNewBlockHeader) => void
@@ -202,6 +209,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeValidatorSetUpdates(
     callback: (
@@ -238,6 +246,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeTx(
     conditions: EventQueryBuilder,
@@ -271,6 +280,7 @@ export class EventListener {
   /**
    * Unsubscribe the specified event
    * @param subscription The event subscription instance
+   * @since v0.17
    */
   unsubscribe(subscription: types.EventSubscription): void {
     // Unsubscribe the specified event from server

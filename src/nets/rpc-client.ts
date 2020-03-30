@@ -6,6 +6,7 @@ import * as types from '../types';
 
 /**
  * Tendermint JSON RPC Client
+ * @since v0.17
  */
 export class RpcClient {
   /** @hidden */
@@ -16,6 +17,7 @@ export class RpcClient {
    * @param url Rpc address of irishub node
    * @param config The other configurations, refer to { [[AxiosRequestConfig]] }
    * @returns
+   * @since v0.17
    */
   constructor(config: AxiosRequestConfig) {
     if (is.empty(config)) {
@@ -39,6 +41,7 @@ export class RpcClient {
    * @param method Tendermint RPC method
    * @param params Request params
    * @returns
+   * @since v0.17
    */
   request<T>(method: string, params: object = {}): Promise<T> {
     const data = {
@@ -71,6 +74,7 @@ export class RpcClient {
    * @param data Input params
    * @param height Use a specific height to query state at (this can error if the node is pruning state)
    * @returns
+   * @since v0.17
    */
   abciQuery<T>(path: string, data?: object, height?: number): Promise<T> {
     const params: types.AbciQueryRequest = {
@@ -107,6 +111,14 @@ export class RpcClient {
     });
   }
 
+  /**
+   *
+   * @param key The store key
+   * @param storeName The store name
+   * @param height Block height to query, omit to get most recent provable block
+   * @returns
+   * @since v0.17
+   */
   queryStore<T>(
     key: Uint8Array,
     storeName: string,

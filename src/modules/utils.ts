@@ -5,6 +5,7 @@ import * as mathjs from 'mathjs';
 /**
  * Utils for the IRISHub SDK
  * @category Modules
+ * @since v0.17
  */
 export class Utils {
   /** @hidden */
@@ -28,6 +29,7 @@ export class Utils {
    *
    * @param coin Coin object to be converted
    * @returns
+   * @since v0.17
    */
   async toMinCoin(coin: types.Coin): Promise<types.Coin> {
     const amt = this.math.bignumber!(coin.amount);
@@ -54,6 +56,7 @@ export class Utils {
    * Convert the coin array to min unit
    * @param coins Coin array to be converted
    * @returns
+   * @since v0.17
    */
   async toMinCoins(coins: types.Coin[]): Promise<types.Coin[]> {
     const promises = new Array<Promise<types.Coin>>();
@@ -70,6 +73,7 @@ export class Utils {
    * Convert the coin object to main unit
    *
    * @returns
+   * @since v0.17
    */
   async toMainCoin(coin: types.Coin): Promise<types.Coin> {
     const amt = this.math.bignumber!(coin.amount);
@@ -96,6 +100,7 @@ export class Utils {
    * Convert the coin array to main unit
    * @param coins Coin array to be converted
    * @returns
+   * @since v0.17
    */
   async toMainCoins(coins: types.Coin[]): Promise<types.Coin[]> {
     const promises = new Array<Promise<types.Coin>>();

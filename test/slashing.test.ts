@@ -34,7 +34,6 @@ describe('Slashing Tests', () => {
     test('unjail', async () => {
       await BaseTest.getClient()
         .slashing.unjail(
-          'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een',
           BaseTest.baseTx
         )
         .then(res => {
