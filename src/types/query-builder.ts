@@ -89,6 +89,7 @@ export enum EventKey {
   Sender = 'sender',
   Recipient = 'recipient',
   DestinationValidator = 'destination-validator',
+  RequestID = 'request-id',
   // TODO: more
 }
 

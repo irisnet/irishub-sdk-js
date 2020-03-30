@@ -348,10 +348,19 @@ export class EventListener {
       if (blockData.result_end_block.validator_updates) {
         const validators: types.EventDataValidatorUpdate[] = [];
         blockData.result_end_block.validator_updates.forEach((v: any) => {
-          const type =
-            v.pub_key.type === 'secp256k1'
-              ? 'tendermint/PubKeySecp256k1'
-              : 'tendermint/PubKeyEd25519';
+          let type = '';
+          switch (v.pub_key.type) {
+            case 'secp256k1': {
+              type = 'tendermint/PubKeySecp256k1';
+              break;
+            }
+            case 'ed25519': {
+              type = 'tendermint/PubKeyEd25519';
+              break;
+            }
+            default:
+              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`);
+          }
           const valPubkey: types.Pubkey = {
             type,
             value: v.pub_key.data,

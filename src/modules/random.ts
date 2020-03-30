@@ -2,6 +2,7 @@ import { Client } from '../client';
 import * as types from '../types';
 import { MsgRequestRand } from '../types/random';
 import { SdkError } from '../errors';
+import { EventQueryBuilder, EventKey } from '../types';
 
 /**
  * @category Modules
@@ -76,8 +77,9 @@ export class Random {
     requestID: string,
     callback: (error?: SdkError, data?: types.RandomInfo) => void
   ): types.EventSubscription {
-
-    // TODO: refactor this subscription after tendermint updates
+    const condition = new EventQueryBuilder().addCondition(
+      new types.Condition(EventKey.RequestID).eq(requestID)
+    );
     const subscription = this.client.eventListener.subscribeNewBlock(
       (error?: SdkError, data?: types.EventDataNewBlock) => {
         if (error) {
@@ -94,7 +96,8 @@ export class Random {
             });
           }
         });
-      }
+      },
+      condition
     );
     return subscription;
   }

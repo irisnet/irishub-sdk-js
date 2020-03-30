@@ -333,7 +333,7 @@ export class Service {
   }
 
   /**
-   * Call a service
+   * Initiate a service call
    *
    * @hidden
    * @param request Service request

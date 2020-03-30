@@ -1,6 +1,6 @@
 // import * as iris from '../src';
 
-import { Utils } from '../src/utils';
+import { Utils, Crypto, AddressUtils, StoreKeys } from '../src/utils';
 
 // export interface SdkError {}
 // export interface Block {}
@@ -100,48 +100,42 @@ import { Utils } from '../src/utils';
 // });
 
 // Test events
-import {
-  EventListener,
-} from '../src/nets/event-listener';
-import { marshalTx, unmarshalTx } from '@irisnet/amino-js';
-import { base64ToBytes, bytesToBase64 } from '@tendermint/belt';
+import { EventListener } from '../src/nets/event-listener';
+import { marshalTx, unmarshalTx, unmarshalPubKey } from '@irisnet/amino-js';
+import { base64ToBytes, bytesToBase64, bytesToJSON } from '@tendermint/belt';
 import * as iris from '../src';
+import * as Amino from '@irisnet/amino-js';
+import { BaseTest } from './basetest';
 
-// test('test client', async () => {
-//   // Init Client
-//   const client = iris.newClient({
-//     node: 'http://localhost:26657',
-//     network: iris.Network.Testnet,
-//     chainId: 'test',
-//   });
+test('test client', async () => {
+  // Init Client
+  // const client = iris.newClient({
+  //   node: 'http://localhost:26657',
+  //   network: iris.Network.Testnet,
+  //   chainId: 'test',
+  // });
 
-//   client.eventListener.connect();
-//   client.bank.subscribeSendTx(
-//     {
-//       from: 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-//     },
-//     (error, data) => {
-//       console.log(data);
-//     }
-//   );
+  // client.eventListener.connect();
+  // client.eventListener.subscribeNewBlock((err, data) => {
+  //   console.log(JSON.stringify(data));
+  // });
+  // await timeout(100000);
+  // // eventListener.disconnect();
+  // await timeout(5000000);
 
-//   client.staking.subscribeValidatorInfoUpdates({}, (error, data) => {
-//     console.log(JSON.stringify(data));
-//   });
+  // const bytes = Crypto.decodeAndConvert(
+  //   'fcp1zcjduepq0yn2e94aq07uvlzu65jtknyp9an68w5jlngrmxyhhvwdgykm3z5q0uwxg2'
+  // );
+  // console.log(bytes);
+  // const bech = Uint8Array.from(bytes);
 
-//   await timeout(1000000);
-// }, 1000000);
+  // const pk = unmarshalPubKey(bech, false);
 
-test('test listener', async () => {
-  const eventListener = new EventListener('http://localhost:26657');
-  await eventListener.connect();
-  eventListener.subscribeNewBlock((err, data) => {
-    console.log(JSON.stringify(data));
-  })
-  await timeout(20000);
-  eventListener.disconnect();
-  await timeout(50000);
-}, 1000000);
+  BaseTest.getClient().slashing.querySigningInfo(
+    'fca1f46x0s36d5ajjqjurt3znhqfdulyf7zlazpj8n'
+  ).then(res => console.log(res)).catch(err => console.log(err));
+  await timeout(5000);
+}, 10000000);
 
 function timeout(ms: number) {
   return new Promise(resolve => {

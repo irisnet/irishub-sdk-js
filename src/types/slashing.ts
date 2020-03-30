@@ -1,30 +1,30 @@
 import { Coin, Msg } from './types';
 
 /**
- * # Gov params for Slashing module
- * 
- * ## Long Downtime
- * 
+ * ***Gov params for Slashing module***
+ *
+ * **Long Downtime**
+ *
  * In the fixed time window `signed_blocks_window`,
  * the ratio of the time of the validator's absence from the block is less than the value of `min_signed_per_window`,
  * the validator's bonded token will be penalized in the `slash_fraction_downtime` ratio,
  * and the validator will be jailed. Until the jail time exceeds DowntimeJailDuration,
  * the validator can be released by executing `unjail` command.
- * 
- * ## Double Sign
- * 
+ *
+ * **Double Sign**
+ *
  * When executing a block, it receives evidence that a validator has voted for conflicting votes of the same round at the same height.
  * If the time of the evidence from the current block time is less than `max_evidence_age`,
  * the validator's bonded token will be penalized in the `slash_fraction_double_sign` ratio, and the validator will be jailed.
  * Until the jail time exceeds `double_sign_jail_duration`, the validator can be released by executing `unjail` command.
- * 
- * ## Proposer Censorship
- * 
- * If the node is in the process of processing a new block, 
- * it detects if any transaction does not pass `txDecoder`, `validateTx`, `validateBasicTxMsgs`, 
- * the validator's bonded token will be slashed by `slash_fraction_censorship` percent, and the validator will be jailed. 
+ *
+ * **Proposer Censorship**
+ *
+ * If the node is in the process of processing a new block,
+ * it detects if any transaction does not pass `txDecoder`, `validateTx`, `validateBasicTxMsgs`,
+ * the validator's bonded token will be slashed by `slash_fraction_censorship` percent, and the validator will be jailed.
  * Until the jail time exceeds `censorship_jail_duration`, the validator can be released by executing `unjail` command.
- * 
+ *
  * [More Details](https://www.irisnet.org/docs/concepts/gov-params.html#parameters-in-slashing)
  */
 export interface SlashingParams {
@@ -39,7 +39,7 @@ export interface SlashingParams {
   slash_fraction_censorship: string;
 }
 
-/** 
+/**
  * Msg struct for unjailing jailed validator
  * @hidden
  */
@@ -59,4 +59,14 @@ export class MsgUnjail implements Msg {
   getSignBytes(): object {
     return this.value;
   }
+}
+
+/** Defines the signing info for a validator */
+export interface ValidatorSigningInfo {
+  address: string;
+  start_height: string;
+  index_offset: string;
+  jailed_until: string;
+  tombstoned: boolean;
+  missed_blocks_counter: string;
 }

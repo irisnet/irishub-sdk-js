@@ -232,8 +232,6 @@ export class Staking {
     );
   }
 
-  // TODO: querySigningInfo
-
   // TODO: Do we need `Create Validator` function?
 
   /**

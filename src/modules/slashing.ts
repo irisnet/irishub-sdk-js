@@ -2,6 +2,9 @@ import { Client } from '../client';
 import * as types from '../types';
 import { MsgUnjail } from '../types/slashing';
 import { SdkError } from '../errors';
+import { StoreKeys } from '../utils';
+import { unmarshalValidatorSigningInfo } from '@irisnet/amino-js';
+import { base64ToBytes } from '@tendermint/belt';
 
 /**
  * In Proof-of-Stake blockchain, validators will get block provisions by staking their token.
@@ -32,6 +35,29 @@ export class Slashing {
     // );
 
     throw new SdkError('Not supported');
+  }
+
+  /**
+   * Query a validator's signing information
+   *
+   * @returns
+   */
+  querySigningInfo(
+    bech32ConsAddress: string,
+    height?: number
+  ): Promise<types.ValidatorSigningInfo> {
+    const key = StoreKeys.getSigningInfoKey(bech32ConsAddress);
+    return this.client.rpcClient
+      .queryStore<any>(key, 'slashing', height)
+      .then(res => {
+        console.log(res);
+        if (!res || ! res.response || !res.response.value) {
+          throw new SdkError('Validator not found');
+        }
+        return unmarshalValidatorSigningInfo(
+          base64ToBytes(res.response.value)
+        ) as types.ValidatorSigningInfo;
+      });
   }
 
   /**

@@ -23,9 +23,13 @@ export class Bank {
     this.client = client;
   }
 
-  /** @hidden */
+  /**
+   * Get the cointype of a token
+   *
+   * @deprecated Please refer to [[asset.queryToken]]
+   */
   queryCoinType(tokenName: string) {
-    // TODO
+    throw new SdkError('Not supported');
   }
 
   /**
@@ -137,7 +141,9 @@ export class Bank {
       );
     }
     if (conditions.to) {
-      queryBuilder.addCondition(new types.Condition(EventKey.Recipient).eq(conditions.to));
+      queryBuilder.addCondition(
+        new types.Condition(EventKey.Recipient).eq(conditions.to)
+      );
     }
 
     const subscription = this.client.eventListener.subscribeTx(

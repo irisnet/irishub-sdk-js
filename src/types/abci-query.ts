@@ -1,4 +1,4 @@
-/** 
+/**
  * ABCI Query Params
  * @hidden
  */
@@ -7,21 +7,21 @@ export interface AbciQueryRequest {
   path: string;
   /** Input params */
   data?: string;
-  /** TODO */
+  /** Use a specific height to query state at (this can error if the node is pruning state) */
   height?: number;
   /** TODO */
   prove?: boolean;
 }
 
-/** 
- * ABCI Query Response 
+/**
+ * ABCI Query Response
  * @hidden
  */
 export interface AbciQueryResponse {
   response: AbciQueryResponseValue;
 }
 
-/** 
+/**
  * ABCI Query Inner Response
  * @hidden
  */

@@ -69,14 +69,18 @@ export class RpcClient {
    *
    * @param path Querier path
    * @param data Input params
+   * @param height Use a specific height to query state at (this can error if the node is pruning state)
    * @returns
    */
-  abciQuery<T>(path: string, data?: object): Promise<T> {
+  abciQuery<T>(path: string, data?: object, height?: number): Promise<T> {
     const params: types.AbciQueryRequest = {
       path,
     };
     if (data) {
       params.data = Utils.obj2hexstring(data);
+    }
+    if (height) {
+      params.height = height;
     }
 
     return this.request<types.AbciQueryResponse>(
@@ -98,7 +102,22 @@ export class RpcClient {
           throw new SdkError('Bad Request', response.response.code);
         }
       }
+      console.log(response);
       throw new SdkError('Bad Request');
     });
+  }
+
+  queryStore<T>(
+    key: Uint8Array,
+    storeName: string,
+    height?: number
+  ): Promise<T> {
+    const path = `/store/${storeName}/key`;
+    const params = {
+      path,
+      data: Utils.ab2hexstring(key),
+      height: height ? String(height) : '0',
+    };
+    return this.request(types.RpcMethods.AbciQuery, params);
   }
 }
