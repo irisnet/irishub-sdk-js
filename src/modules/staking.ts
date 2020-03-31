@@ -211,7 +211,7 @@ export class Staking {
    * @returns
    * @since v0.17
    */
-  queryValidators(page: number, size: 100): Promise<types.Validator[]> {
+  queryValidators(page: number, size?: 100): Promise<types.Validator[]> {
     return this.client.rpcClient.abciQuery<types.Validator[]>(
       'custom/stake/validators',
       {

@@ -1,4 +1,4 @@
-import { Coin, Msg } from './types';
+import { Coin, Msg, Pubkey } from './types';
 
 /**
  * Msg for sending coins
@@ -102,4 +102,13 @@ export interface EventDataMsgSend {
   from: string;
   to: string;
   amount: Coin[];
+}
+
+export interface BaseAccount {
+  /** Bech32 account address */
+  address: string;
+  coins: Coin[];
+  public_key: Pubkey;
+  account_number: string;
+  sequence: string;
 }
