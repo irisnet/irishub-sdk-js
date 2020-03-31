@@ -22,6 +22,7 @@ import { Coin } from '../types';
 /**
  * @todo docs
  * @category Modules
+ * @since v0.17
  */
 export class Service {
   /** @hidden */
@@ -36,6 +37,7 @@ export class Service {
    *
    * @param serviceName The unique service name
    * @returns
+   * @since v0.17
    */
   queryDefinition(serviceName: string): Promise<types.ServiceDefinition> {
     return this.client.rpcClient.abciQuery<types.ServiceDefinition>(
@@ -52,6 +54,7 @@ export class Service {
    * @param serviceName The unique service name
    * @param provider Bech32 provider address
    * @returns
+   * @since v0.17
    */
   queryBinding(
     serviceName: string,
@@ -71,6 +74,7 @@ export class Service {
    *
    * @param serviceName The unique service name
    * @returns
+   * @since v0.17
    */
   queryBindings(serviceName: string): Promise<types.ServiceBinding[]> {
     return this.client.rpcClient.abciQuery<types.ServiceBinding[]>(
@@ -86,6 +90,7 @@ export class Service {
    *
    * @param requestID The ID of the request
    * @returns
+   * @since v0.17
    */
   queryRequest(requestID: string): Promise<types.ServiceRequest> {
     return this.client.rpcClient.abciQuery<types.ServiceRequest>(
@@ -102,6 +107,7 @@ export class Service {
    * @param serviceName The unique service name
    * @param provider Bech32 provider address
    * @returns
+   * @since v0.17
    */
   queryRequests(
     serviceName: string,
@@ -122,6 +128,7 @@ export class Service {
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param batchCounter The sequence number of the request context
    * @returns
+   * @since v0.17
    */
   queryRequestsByReqCtx(
     requestContextID: string,
@@ -141,6 +148,7 @@ export class Service {
    *
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @returns
+   * @since v0.17
    */
   queryRequestContext(
     requestContextID: string
@@ -158,6 +166,7 @@ export class Service {
    *
    * @param requestID The ID of the request
    * @returns
+   * @since v0.17
    */
   queryResponse(requestID: string): Promise<types.ServiceResponse> {
     return this.client.rpcClient.abciQuery<types.ServiceResponse>(
@@ -174,6 +183,7 @@ export class Service {
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param batchCounter The sequence number of the request context
    * @returns
+   * @since v0.17
    */
   queryResponses(
     requestContextID: string,
@@ -193,6 +203,7 @@ export class Service {
    *
    * @param provider Bech32 provider address
    * @returns
+   * @since v0.17
    */
   queryFees(provider: string): Promise<types.ServiceFee> {
     return this.client.rpcClient.abciQuery<types.ServiceFee>(
@@ -209,6 +220,7 @@ export class Service {
    * @param definition Service definition
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async defineService(
     definition: {
@@ -242,6 +254,7 @@ export class Service {
    * @param binding Service binding
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async bindService(
     binding: {
@@ -271,6 +284,7 @@ export class Service {
    * @param binding Service binding
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async updateServiceBinding(
     binding: {
@@ -300,6 +314,7 @@ export class Service {
    * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async disableServiceBinding(
     serviceName: string,
@@ -316,9 +331,11 @@ export class Service {
   /**
    * Enable an unavailable service binding
    *
+   * ** Not Supported **
    * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async enableServiceBinding(
     serviceName: string,
@@ -333,12 +350,13 @@ export class Service {
   }
 
   /**
-   * Call a service
+   * Initiate a service call
    *
    * @hidden
    * @param request Service request
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async invokeService(
     request: {
@@ -380,6 +398,7 @@ export class Service {
    * @param withdrawAddress Bech32 account address
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async setWithdrawAddress(
     withdrawAddress: string,
@@ -399,6 +418,7 @@ export class Service {
    * @param serviceName The unique name of the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async refundServiceDeposit(
     serviceName: string,
@@ -418,6 +438,7 @@ export class Service {
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async startRequestContext(
     requestContextID: string,
@@ -437,6 +458,7 @@ export class Service {
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async pauseRequestContext(
     requestContextID: string,
@@ -456,6 +478,7 @@ export class Service {
    * @param requestContextID The context ID of the service invocation which is returned when calling the service
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async killRequestContext(
     requestContextID: string,
@@ -475,6 +498,7 @@ export class Service {
    * @param request Params to be updated
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async updateRequestContext(
     request: {
@@ -511,6 +535,7 @@ export class Service {
    *
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async withdrawEarnedFees(baseTx: types.BaseTx): Promise<types.TxResult> {
     const provider = this.client.keys.show(baseTx.from);
@@ -525,6 +550,7 @@ export class Service {
    * @param destAddress The speicified destination address to receive the service tax
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async withdrawTax(
     destAddress: string,

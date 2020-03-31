@@ -7,14 +7,11 @@ describe('Asset Tests', () => {
   test(
     'query token',
     async () => {
-      await BaseTest.getClient()
-        .asset.queryToken('iris')
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      try {
+        console.log(await BaseTest.getClient().asset.queryToken('iris'));
+      } catch (error) {
+        console.log(JSON.stringify(error));
+      }
     },
     timeout
   );

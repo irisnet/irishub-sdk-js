@@ -5,8 +5,11 @@ import * as types from '../types';
 import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
-import { EventQueryBuilder, EventKey, EventAction } from '../types';
+import { EventQueryBuilder, EventKey } from '../types';
+import { marshalPubKey } from '@irisnet/amino-js';
+import { Client } from '../client';
 
+/** Internal subscription interface */
 interface Subscription {
   id: string;
   query: string;
@@ -14,6 +17,7 @@ interface Subscription {
   callback: (error?: SdkError, data?: any) => void;
 }
 
+/** Internal event dao for caching the events */
 class EventDAO {
   private subscriptions = new Map<string, Subscription>();
   setSubscription(id: string, subscription: Subscription): void {
@@ -32,114 +36,95 @@ class EventDAO {
 
 /**
  * IRISHub Event Listener
+ * @since v0.17
  */
 export class EventListener {
   /** @hidden */
   private wsClient: WsClient;
+  /** @hidden */
   private eventDAO: EventDAO;
+  /** @hidden */
+  private client: Client;
 
-  constructor(url: string) {
-    this.wsClient = new WsClient(url);
+  /** @hidden */
+  constructor(client: Client) {
+    this.client = client;
+    this.wsClient = new WsClient(this.client.config.node);
     this.eventDAO = new EventDAO();
-  }
 
-  /**
-   * Connect to server
-   */
-  async connect(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.wsClient
-        .connect()
-        .then(() => {
-          const subscriptions = this.eventDAO.getAllSubscriptions();
-          if (subscriptions) {
-            subscriptions.forEach(sub => {
-              // Re-Subscribe
-              console.log('Re-subscribe: ' + sub.query);
-              this.wsClient.send(types.RpcMethods.Subscribe, sub.id, sub.query);
+    this.wsClient.eventEmitter.on('open', () => {
+      const subscriptions = this.eventDAO.getAllSubscriptions();
+      if (subscriptions) {
+        subscriptions.forEach(sub => {
+          // Subscribe all events in context
+          console.log('Subscribe: ' + sub.query);
+          this.wsClient.send(types.RpcMethods.Subscribe, sub.id, sub.query);
+          const event = sub.id + '#event';
+          this.wsClient.eventEmitter.removeAllListeners(event); // just in case dup of listeners
 
-              switch (sub.eventType) {
-                case types.EventTypes.NewBlock: {
-                  // Listen for new blocks, decode and callback
-                  this.wsClient.eventEmitter.on(
-                    sub.id + '#event',
-                    (error, data) => {
-                      this.newBlockHandler(sub.callback, error, data);
-                    }
-                  );
-                  return;
-                }
-                case types.EventTypes.NewBlockHeader: {
-                  // Listen for new block headers, decode and callback
-                  this.wsClient.eventEmitter.on(
-                    sub.id + '#event',
-                    (error, data) => {
-                      this.newBlockHandler(sub.callback, error, data);
-                    }
-                  );
-                  return;
-                }
-                case types.EventTypes.ValidatorSetUpdates: {
-                  // Listen for validator set updates, decode and callback
-                  this.wsClient.eventEmitter.on(
-                    sub.id + '#event',
-                    (error, data) => {
-                      this.validatorSetUpdatesHandler(
-                        sub.callback,
-                        error,
-                        data
-                      );
-                    }
-                  );
-                  return;
-                }
-                case types.EventTypes.Tx: {
-                  // Listen for txs, decode and callback
-                  this.wsClient.eventEmitter.on(
-                    sub.id + '#event',
-                    (error, data) => {
-                      this.txHandler(sub.callback, error, data);
-                    }
-                  );
-                  return;
-                }
-                default: {
-                  return;
-                }
-              }
-            });
+          switch (sub.eventType) {
+            case types.EventTypes.NewBlock: {
+              // Listen for new blocks, decode and callback
+              this.wsClient.eventEmitter.on(event, (error, data) => {
+                this.newBlockHandler(sub.callback, error, data);
+              });
+              return;
+            }
+            case types.EventTypes.NewBlockHeader: {
+              // Listen for new block headers, decode and callback
+              this.wsClient.eventEmitter.on(event, (error, data) => {
+                this.newBlockHeaderHandler(sub.callback, error, data);
+              });
+              return;
+            }
+            case types.EventTypes.ValidatorSetUpdates: {
+              // Listen for validator set updates, decode and callback
+              this.wsClient.eventEmitter.on(event, (error, data) => {
+                this.validatorSetUpdatesHandler(sub.callback, error, data);
+              });
+              return;
+            }
+            case types.EventTypes.Tx: {
+              // Listen for txs, decode and callback
+              this.wsClient.eventEmitter.on(event, (error, data) => {
+                this.txHandler(sub.callback, error, data);
+              });
+              return;
+            }
+            default: {
+              return;
+            }
           }
-          resolve();
-        })
-        .catch(err => {
-          if (
-            err.error &&
-            is.inArray(err.error.code, [
-              'ENOTFOUND',
-              'ECONNREFUSED',
-              'ECONNRESET',
-            ])
-          ) {
-            // try reconnecting every 5s
-            console.log('Reconnecting...');
-            return new Promise(resolve => {
-              setTimeout(() => {
-                this.connect().then(() => {
-                  resolve();
-                });
-              }, 5000);
-            }).then(() => {
-              resolve();
-            });
-          }
-          reject(err);
-          return;
         });
+      }
+    });
+
+    // If the connection is closed subjectively, this event will not be triggered
+    // see also: disconnect()
+    this.wsClient.eventEmitter.on('close', () => {
+      // Disconnected unexpectedly, try reconnecting
+      console.log('Reconnecting...');
+      setTimeout(() => {
+        this.connect();
+      }, 5000); // try reconnecting every 5s
+    });
+
+    this.wsClient.eventEmitter.on('error', err => {
+      // TODO
     });
   }
 
   /**
+   * Connect to server
+   * @since v0.17
+   */
+  connect(): void {
+    this.wsClient.connect();
+  }
+
+  /**
    * Disconnect from server and clear all the listeners
+   * @since v0.17
    */
   async disconnect(): Promise<void> {
     return this.wsClient.disconnect().then(() => {
@@ -152,6 +137,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeNewBlock(
     callback: (error?: SdkError, data?: types.EventDataNewBlock) => void,
@@ -165,14 +151,20 @@ export class EventListener {
       .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
-    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+    if (this.wsClient.isReady()) {
+      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+      // Listen for new blocks, decode and callback
+      this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
+        this.newBlockHandler(callback, error, data);
+      });
+    }
 
-    // Listen for new blocks, decode and callback
-    this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
-      this.newBlockHandler(callback, error, data);
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
     });
-
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -182,6 +174,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeNewBlockHeader(
     callback: (error?: SdkError, data?: types.EventDataNewBlockHeader) => void
@@ -193,14 +186,20 @@ export class EventListener {
       .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
-    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+    if (this.wsClient.isReady()) {
+      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+      // Listen for new block headers, decode and callback
+      this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
+        this.newBlockHeaderHandler(callback, error, data);
+      });
+    }
 
-    // Listen for new block headers, decode and callback
-    this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
-      this.newBlockHeaderHandler(callback, error, data);
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
     });
-
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -210,6 +209,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeValidatorSetUpdates(
     callback: (
@@ -224,14 +224,19 @@ export class EventListener {
       .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
-    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
-
-    // Listen for validator set updates, decode and callback
-    this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
-      this.validatorSetUpdatesHandler(callback, error, data);
+    if (this.wsClient.isReady()) {
+      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+      // Listen for validator set updates, decode and callback
+      this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
+        this.validatorSetUpdatesHandler(callback, error, data);
+      });
+    }
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
     });
-
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -241,6 +246,7 @@ export class EventListener {
    * @param conditions Query conditions
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeTx(
     conditions: EventQueryBuilder,
@@ -254,14 +260,19 @@ export class EventListener {
       .addCondition(new types.Condition(EventKey.Type).eq(eventType))
       .build();
 
-    this.wsClient.send(types.RpcMethods.Subscribe, id, query);
-
-    // Listen for txs, decode and callback
-    this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
-      this.txHandler(callback, error, data);
+    if (this.wsClient.isReady()) {
+      this.wsClient.send(types.RpcMethods.Subscribe, id, query);
+      // Listen for txs, decode and callback
+      this.wsClient.eventEmitter.on(id + '#event', (error, data) => {
+        this.txHandler(callback, error, data);
+      });
+    }
+    this.eventDAO.setSubscription(id, {
+      id,
+      query,
+      eventType,
+      callback,
     });
-
-    this.eventDAO.setSubscription(id, { id, query, eventType, callback });
     // Return an types.EventSubscription instance, so client could use to unsubscribe this context
     return { id, query };
   }
@@ -269,6 +280,7 @@ export class EventListener {
   /**
    * Unsubscribe the specified event
    * @param subscription The event subscription instance
+   * @since v0.17
    */
   unsubscribe(subscription: types.EventSubscription): void {
     // Unsubscribe the specified event from server
@@ -321,6 +333,62 @@ export class EventListener {
       blockData.block.data.txs = decodedTxs;
     }
 
+    // Decode proposer address
+    if (blockData.block) {
+      blockData.block.header.bech32_proposer_address = Crypto.encodeAddress(
+        blockData.block.header.proposer_address,
+        this.client.config.bech32Prefix.ConsAddr
+      );
+    }
+
+    // Decode begin block tags
+    if (blockData.result_begin_block) {
+      blockData.result_begin_block.tags = Utils.decodeTags(
+        blockData.result_begin_block.tags
+      );
+    }
+
+    if (blockData.result_end_block) {
+      // Decode end block tags
+      blockData.result_end_block.tags = Utils.decodeTags(
+        blockData.result_end_block.tags
+      );
+
+      // Decode validator updates
+      if (blockData.result_end_block.validator_updates) {
+        const validators: types.EventDataValidatorUpdate[] = [];
+        blockData.result_end_block.validator_updates.forEach((v: any) => {
+          let type = '';
+          switch (v.pub_key.type) {
+            case 'secp256k1': {
+              type = 'tendermint/PubKeySecp256k1';
+              break;
+            }
+            case 'ed25519': {
+              type = 'tendermint/PubKeyEd25519';
+              break;
+            }
+            default:
+              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`);
+          }
+          const valPubkey: types.Pubkey = {
+            type,
+            value: v.pub_key.data,
+          };
+          const bech32Pubkey = Crypto.encodeAddress(
+            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            this.client.config.bech32Prefix.ConsPub
+          );
+          validators.push({
+            bech32_pubkey: bech32Pubkey,
+            pub_key: valPubkey,
+            voting_power: v.power,
+          });
+        });
+        blockData.result_end_block.validator_updates = validators;
+      }
+    }
+
     const eventBlock = blockData as types.EventDataNewBlock;
     callback(undefined, eventBlock);
   }
@@ -337,8 +405,54 @@ export class EventListener {
     if (!data.data || !data.data.value) {
       return;
     }
-    const eventBlockHeader = data.data.value as types.EventDataNewBlockHeader;
-    callback(undefined, eventBlockHeader);
+
+    const blockHeader = data.data.value;
+    // Decode proposer address
+    blockHeader.header.bech32_proposer_address = Crypto.encodeAddress(
+      blockHeader.header.proposer_address,
+      this.client.config.bech32Prefix.ConsAddr
+    );
+
+    // Decode begin block tags
+    if (blockHeader.result_begin_block) {
+      blockHeader.result_begin_block.tags = Utils.decodeTags(
+        blockHeader.result_begin_block.tags
+      );
+    }
+
+    if (blockHeader.result_end_block) {
+      // Decode end block tags
+      blockHeader.result_end_block.tags = Utils.decodeTags(
+        blockHeader.result_end_block.tags
+      );
+
+      // Decode validator updates
+      if (blockHeader.result_end_block.validator_updates) {
+        const validators: types.EventDataValidatorUpdate[] = [];
+        blockHeader.result_end_block.validator_updates.forEach((v: any) => {
+          const type =
+            v.pub_key.type === 'secp256k1'
+              ? 'tendermint/PubKeySecp256k1'
+              : 'tendermint/PubKeyEd25519';
+          const valPubkey: types.Pubkey = {
+            type,
+            value: v.pub_key.data,
+          };
+          const bech32Pubkey = Crypto.encodeAddress(
+            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            this.client.config.bech32Prefix.ConsPub
+          );
+          validators.push({
+            bech32_pubkey: bech32Pubkey,
+            pub_key: valPubkey,
+            voting_power: v.power,
+          });
+        });
+        blockHeader.result_end_block.validator_updates = validators;
+      }
+    }
+
+    callback(undefined, blockHeader as types.EventDataNewBlockHeader);
   }
 
   private validatorSetUpdatesHandler(

@@ -220,8 +220,9 @@ export class Utils {
    * @returns Hash output
    */
   static sha256(hex: string): string {
-    if (typeof hex !== 'string')
+    if (typeof hex !== 'string') {
       throw new SdkError('sha256 expects a hex string');
+    }
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }
@@ -235,8 +236,9 @@ export class Utils {
    * @returns Hash output
    */
   static sha3(hex: string): string {
-    if (typeof hex !== 'string')
+    if (typeof hex !== 'string') {
       throw new SdkError('sha3 expects a hex string');
+    }
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }

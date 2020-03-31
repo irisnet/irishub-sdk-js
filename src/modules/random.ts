@@ -2,9 +2,11 @@ import { Client } from '../client';
 import * as types from '../types';
 import { MsgRequestRand } from '../types/random';
 import { SdkError } from '../errors';
+import { EventQueryBuilder, EventKey } from '../types';
 
 /**
  * @category Modules
+ * @since v0.17
  */
 export class Random {
   /** @hidden */
@@ -19,6 +21,7 @@ export class Random {
    *
    * @param reqID The ID of the random request
    * @returns
+   * @since v0.17
    */
   queryRandom(reqID: string): Promise<types.RandomInfo> {
     return new Promise<types.RandomInfo>(resolve => {
@@ -38,6 +41,7 @@ export class Random {
    *
    * @param height The block height
    * @returns
+   * @since v0.17
    */
   queryRequest(height: number): Promise<types.RandomRequest> {
     return this.client.rpcClient.abciQuery<types.RandomRequest>(
@@ -51,10 +55,9 @@ export class Random {
   /**
    * Request a random number
    *
-   * *NOTE:* Use `callback` with caution if you have lots of random requests
-   *
    * @param blockInterval The block interval to wait for generating the random number
    * @param baseTx
+   * @since v0.17
    */
   async request(
     blockInterval: number,
@@ -71,13 +74,15 @@ export class Random {
    * Subscribe notification when the random is generated
    * @param requestID The request id of the random number
    * @param callback A function to receive notifications
+   * @since v0.17
    */
   subscribeRandom(
     requestID: string,
     callback: (error?: SdkError, data?: types.RandomInfo) => void
   ): types.EventSubscription {
-
-    // TODO: refactor this subscription after tendermint updates
+    const condition = new EventQueryBuilder().addCondition(
+      new types.Condition(EventKey.RequestID).eq(requestID)
+    );
     const subscription = this.client.eventListener.subscribeNewBlock(
       (error?: SdkError, data?: types.EventDataNewBlock) => {
         if (error) {
@@ -94,7 +99,8 @@ export class Random {
             });
           }
         });
-      }
+      },
+      condition
     );
     return subscription;
   }

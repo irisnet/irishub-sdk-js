@@ -3,9 +3,9 @@ import { Crypto } from './crypto';
 
 /**
  * Utilities for address operations
- * @hidden
  */
 export class AddressUtils {
+  
   /**
    * Convert bech32 address to hex string
    * @param addr Bech32 address

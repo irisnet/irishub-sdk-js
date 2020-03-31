@@ -1,4 +1,4 @@
-import { Client, KeyDAO } from '../client';
+import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import { SdkError } from '../errors';
 import * as is from 'is_js';
@@ -10,6 +10,7 @@ import * as types from '../types';
  * **NOTE:** You need to implement the [[KeyDAO]] Interface first.
  *
  * @category Modules
+ * @since v0.17
  */
 export class Keys {
   /** @hidden */
@@ -25,6 +26,7 @@ export class Keys {
    * @param name Name of the key
    * @param password Password for encrypting the keystore
    * @returns Bech32 address and mnemonic
+   * @since v0.17
    */
   add(name: string, password: string): { address: string; mnemonic: string } {
     if (is.empty(name)) {
@@ -72,6 +74,7 @@ export class Keys {
    * @param index The bip44 address index (default: 0)
    * @param saltPassword A passphrase for generating the salt, according to bip39
    * @returns Bech32 address
+   * @since v0.17
    */
   recover(
     name: string,
@@ -131,6 +134,7 @@ export class Keys {
    * @param password Password of the keystore
    * @param keystore Keystore json or object
    * @returns Bech32 address
+   * @since v0.17
    */
   import(
     name: string,
@@ -182,6 +186,7 @@ export class Keys {
    * @param keyPassword Password of the key
    * @param keystorePassword Password for encrypting the keystore
    * @returns Keystore json
+   * @since v0.17
    */
   export(name: string, keyPassword: string, keystorePassword: string): string {
     if (is.empty(name)) {
@@ -216,6 +221,7 @@ export class Keys {
    *
    * @param name Name of the key
    * @param password Password of the key
+   * @since v0.17
    */
   delete(name: string, password: string) {
     if (is.empty(name)) {
@@ -244,6 +250,7 @@ export class Keys {
    *
    * @param name Name of the key
    * @returns Bech32 address
+   * @since v0.17
    */
   show(name: string) {
     if (is.empty(name)) {

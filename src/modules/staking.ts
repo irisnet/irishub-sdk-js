@@ -12,6 +12,7 @@ import { marshalPubKey } from '@irisnet/amino-js';
  * [More Details](https://www.irisnet.org/docs/features/stake.html)
  *
  * @category Modules
+ * @since v0.17
  */
 export class Staking {
   /** @hidden */
@@ -27,6 +28,7 @@ export class Staking {
    * @param delegatorAddr Bech32 delegator address
    * @param validatorAddr Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryDelegation(
     delegatorAddr: string,
@@ -46,6 +48,7 @@ export class Staking {
    *
    * @param delegatorAddr Bech32 delegator address
    * @returns
+   * @since v0.17
    */
   queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
@@ -62,6 +65,7 @@ export class Staking {
    * @param delegatorAddr Bech32 delegator address
    * @param validatorAddr Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryUnbondingDelegation(
     delegatorAddr: string,
@@ -81,6 +85,7 @@ export class Staking {
    *
    * @param delegatorAddr Bech32 delegator address
    * @returns
+   * @since v0.17
    */
   queryUnbondingDelegations(
     delegatorAddr: string
@@ -100,6 +105,7 @@ export class Staking {
    * @param srcValidatorAddr Bech32 source validator address
    * @param dstValidatorAddr Bech32 destination validator address
    * @returns
+   * @since v0.17
    */
   queryRedelegation(
     delegatorAddr: string,
@@ -121,6 +127,7 @@ export class Staking {
    *
    * @param delegatorAddr Bech32 delegator address
    * @returns
+   * @since v0.17
    */
   queryRedelegations(delegatorAddr: string): Promise<types.Redelegation[]> {
     return this.client.rpcClient.abciQuery<types.Redelegation[]>(
@@ -136,6 +143,7 @@ export class Staking {
    *
    * @param validatorAddr Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryDelegationsTo(validatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
@@ -151,6 +159,7 @@ export class Staking {
    *
    * @param validatorAddr Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryUnbondingDelegationsFrom(
     validatorAddr: string
@@ -168,6 +177,7 @@ export class Staking {
    *
    * @param validatorAddr Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryRedelegationsFrom(validatorAddr: string): Promise<types.Redelegation[]> {
     return this.client.rpcClient.abciQuery<types.Redelegation[]>(
@@ -183,6 +193,7 @@ export class Staking {
    *
    * @param address Bech32 validator address
    * @returns
+   * @since v0.17
    */
   queryValidator(address: string): Promise<types.Validator> {
     return this.client.rpcClient.abciQuery<types.Validator>(
@@ -198,11 +209,9 @@ export class Staking {
    * @param page Page number
    * @param size Page size
    * @returns
+   * @since v0.17
    */
-  queryValidators(
-    page: number,
-    size: number = 100
-  ): Promise<types.Validator[]> {
+  queryValidators(page: number, size: 100): Promise<types.Validator[]> {
     return this.client.rpcClient.abciQuery<types.Validator[]>(
       'custom/stake/validators',
       {
@@ -215,6 +224,7 @@ export class Staking {
   /**
    * Query the current staking pool values
    * @returns
+   * @since v0.17
    */
   queryPool(): Promise<types.StakingPool> {
     return this.client.rpcClient.abciQuery<types.StakingPool>(
@@ -225,16 +235,13 @@ export class Staking {
   /**
    * Query the current staking parameters information
    * @returns
+   * @since v0.17
    */
   queryParams(): Promise<types.StakingParams> {
     return this.client.rpcClient.abciQuery<types.StakingParams>(
       'custom/stake/parameters'
     );
   }
-
-  // TODO: querySigningInfo
-
-  // TODO: Do we need `Create Validator` function?
 
   /**
    * Delegate liquid tokens to an validator
@@ -243,6 +250,7 @@ export class Staking {
    * @param amount Amount to be delegated to the validator
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   delegate(
     validatorAddr: string,
@@ -262,6 +270,7 @@ export class Staking {
    * @param amount Amount to be unbonded from the validator
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async undelegate(
     validatorAddr: string,
@@ -290,6 +299,7 @@ export class Staking {
    * @param validatorDstAddr Bech32 destination validator address
    * @param amount Amount to be redelegated
    * @param baseTx
+   * @since v0.17
    */
   async redelegate(
     validatorSrcAddr: string,
@@ -319,6 +329,7 @@ export class Staking {
    * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeValidatorInfoUpdates(
     conditions: { validatorAddress?: string },
@@ -369,6 +380,7 @@ export class Staking {
    * @param conditions Query conditions for the subscription { validatorPubKeys: string[] - The `icp` (or `fcp` on testnets) prefixed bech32 validator consensus pubkey }
    * @param callback A function to receive notifications
    * @returns
+   * @since v0.17
    */
   subscribeValidatorSetUpdates(
     conditions: { validatorConsPubKeys?: string[] },
@@ -426,6 +438,7 @@ export class Staking {
    * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
    *
    * Removing on irishub v1.0
+   * @deprecated
    * @hidden
    */
   private appendZero(num: string, count: number): string {
@@ -438,5 +451,14 @@ export class Staking {
       return this.appendZero(num + '0', count);
     }
     return num;
+  }
+
+  /**
+   * Create new validator initialized with a self-delegation to it
+   *
+   * ** Not Supported **
+   */
+  createValidator() {
+    throw new SdkError('Not supported');
   }
 }

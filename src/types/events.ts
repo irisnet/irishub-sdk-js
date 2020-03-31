@@ -78,6 +78,7 @@ export interface EventDataBlockHeader {
   last_results_hash: string;
   evidence_hash: string;
   proposer_address: string;
+  bech32_proposer_address: string;
 }
 
 export interface EventDataBlockData {
@@ -129,11 +130,7 @@ export interface EventDataResultEndBlock {
 }
 
 export interface EventDataValidatorUpdate {
-  pub_key: EventDataPubKey;
-  power: number;
-}
-
-export interface EventDataPubKey {
-  type: string;
-  data: string;
+  bech32_pubkey: string;
+  pub_key: ValPubKey;
+  voting_power: string;
 }

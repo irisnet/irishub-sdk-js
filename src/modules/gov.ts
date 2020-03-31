@@ -3,7 +3,6 @@ import * as types from '../types';
 import {
   MsgSubmitParameterChangeProposal,
   MsgSubmitPlainTextProposal,
-  ProposalType,
   CommunityTaxUsageType,
   MsgSubmitCommunityTaxUsageProposal,
   MsgDeposit,
@@ -16,6 +15,7 @@ import {
  * [More Details](https://www.irisnet.org/docs/features/governance.html)
  *
  * @category Modules
+ * @since v0.17
  */
 export class Gov {
   /** @hidden */
@@ -29,6 +29,7 @@ export class Gov {
    * Query details of a single proposal
    * @param proposalID Identity of a proposal
    * @returns
+   * @since v0.17
    */
   queryProposal(proposalID: number): Promise<types.ProposalResult> {
     return this.client.rpcClient.abciQuery<types.ProposalResult>(
@@ -43,6 +44,7 @@ export class Gov {
    * Query proposals by conditions
    * @param params
    * @returns
+   * @since v0.17
    */
   queryProposals(
     params?: types.QueryProposalsParams
@@ -67,6 +69,7 @@ export class Gov {
    * @param proposalID Identity of a proposal
    * @param voter Bech32 voter address
    * @returns
+   * @since v0.17
    */
   queryVote(proposalID: number, voter: string): Promise<types.VoteResult> {
     return this.client.rpcClient.abciQuery<types.VoteResult>(
@@ -82,6 +85,7 @@ export class Gov {
    * Query all votes of a proposal
    * @param proposalID Identity of a proposal
    * @returns
+   * @since v0.17
    */
   queryVotes(proposalID: number): Promise<types.VoteResult[]> {
     return this.client.rpcClient.abciQuery<types.VoteResult[]>(
@@ -97,6 +101,7 @@ export class Gov {
    * @param proposalID Identity of a proposal
    * @param depositor Bech32 depositor address
    * @returns
+   * @since v0.17
    */
   queryDeposit(
     proposalID: number,
@@ -115,6 +120,7 @@ export class Gov {
    * Query all deposits of a proposal
    * @param proposalID Identity of a proposal
    * @returns
+   * @since v0.17
    */
   queryDeposits(proposalID: number): Promise<types.VoteResult> {
     return this.client.rpcClient.abciQuery<types.VoteResult>(
@@ -129,6 +135,7 @@ export class Gov {
    * Query the statistics of a proposal
    * @param proposalID Identity of a proposal
    * @returns
+   * @since v0.17
    */
   queryTally(proposalID: number): Promise<types.TallyResult> {
     return this.client.rpcClient.abciQuery<types.TallyResult>(
@@ -152,6 +159,7 @@ export class Gov {
    * @param params On-chain Parameter to be changed, eg. `[{"subspace":"mint","key":"Inflation","value":"0.05"}]`
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async submitParameterChangeProposal(
     title: string,
@@ -185,6 +193,7 @@ export class Gov {
    * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async submitPlainTextProposal(
     title: string,
@@ -221,6 +230,7 @@ export class Gov {
    * @param dest_address Bech32 destination address to receive the distributed or granted funds
    * @param percent Percentage of the current community pool to be used
    * @param baseTx
+   * @since v0.17
    */
   async submitCommunityTaxUsageProposal(
     title: string,
@@ -258,6 +268,7 @@ export class Gov {
    * @param amount Amount to be deposited
    * @param baseTx
    * @returns
+   * @since v0.17
    */
   async deposit(
     proposalID: number,
@@ -281,6 +292,7 @@ export class Gov {
    * @param proposalID Identity of a proposal
    * @param option Vote option
    * @param baseTx
+   * @since v0.17
    */
   async vote(
     proposalID: number,
@@ -292,4 +304,9 @@ export class Gov {
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
+
+  // =================== NOT SUPPORTED ==================== //
+  // submitSoftwareUpgradeProposal;                         //
+  // submitSystemHaltProposal;                              //
+  // =================== NOT SUPPORTED ==================== //
 }

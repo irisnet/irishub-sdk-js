@@ -6,6 +6,7 @@ import * as types from '../types';
 
 /**
  * Tendermint JSON RPC Client
+ * @since v0.17
  */
 export class RpcClient {
   /** @hidden */
@@ -16,6 +17,7 @@ export class RpcClient {
    * @param url Rpc address of irishub node
    * @param config The other configurations, refer to { [[AxiosRequestConfig]] }
    * @returns
+   * @since v0.17
    */
   constructor(config: AxiosRequestConfig) {
     if (is.empty(config)) {
@@ -39,6 +41,7 @@ export class RpcClient {
    * @param method Tendermint RPC method
    * @param params Request params
    * @returns
+   * @since v0.17
    */
   request<T>(method: string, params: object = {}): Promise<T> {
     const data = {
@@ -47,23 +50,21 @@ export class RpcClient {
       method,
       params,
     };
-    return new Promise<T>((resolve, reject) => {
-      this.instance
-        .request<types.JSONRPCResponse<T>>({
-          data,
-        })
-        .then(response => {
-          const res = response.data;
+    return this.instance
+      .request<types.JSONRPCResponse<T>>({
+        data,
+      })
+      .then(response => {
+        const res = response.data;
 
-          // Internal error
-          if (res.error) {
-            console.log(res.error);
-            return reject(new SdkError(res.error.message, res.error.code));
-          }
+        // Internal error
+        if (res.error) {
+          console.log(res.error);
+          throw new SdkError(res.error.message, res.error.code);
+        }
 
-          return resolve(res.result);
-        });
-    });
+        return res.result;
+      });
   }
 
   /**
@@ -71,14 +72,19 @@ export class RpcClient {
    *
    * @param path Querier path
    * @param data Input params
+   * @param height Use a specific height to query state at (this can error if the node is pruning state)
    * @returns
+   * @since v0.17
    */
-  abciQuery<T>(path: string, data?: object): Promise<T> {
+  abciQuery<T>(path: string, data?: object, height?: number): Promise<T> {
     const params: types.AbciQueryRequest = {
       path,
     };
     if (data) {
       params.data = Utils.obj2hexstring(data);
+    }
+    if (height) {
+      params.height = height;
     }
 
     return this.request<types.AbciQueryResponse>(
@@ -100,7 +106,30 @@ export class RpcClient {
           throw new SdkError('Bad Request', response.response.code);
         }
       }
+      console.log(response);
       throw new SdkError('Bad Request');
     });
+  }
+
+  /**
+   *
+   * @param key The store key
+   * @param storeName The store name
+   * @param height Block height to query, omit to get most recent provable block
+   * @returns
+   * @since v0.17
+   */
+  queryStore<T>(
+    key: Uint8Array,
+    storeName: string,
+    height?: number
+  ): Promise<T> {
+    const path = `/store/${storeName}/key`;
+    const params = {
+      path,
+      data: Utils.ab2hexstring(key),
+      height: height ? String(height) : '0',
+    };
+    return this.request(types.RpcMethods.AbciQuery, params);
   }
 }
