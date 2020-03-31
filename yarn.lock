@@ -776,8 +776,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@irisnet/amino-js@file:../../zhangyelong/amino-js":
+"@irisnet/amino-js@https://github.com/irisnet/amino-js":
   version "0.6.2"
+  resolved "https://github.com/irisnet/amino-js#e3e1ebeca143450c3524f001552e80dd36fd1f28"
   dependencies:
     "@tendermint/belt" "0.2.1"
     "@tendermint/types" "0.1.1"

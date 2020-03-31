@@ -11,7 +11,7 @@ module.exports = {
     '\\.ts$': 'ts-jest',
   },
   setupFilesAfterEnv: [
-    './jest.setup.js',
+    './test/jest.setup.js',
   ],
   preset: 'ts-jest',
 };

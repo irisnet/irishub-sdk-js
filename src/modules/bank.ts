@@ -39,9 +39,10 @@ export class Bank {
    * @param address Bech32 address
    * @returns
    * @since v0.17
+   * // TODO:
    */
-  queryAccount(address: string): Promise<AminoTypes.BaseAccount> {
-    return this.client.rpcClient.abciQuery<AminoTypes.BaseAccount>(
+  queryAccount(address: string): Promise<types.BaseAccount> {
+    return this.client.rpcClient.abciQuery<types.BaseAccount>(
       'custom/acc/account',
       {
         Address: address,
