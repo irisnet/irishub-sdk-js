@@ -61,6 +61,9 @@ export class Client {
   /** Tendermint module */
   tendermint: modules.Tendermint;
 
+  /** Coinswap module */
+  coinswap: modules.Coinswap;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -103,6 +106,7 @@ export class Client {
     this.random = new modules.Random(this);
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
+    this.coinswap = new modules.Coinswap(this);
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
