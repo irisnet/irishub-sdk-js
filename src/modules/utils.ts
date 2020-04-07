@@ -10,11 +10,14 @@ import * as mathjs from 'mathjs';
 export class Utils {
   /** @hidden */
   private client: Client;
+  /** @hidden */
   private tokenMap: Map<string, types.Token>;
+  /** @hidden */
   private mathConfig = {
     number: 'BigNumber', // Choose 'number' (default), 'BigNumber', or 'Fraction'
     precision: 64, // 64 by default, only applicable for BigNumbers
   };
+  /** @hidden */
   private math: Partial<mathjs.MathJsStatic>;
 
   /** @hidden */
