@@ -37,8 +37,9 @@ class Tx {
         return __awaiter(this, void 0, void 0, function* () {
             // Build Unsigned Tx
             const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
-            const fee = yield this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
-            unsignedTx.value.fee.amount = fee;
+            // Not supported in ibc-alpha
+            // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
+            // unsignedTx.value.fee.amount = fee;
             // Sign Tx
             const signedTx = yield this.sign(unsignedTx, baseTx.from, baseTx.password);
             // Broadcast Tx
@@ -54,7 +55,8 @@ class Tx {
      */
     broadcast(signedTx, mode) {
         signedTx = this.marshal(signedTx);
-        const txBytes = amino_js_1.marshalTx(signedTx);
+        console.log(JSON.stringify(signedTx));
+        const txBytes = amino_js_1.marshalTx(signedTx, false);
         switch (mode) {
             case types.BroadcastMode.Commit:
                 return this.broadcastTxCommit(txBytes);
@@ -111,8 +113,8 @@ class Tx {
                 const sigs = [
                     {
                         pub_key: account.public_key,
-                        account_number: account.account_number,
-                        sequence: account.sequence,
+                        account_number: String(account.account_number),
+                        sequence: String(account.sequence),
                         signature: '',
                     },
                 ];
@@ -159,6 +161,7 @@ class Tx {
      * @returns The result object of broadcasting
      */
     broadcastTxCommit(txBytes) {
+        console.error(belt_1.bytesToBase64(txBytes));
         return this.client.rpcClient
             .request(types.RpcMethods.BroadcastTxCommit, {
             tx: belt_1.bytesToBase64(txBytes),
@@ -167,10 +170,12 @@ class Tx {
             var _a, _b, _c, _d;
             // Check tx error
             if (response.check_tx && response.check_tx.code > 0) {
+                console.error(response.check_tx);
                 throw new errors_1.SdkError(response.check_tx.log, response.check_tx.code);
             }
             // Deliver tx error
             if (response.deliver_tx && response.deliver_tx.code > 0) {
+                console.error(response.deliver_tx);
                 throw new errors_1.SdkError(response.deliver_tx.log, response.deliver_tx.code);
             }
             if (response.deliver_tx && response.deliver_tx.tags) {

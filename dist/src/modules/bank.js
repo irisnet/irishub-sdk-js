@@ -46,9 +46,9 @@ class Bank {
      * // TODO:
      */
     queryAccount(address) {
-        return this.client.rpcClient.abciQuery('custom/acc/account', {
-            Address: address,
-        });
+        return this.client.rpcClient.abciQuery('custom/auth/account', {
+            account: address,
+        }, 0);
     }
     /**
      * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.

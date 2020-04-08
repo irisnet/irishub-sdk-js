@@ -18,4 +18,5 @@ __export(require("./random"));
 __export(require("./asset"));
 __export(require("./utils"));
 __export(require("./tendermint"));
+__export(require("./coinswap"));
 //# sourceMappingURL=index.js.map

@@ -8,7 +8,7 @@ export interface AbciQueryRequest {
     /** Input params */
     data?: string;
     /** Use a specific height to query state at (this can error if the node is pruning state) */
-    height?: number;
+    height?: string;
     /** TODO */
     prove?: boolean;
 }

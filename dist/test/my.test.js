@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const basetest_1 = require("./basetest");
 test('test client', () => __awaiter(void 0, void 0, void 0, function* () {
     // Init Client
     // const client = iris.newClient({
@@ -31,8 +30,9 @@ test('test client', () => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(bytes);
     // const bech = Uint8Array.from(bytes);
     // const pk = unmarshalPubKey(bech, false);
-    basetest_1.BaseTest.getClient().slashing.querySigningInfo('fca1f46x0s36d5ajjqjurt3znhqfdulyf7zlazpj8n').then(res => console.log(res)).catch(err => console.log(err));
-    yield timeout(5000);
+    const deadline = new Date();
+    deadline.setTime(deadline.getTime() + 1000 * 60 * 60);
+    console.log(deadline.toLocaleString());
 }), 10000000);
 function timeout(ms) {
     return new Promise(resolve => {

@@ -52,7 +52,7 @@ export class Auth {
       stdFee.gas = baseTx.gas;
     }
     return {
-      type: 'irishub/bank/StdTx',
+      type: 'cosmos-sdk/StdTx',
       value: {
         msg: msgs,
         fee: stdFee,

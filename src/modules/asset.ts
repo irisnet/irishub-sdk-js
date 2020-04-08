@@ -75,12 +75,12 @@ export class Asset {
   private getCoinName(denom: string): string {
     denom = denom.toLowerCase();
 
-    if (denom === types.IRIS || denom === types.IRIS_ATTO) {
-      return types.IRIS;
+    if (denom === types.STD_DENOM || denom === types.IRIS_ATTO) {
+      return types.STD_DENOM;
     }
 
     if (
-      !denom.startsWith(types.IRIS + '-') &&
+      !denom.startsWith(types.STD_DENOM + '-') &&
       !denom.endsWith(types.MIN_UNIT_SUFFIX)
     ) {
       return denom;

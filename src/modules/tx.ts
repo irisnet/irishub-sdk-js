@@ -34,8 +34,9 @@ export class Tx {
     // Build Unsigned Tx
     const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
 
-    const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
-    unsignedTx.value.fee.amount = fee;
+    // Not supported in ibc-alpha
+    // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
+    // unsignedTx.value.fee.amount = fee;
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
@@ -55,7 +56,8 @@ export class Tx {
     mode?: types.BroadcastMode
   ): Promise<types.TxResult> {
     signedTx = this.marshal(signedTx);
-    const txBytes = marshalTx(signedTx);
+    console.log(JSON.stringify(signedTx));
+    const txBytes = marshalTx(signedTx, false);
     switch (mode) {
       case types.BroadcastMode.Commit:
         return this.broadcastTxCommit(txBytes);
@@ -121,8 +123,8 @@ export class Tx {
       const sigs: types.StdSignature[] = [
         {
           pub_key: account.public_key,
-          account_number: account.account_number,
-          sequence: account.sequence,
+          account_number: String(account.account_number),
+          sequence: String(account.sequence),
           signature: '',
         },
       ];
@@ -181,6 +183,7 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
+    console.error(bytesToBase64(txBytes));
     return this.client.rpcClient
       .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
         tx: bytesToBase64(txBytes),
@@ -188,11 +191,13 @@ export class Tx {
       .then(response => {
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
+          console.error(response.check_tx);
           throw new SdkError(response.check_tx.log, response.check_tx.code);
         }
 
         // Deliver tx error
         if (response.deliver_tx && response.deliver_tx.code > 0) {
+          console.error(response.deliver_tx);
           throw new SdkError(response.deliver_tx.log, response.deliver_tx.code);
         }
 

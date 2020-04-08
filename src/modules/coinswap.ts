@@ -4,12 +4,12 @@ import * as mathjs from 'mathjs';
 import * as is from 'is_js';
 import {
   MsgAddLiquidity,
-  AddLiquidityRequest,
-  RemoveLiquidityRequest,
+  DepositRequest,
+  WithdrawRequest,
   MsgRemoveLiquidity,
   SwapOrderRequest,
   MsgSwapOrder,
-  IRIS,
+  STD_DENOM,
   Coin,
 } from '../types';
 import { SdkError } from '../errors';
@@ -63,8 +63,8 @@ export class Coinswap {
    * @returns
    * @since v1.0
    */
-  async addLiquidity(
-    request: AddLiquidityRequest,
+  async deposit(
+    request: DepositRequest,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
@@ -80,8 +80,8 @@ export class Coinswap {
    * @returns
    * @since v1.0
    */
-  async removeLiquidity(
-    request: RemoveLiquidityRequest,
+  async withdraw(
+    request: WithdrawRequest,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
@@ -126,12 +126,12 @@ export class Coinswap {
     if (denom1 === denom2) {
       throw new SdkError('input and output denomination are equal');
     }
-    if (denom1 !== IRIS && denom2 !== IRIS) {
+    if (denom1 !== STD_DENOM && denom2 !== STD_DENOM) {
       throw new SdkError(
-        `standard denom: '${IRIS}', denom1: '${denom1}', denom2: '${denom2}'`
+        `standard denom: '${STD_DENOM}', denom1: '${denom1}', denom2: '${denom2}'`
       );
     }
-    if (denom1 === IRIS) {
+    if (denom1 === STD_DENOM) {
       return this.formatUniABSPrefix + denom2;
     }
     return this.formatUniABSPrefix + denom1;
@@ -141,13 +141,14 @@ export class Coinswap {
    * Calculate the amount of another token to be received based on the exact amount of tokens sold
    * @param exactSoldCoin sold coin
    * @param soldTokenDenom received token's denom
-   * @returns token amount that will to be received
+   * @returns output token amount to be received
+   * @since v1.0
    */
   async calculateWithExactInput(
     exactSoldCoin: Coin,
     boughtTokenDenom: string
   ): Promise<number> {
-    if (exactSoldCoin.denom !== IRIS && boughtTokenDenom !== IRIS) {
+    if (exactSoldCoin.denom !== STD_DENOM && boughtTokenDenom !== STD_DENOM) {
       return this.calculateDoubleWithExactInput(
         exactSoldCoin,
         boughtTokenDenom
@@ -170,12 +171,12 @@ export class Coinswap {
 
     if (is.not.positive(inputReserve)) {
       throw new SdkError(
-        `liquidity pool insufficient funds, actual ['${inputReserve}${exactSoldCoin.denom}']`
+        `liquidity pool insufficient funds: ['${inputReserve}${exactSoldCoin.denom}']`
       );
     }
     if (is.not.positive(outputReserve)) {
       throw new SdkError(
-        `liquidity pool insufficient funds, actual ['${outputReserve}${boughtTokenDenom}']`
+        `liquidity pool insufficient funds: ['${outputReserve}${boughtTokenDenom}']`
       );
     }
     if (is.above(Number(exactSoldCoin.amount), inputReserve)) {
@@ -195,13 +196,14 @@ export class Coinswap {
    * Calculate the amount of the token to be paid based on the exact amount of the token to be bought
    * @param exactBoughtCoin
    * @param soldTokenDenom
-   * @return: actual amount of the token to be paid
+   * @return: input amount to be paid
+   * @since v1.0
    */
   async calculateWithExactOutput(
     exactBoughtCoin: Coin,
     soldTokenDenom: string
   ): Promise<number> {
-    if (exactBoughtCoin.denom !== IRIS && soldTokenDenom !== IRIS) {
+    if (exactBoughtCoin.denom !== STD_DENOM && soldTokenDenom !== STD_DENOM) {
       return this.calculateDoubleWithExactOutput(
         exactBoughtCoin,
         soldTokenDenom
@@ -245,16 +247,111 @@ export class Coinswap {
     );
   }
 
+  /**
+   * Calculate token amount and liquidity amount of the deposit request by exact standard token amount
+   * @param exactStdAmt Exact standard token amount to be deposited
+   * @param calculatedDenom The token denom being calculated
+   * @returns The [[DepositRequest]], max_token = -1 means the liquidity pool is empty, users can deposit any amount of the token
+   * @since v1.0
+   */
+  async calculateDeposit(
+    exactStdAmt: number,
+    calculatedDenom: string
+  ): Promise<DepositRequest> {
+    const reservePool = await this.queryLiquidity(
+      this.getUniDenomFromDenoms(STD_DENOM, calculatedDenom)
+    );
+
+    // Initiate default deposit request, max_token = -1 means the liquidity pool is empty, users can deposit any amount of the token
+    const depositRequest: DepositRequest = {
+      exact_standard_amt: exactStdAmt,
+      max_token: { denom: calculatedDenom, amount: '-1' },
+      min_liquidity: exactStdAmt,
+      deadline: 10000, // default 10s
+    };
+
+    if (
+      is.positive(Number(reservePool.standard.amount)) &&
+      is.positive(Number(reservePool.token.amount))
+    ) {
+      // ∆t = ⌊(∆i/i) * t⌋ + 1
+      const deltaTokenAmt =
+        this.math.floor!(
+          this.math.multiply!(
+            this.math.divide!(exactStdAmt, Number(reservePool.standard.amount)),
+            Number(reservePool.token.amount)
+          )
+        ) + 1;
+      depositRequest.max_token = {
+        denom: calculatedDenom,
+        amount: String(deltaTokenAmt),
+      };
+    }
+
+    return depositRequest;
+  }
+
+  /**
+   * Calculate how many tokens can be withdrawn by exact liquidity amount
+   * @param exactWithdrawLiquidity Exact liquidity amount to be withdrawn
+   * @returns The [[WithdrawRequest]]
+   * @since v1.0
+   */
+  async calculateWithdraw(
+    exactWithdrawLiquidity: Coin
+  ): Promise<WithdrawRequest> {
+    const reservePool = await this.queryLiquidity(exactWithdrawLiquidity.denom);
+
+    // Initiate default withdraw request
+    const withdrawRequest: WithdrawRequest = {
+      min_standard_amt: 0,
+      min_token: 0,
+      withdraw_liquidity: exactWithdrawLiquidity,
+      deadline: 10000, // default 10s
+    };
+
+    if (
+      is.positive(Number(reservePool.standard.amount)) &&
+      is.positive(Number(reservePool.token.amount))
+    ) {
+      // ∆i = ⌊(∆l/l) * i⌋
+      const deltaStdAmt = this.math.floor!(
+        this.math.multiply!(
+          this.math.divide!(
+            Number(exactWithdrawLiquidity.amount),
+            Number(reservePool.liquidity.amount)
+          ),
+          Number(reservePool.standard.amount)
+        )
+      );
+      withdrawRequest.min_standard_amt = deltaStdAmt;
+
+      // ∆t = ⌊(∆l/l) * t⌋
+      const deltaTokenAmt = this.math.floor!(
+        this.math.multiply!(
+          this.math.divide!(
+            Number(exactWithdrawLiquidity.amount),
+            Number(reservePool.liquidity.amount)
+          ),
+          Number(reservePool.token.amount)
+        )
+      );
+      withdrawRequest.min_token = deltaTokenAmt;
+    }
+
+    return withdrawRequest;
+  }
+
   private async calculateDoubleWithExactInput(
     exactSoldCoin: Coin,
     boughtTokenDenom: string
   ): Promise<number> {
     const boughtStandardAmount = await this.calculateWithExactInput(
       exactSoldCoin,
-      IRIS
+      STD_DENOM
     );
     const boughtTokenAmt = await this.calculateWithExactInput(
-      { denom: IRIS, amount: String(boughtStandardAmount) },
+      { denom: STD_DENOM, amount: String(boughtStandardAmount) },
       boughtTokenDenom
     );
     return boughtTokenAmt;
@@ -266,10 +363,10 @@ export class Coinswap {
   ): Promise<number> {
     const soldStandardAmount = await this.calculateWithExactOutput(
       exactBoughtCoin,
-      IRIS
+      STD_DENOM
     );
     const soldTokenAmt = await this.calculateWithExactOutput(
-      { denom: IRIS, amount: String(soldStandardAmount) },
+      { denom: STD_DENOM, amount: String(soldStandardAmount) },
       soldTokenDenom
     );
     return soldTokenAmt;

@@ -7,14 +7,14 @@ export interface Liquidity {
   fee: string;
 }
 
-export interface AddLiquidityRequest {
+export interface DepositRequest {
   max_token: Coin;
   exact_standard_amt: number;
   min_liquidity: number;
   deadline: number;
 }
 
-export interface RemoveLiquidityRequest {
+export interface WithdrawRequest {
   min_token: number;
   withdraw_liquidity: Coin;
   min_standard_amt: number;
@@ -36,13 +36,15 @@ export interface SwapOrderRequest {
 export class MsgAddLiquidity implements Msg {
   type: string;
   value: object;
-  constructor(request: AddLiquidityRequest, sender: string) {
+  constructor(request: DepositRequest, sender: string) {
+    const deadline = new Date();
+    deadline.setTime(deadline.getTime() + request.deadline);
     this.type = 'irismod/coinswap/MsgAddLiquidity';
     this.value = {
       max_token: request.max_token,
-      exact_standard_amt: request.exact_standard_amt,
-      min_liquidity: request.min_liquidity,
-      deadline: request.deadline,
+      exact_standard_amt: String(request.exact_standard_amt),
+      min_liquidity: String(request.min_liquidity),
+      deadline: deadline.getTime().toString(),
       sender,
     };
   }
@@ -55,13 +57,15 @@ export class MsgAddLiquidity implements Msg {
 export class MsgRemoveLiquidity implements Msg {
   type: string;
   value: object;
-  constructor(request: RemoveLiquidityRequest, sender: string) {
+  constructor(request: WithdrawRequest, sender: string) {
+    const deadline = new Date();
+    deadline.setMilliseconds(deadline.getTime() + request.deadline);
     this.type = 'irismod/coinswap/MsgRemoveLiquidity';
     this.value = {
-      min_token: request.min_token,
+      min_token: String(request.min_token),
       withdraw_liquidity: request.withdraw_liquidity,
-      min_standard_amt: request.min_standard_amt,
-      deadline: request.deadline,
+      min_standard_amt: String(request.min_standard_amt),
+      deadline: deadline.getTime().toString(),
       sender,
     };
   }
@@ -75,11 +79,13 @@ export class MsgSwapOrder implements Msg {
   type: string;
   value: object;
   constructor(request: SwapOrderRequest, isBuyOrder: boolean) {
+    const deadline = new Date();
+    deadline.setTime(deadline.getTime() + request.deadline);
     this.type = 'irismod/coinswap/MsgSwapOrder';
     this.value = {
       input: request.input,
       output: request.output,
-      deadline: request.deadline,
+      deadline: deadline.getTime().toString(),
       is_buy_order: isBuyOrder,
     };
   }

@@ -20,7 +20,7 @@ export enum RpcMethods {
   Validators = 'validators',
 }
 
-export const IRIS = 'iris',
+export const STD_DENOM = 'stake',
   IRIS_ATTO = 'iris-atto',
 	MIN_UNIT_SUFFIX = '-min';
 

@@ -15,4 +15,5 @@ __export(require("./service"));
 __export(require("./random"));
 __export(require("./events"));
 __export(require("./query-builder"));
+__export(require("./coinswap"));
 //# sourceMappingURL=index.js.map

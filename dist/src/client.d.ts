@@ -40,6 +40,8 @@ export declare class Client {
     utils: modules.Utils;
     /** Tendermint module */
     tendermint: modules.Tendermint;
+    /** Coinswap module */
+    coinswap: modules.Coinswap;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**

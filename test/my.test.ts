@@ -131,10 +131,9 @@ test('test client', async () => {
 
   // const pk = unmarshalPubKey(bech, false);
 
-  BaseTest.getClient().slashing.querySigningInfo(
-    'fca1f46x0s36d5ajjqjurt3znhqfdulyf7zlazpj8n'
-  ).then(res => console.log(res)).catch(err => console.log(err));
-  await timeout(5000);
+  const deadline = new Date();
+  deadline.setTime(deadline.getTime() + 1000 * 60 * 60);
+  console.log(deadline.toLocaleString())
 }, 10000000);
 
 function timeout(ms: number) {

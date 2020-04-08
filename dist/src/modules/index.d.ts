@@ -13,3 +13,4 @@ export * from './random';
 export * from './asset';
 export * from './utils';
 export * from './tendermint';
+export * from './coinswap';

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const consts = require("./types/constants");
 const modules = require("./modules");
 const rpc_client_1 = require("./nets/rpc-client");
 const event_listener_1 = require("./nets/event-listener");
@@ -16,23 +15,32 @@ class Client {
         if (!this.config.rpcConfig)
             this.config.rpcConfig = {};
         this.config.bech32Prefix =
-            config.network === consts.Network.Mainnet
-                ? {
-                    AccAddr: 'iaa',
-                    AccPub: 'iap',
-                    ValAddr: 'iva',
-                    ValPub: 'ivp',
-                    ConsAddr: 'ica',
-                    ConsPub: 'icp',
-                }
-                : {
-                    AccAddr: 'faa',
-                    AccPub: 'fap',
-                    ValAddr: 'fva',
-                    ValPub: 'fvp',
-                    ConsAddr: 'fca',
-                    ConsPub: 'fcp',
-                };
+            // config.network === consts.Network.Mainnet
+            //   ? {
+            //       AccAddr: 'iaa',
+            //       AccPub: 'iap',
+            //       ValAddr: 'iva',
+            //       ValPub: 'ivp',
+            //       ConsAddr: 'ica',
+            //       ConsPub: 'icp',
+            //     }
+            //   : {
+            //       AccAddr: 'faa',
+            //       AccPub: 'fap',
+            //       ValAddr: 'fva',
+            //       ValPub: 'fvp',
+            //       ConsAddr: 'fca',
+            //       ConsPub: 'fcp',
+            //     };
+            // Support ibc-alpha
+            {
+                AccAddr: 'cosmos',
+                AccPub: 'cosmospub',
+                ValAddr: 'cosmosvaloper',
+                ValPub: 'cosmosvaloperpub',
+                ConsAddr: 'cosmosvalcons',
+                ConsPub: 'cosmosvalconspub',
+            };
         this.config.rpcConfig.baseURL = this.config.node;
         this.rpcClient = new rpc_client_1.RpcClient(this.config.rpcConfig);
         this.eventListener = new event_listener_1.EventListener(this);
@@ -51,6 +59,7 @@ class Client {
         this.random = new modules.Random(this);
         this.auth = new modules.Auth(this);
         this.tendermint = new modules.Tendermint(this);
+        this.coinswap = new modules.Coinswap(this);
         // Set default encrypt/decrypt methods
         if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
             const defaultKeyDAO = new DefaultKeyDAOImpl();

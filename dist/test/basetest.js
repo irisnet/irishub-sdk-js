@@ -31,11 +31,12 @@ class BaseTest {
             node: 'http://localhost:26657',
             network: iris.Network.Testnet,
             chainId: 'test',
-            gas: '100000',
+            gas: '200000',
+            fee: { denom: 'stake', amount: '1' },
         })
             .withKeyDAO(new TestKeyDAO())
             .withRpcConfig({ timeout: Consts.timeout });
-        client.keys.recover(Consts.keyName, Consts.keyPassword, 'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic');
+        client.keys.recover(Consts.keyName, Consts.keyPassword, 'song nothing pole rough coffee marble sure october faculty kiss ahead act design dawn erase trick safe replace company version review dune width adult');
         return client;
     }
 }

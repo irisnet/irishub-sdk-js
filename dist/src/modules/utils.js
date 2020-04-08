@@ -18,6 +18,7 @@ const mathjs = require("mathjs");
 class Utils {
     /** @hidden */
     constructor(client) {
+        /** @hidden */
         this.mathConfig = {
             number: 'BigNumber',
             precision: 64,

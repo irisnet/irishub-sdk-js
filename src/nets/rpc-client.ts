@@ -59,7 +59,7 @@ export class RpcClient {
 
         // Internal error
         if (res.error) {
-          console.log(res.error);
+          console.error(res.error);
           throw new SdkError(res.error.message, res.error.code);
         }
 
@@ -84,7 +84,7 @@ export class RpcClient {
       params.data = Utils.obj2hexstring(data);
     }
     if (height) {
-      params.height = height;
+      params.height = String(height);
     }
 
     return this.request<types.AbciQueryResponse>(
@@ -103,10 +103,11 @@ export class RpcClient {
           if (res.type && res.value) return res.value;
           return res;
         } else if (response.response.code) {
-          throw new SdkError('Bad Request', response.response.code);
+          console.error(response.response);
+          throw new SdkError(response.response.log, response.response.code);
         }
       }
-      console.log(response);
+      console.error(response);
       throw new SdkError('Bad Request');
     });
   }

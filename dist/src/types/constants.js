@@ -22,5 +22,5 @@ var RpcMethods;
     RpcMethods["TxSearch"] = "tx_search";
     RpcMethods["Validators"] = "validators";
 })(RpcMethods = exports.RpcMethods || (exports.RpcMethods = {}));
-exports.IRIS = 'iris', exports.IRIS_ATTO = 'iris-atto', exports.MIN_UNIT_SUFFIX = '-min';
+exports.STD_DENOM = 'stake', exports.IRIS_ATTO = 'iris-atto', exports.MIN_UNIT_SUFFIX = '-min';
 //# sourceMappingURL=constants.js.map

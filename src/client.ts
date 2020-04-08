@@ -70,23 +70,33 @@ export class Client {
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
 
     this.config.bech32Prefix =
-      config.network === consts.Network.Mainnet
-        ? {
-            AccAddr: 'iaa',
-            AccPub: 'iap',
-            ValAddr: 'iva',
-            ValPub: 'ivp',
-            ConsAddr: 'ica',
-            ConsPub: 'icp',
-          }
-        : {
-            AccAddr: 'faa',
-            AccPub: 'fap',
-            ValAddr: 'fva',
-            ValPub: 'fvp',
-            ConsAddr: 'fca',
-            ConsPub: 'fcp',
-          };
+      // config.network === consts.Network.Mainnet
+      //   ? {
+      //       AccAddr: 'iaa',
+      //       AccPub: 'iap',
+      //       ValAddr: 'iva',
+      //       ValPub: 'ivp',
+      //       ConsAddr: 'ica',
+      //       ConsPub: 'icp',
+      //     }
+      //   : {
+      //       AccAddr: 'faa',
+      //       AccPub: 'fap',
+      //       ValAddr: 'fva',
+      //       ValPub: 'fvp',
+      //       ConsAddr: 'fca',
+      //       ConsPub: 'fcp',
+      //     };
+
+      // Support ibc-alpha
+      {
+        AccAddr: 'cosmos',
+        AccPub: 'cosmospub',
+        ValAddr: 'cosmosvaloper',
+        ValPub: 'cosmosvaloperpub',
+        ConsAddr: 'cosmosvalcons',
+        ConsPub: 'cosmosvalconspub',
+      };
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
     this.eventListener = new EventListener(this);
