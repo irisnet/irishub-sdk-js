@@ -21,6 +21,7 @@
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
+    "build": "webpack",
     "fix": "gts fix",
     "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js ."
   },
@@ -32,9 +33,12 @@
     "gts": "^1.1.2",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.1",
+    "ts-loader": "^6.2.2",
     "tslint": "^6.1.0",
     "typedoc": "^0.16.9",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "@irisnet/amino-js": "https://github.com/irisnet/amino-js#ibc-alpha",
