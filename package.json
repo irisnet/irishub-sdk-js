@@ -22,10 +22,7 @@
     "clean": "gts clean",
     "compile": "tsc -p .",
     "fix": "gts fix",
-    "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js .",
-    "prepare": "yarn run compile",
-    "pretest": "yarn run compile",
-    "posttest": "yarn run check"
+    "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js ."
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
