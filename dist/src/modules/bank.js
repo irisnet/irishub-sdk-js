@@ -45,9 +45,19 @@ class Bank {
      * @since v0.17
      */
     queryAccount(address) {
-        return this.client.rpcClient.abciQuery('custom/auth/account', {
-            account: address,
-        }, 0);
+        return Promise.all([
+            this.client.rpcClient.abciQuery('custom/auth/account', {
+                account: address,
+            }),
+            this.client.rpcClient.abciQuery('custom/bank/all_balances', {
+                Address: address,
+            })
+        ]).then(res => {
+            const acc = res[0];
+            const bal = res[1];
+            acc.coins = bal;
+            return acc;
+        });
     }
     /**
      * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
