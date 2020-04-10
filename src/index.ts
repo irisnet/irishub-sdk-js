@@ -1,10 +1,9 @@
-export * from './types/constants';
-export { KeyDAO } from './client';
+export * from './types';
+export { Client, ClientConfig, KeyDAO } from './client';
 import {
   Client,
   ClientConfig,
   DefaultClientConfig,
-  DefaultKeyDAOImpl,
 } from './client';
 
 /**

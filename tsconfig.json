@@ -4,7 +4,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "dist/src",
     "sourceMap": true,
     "types": ["jest", "node"],
     "resolveJsonModule": true,
@@ -15,7 +15,6 @@
     "out": "docs"
   },
   "include": [
-    "src/**/*.ts",
-    "test/**/*.ts", "test/jest.config.js"
+    "src/**/*.ts"
   ]
 }

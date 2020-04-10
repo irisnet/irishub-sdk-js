@@ -1,11 +1,13 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 /**
  * Tendermint JSON RPC Client
  * @since v0.17
  */
 export declare class RpcClient {
     /** @hidden */
-    instance: AxiosInstance;
+    private instance;
+    /** @hidden */
+    private config;
     /**
      * Initialize Tendermint JSON RPC Client
      * @param url Rpc address of irishub node

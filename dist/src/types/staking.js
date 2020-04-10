@@ -10,7 +10,7 @@ class MsgDelegate {
         this.value = {
             delegator_addr: delegatorAddr,
             validator_addr: validatorAddr,
-            delegation: delegation,
+            delegation,
         };
     }
     getSignBytes() {

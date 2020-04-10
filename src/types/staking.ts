@@ -100,7 +100,7 @@ export class MsgDelegate implements Msg {
     this.value = {
       delegator_addr: delegatorAddr,
       validator_addr: validatorAddr,
-      delegation: delegation,
+      delegation,
     };
   }
 

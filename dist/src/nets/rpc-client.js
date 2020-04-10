@@ -28,6 +28,7 @@ class RpcClient {
             config.timeout = 2000; // Set default timeout
         }
         config.url = '/'; // Fixed url
+        this.config = config;
         this.instance = axios_1.default.create(config);
     }
     /**
@@ -46,9 +47,7 @@ class RpcClient {
             params,
         };
         return this.instance
-            .request({
-            data,
-        })
+            .post(this.config.baseURL, data)
             .then(response => {
             const res = response.data;
             // Internal error
@@ -79,7 +78,7 @@ class RpcClient {
             params.height = String(height);
         }
         return this.request(types.RpcMethods.AbciQuery, params).then(response => {
-            if (response.response) {
+            if (response && response.response) {
                 if (response.response.value) {
                     const value = Buffer.from(response.response.value, 'base64').toString();
                     const res = JSON.parse(value);
@@ -95,7 +94,7 @@ class RpcClient {
                 }
             }
             console.error(response);
-            throw new errors_1.SdkError('Bad Request');
+            throw new errors_1.SdkError('Internal Error', errors_1.CODES.Internal);
         });
     }
     /**

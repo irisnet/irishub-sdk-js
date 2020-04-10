@@ -38,16 +38,20 @@ export class Bank {
    * @param address Bech32 address
    * @returns
    * @since v0.17
-   * // TODO:
    */
   queryAccount(address: string): Promise<types.BaseAccount> {
-    return this.client.rpcClient.abciQuery<types.BaseAccount>(
-      'custom/auth/account',
-      {
-        account: address,
-      },
-      0
-    );
+    
+    // return Promise.all([
+    //   this.client.rpcClient.abciQuery<types.BaseAccount>(
+    //   'custom/auth/account',
+    //   {
+    //     account: address,
+    //   },
+    //   0
+    // ),
+    // ])
+
+    // 'custom/bank/all_balances'
   }
 
   /**

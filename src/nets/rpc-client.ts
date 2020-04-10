@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Utils } from '../utils';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
@@ -10,7 +10,9 @@ import * as types from '../types';
  */
 export class RpcClient {
   /** @hidden */
-  instance: AxiosInstance;
+  private instance: AxiosInstance;
+  /** @hidden */
+  private config: AxiosRequestConfig;
 
   /**
    * Initialize Tendermint JSON RPC Client
@@ -32,6 +34,7 @@ export class RpcClient {
 
     config.url = '/'; // Fixed url
 
+    this.config = config;
     this.instance = axios.create(config);
   }
 
@@ -51,9 +54,7 @@ export class RpcClient {
       params,
     };
     return this.instance
-      .request<types.JSONRPCResponse<T>>({
-        data,
-      })
+      .post<types.JSONRPCResponse<T>>(this.config.baseURL!, data)
       .then(response => {
         const res = response.data;
 
@@ -91,7 +92,7 @@ export class RpcClient {
       types.RpcMethods.AbciQuery,
       params
     ).then(response => {
-      if (response.response) {
+      if (response && response.response) {
         if (response.response.value) {
           const value = Buffer.from(
             response.response.value,
@@ -108,7 +109,7 @@ export class RpcClient {
         }
       }
       console.error(response);
-      throw new SdkError('Bad Request');
+      throw new SdkError('Internal Error', CODES.Internal);
     });
   }
 

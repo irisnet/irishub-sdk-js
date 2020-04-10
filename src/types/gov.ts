@@ -290,8 +290,8 @@ export class MsgDeposit implements Msg {
     this.type = 'irishub/gov/MsgDeposit';
     this.value = {
       proposal_id: proposalID,
-      depositor: depositor,
-      amount: amount,
+      depositor,
+      amount,
     };
   }
 
@@ -316,7 +316,7 @@ export class MsgVote implements Msg {
     this.type = 'irishub/gov/MsgVote';
     this.value = {
       proposal_id: proposalID,
-      voter: voter,
+      voter,
       option: VoteOption[option],
     };
   }
@@ -331,7 +331,7 @@ export class MsgVote implements Msg {
       value: {
         proposal_id: this.value.proposal_id,
         voter: this.value.voter,
-        option: (<any>VoteOption)[this.value.option],
+        option: (VoteOption as any)[this.value.option],
       },
     };
   }

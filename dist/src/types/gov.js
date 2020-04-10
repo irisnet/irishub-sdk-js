@@ -126,8 +126,8 @@ class MsgDeposit {
         this.type = 'irishub/gov/MsgDeposit';
         this.value = {
             proposal_id: proposalID,
-            depositor: depositor,
-            amount: amount,
+            depositor,
+            amount,
         };
     }
     getSignBytes() {
@@ -144,7 +144,7 @@ class MsgVote {
         this.type = 'irishub/gov/MsgVote';
         this.value = {
             proposal_id: proposalID,
-            voter: voter,
+            voter,
             option: VoteOption[option],
         };
     }

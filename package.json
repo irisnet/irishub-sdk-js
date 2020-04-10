@@ -2,11 +2,19 @@
   "name": "@irisnet/irishub-sdk",
   "version": "0.0.1",
   "description": "IRISHub JavaScript SDK",
-  "main": "dist/src/index",
-  "typings": "dist/src/index",
-  "types": "dist/src/index.d.ts",
+  "main": "index.js",
+  "typings": "index.js",
+  "types": "./dist/src",
   "files": [
-    "dist/src"
+    "dist",
+    "src/**/*.{ts,js}",
+    "types/**/*.ts",
+    "index.js",
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "tsconfig.json",
+    "yarn.lock"
   ],
   "license": "Apache-2.0",
   "keywords": [
@@ -21,15 +29,21 @@
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc -p .",
-    "build": "webpack",
+    "build": "rm -rf dist/* && webpack --config build --progress --colors --display-error-details && yarn run compile",
     "fix": "gts fix",
     "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js ."
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.7.6",
+    "@babel/preset-typescript": "^7.9.0",
     "@types/jest": "^25.1.4",
     "@types/node": "^10.0.3",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^4.0.0",
     "gts": "^1.1.2",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.1",
@@ -38,7 +52,9 @@
     "typedoc": "^0.16.9",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-bundle-analyzer": "^3.6.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@irisnet/amino-js": "https://github.com/irisnet/amino-js#ibc-alpha",

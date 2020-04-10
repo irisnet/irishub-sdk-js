@@ -28,7 +28,6 @@ export declare class Bank {
      * @param address Bech32 address
      * @returns
      * @since v0.17
-     * // TODO:
      */
     queryAccount(address: string): Promise<types.BaseAccount>;
     /**

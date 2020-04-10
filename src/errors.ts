@@ -1,7 +1,7 @@
 const CODESPACE_ROOT = 'sdk';
 
 /** Error codes in irishub v1.0 */
-const CODES = {
+export const CODES = {
   OK: 0,
   Internal: 1,
   TxDecode: 2,

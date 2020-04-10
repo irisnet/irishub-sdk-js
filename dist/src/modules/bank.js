@@ -43,7 +43,6 @@ class Bank {
      * @param address Bech32 address
      * @returns
      * @since v0.17
-     * // TODO:
      */
     queryAccount(address) {
         return this.client.rpcClient.abciQuery('custom/auth/account', {

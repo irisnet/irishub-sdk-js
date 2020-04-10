@@ -73,7 +73,22 @@ describe('Bank Tests', () => {
     );
   });
 
-  describe('Query Token Stats', () => {
+  describe('Queries', () => {
+    test(
+      'query account',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryAccount('cosmos1pqyy93jfdj9p5y8lfwqyk4y3kyksethnejx7l3')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
     test(
       'query single token stats',
       async () => {
