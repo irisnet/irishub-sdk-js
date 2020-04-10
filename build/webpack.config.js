@@ -9,5 +9,5 @@ const env = (process.env.NODE_ENV === 'production')
 
 module.exports = [
     merge(common, web, env),
-    merge(common, node, env)
+    // merge(common, node, env)
 ];
