@@ -40,18 +40,13 @@ export class Bank {
    * @since v0.17
    */
   queryAccount(address: string): Promise<types.BaseAccount> {
-    
-    // return Promise.all([
-    //   this.client.rpcClient.abciQuery<types.BaseAccount>(
-    //   'custom/auth/account',
-    //   {
-    //     account: address,
-    //   },
-    //   0
-    // ),
-    // ])
-
-    // 'custom/bank/all_balances'
+    return this.client.rpcClient.abciQuery<types.BaseAccount>(
+      'custom/auth/account',
+      {
+        account: address,
+      },
+      0
+    );
   }
 
   /**
