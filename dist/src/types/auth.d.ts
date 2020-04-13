@@ -16,8 +16,6 @@ export interface StdFee {
 export interface StdSignature {
     pub_key?: PubKey;
     signature?: string;
-    account_number: string;
-    sequence: string;
 }
 /** Base params for the transaction */
 export interface BaseTx {
@@ -43,10 +41,8 @@ export declare enum BroadcastMode {
 }
 /** Standard Msg to sign */
 export interface StdSignMsg {
-    account_number: string;
     chain_id: string;
     fee: StdFee;
     memo: string;
     msgs: object[];
-    sequence: string;
 }

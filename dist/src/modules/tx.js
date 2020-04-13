@@ -112,8 +112,9 @@ class Tx {
                 const sigs = [
                     {
                         pub_key: account.public_key,
-                        account_number: String(account.account_number),
-                        sequence: String(account.sequence),
+                        // To support ibc-alpha
+                        // account_number: String(account.account_number),
+                        // sequence: String(account.sequence),
                         signature: '',
                     },
                 ];
@@ -122,12 +123,13 @@ class Tx {
             // Build msg to sign
             const sig = stdTx.value.signatures[0];
             const signMsg = {
-                account_number: sig.account_number,
+                // To support ibc-alpha
+                // account_number: sig.account_number,
+                // sequence: sig.sequence,
                 chain_id: this.client.config.chainId,
                 fee: stdTx.value.fee,
                 memo: stdTx.value.memo,
                 msgs,
-                sequence: sig.sequence,
             };
             // Signing
             const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);

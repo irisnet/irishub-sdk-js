@@ -19,8 +19,10 @@ export interface StdFee {
 export interface StdSignature {
   pub_key?: PubKey;
   signature?: string;
-  account_number: string;
-  sequence: string;
+
+  // To support ibc-alpha
+  // account_number: string;
+  // sequence: string;
 }
 
 /** Base params for the transaction */
@@ -49,10 +51,11 @@ export enum BroadcastMode {
 
 /** Standard Msg to sign */
 export interface StdSignMsg {
-  account_number: string;
+  // To support ibc-alpha
+  // account_number: string;
+  // sequence: string;
   chain_id: string;
   fee: StdFee;
   memo: string;
   msgs: object[];
-  sequence: string;
 }
