@@ -841,7 +841,7 @@
 
 "@irisnet/amino-js@https://github.com/irisnet/amino-js#ibc-alpha":
   version "0.6.2"
-  resolved "https://github.com/irisnet/amino-js#143bdf1da66c5e8fce94556d1a39a7f17d7bd5fd"
+  resolved "https://github.com/irisnet/amino-js#ca8c06bda6979c2766f8d70ae0c4a345dea0bcb1"
   dependencies:
     "@tendermint/belt" "0.2.1"
     "@tendermint/types" "0.1.1"
