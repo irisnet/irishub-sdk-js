@@ -89,8 +89,6 @@ export class SdkError extends Error {
   codespace = CODESPACE_ROOT;
   /** Error code */
   code = CODES.InvalidRequest;
-  /** Error message */
-  message = '';
 
   /**
    * Initialize SdkError with irishub error msg
@@ -98,7 +96,6 @@ export class SdkError extends Error {
    */
   constructor(msg: string, code = CODES.InvalidRequest) {
     super(msg);
-    this.message = msg;
     const mappedCode = errorMap.get(this.codespace + code);
     this.code = mappedCode ? mappedCode : CODES.InvalidRequest;
   }

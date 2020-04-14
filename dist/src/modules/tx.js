@@ -212,7 +212,7 @@ class Tx {
         })
             .then(response => {
             if (response.code && response.code > 0) {
-                throw new errors_1.SdkError(response.data, response.code);
+                throw new errors_1.SdkError(response.log, response.code);
             }
             return response;
         });

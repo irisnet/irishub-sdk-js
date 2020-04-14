@@ -243,7 +243,7 @@ export class Tx {
       })
       .then(response => {
         if (response.code && response.code > 0) {
-          throw new SdkError(response.data, response.code);
+          throw new SdkError(response.log, response.code);
         }
 
         return response;

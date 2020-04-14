@@ -93,9 +93,6 @@ class SdkError extends Error {
         this.codespace = CODESPACE_ROOT;
         /** Error code */
         this.code = exports.CODES.InvalidRequest;
-        /** Error code */
-        this.message = '';
-        this.message = msg;
         const mappedCode = errorMap.get(this.codespace + code);
         this.code = mappedCode ? mappedCode : exports.CODES.InvalidRequest;
     }
