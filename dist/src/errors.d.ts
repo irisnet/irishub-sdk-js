@@ -30,6 +30,8 @@ export declare class SdkError extends Error {
     codespace: string;
     /** Error code */
     code: number;
+    /** Error code */
+    message: string;
     /**
      * Initialize SdkError with irishub error msg
      * @param msg irishub error msg
