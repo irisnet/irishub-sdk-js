@@ -55,7 +55,7 @@ class Tx {
      */
     broadcast(signedTx, mode) {
         signedTx = this.marshal(signedTx);
-        const txBytes = amino_js_1.marshalTx(signedTx, false);
+        const txBytes = amino_js_1.marshalTx(signedTx, true);
         switch (mode) {
             case types.BroadcastMode.Commit:
                 return this.broadcastTxCommit(txBytes);

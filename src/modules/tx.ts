@@ -56,7 +56,7 @@ export class Tx {
     mode?: types.BroadcastMode
   ): Promise<types.TxResult> {
     signedTx = this.marshal(signedTx);
-    const txBytes = marshalTx(signedTx, false);
+    const txBytes = marshalTx(signedTx, true);
     switch (mode) {
       case types.BroadcastMode.Commit:
         return this.broadcastTxCommit(txBytes);
