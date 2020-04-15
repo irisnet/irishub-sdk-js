@@ -61,7 +61,11 @@ export class Client {
   /** Tendermint module */
   tendermint: modules.Tendermint;
 
+  /** Htlc module */
+  htlc: modules.Htlc
+
   /** IRISHub SDK Constructor */
+
   constructor(config: DefaultClientConfig) {
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
@@ -103,6 +107,7 @@ export class Client {
     this.random = new modules.Random(this);
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
+    this.htlc = new modules.Htlc(this);
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {

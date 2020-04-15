@@ -25,12 +25,12 @@ export class Asset {
    * @returns
    * @since v0.17
    */
-  queryToken(symbol: string): Promise<types.Token> {
+  queryToken(symbol: string): Promise<types.fToken> {
     if (is.empty(symbol)) {
       throw new SdkError('symbol can not be empty');
     }
-    return this.client.rpcClient.abciQuery<types.Token>('custom/asset/token', {
-      Symbol: this.getCoinName(symbol),
+    return this.client.rpcClient.abciQuery<types.fToken>('custom/asset/token', {
+      TokenId: this.getCoinName(symbol),
     });
   }
 

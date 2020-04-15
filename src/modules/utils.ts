@@ -35,19 +35,19 @@ export class Utils {
     const amt = this.math.bignumber!(coin.amount);
     const token = this.tokenMap.get(coin.denom);
     if (token) {
-      if (coin.denom === token.min_unit) return coin;
+      if (coin.denom === token.min_unit_alias) return coin;
       return {
-        denom: token.min_unit,
+        denom: token.min_unit_alias,
         amount: this.math.multiply!(
           amt,
-          this.math.pow!(10, token.scale)
+          this.math.pow!(10, token.decimal)
         ).toString(),
       };
     }
 
     // If token not found in local memory, then query from the blockchain
     return this.client.asset.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token);
+      this.tokenMap.set(coin.denom, token.base_token);
       return this.toMinCoin(coin);
     });
   }
@@ -84,14 +84,14 @@ export class Utils {
         denom: token.symbol,
         amount: this.math.divide!(
           amt,
-          this.math.pow!(10, token.scale)
+          this.math.pow!(10, token.decimal)
         ).toString(),
       };
     }
 
     // If token not found in local memory, then query from the blockchain
     return this.client.asset.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token);
+      this.tokenMap.set(coin.denom, token.base_token);
       return this.toMainCoin(coin);
     });
   }
