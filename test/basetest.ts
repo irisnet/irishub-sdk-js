@@ -29,11 +29,6 @@ export class BaseTest {
     mode: types.BroadcastMode.Commit,
     fee: { amount: '1', denom: 'iris' }
   };
-  static testTx: types.BaseTx = {
-    from: "node0",
-    password: "12345678",
-    mode: types.BroadcastMode.Commit
-  }
   static getClient(): Client {
     const client = iris
       .newClient({
@@ -60,7 +55,7 @@ export class BaseTest {
       gas: '100000'
     }).withKeyDAO(new TestKeyDAO())
     .withRpcConfig({timeout: Consts.timeout});
-    client.keys.recover(this.testTx.from, this.testTx.password,
+    client.keys.recover(this.baseTx.from, this.baseTx.password,
         'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success');
     return client;
   }
@@ -72,7 +67,7 @@ export class BaseTest {
       gas: '100000'
     }).withKeyDAO(new TestKeyDAO())
         .withRpcConfig({timeout: Consts.timeout});
-    client.keys.recover(this.testTx.from, this.testTx.password,
+    client.keys.recover(this.baseTx.from, this.baseTx.password,
         'arrow ignore inquiry lottery high ship crash leopard liar example never oval final fancy resist nuclear trip novel poem fine odor soccer bus lumber');
     return client;
   }
