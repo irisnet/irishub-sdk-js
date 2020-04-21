@@ -38,6 +38,13 @@ export declare class Bank {
      */
     queryTokenStats(tokenID?: string): Promise<types.TokenStats>;
     /**
+     * Query total supply
+     * @param denom Denom of the token
+     * @returns
+     * @since v1.0
+     */
+    queryTotalSupply(denom?: string): Promise<types.Coin[]>;
+    /**
      * Send coins
      * @param to Recipient bech32 address
      * @param amount Coins to be sent
