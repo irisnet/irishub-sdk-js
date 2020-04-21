@@ -78,6 +78,34 @@ export class Bank {
     );
   }
 
+
+  /**
+   * Query total supply
+   * @param denom Denom of the token
+   * @returns
+   * @since v1.0
+   */
+  queryTotalSupply(denom?: string): Promise<types.Coin[]> {
+    let path;
+    let param;
+
+    if (!denom) {
+      path = 'custom/supply/total_supply';
+      param = {
+        Page: '1',
+        Limit: '0'
+      };
+    } else {
+      path = 'custom/supply/supply_of';
+      param = {
+        Denom: denom
+      }
+    }
+    return this.client.rpcClient.abciQuery<types.Coin[]>(
+      path, param
+    );
+  }
+
   /**
    * Send coins
    * @param to Recipient bech32 address
