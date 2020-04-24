@@ -41,6 +41,8 @@ export declare enum BroadcastMode {
 }
 /** Standard Msg to sign */
 export interface StdSignMsg {
+    account_number: string;
+    sequence: string;
     chain_id: string;
     fee: StdFee;
     memo: string;

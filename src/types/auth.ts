@@ -52,8 +52,8 @@ export enum BroadcastMode {
 /** Standard Msg to sign */
 export interface StdSignMsg {
   // To support ibc-alpha
-  // account_number: string;
-  // sequence: string;
+  account_number: string;
+  sequence: string;
   chain_id: string;
   fee: StdFee;
   memo: string;

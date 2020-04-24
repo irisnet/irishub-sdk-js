@@ -115,10 +115,14 @@ export class Tx {
       }
     });
 
+    let accountNumber = '0';
+    let sequence = '0';
     if (!offline) {
       // Query account info from block chain
       const addr = keyObj.address;
       const account = await this.client.bank.queryAccount(addr);
+      accountNumber = account.account_number;
+      sequence = account.sequence;
       const sigs: types.StdSignature[] = [
         {
           pub_key: account.public_key,
@@ -136,9 +140,8 @@ export class Tx {
     // Build msg to sign
     const sig: types.StdSignature = stdTx.value.signatures[0];
     const signMsg: types.StdSignMsg = {
-      // To support ibc-alpha
-      // account_number: sig.account_number,
-      // sequence: sig.sequence,
+      account_number: String(accountNumber),
+      sequence: String(sequence),
       chain_id: this.client.config.chainId,
       fee: stdTx.value.fee,
       memo: stdTx.value.memo,
@@ -185,7 +188,6 @@ export class Tx {
    * @returns The result object of broadcasting
    */
   private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
-    console.error(bytesToBase64(txBytes));
     return this.client.rpcClient
       .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
         tx: bytesToBase64(txBytes),
