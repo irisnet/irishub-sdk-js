@@ -3,7 +3,7 @@ describe('Coinswap Tests', () => {
   describe('Query Liquidity', () => {
     test('query liquidity', async () => {
       await BaseTest.getClient()
-        .coinswap.queryLiquidity('uni:transfer/irishubchan/uatom')
+        .coinswap.queryLiquidity('uni:transfer/ztezqumzyz/ubtc')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -39,7 +39,7 @@ describe('Coinswap Tests', () => {
     test('calculateWithExactInput', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithExactInput(
-          { denom: 'transfer/irishubchan/uatom', amount: '100000' },
+          { denom: 'transfer/irishubchan/uatom', amount: '10' },
           'transfer/ztezqumzyz/ubtc'
         )
         .then(res => {
@@ -52,7 +52,7 @@ describe('Coinswap Tests', () => {
     test('calculateWithExactOutput', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithExactOutput(
-          { denom: 'uiris', amount: '1' },
+          { denom: 'transfer/ztezqumzyz/ubtc', amount: '10' },
           'transfer/irishubchan/uatom'
         )
         .then(res => {

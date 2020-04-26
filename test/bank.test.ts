@@ -74,7 +74,7 @@ describe('Bank Tests', () => {
   });
 
   describe('Queries', () => {
-        test(
+    test(
       'query total supply',
       async () => {
         await BaseTest.getClient()
