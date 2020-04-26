@@ -74,11 +74,25 @@ describe('Bank Tests', () => {
   });
 
   describe('Queries', () => {
+        test(
+      'query total supply',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryTotalSupply()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
     test(
       'query account',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAccount('cosmos1pqyy93jfdj9p5y8lfwqyk4y3kyksethnejx7l3')
+          .bank.queryAccount('cosmos1qeqsh3spasm4zllcpxrmgnszm7adt4qqhfhfhv')
           .then(res => {
             console.log(JSON.stringify(res));
           })

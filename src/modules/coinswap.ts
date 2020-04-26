@@ -159,6 +159,7 @@ export class Coinswap {
       boughtTokenDenom
     );
     const reservePool = await this.queryLiquidity(uniDenom);
+    console.log(JSON.stringify(reservePool))
     let inputReserve: number;
     let outputReserve: number;
     if (reservePool.standard.denom === exactSoldCoin.denom) {
@@ -387,7 +388,7 @@ export class Coinswap {
       this.math.floor!(inputReserve),
       inputAmtWithFee
     );
-    return Number(this.math.divide!(numerator, denominator));
+    return this.math.floor!(Number(this.math.divide!(numerator, denominator)));
   }
 
   // getOutputPrice returns the amount of coins sold (calculated) given the output amount being bought (exact)
@@ -403,6 +404,6 @@ export class Coinswap {
       this.math.subtract!(outputReserve, outputAmt),
       fee
     );
-    return Number(this.math.divide!(numerator, denominator));
+    return this.math.floor!(Number(this.math.divide!(numerator, denominator)));
   }
 }

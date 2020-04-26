@@ -3,7 +3,7 @@ describe('Coinswap Tests', () => {
   describe('Query Liquidity', () => {
     test('query liquidity', async () => {
       await BaseTest.getClient()
-        .coinswap.queryLiquidity('uni:validatortoken')
+        .coinswap.queryLiquidity('uni:transfer/irishubchan/uatom')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -15,7 +15,7 @@ describe('Coinswap Tests', () => {
   describe('Calculate', () => {
     test('calculateDeposit', async () => {
       await BaseTest.getClient()
-        .coinswap.calculateDeposit(1, 'validatortoken')
+        .coinswap.calculateDeposit(1, 'transfer/irishubchan/uatom')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -26,7 +26,7 @@ describe('Coinswap Tests', () => {
     test('calculateWithdraw', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithdraw({
-          denom: 'uni:validatortoken',
+          denom: 'uni:transfer/irishubchan/uatom',
           amount: '1',
         })
         .then(res => {
@@ -39,8 +39,8 @@ describe('Coinswap Tests', () => {
     test('calculateWithExactInput', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithExactInput(
-          { denom: 'stake', amount: '1' },
-          'validatortoken'
+          { denom: 'transfer/irishubchan/uatom', amount: '100000' },
+          'transfer/ztezqumzyz/ubtc'
         )
         .then(res => {
           console.log(JSON.stringify(res));
@@ -52,8 +52,8 @@ describe('Coinswap Tests', () => {
     test('calculateWithExactOutput', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithExactOutput(
-          { denom: 'stake', amount: '1' },
-          'validatortoken'
+          { denom: 'uiris', amount: '1' },
+          'transfer/irishubchan/uatom'
         )
         .then(res => {
           console.log(JSON.stringify(res));
@@ -63,24 +63,27 @@ describe('Coinswap Tests', () => {
         });
     });
   });
-  // describe('Add Liquidity', () => {
-  //   test('add liquidity', async () => {
-  //     await BaseTest.getClient()
-  //       .coinswap.addLiquidity(
-  //         {
-  //           exact_standard_amt: 1,
-  //           max_token: { denom: 'validatortoken', amount: '1' },
-  //           min_liquidity: 1,
-  //           deadline: 10000000,
-  //         },
-  //         BaseTest.baseTx
-  //       )
-  //       .then(res => {
-  //         console.log(JSON.stringify(res));
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   });
-  // });
+  describe('Add Liquidity', () => {
+    test('add liquidity', async () => {
+      const btc = await BaseTest.getClient()
+        .coinswap.calculateWithExactInput({denom: 'uiris', amount: '10000'}, 'transfer/ztezqumzyz/ubtc');
+        console.log(btc)
+      await BaseTest.getClient()
+        .coinswap.deposit(
+          {
+            exact_standard_amt: 10000,
+            max_token: { denom: 'transfer/ztezqumzyz/ubtc', amount: String(btc) },
+            min_liquidity: 10000,
+            deadline: 10000000,
+          },
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
 });

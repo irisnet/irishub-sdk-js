@@ -32,11 +32,11 @@ export class BaseTest {
   static getClient(): Client {
     const client = iris
       .newClient({
-        node: 'http://localhost:26657',
+        node: 'http://192.168.150.31:46658',
         network: iris.Network.Testnet,
-        chainId: 'test',
+        chainId: 'irishub',
         gas: '200000',
-        fee: { denom: 'stake', amount: '1' },
+        fee: { denom: 'uiris', amount: '1' },
       })
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
@@ -44,7 +44,7 @@ export class BaseTest {
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'song nothing pole rough coffee marble sure october faculty kiss ahead act design dawn erase trick safe replace company version review dune width adult'
+      'case divide galaxy brain mother bicycle sketch utility shaft resource virus swear slender evidence valid brain lonely grief join build civil update muffin swarm'
     );
 
     return client;
