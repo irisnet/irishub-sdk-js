@@ -18,4 +18,4 @@ export declare enum RpcMethods {
     TxSearch = "tx_search",
     Validators = "validators"
 }
-export declare const STD_DENOM = "stake", IRIS_ATTO = "iris-atto", MIN_UNIT_SUFFIX = "-min";
+export declare const STD_DENOM = "uiris", IRIS_ATTO = "iris-atto", MIN_UNIT_SUFFIX = "-min";
