@@ -17,7 +17,7 @@ export interface StdFee {
 
 /** Standard Signature */
 export interface StdSignature {
-  pub_key?: PubKey;
+  pub_key?: string;
   signature?: string;
 
   // To support ibc-alpha

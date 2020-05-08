@@ -3,7 +3,7 @@ import * as is from 'is_js';
 import * as types from '../types';
 import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
-import { marshalTx } from '@irisnet/amino-js';
+import { marshalTx,marshalPubKey } from '@irisnet/amino-js';
 import { bytesToBase64 } from '@tendermint/belt';
 
 /**
@@ -123,9 +123,10 @@ export class Tx {
       const account = await this.client.bank.queryAccount(addr);
       accountNumber = account.account_number;
       sequence = account.sequence;
+      const pubKey = Buffer.from(marshalPubKey(account.public_key,true)).toString("base64")
       const sigs: types.StdSignature[] = [
         {
-          pub_key: account.public_key,
+          pub_key: pubKey,
 
           // To support ibc-alpha
           // account_number: String(account.account_number),
@@ -155,7 +156,8 @@ export class Tx {
       privKey
     );
     sig.signature = signature.toString('base64');
-    sig.pub_key = Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
+    const pubKey = Buffer.from(marshalPubKey(Crypto.getPublicKeySecp256k1FromPrivateKey(privKey),true)).toString("base64")
+    sig.pub_key = pubKey;
     stdTx.value.signatures[0] = sig;
     return stdTx;
   }

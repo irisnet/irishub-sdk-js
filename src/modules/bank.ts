@@ -90,13 +90,13 @@ export class Bank {
     let param;
 
     if (!denom) {
-      path = 'custom/supply/total_supply';
+      path = 'custom/bank/total_supply';
       param = {
         Page: '1',
         Limit: '0'
       };
     } else {
-      path = 'custom/supply/supply_of';
+      path = 'custom/bank/supply_of';
       param = {
         Denom: denom
       }
