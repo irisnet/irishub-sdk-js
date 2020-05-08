@@ -246,7 +246,7 @@ export class DefaultClientConfig implements ClientConfig {
     this.network = types.Network.Mainnet;
     this.chainId = 'irishub';
     this.gas = '100000';
-    this.fee = { amount: '0.6', denom: 'iris' };
+    this.fee = { amount: '0.6', denom: 'uiris' };
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };
