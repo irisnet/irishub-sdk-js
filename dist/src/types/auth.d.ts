@@ -1,4 +1,3 @@
-import { PubKey } from '@irisnet/amino-js/types';
 import { Coin, Msg, TxValue } from './types';
 /** Standard Tx */
 export interface StdTx extends TxValue {
@@ -14,7 +13,7 @@ export interface StdFee {
 }
 /** Standard Signature */
 export interface StdSignature {
-    pub_key?: PubKey;
+    pub_key?: string;
     signature?: string;
 }
 /** Base params for the transaction */
