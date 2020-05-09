@@ -417,6 +417,6 @@ export class Coinswap {
       this.math.subtract!(outputReserve, outputAmt),
       deltaFee
     );
-    return this.math.floor!(Number(this.math.divide!(numerator, denominator)));
+    return this.math.floor!(Number(this.math.divide!(numerator, denominator))) + 1;
   }
 }

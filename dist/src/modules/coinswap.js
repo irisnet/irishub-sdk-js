@@ -275,7 +275,7 @@ class Coinswap {
         const deltaFee = 1 - fee;
         const numerator = this.math.multiply(inputReserve, outputAmt);
         const denominator = this.math.multiply(this.math.subtract(outputReserve, outputAmt), deltaFee);
-        return this.math.floor(Number(this.math.divide(numerator, denominator)));
+        return this.math.floor(Number(this.math.divide(numerator, denominator))) + 1;
     }
 }
 exports.Coinswap = Coinswap;
