@@ -113,9 +113,10 @@ class Tx {
                 const account = yield this.client.bank.queryAccount(addr);
                 accountNumber = account.account_number;
                 sequence = account.sequence;
+                const pubKey = Buffer.from(amino_js_1.marshalPubKey(account.public_key, true)).toString("base64");
                 const sigs = [
                     {
-                        pub_key: account.public_key,
+                        pub_key: pubKey,
                         // To support ibc-alpha
                         // account_number: String(account.account_number),
                         // sequence: String(account.sequence),
@@ -138,7 +139,8 @@ class Tx {
             const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
             const signature = utils_1.Crypto.generateSignature(utils_1.Utils.str2hexstring(JSON.stringify(utils_1.Utils.sortObject(signMsg))), privKey);
             sig.signature = signature.toString('base64');
-            sig.pub_key = utils_1.Crypto.getPublicKeySecp256k1FromPrivateKey(privKey);
+            const pubKey = Buffer.from(amino_js_1.marshalPubKey(utils_1.Crypto.getPublicKeySecp256k1FromPrivateKey(privKey), true)).toString("base64");
+            sig.pub_key = pubKey;
             stdTx.value.signatures[0] = sig;
             return stdTx;
         });
