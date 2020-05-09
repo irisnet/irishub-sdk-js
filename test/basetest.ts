@@ -32,7 +32,7 @@ export class BaseTest {
   static getClient(): Client {
     const client = iris
       .newClient({
-        node: 'http://192.168.150.31:46658',
+        node: 'https://irishub.dev.bianjie.ai:443',
         network: iris.Network.Testnet,
         chainId: 'irishub',
         gas: '200000',

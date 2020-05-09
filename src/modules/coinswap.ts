@@ -243,12 +243,20 @@ export class Coinswap {
       );
     }
 
-    return this.getOutputPrice(
+    const paidAmt = this.getOutputPrice(
       Number(exactBoughtCoin.amount),
       inputReserve,
       outputReserve,
       Number(reservePool.fee)
     );
+
+    if (is.infinite(paidAmt)) {
+      throw new SdkError(
+          `infinite amount of '${soldTokenDenom}' is required`
+      );
+    }
+
+    return paidAmt;
   }
 
   /**

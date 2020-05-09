@@ -181,7 +181,11 @@ class Coinswap {
             if (is.above(Number(exactBoughtCoin.amount), outputReserve)) {
                 throw new errors_1.SdkError(`liquidity pool insufficient balance of '${exactBoughtCoin.denom}', user expected: '${exactBoughtCoin.amount}', got: '${outputReserve}'`);
             }
-            return this.getOutputPrice(Number(exactBoughtCoin.amount), inputReserve, outputReserve, Number(reservePool.fee));
+            const paidAmt = this.getOutputPrice(Number(exactBoughtCoin.amount), inputReserve, outputReserve, Number(reservePool.fee));
+            if (is.infinite(paidAmt)) {
+                throw new errors_1.SdkError(`infinite amount of '${soldTokenDenom}' is required`);
+            }
+            return paidAmt;
         });
     }
     /**

@@ -52,8 +52,8 @@ describe('Coinswap Tests', () => {
     test('calculateWithExactOutput', async () => {
       await BaseTest.getClient()
         .coinswap.calculateWithExactOutput(
-          { denom: 'transfer/ztezqumzyz/ubtc', amount: '10' },
-          'transfer/irishubchan/uatom'
+          { denom: 'transfer/iriscosmoschan/uatom', amount: '100' },
+          'uiris'
         )
         .then(res => {
           console.log(JSON.stringify(res));
