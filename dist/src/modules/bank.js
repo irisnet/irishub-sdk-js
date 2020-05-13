@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Bank = void 0;
 const crypto_1 = require("../utils/crypto");
 const types = require("../types");
 const errors_1 = require("../errors");

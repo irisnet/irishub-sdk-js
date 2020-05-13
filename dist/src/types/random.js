@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MsgRequestRand = void 0;
 /**
  * Msg struct for requesting a random number
  * @hidden

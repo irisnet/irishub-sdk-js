@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Auth = void 0;
 const is = require("is_js");
 /**
  * Auth module is only used to build `StdTx`
