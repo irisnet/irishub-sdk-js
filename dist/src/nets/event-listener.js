@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventListener = void 0;
 const amino_js_1 = require("@irisnet/amino-js");
 const belt_1 = require("@tendermint/belt");
 const errors_1 = require("../errors");

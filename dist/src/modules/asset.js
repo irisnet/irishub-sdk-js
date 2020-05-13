@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Asset = void 0;
 const types = require("../types");
 const is = require("is_js");
 const errors_1 = require("../errors");

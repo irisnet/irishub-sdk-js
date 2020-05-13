@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Utils = void 0;
 const hexEncoding = require("crypto-js/enc-hex");
 const SHA3 = require("crypto-js/sha3");
 const SHA256 = require("crypto-js/sha256");

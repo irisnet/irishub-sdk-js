@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MsgWithdrawValidatorRewardsAll = exports.MsgWithdrawDelegatorReward = exports.MsgWithdrawDelegatorRewardsAll = exports.MsgSetWithdrawAddress = void 0;
 /**
  * Msg struct for changing the withdraw address for a delegator (or validator self-delegation)
  * @hidden
