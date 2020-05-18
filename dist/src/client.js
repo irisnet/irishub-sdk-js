@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultKeyDAOImpl = exports.DefaultClientConfig = exports.Client = void 0;
 const modules = require("./modules");
 const rpc_client_1 = require("./nets/rpc-client");
 const event_listener_1 = require("./nets/event-listener");

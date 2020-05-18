@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RpcClient = void 0;
 const axios_1 = require("axios");
 const utils_1 = require("../utils");
 const errors_1 = require("../errors");

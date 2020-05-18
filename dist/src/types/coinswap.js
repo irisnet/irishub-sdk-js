@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgSwapOrder = exports.MsgRemoveLiquidity = exports.MsgAddLiquidity = void 0;
 class MsgAddLiquidity {
     constructor(request, sender) {
         const deadline = new Date();

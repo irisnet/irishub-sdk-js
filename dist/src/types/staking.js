@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgEditValidator = exports.MsgRedelegate = exports.MsgUndelegate = exports.MsgDelegate = void 0;
 /**
  * Msg struct for delegating to a validator
  * @hidden

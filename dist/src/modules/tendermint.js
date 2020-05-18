@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tendermint = void 0;
 const types_1 = require("../types");
 const amino_js_1 = require("@irisnet/amino-js");
 const belt_1 = require("@tendermint/belt");

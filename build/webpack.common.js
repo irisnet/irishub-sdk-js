@@ -13,6 +13,9 @@ module.exports = {
         library: 'irishub-sdk',
         libraryTarget: 'umd'
     },
+    externals: {
+        "@irisnet/amino-js": "https://github.com/irisnet/amino-js#ibc-alpha"
+    },
     resolve: {
         extensions: ['.ts', '.js']
     },

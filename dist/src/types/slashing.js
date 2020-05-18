@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgUnjail = void 0;
 /**
  * Msg struct for unjailing jailed validator
  * @hidden

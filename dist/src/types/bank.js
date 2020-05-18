@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgSetMemoRegexp = exports.MsgBurn = exports.MsgSend = void 0;
 /**
  * Msg for sending coins
  *
