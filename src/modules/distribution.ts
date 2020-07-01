@@ -42,6 +42,21 @@ export class Distribution {
   }
 
   /**
+   * Get the address of which the delegator receives the rewards
+   * @param delegatorAddress Bech32 account address
+   * @returns
+   * @since v0.17
+   */
+  queryWithdrawAddr(delegatorAddress: string): Promise<string> {
+    return this.client.rpcClient.abciQuery<string>(
+      'custom/distr/withdraw_addr',
+      {
+        delegator_address: delegatorAddress,
+      }
+    );
+  }
+
+  /**
    * Set another address to receive the rewards instead of using the delegator address
    * @param withdrawAddress Bech32 account address
    * @param baseTx
