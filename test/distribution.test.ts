@@ -18,6 +18,23 @@ describe('Distribution Tests', () => {
     );
   });
 
+  describe('Query Withdraw Address', () => {
+    test(
+      'query withdraw-addr',
+      async () => {
+        await BaseTest.getClient().distribution
+          .queryWithdrawAddr('iaa1gvq24a5vn7twjupf3l2t7pnd9l4fm7uwwm4ujp')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+
   describe('Set Withdraw Address', () => {
     test(
       'set withdraw address',
