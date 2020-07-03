@@ -8,7 +8,7 @@ describe('Asset Tests', () => {
     'query token',
     async () => {
       try {
-        console.log(await BaseTest.getClient().asset.queryToken('iris'));
+        console.log(await BaseTest.getDevClient().asset.queryToken('iris'));
       } catch (error) {
         console.log(JSON.stringify(error));
       }

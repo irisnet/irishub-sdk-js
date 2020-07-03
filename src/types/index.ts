@@ -19,3 +19,4 @@ export * from './block';
 export * from './block-result';
 export * from './validator';
 export * from './query-builder';
+export * from './htlc';
