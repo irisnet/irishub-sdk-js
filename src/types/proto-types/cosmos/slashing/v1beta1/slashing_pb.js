@@ -94,7 +94,7 @@ proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.toObject = function
  */
 proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: msg.getAddress_asB64(),
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     startHeight: jspb.Message.getFieldWithDefault(msg, 2, 0),
     indexOffset: jspb.Message.getFieldWithDefault(msg, 3, 0),
     jailedUntil: (f = msg.getJailedUntil()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
@@ -137,7 +137,7 @@ proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.deserializeBinaryFromReader =
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     case 2:
@@ -190,9 +190,9 @@ proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.serializeBinary = f
  */
 proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -237,44 +237,20 @@ proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.serializeBinaryToWriter = fun
 
 
 /**
- * optional bytes address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes address = 1;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 1;
  * @return {string}
  */
-proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.slashing.v1beta1.ValidatorSigningInfo} returns this
  */
 proto.cosmos.slashing.v1beta1.ValidatorSigningInfo.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

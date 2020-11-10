@@ -12,8 +12,10 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var cosmos_base_crypto_v1beta1_crypto_pb = require('../../../../cosmos/base/crypto/v1beta1/crypto_pb.js');
-goog.object.extend(proto, cosmos_base_crypto_v1beta1_crypto_pb);
+var cosmos_crypto_multisig_v1beta1_multisig_pb = require('../../../../cosmos/crypto/multisig/v1beta1/multisig_pb.js');
+goog.object.extend(proto, cosmos_crypto_multisig_v1beta1_multisig_pb);
+var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
+goog.object.extend(proto, google_protobuf_any_pb);
 goog.exportSymbol('proto.cosmos.tx.signing.v1beta1.SignMode', null, global);
 goog.exportSymbol('proto.cosmos.tx.signing.v1beta1.SignatureDescriptor', null, global);
 goog.exportSymbol('proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data', null, global);
@@ -318,7 +320,7 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.prototype.toObject = functio
  */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.toObject = function(includeInstance, msg) {
   var f, obj = {
-    publicKey: (f = msg.getPublicKey()) && cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.toObject(includeInstance, f),
+    publicKey: (f = msg.getPublicKey()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
     data: (f = msg.getData()) && proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.toObject(includeInstance, f),
     sequence: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
@@ -358,8 +360,8 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.deserializeBinaryFromReader 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new cosmos_base_crypto_v1beta1_crypto_pb.PublicKey;
-      reader.readMessage(value,cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.deserializeBinaryFromReader);
+      var value = new google_protobuf_any_pb.Any;
+      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
       msg.setPublicKey(value);
       break;
     case 2:
@@ -405,7 +407,7 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.serializeBinaryToWriter = fu
     writer.writeMessage(
       1,
       f,
-      cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.serializeBinaryToWriter
+      google_protobuf_any_pb.Any.serializeBinaryToWriter
     );
   }
   f = message.getData();
@@ -803,7 +805,7 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.prototype.toObjec
  */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bitarray: (f = msg.getBitarray()) && cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.toObject(includeInstance, f),
+    bitarray: (f = msg.getBitarray()) && cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.toObject(includeInstance, f),
     signaturesList: jspb.Message.toObjectList(msg.getSignaturesList(),
     proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.toObject, includeInstance)
   };
@@ -843,8 +845,8 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.deserializeBinary
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray;
-      reader.readMessage(value,cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.deserializeBinaryFromReader);
+      var value = new cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray;
+      reader.readMessage(value,cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.deserializeBinaryFromReader);
       msg.setBitarray(value);
       break;
     case 2:
@@ -886,7 +888,7 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.serializeBinaryTo
     writer.writeMessage(
       1,
       f,
-      cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.serializeBinaryToWriter
+      cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.serializeBinaryToWriter
     );
   }
   f = message.getSignaturesList();
@@ -901,17 +903,17 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.serializeBinaryTo
 
 
 /**
- * optional cosmos.base.crypto.v1beta1.CompactBitArray bitarray = 1;
- * @return {?proto.cosmos.base.crypto.v1beta1.CompactBitArray}
+ * optional cosmos.crypto.multisig.v1beta1.CompactBitArray bitarray = 1;
+ * @return {?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray}
  */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.prototype.getBitarray = function() {
-  return /** @type{?proto.cosmos.base.crypto.v1beta1.CompactBitArray} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray, 1));
+  return /** @type{?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray} */ (
+    jspb.Message.getWrapperField(this, cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray, 1));
 };
 
 
 /**
- * @param {?proto.cosmos.base.crypto.v1beta1.CompactBitArray|undefined} value
+ * @param {?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray|undefined} value
  * @return {!proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi} returns this
 */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.Multi.prototype.setBitarray = function(value) {
@@ -1050,17 +1052,17 @@ proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.Data.prototype.hasMulti = fu
 
 
 /**
- * optional cosmos.base.crypto.v1beta1.PublicKey public_key = 1;
- * @return {?proto.cosmos.base.crypto.v1beta1.PublicKey}
+ * optional google.protobuf.Any public_key = 1;
+ * @return {?proto.google.protobuf.Any}
  */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.prototype.getPublicKey = function() {
-  return /** @type{?proto.cosmos.base.crypto.v1beta1.PublicKey} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_crypto_v1beta1_crypto_pb.PublicKey, 1));
+  return /** @type{?proto.google.protobuf.Any} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_any_pb.Any, 1));
 };
 
 
 /**
- * @param {?proto.cosmos.base.crypto.v1beta1.PublicKey|undefined} value
+ * @param {?proto.google.protobuf.Any|undefined} value
  * @return {!proto.cosmos.tx.signing.v1beta1.SignatureDescriptor} returns this
 */
 proto.cosmos.tx.signing.v1beta1.SignatureDescriptor.prototype.setPublicKey = function(value) {

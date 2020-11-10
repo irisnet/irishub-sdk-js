@@ -1721,7 +1721,7 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.toObject = function
   var f, obj = {
     title: jspb.Message.getFieldWithDefault(msg, 1, ""),
     description: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    recipient: msg.getRecipient_asB64(),
+    recipient: jspb.Message.getFieldWithDefault(msg, 3, ""),
     amountList: jspb.Message.toObjectList(msg.getAmountList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance)
   };
@@ -1769,7 +1769,7 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.deserializeBinaryFr
       msg.setDescription(value);
       break;
     case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setRecipient(value);
       break;
     case 4:
@@ -1820,9 +1820,9 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.serializeBinaryToWr
       f
     );
   }
-  f = message.getRecipient_asU8();
+  f = message.getRecipient();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       3,
       f
     );
@@ -1875,44 +1875,20 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.setDescri
 
 
 /**
- * optional bytes recipient = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.getRecipient = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes recipient = 3;
- * This is a type-conversion wrapper around `getRecipient()`
+ * optional string recipient = 3;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.getRecipient_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getRecipient()));
+proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.getRecipient = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
- * optional bytes recipient = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getRecipient()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.getRecipient_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getRecipient()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal} returns this
  */
 proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposal.prototype.setRecipient = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -2183,7 +2159,7 @@ proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.toObject =
  */
 proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     rewardList: jspb.Message.toObjectList(msg.getRewardList(),
     cosmos_base_v1beta1_coin_pb.DecCoin.toObject, includeInstance)
   };
@@ -2223,7 +2199,7 @@ proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.deserializeBinaryFro
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -2260,9 +2236,9 @@ proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.serializeB
  */
 proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -2279,44 +2255,20 @@ proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.serializeBinaryToWri
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.DelegationDelegatorReward} returns this
  */
 proto.cosmos.distribution.v1beta1.DelegationDelegatorReward.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -2392,7 +2344,7 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.toObject
   var f, obj = {
     title: jspb.Message.getFieldWithDefault(msg, 1, ""),
     description: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    recipient: msg.getRecipient_asB64(),
+    recipient: jspb.Message.getFieldWithDefault(msg, 3, ""),
     amount: jspb.Message.getFieldWithDefault(msg, 4, ""),
     deposit: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
@@ -2440,7 +2392,7 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.deserial
       msg.setDescription(value);
       break;
     case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setRecipient(value);
       break;
     case 4:
@@ -2494,9 +2446,9 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.serializ
       f
     );
   }
-  f = message.getRecipient_asU8();
+  f = message.getRecipient();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       3,
       f
     );
@@ -2555,44 +2507,20 @@ proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototyp
 
 
 /**
- * optional bytes recipient = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototype.getRecipient = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes recipient = 3;
- * This is a type-conversion wrapper around `getRecipient()`
+ * optional string recipient = 3;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototype.getRecipient_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getRecipient()));
+proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototype.getRecipient = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
- * optional bytes recipient = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getRecipient()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototype.getRecipient_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getRecipient()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit} returns this
  */
 proto.cosmos.distribution.v1beta1.CommunityPoolSpendProposalWithDeposit.prototype.setRecipient = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

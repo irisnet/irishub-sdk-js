@@ -18,7 +18,7 @@ export class Auth {
     this.client = client;
     this.defaultStdFee = {
       amount: [this.client.config.fee],
-      gas: this.client.config.gas,
+      gasLimit: this.client.config.gas,
     };
   }
 
@@ -38,10 +38,8 @@ export class Auth {
   newStdTx(
     msgs: types.Msg[],
     baseTx: types.BaseTx,
-    sigs: types.StdSignature[] = [],
-    memo = ''
-  ): types.Tx<types.StdTx> {
-    const stdFee: types.StdFee = { amount: [], gas: '' };
+  ): types.ProtoTx {
+    const stdFee: types.StdFee = { amount: [], gasLimit: '' };
     Object.assign(stdFee, this.defaultStdFee); // Copy from default std fee
 
     if (baseTx.fee) {
@@ -49,16 +47,17 @@ export class Auth {
     }
 
     if (baseTx.gas && is.not.empty(baseTx.gas)) {
-      stdFee.gas = baseTx.gas;
+      stdFee.gasLimit = baseTx.gas;
     }
-    return {
-      type: 'cosmos-sdk/StdTx',
-      value: {
-        msg: msgs,
-        fee: stdFee,
-        signatures: sigs,
-        memo,
-      },
-    };
+
+    let protoTx = new types.ProtoTx({
+      msgs,
+      memo:baseTx.memo||'',
+      stdFee,
+      chain_id:this.client.config.chainId,
+      account_number:baseTx.account_number || undefined,
+      sequence:baseTx.sequence || undefined
+    });
+    return protoTx;
   }
 }

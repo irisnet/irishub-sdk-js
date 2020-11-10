@@ -226,8 +226,8 @@ proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.toObject = fun
  */
 proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    delegatorAddress: msg.getDelegatorAddress_asB64(),
-    withdrawAddress: msg.getWithdrawAddress_asB64()
+    delegatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    withdrawAddress: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -265,11 +265,11 @@ proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.deserializeBinaryFromRea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setDelegatorAddress(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setWithdrawAddress(value);
       break;
     default:
@@ -301,16 +301,16 @@ proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.serializeBinar
  */
 proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getDelegatorAddress_asU8();
+  f = message.getDelegatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getWithdrawAddress_asU8();
+  f = message.getWithdrawAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
@@ -319,86 +319,38 @@ proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.serializeBinaryToWriter 
 
 
 /**
- * optional bytes delegator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getDelegatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes delegator_address = 1;
- * This is a type-conversion wrapper around `getDelegatorAddress()`
+ * optional string delegator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getDelegatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getDelegatorAddress()));
+proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getDelegatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes delegator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getDelegatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getDelegatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getDelegatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo} returns this
  */
 proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.setDelegatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional bytes withdraw_address = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getWithdrawAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes withdraw_address = 2;
- * This is a type-conversion wrapper around `getWithdrawAddress()`
+ * optional string withdraw_address = 2;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getWithdrawAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getWithdrawAddress()));
+proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getWithdrawAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes withdraw_address = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getWithdrawAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.getWithdrawAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getWithdrawAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo} returns this
  */
 proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.prototype.setWithdrawAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -441,7 +393,7 @@ proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.to
  */
 proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     outstandingRewardsList: jspb.Message.toObjectList(msg.getOutstandingRewardsList(),
     cosmos_base_v1beta1_coin_pb.DecCoin.toObject, includeInstance)
   };
@@ -481,7 +433,7 @@ proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.deserializeB
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -518,9 +470,9 @@ proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.se
  */
 proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -537,44 +489,20 @@ proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.serializeBin
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -648,7 +576,7 @@ proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype
  */
 proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     accumulated: (f = msg.getAccumulated()) && cosmos_distribution_v1beta1_distribution_pb.ValidatorAccumulatedCommission.toObject(includeInstance, f)
   };
 
@@ -687,7 +615,7 @@ proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.deseriali
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -724,9 +652,9 @@ proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype
  */
 proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -743,44 +671,20 @@ proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.serialize
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.ValidatorAccumulatedCommissionRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -853,7 +757,7 @@ proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.toO
  */
 proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     period: jspb.Message.getFieldWithDefault(msg, 2, 0),
     rewards: (f = msg.getRewards()) && cosmos_distribution_v1beta1_distribution_pb.ValidatorHistoricalRewards.toObject(includeInstance, f)
   };
@@ -893,7 +797,7 @@ proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.deserializeBi
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -934,9 +838,9 @@ proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.ser
  */
 proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -960,44 +864,20 @@ proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.serializeBina
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.ValidatorHistoricalRewardsRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1088,7 +968,7 @@ proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.toObje
  */
 proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     rewards: (f = msg.getRewards()) && cosmos_distribution_v1beta1_distribution_pb.ValidatorCurrentRewards.toObject(includeInstance, f)
   };
 
@@ -1127,7 +1007,7 @@ proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.deserializeBinar
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -1164,9 +1044,9 @@ proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.serial
  */
 proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -1183,44 +1063,20 @@ proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.serializeBinaryT
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.ValidatorCurrentRewardsRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1293,8 +1149,8 @@ proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.toObject
  */
 proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    delegatorAddress: msg.getDelegatorAddress_asB64(),
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    delegatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     startingInfo: (f = msg.getStartingInfo()) && cosmos_distribution_v1beta1_distribution_pb.DelegatorStartingInfo.toObject(includeInstance, f)
   };
 
@@ -1333,11 +1189,11 @@ proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.deserializeBinaryF
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setDelegatorAddress(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 3:
@@ -1374,16 +1230,16 @@ proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.serializ
  */
 proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getDelegatorAddress_asU8();
+  f = message.getDelegatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
@@ -1400,86 +1256,38 @@ proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.serializeBinaryToW
 
 
 /**
- * optional bytes delegator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getDelegatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes delegator_address = 1;
- * This is a type-conversion wrapper around `getDelegatorAddress()`
+ * optional string delegator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getDelegatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getDelegatorAddress()));
+proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getDelegatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes delegator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getDelegatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getDelegatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getDelegatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.setDelegatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional bytes validator_address = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes validator_address = 2;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 2;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes validator_address = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -1552,10 +1360,10 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.toObject =
  */
 proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddress: msg.getValidatorAddress_asB64(),
+    validatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
     height: jspb.Message.getFieldWithDefault(msg, 2, 0),
     period: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    event: (f = msg.getEvent()) && cosmos_distribution_v1beta1_distribution_pb.ValidatorSlashEvent.toObject(includeInstance, f)
+    validatorSlashEvent: (f = msg.getValidatorSlashEvent()) && cosmos_distribution_v1beta1_distribution_pb.ValidatorSlashEvent.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1593,7 +1401,7 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.deserializeBinaryFro
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddress(value);
       break;
     case 2:
@@ -1607,7 +1415,7 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.deserializeBinaryFro
     case 4:
       var value = new cosmos_distribution_v1beta1_distribution_pb.ValidatorSlashEvent;
       reader.readMessage(value,cosmos_distribution_v1beta1_distribution_pb.ValidatorSlashEvent.deserializeBinaryFromReader);
-      msg.setEvent(value);
+      msg.setValidatorSlashEvent(value);
       break;
     default:
       reader.skipField();
@@ -1638,9 +1446,9 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.serializeB
  */
 proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddress_asU8();
+  f = message.getValidatorAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -1659,7 +1467,7 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.serializeBinaryToWri
       f
     );
   }
-  f = message.getEvent();
+  f = message.getValidatorSlashEvent();
   if (f != null) {
     writer.writeMessage(
       4,
@@ -1671,44 +1479,20 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.serializeBinaryToWri
 
 
 /**
- * optional bytes validator_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getValidatorAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_address = 1;
- * This is a type-conversion wrapper around `getValidatorAddress()`
+ * optional string validator_address = 1;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getValidatorAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddress()));
+proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getValidatorAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getValidatorAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord} returns this
  */
 proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.setValidatorAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -1749,10 +1533,10 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.setPeriod 
 
 
 /**
- * optional ValidatorSlashEvent event = 4;
+ * optional ValidatorSlashEvent validator_slash_event = 4;
  * @return {?proto.cosmos.distribution.v1beta1.ValidatorSlashEvent}
  */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getEvent = function() {
+proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getValidatorSlashEvent = function() {
   return /** @type{?proto.cosmos.distribution.v1beta1.ValidatorSlashEvent} */ (
     jspb.Message.getWrapperField(this, cosmos_distribution_v1beta1_distribution_pb.ValidatorSlashEvent, 4));
 };
@@ -1762,7 +1546,7 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.getEvent =
  * @param {?proto.cosmos.distribution.v1beta1.ValidatorSlashEvent|undefined} value
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord} returns this
 */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.setEvent = function(value) {
+proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.setValidatorSlashEvent = function(value) {
   return jspb.Message.setWrapperField(this, 4, value);
 };
 
@@ -1771,8 +1555,8 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.setEvent =
  * Clears the message field making it undefined.
  * @return {!proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord} returns this
  */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.clearEvent = function() {
-  return this.setEvent(undefined);
+proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.clearValidatorSlashEvent = function() {
+  return this.setValidatorSlashEvent(undefined);
 };
 
 
@@ -1780,7 +1564,7 @@ proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.clearEvent
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.hasEvent = function() {
+proto.cosmos.distribution.v1beta1.ValidatorSlashEventRecord.prototype.hasValidatorSlashEvent = function() {
   return jspb.Message.getField(this, 4) != null;
 };
 
@@ -1828,7 +1612,7 @@ proto.cosmos.distribution.v1beta1.GenesisState.toObject = function(includeInstan
     feePool: (f = msg.getFeePool()) && cosmos_distribution_v1beta1_distribution_pb.FeePool.toObject(includeInstance, f),
     delegatorWithdrawInfosList: jspb.Message.toObjectList(msg.getDelegatorWithdrawInfosList(),
     proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.toObject, includeInstance),
-    previousProposer: msg.getPreviousProposer_asB64(),
+    previousProposer: jspb.Message.getFieldWithDefault(msg, 4, ""),
     outstandingRewardsList: jspb.Message.toObjectList(msg.getOutstandingRewardsList(),
     proto.cosmos.distribution.v1beta1.ValidatorOutstandingRewardsRecord.toObject, includeInstance),
     validatorAccumulatedCommissionsList: jspb.Message.toObjectList(msg.getValidatorAccumulatedCommissionsList(),
@@ -1893,7 +1677,7 @@ proto.cosmos.distribution.v1beta1.GenesisState.deserializeBinaryFromReader = fun
       msg.addDelegatorWithdrawInfos(value);
       break;
     case 4:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setPreviousProposer(value);
       break;
     case 5:
@@ -1979,9 +1763,9 @@ proto.cosmos.distribution.v1beta1.GenesisState.serializeBinaryToWriter = functio
       proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo.serializeBinaryToWriter
     );
   }
-  f = message.getPreviousProposer_asU8();
+  f = message.getPreviousProposer();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       4,
       f
     );
@@ -2150,44 +1934,20 @@ proto.cosmos.distribution.v1beta1.GenesisState.prototype.clearDelegatorWithdrawI
 
 
 /**
- * optional bytes previous_proposer = 4;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.distribution.v1beta1.GenesisState.prototype.getPreviousProposer = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * optional bytes previous_proposer = 4;
- * This is a type-conversion wrapper around `getPreviousProposer()`
+ * optional string previous_proposer = 4;
  * @return {string}
  */
-proto.cosmos.distribution.v1beta1.GenesisState.prototype.getPreviousProposer_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getPreviousProposer()));
+proto.cosmos.distribution.v1beta1.GenesisState.prototype.getPreviousProposer = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
- * optional bytes previous_proposer = 4;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getPreviousProposer()`
- * @return {!Uint8Array}
- */
-proto.cosmos.distribution.v1beta1.GenesisState.prototype.getPreviousProposer_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getPreviousProposer()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.distribution.v1beta1.GenesisState} returns this
  */
 proto.cosmos.distribution.v1beta1.GenesisState.prototype.setPreviousProposer = function(value) {
-  return jspb.Message.setProto3BytesField(this, 4, value);
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

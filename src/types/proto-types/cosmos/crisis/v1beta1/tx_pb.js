@@ -68,7 +68,7 @@ proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.toObject = function(opt
  */
 proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.toObject = function(includeInstance, msg) {
   var f, obj = {
-    sender: msg.getSender_asB64(),
+    sender: jspb.Message.getFieldWithDefault(msg, 1, ""),
     invariantModuleName: jspb.Message.getFieldWithDefault(msg, 2, ""),
     invariantRoute: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
@@ -108,7 +108,7 @@ proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.deserializeBinaryFromReader = fun
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setSender(value);
       break;
     case 2:
@@ -148,9 +148,9 @@ proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.serializeBinary = funct
  */
 proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getSender_asU8();
+  f = message.getSender();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -173,44 +173,20 @@ proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.serializeBinaryToWriter = functio
 
 
 /**
- * optional bytes sender = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.getSender = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes sender = 1;
- * This is a type-conversion wrapper around `getSender()`
+ * optional string sender = 1;
  * @return {string}
  */
-proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.getSender_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getSender()));
+proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.getSender = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes sender = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getSender()`
- * @return {!Uint8Array}
- */
-proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.getSender_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getSender()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.crisis.v1beta1.MsgVerifyInvariant} returns this
  */
 proto.cosmos.crisis.v1beta1.MsgVerifyInvariant.prototype.setSender = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

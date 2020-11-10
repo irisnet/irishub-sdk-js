@@ -77,8 +77,8 @@ proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.toObject = functi
  */
 proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.toObject = function(includeInstance, msg) {
   var f, obj = {
-    fromAddress: msg.getFromAddress_asB64(),
-    toAddress: msg.getToAddress_asB64(),
+    fromAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    toAddress: jspb.Message.getFieldWithDefault(msg, 2, ""),
     amountList: jspb.Message.toObjectList(msg.getAmountList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance),
     endTime: jspb.Message.getFieldWithDefault(msg, 4, 0),
@@ -120,11 +120,11 @@ proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.deserializeBinaryFromReader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setFromAddress(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setToAddress(value);
       break;
     case 3:
@@ -169,16 +169,16 @@ proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.serializeBinary =
  */
 proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getFromAddress_asU8();
+  f = message.getFromAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getToAddress_asU8();
+  f = message.getToAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
@@ -209,86 +209,38 @@ proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.serializeBinaryToWriter = f
 
 
 /**
- * optional bytes from_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getFromAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes from_address = 1;
- * This is a type-conversion wrapper around `getFromAddress()`
+ * optional string from_address = 1;
  * @return {string}
  */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getFromAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getFromAddress()));
+proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getFromAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes from_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getFromAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getFromAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getFromAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount} returns this
  */
 proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.setFromAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional bytes to_address = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getToAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes to_address = 2;
- * This is a type-conversion wrapper around `getToAddress()`
+ * optional string to_address = 2;
  * @return {string}
  */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getToAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getToAddress()));
+proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getToAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes to_address = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getToAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.getToAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getToAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount} returns this
  */
 proto.cosmos.vesting.v1beta1.MsgCreateVestingAccount.prototype.setToAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

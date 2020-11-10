@@ -72,7 +72,7 @@ proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.toObject = function(op
  */
 proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.toObject = function(includeInstance, msg) {
   var f, obj = {
-    submitter: msg.getSubmitter_asB64(),
+    submitter: jspb.Message.getFieldWithDefault(msg, 1, ""),
     evidence: (f = msg.getEvidence()) && google_protobuf_any_pb.Any.toObject(includeInstance, f)
   };
 
@@ -111,7 +111,7 @@ proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.deserializeBinaryFromReader = fu
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setSubmitter(value);
       break;
     case 2:
@@ -148,9 +148,9 @@ proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.serializeBinary = func
  */
 proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getSubmitter_asU8();
+  f = message.getSubmitter();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -167,44 +167,20 @@ proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.serializeBinaryToWriter = functi
 
 
 /**
- * optional bytes submitter = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.getSubmitter = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes submitter = 1;
- * This is a type-conversion wrapper around `getSubmitter()`
+ * optional string submitter = 1;
  * @return {string}
  */
-proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.getSubmitter_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getSubmitter()));
+proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.getSubmitter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes submitter = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getSubmitter()`
- * @return {!Uint8Array}
- */
-proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.getSubmitter_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getSubmitter()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.evidence.v1beta1.MsgSubmitEvidence} returns this
  */
 proto.cosmos.evidence.v1beta1.MsgSubmitEvidence.prototype.setSubmitter = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

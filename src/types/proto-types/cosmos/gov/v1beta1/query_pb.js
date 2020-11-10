@@ -686,8 +686,8 @@ proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.toObject = function(opt
 proto.cosmos.gov.v1beta1.QueryProposalsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     proposalStatus: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    voter: msg.getVoter_asB64(),
-    depositor: msg.getDepositor_asB64(),
+    voter: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    depositor: jspb.Message.getFieldWithDefault(msg, 3, ""),
     pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
@@ -730,11 +730,11 @@ proto.cosmos.gov.v1beta1.QueryProposalsRequest.deserializeBinaryFromReader = fun
       msg.setProposalStatus(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setVoter(value);
       break;
     case 3:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setDepositor(value);
       break;
     case 4:
@@ -778,16 +778,16 @@ proto.cosmos.gov.v1beta1.QueryProposalsRequest.serializeBinaryToWriter = functio
       f
     );
   }
-  f = message.getVoter_asU8();
+  f = message.getVoter();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
   }
-  f = message.getDepositor_asU8();
+  f = message.getDepositor();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       3,
       f
     );
@@ -822,86 +822,38 @@ proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.setProposalStatus = fun
 
 
 /**
- * optional bytes voter = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getVoter = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes voter = 2;
- * This is a type-conversion wrapper around `getVoter()`
+ * optional string voter = 2;
  * @return {string}
  */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getVoter_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getVoter()));
+proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getVoter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes voter = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getVoter()`
- * @return {!Uint8Array}
- */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getVoter_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getVoter()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.gov.v1beta1.QueryProposalsRequest} returns this
  */
 proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.setVoter = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional bytes depositor = 3;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getDepositor = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * optional bytes depositor = 3;
- * This is a type-conversion wrapper around `getDepositor()`
+ * optional string depositor = 3;
  * @return {string}
  */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getDepositor_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getDepositor()));
+proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getDepositor = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /**
- * optional bytes depositor = 3;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getDepositor()`
- * @return {!Uint8Array}
- */
-proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.getDepositor_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getDepositor()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.gov.v1beta1.QueryProposalsRequest} returns this
  */
 proto.cosmos.gov.v1beta1.QueryProposalsRequest.prototype.setDepositor = function(value) {
-  return jspb.Message.setProto3BytesField(this, 3, value);
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -1186,7 +1138,7 @@ proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.toObject = function(opt_incl
 proto.cosmos.gov.v1beta1.QueryVoteRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     proposalId: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    voter: msg.getVoter_asB64()
+    voter: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1228,7 +1180,7 @@ proto.cosmos.gov.v1beta1.QueryVoteRequest.deserializeBinaryFromReader = function
       msg.setProposalId(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setVoter(value);
       break;
     default:
@@ -1267,9 +1219,9 @@ proto.cosmos.gov.v1beta1.QueryVoteRequest.serializeBinaryToWriter = function(mes
       f
     );
   }
-  f = message.getVoter_asU8();
+  f = message.getVoter();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
@@ -1296,44 +1248,20 @@ proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.setProposalId = function(val
 
 
 /**
- * optional bytes voter = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.getVoter = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes voter = 2;
- * This is a type-conversion wrapper around `getVoter()`
+ * optional string voter = 2;
  * @return {string}
  */
-proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.getVoter_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getVoter()));
+proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.getVoter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes voter = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getVoter()`
- * @return {!Uint8Array}
- */
-proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.getVoter_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getVoter()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.gov.v1beta1.QueryVoteRequest} returns this
  */
 proto.cosmos.gov.v1beta1.QueryVoteRequest.prototype.setVoter = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -2296,7 +2224,7 @@ proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.toObject = function(opt_i
 proto.cosmos.gov.v1beta1.QueryDepositRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     proposalId: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    depositor: msg.getDepositor_asB64()
+    depositor: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -2338,7 +2266,7 @@ proto.cosmos.gov.v1beta1.QueryDepositRequest.deserializeBinaryFromReader = funct
       msg.setProposalId(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setDepositor(value);
       break;
     default:
@@ -2377,9 +2305,9 @@ proto.cosmos.gov.v1beta1.QueryDepositRequest.serializeBinaryToWriter = function(
       f
     );
   }
-  f = message.getDepositor_asU8();
+  f = message.getDepositor();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       2,
       f
     );
@@ -2406,44 +2334,20 @@ proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.setProposalId = function(
 
 
 /**
- * optional bytes depositor = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.getDepositor = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes depositor = 2;
- * This is a type-conversion wrapper around `getDepositor()`
+ * optional string depositor = 2;
  * @return {string}
  */
-proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.getDepositor_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getDepositor()));
+proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.getDepositor = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /**
- * optional bytes depositor = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getDepositor()`
- * @return {!Uint8Array}
- */
-proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.getDepositor_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getDepositor()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.gov.v1beta1.QueryDepositRequest} returns this
  */
 proto.cosmos.gov.v1beta1.QueryDepositRequest.prototype.setDepositor = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

@@ -16,6 +16,8 @@ var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
 goog.object.extend(proto, cosmos_proto_cosmos_pb);
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
+var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
+goog.object.extend(proto, google_protobuf_any_pb);
 goog.exportSymbol('proto.cosmos.auth.v1beta1.BaseAccount', null, global);
 goog.exportSymbol('proto.cosmos.auth.v1beta1.ModuleAccount', null, global);
 goog.exportSymbol('proto.cosmos.auth.v1beta1.Params', null, global);
@@ -114,8 +116,8 @@ proto.cosmos.auth.v1beta1.BaseAccount.prototype.toObject = function(opt_includeI
  */
 proto.cosmos.auth.v1beta1.BaseAccount.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: msg.getAddress_asB64(),
-    pubKey: msg.getPubKey_asB64(),
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    pubKey: (f = msg.getPubKey()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
     accountNumber: jspb.Message.getFieldWithDefault(msg, 3, 0),
     sequence: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
@@ -155,11 +157,12 @@ proto.cosmos.auth.v1beta1.BaseAccount.deserializeBinaryFromReader = function(msg
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = new google_protobuf_any_pb.Any;
+      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
       msg.setPubKey(value);
       break;
     case 3:
@@ -199,18 +202,19 @@ proto.cosmos.auth.v1beta1.BaseAccount.prototype.serializeBinary = function() {
  */
 proto.cosmos.auth.v1beta1.BaseAccount.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
   }
-  f = message.getPubKey_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
+  f = message.getPubKey();
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
+      f,
+      google_protobuf_any_pb.Any.serializeBinaryToWriter
     );
   }
   f = message.getAccountNumber();
@@ -231,86 +235,57 @@ proto.cosmos.auth.v1beta1.BaseAccount.serializeBinaryToWriter = function(message
 
 
 /**
- * optional bytes address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes address = 1;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 1;
  * @return {string}
  */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.cosmos.auth.v1beta1.BaseAccount.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.auth.v1beta1.BaseAccount} returns this
  */
 proto.cosmos.auth.v1beta1.BaseAccount.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional bytes pub_key = 2;
- * @return {!(string|Uint8Array)}
+ * optional google.protobuf.Any pub_key = 2;
+ * @return {?proto.google.protobuf.Any}
  */
 proto.cosmos.auth.v1beta1.BaseAccount.prototype.getPubKey = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type{?proto.google.protobuf.Any} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_any_pb.Any, 2));
 };
 
 
 /**
- * optional bytes pub_key = 2;
- * This is a type-conversion wrapper around `getPubKey()`
- * @return {string}
- */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.getPubKey_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getPubKey()));
+ * @param {?proto.google.protobuf.Any|undefined} value
+ * @return {!proto.cosmos.auth.v1beta1.BaseAccount} returns this
+*/
+proto.cosmos.auth.v1beta1.BaseAccount.prototype.setPubKey = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
 /**
- * optional bytes pub_key = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getPubKey()`
- * @return {!Uint8Array}
- */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.getPubKey_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getPubKey()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * Clears the message field making it undefined.
  * @return {!proto.cosmos.auth.v1beta1.BaseAccount} returns this
  */
-proto.cosmos.auth.v1beta1.BaseAccount.prototype.setPubKey = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
+proto.cosmos.auth.v1beta1.BaseAccount.prototype.clearPubKey = function() {
+  return this.setPubKey(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.cosmos.auth.v1beta1.BaseAccount.prototype.hasPubKey = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

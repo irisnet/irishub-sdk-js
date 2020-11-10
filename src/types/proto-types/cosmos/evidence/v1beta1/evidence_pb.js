@@ -73,7 +73,7 @@ proto.cosmos.evidence.v1beta1.Equivocation.toObject = function(includeInstance, 
     height: jspb.Message.getFieldWithDefault(msg, 1, 0),
     time: (f = msg.getTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     power: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    consensusAddress: msg.getConsensusAddress_asB64()
+    consensusAddress: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -124,7 +124,7 @@ proto.cosmos.evidence.v1beta1.Equivocation.deserializeBinaryFromReader = functio
       msg.setPower(value);
       break;
     case 4:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setConsensusAddress(value);
       break;
     default:
@@ -178,9 +178,9 @@ proto.cosmos.evidence.v1beta1.Equivocation.serializeBinaryToWriter = function(me
       f
     );
   }
-  f = message.getConsensusAddress_asU8();
+  f = message.getConsensusAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       4,
       f
     );
@@ -262,44 +262,20 @@ proto.cosmos.evidence.v1beta1.Equivocation.prototype.setPower = function(value) 
 
 
 /**
- * optional bytes consensus_address = 4;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.evidence.v1beta1.Equivocation.prototype.getConsensusAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * optional bytes consensus_address = 4;
- * This is a type-conversion wrapper around `getConsensusAddress()`
+ * optional string consensus_address = 4;
  * @return {string}
  */
-proto.cosmos.evidence.v1beta1.Equivocation.prototype.getConsensusAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getConsensusAddress()));
+proto.cosmos.evidence.v1beta1.Equivocation.prototype.getConsensusAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
 /**
- * optional bytes consensus_address = 4;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getConsensusAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.evidence.v1beta1.Equivocation.prototype.getConsensusAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getConsensusAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.evidence.v1beta1.Equivocation} returns this
  */
 proto.cosmos.evidence.v1beta1.Equivocation.prototype.setConsensusAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 4, value);
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

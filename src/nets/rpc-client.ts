@@ -104,11 +104,10 @@ export class RpcClient {
           if (res.type && res.value) return res.value;
           return res;
         } else if (response.response.code) {
-          console.error(response.response);
           throw new SdkError(response.response.log, response.response.code);
         }
       }
-      console.error(response);
+      console.error(`error from ${path}:`,response);
       throw new SdkError('Internal Error', CODES.Internal);
     });
   }

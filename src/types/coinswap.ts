@@ -33,13 +33,12 @@ export interface SwapOrderRequest {
   deadline: number;
 }
 
-export class MsgAddLiquidity implements Msg {
-  type: string;
+export class MsgAddLiquidity extends Msg {
   value: object;
   constructor(request: DepositRequest, sender: string) {
+    super('irismod/coinswap/MsgAddLiquidity');
     const deadline = new Date();
     deadline.setTime(deadline.getTime() + request.deadline);
-    this.type = 'irismod/coinswap/MsgAddLiquidity';
     this.value = {
       max_token: request.max_token,
       exact_standard_amt: String(request.exact_standard_amt),
@@ -54,13 +53,12 @@ export class MsgAddLiquidity implements Msg {
   }
 }
 
-export class MsgRemoveLiquidity implements Msg {
-  type: string;
+export class MsgRemoveLiquidity extends Msg {
   value: object;
   constructor(request: WithdrawRequest, sender: string) {
+    super('irismod/coinswap/MsgRemoveLiquidity')
     const deadline = new Date();
     deadline.setMilliseconds(deadline.getTime() + request.deadline);
-    this.type = 'irismod/coinswap/MsgRemoveLiquidity';
     this.value = {
       min_token: String(request.min_token),
       withdraw_liquidity: request.withdraw_liquidity,
@@ -75,13 +73,12 @@ export class MsgRemoveLiquidity implements Msg {
   }
 }
 
-export class MsgSwapOrder implements Msg {
-  type: string;
+export class MsgSwapOrder extends Msg {
   value: object;
   constructor(request: SwapOrderRequest, isBuyOrder: boolean) {
+    super('irismod/coinswap/MsgSwapOrder')
     const deadline = new Date();
     deadline.setTime(deadline.getTime() + request.deadline);
-    this.type = 'irismod/coinswap/MsgSwapOrder';
     this.value = {
       input: request.input,
       output: request.output,

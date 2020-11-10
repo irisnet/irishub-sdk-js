@@ -12,7 +12,7 @@ export interface StdTx extends TxValue {
 /** Standard Fee */
 export interface StdFee {
   amount: Coin[];
-  gas: string;
+  gasLimit: string;
 }
 
 /** Standard Signature */
@@ -34,6 +34,12 @@ export interface BaseTx {
   gas?: string | undefined;
   fee?: Coin | undefined;
   memo?: string | undefined;
+  /** Account_number required for offline signatures */
+  account_number?: string | undefined;
+  /** Sequence required for offline signatures */
+  sequence?: string | undefined;
+  /** Public key required for offline signatures */
+  public_key?: string | undefined;
   mode?: BroadcastMode | undefined;
 }
 

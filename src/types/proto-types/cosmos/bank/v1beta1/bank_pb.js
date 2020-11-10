@@ -561,7 +561,7 @@ proto.cosmos.bank.v1beta1.Input.prototype.toObject = function(opt_includeInstanc
  */
 proto.cosmos.bank.v1beta1.Input.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: msg.getAddress_asB64(),
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     coinsList: jspb.Message.toObjectList(msg.getCoinsList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance)
   };
@@ -601,7 +601,7 @@ proto.cosmos.bank.v1beta1.Input.deserializeBinaryFromReader = function(msg, read
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     case 2:
@@ -638,9 +638,9 @@ proto.cosmos.bank.v1beta1.Input.prototype.serializeBinary = function() {
  */
 proto.cosmos.bank.v1beta1.Input.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -657,44 +657,20 @@ proto.cosmos.bank.v1beta1.Input.serializeBinaryToWriter = function(message, writ
 
 
 /**
- * optional bytes address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.bank.v1beta1.Input.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes address = 1;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 1;
  * @return {string}
  */
-proto.cosmos.bank.v1beta1.Input.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.cosmos.bank.v1beta1.Input.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.bank.v1beta1.Input.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.bank.v1beta1.Input} returns this
  */
 proto.cosmos.bank.v1beta1.Input.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
@@ -775,7 +751,7 @@ proto.cosmos.bank.v1beta1.Output.prototype.toObject = function(opt_includeInstan
  */
 proto.cosmos.bank.v1beta1.Output.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: msg.getAddress_asB64(),
+    address: jspb.Message.getFieldWithDefault(msg, 1, ""),
     coinsList: jspb.Message.toObjectList(msg.getCoinsList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance)
   };
@@ -815,7 +791,7 @@ proto.cosmos.bank.v1beta1.Output.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     case 2:
@@ -852,9 +828,9 @@ proto.cosmos.bank.v1beta1.Output.prototype.serializeBinary = function() {
  */
 proto.cosmos.bank.v1beta1.Output.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -871,44 +847,20 @@ proto.cosmos.bank.v1beta1.Output.serializeBinaryToWriter = function(message, wri
 
 
 /**
- * optional bytes address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.bank.v1beta1.Output.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes address = 1;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 1;
  * @return {string}
  */
-proto.cosmos.bank.v1beta1.Output.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.cosmos.bank.v1beta1.Output.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.bank.v1beta1.Output.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.bank.v1beta1.Output} returns this
  */
 proto.cosmos.bank.v1beta1.Output.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

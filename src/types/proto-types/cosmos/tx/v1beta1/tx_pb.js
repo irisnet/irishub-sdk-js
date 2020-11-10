@@ -12,8 +12,10 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var cosmos_base_crypto_v1beta1_crypto_pb = require('../../../cosmos/base/crypto/v1beta1/crypto_pb.js');
-goog.object.extend(proto, cosmos_base_crypto_v1beta1_crypto_pb);
+var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
+goog.object.extend(proto, gogoproto_gogo_pb);
+var cosmos_crypto_multisig_v1beta1_multisig_pb = require('../../../cosmos/crypto/multisig/v1beta1/multisig_pb.js');
+goog.object.extend(proto, cosmos_crypto_multisig_v1beta1_multisig_pb);
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 var cosmos_tx_signing_v1beta1_signing_pb = require('../../../cosmos/tx/signing/v1beta1/signing_pb.js');
@@ -1648,7 +1650,7 @@ proto.cosmos.tx.v1beta1.SignerInfo.prototype.toObject = function(opt_includeInst
  */
 proto.cosmos.tx.v1beta1.SignerInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    publicKey: (f = msg.getPublicKey()) && cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.toObject(includeInstance, f),
+    publicKey: (f = msg.getPublicKey()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
     modeInfo: (f = msg.getModeInfo()) && proto.cosmos.tx.v1beta1.ModeInfo.toObject(includeInstance, f),
     sequence: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
@@ -1688,8 +1690,8 @@ proto.cosmos.tx.v1beta1.SignerInfo.deserializeBinaryFromReader = function(msg, r
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new cosmos_base_crypto_v1beta1_crypto_pb.PublicKey;
-      reader.readMessage(value,cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.deserializeBinaryFromReader);
+      var value = new google_protobuf_any_pb.Any;
+      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
       msg.setPublicKey(value);
       break;
     case 2:
@@ -1735,7 +1737,7 @@ proto.cosmos.tx.v1beta1.SignerInfo.serializeBinaryToWriter = function(message, w
     writer.writeMessage(
       1,
       f,
-      cosmos_base_crypto_v1beta1_crypto_pb.PublicKey.serializeBinaryToWriter
+      google_protobuf_any_pb.Any.serializeBinaryToWriter
     );
   }
   f = message.getModeInfo();
@@ -1757,17 +1759,17 @@ proto.cosmos.tx.v1beta1.SignerInfo.serializeBinaryToWriter = function(message, w
 
 
 /**
- * optional cosmos.base.crypto.v1beta1.PublicKey public_key = 1;
- * @return {?proto.cosmos.base.crypto.v1beta1.PublicKey}
+ * optional google.protobuf.Any public_key = 1;
+ * @return {?proto.google.protobuf.Any}
  */
 proto.cosmos.tx.v1beta1.SignerInfo.prototype.getPublicKey = function() {
-  return /** @type{?proto.cosmos.base.crypto.v1beta1.PublicKey} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_crypto_v1beta1_crypto_pb.PublicKey, 1));
+  return /** @type{?proto.google.protobuf.Any} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_any_pb.Any, 1));
 };
 
 
 /**
- * @param {?proto.cosmos.base.crypto.v1beta1.PublicKey|undefined} value
+ * @param {?proto.google.protobuf.Any|undefined} value
  * @return {!proto.cosmos.tx.v1beta1.SignerInfo} returns this
 */
 proto.cosmos.tx.v1beta1.SignerInfo.prototype.setPublicKey = function(value) {
@@ -2171,7 +2173,7 @@ proto.cosmos.tx.v1beta1.ModeInfo.Multi.prototype.toObject = function(opt_include
  */
 proto.cosmos.tx.v1beta1.ModeInfo.Multi.toObject = function(includeInstance, msg) {
   var f, obj = {
-    bitarray: (f = msg.getBitarray()) && cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.toObject(includeInstance, f),
+    bitarray: (f = msg.getBitarray()) && cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.toObject(includeInstance, f),
     modeInfosList: jspb.Message.toObjectList(msg.getModeInfosList(),
     proto.cosmos.tx.v1beta1.ModeInfo.toObject, includeInstance)
   };
@@ -2211,8 +2213,8 @@ proto.cosmos.tx.v1beta1.ModeInfo.Multi.deserializeBinaryFromReader = function(ms
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray;
-      reader.readMessage(value,cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.deserializeBinaryFromReader);
+      var value = new cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray;
+      reader.readMessage(value,cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.deserializeBinaryFromReader);
       msg.setBitarray(value);
       break;
     case 2:
@@ -2254,7 +2256,7 @@ proto.cosmos.tx.v1beta1.ModeInfo.Multi.serializeBinaryToWriter = function(messag
     writer.writeMessage(
       1,
       f,
-      cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray.serializeBinaryToWriter
+      cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray.serializeBinaryToWriter
     );
   }
   f = message.getModeInfosList();
@@ -2269,17 +2271,17 @@ proto.cosmos.tx.v1beta1.ModeInfo.Multi.serializeBinaryToWriter = function(messag
 
 
 /**
- * optional cosmos.base.crypto.v1beta1.CompactBitArray bitarray = 1;
- * @return {?proto.cosmos.base.crypto.v1beta1.CompactBitArray}
+ * optional cosmos.crypto.multisig.v1beta1.CompactBitArray bitarray = 1;
+ * @return {?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray}
  */
 proto.cosmos.tx.v1beta1.ModeInfo.Multi.prototype.getBitarray = function() {
-  return /** @type{?proto.cosmos.base.crypto.v1beta1.CompactBitArray} */ (
-    jspb.Message.getWrapperField(this, cosmos_base_crypto_v1beta1_crypto_pb.CompactBitArray, 1));
+  return /** @type{?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray} */ (
+    jspb.Message.getWrapperField(this, cosmos_crypto_multisig_v1beta1_multisig_pb.CompactBitArray, 1));
 };
 
 
 /**
- * @param {?proto.cosmos.base.crypto.v1beta1.CompactBitArray|undefined} value
+ * @param {?proto.cosmos.crypto.multisig.v1beta1.CompactBitArray|undefined} value
  * @return {!proto.cosmos.tx.v1beta1.ModeInfo.Multi} returns this
 */
 proto.cosmos.tx.v1beta1.ModeInfo.Multi.prototype.setBitarray = function(value) {
@@ -2458,7 +2460,9 @@ proto.cosmos.tx.v1beta1.Fee.toObject = function(includeInstance, msg) {
   var f, obj = {
     amountList: jspb.Message.toObjectList(msg.getAmountList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance),
-    gasLimit: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    gasLimit: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    payer: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    granter: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -2504,6 +2508,14 @@ proto.cosmos.tx.v1beta1.Fee.deserializeBinaryFromReader = function(msg, reader) 
       var value = /** @type {number} */ (reader.readUint64());
       msg.setGasLimit(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPayer(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGranter(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2545,6 +2557,20 @@ proto.cosmos.tx.v1beta1.Fee.serializeBinaryToWriter = function(message, writer) 
   if (f !== 0) {
     writer.writeUint64(
       2,
+      f
+    );
+  }
+  f = message.getPayer();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getGranter();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -2604,6 +2630,42 @@ proto.cosmos.tx.v1beta1.Fee.prototype.getGasLimit = function() {
  */
 proto.cosmos.tx.v1beta1.Fee.prototype.setGasLimit = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional string payer = 3;
+ * @return {string}
+ */
+proto.cosmos.tx.v1beta1.Fee.prototype.getPayer = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.tx.v1beta1.Fee} returns this
+ */
+proto.cosmos.tx.v1beta1.Fee.prototype.setPayer = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string granter = 4;
+ * @return {string}
+ */
+proto.cosmos.tx.v1beta1.Fee.prototype.getGranter = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.tx.v1beta1.Fee} returns this
+ */
+proto.cosmos.tx.v1beta1.Fee.prototype.setGranter = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

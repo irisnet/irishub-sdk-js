@@ -436,7 +436,7 @@ proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.toObject = funct
  */
 proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    consAddress: msg.getConsAddress_asB64()
+    consAddress: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -474,7 +474,7 @@ proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.deserializeBinaryFromReade
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setConsAddress(value);
       break;
     default:
@@ -506,9 +506,9 @@ proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.serializeBinary 
  */
 proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getConsAddress_asU8();
+  f = message.getConsAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -517,44 +517,20 @@ proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.serializeBinaryToWriter = 
 
 
 /**
- * optional bytes cons_address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.getConsAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes cons_address = 1;
- * This is a type-conversion wrapper around `getConsAddress()`
+ * optional string cons_address = 1;
  * @return {string}
  */
-proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.getConsAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getConsAddress()));
+proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.getConsAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes cons_address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getConsAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.getConsAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getConsAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest} returns this
  */
 proto.cosmos.slashing.v1beta1.QuerySigningInfoRequest.prototype.setConsAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

@@ -68,7 +68,7 @@ proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.toObject = function(opt_includ
  */
 proto.cosmos.slashing.v1beta1.MsgUnjail.toObject = function(includeInstance, msg) {
   var f, obj = {
-    validatorAddr: msg.getValidatorAddr_asB64()
+    validatorAddr: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -106,7 +106,7 @@ proto.cosmos.slashing.v1beta1.MsgUnjail.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setValidatorAddr(value);
       break;
     default:
@@ -138,9 +138,9 @@ proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.serializeBinary = function() {
  */
 proto.cosmos.slashing.v1beta1.MsgUnjail.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getValidatorAddr_asU8();
+  f = message.getValidatorAddr();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -149,44 +149,20 @@ proto.cosmos.slashing.v1beta1.MsgUnjail.serializeBinaryToWriter = function(messa
 
 
 /**
- * optional bytes validator_addr = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.getValidatorAddr = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes validator_addr = 1;
- * This is a type-conversion wrapper around `getValidatorAddr()`
+ * optional string validator_addr = 1;
  * @return {string}
  */
-proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.getValidatorAddr_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getValidatorAddr()));
+proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.getValidatorAddr = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes validator_addr = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getValidatorAddr()`
- * @return {!Uint8Array}
- */
-proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.getValidatorAddr_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getValidatorAddr()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.slashing.v1beta1.MsgUnjail} returns this
  */
 proto.cosmos.slashing.v1beta1.MsgUnjail.prototype.setValidatorAddr = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 

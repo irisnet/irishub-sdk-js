@@ -142,7 +142,7 @@ proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.toObject = function(opt_
  */
 proto.cosmos.auth.v1beta1.QueryAccountRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    address: msg.getAddress_asB64()
+    address: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -180,7 +180,7 @@ proto.cosmos.auth.v1beta1.QueryAccountRequest.deserializeBinaryFromReader = func
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
+      var value = /** @type {string} */ (reader.readString());
       msg.setAddress(value);
       break;
     default:
@@ -212,9 +212,9 @@ proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.serializeBinary = functi
  */
 proto.cosmos.auth.v1beta1.QueryAccountRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getAddress_asU8();
+  f = message.getAddress();
   if (f.length > 0) {
-    writer.writeBytes(
+    writer.writeString(
       1,
       f
     );
@@ -223,44 +223,20 @@ proto.cosmos.auth.v1beta1.QueryAccountRequest.serializeBinaryToWriter = function
 
 
 /**
- * optional bytes address = 1;
- * @return {!(string|Uint8Array)}
- */
-proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.getAddress = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
-};
-
-
-/**
- * optional bytes address = 1;
- * This is a type-conversion wrapper around `getAddress()`
+ * optional string address = 1;
  * @return {string}
  */
-proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.getAddress_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getAddress()));
+proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.getAddress = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /**
- * optional bytes address = 1;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getAddress()`
- * @return {!Uint8Array}
- */
-proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.getAddress_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getAddress()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
+ * @param {string} value
  * @return {!proto.cosmos.auth.v1beta1.QueryAccountRequest} returns this
  */
 proto.cosmos.auth.v1beta1.QueryAccountRequest.prototype.setAddress = function(value) {
-  return jspb.Message.setProto3BytesField(this, 1, value);
+  return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
