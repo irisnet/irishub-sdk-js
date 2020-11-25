@@ -32,21 +32,26 @@ export class BaseTest {
   static getClient(): Client {
     const client = iris
       .newClient({
-        node: 'https://irishub.dev.bianjie.ai:443',
-        network: iris.Network.Testnet,
-        chainId: 'irishub',
+        node: 'http://106.53.32.134:26657',
+        network: iris.Network.Mainnet,
+        chainId: 'test',
         gas: '200000',
-        fee: { denom: 'uiris', amount: '1' },
+        fee: { denom: 'stake', amount: '2' },
       })
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
-    client.keys.recover(
+    // client.keys.recover(
+    //   Consts.keyName,
+    //   Consts.keyPassword,
+    //   'case divide galaxy brain mother bicycle sketch utility shaft resource virus swear slender evidence valid brain lonely grief join build civil update muffin swarm'
+    // );
+
+    client.keys.importPrivateKey(
       Consts.keyName,
       Consts.keyPassword,
-      'case divide galaxy brain mother bicycle sketch utility shaft resource virus swear slender evidence valid brain lonely grief join build civil update muffin swarm'
+      '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
     );
-
     return client;
   }
 }

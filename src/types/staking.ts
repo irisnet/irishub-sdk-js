@@ -87,8 +87,7 @@ export interface Redelegation {
  * Msg struct for delegating to a validator
  * @hidden
  */
-export class MsgDelegate implements Msg {
-  type: string;
+export class MsgDelegate extends Msg {
   value: {
     delegator_addr: string;
     validator_addr: string;
@@ -96,7 +95,7 @@ export class MsgDelegate implements Msg {
   };
 
   constructor(delegatorAddr: string, validatorAddr: string, delegation: Coin) {
-    this.type = 'irishub/stake/MsgDelegate';
+    super('irishub/stake/MsgDelegate');
     this.value = {
       delegator_addr: delegatorAddr,
       validator_addr: validatorAddr,
@@ -113,8 +112,7 @@ export class MsgDelegate implements Msg {
  * Msg struct for undelegating from a validator
  * @hidden
  */
-export class MsgUndelegate implements Msg {
-  type: string;
+export class MsgUndelegate extends Msg {
   value: {
     delegator_addr: string;
     validator_addr: string;
@@ -126,7 +124,7 @@ export class MsgUndelegate implements Msg {
     validatorAddr: string,
     sharesAmount: string
   ) {
-    this.type = 'irishub/stake/BeginUnbonding';
+    super('irishub/stake/BeginUnbonding');
     this.value = {
       delegator_addr: delegatorAddr,
       validator_addr: validatorAddr,
@@ -143,8 +141,7 @@ export class MsgUndelegate implements Msg {
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
-export class MsgRedelegate implements Msg {
-  type: string;
+export class MsgRedelegate extends Msg {
   value: {
     delegator_addr: string;
     validator_src_addr: string;
@@ -158,7 +155,7 @@ export class MsgRedelegate implements Msg {
     validatorDstAddr: string,
     sharesAmount: string
   ) {
-    this.type = 'irishub/stake/BeginRedelegate';
+    super('irishub/stake/BeginRedelegate');
     this.value = {
       delegator_addr: delegatorAddr,
       validator_src_addr: validatorSrcAddr,
@@ -181,8 +178,7 @@ export class MsgRedelegate implements Msg {
  * Msg struct for updating validator informations
  * @hidden
  */
-export class MsgEditValidator implements Msg {
-  type: string;
+export class MsgEditValidator extends Msg {
   value: {
     Description: ValidatorDescription;
     address: string;
@@ -194,7 +190,7 @@ export class MsgEditValidator implements Msg {
     address: string,
     commissionRate: number
   ) {
-    this.type = 'irishub/stake/MsgEditValidator';
+    super('irishub/stake/MsgEditValidator');
     this.value = {
       Description: description,
       address,

@@ -6,7 +6,6 @@ import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
 import { EventQueryBuilder, EventKey } from '../types';
-import { marshalPubKey } from '@irisnet/amino-js';
 import { Client } from '../client';
 
 /** Internal subscription interface */
@@ -376,7 +375,7 @@ export class EventListener {
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(valPubkey, false)),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({
@@ -439,7 +438,7 @@ export class EventListener {
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(valPubkey, false)),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({

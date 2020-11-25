@@ -3,7 +3,6 @@ import * as is from 'is_js';
 import * as types from '../types';
 import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
-import { marshalTx,marshalPubKey } from '@irisnet/amino-js';
 import { bytesToBase64 } from '@tendermint/belt';
 
 /**
@@ -21,6 +20,24 @@ export class Tx {
   }
 
   /**
+   * Build Tx
+   * @param msgs Msgs to be sent
+   * @param baseTx
+   * @returns
+   * @since v0.17
+   */
+  buildTx(
+    msgs: any[], 
+    baseTx: types.BaseTx,
+  ): types.ProtoTx{
+    let msgList:types.Msg[] = msgs.map(msg=>{
+      return this.createMsg(msg);
+    });
+    const unsignedTx:types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
+    return unsignedTx;
+  }
+
+  /**
    * Build, sign and broadcast the msgs
    * @param msgs Msgs to be sent
    * @param baseTx
@@ -28,11 +45,11 @@ export class Tx {
    * @since v0.17
    */
   async buildAndSend(
-    msgs: types.Msg[],
+    msgs: any[],
     baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
+  ){
     // Build Unsigned Tx
-    const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
+    const unsignedTx:types.ProtoTx = this.buildTx(msgs, baseTx);
 
     // Not supported in ibc-alpha
     // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
@@ -52,11 +69,11 @@ export class Tx {
    * @since v0.17
    */
   broadcast(
-    signedTx: types.Tx<types.StdTx>,
+    signedTx: types.ProtoTx,
     mode?: types.BroadcastMode
   ): Promise<types.TxResult> {
-    signedTx = this.marshal(signedTx);
-    const txBytes = marshalTx(signedTx, false);
+    const txBytes = signedTx.getData();
+
     switch (mode) {
       case types.BroadcastMode.Commit:
         return this.broadcastTxCommit(txBytes);
@@ -82,11 +99,10 @@ export class Tx {
    * @since v0.17
    */
   async sign(
-    stdTx: types.Tx<types.StdTx>,
+    stdTx: types.ProtoTx,
     name: string,
     password: string,
-    offline = false
-  ): Promise<types.Tx<types.StdTx>> {
+  ): Promise<types.ProtoTx> {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -96,70 +112,60 @@ export class Tx {
     if (!this.client.config.keyDAO.decrypt) {
       throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
-    if (
-      is.undefined(stdTx) ||
-      is.undefined(stdTx.value) ||
-      is.undefined(stdTx.value.msg)
-    ) {
-      throw new SdkError(`Msgs can not be empty`);
-    }
+
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    const msgs: object[] = [];
-    stdTx.value.msg.forEach(msg => {
-      if (msg.getSignBytes) {
-        msgs.push(msg.getSignBytes());
-      }
-    });
+    // Query account info from block chain
+    const account = await this.client.bank.queryAccount(keyObj.address);
+    let  accountNumber = account.account_number || '';
+    let sequence = account.sequence || '0';
 
-    let accountNumber = '0';
-    let sequence = '0';
-    if (!offline) {
-      // Query account info from block chain
-      const addr = keyObj.address;
-      const account = await this.client.bank.queryAccount(addr);
-      accountNumber = account.account_number;
-      sequence = account.sequence;
-      const pubKey = Buffer.from(marshalPubKey(account.public_key,true)).toString("base64")
-      const sigs: types.StdSignature[] = [
-        {
-          pub_key: pubKey,
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+    if (!stdTx.hasPubKey()) {
+      const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
+      stdTx.setPubKey(pubKey, sequence || undefined);
+    }
+    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
+    stdTx.addSignature(signature);
+    return stdTx;
+  }
 
-          // To support ibc-alpha
-          // account_number: String(account.account_number),
-          // sequence: String(account.sequence),
-          signature: '',
-        },
-      ];
-
-      stdTx.value.signatures = sigs;
+  /**
+   * Single sign a transaction with signDoc
+   *
+   * @param stdTx StdTx with no signatures
+   * @param name Name of the key to sign the tx
+   * @param password Password of the key
+   * @param offline Offline signing, default `false`
+   * @returns signature
+   * @since v0.17
+   */
+  sign_signDoc(
+    signDoc: Uint8Array,
+    name: string,
+    password: string,
+  ): string {
+    if (is.empty(name)) {
+      throw new SdkError(`Name of the key can not be empty`);
+    }
+    if (is.empty(password)) {
+      throw new SdkError(`Password of the key can not be empty`);
+    }
+    if (!this.client.config.keyDAO.decrypt) {
+      throw new SdkError(`Decrypt method of KeyDAO not implemented`);
+    }
+    
+    const keyObj = this.client.config.keyDAO.read(name);
+    if (!keyObj) {
+      throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    // Build msg to sign
-    const sig: types.StdSignature = stdTx.value.signatures[0];
-    const signMsg: types.StdSignMsg = {
-      account_number: String(accountNumber),
-      sequence: String(sequence),
-      chain_id: this.client.config.chainId,
-      fee: stdTx.value.fee,
-      memo: stdTx.value.memo,
-      msgs,
-    };
-
-    // Signing
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-    const signature = Crypto.generateSignature(
-      Utils.str2hexstring(JSON.stringify(Utils.sortObject(signMsg))),
-      privKey
-    );
-    sig.signature = signature.toString('base64');
-    const pubKey = Buffer.from(marshalPubKey(Crypto.getPublicKeySecp256k1FromPrivateKey(privKey),true)).toString("base64")
-    sig.pub_key = pubKey;
-    stdTx.value.signatures[0] = sig;
-    return stdTx;
+    const signature = Crypto.generateSignature(signDoc, privKey);
+    return signature;
   }
 
   /**
@@ -254,16 +260,16 @@ export class Tx {
       });
   }
 
-  private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
-    const copyStdTx: types.Tx<types.StdTx> = stdTx;
-    Object.assign(copyStdTx, stdTx);
-    stdTx.value.msg.forEach((msg, idx) => {
-      if (msg.marshal) {
-        copyStdTx.value.msg[idx] = msg.marshal();
-      }
-    });
-    return copyStdTx;
-  }
+  // private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
+  //   const copyStdTx: types.Tx<types.StdTx> = stdTx;
+  //   Object.assign(copyStdTx, stdTx);
+  //   stdTx.value.msg.forEach((msg, idx) => {
+  //     if (msg.marshal) {
+  //       copyStdTx.value.msg[idx] = msg.marshal();
+  //     }
+  //   });
+  //   return copyStdTx;
+  // }
 
   private newTxResult(
     hash: string,
@@ -278,5 +284,56 @@ export class Tx {
       info: deliverTx?.info,
       tags: deliverTx?.tags,
     };
+  }
+
+  /**
+   * create message
+   * @param  {[type]} txMsg:{type:string, value:any} message
+   * @return {[type]} message instance of types.Msg
+   */
+  createMsg(txMsg:{type:string, value:any}){
+    let msg:any = {};
+    switch (txMsg.type) {
+        case types.TxType.MsgSend: {
+            msg = new types.MsgSend(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgMultiSend: {
+            msg = new types.MsgMultiSend(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgDelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgUndelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgBeginRedelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgWithdrawDelegatorReward: {
+            
+            break;
+        } 
+        case types.TxType.MsgAddLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgRemoveLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgSwapOrder: {
+            
+            break;
+        }
+        default: {
+            throw new Error("not exist tx type");
+        }
+    }
+    return msg;
   }
 }

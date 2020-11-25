@@ -4,7 +4,6 @@ import { SdkError } from '../errors';
 import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
 import { EventQueryBuilder, EventKey, EventAction } from '../types';
 import { Utils, Crypto } from '../utils';
-import { marshalPubKey } from '@irisnet/amino-js';
 
 /**
  * This module provides staking functionalities for validators and delegators
@@ -410,7 +409,7 @@ export class Staking {
             this.client.config.bech32Prefix.ConsAddr
           );
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(event.pub_key, false)),
+            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(event.pub_key)),
             this.client.config.bech32Prefix.ConsPub
           );
           const update: types.ExtendedEventDataValidatorSetUpdates = {

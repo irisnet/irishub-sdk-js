@@ -20,3 +20,4 @@ export * from './block-result';
 export * from './validator';
 export * from './query-builder';
 export * from './coinswap';
+export * from './protoTx';

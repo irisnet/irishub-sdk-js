@@ -12,6 +12,10 @@ import * as types from '../types';
 import { SdkError } from '../errors';
 import { marshalTx } from '@irisnet/amino-js';
 
+const Sha256 = require('sha256');
+const Secp256k1 = require('secp256k1');
+
+
 /**
  * Crypto Utils
  * @hidden
@@ -160,6 +164,52 @@ export class Crypto {
   }
 
   /**
+   * Calculates the amino prefix Secp256k1 public key from a given private key.
+   * @param privateKeyHex The private key hexstring
+   * @returns Tendermint public key
+   */
+  static getAminoPrefixPublicKey(privateKeyHex: string){
+    const tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
+    let pk:Uint8Array = Crypto.aminoMarshalPubKey(tendermintPK);
+    return Buffer.from(pk).toString('hex');
+  }
+
+  /**
+   * [marshalPubKey description]
+   * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+   * @param  {[type]} lengthPrefixed:boolean length prefixed
+   * @return {[type]} Uint8Array public key with amino prefix
+   */
+  static aminoMarshalPubKey(pubKey:{type:string, value:string}, lengthPrefixed?:boolean):Uint8Array{
+    const { type, value } = pubKey;
+    let pk:any = Crypto.getAminoPrefix(type);
+    pk = pk.concat(Buffer.from(value,'base64').length);
+    pk = pk.concat(Array.from(Buffer.from(value,'base64')));
+    if (lengthPrefixed) {
+      pk = [pk.length,...pk];
+    }
+    return pk;
+  }
+
+  /**
+   * get amino prefix from public key encode type.
+   * @param public key encode type
+   * @returns UintArray
+   */
+  static getAminoPrefix(prefix:string):Uint8Array{
+    let b:any = Array.from(Buffer.from(Sha256(prefix),'hex'));
+    while (b[0] === 0) {
+        b = b.slice(1, b.length - 1)
+    }
+    b = b.slice(3, b.length - 1);
+    while (b[0] === 0) {
+        b = b.slice(1, b.length - 1)
+    }
+    b = b.slice(0, 4);
+    return b;
+  }
+
+  /**
    * PubKey performs the point-scalar multiplication from the privKey on the
    * generator point to get the pubkey.
    * @param privateKey
@@ -205,43 +255,37 @@ export class Crypto {
   }
 
   /**
-   * Generates a signature (64 byte <r,s>) for a transaction based on given private key.
-   * @param signBytesHex Unsigned transaction sign bytes hexstring.
-   * @param privateKey The private key.
-   * @returns Signature. Does not include tx.
-   */
-  static generateSignature(
-    signBytesHex: string,
-    privateKey: string | Buffer
-  ): Buffer {
-    const msgHash = Utils.sha256(signBytesHex);
-    const msgHashHex = Buffer.from(msgHash, 'hex');
-    const signature = ecc.sign(
-      msgHashHex,
-      Buffer.from(privateKey.toString(), 'hex')
-    ); // enc ignored if buffer
-    return signature;
-  }
-
-  /**
    * Verifies a signature (64 byte <r,s>) given the sign bytes and public key.
    * @param sigHex The signature hexstring.
    * @param signBytesHex Unsigned transaction sign bytes hexstring.
    * @param publicKeyHex The public key.
    * @returns Signature. Does not include tx.
    */
-  static verifySignature(
-    sigHex: string,
-    signBytesHex: string,
-    publicKeyHex: string
-  ): string {
-    const publicKey = Buffer.from(publicKeyHex, 'hex');
-    if (!ecc.isPoint(publicKey)) {
-      throw new SdkError('Invalid public key provided');
-    }
-    const msgHash = Utils.sha256(signBytesHex);
-    const msgHashHex = Buffer.from(msgHash, 'hex');
-    return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
+  // static verifySignature(
+  //   sigHex: string,
+  //   signBytesHex: string,
+  //   publicKeyHex: string
+  // ): string {
+  //   const publicKey = Buffer.from(publicKeyHex, 'hex');
+  //   if (!ecc.isPoint(publicKey)) {
+  //     throw new SdkError('Invalid public key provided');
+  //   }
+  //   const msgHash = Utils.sha256(signBytesHex);
+  //   const msgHashHex = Buffer.from(msgHash, 'hex');
+  //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
+  // }
+
+  /**
+   * Generates a signature (base64 string) for a signDocSerialize based on given private key.
+   * @param signDocSerialize from protobuf and tx.
+   * @param privateKey The private key.
+   * @returns Signature. Does not include tx.
+   */
+ static generateSignature(signDocSerialize:Uint8Array, private_key:string):string {
+      let hash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
+      let prikeyArr:Buffer = Buffer.from(private_key,'hex');
+      let sig = Secp256k1.sign(hash, prikeyArr);
+      return sig.signature.toString('base64');
   }
 
   /**

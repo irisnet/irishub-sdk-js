@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { unmarshalTx, marshalPubKey } from '@irisnet/amino-js';
+import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
@@ -125,7 +125,7 @@ export class Tendermint {
               this.client.config.bech32Prefix.ConsAddr
             );
             const bech32Pubkey = Crypto.encodeAddress(
-              Utils.ab2hexstring(marshalPubKey(v.pub_key, false)),
+              Utils.ab2hexstring(Crypto.aminoMarshalPubKey(v.pub_key, false)),
               this.client.config.bech32Prefix.ConsPub
             );
             result.validators.push({

@@ -69,8 +69,7 @@ export interface ServiceFee {
  * Msg struct for creating a new service definition
  * @hidden
  */
-export class MsgDefineService implements Msg {
-  type: string;
+export class MsgDefineService extends Msg {
   value: {
     name: string;
     description?: string;
@@ -88,7 +87,7 @@ export class MsgDefineService implements Msg {
     tags?: string[];
     author_description?: string;
   }) {
-    this.type = 'irishub/service/MsgDefineService';
+    super('irishub/service/MsgDefineService');
     this.value = definition;
   }
 
@@ -101,8 +100,7 @@ export class MsgDefineService implements Msg {
  * Msg struct for binding a service definition
  * @hidden
  */
-export class MsgBindService implements Msg {
-  type: string;
+export class MsgBindService extends Msg {
   value: {
     service_name: string;
     provider: string;
@@ -116,7 +114,7 @@ export class MsgBindService implements Msg {
     deposit: Coin[];
     pricing: string;
   }) {
-    this.type = 'irishub/service/MsgBindService';
+    super('irishub/service/MsgBindService');
     this.value = binding;
   }
 
@@ -129,8 +127,7 @@ export class MsgBindService implements Msg {
  * Msg struct for updating a service binding
  * @hidden
  */
-export class MsgUpdateServiceBinding implements Msg {
-  type: string;
+export class MsgUpdateServiceBinding extends Msg {
   value: {
     service_name: string;
     provider: string;
@@ -144,7 +141,7 @@ export class MsgUpdateServiceBinding implements Msg {
     deposit: Coin[];
     pricing: string;
   }) {
-    this.type = 'irishub/service/MsgUpdateServiceBinding';
+    super('irishub/service/MsgUpdateServiceBinding');
     this.value = binding;
   }
 
@@ -157,15 +154,14 @@ export class MsgUpdateServiceBinding implements Msg {
  * Msg struct for disabling a service binding
  * @hidden
  */
-export class MsgDisableServiceBinding implements Msg {
-  type: string;
+export class MsgDisableServiceBinding extends Msg {
   value: {
     service_name: string;
     provider: string;
   };
 
   constructor(serviceName: string, provider: string) {
-    this.type = 'irishub/service/MsgDisableService';
+    super('irishub/service/MsgDisableService');
     this.value = {
       service_name: serviceName,
       provider,
@@ -181,15 +177,14 @@ export class MsgDisableServiceBinding implements Msg {
  * Msg struct for enabling a service binding
  * @hidden
  */
-export class MsgEnableServiceBinding implements Msg {
-  type: string;
+export class MsgEnableServiceBinding extends Msg {
   value: {
     service_name: string;
     provider: string;
   };
 
   constructor(serviceName: string, provider: string) {
-    this.type = 'irishub/service/MsgEnableService';
+    super('irishub/service/MsgEnableService');
     this.value = {
       service_name: serviceName,
       provider,
@@ -205,8 +200,7 @@ export class MsgEnableServiceBinding implements Msg {
  * Msg struct for invoking a service
  * @hidden
  */
-export class MsgRequestService implements Msg {
-  type: string;
+export class MsgRequestService extends Msg {
   value: {
     service_name: string;
     providers: string[];
@@ -232,7 +226,7 @@ export class MsgRequestService implements Msg {
     repeated_frequency: number;
     repeated_total: number;
   }) {
-    this.type = 'irishub/service/MsgRequestService';
+    super('irishub/service/MsgRequestService');
     this.value = request;
   }
 
@@ -244,15 +238,14 @@ export class MsgRequestService implements Msg {
 /**
  * @hidden
  */
-export class MsgSetServiceWithdrawAddress implements Msg {
-  type: string;
+export class MsgSetServiceWithdrawAddress extends Msg {
   value: {
     provider: string;
     withdraw_address: string;
   };
 
   constructor(provider: string, withdrawAddress: string) {
-    this.type = 'irishub/service/MsgSetWithdrawAddress';
+    super('irishub/service/MsgSetWithdrawAddress');
     this.value = {
       provider,
       withdraw_address: withdrawAddress,
@@ -268,15 +261,14 @@ export class MsgSetServiceWithdrawAddress implements Msg {
  * Msg struct for refunding deposit from a service binding
  * @hidden
  */
-export class MsgRefundServiceDeposit implements Msg {
-  type: string;
+export class MsgRefundServiceDeposit extends Msg {
   value: {
     service_name: string;
     provider: string;
   };
 
   constructor(serviceName: string, provider: string) {
-    this.type = 'irishub/service/MsgRefundServiceDeposit';
+    super('irishub/service/MsgRefundServiceDeposit');
     this.value = {
       service_name: serviceName,
       provider,
@@ -292,15 +284,14 @@ export class MsgRefundServiceDeposit implements Msg {
  * Msg struct for resuming a request context
  * @hidden
  */
-export class MsgStartRequestContext implements Msg {
-  type: string;
+export class MsgStartRequestContext extends Msg {
   value: {
     request_context_id: string;
     consumer: string;
   };
 
   constructor(requestContextID: string, consumer: string) {
-    this.type = 'irishub/service/MsgStartRequestContext';
+    super('irishub/service/MsgStartRequestContext');
     this.value = {
       request_context_id: requestContextID,
       consumer,
@@ -316,15 +307,14 @@ export class MsgStartRequestContext implements Msg {
  * Msg struct for pausing a request context
  * @hidden
  */
-export class MsgPauseRequestContext implements Msg {
-  type: string;
+export class MsgPauseRequestContext extends Msg {
   value: {
     request_context_id: string;
     consumer: string;
   };
 
   constructor(requestContextID: string, consumer: string) {
-    this.type = 'irishub/service/MsgPauseRequestContext';
+    super('irishub/service/MsgPauseRequestContext');
     this.value = {
       request_context_id: requestContextID,
       consumer,
@@ -340,15 +330,14 @@ export class MsgPauseRequestContext implements Msg {
  * Msg struct for killing a request context
  * @hidden
  */
-export class MsgKillRequestContext implements Msg {
-  type: string;
+export class MsgKillRequestContext extends Msg {
   value: {
     request_context_id: string;
     consumer: string;
   };
 
   constructor(requestContextID: string, consumer: string) {
-    this.type = 'irishub/service/MsgKillRequestContext';
+    super('irishub/service/MsgKillRequestContext');
     this.value = {
       request_context_id: requestContextID,
       consumer,
@@ -364,8 +353,7 @@ export class MsgKillRequestContext implements Msg {
  * Msg struct for invoking a service
  * @hidden
  */
-export class MsgUpdateRequestContext implements Msg {
-  type: string;
+export class MsgUpdateRequestContext extends Msg {
   value: {
     request_context_id: string;
     providers: string[];
@@ -385,7 +373,7 @@ export class MsgUpdateRequestContext implements Msg {
     repeated_total: number;
     consumer: string;
   }) {
-    this.type = 'irishub/service/MsgUpdateRequestContext';
+    super('irishub/service/MsgUpdateRequestContext');
     this.value = request;
   }
 
@@ -398,14 +386,13 @@ export class MsgUpdateRequestContext implements Msg {
  * Msg struct for withdrawing the fees earned by the provider
  * @hidden
  */
-export class MsgWithdrawEarnedFees implements Msg {
-  type: string;
+export class MsgWithdrawEarnedFees extends Msg {
   value: {
     provider: string;
   };
 
   constructor(provider: string) {
-    this.type = 'irishub/service/MsgWithdrawEarnedFees';
+    super('irishub/service/MsgWithdrawEarnedFees');
     this.value = {
       provider,
     };
@@ -420,8 +407,7 @@ export class MsgWithdrawEarnedFees implements Msg {
  * Msg struct for withdrawing the service tax
  * @hidden
  */
-export class MsgWithdrawTax implements Msg {
-  type: string;
+export class MsgWithdrawTax extends Msg {
   value: {
     trustee: string;
     dest_address: string;
@@ -429,7 +415,7 @@ export class MsgWithdrawTax implements Msg {
   };
 
   constructor(trustee: string, destAddress: string, amount: Coin[]) {
-    this.type = 'irishub/service/MsgWithdrawTax';
+    super('irishub/service/MsgWithdrawTax');
     this.value = {
       trustee,
       dest_address: destAddress,

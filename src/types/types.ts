@@ -1,12 +1,54 @@
+import { TxHelper, TxModelCreator } from '../utils'
 /** 
  * Base Msg
  * @hidden
  */
-export interface Msg {
+export class Msg {
   type: string;
   value: any;
-  getSignBytes?(): object;
-  marshal?(): Msg;
+
+  constructor(type:string){
+    this.type = type;
+  } 
+
+  // getSignBytes(): object{
+  //   throw new Error("not implement");
+  // }
+  // marshal(): Msg{
+  //   throw new Error("not implement");
+  // }
+
+  getModelClass():any{
+    throw new Error("not implement");
+  }
+
+  getModel():any{
+    throw new Error("not implement");
+  }
+
+  pack():any{
+    let msg:any = this.getModel();
+    return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
+  }
+
+  unpack(msg_any:any):any{
+    if (!TxHelper.isAny(msg_any)) {
+      throw new Error("msg_any is not instanceof protobuf.Any");
+    }
+    return this.getModelClass().deserializeBinary(msg_any.getValue());
+  }
+}
+
+export enum TxType {
+  MsgSend ="cosmos.bank.v1beta1.MsgSend",
+  MsgMultiSend ="cosmos.bank.v1beta1.MsgMultiSend",
+  MsgDelegate ="cosmos.staking.v1beta1.MsgDelegate",
+  MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
+  MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
+  MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
+  MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
+  MsgSwapOrder ="irismod.coinswap.MsgSwapOrder",
 }
 
 /** 
