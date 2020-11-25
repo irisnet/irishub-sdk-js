@@ -1,7 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
@@ -38,7 +37,7 @@ export class Tendermint {
           const decodedTxs = new Array<types.Tx<types.StdTx>>();
           txs.forEach(msg => {
             decodedTxs.push(
-              unmarshalTx(base64ToBytes(msg)) as types.Tx<types.StdTx>
+              this.client.tx.txDeserialize(msg)
             );
           });
           res.block.data.txs = decodedTxs;
@@ -98,7 +97,7 @@ export class Tendermint {
       .then(res => {
         // Decode tags and tx
         res.tx_result.tags = Utils.decodeTags(res.tx_result.tags);
-        res.tx = unmarshalTx(base64ToBytes(res.tx)) as types.Tx<types.StdTx>;
+        res.tx = this.client.tx.txDeserialize(res.tx);
         return res as types.QueryTxResult;
       });
   }
@@ -167,7 +166,7 @@ export class Tendermint {
           // Decode tags and txs
           res.txs.forEach((tx: any) => {
             tx.tx_result.tags = Utils.decodeTags(tx.tx_result.tags);
-            tx.tx = unmarshalTx(base64ToBytes(tx.tx));
+            tx.tx = this.client.tx.txDeserialize(tx.tx);
             txs.push(tx);
           });
           res.txs = txs;

@@ -31,12 +31,17 @@ export class Msg {
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
 
-  unpack(msg_any:any):any{
-    if (!TxHelper.isAny(msg_any)) {
-      throw new Error("msg_any is not instanceof protobuf.Any");
-    }
-    return this.getModelClass().deserializeBinary(msg_any.getValue());
-  }
+  // unpack(msgValue:string):object{
+  //   if (!msgValue) {
+  //     throw new Error("from_address is empty");
+  //   }
+  //   let msg = this.getModelClass().deserializeBinary(Buffer.from(msgValue,'base64'));
+  //   if (msg) {
+  //     return msg.toObject();
+  //   }else{
+  //     throw new Error("unpack message fail");
+  //   }
+  // }
 }
 
 export enum TxType {

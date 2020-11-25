@@ -10,7 +10,7 @@ import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
 import { SdkError } from '../errors';
-import { marshalTx } from '@irisnet/amino-js';
+// import { marshalTx } from '@irisnet/amino-js';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
@@ -465,7 +465,8 @@ export class Crypto {
    * @throws if the tx is invlid of unsupported tx type
    */
   static generateTxHash(tx: types.Tx<types.StdTx>): string {
-    return Utils.sha256(Utils.ab2hexstring(marshalTx(tx))).toUpperCase();
+    throw new Error("not implement");
+    // return Utils.sha256(Utils.ab2hexstring(marshalTx(tx))).toUpperCase();
   }
 
   /**
