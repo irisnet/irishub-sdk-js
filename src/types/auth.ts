@@ -1,4 +1,3 @@
-import { PubKey } from '@irisnet/amino-js/types';
 import { Coin, Msg, TxValue } from './types';
 
 /** Standard Tx */

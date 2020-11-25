@@ -3,7 +3,6 @@ import * as is from 'is_js';
 import * as types from '../types';
 import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
-import { marshalTx,marshalPubKey } from '@irisnet/amino-js';
 import { bytesToBase64 } from '@tendermint/belt';
 
 /**

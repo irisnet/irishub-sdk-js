@@ -169,11 +169,26 @@ export class Crypto {
    * @returns Tendermint public key
    */
   static getAminoPrefixPublicKey(privateKeyHex: string){
-    const { type, value } = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
+    const tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
+    let pk:Uint8Array = Crypto.aminoMarshalPubKey(tendermintPK);
+    return Buffer.from(pk).toString('hex');
+  }
+
+  /**
+   * [marshalPubKey description]
+   * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+   * @param  {[type]} lengthPrefixed:boolean length prefixed
+   * @return {[type]} Uint8Array public key with amino prefix
+   */
+  static aminoMarshalPubKey(pubKey:{type:string, value:string}, lengthPrefixed?:boolean):Uint8Array{
+    const { type, value } = pubKey;
     let pk:any = Crypto.getAminoPrefix(type);
-    pk = Buffer.from(pk.concat(Buffer.from(value,'base64').length));
-    pk = Buffer.concat([pk, Buffer.from(value,'base64')]);
-    return pk.toString('hex');
+    pk = pk.concat(Buffer.from(value,'base64').length);
+    pk = pk.concat(Array.from(Buffer.from(value,'base64')));
+    if (lengthPrefixed) {
+      pk = [pk.length,...pk];
+    }
+    return pk;
   }
 
   /**
@@ -181,8 +196,8 @@ export class Crypto {
    * @param public key encode type
    * @returns UintArray
    */
-  static getAminoPrefix(prefix:string){
-    let b = Array.from(Buffer.from(Sha256(prefix),'hex'));
+  static getAminoPrefix(prefix:string):Uint8Array{
+    let b:any = Array.from(Buffer.from(Sha256(prefix),'hex'));
     while (b[0] === 0) {
         b = b.slice(1, b.length - 1)
     }

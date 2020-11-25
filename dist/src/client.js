@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DefaultKeyDAOImpl = exports.DefaultClientConfig = exports.Client = void 0;
+const consts = require("./types/constants");
 const modules = require("./modules");
 const rpc_client_1 = require("./nets/rpc-client");
 const event_listener_1 = require("./nets/event-listener");
@@ -16,32 +17,32 @@ class Client {
         if (!this.config.rpcConfig)
             this.config.rpcConfig = {};
         this.config.bech32Prefix =
-            // config.network === consts.Network.Mainnet
-            //   ? {
-            //       AccAddr: 'iaa',
-            //       AccPub: 'iap',
-            //       ValAddr: 'iva',
-            //       ValPub: 'ivp',
-            //       ConsAddr: 'ica',
-            //       ConsPub: 'icp',
-            //     }
-            //   : {
-            //       AccAddr: 'faa',
-            //       AccPub: 'fap',
-            //       ValAddr: 'fva',
-            //       ValPub: 'fvp',
-            //       ConsAddr: 'fca',
-            //       ConsPub: 'fcp',
-            //     };
-            // Support ibc-alpha
-            {
-                AccAddr: 'cosmos',
-                AccPub: 'cosmospub',
-                ValAddr: 'cosmosvaloper',
-                ValPub: 'cosmosvaloperpub',
-                ConsAddr: 'cosmosvalcons',
-                ConsPub: 'cosmosvalconspub',
-            };
+            config.network === consts.Network.Mainnet
+                ? {
+                    AccAddr: 'iaa',
+                    AccPub: 'iap',
+                    ValAddr: 'iva',
+                    ValPub: 'ivp',
+                    ConsAddr: 'ica',
+                    ConsPub: 'icp',
+                }
+                : {
+                    AccAddr: 'faa',
+                    AccPub: 'fap',
+                    ValAddr: 'fva',
+                    ValPub: 'fvp',
+                    ConsAddr: 'fca',
+                    ConsPub: 'fcp',
+                };
+        // Support ibc-alpha
+        // {
+        //   AccAddr: 'cosmos',
+        //   AccPub: 'cosmospub',
+        //   ValAddr: 'cosmosvaloper',
+        //   ValPub: 'cosmosvaloperpub',
+        //   ConsAddr: 'cosmosvalcons',
+        //   ConsPub: 'cosmosvalconspub',
+        // };
         this.config.rpcConfig.baseURL = this.config.node;
         this.rpcClient = new rpc_client_1.RpcClient(this.config.rpcConfig);
         this.eventListener = new event_listener_1.EventListener(this);

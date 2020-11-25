@@ -3,11 +3,8 @@ import * as types from '../types';
 import { MsgUnjail } from '../types/slashing';
 import { SdkError } from '../errors';
 import { StoreKeys } from '../utils';
-import {
-  unmarshalValidatorSigningInfo,
-  encodeBech32,
-  decodeBech32,
-} from '@irisnet/amino-js';
+import * as Bech32 from 'bech32';
+import { unmarshalValidatorSigningInfo } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
 
 /**
@@ -53,9 +50,11 @@ export class Slashing {
     height?: number
   ): Promise<types.ValidatorSigningInfo> {
     const key = StoreKeys.getSigningInfoKey(bech32ConsAddress);
+    console.log('key:',key);
     return this.client.rpcClient
       .queryStore<any>(key, 'slashing', height)
       .then(res => {
+        console.log('res.response:',res.response);
         if (!res || !res.response || !res.response.value) {
           throw new SdkError('Validator not found');
         }
@@ -73,10 +72,10 @@ export class Slashing {
    */
   async unjail(baseTx: types.BaseTx): Promise<types.TxResult> {
     const val = this.client.keys.show(baseTx.from);
-    const [hrp, bytes] = decodeBech32(val);
-    const validatorAddr = encodeBech32(
+    const words = Bech32.decode(val).words;    
+    const validatorAddr = Bech32.encode(
       this.client.config.bech32Prefix.ValAddr,
-      bytes
+      words
     );
     const msgs: types.Msg[] = [new MsgUnjail(validatorAddr)];
 
