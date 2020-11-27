@@ -58,6 +58,7 @@ export class Tx {
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
+    
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }

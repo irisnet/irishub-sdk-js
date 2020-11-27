@@ -10,11 +10,11 @@ import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
 import { SdkError } from '../errors';
-// import { marshalTx } from '@irisnet/amino-js';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
 
+const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 
 /**
  * Crypto Utils
@@ -461,12 +461,24 @@ export class Crypto {
 
   /**
    * Generate Tx hash from stdTx
-   * @param tx
-   * @throws if the tx is invlid of unsupported tx type
+   * @param  protobuf tx :base64 string
+   * @throws tx hash
    */
-  static generateTxHash(tx: types.Tx<types.StdTx>): string {
-    throw new Error("not implement");
-    // return Utils.sha256(Utils.ab2hexstring(marshalTx(tx))).toUpperCase();
+  static generateTxHash(tx: string): string {
+    if (!tx || typeof tx != 'string') {
+      throw new SdkError('invalid tx');
+    }
+    const tx_pb = Tx_pb.Tx.deserializeBinary(Buffer.from(tx, 'base64'));
+    if (!tx_pb) {
+      throw new SdkError('deserialize tx err');
+    }
+    const txRaw = new Tx_pb.TxRaw();
+    txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());
+    txRaw.setAuthInfoBytes(tx_pb.getAuthInfo().serializeBinary());
+    tx_pb.getSignaturesList().forEach((signature:Uint8Array)=>{
+        txRaw.addSignatures(signature);
+    })
+    return (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
   }
 
   /**

@@ -2,6 +2,7 @@
 import { TxModelCreator } from '../utils';
 import * as types from '../types';
 
+const Sha256 = require('sha256');
 let Tx_pb = require('./proto-types/cosmos/tx/v1beta1/tx_pb');
 
 export class ProtoTx {
@@ -70,6 +71,30 @@ export class ProtoTx {
     }
 
     /**
+     * TxRaw is a variant of Tx that pins the signer's exact binary representation
+        of body and auth_info. This is used for signing, broadcasting and
+        verification. The binary `serialize(tx: TxRaw)` is stored in Tendermint and
+        the hash `sha256(serialize(tx: TxRaw))` becomes the "txhash", commonly used
+        as the transaction ID. 
+     * @returns TxRaw  protobuf.Tx.TxRaw 
+     */
+    getTxRaw():any{
+        if (!this.hasPubKey()) {
+            throw new Error("please set pubKey");
+        }
+        if (!this.signatures || !this.signatures.length) {
+            throw new Error("please sign tx");
+        }
+        let txRaw = new Tx_pb.TxRaw();
+        txRaw.setBodyBytes(this.body.serializeBinary());
+        txRaw.setAuthInfoBytes(this.authInfo.serializeBinary());
+        this.signatures.forEach((signature)=>{
+            txRaw.addSignatures(signature);
+        })
+        return txRaw;
+    }
+
+    /**
      *  has PubKey
      * @returns true/false
      */
@@ -92,6 +117,16 @@ export class ProtoTx {
         return tx.serializeBinary();
     }
 
+    /**
+     * get Tx Hash
+     * @returns tx hash
+     */
+    getTxHash():string{
+        let txRaw = this.getTxRaw();
+        let txHash:string = Sha256(txRaw.serializeBinary());
+        return txHash;
+    } 
+     
     /**
      *  get tx content
      * @returns tx info

@@ -325,7 +325,7 @@ export class EventListener {
       const decodedTxs = new Array();
       txs.forEach(msg => {
         decodedTxs.push(
-          this.client.tx.txDeserialize(msg);
+          this.client.tx.txDeserialize(msg)
         );
       });
       blockData.block.data.txs = decodedTxs;
