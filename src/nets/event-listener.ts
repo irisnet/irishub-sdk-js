@@ -1,4 +1,3 @@
-import { unmarshalTx } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
 import { SdkError } from '../errors';
 import * as types from '../types';
@@ -323,10 +322,10 @@ export class EventListener {
     // Decode txs
     if (blockData.block && blockData.block.data && blockData.block.data.txs) {
       const txs: string[] = blockData.block.data.txs;
-      const decodedTxs = new Array<types.Tx<types.StdTx>>();
+      const decodedTxs = new Array();
       txs.forEach(msg => {
         decodedTxs.push(
-          unmarshalTx(base64ToBytes(msg)) as types.Tx<types.StdTx>
+          this.client.tx.txDeserialize(msg)
         );
       });
       blockData.block.data.txs = decodedTxs;
@@ -488,9 +487,7 @@ export class EventListener {
     }
 
     const txResult = data.data.value.TxResult;
-    txResult.tx = unmarshalTx(base64ToBytes(txResult.tx));
-
-    // Decode tags from base64
+    txResult.tx = this.client.tx.txDeserialize(txResult.tx);
     if (txResult.result.tags) {
       const tags = txResult.result.tags as types.Tag[];
       const decodedTags = new Array<types.Tag>();

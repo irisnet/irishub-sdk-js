@@ -5,6 +5,7 @@ import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
 import { bytesToBase64 } from '@tendermint/belt';
 
+const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 /**
  * Tx module allows you to sign or broadcast transactions
  *
@@ -57,6 +58,7 @@ export class Tx {
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
+    
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }
@@ -335,5 +337,77 @@ export class Tx {
         }
     }
     return msg;
+  }
+
+  /**
+   * Deserialize tx
+   * @param  {[type]} txString:string base64 String
+   * @return {[type]}                 tx object
+   */
+  txDeserialize(txString:string):any{
+    if (!txString) {return}
+    let tx = Tx_pb.Tx.deserializeBinary(Buffer.from(txString, 'base64')).toObject();
+    if (tx.body && tx.body.messagesList) {
+      tx.body.messagesList = tx.body.messagesList.map((msg:{typeUrl:string,value:string})=>{
+        return this.msgUnpack(msg);
+      });
+    }
+    return tx;
+  }
+
+  /**
+   * Unpack protobuffer tx msg
+   * @return {[type]}      msg object
+   */
+  msgUnpack(msg:{typeUrl:string,value:string}):any{
+    if (!msg) {return}
+    let messageModelClass:any;
+    let typeUrl = msg.typeUrl.replace(/^\//,'');
+    switch (typeUrl) {
+        case types.TxType.MsgSend: {
+            messageModelClass = types.MsgSend.getModelClass();
+            break;
+        }
+        case types.TxType.MsgMultiSend: {
+            messageModelClass = types.MsgMultiSend.getModelClass();
+            break;
+        }
+        case types.TxType.MsgDelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgUndelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgBeginRedelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgWithdrawDelegatorReward: {
+            
+            break;
+        } 
+        case types.TxType.MsgAddLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgRemoveLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgSwapOrder: {
+            
+            break;
+        }
+        default: {
+            throw new Error("not exist tx type");
+        }
+    }
+    if (messageModelClass && messageModelClass.deserializeBinary) {
+        let messageObj = messageModelClass.deserializeBinary(Buffer.from(msg.value,'base64')).toObject();
+        messageObj.type = typeUrl;
+        return messageObj;
+    }
   }
 }
