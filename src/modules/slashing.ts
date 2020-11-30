@@ -4,7 +4,6 @@ import { MsgUnjail } from '../types/slashing';
 import { SdkError } from '../errors';
 import { StoreKeys } from '../utils';
 import * as Bech32 from 'bech32';
-import { unmarshalValidatorSigningInfo } from '@irisnet/amino-js';
 import { base64ToBytes } from '@tendermint/belt';
 
 /**
@@ -54,13 +53,10 @@ export class Slashing {
     return this.client.rpcClient
       .queryStore<any>(key, 'slashing', height)
       .then(res => {
-        console.log('res.response:',res.response);
         if (!res || !res.response || !res.response.value) {
           throw new SdkError('Validator not found');
         }
-        return unmarshalValidatorSigningInfo(
-          base64ToBytes(res.response.value)
-        ) as types.ValidatorSigningInfo;
+        return this.client.protobuf.deserializeSigningInfo(res.response.value) as types.ValidatorSigningInfo;
       });
   }
 

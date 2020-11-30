@@ -63,9 +63,9 @@ export class MsgUnjail extends Msg {
 /** Defines the signing info for a validator */
 export interface ValidatorSigningInfo {
   address: string;
-  start_height: string;
-  index_offset: string;
-  jailed_until: string;
+  startHeight: string;
+  indexOffset: string;
+  jailedUntil: string;
   tombstoned: boolean;
-  missed_blocks_counter: string;
+  missedBlocksCounter: string;
 }
