@@ -298,11 +298,11 @@ export class Tx {
     let msg:any = {};
     switch (txMsg.type) {
         case types.TxType.MsgSend: {
-            msg = new types.MsgSend(txMsg.value)
+            msg = new types.MsgSend(txMsg.value);
             break;
         }
         case types.TxType.MsgMultiSend: {
-            msg = new types.MsgMultiSend(txMsg.value)
+            msg = new types.MsgMultiSend(txMsg.value);
             break;
         }
         case types.TxType.MsgDelegate: {
@@ -310,15 +310,15 @@ export class Tx {
             break;
         }
         case types.TxType.MsgUndelegate: {
-
+            msg = new types.MsgUndelegate(txMsg.value);
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-
+            msg = new types.MsgRedelegate(txMsg.value);
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-
+            msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
             break;
         }
         case types.TxType.MsgAddLiquidity: {
@@ -374,19 +374,19 @@ export class Tx {
             break;
         }
         case types.TxType.MsgDelegate: {
-            messageModelClass = pbs.stakingTxProtocolBuffer;
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgDelegate;
             break;
         }
         case types.TxType.MsgUndelegate: {
-
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgUndelegate;
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-
+            messageModelClass = pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
             break;
         }
         case types.TxType.MsgAddLiquidity: {

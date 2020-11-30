@@ -26,8 +26,8 @@ export class Msg {
     throw new Error("not implement");
   }
 
-  async pack(){
-    let msg = await this.getModel();
+  pack(){
+    let msg = this.getModel();
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
 

@@ -264,7 +264,7 @@ export class Staking {
                 value: {
                     delegatorAddr,
                     validatorAddr,
-                    delegation: amount
+                    amount
                 }
             }
         ];
@@ -274,28 +274,26 @@ export class Staking {
     /**
      * Undelegate from a validator
      * @param validatorAddr Bech32 validator address
-     * @param amount Amount to be unbonded from the validator
+     * @param amount Amount to be undelegated from the validator
      * @param baseTx
      * @returns
      * @since v0.17
      */
     async undelegate(
         validatorAddr: string,
-        amount: string,
+        amount: types.Coin,
         baseTx: types.BaseTx
     ): Promise<types.TxResult> {
         const delegatorAddr = this.client.keys.show(baseTx.from);
-        const validator = await this.queryValidator(validatorAddr);
-
-        const shares =
-            Number(amount) *
-            (Number(validator.tokens) / Number(validator.delegator_shares));
-        const msgs: types.Msg[] = [
-            new MsgUndelegate(
-                delegatorAddr,
-                validatorAddr,
-                this.appendZero(String(shares), 10)
-            ),
+        const msgs: any[] = [
+            {
+                type:types.TxType.MsgUndelegate,
+                value: {
+                    delegatorAddr,
+                    validatorAddr,
+                    amount
+                }
+            }
         ];
         return this.client.tx.buildAndSend(msgs, baseTx);
     }
@@ -311,22 +309,20 @@ export class Staking {
     async redelegate(
         validatorSrcAddr: string,
         validatorDstAddr: string,
-        amount: string,
+        amount: types.Coin,
         baseTx: types.BaseTx
     ): Promise<types.TxResult> {
         const delegatorAddr = this.client.keys.show(baseTx.from);
-        const srcValidator = await this.queryValidator(validatorSrcAddr);
-
-        const shares =
-            Number(amount) *
-            (Number(srcValidator.tokens) / Number(srcValidator.delegator_shares));
-        const msgs: types.Msg[] = [
-            new MsgRedelegate(
-                delegatorAddr,
-                validatorSrcAddr,
-                validatorDstAddr,
-                this.appendZero(String(shares), 10)
-            ),
+        const msgs: any[] = [
+            {
+                type:types.TxType.MsgUndelegate,
+                value: {
+                    delegatorAddr,
+                    validatorSrcAddr,
+                    validatorDstAddr,
+                    amount
+                }
+            }
         ];
         return this.client.tx.buildAndSend(msgs, baseTx);
     }

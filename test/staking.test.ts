@@ -165,8 +165,8 @@ describe('Staking Tests', () => {
     test('delegate', async () => {
       await BaseTest.getClient()
         .staking.delegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          { denom: 'iris-atto', amount: '5000000000000000000' },
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+          { denom: 'stake', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -181,8 +181,8 @@ describe('Staking Tests', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
         .staking.undelegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          '100000000000000000',
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+              { denom: 'stake', amount: '2' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -197,9 +197,9 @@ describe('Staking Tests', () => {
     test('redelegate', async () => {
       await BaseTest.getClient()
         .staking.redelegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          '10000000000000000',
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+              { denom: 'stake', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {

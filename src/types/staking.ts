@@ -89,7 +89,7 @@ export interface Redelegation {
 export interface DelegateMsgParam {
     delegatorAddr: string;
     validatorAddr: string;
-    delegation: Coin;
+    amount: Coin;
 }
 
 /**
@@ -97,19 +97,18 @@ export interface DelegateMsgParam {
  * @hidden
  */
 export class MsgDelegate extends Msg {
-    value: any;
+    value: DelegateMsgParam;
 
-    constructor(param: DelegateMsgParam) {
+    constructor(msg: DelegateMsgParam) {
         super(TxType.MsgDelegate);
-        this.value = this.getModel(param);
+        this.value = msg;
     }
 
-    getModel(param: DelegateMsgParam): any {
-        const msg = new pbs.stakingTxProtocolBuffer.MsgDelegate();
-        msg.setDelegatorAddress(param.delegatorAddr);
-        msg.setValidatorAddress(param.validatorAddr);
-        console.log('-------',param.delegation)
-        msg.setAmount(TxModelCreator.createCoinModel(param.delegation.denom, param.delegation.amount));
+    getModel(): any {
+        const msg = new pbs.stakingTxProtocolBuffer.MsgDelegate()
+        msg.setDelegatorAddress(this.value.delegatorAddr)
+            .setValidatorAddress(this.value.validatorAddr)
+            .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         return msg;
     }
 
@@ -118,28 +117,30 @@ export class MsgDelegate extends Msg {
     }
 }
 
+export interface UndelegateMsgParam {
+    delegatorAddr: string;
+    validatorAddr: string;
+    amount: Coin;
+}
+
 /**
  * Msg struct for undelegating from a validator
  * @hidden
  */
 export class MsgUndelegate extends Msg {
-    value: {
-        delegator_addr: string;
-        validator_addr: string;
-        shares_amount: string;
-    };
+    value: UndelegateMsgParam;
 
-    constructor(
-        delegatorAddr: string,
-        validatorAddr: string,
-        sharesAmount: string
-    ) {
-        super('irishub/stake/BeginUnbonding');
-        this.value = {
-            delegator_addr: delegatorAddr,
-            validator_addr: validatorAddr,
-            shares_amount: sharesAmount,
-        };
+    constructor(msg: UndelegateMsgParam) {
+        super(TxType.MsgUndelegate);
+        this.value = msg;
+    }
+
+    getModel(): any {
+        const msg = new pbs.stakingTxProtocolBuffer.MsgUndelegate()
+        msg.setDelegatorAddress(this.value.delegatorAddr)
+            .setValidatorAddress(this.value.validatorAddr)
+            .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+        return msg;
     }
 
     getSignBytes(): object {
@@ -147,40 +148,38 @@ export class MsgUndelegate extends Msg {
     }
 }
 
+
+export interface RedelegateMsgParam {
+    delegatorAddr: string;
+    validatorSrcAddr: string;
+    validatorDstAddr: string;
+    amount: Coin;
+}
+
 /**
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
 export class MsgRedelegate extends Msg {
-    value: {
-        delegator_addr: string;
-        validator_src_addr: string;
-        validator_dst_addr: string;
-        shares_amount: string;
-    };
+    value: RedelegateMsgParam;
 
-    constructor(
-        delegatorAddr: string,
-        validatorSrcAddr: string,
-        validatorDstAddr: string,
-        sharesAmount: string
-    ) {
-        super('irishub/stake/BeginRedelegate');
-        this.value = {
-            delegator_addr: delegatorAddr,
-            validator_src_addr: validatorSrcAddr,
-            validator_dst_addr: validatorDstAddr,
-            shares_amount: sharesAmount,
-        };
+    constructor(msg: RedelegateMsgParam) {
+        super(TxType.MsgBeginRedelegate);
+        this.value = msg;
+    }
+
+    getModel(): any {
+        const msg = new pbs.stakingTxProtocolBuffer.MsgBeginRedelegate();
+        msg.setDelegatorAddress(this.value.delegatorAddr)
+            .setValidatorSrcAddress(this.value.validatorSrcAddr)
+            .setValidatorDstAddress(this.value.validatorDstAddr)
+            .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+
+        return msg;
     }
 
     getSignBytes(): object {
-        return {
-            delegator_addr: this.value.delegator_addr,
-            validator_src_addr: this.value.validator_src_addr,
-            validator_dst_addr: this.value.validator_dst_addr,
-            shares: this.value.shares_amount,
-        };
+        return this.value;
     }
 }
 

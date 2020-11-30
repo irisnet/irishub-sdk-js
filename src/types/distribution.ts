@@ -1,4 +1,5 @@
-import { Coin, Msg } from './types';
+import {Coin, Msg, TxType} from './types';
+import * as pbs from "./proto-types";
 
 /**
  * Msg struct for changing the withdraw address for a delegator (or validator self-delegation)
@@ -44,23 +45,27 @@ export class MsgWithdrawDelegatorRewardsAll extends Msg {
   }
 }
 
+export interface WithdrawDelegatorRewardMsgParam {
+    delegatorAddr: string;
+    validatorAddr: string;
+}
 /**
  * Msg struct for delegation withdraw from a single validator
  * @hidden
  */
 export class MsgWithdrawDelegatorReward extends Msg {
-  value: {
-    delegator_addr: string;
-    validator_addr: string;
-  };
+  value: WithdrawDelegatorRewardMsgParam;
 
-  constructor(delegatorAddr: string, validatorAddr: string) {
-    super('irishub/distr/MsgWithdrawDelegationReward')
-    this.value = {
-      delegator_addr: delegatorAddr,
-      validator_addr: validatorAddr,
-    };
+  constructor(msg: WithdrawDelegatorRewardMsgParam) {
+    super(TxType.MsgWithdrawDelegatorReward);
+    this.value = msg;
   }
+
+    getModel(): any {
+        return new pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward()
+            .setDelegatorAddress(this.value.delegatorAddr)
+            .setValidatorAddress(this.value.validatorAddr);
+    }
 
   getSignBytes(): object {
     return this;
