@@ -22,12 +22,12 @@ export class Msg {
     throw new Error("not implement");
   }
 
-  getModel():any{
+  getModel(msg?: any):any{
     throw new Error("not implement");
   }
 
-  pack():any{
-    let msg:any = this.getModel();
+  async pack(){
+    let msg = await this.getModel();
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
 

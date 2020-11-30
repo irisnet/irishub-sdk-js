@@ -4,6 +4,7 @@ import * as types from '../types';
 import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
 import { bytesToBase64 } from '@tendermint/belt';
+import * as pbs from '../types/proto-types';
 
 const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 /**
@@ -28,7 +29,7 @@ export class Tx {
    * @since v0.17
    */
   buildTx(
-    msgs: any[], 
+    msgs: any[],
     baseTx: types.BaseTx,
   ): types.ProtoTx{
     let msgList:types.Msg[] = msgs.map(msg=>{
@@ -58,7 +59,7 @@ export class Tx {
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
-    
+
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }
@@ -159,7 +160,7 @@ export class Tx {
     if (!this.client.config.keyDAO.decrypt) {
       throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
-    
+
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
@@ -305,31 +306,31 @@ export class Tx {
             break;
         }
         case types.TxType.MsgDelegate: {
-            
+            msg = new types.MsgDelegate(txMsg.value);
             break;
         }
         case types.TxType.MsgUndelegate: {
-            
+
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-            
+
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgAddLiquidity: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgRemoveLiquidity: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgSwapOrder: {
-            
+
             break;
         }
         default: {
@@ -373,31 +374,31 @@ export class Tx {
             break;
         }
         case types.TxType.MsgDelegate: {
-            
+            messageModelClass = pbs.stakingTxProtocolBuffer;
             break;
         }
         case types.TxType.MsgUndelegate: {
-            
+
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-            
+
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgAddLiquidity: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgRemoveLiquidity: {
-            
+
             break;
-        } 
+        }
         case types.TxType.MsgSwapOrder: {
-            
+
             break;
         }
         default: {
