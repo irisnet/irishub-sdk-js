@@ -262,6 +262,10 @@ export class Utils {
     return Buffer.from(b64, 'base64').toString();
   }
 
+  static bytesToBase64(bytes:Uint8Array):string{
+    return Buffer.from(bytes).toString('base64');
+  }
+
   /**
    * Decode base64 encoded tags
    * @param tags

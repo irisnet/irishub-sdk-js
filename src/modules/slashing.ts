@@ -4,7 +4,6 @@ import { MsgUnjail } from '../types/slashing';
 import { SdkError } from '../errors';
 import { StoreKeys } from '../utils';
 import * as Bech32 from 'bech32';
-import { base64ToBytes } from '@tendermint/belt';
 
 /**
  * In Proof-of-Stake blockchain, validators will get block provisions by staking their token.

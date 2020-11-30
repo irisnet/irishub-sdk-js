@@ -3,7 +3,6 @@ import * as is from 'is_js';
 import * as types from '../types';
 import { SdkError } from '../errors';
 import { Utils, Crypto } from '../utils';
-import { bytesToBase64 } from '@tendermint/belt';
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -200,7 +199,7 @@ export class Tx {
   private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
     return this.client.rpcClient
       .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
-        tx: bytesToBase64(txBytes),
+        tx: Utils.bytesToBase64(txBytes),
       })
       .then(response => {
         // Check tx error
@@ -251,7 +250,7 @@ export class Tx {
 
     return this.client.rpcClient
       .request<types.ResultBroadcastTxAsync>(method, {
-        tx: bytesToBase64(txBytes),
+        tx: Utils.bytesToBase64(txBytes),
       })
       .then(response => {
         if (response.code && response.code > 0) {

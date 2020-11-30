@@ -1,7 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';

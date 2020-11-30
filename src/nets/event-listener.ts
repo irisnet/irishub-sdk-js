@@ -1,4 +1,3 @@
-import { base64ToBytes } from '@tendermint/belt';
 import { SdkError } from '../errors';
 import * as types from '../types';
 import { Utils, Crypto } from '../utils';
