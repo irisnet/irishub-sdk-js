@@ -1,7 +1,7 @@
 import {Coin, Msg, Pubkey} from './types';
 import {TxModelCreator} from "../utils";
 import {TxType} from "./types";
-import * as pbs from './proto-types';
+import * as pbs from './proto';
 import * as is from "is_js";
 import {SdkError} from "../errors";
 

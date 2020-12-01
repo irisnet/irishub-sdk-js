@@ -3,7 +3,6 @@ import * as is from 'is_js';
 import * as types from '../types';
 import {SdkError} from '../errors';
 import {Utils, Crypto} from '../utils';
-import * as pbs from '../types/proto-types';
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -34,7 +33,6 @@ export class Tx {
     let msgList: types.Msg[] = msgs.map(msg => {
       return this.createMsg(msg);
     });
-    console.log('----',msgList)
     const unsignedTx: types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
     return unsignedTx;
   }
