@@ -1,10 +1,21 @@
 import {Coin, Msg, TxType} from './types';
 import * as pbs from "./proto-types";
 
-
-export interface MsgSetWithdrawAddressParam {
+/**
+ * param struct for set withdraw address tx
+ */
+export interface SetWithdrawAddressTxParam {
   delegator_addr: string;
   withdraw_addr: string;
+}
+
+
+/**
+ * param struct for withdraw delegator reward tx
+ */
+export interface WithdrawDelegatorRewardTxParam {
+  delegatorAddr: string;
+  validatorAddr: string;
 }
 
 /**
@@ -12,9 +23,9 @@ export interface MsgSetWithdrawAddressParam {
  * @hidden
  */
 export class MsgSetWithdrawAddress extends Msg {
-  value: MsgSetWithdrawAddressParam;
+  value: SetWithdrawAddressTxParam;
 
-  constructor(msg: MsgSetWithdrawAddressParam) {
+  constructor(msg: SetWithdrawAddressTxParam) {
     super(TxType.MsgSetWithdrawAddress);
     this.value = msg;
   }
@@ -51,19 +62,14 @@ export class MsgWithdrawDelegatorRewardsAll extends Msg {
   }
 }
 
-export interface WithdrawDelegatorRewardMsgParam {
-  delegatorAddr: string;
-  validatorAddr: string;
-}
-
 /**
  * Msg struct for delegation withdraw from a single validator
  * @hidden
  */
 export class MsgWithdrawDelegatorReward extends Msg {
-  value: WithdrawDelegatorRewardMsgParam;
+  value: WithdrawDelegatorRewardTxParam;
 
-  constructor(msg: WithdrawDelegatorRewardMsgParam) {
+  constructor(msg: WithdrawDelegatorRewardTxParam) {
     super(TxType.MsgWithdrawDelegatorReward);
     this.value = msg;
   }

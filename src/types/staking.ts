@@ -86,20 +86,43 @@ export interface Redelegation {
   shares_dst: string;
 }
 
-export interface DelegateMsgParam {
+/**
+ * param struct for delegate tx
+ */
+export interface DelegateTxParam {
   delegatorAddr: string;
   validatorAddr: string;
   amount: Coin;
 }
 
 /**
+ * param struct for undelegate tx
+ */
+export interface UndelegateTxParam {
+  delegatorAddr: string;
+  validatorAddr: string;
+  amount: Coin;
+}
+
+/**
+ * param struct for redelegate tx
+ */
+export interface RedelegateTxParam {
+  delegatorAddr: string;
+  validatorSrcAddr: string;
+  validatorDstAddr: string;
+  amount: Coin;
+}
+
+
+/**
  * Msg struct for delegating to a validator
  * @hidden
  */
 export class MsgDelegate extends Msg {
-  value: DelegateMsgParam;
+  value: DelegateTxParam;
 
-  constructor(msg: DelegateMsgParam) {
+  constructor(msg: DelegateTxParam) {
     super(TxType.MsgDelegate);
     this.value = msg;
   }
@@ -117,20 +140,16 @@ export class MsgDelegate extends Msg {
   }
 }
 
-export interface UndelegateMsgParam {
-  delegatorAddr: string;
-  validatorAddr: string;
-  amount: Coin;
-}
+
 
 /**
  * Msg struct for undelegating from a validator
  * @hidden
  */
 export class MsgUndelegate extends Msg {
-  value: UndelegateMsgParam;
+  value: UndelegateTxParam;
 
-  constructor(msg: UndelegateMsgParam) {
+  constructor(msg: UndelegateTxParam) {
     super(TxType.MsgUndelegate);
     this.value = msg;
   }
@@ -149,21 +168,15 @@ export class MsgUndelegate extends Msg {
 }
 
 
-export interface RedelegateMsgParam {
-  delegatorAddr: string;
-  validatorSrcAddr: string;
-  validatorDstAddr: string;
-  amount: Coin;
-}
 
 /**
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
 export class MsgRedelegate extends Msg {
-  value: RedelegateMsgParam;
+  value: RedelegateTxParam;
 
-  constructor(msg: RedelegateMsgParam) {
+  constructor(msg: RedelegateTxParam) {
     super(TxType.MsgBeginRedelegate);
     this.value = msg;
   }
