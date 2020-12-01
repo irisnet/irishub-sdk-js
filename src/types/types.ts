@@ -51,6 +51,7 @@ export enum TxType {
   MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
   MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
   MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MsgSetWithdrawAddress ="cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
   MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
   MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
   MsgSwapOrder ="irismod.coinswap.MsgSwapOrder",

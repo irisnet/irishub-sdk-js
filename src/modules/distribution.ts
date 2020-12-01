@@ -69,8 +69,14 @@ export class Distribution {
         baseTx: types.BaseTx
     ): Promise<types.TxResult> {
         const from = this.client.keys.show(baseTx.from);
-        const msgs: types.Msg[] = [
-            new MsgSetWithdrawAddress(from, withdrawAddress),
+        const msgs: any[] = [
+            {
+                type:types.TxType.MsgSetWithdrawAddress,
+                value: {
+                    delegator_addr:from,
+                    withdraw_addr: withdrawAddress,
+                }
+            }
         ];
 
         return this.client.tx.buildAndSend(msgs, baseTx);

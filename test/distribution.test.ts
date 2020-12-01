@@ -39,15 +39,8 @@ describe('Distribution Tests', () => {
         test(
             'set withdraw address',
             async () => {
-                const amount: types.Coin[] = [
-                    {
-                        denom: 'iris-atto',
-                        amount: '1000000000000000000',
-                    },
-                ];
-
                 await BaseTest.getClient().distribution
-                    .setWithdrawAddr('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', BaseTest.baseTx)
+                    .setWithdrawAddr('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
                     .then(res => {
                         console.log(JSON.stringify(res));
                     })
