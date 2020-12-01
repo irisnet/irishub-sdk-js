@@ -1,6 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { SdkError } from '../errors';
+import * as pbs from '../types/proto-types';
 
 const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
@@ -63,21 +64,25 @@ export class Protobuf {
             break;
         }
         case types.TxType.MsgDelegate: {
-            
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgDelegate;
             break;
         }
         case types.TxType.MsgUndelegate: {
-            
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgUndelegate;
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-            
+            messageModelClass = pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-            
+            messageModelClass = pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
             break;
-        } 
+        }
+        case types.TxType.MsgSetWithdrawAddress: {
+            messageModelClass = pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
+            break;
+        }
         case types.TxType.MsgAddLiquidity: {
             
             break;
