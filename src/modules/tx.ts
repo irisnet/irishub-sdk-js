@@ -34,6 +34,7 @@ export class Tx {
     let msgList: types.Msg[] = msgs.map(msg => {
       return this.createMsg(msg);
     });
+    console.log('----',msgList)
     const unsignedTx: types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
     return unsignedTx;
   }

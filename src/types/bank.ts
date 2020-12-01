@@ -34,7 +34,7 @@ export class MsgSend extends Msg {
     return msg;
   }
 
-  ValidateBasic() {
+  validate() {
     if (!this.value.from_address) {
       throw new Error("from_address is  empty");
     }
@@ -88,7 +88,7 @@ export class MsgMultiSend extends Msg {
     return msg;
   }
 
-  ValidateBasic() {
+  validate() {
     if (!this.value.inputs) {
       throw new Error("inputs is  empty");
     }

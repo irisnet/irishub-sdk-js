@@ -73,8 +73,8 @@ export class Distribution {
       {
         type: types.TxType.MsgSetWithdrawAddress,
         value: {
-          delegator_addr: from,
-          withdraw_addr: withdrawAddress,
+          delegator_address: from,
+          withdraw_address: withdrawAddress,
         }
       }
     ];
@@ -98,8 +98,8 @@ export class Distribution {
       {
         type: types.TxType.MsgWithdrawDelegatorReward,
         value: {
-          delegatorAddr,
-          validatorAddr,
+          delegator_address:delegatorAddr,
+          validator_address:validatorAddr,
         }
       }
     ];

@@ -1,12 +1,14 @@
 import {Coin, Msg, TxType} from './types';
 import * as pbs from "./proto-types";
+import * as is from 'is_js';
+import {SdkError} from "../errors";
 
 /**
  * param struct for set withdraw address tx
  */
 export interface SetWithdrawAddressTxParam {
-  delegator_addr: string;
-  withdraw_addr: string;
+  delegator_address: string;
+  withdraw_address: string;
 }
 
 
@@ -14,8 +16,8 @@ export interface SetWithdrawAddressTxParam {
  * param struct for withdraw delegator reward tx
  */
 export interface WithdrawDelegatorRewardTxParam {
-  delegatorAddr: string;
-  validatorAddr: string;
+  delegator_address: string;
+  validator_address: string;
 }
 
 /**
@@ -30,14 +32,31 @@ export class MsgSetWithdrawAddress extends Msg {
     this.value = msg;
   }
 
-  getModel(): any {
-    return new pbs.distributionProtocolBuffer.MsgSetWithdrawAddress()
-      .setDelegatorAddress(this.value.delegator_addr)
-      .setWithdrawAddress(this.value.withdraw_addr);
+  static getModelClass():any{
+    return pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
   }
 
-  getSignBytes(): object {
-    return this;
+  getModel(): any {
+    return new (MsgSetWithdrawAddress.getModelClass())()
+      .setDelegatorAddress(this.value.delegator_address)
+      .setWithdrawAddress(this.value.withdraw_address);
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.withdraw_address)) {
+      throw new SdkError(`withdraw address can not be empty`);
+    }
+
+    return true;
   }
 }
 
@@ -75,13 +94,29 @@ export class MsgWithdrawDelegatorReward extends Msg {
   }
 
   getModel(): any {
-    return new pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward()
-      .setDelegatorAddress(this.value.delegatorAddr)
-      .setValidatorAddress(this.value.validatorAddr);
+    return new (MsgWithdrawDelegatorReward.getModelClass())()
+      .setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address);
   }
 
-  getSignBytes(): object {
-    return this;
+  static getModelClass():any{
+    return pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
 

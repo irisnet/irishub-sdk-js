@@ -32,11 +32,11 @@ export class BaseTest {
   static getClient(): Client {
     const client = iris
       .newClient({
-        node: 'http://34.80.22.255:26657',
-        network: iris.Network.Testnet,
-        chainId: 'bifrost-1',
+        node: 'http://106.53.32.134:26657',
+        network: iris.Network.Mainnet,
+        chainId: 'test',
         gas: '200000',
-        fee: { denom: 'ubif', amount: '1000000' },
+        fee: { denom: 'stake', amount: '2' },
       })
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });

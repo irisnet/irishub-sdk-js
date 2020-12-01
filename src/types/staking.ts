@@ -2,6 +2,8 @@ import {Coin, Msg, Pubkey} from './types';
 import {TxModelCreator} from "../utils";
 import {TxType} from "./types";
 import * as pbs from './proto-types';
+import * as is from "is_js";
+import {SdkError} from "../errors";
 
 /** Validator details */
 export interface Validator {
@@ -90,8 +92,8 @@ export interface Redelegation {
  * param struct for delegate tx
  */
 export interface DelegateTxParam {
-  delegatorAddr: string;
-  validatorAddr: string;
+  delegator_address: string;
+  validator_address: string;
   amount: Coin;
 }
 
@@ -99,8 +101,8 @@ export interface DelegateTxParam {
  * param struct for undelegate tx
  */
 export interface UndelegateTxParam {
-  delegatorAddr: string;
-  validatorAddr: string;
+  delegator_address: string;
+  validator_address: string;
   amount: Coin;
 }
 
@@ -108,9 +110,9 @@ export interface UndelegateTxParam {
  * param struct for redelegate tx
  */
 export interface RedelegateTxParam {
-  delegatorAddr: string;
-  validatorSrcAddr: string;
-  validatorDstAddr: string;
+  delegator_address: string;
+  validator_src_address: string;
+  validator_dst_address: string;
   amount: Coin;
 }
 
@@ -127,16 +129,32 @@ export class MsgDelegate extends Msg {
     this.value = msg;
   }
 
+  static getModelClass(): any{
+    return pbs.stakingTxProtocolBuffer.MsgDelegate;
+  }
+
   getModel(): any {
-    const msg = new pbs.stakingTxProtocolBuffer.MsgDelegate()
-    msg.setDelegatorAddress(this.value.delegatorAddr)
-      .setValidatorAddress(this.value.validatorAddr)
+    const msg = new (MsgDelegate.getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
       .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
     return msg;
   }
 
-  getSignBytes(): object {
-    return this;
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
 
@@ -154,16 +172,32 @@ export class MsgUndelegate extends Msg {
     this.value = msg;
   }
 
+  static getModelClass(): any{
+    return pbs.stakingTxProtocolBuffer.MsgUndelegate;
+  }
+
   getModel(): any {
-    const msg = new pbs.stakingTxProtocolBuffer.MsgUndelegate()
-    msg.setDelegatorAddress(this.value.delegatorAddr)
-      .setValidatorAddress(this.value.validatorAddr)
+    const msg = new (MsgUndelegate.getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
       .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
     return msg;
   }
 
-  getSignBytes(): object {
-    return this.value;
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
 
@@ -181,18 +215,37 @@ export class MsgRedelegate extends Msg {
     this.value = msg;
   }
 
-  getModel(): any {
-    const msg = new pbs.stakingTxProtocolBuffer.MsgBeginRedelegate();
-    msg.setDelegatorAddress(this.value.delegatorAddr)
-      .setValidatorSrcAddress(this.value.validatorSrcAddr)
-      .setValidatorDstAddress(this.value.validatorDstAddr)
-      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+  static getModelClass(): any{
+    return pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
+  }
 
+  getModel(): any {
+    const msg = new (MsgRedelegate.getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorSrcAddress(this.value.validator_src_address)
+      .setValidatorDstAddress(this.value.validator_dst_address)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
     return msg;
   }
 
-  getSignBytes(): object {
-    return this.value;
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_src_address)) {
+      throw new SdkError(`source validator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_dst_address)) {
+      throw new SdkError(`destination validator address can not be empty`);
+    }
+
+    return true;
   }
 }
 

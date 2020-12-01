@@ -16,7 +16,7 @@ export class TxHelper {
         return pubkey;
     }
 
-    // static ValidateBasic(tx) {
+    // static validate(tx) {
     //     if (!tx.chain_id) {
     //         throw new Error("chain_id is empty");
     //     }
@@ -27,7 +27,7 @@ export class TxHelper {
     //         throw new Error("sequence is empty");
     //     }
     //     tx.msgs.forEach(function(msg) {
-    //         msg.ValidateBasic();
+    //         msg.validate();
     //     });
     // }
 

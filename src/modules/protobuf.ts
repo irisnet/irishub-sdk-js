@@ -64,23 +64,23 @@ export class Protobuf {
             break;
         }
         case types.TxType.MsgDelegate: {
-            messageModelClass = pbs.stakingTxProtocolBuffer.MsgDelegate;
+            messageModelClass = types.MsgDelegate.getModelClass();
             break;
         }
         case types.TxType.MsgUndelegate: {
-            messageModelClass = pbs.stakingTxProtocolBuffer.MsgUndelegate;
+            messageModelClass = types.MsgUndelegate.getModelClass();
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-            messageModelClass = pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
+            messageModelClass = types.MsgRedelegate.getModelClass();
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-            messageModelClass = pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
+            messageModelClass = types.MsgWithdrawDelegatorReward.getModelClass();
             break;
         }
         case types.TxType.MsgSetWithdrawAddress: {
-            messageModelClass = pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
+            messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
             break;
         }
         case types.TxType.MsgAddLiquidity: {

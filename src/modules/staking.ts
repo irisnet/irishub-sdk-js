@@ -262,8 +262,8 @@ export class Staking {
       {
         type: types.TxType.MsgDelegate,
         value: {
-          delegatorAddr,
-          validatorAddr,
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
           amount
         }
       }
@@ -289,8 +289,8 @@ export class Staking {
       {
         type: types.TxType.MsgUndelegate,
         value: {
-          delegatorAddr,
-          validatorAddr,
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
           amount
         }
       }
@@ -317,9 +317,9 @@ export class Staking {
       {
         type: types.TxType.MsgUndelegate,
         value: {
-          delegatorAddr,
-          validatorSrcAddr,
-          validatorDstAddr,
+          delegator_address: delegatorAddr,
+          validator_src_address: validatorSrcAddr,
+          validator_dst_address: validatorDstAddr,
           amount
         }
       }
