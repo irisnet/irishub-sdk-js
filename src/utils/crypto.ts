@@ -468,7 +468,7 @@ export class Crypto {
     if (!tx || typeof tx != 'string') {
       throw new SdkError('invalid tx');
     }
-    const tx_pb = Tx_pb.Tx.deserializeBinary(Buffer.from(tx, 'base64'));
+    const tx_pb = Tx_pb.Tx.deserializeBinary(tx);
     if (!tx_pb) {
       throw new SdkError('deserialize tx err');
     }

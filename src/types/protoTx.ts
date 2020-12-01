@@ -123,7 +123,7 @@ export class ProtoTx {
      */
     getTxHash():string{
         let txRaw = this.getTxRaw();
-        let txHash:string = Sha256(txRaw.serializeBinary());
+        let txHash:string = (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
         return txHash;
     } 
      
