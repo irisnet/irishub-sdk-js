@@ -1,7 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
@@ -34,10 +33,10 @@ export class Tendermint {
         // Decode txs
         if (res.block && res.block.data && res.block.data.txs) {
           const txs: string[] = res.block.data.txs;
-          const decodedTxs = new Array<types.Tx<types.StdTx>>();
+          const decodedTxs = new Array();
           txs.forEach(msg => {
             decodedTxs.push(
-              this.client.tx.txDeserialize(msg)
+              this.client.protobuf.deserializeTx(msg)
             );
           });
           res.block.data.txs = decodedTxs;
@@ -97,7 +96,7 @@ export class Tendermint {
       .then(res => {
         // Decode tags and tx
         res.tx_result.tags = Utils.decodeTags(res.tx_result.tags);
-        res.tx = this.client.tx.txDeserialize(res.tx);
+        res.tx = this.client.protobuf.deserializeTx(res.tx);
         return res as types.QueryTxResult;
       });
   }
@@ -166,7 +165,7 @@ export class Tendermint {
           // Decode tags and txs
           res.txs.forEach((tx: any) => {
             tx.tx_result.tags = Utils.decodeTags(tx.tx_result.tags);
-            tx.tx = this.client.tx.txDeserialize(tx.tx);
+            tx.tx = this.client.protobuf.deserializeTx(tx.tx);
             txs.push(tx);
           });
           res.txs = txs;

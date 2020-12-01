@@ -1,4 +1,3 @@
-import { base64ToBytes } from '@tendermint/belt';
 import { SdkError } from '../errors';
 import * as types from '../types';
 import { Utils, Crypto } from '../utils';
@@ -325,7 +324,7 @@ export class EventListener {
       const decodedTxs = new Array();
       txs.forEach(msg => {
         decodedTxs.push(
-          this.client.tx.txDeserialize(msg)
+          this.client.protobuf.deserializeTx(msg)
         );
       });
       blockData.block.data.txs = decodedTxs;
@@ -487,7 +486,7 @@ export class EventListener {
     }
 
     const txResult = data.data.value.TxResult;
-    txResult.tx = this.client.tx.txDeserialize(txResult.tx);
+    txResult.tx = this.client.protobuf.deserializeTx(txResult.tx);
     if (txResult.result.tags) {
       const tags = txResult.result.tags as types.Tag[];
       const decodedTags = new Array<types.Tag>();

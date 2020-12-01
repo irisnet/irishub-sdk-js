@@ -22,7 +22,7 @@ describe('Tendermint Tests', () => {
     'query block by height',
     async () => {
       await BaseTest.getClient()
-        .tendermint.queryBlock(2)
+        .tendermint.queryBlock(196)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -50,7 +50,7 @@ describe('Tendermint Tests', () => {
     'query block result by height',
     async () => {
       await BaseTest.getClient()
-        .tendermint.queryBlockResult(10996)
+        .tendermint.queryBlockResult(196)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -65,7 +65,7 @@ describe('Tendermint Tests', () => {
     async () => {
       await BaseTest.getClient()
         .tendermint.queryTx(
-          '0D0B65520771CE6F74267230B30C14F64EE732751EDA79547FCA881841BA5E51'
+          '46A832D1509A1BF5B0F3559E1CF931A6006144D2A487E0A36D3120E6205B1FF7'
         )
         .then(res => {
           console.log(JSON.stringify(res));

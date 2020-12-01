@@ -31,6 +31,9 @@ export class Client {
   /** Key management module */
   keys: modules.Keys;
 
+  /** Protobuf module */
+  protobuf: modules.Protobuf;
+
   /** Staking module */
   staking: modules.Staking;
 
@@ -117,6 +120,7 @@ export class Client {
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
     this.coinswap = new modules.Coinswap(this);
+    this.protobuf = new modules.Protobuf(this);
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {

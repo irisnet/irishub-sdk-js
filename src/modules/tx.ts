@@ -1,13 +1,9 @@
-import {Client} from '../client';
+import { Client } from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
-import {SdkError} from '../errors';
-import {Utils, Crypto} from '../utils';
-import {bytesToBase64} from '@tendermint/belt';
+import { SdkError } from '../errors';
+import { Utils, Crypto } from '../utils';
 import * as pbs from '../types/proto-types';
-import {MsgSetWithdrawAddress} from "../types/distribution";
-
-const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -18,7 +14,6 @@ const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 export class Tx {
     /** @hidden */
     private client: Client;
-
     /** @hidden */
     constructor(client: Client) {
         this.client = client;
@@ -34,11 +29,11 @@ export class Tx {
     buildTx(
         msgs: any[],
         baseTx: types.BaseTx,
-    ): types.ProtoTx {
-        let msgList: types.Msg[] = msgs.map(msg => {
+    ): types.ProtoTx{
+        let msgList:types.Msg[] = msgs.map(msg=>{
             return this.createMsg(msg);
         });
-        const unsignedTx: types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
+        const unsignedTx:types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
         return unsignedTx;
     }
 
@@ -52,9 +47,9 @@ export class Tx {
     async buildAndSend(
         msgs: any[],
         baseTx: types.BaseTx
-    ) {
+    ){
         // Build Unsigned Tx
-        const unsignedTx: types.ProtoTx = this.buildTx(msgs, baseTx);
+        const unsignedTx:types.ProtoTx = this.buildTx(msgs, baseTx);
 
         // Not supported in ibc-alpha
         // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
@@ -126,7 +121,7 @@ export class Tx {
 
         // Query account info from block chain
         const account = await this.client.bank.queryAccount(keyObj.address);
-        let accountNumber = account.account_number || '';
+        let  accountNumber = account.account_number || '';
         let sequence = account.sequence || '0';
 
         const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
@@ -134,6 +129,7 @@ export class Tx {
             const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
             stdTx.setPubKey(pubKey, sequence || undefined);
         }
+
         const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
         stdTx.addSignature(signature);
         return stdTx;
@@ -204,7 +200,7 @@ export class Tx {
     private broadcastTxCommit(txBytes: Uint8Array): Promise<types.TxResult> {
         return this.client.rpcClient
             .request<types.ResultBroadcastTx>(types.RpcMethods.BroadcastTxCommit, {
-                tx: bytesToBase64(txBytes),
+                tx: Utils.bytesToBase64(txBytes),
             })
             .then(response => {
                 // Check tx error
@@ -255,7 +251,7 @@ export class Tx {
 
         return this.client.rpcClient
             .request<types.ResultBroadcastTxAsync>(method, {
-                tx: bytesToBase64(txBytes),
+                tx: Utils.bytesToBase64(txBytes),
             })
             .then(response => {
                 if (response.code && response.code > 0) {
@@ -297,15 +293,15 @@ export class Tx {
      * @param  {[type]} txMsg:{type:string, value:any} message
      * @return {[type]} message instance of types.Msg
      */
-    createMsg(txMsg: { type: string, value: any }) {
-        let msg: any = {};
+    createMsg(txMsg:{type:string, value:any}){
+        let msg:any = {};
         switch (txMsg.type) {
             case types.TxType.MsgSend: {
-                msg = new types.MsgSend(txMsg.value);
+                msg = new types.MsgSend(txMsg.value)
                 break;
             }
             case types.TxType.MsgMultiSend: {
-                msg = new types.MsgMultiSend(txMsg.value);
+                msg = new types.MsgMultiSend(txMsg.value)
                 break;
             }
             case types.TxType.MsgDelegate: {
@@ -328,7 +324,6 @@ export class Tx {
                 msg = new types.MsgSetWithdrawAddress(txMsg.value);
                 break;
             }
-
             case types.TxType.MsgAddLiquidity: {
 
                 break;
@@ -346,86 +341,5 @@ export class Tx {
             }
         }
         return msg;
-    }
-
-    /**
-     * Deserialize tx
-     * @param  {[type]} txString:string base64 String
-     * @return {[type]}                 tx object
-     */
-    txDeserialize(txString: string): any {
-        if (!txString) {
-            return
-        }
-        let tx = Tx_pb.Tx.deserializeBinary(Buffer.from(txString, 'base64')).toObject();
-        if (tx.body && tx.body.messagesList) {
-            tx.body.messagesList = tx.body.messagesList.map((msg: { typeUrl: string, value: string }) => {
-                return this.msgUnpack(msg);
-            });
-        }
-        return tx;
-    }
-
-    /**
-     * Unpack protobuffer tx msg
-     * @return {[type]}      msg object
-     */
-    msgUnpack(msg: { typeUrl: string, value: string }): any {
-        if (!msg) {
-            return
-        }
-        let messageModelClass: any;
-        let typeUrl = msg.typeUrl.replace(/^\//, '');
-        switch (typeUrl) {
-            case types.TxType.MsgSend: {
-                messageModelClass = types.MsgSend.getModelClass();
-                break;
-            }
-            case types.TxType.MsgMultiSend: {
-                messageModelClass = types.MsgMultiSend.getModelClass();
-                break;
-            }
-            case types.TxType.MsgDelegate: {
-                messageModelClass = pbs.stakingTxProtocolBuffer.MsgDelegate;
-                break;
-            }
-            case types.TxType.MsgUndelegate: {
-                messageModelClass = pbs.stakingTxProtocolBuffer.MsgUndelegate;
-                break;
-            }
-            case types.TxType.MsgBeginRedelegate: {
-                messageModelClass = pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
-                break;
-            }
-            case types.TxType.MsgWithdrawDelegatorReward: {
-                messageModelClass = pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
-                break;
-            }
-            case types.TxType.MsgSetWithdrawAddress: {
-                messageModelClass = pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
-                break;
-            }
-
-            case types.TxType.MsgAddLiquidity: {
-
-                break;
-            }
-            case types.TxType.MsgRemoveLiquidity: {
-
-                break;
-            }
-            case types.TxType.MsgSwapOrder: {
-
-                break;
-            }
-            default: {
-                throw new Error("not exist tx type");
-            }
-        }
-        if (messageModelClass && messageModelClass.deserializeBinary) {
-            let messageObj = messageModelClass.deserializeBinary(Buffer.from(msg.value, 'base64')).toObject();
-            messageObj.type = typeUrl;
-            return messageObj;
-        }
     }
 }
