@@ -11,14 +11,7 @@ export class Msg {
     this.type = type;
   } 
 
-  // getSignBytes(): object{
-  //   throw new Error("not implement");
-  // }
-  // marshal(): Msg{
-  //   throw new Error("not implement");
-  // }
-
-  getModelClass():any{
+  static getModelClass():any{
     throw new Error("not implement");
   }
 

@@ -1,9 +1,6 @@
 import * as Bech32 from 'bech32';
 
 const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
-const Signing_pb = require('../types/proto-types/cosmos/tx/signing/v1beta1/signing_pb');
-const Crypto_pb = require('../types/proto-types/cosmos/base/crypto/v1beta1/crypto_pb');
-const Coin_pb = require('../types/proto-types/cosmos/base/v1beta1/coin_pb');
 const Any_pb = require('../types/proto-types/google/protobuf/any_pb');
 
 
@@ -15,21 +12,6 @@ export class TxHelper {
         }catch (e) {}
         return pubkey;
     }
-
-    // static validate(tx) {
-    //     if (!tx.chain_id) {
-    //         throw new Error("chain_id is empty");
-    //     }
-    //     if (tx.account_number < 0) {
-    //         throw new Error("account_number is empty");
-    //     }
-    //     if (tx.sequence < 0) {
-    //         throw new Error("sequence is empty");
-    //     }
-    //     tx.msgs.forEach(function(msg) {
-    //         msg.validate();
-    //     });
-    // }
 
     static isSignDoc(signDoc:any):boolean{
         return signDoc instanceof Tx_pb.SignDoc;
