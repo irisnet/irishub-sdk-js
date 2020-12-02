@@ -2,7 +2,6 @@ import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
 import { SdkError } from '../errors';
-import { MsgSend, MsgMultiSend, MsgSetMemoRegexp } from '../types/bank';
 import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
@@ -62,22 +61,6 @@ export class Bank {
       return acc;
     });
   }
-
-  /**
-   * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
-   * @param tokenID Identity of the token
-   * @returns
-   * @since v0.17
-   */
-  // queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
-  //   return this.client.rpcClient.abciQuery<types.TokenStats>(
-  //     'custom/acc/tokenStats',
-  //     {
-  //       TokenId: tokenID,
-  //     }
-  //   );
-  // }
-
 
   /**
    * Query total supply
@@ -165,50 +148,6 @@ export class Bank {
         }
       }
     ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Burn coins
-   * @param amount Coins to be burnt
-   * @param baseTx { types.BaseTx }
-   * @returns
-   * @since v0.17
-   */
-  // async burn(
-  //   amount: types.Coin[],
-  //   baseTx: types.BaseTx
-  // ): Promise<types.TxResult> {
-  //   const from = this.client.keys.show(baseTx.from);
-
-  //   const coins = await this.client.utils.toMinCoins(amount);
-  //   const msgs: types.Msg[] = [new MsgBurn(from, coins)];
-  //   const msgs: any[] = [
-  //     {
-  //       type:types.TxType.MsgMultiSend,
-  //       value:{
-  //         inputs:[{ address: from, coins }],
-  //         outputs:[{ address: to, coins }],
-  //       }
-  //     }
-  //   ];
-  //   return this.client.tx.buildAndSend(msgs, baseTx);
-  // }
-
-  /**
-   * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
-   * @param memoRegexp
-   * @param baseTx { types.BaseTx }
-   * @returns
-   * @since v0.17
-   */
-  async setMemoRegexp(
-    memoRegexp: string,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const from = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
-
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
