@@ -84,11 +84,12 @@ export class Protobuf {
             messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
             break;
         }
-        //coinswap
+        //token
         case types.TxType.MsgIssueToken: {
             messageModelClass = types.MsgIssueToken.getModelClass();
             break;
         }
+        //coinswap
         case types.TxType.MsgAddLiquidity: {
             
             break;

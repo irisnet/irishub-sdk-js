@@ -297,6 +297,7 @@ export class Tx {
   createMsg(txMsg: { type: string, value: any }) {
     let msg: any = {};
     switch (txMsg.type) {
+      //bank
       case types.TxType.MsgSend: {
         msg = new types.MsgSend(txMsg.value)
         break;
@@ -305,6 +306,7 @@ export class Tx {
         msg = new types.MsgMultiSend(txMsg.value)
         break;
       }
+      //staking
       case types.TxType.MsgDelegate: {
         msg = new types.MsgDelegate(txMsg.value);
         break;
@@ -325,77 +327,48 @@ export class Tx {
         msg = new types.MsgSetWithdrawAddress(txMsg.value);
         break;
       }
+      //token
       case types.TxType.MsgIssueToken: {
         msg = new types.MsgIssueToken(txMsg.value);
         break;
       }
-
+      //coinswap
       case types.TxType.MsgAddLiquidity: {
-
-        break;
-      }
+          
+          break;
+      } 
       case types.TxType.MsgRemoveLiquidity: {
-
-        break;
-      }
+          
+          break;
+      } 
       case types.TxType.MsgSwapOrder: {
-
-        break;
+          
+          break;
       }
-        //staking
-        case types.TxType.MsgDelegate: {
-            
-            break;
-        }
-        case types.TxType.MsgUndelegate: {
-            
-            break;
-        }
-        case types.TxType.MsgBeginRedelegate: {
-            
-            break;
-        }
-        case types.TxType.MsgWithdrawDelegatorReward: {
-            
-            break;
-        } 
-        //coinswap
-        case types.TxType.MsgAddLiquidity: {
-            
-            break;
-        } 
-        case types.TxType.MsgRemoveLiquidity: {
-            
-            break;
-        } 
-        case types.TxType.MsgSwapOrder: {
-            
-            break;
-        }
-        //nft
-        case types.TxType.MsgIssueDenom: {
-            msg = new types.MsgIssueDenom(txMsg.value)
-            break;
-        }
-        case types.TxType.MsgMintNFT: {
-            msg = new types.MsgMintNFT(txMsg.value)
-            break;
-        }
-        case types.TxType.MsgEditNFT: {
-            msg = new types.MsgEditNFT(txMsg.value)
-            break;
-        }
-        case types.TxType.MsgTransferNFT: {
-            msg = new types.MsgTransferNFT(txMsg.value)
-            break;
-        }
-        case types.TxType.MsgBurnNFT: {
-            msg = new types.MsgBurnNFT(txMsg.value)
-            break;
-        }
-        default: {
-            throw new Error("not exist tx type");
-        }
+      //nft
+      case types.TxType.MsgIssueDenom: {
+          msg = new types.MsgIssueDenom(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgMintNFT: {
+          msg = new types.MsgMintNFT(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgEditNFT: {
+          msg = new types.MsgEditNFT(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgTransferNFT: {
+          msg = new types.MsgTransferNFT(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgBurnNFT: {
+          msg = new types.MsgBurnNFT(txMsg.value)
+          break;
+      }
+      default: {
+          throw new Error("not exist tx type");
+      }
     }
     return msg;
   }
