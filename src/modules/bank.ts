@@ -2,7 +2,6 @@ import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
 import { SdkError } from '../errors';
-import { MsgSend, MsgMultiSend, MsgSetMemoRegexp } from '../types/bank';
 import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
