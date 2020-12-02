@@ -14,7 +14,7 @@ function randomStr(length:number):string{
 describe('Nft Tests', () => {
   describe('nft tx', () => {
     test(
-      'Issue Denom',
+      'nft tx',
       async () => {
         let denom_id = randomStr(4);
         let denom_name = randomStr(4);
@@ -118,6 +118,38 @@ describe('Nft Tests', () => {
           denom_id,
           BaseTest.baseTx
         )
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+  });
+
+  describe('query nft', () => {
+    test(
+      'query Denoms',
+      async () => {
+        await BaseTest.getClient()
+        .nft.queryDenoms()
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+
+    test(
+      'query Denoms',
+      async () => {
+        await BaseTest.getClient()
+        .nft.queryDenoms('bczd')
         .then(res => {
           console.log(JSON.stringify(res));
         })

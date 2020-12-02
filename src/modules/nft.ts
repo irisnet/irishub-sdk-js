@@ -185,4 +185,19 @@ export class Nft {
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
+
+  /**
+   * Query denoms from blockchain
+   * @returns
+   * @since v0.17
+   */
+  queryDenoms(denom?:string): Promise<types.Denom[] | types.Denom> {
+    let path = 'custom/nft/denoms';
+    let params = {};
+    if (denom) {
+      path = 'custom/nft/denom';
+      params = {ID:denom};
+    }
+    return this.client.rpcClient.abciQuery<types.Denom[] | types.Denom>(path, params);
+  }
 }

@@ -59,13 +59,13 @@ export class MsgIssueDenom extends Msg {
  * param struct for Mint NFT
  */
 export interface MintNFTParam {
-  id:string,
-  denom_id:string,
-  name:string,
-  uri:string,
-  data:string,
-  sender:string,
-  recipient:string
+  id:string;
+  denom_id:string;
+  name:string;
+  uri:string;
+  data:string;
+  sender:string;
+  recipient:string;
 }
 
 /**
@@ -126,12 +126,12 @@ export class MsgMintNFT extends Msg {
  * param struct for Edit NFT tx
  */
 export interface EditNFTParam {
-  id:string,
-  denom_id:string,
-  name?:string,
-  uri?:string,
-  data?:string,
-  sender?:string,
+  id:string;
+  denom_id:string;
+  name?:string;
+  uri?:string;
+  data?:string;
+  sender:string;
 }
 /**
  * Msg for Edit NFT
@@ -190,13 +190,13 @@ export class MsgEditNFT extends Msg {
  * param struct for Transfer NFT tx
  */
 export interface TransferNFTParam {
-  id:string,
-  denom_id:string,
-  name?:string,
-  uri?:string,
-  data?:string,
-  sender:string,
-  recipient:string
+  id:string;
+  denom_id:string;
+  name?:string;
+  uri?:string;
+  data?:string;
+  sender:string;
+  recipient:string;
 }
 /**
  * Msg for Transfer NFT
@@ -259,9 +259,9 @@ export class MsgTransferNFT extends Msg {
  * param struct for Burn NFT tx
  */
 export interface BurnNFTParam {
-  id:string,
-  denom_id:string,
-  sender:string,
+  id:string;
+  denom_id:string;
+  sender:string;
 }
 /**
  * Msg for Burn NFT
@@ -299,4 +299,11 @@ export class MsgBurnNFT extends Msg {
       throw new Error("sender can not be empty");
     }
   }
+}
+
+export interface Denom {
+    id:string;
+    name:string;
+    schema:string;
+    creator:string;
 }
