@@ -165,8 +165,8 @@ describe('Staking Tests', () => {
     test('delegate', async () => {
       await BaseTest.getClient()
         .staking.delegate(
-          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
-          { denom: 'stake', amount: '5' },
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          { denom: 'ubif', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -181,8 +181,8 @@ describe('Staking Tests', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
         .staking.undelegate(
-          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
-              { denom: 'stake', amount: '2' },
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+              { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -197,9 +197,9 @@ describe('Staking Tests', () => {
     test('redelegate', async () => {
       await BaseTest.getClient()
         .staking.redelegate(
-          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
-          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
-              { denom: 'stake', amount: '1' },
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
+              { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {

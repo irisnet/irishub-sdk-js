@@ -315,7 +315,7 @@ export class Staking {
     const delegatorAddr = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
-        type: types.TxType.MsgUndelegate,
+        type: types.TxType.MsgBeginRedelegate,
         value: {
           delegator_address: delegatorAddr,
           validator_src_address: validatorSrcAddr,
