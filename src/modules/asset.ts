@@ -3,6 +3,7 @@ import * as types from '../types';
 import * as is from 'is_js';
 import { SdkError } from '../errors';
 import {Crypto} from "../utils/crypto";
+import {EditTokenTxParam} from "../types/asset";
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
@@ -50,6 +51,60 @@ export class Asset {
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
+
+  /**
+   *
+   */
+  async editToken(
+    token: types.EditTokenTxParam,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgEditToken,
+        value:token
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   *
+   */
+  async mintToken(
+    token: types.MintTokenTxParam,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgMintToken,
+        value:token
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   *
+   */
+  async transferTokenOwner(
+    token: types.TransferTokenOwnerTxParam,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgTransferTokenOwner,
+        value:token
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+
+
+
+
+
 
   /**
    * Query details of a group of tokens

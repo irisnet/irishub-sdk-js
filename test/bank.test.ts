@@ -121,7 +121,7 @@ describe('Bank Tests', () => {
       'query account',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAccount('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .bank.queryAccount('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp')
           .then(res => {
             console.log(JSON.stringify(res));
           })

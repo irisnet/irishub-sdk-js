@@ -58,6 +58,9 @@ export enum TxType {
   MsgMintNFT ="irismod.nft.MsgMintNFT",
   MsgBurnNFT ="irismod.nft.MsgBurnNFT",
   MsgIssueToken = 'irismod.token.MsgIssueToken',
+  MsgEditToken = 'irismod.token.MsgEditToken',
+  MsgMintToken = 'irismod.token.MsgMintToken',
+  MsgTransferTokenOwner = 'irismod.token.MsgTransferTokenOwner',
 }
 
 /** 

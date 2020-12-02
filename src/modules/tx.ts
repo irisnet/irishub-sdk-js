@@ -3,6 +3,7 @@ import * as is from 'is_js';
 import * as types from '../types';
 import {SdkError} from '../errors';
 import {Utils, Crypto} from '../utils';
+import {MsgMintToken, MsgTransferTokenOwner} from "../types/asset";
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -329,6 +330,19 @@ export class Tx {
         msg = new types.MsgIssueToken(txMsg.value);
         break;
       }
+      case types.TxType.MsgEditToken: {
+        msg = new types.MsgEditToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgMintToken: {
+        msg = new types.MsgMintToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgTransferTokenOwner: {
+        msg = new types.MsgTransferTokenOwner(txMsg.value);
+        break;
+      }
+
 
       case types.TxType.MsgAddLiquidity: {
 
