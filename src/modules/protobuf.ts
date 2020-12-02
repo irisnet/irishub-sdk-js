@@ -1,7 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { SdkError } from '../errors';
-import * as pbs from '../types/proto-types';
 
 const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
