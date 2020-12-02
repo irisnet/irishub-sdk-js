@@ -1,9 +1,9 @@
-import { Client } from '../client';
+import {Client} from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
-import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
-import { EventQueryBuilder, EventKey, EventAction } from '../types';
-import { Utils, Crypto } from '../utils';
+import {SdkError} from '../errors';
+import {MsgDelegate, MsgUndelegate, MsgRedelegate} from '../types/staking';
+import {EventQueryBuilder, EventKey, EventAction} from '../types';
+import {Utils, Crypto} from '../utils';
 
 /**
  * This module provides staking functionalities for validators and delegators
@@ -16,6 +16,7 @@ import { Utils, Crypto } from '../utils';
 export class Staking {
   /** @hidden */
   private client: Client;
+
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -51,7 +52,7 @@ export class Staking {
    */
   queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
-      'custom/stake/delegatorDelegations',
+      'custom/staking/delegatorDelegations',
       {
         DelegatorAddr: delegatorAddr,
       }
@@ -196,9 +197,9 @@ export class Staking {
    */
   queryValidator(address: string): Promise<types.Validator> {
     return this.client.rpcClient.abciQuery<types.Validator>(
-      'custom/stake/validator',
+      'custom/staking/validator',
       {
-        ValidatorAddr: address,
+        validator_addr: address,
       }
     );
   }
@@ -212,10 +213,11 @@ export class Staking {
    */
   queryValidators(page: number, size?: 100): Promise<types.Validator[]> {
     return this.client.rpcClient.abciQuery<types.Validator[]>(
-      'custom/stake/validators',
+      'custom/staking/validators',
       {
-        Page: page,
-        Size: size,
+        Page: 1,
+        Limit: 10,
+        Status:'Bonded'
       }
     );
   }
@@ -257,8 +259,15 @@ export class Staking {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [
-      new MsgDelegate(delegatorAddr, validatorAddr, amount),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgDelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
@@ -266,28 +275,26 @@ export class Staking {
   /**
    * Undelegate from a validator
    * @param validatorAddr Bech32 validator address
-   * @param amount Amount to be unbonded from the validator
+   * @param amount Amount to be undelegated from the validator
    * @param baseTx
    * @returns
    * @since v0.17
    */
   async undelegate(
     validatorAddr: string,
-    amount: string,
+    amount: types.Coin,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const validator = await this.queryValidator(validatorAddr);
-
-    const shares =
-      Number(amount) *
-      (Number(validator.tokens) / Number(validator.delegator_shares));
-    const msgs: types.Msg[] = [
-      new MsgUndelegate(
-        delegatorAddr,
-        validatorAddr,
-        this.appendZero(String(shares), 10)
-      ),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgUndelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
@@ -303,22 +310,20 @@ export class Staking {
   async redelegate(
     validatorSrcAddr: string,
     validatorDstAddr: string,
-    amount: string,
+    amount: types.Coin,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const srcValidator = await this.queryValidator(validatorSrcAddr);
-
-    const shares =
-      Number(amount) *
-      (Number(srcValidator.tokens) / Number(srcValidator.delegator_shares));
-    const msgs: types.Msg[] = [
-      new MsgRedelegate(
-        delegatorAddr,
-        validatorSrcAddr,
-        validatorDstAddr,
-        this.appendZero(String(shares), 10)
-      ),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgBeginRedelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_src_address: validatorSrcAddr,
+          validator_dst_address: validatorDstAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }

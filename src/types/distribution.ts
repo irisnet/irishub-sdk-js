@@ -1,25 +1,62 @@
-import { Coin, Msg } from './types';
+import {Coin, Msg, TxType} from './types';
+import * as pbs from "./proto";
+import * as is from 'is_js';
+import {SdkError} from "../errors";
+
+/**
+ * param struct for set withdraw address tx
+ */
+export interface SetWithdrawAddressTxParam {
+  delegator_address: string;
+  withdraw_address: string;
+}
+
+
+/**
+ * param struct for withdraw delegator reward tx
+ */
+export interface WithdrawDelegatorRewardTxParam {
+  delegator_address: string;
+  validator_address: string;
+}
 
 /**
  * Msg struct for changing the withdraw address for a delegator (or validator self-delegation)
  * @hidden
  */
 export class MsgSetWithdrawAddress extends Msg {
-  value: {
-    delegator_addr: string;
-    withdraw_addr: string;
-  };
+  value: SetWithdrawAddressTxParam;
 
-  constructor(delegatorAddr: string, withdrawAddr: string) {
-    super('irishub/distr/MsgModifyWithdrawAddress')
-    this.value = {
-      delegator_addr: delegatorAddr,
-      withdraw_addr: withdrawAddr,
-    };
+  constructor(msg: SetWithdrawAddressTxParam) {
+    super(TxType.MsgSetWithdrawAddress);
+    this.value = msg;
   }
 
-  getSignBytes(): object {
-    return this;
+  static getModelClass():any{
+    return pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
+  }
+
+  getModel(): any {
+    return new (MsgSetWithdrawAddress.getModelClass())()
+      .setDelegatorAddress(this.value.delegator_address)
+      .setWithdrawAddress(this.value.withdraw_address);
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.withdraw_address)) {
+      throw new SdkError(`withdraw address can not be empty`);
+    }
+
+    return true;
   }
 }
 
@@ -49,21 +86,37 @@ export class MsgWithdrawDelegatorRewardsAll extends Msg {
  * @hidden
  */
 export class MsgWithdrawDelegatorReward extends Msg {
-  value: {
-    delegator_addr: string;
-    validator_addr: string;
-  };
+  value: WithdrawDelegatorRewardTxParam;
 
-  constructor(delegatorAddr: string, validatorAddr: string) {
-    super('irishub/distr/MsgWithdrawDelegationReward')
-    this.value = {
-      delegator_addr: delegatorAddr,
-      validator_addr: validatorAddr,
-    };
+  constructor(msg: WithdrawDelegatorRewardTxParam) {
+    super(TxType.MsgWithdrawDelegatorReward);
+    this.value = msg;
   }
 
-  getSignBytes(): object {
-    return this;
+  getModel(): any {
+    return new (MsgWithdrawDelegatorReward.getModelClass())()
+      .setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address);
+  }
+
+  static getModelClass():any{
+    return pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.empty(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.empty(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
 

@@ -1,8 +1,8 @@
-import { Client } from '../client';
+import {Client} from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
-import { SdkError } from '../errors';
-import { Utils, Crypto } from '../utils';
+import {SdkError} from '../errors';
+import {Utils, Crypto} from '../utils';
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -13,6 +13,7 @@ import { Utils, Crypto } from '../utils';
 export class Tx {
   /** @hidden */
   private client: Client;
+
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -26,13 +27,13 @@ export class Tx {
    * @since v0.17
    */
   buildTx(
-    msgs: any[], 
+    msgs: any[],
     baseTx: types.BaseTx,
-  ): types.ProtoTx{
-    let msgList:types.Msg[] = msgs.map(msg=>{
+  ): types.ProtoTx {
+    let msgList: types.Msg[] = msgs.map(msg => {
       return this.createMsg(msg);
     });
-    const unsignedTx:types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
+    const unsignedTx: types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
     return unsignedTx;
   }
 
@@ -46,9 +47,9 @@ export class Tx {
   async buildAndSend(
     msgs: any[],
     baseTx: types.BaseTx
-  ){
+  ) {
     // Build Unsigned Tx
-    const unsignedTx:types.ProtoTx = this.buildTx(msgs, baseTx);
+    const unsignedTx: types.ProtoTx = this.buildTx(msgs, baseTx);
 
     // Not supported in ibc-alpha
     // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
@@ -56,7 +57,7 @@ export class Tx {
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
-    
+
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }
@@ -120,7 +121,7 @@ export class Tx {
 
     // Query account info from block chain
     const account = await this.client.bank.queryAccount(keyObj.address);
-    let  accountNumber = account.account_number || '';
+    let accountNumber = account.account_number || '';
     let sequence = account.sequence || '0';
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
@@ -131,6 +132,7 @@ export class Tx {
 
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
     stdTx.addSignature(signature);
+
     return stdTx;
   }
 
@@ -158,7 +160,7 @@ export class Tx {
     if (!this.client.config.keyDAO.decrypt) {
       throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
-    
+
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
       throw new SdkError(`Key with name '${name}' not found`);
@@ -292,18 +294,54 @@ export class Tx {
    * @param  {[type]} txMsg:{type:string, value:any} message
    * @return {[type]} message instance of types.Msg
    */
-  createMsg(txMsg:{type:string, value:any}){
-    let msg:any = {};
+  createMsg(txMsg: { type: string, value: any }) {
+    let msg: any = {};
     switch (txMsg.type) {
-        //bank
-        case types.TxType.MsgSend: {
-            msg = new types.MsgSend(txMsg.value)
-            break;
-        }
-        case types.TxType.MsgMultiSend: {
-            msg = new types.MsgMultiSend(txMsg.value)
-            break;
-        }
+      case types.TxType.MsgSend: {
+        msg = new types.MsgSend(txMsg.value)
+        break;
+      }
+      case types.TxType.MsgMultiSend: {
+        msg = new types.MsgMultiSend(txMsg.value)
+        break;
+      }
+      case types.TxType.MsgDelegate: {
+        msg = new types.MsgDelegate(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgUndelegate: {
+        msg = new types.MsgUndelegate(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgBeginRedelegate: {
+        msg = new types.MsgRedelegate(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawDelegatorReward: {
+        msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSetWithdrawAddress: {
+        msg = new types.MsgSetWithdrawAddress(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgIssueToken: {
+        msg = new types.MsgIssueToken(txMsg.value);
+        break;
+      }
+
+      case types.TxType.MsgAddLiquidity: {
+
+        break;
+      }
+      case types.TxType.MsgRemoveLiquidity: {
+
+        break;
+      }
+      case types.TxType.MsgSwapOrder: {
+
+        break;
+      }
         //staking
         case types.TxType.MsgDelegate: {
             

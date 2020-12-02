@@ -19,8 +19,8 @@ export class Msg {
     throw new Error("not implement");
   }
 
-  pack():any{
-    let msg:any = this.getModel();
+  pack(): any{
+    let msg: any = this.getModel();
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
 
@@ -46,6 +46,7 @@ export enum TxType {
   MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
   MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
   MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MsgSetWithdrawAddress ="cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
   //coinswap
   MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
   MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
@@ -56,6 +57,7 @@ export enum TxType {
   MsgEditNFT ="irismod.nft.MsgEditNFT",
   MsgMintNFT ="irismod.nft.MsgMintNFT",
   MsgBurnNFT ="irismod.nft.MsgBurnNFT",
+  MsgIssueToken = 'irismod.token.MsgIssueToken',
 }
 
 /** 

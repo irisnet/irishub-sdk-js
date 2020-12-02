@@ -18,7 +18,7 @@ describe('Staking Tests', () => {
     });
     test('query delegations of a delegator', async () => {
       await BaseTest.getClient()
-        .staking.queryDelegations('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
+        .staking.queryDelegations('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -118,7 +118,7 @@ describe('Staking Tests', () => {
 
     test('query a validator', async () => {
       await BaseTest.getClient()
-        .staking.queryValidator('fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e')
+        .staking.queryValidator('iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -165,8 +165,8 @@ describe('Staking Tests', () => {
     test('delegate', async () => {
       await BaseTest.getClient()
         .staking.delegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          { denom: 'iris-atto', amount: '5000000000000000000' },
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          { denom: 'ubif', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -181,8 +181,8 @@ describe('Staking Tests', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
         .staking.undelegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          '100000000000000000',
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+              { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -197,9 +197,9 @@ describe('Staking Tests', () => {
     test('redelegate', async () => {
       await BaseTest.getClient()
         .staking.redelegate(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          '10000000000000000',
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
+              { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {

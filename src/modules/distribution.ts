@@ -1,4 +1,4 @@
-import { Client } from '../client';
+import {Client} from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
 import {
@@ -21,6 +21,7 @@ import {
 export class Distribution {
   /** @hidden */
   private client: Client;
+
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
@@ -68,8 +69,14 @@ export class Distribution {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const from = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [
-      new MsgSetWithdrawAddress(from, withdrawAddress),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgSetWithdrawAddress,
+        value: {
+          delegator_address: from,
+          withdraw_address: withdrawAddress,
+        }
+      }
     ];
 
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -78,27 +85,24 @@ export class Distribution {
   /**
    * Withdraw rewards to the withdraw-address(default to the delegator address, you can set to another address via [[setWithdrawAddr]])
    * @param baseTx { types.BaseTx }
-   * @param onlyFromValidator only withdraw from this validator address
-   * @param isValidator also withdraw validator's commission, can be set to `true` only if the `onlyFromValidator` is specified
+   * @param validatorAddr withdraw from this validator address
    * @returns { Promise<types.TxResult> }
    * @since v0.17
    */
   async withdrawRewards(
+    validatorAddr: string,
     baseTx: types.BaseTx,
-    onlyFromValidator = '',
-    isValidator = false
   ): Promise<types.TxResult> {
-    const from = this.client.keys.show(baseTx.from);
-    let msgs: types.Msg[];
-    if (is.not.empty(onlyFromValidator)) {
-      if (isValidator) {
-        msgs = [new MsgWithdrawValidatorRewardsAll(onlyFromValidator)];
-      } else {
-        msgs = [new MsgWithdrawDelegatorReward(from, onlyFromValidator)];
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgWithdrawDelegatorReward,
+        value: {
+          delegator_address:delegatorAddr,
+          validator_address:validatorAddr,
+        }
       }
-    } else {
-      msgs = [new MsgWithdrawDelegatorRewardsAll(from)];
-    }
+    ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 }
