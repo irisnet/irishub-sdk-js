@@ -23,9 +23,6 @@ describe('protobuf Tests', () => {
     }
   );
 
-  // deserializeSignDoc
-  // deserializeTxRaw
-  // deserializeSigningInfo
   test(
     'deserialize Sign Doc',
     async () => {
@@ -52,4 +49,17 @@ describe('protobuf Tests', () => {
       console.log('signingInfo:',signingInfo);
     }
   );
+
+  // test(
+  //   'deserialize publick key',
+  //   async () => {
+  //     let publickKey_proto = {
+  //       "type":"tendermint/PubKeySecp256k1",
+  //       "value":"AiOiUEBgdjy8YvZCUWoVigsptqLvnFErn+F/j9lyuptB"
+  //     };
+  //     let PbKey = BaseTest.getClient().protobuf.deserializePublickKey(publickKey_proto.value,
+  //       publickKey_proto.type);
+  //     console.log('PbKey:',PbKey);
+  //   }
+  // );
 });

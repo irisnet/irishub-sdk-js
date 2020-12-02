@@ -20,6 +20,8 @@ export enum RpcMethods {
   Validators = 'validators',
 }
 
+export const doNotModify = '[do-not-modify]';
+
 export const STD_DENOM = 'tiris',
   IRIS_ATTO = 'iris-atto',
 	MIN_UNIT_SUFFIX = '-min';

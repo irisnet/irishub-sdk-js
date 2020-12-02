@@ -67,6 +67,9 @@ export class Client {
   /** Coinswap module */
   coinswap: modules.Coinswap;
 
+  /** NFT module */
+  nft: modules.Nft;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -110,6 +113,7 @@ export class Client {
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
+    this.protobuf = new modules.Protobuf(this);
     this.staking = new modules.Staking(this);
     this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
@@ -120,7 +124,8 @@ export class Client {
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
     this.coinswap = new modules.Coinswap(this);
-    this.protobuf = new modules.Protobuf(this);
+    this.nft = new modules.Nft(this);
+    
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {

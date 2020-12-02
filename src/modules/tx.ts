@@ -336,9 +336,60 @@ export class Tx {
 
         break;
       }
-      default: {
-        throw new Error("not exist tx type");
-      }
+        //staking
+        case types.TxType.MsgDelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgUndelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgBeginRedelegate: {
+            
+            break;
+        }
+        case types.TxType.MsgWithdrawDelegatorReward: {
+            
+            break;
+        } 
+        //coinswap
+        case types.TxType.MsgAddLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgRemoveLiquidity: {
+            
+            break;
+        } 
+        case types.TxType.MsgSwapOrder: {
+            
+            break;
+        }
+        //nft
+        case types.TxType.MsgIssueDenom: {
+            msg = new types.MsgIssueDenom(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgMintNFT: {
+            msg = new types.MsgMintNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgEditNFT: {
+            msg = new types.MsgEditNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgTransferNFT: {
+            msg = new types.MsgTransferNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgBurnNFT: {
+            msg = new types.MsgBurnNFT(txMsg.value)
+            break;
+        }
+        default: {
+            throw new Error("not exist tx type");
+        }
     }
     return msg;
   }

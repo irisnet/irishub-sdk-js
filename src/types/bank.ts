@@ -1,7 +1,6 @@
 import { Coin, Msg, Pubkey, TxType } from './types';
 import { TxModelCreator } from '../utils';
 const bank_tx_pb = require('./proto-types/cosmos/bank/v1beta1/tx_pb');
-const bank_pb = require('./proto-types/cosmos/bank/v1beta1/tx_pb');
 
 /**
  * Msg for sending coins
@@ -70,7 +69,7 @@ export class MsgMultiSend extends Msg {
   getModel():any{
     let msg = new (MsgMultiSend.getModelClass())();
     this.value.inputs.forEach((item)=>{
-      let input = new bank_pb.Input();
+      let input = new bank_tx_pb.Input();
       input.setAddress(item.address);
       item.coins.forEach((coin)=>{
         input.addCoins(TxModelCreator.createCoinModel(coin.denom, coin.amount));
@@ -78,7 +77,7 @@ export class MsgMultiSend extends Msg {
       msg.addInputs(input);
     });
     this.value.outputs.forEach((item)=>{
-      let output = new bank_pb.Output();
+      let output = new bank_tx_pb.Output();
       output.setAddress(item.address);
       item.coins.forEach((coin)=>{
         output.addCoins(TxModelCreator.createCoinModel(coin.denom, coin.amount));
@@ -98,47 +97,6 @@ export class MsgMultiSend extends Msg {
   }
 }
 
-/**
- * Msg for burning coins
- *
- * @hidden
- */
-// export class MsgBurn extends Msg {
-//   value: {
-//     owner: string;
-//     coins: Coin[];
-//   };
-
-//   constructor(msg:{owner: string, coins: Coin[]}) {
-//     super('irishub/bank/Burn')
-//     this.value = msg;
-//   }
-
-//   getSignBytes(): object {
-//     return this;
-//   }
-// }
-
-/**
- * Msg for setting memo regexp for an address
- *
- * @hidden
- */
-export class MsgSetMemoRegexp extends Msg {
-  value: { owner: string; memo_regexp: string };
-  constructor(owner: string, memoRegexp: string) {
-    super('irishub/bank/SetMemoRegexp')
-    this.value = {
-      owner,
-      memo_regexp: memoRegexp,
-    };
-  }
-
-  getSignBytes(): object {
-    return this;
-  }
-}
-
 /** Base input and output struct */
 export interface InputOutput {
   /** Bech32 account address */
@@ -152,17 +110,6 @@ export interface Input extends InputOutput {}
 /** Output implemention of [[InputOutput]] */
 export interface Output extends InputOutput {}
 
-/** Token statistics */
-export interface TokenStats {
-  /** Non bonded tokens */
-  loose_tokens: Coin[];
-  /** Bonded tokens */
-  bonded_tokens: Coin[];
-  /** Burned tokens */
-  burned_tokens: Coin[];
-  /** Total supply */
-  total_supply: Coin[];
-}
 
 export interface EventDataMsgSend {
   height: string;
