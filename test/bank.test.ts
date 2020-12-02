@@ -10,14 +10,14 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'stake',
-            amount: '1',
+            denom: 'ubif',
+            amount: '10000000',
           },
         ];
 
         await BaseTest.getClient()
           .bank.send(
-            'iaa1gytgufwqkz9tmhjgljfxd3qcwpdzymj6022q3w',
+            'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
             amount,
             BaseTest.baseTx
           )
@@ -121,7 +121,7 @@ describe('Bank Tests', () => {
       'query account',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAccount('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp')
+          .bank.queryAccount('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
           .then(res => {
             console.log(JSON.stringify(res));
           })

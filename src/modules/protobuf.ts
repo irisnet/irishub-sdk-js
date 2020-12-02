@@ -65,22 +65,30 @@ export class Protobuf {
         }
         //staking
         case types.TxType.MsgDelegate: {
-            
+            messageModelClass = types.MsgDelegate.getModelClass();
             break;
         }
         case types.TxType.MsgUndelegate: {
-            
+            messageModelClass = types.MsgUndelegate.getModelClass();
             break;
         }
         case types.TxType.MsgBeginRedelegate: {
-            
+            messageModelClass = types.MsgRedelegate.getModelClass();
             break;
         }
         case types.TxType.MsgWithdrawDelegatorReward: {
-            
+            messageModelClass = types.MsgWithdrawDelegatorReward.getModelClass();
             break;
-        } 
+        }
+        case types.TxType.MsgSetWithdrawAddress: {
+            messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
+            break;
+        }
         //coinswap
+        case types.TxType.MsgIssueToken: {
+            messageModelClass = types.MsgIssueToken.getModelClass();
+            break;
+        }
         case types.TxType.MsgAddLiquidity: {
             
             break;

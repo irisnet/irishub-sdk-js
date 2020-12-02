@@ -43,4 +43,27 @@ describe('Asset Tests', () => {
     },
     timeout
   );
+  test(
+    'issue token',
+    async () => {
+      await BaseTest.getClient()
+        .asset.issueToken({
+          symbol:'testlsc',
+          name:'lsc',
+          scale:6,
+          min_unit:'btc',
+          initial_supply:100000,
+          max_supply:1000000,
+          mintable:true,
+          owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+        }, BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
 });
