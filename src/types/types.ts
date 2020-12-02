@@ -38,15 +38,24 @@ export class Msg {
 }
 
 export enum TxType {
+  //bank
   MsgSend ="cosmos.bank.v1beta1.MsgSend",
   MsgMultiSend ="cosmos.bank.v1beta1.MsgMultiSend",
+  //staking
   MsgDelegate ="cosmos.staking.v1beta1.MsgDelegate",
   MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
   MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
   MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  //coinswap
   MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
   MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
   MsgSwapOrder ="irismod.coinswap.MsgSwapOrder",
+  //nft
+  MsgIssueDenom ="irismod.nft.MsgIssueDenom",
+  MsgTransferNFT ="irismod.nft.MsgTransferNFT",
+  MsgEditNFT ="irismod.nft.MsgEditNFT",
+  MsgMintNFT ="irismod.nft.MsgMintNFT",
+  MsgBurnNFT ="irismod.nft.MsgBurnNFT",
 }
 
 /** 

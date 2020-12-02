@@ -295,6 +295,7 @@ export class Tx {
   createMsg(txMsg:{type:string, value:any}){
     let msg:any = {};
     switch (txMsg.type) {
+        //bank
         case types.TxType.MsgSend: {
             msg = new types.MsgSend(txMsg.value)
             break;
@@ -303,6 +304,7 @@ export class Tx {
             msg = new types.MsgMultiSend(txMsg.value)
             break;
         }
+        //staking
         case types.TxType.MsgDelegate: {
             
             break;
@@ -319,6 +321,7 @@ export class Tx {
             
             break;
         } 
+        //coinswap
         case types.TxType.MsgAddLiquidity: {
             
             break;
@@ -329,6 +332,27 @@ export class Tx {
         } 
         case types.TxType.MsgSwapOrder: {
             
+            break;
+        }
+        //nft
+        case types.TxType.MsgIssueDenom: {
+            msg = new types.MsgIssueDenom(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgMintNFT: {
+            msg = new types.MsgMintNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgEditNFT: {
+            msg = new types.MsgEditNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgTransferNFT: {
+            msg = new types.MsgTransferNFT(txMsg.value)
+            break;
+        }
+        case types.TxType.MsgBurnNFT: {
+            msg = new types.MsgBurnNFT(txMsg.value)
             break;
         }
         default: {
