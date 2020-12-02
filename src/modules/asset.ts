@@ -2,6 +2,7 @@ import { Client } from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
 import { SdkError } from '../errors';
+import {Crypto} from "../utils/crypto";
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
@@ -32,6 +33,22 @@ export class Asset {
     return this.client.rpcClient.abciQuery<types.Token>('custom/asset/token', {
       Symbol: this.getCoinName(symbol),
     });
+  }
+
+  /**
+   *
+   */
+  async issueToken(
+    token: types.IssueTokenTxParam,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgIssueToken,
+        value:token
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**

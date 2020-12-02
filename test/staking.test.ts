@@ -18,7 +18,7 @@ describe('Staking Tests', () => {
     });
     test('query delegations of a delegator', async () => {
       await BaseTest.getClient()
-        .staking.queryDelegations('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
+        .staking.queryDelegations('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -118,7 +118,7 @@ describe('Staking Tests', () => {
 
     test('query a validator', async () => {
       await BaseTest.getClient()
-        .staking.queryValidator('fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e')
+        .staking.queryValidator('iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0')
         .then(res => {
           console.log(JSON.stringify(res));
         })

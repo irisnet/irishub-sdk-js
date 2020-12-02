@@ -52,7 +52,7 @@ export class Staking {
    */
   queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
     return this.client.rpcClient.abciQuery<types.Delegation[]>(
-      'custom/stake/delegatorDelegations',
+      'custom/staking/delegatorDelegations',
       {
         DelegatorAddr: delegatorAddr,
       }
@@ -197,9 +197,9 @@ export class Staking {
    */
   queryValidator(address: string): Promise<types.Validator> {
     return this.client.rpcClient.abciQuery<types.Validator>(
-      'custom/stake/validator',
+      'custom/staking/validator',
       {
-        ValidatorAddr: address,
+        validator_addr: address,
       }
     );
   }
@@ -213,10 +213,11 @@ export class Staking {
    */
   queryValidators(page: number, size?: 100): Promise<types.Validator[]> {
     return this.client.rpcClient.abciQuery<types.Validator[]>(
-      'custom/stake/validators',
+      'custom/staking/validators',
       {
-        Page: page,
-        Size: size,
+        Page: 1,
+        Limit: 10,
+        Status:'Bonded'
       }
     );
   }

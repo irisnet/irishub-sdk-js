@@ -132,6 +132,7 @@ export class Tx {
 
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
     stdTx.addSignature(signature);
+
     return stdTx;
   }
 
@@ -324,6 +325,11 @@ export class Tx {
         msg = new types.MsgSetWithdrawAddress(txMsg.value);
         break;
       }
+      case types.TxType.MsgIssueToken: {
+        msg = new types.MsgIssueToken(txMsg.value);
+        break;
+      }
+
       case types.TxType.MsgAddLiquidity: {
 
         break;

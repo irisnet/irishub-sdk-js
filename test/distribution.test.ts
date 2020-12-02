@@ -58,7 +58,7 @@ describe('Distribution Tests', () => {
 
                 await BaseTest.getClient()
                     .distribution.withdrawRewards(
-                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+                        'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
                         BaseTest.baseTx,
                     )
                     .then(res => {

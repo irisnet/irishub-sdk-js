@@ -90,6 +90,10 @@ export class Protobuf {
             break;
         }
         //coinswap
+        case types.TxType.MsgIssueToken: {
+            messageModelClass = types.MsgIssueToken.getModelClass();
+            break;
+        }
         case types.TxType.MsgAddLiquidity: {
             
             break;
