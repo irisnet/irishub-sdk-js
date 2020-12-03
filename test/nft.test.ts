@@ -1,4 +1,6 @@
 import { BaseTest } from './basetest';
+import * as is from "is_js";
+
 const timeout = 999999;
 
 function randomStr(length:number):string{
@@ -131,6 +133,66 @@ describe('Nft Tests', () => {
 
   describe('query nft', () => {
     test(
+      'query Supply',
+      async () => {
+        await BaseTest.getClient()
+        .nft.querySupply('bczd','iaa1gytgufwqkz9tmhjgljfxd3qcwpdzymj6022q3w')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+
+    test(
+      'query Owner',
+      async () => {
+        await BaseTest.getClient()
+        .nft.queryOwner('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp','rzfj')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+
+    test(
+      'query Collection',
+      async () => {
+        await BaseTest.getClient()
+        .nft.queryCollection('rzfj')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+
+    test(
+      'query Denom',
+      async () => {
+        await BaseTest.getClient()
+        .nft.queryDenom('rzfj')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
+    
+    test(
       'query Denoms',
       async () => {
         await BaseTest.getClient()
@@ -146,10 +208,10 @@ describe('Nft Tests', () => {
     );
 
     test(
-      'query Denoms',
+      'query NFT',
       async () => {
         await BaseTest.getClient()
-        .nft.queryDenoms('bczd')
+        .nft.queryNFT('rzfj','bbzrsib')
         .then(res => {
           console.log(JSON.stringify(res));
         })

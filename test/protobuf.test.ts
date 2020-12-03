@@ -48,5 +48,5 @@ describe('protobuf Tests', () => {
       let signingInfo = BaseTest.getClient().protobuf.deserializeSigningInfo(signingInfo_proto);
       console.log('signingInfo:',signingInfo);
     }
-  );
+  );  
 });

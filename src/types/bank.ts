@@ -89,7 +89,7 @@ export class MsgMultiSend extends Msg {
 
   validate() {
     if (!this.value.inputs) {
-      throw new Error("inputs is  empty");
+      throw new Error("inputs is empty");
     }
     if (!this.value.outputs) {
       throw new Error("outputs is  empty");

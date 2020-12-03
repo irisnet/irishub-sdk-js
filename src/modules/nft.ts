@@ -105,7 +105,7 @@ export class Nft {
   async editNft(
     id: string,
     denom_id:string,
-    newProperty:{name?:string, uri?:string, data?:string},
+    new_property:{name?:string, uri?:string, data?:string},
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const sender = this.client.keys.show(baseTx.from);
@@ -116,7 +116,7 @@ export class Nft {
           id,
           denom_id,
           sender,
-          ...newProperty
+          ...new_property
         }
       }
     ];
@@ -137,7 +137,7 @@ export class Nft {
     id: string,
     denom_id:string,
     recipient:string,
-    newProperty:{name?:string, uri?:string, data?:string},
+    new_property:{name?:string, uri?:string, data?:string},
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     if (recipient && !Crypto.checkAddress(recipient, this.client.config.bech32Prefix.AccAddr)) {
@@ -152,7 +152,7 @@ export class Nft {
           denom_id,
           sender,
           recipient,
-          ...newProperty
+          ...new_property
         }
       }
     ];
@@ -187,17 +187,111 @@ export class Nft {
   }
 
   /**
-   * Query denoms from blockchain
-   * @returns
-   * @since v0.17
+   * Supply queries the total supply of a given denom or owner
+   * @type {[type]} object
    */
-  queryDenoms(denom?:string): Promise<types.Denom[] | types.Denom> {
-    let path = 'custom/nft/denoms';
-    let params = {};
-    if (denom) {
-      path = 'custom/nft/denom';
-      params = {ID:denom};
+  querySupply(denom_id?:string, owner?:string): Promise<object> {
+    if (!denom_id && !owner) {
+      throw new Error("there must be one denom_id or owner");
     }
-    return this.client.rpcClient.abciQuery<types.Denom[] | types.Denom>(path, params);
+    const request = new types.nft_query_pb.QuerySupplyRequest();
+    if (denom_id) {request.setDenomId(denom_id)}
+    if (owner) {request.setOwner(owner)}
+
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/Supply',
+      request,
+      types.nft_query_pb.QuerySupplyResponse
+    );
+  }
+
+  /**
+   * Owner queries the NFTs of the specified owner
+   * @type {[type]} object
+   */
+  queryOwner(owner:string, denom_id?:string): Promise<object> {
+    if (!owner) {
+      throw new Error("owner can ont be empty");
+    }
+    const request = new types.nft_query_pb.QueryOwnerRequest();
+    request.setOwner(owner);
+    if (denom_id) {request.setDenomId(denom_id)}
+
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/Owner',
+      request,
+      types.nft_query_pb.QueryOwnerResponse
+    );
+  }
+
+  /**
+   * Collection queries the NFTs of the specified denom
+   * @type {[type]} object
+   */
+  queryCollection(denom_id:string): Promise<object> {
+    if (!denom_id) {
+      throw new Error("denom_id can ont be empty");
+    }
+    const request = new types.nft_query_pb.QueryCollectionRequest();
+    request.setDenomId(denom_id);
+
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/Collection',
+      request,
+      types.nft_query_pb.QueryCollectionResponse
+    );
+  }
+
+  /**
+   * Denom queries the definition of a given denom
+   * @type {[type]} object
+   */
+  queryDenom(denom_id:string): Promise<object> {
+    if (!denom_id) {
+      throw new Error("denom_id can ont be empty");
+    }
+    const request = new types.nft_query_pb.QueryDenomRequest();
+    request.setDenomId(denom_id);
+
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/Denom',
+      request,
+      types.nft_query_pb.QueryDenomResponse
+    );
+  }
+
+  /**
+   * Denoms queries all the denoms
+   * @type {[type]} object
+   */
+  queryDenoms(): Promise<object> {
+    const request = new types.nft_query_pb.QueryDenomsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/Denoms',
+      request,
+      types.nft_query_pb.QueryDenomsResponse
+    );
+  }
+
+  /**
+   * NFT queries the NFT for the given denom and token ID
+   * @type {[type]} object
+   */
+  queryNFT(denom_id:string, token_id:string): Promise<object> {
+    if (!denom_id) {
+      throw new Error("denom_id can ont be empty");
+    }
+    if (!token_id) {
+      throw new Error("token_id can ont be empty");
+    }
+    const request = new types.nft_query_pb.QueryNFTRequest();
+    request.setDenomId(denom_id);
+    request.setTokenId(token_id);
+
+    return this.client.rpcClient.protoQuery(
+      '/irismod.nft.Query/NFT',
+      request,
+      types.nft_query_pb.QueryNFTResponse
+    );
   }
 }
