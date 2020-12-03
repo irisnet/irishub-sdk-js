@@ -25,7 +25,7 @@ export class Bank {
   /**
    * Get the cointype of a token
    *
-   * @deprecated Please refer to [[asset.queryToken]]
+   * @deprecated Please refer to [[token.queryToken]]
    * @since v0.17
    */
   queryCoinType(tokenName: string) {

@@ -2,8 +2,6 @@ import { Client } from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
 import { SdkError } from '../errors';
-import {Crypto} from "../utils/crypto";
-import {EditTokenTxParam} from "../types/asset";
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
@@ -13,7 +11,7 @@ import {EditTokenTxParam} from "../types/asset";
  * @category Modules
  * @since v0.17
  */
-export class Asset {
+export class Token {
   /** @hidden */
   private client: Client;
   /** @hidden */
@@ -31,13 +29,15 @@ export class Asset {
     if (is.empty(symbol)) {
       throw new SdkError('symbol can not be empty');
     }
-    return this.client.rpcClient.abciQuery<types.Token>('custom/asset/token', {
+    return this.client.rpcClient.abciQuery<types.Token>('custom/token/token', {
       Symbol: this.getCoinName(symbol),
     });
   }
 
   /**
-   *
+   * Query issue a new token
+   * @param IssueTokenTxParam
+   * @returns
    */
   async issueToken(
     token: types.IssueTokenTxParam,
@@ -53,7 +53,9 @@ export class Asset {
   }
 
   /**
-   *
+   * Query edit a token existed
+   * @param EditTokenTxParam
+   * @returns
    */
   async editToken(
     token: types.EditTokenTxParam,
@@ -69,7 +71,9 @@ export class Asset {
   }
 
   /**
-   *
+   * Query mint some amount of token
+   * @param MintTokenTxParam
+   * @returns
    */
   async mintToken(
     token: types.MintTokenTxParam,
@@ -85,7 +89,9 @@ export class Asset {
   }
 
   /**
-   *
+   * Query transfer owner of token
+   * @param TransferTokenOwnerTxParam
+   * @returns
    */
   async transferTokenOwner(
     token: types.TransferTokenOwnerTxParam,
@@ -100,12 +106,6 @@ export class Asset {
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
-
-
-
-
-
-
   /**
    * Query details of a group of tokens
    * @param owner The optional token owner address
@@ -114,7 +114,7 @@ export class Asset {
    */
   queryTokens(owner?: string): Promise<types.Token[]> {
     return this.client.rpcClient.abciQuery<types.Token[]>(
-      'custom/asset/tokens',
+      'custom/token/tokens',
       {
         Owner: owner,
       }
@@ -122,14 +122,14 @@ export class Asset {
   }
 
   /**
-   * Query the asset related fees
+   * Query the token related fees
    * @param symbol The token symbol
    * @returns
    * @since v0.17
    */
   queryFees(symbol: string): Promise<types.TokenFees> {
     return this.client.rpcClient.abciQuery<types.TokenFees>(
-      'custom/asset/fees',
+      'custom/token/fees',
       {
         Symbol: symbol,
       }

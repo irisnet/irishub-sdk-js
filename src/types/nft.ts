@@ -155,17 +155,17 @@ export class MsgEditNFT extends Msg {
     msg.setId(this.value.id);
     msg.setDenomId(this.value.denom_id);
     msg.setSender(this.value.sender);
-    if (typeof this.value.name == 'undefined') {
+    if (typeof this.value.name === 'undefined') {
         msg.setName(doNotModify);
     }else{
         msg.setName(this.value.name);
     }
-    if (typeof this.value.uri == 'undefined') {
+    if (typeof this.value.uri === 'undefined') {
         msg.setUri(doNotModify);
     }else{
         msg.setUri(this.value.uri);
     }
-    if (typeof this.value.data == 'undefined') {
+    if (typeof this.value.data === 'undefined') {
         msg.setData(doNotModify);
     }else{
         msg.setData(this.value.data);
@@ -221,17 +221,17 @@ export class MsgTransferNFT extends Msg {
     msg.setDenomId(this.value.denom_id);
     msg.setSender(this.value.sender);
     msg.setRecipient(this.value.recipient);
-    if (typeof this.value.name == 'undefined') {
+    if (typeof this.value.name === 'undefined') {
         msg.setName(doNotModify);
     }else{
         msg.setName(this.value.name);
     }
-    if (typeof this.value.uri == 'undefined') {
+    if (typeof this.value.uri === 'undefined') {
         msg.setUri(doNotModify);
     }else{
         msg.setUri(this.value.uri);
     }
-    if (typeof this.value.data == 'undefined') {
+    if (typeof this.value.data === 'undefined') {
         msg.setData(doNotModify);
     }else{
         msg.setData(this.value.data);

@@ -3,7 +3,7 @@ import * as is from 'is_js';
 import * as types from '../types';
 import {SdkError} from '../errors';
 import {Utils, Crypto} from '../utils';
-import {MsgMintToken, MsgTransferTokenOwner} from "../types/asset";
+import {MsgMintToken, MsgTransferTokenOwner} from "../types/token";
 
 /**
  * Tx module allows you to sign or broadcast transactions

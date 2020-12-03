@@ -1,7 +1,5 @@
 import {Coin, Msg, TxType} from './types';
-import {DelegateTxParam} from "./staking";
 import * as is from "is_js";
-import {TxModelCreator} from "../utils";
 import * as pbs from "./proto";
 import {SdkError} from "../errors";
 import {doNotModify} from "./constants";
@@ -26,15 +24,15 @@ export interface TokenFees {
 /**
  * param struct for issue token tx
  */
-export interface IssueTokenTxParam {//TODO(lsc whether param is optional)
+export interface IssueTokenTxParam {
   symbol: string;
   name: string;
-  scale: number;
   min_unit: string;
-  initial_supply: number;
-  max_supply: number;
-  mintable: boolean;
   owner: string;
+  scale?: number;
+  initial_supply?: number;
+  max_supply?: number;
+  mintable?: boolean;
 }
 
 /**
@@ -67,6 +65,10 @@ export interface TransferTokenOwnerTxParam {
   dst_owner: string;
 }
 
+/**
+ * Msg struct for issue token
+ * @hidden
+ */
 export class MsgIssueToken extends Msg {
   value: IssueTokenTxParam;
 
@@ -80,15 +82,27 @@ export class MsgIssueToken extends Msg {
   }
 
   getModel(): any {
-    return new (MsgIssueToken.getModelClass())()
+    const msg = new (MsgIssueToken.getModelClass())()
       .setSymbol(this.value.symbol)
       .setName(this.value.name)
-      .setScale(this.value.scale)
       .setMinUnit(this.value.min_unit)
-      .setInitialSupply(this.value.initial_supply)
-      .setMaxSupply(this.value.max_supply)
-      .setMintable(this.value.mintable)
       .setOwner(this.value.owner);
+    if(is.not.empty(this.value.scale)){
+      msg.setScale(this.value.scale);
+    }
+    if(is.not.empty(this.value.initial_supply)){
+      msg.setInitialSupply(this.value.initial_supply);
+    }
+    if(is.not.empty(this.value.max_supply)){
+      msg.setMaxSupply(this.value.max_supply);
+    }
+    if(is.not.empty(this.value.mintable)){
+      msg.setMintable(this.value.mintable);
+    }
+
+
+
+    return msg;
   }
 
   /**
@@ -104,20 +118,8 @@ export class MsgIssueToken extends Msg {
     if (is.empty(this.value.name)) {
       throw new SdkError(`name can not be empty`);
     }
-    if (is.empty(this.value.scale)) {
-      throw new SdkError(`scale can not be empty`);
-    }
     if (is.empty(this.value.min_unit)) {
       throw new SdkError(`min unit can not be empty`);
-    }
-    if (is.empty(this.value.initial_supply)) {
-      throw new SdkError(`initial supply can not be empty`);
-    }
-    if (is.empty(this.value.max_supply)) {
-      throw new SdkError(`max supply can not be empty`);
-    }
-    if (is.empty(this.value.mintable)) {
-      throw new SdkError(`mintable can not be empty`);
     }
     if (is.empty(this.value.owner)) {
       throw new SdkError(`owner can not be empty`);
@@ -127,7 +129,10 @@ export class MsgIssueToken extends Msg {
   }
 }
 
-
+/**
+ * Msg struct for edit token
+ * @hidden
+ */
 export class MsgEditToken extends Msg {
   value: EditTokenTxParam;
 
@@ -176,6 +181,10 @@ export class MsgEditToken extends Msg {
   }
 }
 
+/**
+ * Msg struct for mint token
+ * @hidden
+ */
 export class MsgMintToken extends Msg {
   value: MintTokenTxParam;
 
@@ -221,6 +230,10 @@ export class MsgMintToken extends Msg {
   }
 }
 
+/**
+ * Msg struct for transfer token owner
+ * @hidden
+ */
 export class MsgTransferTokenOwner extends Msg {
   value: TransferTokenOwnerTxParam;
 

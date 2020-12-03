@@ -2,12 +2,12 @@ import { BaseTest } from './basetest';
 
 const timeout = 10000;
 
-describe('Asset Tests', () => {
+describe('Token Tests', () => {
   test(
     'query token',
     async () => {
       try {
-        console.log(await BaseTest.getClient().asset.queryToken('iris'));
+        console.log(await BaseTest.getClient().token.queryToken('iris'));
       } catch (error) {
         console.log(JSON.stringify(error));
       }
@@ -18,7 +18,7 @@ describe('Asset Tests', () => {
     'query tokens',
     async () => {
       await BaseTest.getClient()
-        .asset.queryTokens()
+        .token.queryTokens()
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -32,7 +32,7 @@ describe('Asset Tests', () => {
     'query fees',
     async () => {
       await BaseTest.getClient()
-        .asset.queryFees('testcoin')
+        .token.queryFees('testcoin')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -46,13 +46,13 @@ describe('Asset Tests', () => {
     'issue token',
     async () => {
       await BaseTest.getClient()
-        .asset.issueToken({
-          symbol:'testlsc',
-          name:'lsc',
-          scale:6,
-          min_unit:'btc',
-          initial_supply:100000,
-          max_supply:1000000,
+        .token.issueToken({
+          symbol:'coin',
+          name:'name',
+          scale:4,
+          min_unit:'eth',
+          initial_supply:1000000,
+          max_supply:10000000,
           mintable:true,
           owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
         }, BaseTest.baseTx)
@@ -69,10 +69,11 @@ describe('Asset Tests', () => {
     'edit token',
     async () => {
       await BaseTest.getClient()
-        .asset.editToken({
-          symbol:'testlsc',
-          name:'lvsc',
-          mintable:'true',
+        .token.editToken({
+          symbol:'coin',
+          name:'coin_edits',
+          mintable:'false',
+          max_supply:1000000000,
           owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
         }, BaseTest.baseTx)
         .then(res => {
@@ -88,10 +89,10 @@ describe('Asset Tests', () => {
     'mint token',
     async () => {
       await BaseTest.getClient()
-        .asset.mintToken({
-          symbol:'testlsc',
+        .token.mintToken({
+          symbol:'testlscc',
           amount:15,
-          to:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+          to:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
         }, BaseTest.baseTx)
         .then(res => {
@@ -107,7 +108,7 @@ describe('Asset Tests', () => {
     'transfer token owner',
     async () => {
       await BaseTest.getClient()
-        .asset.transferTokenOwner({
+        .token.transferTokenOwner({
           symbol:'testlsc',
           src_owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           dst_owner:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
