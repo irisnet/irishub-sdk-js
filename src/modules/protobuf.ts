@@ -5,11 +5,6 @@ import { SdkError } from '../errors';
 const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
 
-const secp256k1_keys_pb = require('../types/proto-types/cosmos/crypto/secp256k1/keys_pb');
-const ed25519_keys_pb = require('../types/proto-types/cosmos/crypto/ed25519/keys_pb');
-const multisig_keys_pb = require('../types/proto-types/cosmos/crypto/multisig/keys_pb');
-
-
 /**
  * ProtobufModel module allows you to deserialize protobuf serialize string
  *
@@ -89,11 +84,12 @@ export class Protobuf {
             messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
             break;
         }
-        //coinswap
+        //token
         case types.TxType.MsgIssueToken: {
             messageModelClass = types.MsgIssueToken.getModelClass();
             break;
         }
+        //coinswap
         case types.TxType.MsgAddLiquidity: {
             
             break;
@@ -193,39 +189,4 @@ export class Protobuf {
       return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
     }
   }
-
-  /**
-   * deserialize publick Key
-   * @param  {[type]} publick Key:string  base64 string
-   * @param  {[type]} type:string  "tendermint/PubKeySecp256k1" | tendermint/PubKeyEd25519 | tendermint/PubKeyMultisig
-   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
-   * @return {[type]} publick key object                        
-   */
-  // deserializePublickKey(publickKey:string, type:string ,returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
-  //   if (!publickKey) {
-  //     throw new SdkError('publickKey can not be empty');
-  //   }
-  //   let publickKey_pb:any;
-  //   switch (type){
-  //     case 'tendermint/PubKeySecp256k1':
-  //     console.log('vvvvvvvv:',secp256k1_keys_pb.PubKey);
-  //     console.log('publickKey:',publickKey);
-  //     publickKey_pb = secp256k1_keys_pb.PubKey.deserializeBinary(Buffer.from(publickKey));
-  //     break;
-  //     case 'tendermint/PubKeyEd25519':
-  //     publickKey_pb = ed25519_keys_pb.PubKey.deserializeBinary(publickKey);
-  //     break;
-  //     case 'tendermint/PubKeyMultisig':
-  //     publickKey_pb = multisig_keys_pb.LegacyAminoPubKey.deserializeBinary(publickKey);
-  //     break;
-  //     default:
-  //     publickKey_pb = secp256k1_keys_pb.PubKey.deserializeBinary(publickKey);
-  //     break;
-  //   } 
-  //   if (returnProtobufModel) {
-  //     return publickKey_pb;
-  //   }else{
-  //     return publickKey_pb.toObject();
-  //   }
-  // }
 }
