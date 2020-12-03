@@ -28,7 +28,7 @@ export interface IssueTokenTxParam {
   symbol: string;
   name: string;
   min_unit: string;
-  owner?: string;
+  owner: string;
   scale?: number;
   initial_supply?: number;
   max_supply?: number;
@@ -41,7 +41,7 @@ export interface IssueTokenTxParam {
 export interface MintTokenTxParam {
   symbol: string;
   amount: number;
-  owner?: string;
+  owner: string;
   to?: string;
 }
 
@@ -50,7 +50,7 @@ export interface MintTokenTxParam {
  */
 export interface EditTokenTxParam {
   symbol: string;
-  owner?: string;
+  owner: string;
   name?: string;
   max_supply?: number;
   mintable?: string;
@@ -61,7 +61,7 @@ export interface EditTokenTxParam {
  */
 export interface TransferTokenOwnerTxParam {
   symbol: string;
-  src_owner?: string;
+  src_owner: string;
   dst_owner: string;
 }
 
@@ -87,16 +87,16 @@ export class MsgIssueToken extends Msg {
       .setName(this.value.name)
       .setMinUnit(this.value.min_unit)
       .setOwner(this.value.owner);
-    if(is.not.empty(this.value.scale)){
+    if(is.not.undefined(this.value.scale)){
       msg.setScale(this.value.scale);
     }
-    if(is.not.empty(this.value.initial_supply)){
+    if(is.not.undefined(this.value.initial_supply)){
       msg.setInitialSupply(this.value.initial_supply);
     }
-    if(is.not.empty(this.value.max_supply)){
+    if(is.not.undefined(this.value.max_supply)){
       msg.setMaxSupply(this.value.max_supply);
     }
-    if(is.not.empty(this.value.mintable)){
+    if(is.not.undefined(this.value.mintable)){
       msg.setMintable(this.value.mintable);
     }
 
@@ -112,16 +112,16 @@ export class MsgIssueToken extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.symbol)) {
+    if (is.undefined(this.value.symbol)) {
       throw new SdkError(`token symbol can not be empty`);
     }
-    if (is.empty(this.value.name)) {
+    if (is.undefined(this.value.name)) {
       throw new SdkError(`name can not be empty`);
     }
-    if (is.empty(this.value.min_unit)) {
+    if (is.undefined(this.value.min_unit)) {
       throw new SdkError(`min unit can not be empty`);
     }
-    if (is.empty(this.value.owner)) {
+    if (is.undefined(this.value.owner)) {
       throw new SdkError(`owner can not be empty`);
     }
 
@@ -149,13 +149,13 @@ export class MsgEditToken extends Msg {
     const msg = new (MsgEditToken.getModelClass())()
       .setSymbol(this.value.symbol)
       .setOwner(this.value.owner);
-    if (is.not.empty(this.value.name)) {
+    if (is.not.undefined(this.value.name)) {
       msg.setName(this.value.name)
     }
-    if (is.not.empty(this.value.max_supply)) {
+    if (is.not.undefined(this.value.max_supply)) {
       msg.setMaxSupply(this.value.max_supply)
     }
-    if (is.not.empty(this.value.mintable)) {
+    if (is.not.undefined(this.value.mintable)) {
       msg.setMintable(this.value.mintable)
     } else {
       msg.setMintable(doNotModify)
@@ -170,10 +170,10 @@ export class MsgEditToken extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.symbol)) {
+    if (is.undefined(this.value.symbol)) {
       throw new SdkError(`token symbol can not be empty`);
     }
-    if (is.empty(this.value.owner)) {
+    if (is.undefined(this.value.owner)) {
       throw new SdkError(`owner can not be empty`);
     }
 
@@ -202,7 +202,7 @@ export class MsgMintToken extends Msg {
       .setSymbol(this.value.symbol)
       .setAmount(this.value.amount)
       .setOwner(this.value.owner);
-    if (is.not.empty(this.value.to)) {
+    if (is.not.undefined(this.value.to)) {
       msg.setTo(this.value.to)
     }
     return msg;
@@ -215,14 +215,14 @@ export class MsgMintToken extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.symbol)) {
+    if (is.undefined(this.value.symbol)) {
       throw new SdkError(`token symbol can not be empty`);
     }
-    if (is.empty(this.value.amount)) {
+    if (is.undefined(this.value.amount)) {
       throw new SdkError(`amount of token minted can not be empty`);
     }
 
-    if (is.empty(this.value.owner)) {
+    if (is.undefined(this.value.owner)) {
       throw new SdkError(`owner can not be empty`);
     }
 
@@ -261,14 +261,14 @@ export class MsgTransferTokenOwner extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.symbol)) {
+    if (is.undefined(this.value.symbol)) {
       throw new SdkError(`token symbol can not be empty`);
     }
-    if (is.empty(this.value.src_owner)) {
+    if (is.undefined(this.value.src_owner)) {
       throw new SdkError(`source owner can not be empty`);
     }
 
-    if (is.empty(this.value.dst_owner)) {
+    if (is.undefined(this.value.dst_owner)) {
       throw new SdkError(`destination owner can not be empty`);
     }
 

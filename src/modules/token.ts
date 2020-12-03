@@ -1,7 +1,7 @@
-import { Client } from '../client';
+import {Client} from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
-import { SdkError } from '../errors';
+import {SdkError} from '../errors';
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
@@ -14,24 +14,35 @@ import { SdkError } from '../errors';
 export class Token {
   /** @hidden */
   private client: Client;
+
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
   }
 
   /**
-   * Query details of a token
-   * @param symbol The token symbol
+   * Query all tokens
+   * @returns Token[]
+   */
+  queryTokens(): Promise<types.Token> {
+    return this.client.rpcClient.abciQuery<types.Token>(
+      'custom/token/tokens',{}
+    );
+  }
+
+  /**
+   * Query details of a group of tokens
+   * @param owner The optional token owner address
    * @returns
    * @since v0.17
    */
-  queryToken(symbol: string): Promise<types.Token> {
-    if (is.empty(symbol)) {
-      throw new SdkError('symbol can not be empty');
-    }
-    return this.client.rpcClient.abciQuery<types.Token>('custom/token/token', {
-      Symbol: this.getCoinName(symbol),
-    });
+  queryToken(owner?: string): Promise<types.Token[]> {
+    return this.client.rpcClient.abciQuery<types.Token[]>(
+      'custom/token/tokens',
+      {
+
+      }
+    );
   }
 
   /**
@@ -40,14 +51,22 @@ export class Token {
    * @returns
    */
   async issueToken(
-    token: types.IssueTokenTxParam,
+    token: {
+      symbol: string;
+      name: string;
+      min_unit: string;
+      scale?: number;
+      initial_supply?: number;
+      max_supply?: number;
+      mintable?: boolean;
+    },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
-        type:types.TxType.MsgIssueToken,
-        value:Object.assign({owner},token)
+        type: types.TxType.MsgIssueToken,
+        value: Object.assign({owner}, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -59,14 +78,19 @@ export class Token {
    * @returns
    */
   async editToken(
-    token: types.EditTokenTxParam,
+    token: {
+      symbol: string;
+      name?: string;
+      max_supply?: number;
+      mintable?: string;
+    },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
-        type:types.TxType.MsgEditToken,
-        value:Object.assign({owner},token)
+        type: types.TxType.MsgEditToken,
+        value: Object.assign({owner}, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -78,14 +102,19 @@ export class Token {
    * @returns
    */
   async mintToken(
-    token: types.MintTokenTxParam,
+    token: {
+      symbol: string;
+      amount: number;
+      owner?: string;
+      to?: string;
+    },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
-        type:types.TxType.MsgMintToken,
-        value:Object.assign({owner},token)
+        type: types.TxType.MsgMintToken,
+        value: Object.assign({owner}, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -97,32 +126,20 @@ export class Token {
    * @returns
    */
   async transferTokenOwner(
-    token: types.TransferTokenOwnerTxParam,
+    token: {
+      symbol: string;
+      dst_owner: string;
+    },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
-        type:types.TxType.MsgTransferTokenOwner,
-        value:Object.assign({src_owner:owner},token)
+        type: types.TxType.MsgTransferTokenOwner,
+        value: Object.assign({src_owner: owner}, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Query details of a group of tokens
-   * @param owner The optional token owner address
-   * @returns
-   * @since v0.17
-   */
-  queryTokens(owner?: string): Promise<types.Token[]> {
-    return this.client.rpcClient.abciQuery<types.Token[]>(
-      'custom/token/tokens',
-      {
-        Owner: owner,
-      }
-    );
   }
 
   /**

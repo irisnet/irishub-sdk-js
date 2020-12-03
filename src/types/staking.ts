@@ -148,10 +148,10 @@ export class MsgDelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_address)) {
+    if (is.undefined(this.value.validator_address)) {
       throw new SdkError(`validator address can not be empty`);
     }
     return true;
@@ -191,10 +191,10 @@ export class MsgUndelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_address)) {
+    if (is.undefined(this.value.validator_address)) {
       throw new SdkError(`validator address can not be empty`);
     }
     return true;
@@ -235,13 +235,13 @@ export class MsgRedelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_src_address)) {
+    if (is.undefined(this.value.validator_src_address)) {
       throw new SdkError(`source validator address can not be empty`);
     }
-    if (is.empty(this.value.validator_dst_address)) {
+    if (is.undefined(this.value.validator_dst_address)) {
       throw new SdkError(`destination validator address can not be empty`);
     }
 
