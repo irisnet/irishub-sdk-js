@@ -10,7 +10,7 @@ export * from './distribution';
 export * from './service';
 export * from './oracle';
 export * from './random';
-export * from './asset';
+export * from './token';
 export * from './utils';
 export * from './tendermint';
 export * from './coinswap';

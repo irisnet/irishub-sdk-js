@@ -89,6 +89,19 @@ export class Protobuf {
             messageModelClass = types.MsgIssueToken.getModelClass();
             break;
         }
+        case types.TxType.MsgEditToken: {
+            messageModelClass = types.MsgEditToken.getModelClass();
+            break;
+        }
+        case types.TxType.MsgMintToken: {
+            messageModelClass = types.MsgMintToken.getModelClass();
+            break;
+        }
+        case types.TxType.MsgTransferTokenOwner: {
+            messageModelClass = types.MsgTransferTokenOwner.getModelClass();
+            break;
+        }
+
         //coinswap
         case types.TxType.MsgAddLiquidity: {
             

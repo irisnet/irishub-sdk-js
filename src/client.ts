@@ -22,8 +22,8 @@ export class Client {
   /** Auth module */
   auth: modules.Auth;
 
-  /** Asset module */
-  asset: modules.Asset;
+  /** Token module */
+  token: modules.Token;
 
   /** Bank module */
   bank: modules.Bank;
@@ -108,7 +108,7 @@ export class Client {
     this.eventListener = new EventListener(this);
 
     // Modules
-    this.asset = new modules.Asset(this);
+    this.token = new modules.Token(this);
     this.utils = new modules.Utils(this);
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);

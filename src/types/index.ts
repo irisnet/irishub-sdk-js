@@ -14,7 +14,7 @@ export * from './service';
 export * from './oracle';
 export * from './random';
 export * from './events';
-export * from './asset';
+export * from './token';
 export * from './block';
 export * from './block-result';
 export * from './validator';
