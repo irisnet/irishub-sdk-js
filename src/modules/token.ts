@@ -43,10 +43,11 @@ export class Token {
     token: types.IssueTokenTxParam,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
         type:types.TxType.MsgIssueToken,
-        value:token
+        value:Object.assign({owner},token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -61,10 +62,11 @@ export class Token {
     token: types.EditTokenTxParam,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
         type:types.TxType.MsgEditToken,
-        value:token
+        value:Object.assign({owner},token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -79,10 +81,11 @@ export class Token {
     token: types.MintTokenTxParam,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
         type:types.TxType.MsgMintToken,
-        value:token
+        value:Object.assign({owner},token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -97,10 +100,11 @@ export class Token {
     token: types.TransferTokenOwnerTxParam,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
         type:types.TxType.MsgTransferTokenOwner,
-        value:token
+        value:Object.assign({src_owner:owner},token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);

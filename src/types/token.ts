@@ -28,7 +28,7 @@ export interface IssueTokenTxParam {
   symbol: string;
   name: string;
   min_unit: string;
-  owner: string;
+  owner?: string;
   scale?: number;
   initial_supply?: number;
   max_supply?: number;
@@ -41,7 +41,7 @@ export interface IssueTokenTxParam {
 export interface MintTokenTxParam {
   symbol: string;
   amount: number;
-  owner: string;
+  owner?: string;
   to?: string;
 }
 
@@ -50,7 +50,7 @@ export interface MintTokenTxParam {
  */
 export interface EditTokenTxParam {
   symbol: string;
-  owner: string;
+  owner?: string;
   name?: string;
   max_supply?: number;
   mintable?: string;
@@ -61,7 +61,7 @@ export interface EditTokenTxParam {
  */
 export interface TransferTokenOwnerTxParam {
   symbol: string;
-  src_owner: string;
+  src_owner?: string;
   dst_owner: string;
 }
 

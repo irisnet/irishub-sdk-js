@@ -47,14 +47,13 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.issueToken({
-          symbol:'coin',
-          name:'name',
+          symbol:'coinzz',
+          name:'names',
           scale:4,
-          min_unit:'eth',
+          min_unit:'eths',
           initial_supply:1000000,
           max_supply:10000000,
           mintable:true,
-          owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
         }, BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
@@ -70,11 +69,10 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.editToken({
-          symbol:'coin',
-          name:'coin_edits',
-          mintable:'false',
-          max_supply:1000000000,
-          owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+          symbol:'coinzz',
+          name:'abc',
+          mintable:'true',
+          max_supply:10000000,
         }, BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
@@ -90,10 +88,9 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.mintToken({
-          symbol:'testlscc',
-          amount:15,
+          symbol:'coinzz',
+          amount:99,
           to:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
-          owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
         }, BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
@@ -109,8 +106,7 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.transferTokenOwner({
-          symbol:'testlsc',
-          src_owner:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+          symbol:'coin',
           dst_owner:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
         }, BaseTest.baseTx)
         .then(res => {
