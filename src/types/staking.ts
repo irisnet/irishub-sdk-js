@@ -130,7 +130,7 @@ export class MsgDelegate extends Msg {
   }
 
   static getModelClass(): any{
-    return pbs.stakingTxProtocolBuffer.MsgDelegate;
+    return pbs.staking_tx_pb.MsgDelegate;
   }
 
   getModel(): any {
@@ -148,10 +148,10 @@ export class MsgDelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_address)) {
+    if (is.undefined(this.value.validator_address)) {
       throw new SdkError(`validator address can not be empty`);
     }
     return true;
@@ -173,7 +173,7 @@ export class MsgUndelegate extends Msg {
   }
 
   static getModelClass(): any{
-    return pbs.stakingTxProtocolBuffer.MsgUndelegate;
+    return pbs.staking_tx_pb.MsgUndelegate;
   }
 
   getModel(): any {
@@ -191,10 +191,10 @@ export class MsgUndelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_address)) {
+    if (is.undefined(this.value.validator_address)) {
       throw new SdkError(`validator address can not be empty`);
     }
     return true;
@@ -216,7 +216,7 @@ export class MsgRedelegate extends Msg {
   }
 
   static getModelClass(): any{
-    return pbs.stakingTxProtocolBuffer.MsgBeginRedelegate;
+    return pbs.staking_tx_pb.MsgBeginRedelegate;
   }
 
   getModel(): any {
@@ -235,13 +235,13 @@ export class MsgRedelegate extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.empty(this.value.delegator_address)) {
+    if (is.undefined(this.value.delegator_address)) {
       throw new SdkError(`delegator address can not be empty`);
     }
-    if (is.empty(this.value.validator_src_address)) {
+    if (is.undefined(this.value.validator_src_address)) {
       throw new SdkError(`source validator address can not be empty`);
     }
-    if (is.empty(this.value.validator_dst_address)) {
+    if (is.undefined(this.value.validator_dst_address)) {
       throw new SdkError(`destination validator address can not be empty`);
     }
 

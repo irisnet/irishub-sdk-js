@@ -2,7 +2,6 @@ import { Client } from '../client';
 import * as types from '../types';
 import { SdkError } from '../errors';
 
-const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
 
 /**
@@ -30,9 +29,9 @@ export class Protobuf {
       throw new SdkError('tx can not be empty');
     }
     if (returnProtobufModel) {
-      return Tx_pb.Tx.deserializeBinary(tx);
+      return types.tx_tx_pb.Tx.deserializeBinary(tx);
     }else{
-      let txObj = Tx_pb.Tx.deserializeBinary(tx).toObject();
+      let txObj = types.tx_tx_pb.Tx.deserializeBinary(tx).toObject();
       if (txObj.body && txObj.body.messagesList) {
         txObj.body.messagesList = txObj.body.messagesList.map((msg:{typeUrl:string,value:string})=>{
           return this.unpackMsg(msg);
@@ -89,6 +88,19 @@ export class Protobuf {
             messageModelClass = types.MsgIssueToken.getModelClass();
             break;
         }
+        case types.TxType.MsgEditToken: {
+            messageModelClass = types.MsgEditToken.getModelClass();
+            break;
+        }
+        case types.TxType.MsgMintToken: {
+            messageModelClass = types.MsgMintToken.getModelClass();
+            break;
+        }
+        case types.TxType.MsgTransferTokenOwner: {
+            messageModelClass = types.MsgTransferTokenOwner.getModelClass();
+            break;
+        }
+
         //coinswap
         case types.TxType.MsgAddLiquidity: {
             
@@ -150,9 +162,9 @@ export class Protobuf {
       throw new SdkError('signDoc can not be empty');
     }
     if (returnProtobufModel) {
-      return Tx_pb.SignDoc.deserializeBinary(signDoc);
+      return types.tx_tx_pb.SignDoc.deserializeBinary(signDoc);
     }else{
-      return Tx_pb.SignDoc.deserializeBinary(signDoc).toObject();
+      return types.tx_tx_pb.SignDoc.deserializeBinary(signDoc).toObject();
     }
   }
 
@@ -167,9 +179,9 @@ export class Protobuf {
       throw new SdkError('txRaw can not be empty');
     }
     if (returnProtobufModel) {
-      return Tx_pb.TxRaw.deserializeBinary(txRaw);
+      return types.tx_tx_pb.TxRaw.deserializeBinary(txRaw);
     }else{
-      return Tx_pb.TxRaw.deserializeBinary(txRaw).toObject();
+      return types.tx_tx_pb.TxRaw.deserializeBinary(txRaw).toObject();
     }
   }
 

@@ -129,7 +129,6 @@ export class Tx {
       const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
       stdTx.setPubKey(pubKey, sequence || undefined);
     }
-
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
     stdTx.addSignature(signature);
 
@@ -330,6 +329,18 @@ export class Tx {
       //token
       case types.TxType.MsgIssueToken: {
         msg = new types.MsgIssueToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgEditToken: {
+        msg = new types.MsgEditToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgMintToken: {
+        msg = new types.MsgMintToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgTransferTokenOwner: {
+        msg = new types.MsgTransferTokenOwner(txMsg.value);
         break;
       }
       //coinswap

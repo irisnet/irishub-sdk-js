@@ -1,8 +1,7 @@
 import { Coin, Msg, Pubkey, TxType, doNotModify } from './index';
 import { TxModelCreator } from '../utils';
 import * as is from 'is_js';
-
-const nft_tx_pb = require('./proto-types/irismod/nft/tx_pb');
+import * as pbs from "./proto";
 
 /**
  * param struct for issue denom tx
@@ -27,7 +26,7 @@ export class MsgIssueDenom extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgIssueDenom;
+    return pbs.nft_tx_pb.MsgIssueDenom;
   }
 
   getModel():any{
@@ -82,7 +81,7 @@ export class MsgMintNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgMintNFT;
+    return pbs.nft_tx_pb.MsgMintNFT;
   }
 
   getModel():any{
@@ -147,7 +146,7 @@ export class MsgEditNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgEditNFT;
+    return pbs.nft_tx_pb.MsgEditNFT;
   }
 
   getModel():any{
@@ -155,17 +154,17 @@ export class MsgEditNFT extends Msg {
     msg.setId(this.value.id);
     msg.setDenomId(this.value.denom_id);
     msg.setSender(this.value.sender);
-    if (typeof this.value.name == 'undefined') {
+    if (typeof this.value.name === 'undefined') {
         msg.setName(doNotModify);
     }else{
         msg.setName(this.value.name);
     }
-    if (typeof this.value.uri == 'undefined') {
+    if (typeof this.value.uri === 'undefined') {
         msg.setUri(doNotModify);
     }else{
         msg.setUri(this.value.uri);
     }
-    if (typeof this.value.data == 'undefined') {
+    if (typeof this.value.data === 'undefined') {
         msg.setData(doNotModify);
     }else{
         msg.setData(this.value.data);
@@ -212,7 +211,7 @@ export class MsgTransferNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgTransferNFT;
+    return pbs.nft_tx_pb.MsgTransferNFT;
   }
 
   getModel():any{
@@ -221,17 +220,17 @@ export class MsgTransferNFT extends Msg {
     msg.setDenomId(this.value.denom_id);
     msg.setSender(this.value.sender);
     msg.setRecipient(this.value.recipient);
-    if (typeof this.value.name == 'undefined') {
+    if (typeof this.value.name === 'undefined') {
         msg.setName(doNotModify);
     }else{
         msg.setName(this.value.name);
     }
-    if (typeof this.value.uri == 'undefined') {
+    if (typeof this.value.uri === 'undefined') {
         msg.setUri(doNotModify);
     }else{
         msg.setUri(this.value.uri);
     }
-    if (typeof this.value.data == 'undefined') {
+    if (typeof this.value.data === 'undefined') {
         msg.setData(doNotModify);
     }else{
         msg.setData(this.value.data);
@@ -277,7 +276,7 @@ export class MsgBurnNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgBurnNFT;
+    return pbs.nft_tx_pb.MsgBurnNFT;
   }
 
   getModel():any{

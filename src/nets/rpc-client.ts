@@ -141,7 +141,7 @@ export class RpcClient {
             'base64'
           ).toString();
           try{
-            return JSON.parse(value);
+            return JSON.parse(value).value;
           }catch(err){
             return value;
           }

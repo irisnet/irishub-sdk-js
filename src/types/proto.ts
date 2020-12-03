@@ -1,8 +1,4 @@
 /***************TX*****************/
-export const stakingTxProtocolBuffer = require( './proto-types/cosmos/staking/v1beta1/tx_pb');
-export const distributionProtocolBuffer = require( './proto-types/cosmos/distribution/v1beta1/tx_pb');
-export const tokenProtocolBuffer = require( './proto-types/irismod/token/tx_pb');
-
 //cosmos tx
 export const bank_tx_pb = require( './proto-types/cosmos/bank/v1beta1/tx_pb');
 export const crisis_tx_pb = require( './proto-types/cosmos/crisis/v1beta1/tx_pb');
