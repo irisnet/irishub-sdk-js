@@ -129,7 +129,6 @@ export class Tx {
       const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
       stdTx.setPubKey(pubKey, sequence || undefined);
     }
-
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
     stdTx.addSignature(signature);
 

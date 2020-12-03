@@ -23,16 +23,6 @@ export class Bank {
   }
 
   /**
-   * Get the cointype of a token
-   *
-   * @deprecated Please refer to [[token.queryToken]]
-   * @since v0.17
-   */
-  queryCoinType(tokenName: string) {
-    throw new SdkError('Not supported');
-  }
-
-  /**
    * Query account info from blockchain
    * @param address Bech32 address
    * @returns
@@ -60,33 +50,6 @@ export class Bank {
       acc.coins = bal;
       return acc;
     });
-  }
-
-  /**
-   * Query total supply
-   * @param denom Denom of the token
-   * @returns
-   * @since v1.0
-   */
-  queryTotalSupply(denom?: string): Promise<types.Coin[]> {
-    let path;
-    let param;
-
-    if (!denom) {
-      path = 'custom/bank/total_supply';
-      param = {
-        Page: '1',
-        Limit: '0'
-      };
-    } else {
-      path = 'custom/bank/supply_of';
-      param = {
-        Denom: denom
-      }
-    }
-    return this.client.rpcClient.abciQuery<types.Coin[]>(
-      path, param
-    );
   }
 
   /**
@@ -149,6 +112,77 @@ export class Bank {
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Balance queries the balance of a single coin for a single account.
+   * @type {[type]} object
+   */
+  queryBalance(address:string, denom:string): Promise<object> {
+    const request = new types.bank_query_pb.QueryBalanceRequest();
+    request.setAddress(address);
+    request.setDenom(denom);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/Balance',
+      request,
+      types.bank_query_pb.QueryBalanceResponse
+    );
+  }
+
+  /**
+   * AllBalances queries the balance of all coins for a single account.
+   * @type {[type]} object
+   */
+  queryAllBalances(address:string): Promise<object> {
+    const request = new types.bank_query_pb.QueryAllBalancesRequest();
+    request.setAddress(address);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/AllBalances',
+      request,
+      types.bank_query_pb.QueryAllBalancesResponse
+    );
+  }
+
+  /**
+   * TotalSupply queries the total supply of all coins.
+   * @type {[type]} object
+   */
+  queryTotalSupply(): Promise<object> {
+    const request = new types.bank_query_pb.QueryTotalSupplyRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/TotalSupply',
+      request,
+      types.bank_query_pb.QueryTotalSupplyResponse
+    );
+  }
+
+  /**
+   * SupplyOf queries the supply of a single coin.
+   * @type {[type]} object
+   */
+  querySupplyOf(denom:string): Promise<object> {
+    const request = new types.bank_query_pb.QuerySupplyOfRequest();
+    request.setDenom(denom);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/SupplyOf',
+      request,
+      types.bank_query_pb.QuerySupplyOfResponse
+    );
+  }
+
+  /**
+   * Params queries the parameters of x/bank module.
+   * @type {[type]} object
+   */
+  queryParams(): Promise<object> {
+    const request = new types.bank_query_pb.QueryParamsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/Params',
+      request,
+      types.bank_query_pb.QueryParamsResponse
+    );
   }
 
   /**

@@ -60,50 +60,54 @@ describe('Bank Tests', () => {
     );
   });
 
-  // describe('Burn', () => {
-  //   test(
-  //     'burn coins',
-  //     async () => {
-  //       const amount: types.Coin[] = [
-  //         {
-  //           denom: 'iris-atto',
-  //           amount: '1000000000000000000',
-  //         },
-  //       ];
-
-  //       await BaseTest.getClient()
-  //         .bank.burn(amount, BaseTest.baseTx)
-  //         .then(res => {
-  //           console.log(JSON.stringify(res));
-  //         })
-  //         .catch(error => {
-  //           console.log(error);
-  //         });
-  //     },
-  //     timeout
-  //   );
-  // });
-
-  // describe('Set Memo Regexp', () => {
-  //   test(
-  //     'set memo regexp',
-  //     async () => {
-  //       await BaseTest.getClient()
-  //         .bank.setMemoRegexp('test*', BaseTest.baseTx)
-  //         .then(res => {
-  //           console.log(JSON.stringify(res));
-  //         })
-  //         .catch(error => {
-  //           console.log(error);
-  //         });
-  //     },
-  //     timeout
-  //   );
-  // });
-
   describe('Queries', () => {
     test(
-      'query total supply',
+      'query account',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryAccount('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query Balance',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','stake')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query All Balances',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query Total Supply',
       async () => {
         await BaseTest.getClient()
           .bank.queryTotalSupply()
@@ -118,10 +122,10 @@ describe('Bank Tests', () => {
     );
     
     test(
-      'query account',
+      'query Supply Of',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAccount('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp')
+          .bank.querySupplyOf('btc')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -132,34 +136,19 @@ describe('Bank Tests', () => {
       timeout
     );
 
-    // test(
-    //   'query single token stats',
-    //   async () => {
-    //     await BaseTest.getClient()
-    //       .bank.queryTokenStats('uiris')
-    //       .then(res => {
-    //         console.log(JSON.stringify(res));
-    //       })
-    //       .catch(error => {
-    //         console.log(error);
-    //       });
-    //   },
-    //   timeout
-    // );
-
-    // test(
-    //   'query all token stats',
-    //   async () => {
-    //     await BaseTest.getClient()
-    //       .bank.queryTokenStats()
-    //       .then(res => {
-    //         console.log(JSON.stringify(res));
-    //       })
-    //       .catch(error => {
-    //         console.log(error);
-    //       });
-    //   },
-    //   timeout
-    // );
+    test(
+      'query All Balances',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryParams()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
   });
 });

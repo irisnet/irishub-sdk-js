@@ -1,6 +1,6 @@
 import { Coin, Msg, Pubkey, TxType } from './types';
 import { TxModelCreator } from '../utils';
-const bank_tx_pb = require('./proto-types/cosmos/bank/v1beta1/tx_pb');
+import * as pbs from "./proto";
 
 /**
  * Msg for sending coins
@@ -20,7 +20,7 @@ export class MsgSend extends Msg {
   }
 
   static getModelClass():any{
-    return bank_tx_pb.MsgSend;
+    return pbs.bank_tx_pb.MsgSend;
   }
 
   getModel():any{
@@ -63,13 +63,13 @@ export class MsgMultiSend extends Msg {
   }
 
   static getModelClass(){
-    return bank_tx_pb.MsgMultiSend;
+    return pbs.bank_tx_pb.MsgMultiSend;
   }
 
   getModel():any{
     let msg = new (MsgMultiSend.getModelClass())();
     this.value.inputs.forEach((item)=>{
-      let input = new bank_tx_pb.Input();
+      let input = new pbs.bank_tx_pb.Input();
       input.setAddress(item.address);
       item.coins.forEach((coin)=>{
         input.addCoins(TxModelCreator.createCoinModel(coin.denom, coin.amount));
@@ -77,7 +77,7 @@ export class MsgMultiSend extends Msg {
       msg.addInputs(input);
     });
     this.value.outputs.forEach((item)=>{
-      let output = new bank_tx_pb.Output();
+      let output = new pbs.bank_tx_pb.Output();
       output.setAddress(item.address);
       item.coins.forEach((coin)=>{
         output.addCoins(TxModelCreator.createCoinModel(coin.denom, coin.amount));
@@ -89,7 +89,7 @@ export class MsgMultiSend extends Msg {
 
   validate() {
     if (!this.value.inputs) {
-      throw new Error("inputs is  empty");
+      throw new Error("inputs is empty");
     }
     if (!this.value.outputs) {
       throw new Error("outputs is  empty");

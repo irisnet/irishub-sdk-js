@@ -78,7 +78,7 @@ export class MsgIssueToken extends Msg {
   }
 
   static getModelClass(): any {
-    return pbs.tokenProtocolBuffer.MsgIssueToken;
+    return pbs.token_tx_pb.MsgIssueToken;
   }
 
   getModel(): any {
@@ -142,7 +142,7 @@ export class MsgEditToken extends Msg {
   }
 
   static getModelClass(): any {
-    return pbs.tokenProtocolBuffer.MsgEditToken;
+    return pbs.token_tx_pb.MsgEditToken;
   }
 
   getModel(): any {
@@ -194,7 +194,7 @@ export class MsgMintToken extends Msg {
   }
 
   static getModelClass(): any {
-    return pbs.tokenProtocolBuffer.MsgMintToken;
+    return pbs.token_tx_pb.MsgMintToken;
   }
 
   getModel(): any {
@@ -243,7 +243,7 @@ export class MsgTransferTokenOwner extends Msg {
   }
 
   static getModelClass(): any {
-    return pbs.tokenProtocolBuffer.MsgTransferTokenOwner;
+    return pbs.token_tx_pb.MsgTransferTokenOwner;
   }
 
   getModel(): any {

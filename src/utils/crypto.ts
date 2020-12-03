@@ -14,8 +14,6 @@ import { SdkError } from '../errors';
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
 
-const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
-
 /**
  * Crypto Utils
  * @hidden
@@ -468,11 +466,11 @@ export class Crypto {
     if (!tx || typeof tx != 'string') {
       throw new SdkError('invalid tx');
     }
-    const tx_pb = Tx_pb.Tx.deserializeBinary(tx);
+    const tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
     if (!tx_pb) {
       throw new SdkError('deserialize tx err');
     }
-    const txRaw = new Tx_pb.TxRaw();
+    const txRaw = new types.tx_tx_pb.TxRaw();
     txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());
     txRaw.setAuthInfoBytes(tx_pb.getAuthInfo().serializeBinary());
     tx_pb.getSignaturesList().forEach((signature:Uint8Array)=>{

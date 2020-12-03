@@ -1,8 +1,7 @@
 import { Coin, Msg, Pubkey, TxType, doNotModify } from './index';
 import { TxModelCreator } from '../utils';
 import * as is from 'is_js';
-
-const nft_tx_pb = require('./proto-types/irismod/nft/tx_pb');
+import * as pbs from "./proto";
 
 /**
  * param struct for issue denom tx
@@ -27,7 +26,7 @@ export class MsgIssueDenom extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgIssueDenom;
+    return pbs.nft_tx_pb.MsgIssueDenom;
   }
 
   getModel():any{
@@ -82,7 +81,7 @@ export class MsgMintNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgMintNFT;
+    return pbs.nft_tx_pb.MsgMintNFT;
   }
 
   getModel():any{
@@ -147,7 +146,7 @@ export class MsgEditNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgEditNFT;
+    return pbs.nft_tx_pb.MsgEditNFT;
   }
 
   getModel():any{
@@ -212,7 +211,7 @@ export class MsgTransferNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgTransferNFT;
+    return pbs.nft_tx_pb.MsgTransferNFT;
   }
 
   getModel():any{
@@ -277,7 +276,7 @@ export class MsgBurnNFT extends Msg {
   }
 
   static getModelClass():any{
-    return nft_tx_pb.MsgBurnNFT;
+    return pbs.nft_tx_pb.MsgBurnNFT;
   }
 
   getModel():any{

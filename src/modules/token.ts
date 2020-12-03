@@ -24,8 +24,8 @@ export class Token {
    * Query all tokens
    * @returns Token[]
    */
-  queryTokens(): Promise<types.Token> {
-    return this.client.rpcClient.abciQuery<types.Token>(
+  queryTokens(): Promise<types.Token[]> {
+    return this.client.rpcClient.abciQuery<types.Token[]>(
       'custom/token/tokens',{}
     );
   }
@@ -36,8 +36,8 @@ export class Token {
    * @returns
    * @since v0.17
    */
-  queryToken(owner?: string): Promise<types.Token[]> {
-    return this.client.rpcClient.abciQuery<types.Token[]>(
+  queryToken(owner?: string): Promise<types.Token> {
+    return this.client.rpcClient.abciQuery<types.Token>(
       'custom/token/tokens',
       {
 

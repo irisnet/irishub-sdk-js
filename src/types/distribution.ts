@@ -33,7 +33,7 @@ export class MsgSetWithdrawAddress extends Msg {
   }
 
   static getModelClass():any{
-    return pbs.distributionProtocolBuffer.MsgSetWithdrawAddress;
+    return pbs.distribution_tx_pb.MsgSetWithdrawAddress;
   }
 
   getModel(): any {
@@ -100,7 +100,7 @@ export class MsgWithdrawDelegatorReward extends Msg {
   }
 
   static getModelClass():any{
-    return pbs.distributionProtocolBuffer.MsgWithdrawDelegatorReward;
+    return pbs.distribution_tx_pb.MsgWithdrawDelegatorReward;
   }
 
   /**
