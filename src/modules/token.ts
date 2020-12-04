@@ -80,7 +80,7 @@ export class Token {
    * @returns
    * @since
    */
-  queryFees(symbol: string): Promise<types.TokenFees> {
+  queryFees(symbol: string): Promise<types.TokenFees | null> {
     if (is.undefined(symbol)) {
       throw new SdkError('symbol can not be empty')
     }
@@ -99,7 +99,7 @@ export class Token {
    * @returns
    * @since
    */
-  queryParameters(): Promise<types.TokenFees> {
+  queryParameters(): Promise<object> {
     const request = new types.token_query_pb.QueryParamsRequest();
     return this.client.rpcClient.protoQuery(
       '/irismod.token.Query/Params',
