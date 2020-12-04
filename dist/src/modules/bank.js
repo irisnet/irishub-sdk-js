@@ -13,7 +13,6 @@ exports.Bank = void 0;
 const crypto_1 = require("../utils/crypto");
 const types = require("../types");
 const errors_1 = require("../errors");
-const bank_1 = require("../types/bank");
 const types_1 = require("../types");
 /**
  * This module is mainly used to transfer coins between accounts,
@@ -31,15 +30,6 @@ class Bank {
         this.client = client;
     }
     /**
-     * Get the cointype of a token
-     *
-     * @deprecated Please refer to [[asset.queryToken]]
-     * @since v0.17
-     */
-    queryCoinType(tokenName) {
-        throw new errors_1.SdkError('Not supported');
-    }
-    /**
      * Query account info from blockchain
      * @param address Bech32 address
      * @returns
@@ -48,10 +38,10 @@ class Bank {
     queryAccount(address) {
         return Promise.all([
             this.client.rpcClient.abciQuery('custom/auth/account', {
-                account: address,
+                address: address,
             }),
             this.client.rpcClient.abciQuery('custom/bank/all_balances', {
-                Address: address,
+                address: address,
             })
         ]).then(res => {
             const acc = res[0];
@@ -59,41 +49,6 @@ class Bank {
             acc.coins = bal;
             return acc;
         });
-    }
-    /**
-     * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
-     * @param tokenID Identity of the token
-     * @returns
-     * @since v0.17
-     */
-    queryTokenStats(tokenID) {
-        return this.client.rpcClient.abciQuery('custom/acc/tokenStats', {
-            TokenId: tokenID,
-        });
-    }
-    /**
-     * Query total supply
-     * @param denom Denom of the token
-     * @returns
-     * @since v1.0
-     */
-    queryTotalSupply(denom) {
-        let path;
-        let param;
-        if (!denom) {
-            path = 'custom/bank/total_supply';
-            param = {
-                Page: '1',
-                Limit: '0'
-            };
-        }
-        else {
-            path = 'custom/bank/supply_of';
-            param = {
-                Denom: denom
-            };
-        }
-        return this.client.rpcClient.abciQuery(path, param);
     }
     /**
      * Send coins
@@ -110,41 +65,90 @@ class Bank {
                 throw new errors_1.SdkError('Invalid bech32 address');
             }
             const from = this.client.keys.show(baseTx.from);
-            const coins = yield this.client.utils.toMinCoins(amount);
             const msgs = [
-                new bank_1.MsgSend([{ address: from, coins }], [{ address: to, coins }]),
+                {
+                    type: types.TxType.MsgSend,
+                    value: {
+                        from_address: from,
+                        to_address: to,
+                        amount
+                    }
+                }
             ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
     }
     /**
-     * Burn coins
-     * @param amount Coins to be burnt
+     * multiSend coins
+     * @param to Recipient bech32 address
+     * @param amount Coins to be sent
      * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    burn(amount, baseTx) {
+    multiSend(to, amount, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
+            // Validate bech32 address
+            if (!crypto_1.Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
+                throw new errors_1.SdkError('Invalid bech32 address');
+            }
             const from = this.client.keys.show(baseTx.from);
-            const coins = yield this.client.utils.toMinCoins(amount);
-            const msgs = [new bank_1.MsgBurn(from, coins)];
+            const coins = amount;
+            const msgs = [
+                {
+                    type: types.TxType.MsgMultiSend,
+                    value: {
+                        inputs: [{ address: from, coins }],
+                        outputs: [{ address: to, coins }],
+                    }
+                }
+            ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
     }
     /**
-     * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
-     * @param memoRegexp
-     * @param baseTx { types.BaseTx }
-     * @returns
-     * @since v0.17
+     * Balance queries the balance of a single coin for a single account.
+     * @type {[type]} object
      */
-    setMemoRegexp(memoRegexp, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const from = this.client.keys.show(baseTx.from);
-            const msgs = [new bank_1.MsgSetMemoRegexp(from, memoRegexp)];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
+    queryBalance(address, denom) {
+        const request = new types.bank_query_pb.QueryBalanceRequest();
+        request.setAddress(address);
+        request.setDenom(denom);
+        return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Balance', request, types.bank_query_pb.QueryBalanceResponse);
+    }
+    /**
+     * AllBalances queries the balance of all coins for a single account.
+     * @type {[type]} object
+     */
+    queryAllBalances(address) {
+        const request = new types.bank_query_pb.QueryAllBalancesRequest();
+        request.setAddress(address);
+        return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/AllBalances', request, types.bank_query_pb.QueryAllBalancesResponse);
+    }
+    /**
+     * TotalSupply queries the total supply of all coins.
+     * @type {[type]} object
+     */
+    queryTotalSupply() {
+        const request = new types.bank_query_pb.QueryTotalSupplyRequest();
+        return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/TotalSupply', request, types.bank_query_pb.QueryTotalSupplyResponse);
+    }
+    /**
+     * SupplyOf queries the supply of a single coin.
+     * @type {[type]} object
+     */
+    querySupplyOf(denom) {
+        const request = new types.bank_query_pb.QuerySupplyOfRequest();
+        request.setDenom(denom);
+        return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/SupplyOf', request, types.bank_query_pb.QuerySupplyOfResponse);
+    }
+    /**
+     * Params queries the parameters of x/bank module.
+     * @type {[type]} object
+     */
+    queryParams() {
+        const request = new types.bank_query_pb.QueryParamsRequest();
+        return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Params', request, types.bank_query_pb.QueryParamsResponse);
     }
     /**
      * Subscribe Send Txs

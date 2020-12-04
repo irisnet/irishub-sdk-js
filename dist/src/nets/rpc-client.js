@@ -60,6 +60,50 @@ class RpcClient {
         });
     }
     /**
+     * Tendermint ABCI protobuf Query
+     *
+     * @param path Querier path
+     * @param protoRequest protobuf Request
+     * @param protoResponse protobuf Response so if "protoResponse" exists, well deserialize "ABCI Response" with "protoResponse" and return json object, else return base64 string
+     * @returns
+     * @since v0.17
+     */
+    protoQuery(path, protoRequest, protoResponse) {
+        const params = {
+            path,
+        };
+        if (protoRequest && protoRequest.serializeBinary) {
+            params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
+        }
+        return this.request(types.RpcMethods.AbciQuery, params).then(response => {
+            if (response && response.response) {
+                if (response.response.value) {
+                    if (protoResponse) {
+                        try {
+                            return protoResponse.deserializeBinary(response.response.value).toObject();
+                        }
+                        catch (err) {
+                            console.error(`protobuf deserialize  error from ${path}`);
+                            return response.response.value;
+                        }
+                    }
+                    else {
+                        return response.response.value;
+                    }
+                }
+                else if (response.response.code) {
+                    throw new errors_1.SdkError(response.response.log, response.response.code);
+                }
+                else {
+                    return null;
+                }
+            }
+            throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
+        }).catch((err) => {
+            throw new errors_1.SdkError('ABCI query Error', err);
+        });
+    }
+    /**
      * Tendermint ABCI Query
      *
      * @param path Querier path
@@ -82,20 +126,27 @@ class RpcClient {
             if (response && response.response) {
                 if (response.response.value) {
                     const value = Buffer.from(response.response.value, 'base64').toString();
-                    const res = JSON.parse(value);
-                    if (!res)
-                        return {};
-                    if (res.type && res.value)
-                        return res.value;
-                    return res;
+                    try {
+                        return JSON.parse(value).value;
+                    }
+                    catch (err) {
+                        return value;
+                    }
+                    // const res = JSON.parse(value);
+                    // if (!res) return {};
+                    // if (res.type && res.value) return res.value;
+                    // return res;
                 }
                 else if (response.response.code) {
-                    console.error(response.response);
                     throw new errors_1.SdkError(response.response.log, response.response.code);
                 }
+                else {
+                    return null;
+                }
             }
-            console.error(response);
-            throw new errors_1.SdkError('Internal Error', errors_1.CODES.Internal);
+            throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
+        }).catch((err) => {
+            throw new errors_1.SdkError('ABCI query Error', err);
         });
     }
     /**

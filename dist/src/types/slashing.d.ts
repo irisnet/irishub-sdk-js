@@ -41,8 +41,7 @@ export interface SlashingParams {
  * Msg struct for unjailing jailed validator
  * @hidden
  */
-export declare class MsgUnjail implements Msg {
-    type: string;
+export declare class MsgUnjail extends Msg {
     value: {
         address: string;
     };
@@ -52,9 +51,9 @@ export declare class MsgUnjail implements Msg {
 /** Defines the signing info for a validator */
 export interface ValidatorSigningInfo {
     address: string;
-    start_height: string;
-    index_offset: string;
-    jailed_until: string;
+    startHeight: string;
+    indexOffset: string;
+    jailedUntil: string;
     tombstoned: boolean;
-    missed_blocks_counter: string;
+    missedBlocksCounter: string;
 }

@@ -13,8 +13,7 @@ exports.Slashing = void 0;
 const slashing_1 = require("../types/slashing");
 const errors_1 = require("../errors");
 const utils_1 = require("../utils");
-const amino_js_1 = require("@irisnet/amino-js");
-const belt_1 = require("@tendermint/belt");
+const Bech32 = require("bech32");
 /**
  * In Proof-of-Stake blockchain, validators will get block provisions by staking their token.
  * But if they failed to keep online, they will be punished by slashing a small portion of their staked tokens.
@@ -50,13 +49,14 @@ class Slashing {
      */
     querySigningInfo(bech32ConsAddress, height) {
         const key = utils_1.StoreKeys.getSigningInfoKey(bech32ConsAddress);
+        console.log('key:', key);
         return this.client.rpcClient
             .queryStore(key, 'slashing', height)
             .then(res => {
             if (!res || !res.response || !res.response.value) {
                 throw new errors_1.SdkError('Validator not found');
             }
-            return amino_js_1.unmarshalValidatorSigningInfo(belt_1.base64ToBytes(res.response.value));
+            return this.client.protobuf.deserializeSigningInfo(res.response.value);
         });
     }
     /**
@@ -68,8 +68,8 @@ class Slashing {
     unjail(baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
             const val = this.client.keys.show(baseTx.from);
-            const [hrp, bytes] = amino_js_1.decodeBech32(val);
-            const validatorAddr = amino_js_1.encodeBech32(this.client.config.bech32Prefix.ValAddr, bytes);
+            const words = Bech32.decode(val).words;
+            const validatorAddr = Bech32.encode(this.client.config.bech32Prefix.ValAddr, words);
             const msgs = [new slashing_1.MsgUnjail(validatorAddr)];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });

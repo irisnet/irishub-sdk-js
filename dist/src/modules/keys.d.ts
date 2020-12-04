@@ -49,6 +49,16 @@ export declare class Keys {
      */
     import(name: string, password: string, keystore: string | types.Keystore): string;
     /**
+     * Import a PrivateKey
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param privateKey privateKey hex
+     * @returns Bech32 address
+     * @since v0.17
+     */
+    importPrivateKey(name: string, password: string, privateKey: string): string;
+    /**
      * Export keystore of a key
      *
      * @param name Name of the key

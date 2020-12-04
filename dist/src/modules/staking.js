@@ -12,10 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Staking = void 0;
 const types = require("../types");
 const errors_1 = require("../errors");
-const staking_1 = require("../types/staking");
 const types_1 = require("../types");
 const utils_1 = require("../utils");
-const amino_js_1 = require("@irisnet/amino-js");
 /**
  * This module provides staking functionalities for validators and delegators
  *
@@ -51,7 +49,7 @@ class Staking {
      * @since v0.17
      */
     queryDelegations(delegatorAddr) {
-        return this.client.rpcClient.abciQuery('custom/stake/delegatorDelegations', {
+        return this.client.rpcClient.abciQuery('custom/staking/delegatorDelegations', {
             DelegatorAddr: delegatorAddr,
         });
     }
@@ -153,8 +151,8 @@ class Staking {
      * @since v0.17
      */
     queryValidator(address) {
-        return this.client.rpcClient.abciQuery('custom/stake/validator', {
-            ValidatorAddr: address,
+        return this.client.rpcClient.abciQuery('custom/staking/validator', {
+            validator_addr: address,
         });
     }
     /**
@@ -165,9 +163,10 @@ class Staking {
      * @since v0.17
      */
     queryValidators(page, size) {
-        return this.client.rpcClient.abciQuery('custom/stake/validators', {
-            Page: page,
-            Size: size,
+        return this.client.rpcClient.abciQuery('custom/staking/validators', {
+            Page: 1,
+            Limit: 10,
+            Status: 'Bonded'
         });
     }
     /**
@@ -198,14 +197,21 @@ class Staking {
     delegate(validatorAddr, amount, baseTx) {
         const delegatorAddr = this.client.keys.show(baseTx.from);
         const msgs = [
-            new staking_1.MsgDelegate(delegatorAddr, validatorAddr, amount),
+            {
+                type: types.TxType.MsgDelegate,
+                value: {
+                    delegator_address: delegatorAddr,
+                    validator_address: validatorAddr,
+                    amount
+                }
+            }
         ];
         return this.client.tx.buildAndSend(msgs, baseTx);
     }
     /**
      * Undelegate from a validator
      * @param validatorAddr Bech32 validator address
-     * @param amount Amount to be unbonded from the validator
+     * @param amount Amount to be undelegated from the validator
      * @param baseTx
      * @returns
      * @since v0.17
@@ -213,11 +219,15 @@ class Staking {
     undelegate(validatorAddr, amount, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
             const delegatorAddr = this.client.keys.show(baseTx.from);
-            const validator = yield this.queryValidator(validatorAddr);
-            const shares = Number(amount) *
-                (Number(validator.tokens) / Number(validator.delegator_shares));
             const msgs = [
-                new staking_1.MsgUndelegate(delegatorAddr, validatorAddr, this.appendZero(String(shares), 10)),
+                {
+                    type: types.TxType.MsgUndelegate,
+                    value: {
+                        delegator_address: delegatorAddr,
+                        validator_address: validatorAddr,
+                        amount
+                    }
+                }
             ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
@@ -233,11 +243,16 @@ class Staking {
     redelegate(validatorSrcAddr, validatorDstAddr, amount, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
             const delegatorAddr = this.client.keys.show(baseTx.from);
-            const srcValidator = yield this.queryValidator(validatorSrcAddr);
-            const shares = Number(amount) *
-                (Number(srcValidator.tokens) / Number(srcValidator.delegator_shares));
             const msgs = [
-                new staking_1.MsgRedelegate(delegatorAddr, validatorSrcAddr, validatorDstAddr, this.appendZero(String(shares), 10)),
+                {
+                    type: types.TxType.MsgBeginRedelegate,
+                    value: {
+                        delegator_address: delegatorAddr,
+                        validator_src_address: validatorSrcAddr,
+                        validator_dst_address: validatorDstAddr,
+                        amount
+                    }
+                }
             ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
@@ -301,7 +316,7 @@ class Staking {
             }
             data === null || data === void 0 ? void 0 : data.forEach(event => {
                 const bech32Address = utils_1.Crypto.encodeAddress(event.address, this.client.config.bech32Prefix.ConsAddr);
-                const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(amino_js_1.marshalPubKey(event.pub_key, false)), this.client.config.bech32Prefix.ConsPub);
+                const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(event.pub_key)), this.client.config.bech32Prefix.ConsPub);
                 const update = {
                     address: event.address,
                     pub_key: event.pub_key,

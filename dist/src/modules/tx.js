@@ -14,8 +14,6 @@ const is = require("is_js");
 const types = require("../types");
 const errors_1 = require("../errors");
 const utils_1 = require("../utils");
-const amino_js_1 = require("@irisnet/amino-js");
-const belt_1 = require("@tendermint/belt");
 /**
  * Tx module allows you to sign or broadcast transactions
  *
@@ -28,6 +26,20 @@ class Tx {
         this.client = client;
     }
     /**
+     * Build Tx
+     * @param msgs Msgs to be sent
+     * @param baseTx
+     * @returns
+     * @since v0.17
+     */
+    buildTx(msgs, baseTx) {
+        let msgList = msgs.map(msg => {
+            return this.createMsg(msg);
+        });
+        const unsignedTx = this.client.auth.newStdTx(msgList, baseTx);
+        return unsignedTx;
+    }
+    /**
      * Build, sign and broadcast the msgs
      * @param msgs Msgs to be sent
      * @param baseTx
@@ -37,7 +49,7 @@ class Tx {
     buildAndSend(msgs, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
             // Build Unsigned Tx
-            const unsignedTx = this.client.auth.newStdTx(msgs, baseTx);
+            const unsignedTx = this.buildTx(msgs, baseTx);
             // Not supported in ibc-alpha
             // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
             // unsignedTx.value.fee.amount = fee;
@@ -55,8 +67,7 @@ class Tx {
      * @since v0.17
      */
     broadcast(signedTx, mode) {
-        signedTx = this.marshal(signedTx);
-        const txBytes = amino_js_1.marshalTx(signedTx, false);
+        const txBytes = signedTx.getData();
         switch (mode) {
             case types.BroadcastMode.Commit:
                 return this.broadcastTxCommit(txBytes);
@@ -80,7 +91,7 @@ class Tx {
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx, name, password, offline = false) {
+    sign(stdTx, name, password) {
         return __awaiter(this, void 0, void 0, function* () {
             if (is.empty(name)) {
                 throw new errors_1.SdkError(`Name of the key can not be empty`);
@@ -91,60 +102,51 @@ class Tx {
             if (!this.client.config.keyDAO.decrypt) {
                 throw new errors_1.SdkError(`Decrypt method of KeyDAO not implemented`);
             }
-            if (is.undefined(stdTx) ||
-                is.undefined(stdTx.value) ||
-                is.undefined(stdTx.value.msg)) {
-                throw new errors_1.SdkError(`Msgs can not be empty`);
-            }
             const keyObj = this.client.config.keyDAO.read(name);
             if (!keyObj) {
                 throw new errors_1.SdkError(`Key with name '${name}' not found`);
             }
-            const msgs = [];
-            stdTx.value.msg.forEach(msg => {
-                if (msg.getSignBytes) {
-                    msgs.push(msg.getSignBytes());
-                }
-            });
-            let accountNumber = '0';
-            let sequence = '0';
-            if (!offline) {
-                // Query account info from block chain
-                const addr = keyObj.address;
-                const account = yield this.client.bank.queryAccount(addr);
-                accountNumber = account.account_number;
-                sequence = account.sequence;
-                const pubKey = Buffer.from(amino_js_1.marshalPubKey(account.public_key, true)).toString("base64");
-                const sigs = [
-                    {
-                        pub_key: pubKey,
-                        // To support ibc-alpha
-                        // account_number: String(account.account_number),
-                        // sequence: String(account.sequence),
-                        signature: '',
-                    },
-                ];
-                stdTx.value.signatures = sigs;
-            }
-            // Build msg to sign
-            const sig = stdTx.value.signatures[0];
-            const signMsg = {
-                account_number: String(accountNumber),
-                sequence: String(sequence),
-                chain_id: this.client.config.chainId,
-                fee: stdTx.value.fee,
-                memo: stdTx.value.memo,
-                msgs,
-            };
-            // Signing
+            // Query account info from block chain
+            const account = yield this.client.bank.queryAccount(keyObj.address);
+            let accountNumber = account.account_number || '';
+            let sequence = account.sequence || '0';
             const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-            const signature = utils_1.Crypto.generateSignature(utils_1.Utils.str2hexstring(JSON.stringify(utils_1.Utils.sortObject(signMsg))), privKey);
-            sig.signature = signature.toString('base64');
-            const pubKey = Buffer.from(amino_js_1.marshalPubKey(utils_1.Crypto.getPublicKeySecp256k1FromPrivateKey(privKey), true)).toString("base64");
-            sig.pub_key = pubKey;
-            stdTx.value.signatures[0] = sig;
+            if (!stdTx.hasPubKey()) {
+                const pubKey = utils_1.Crypto.getAminoPrefixPublicKey(privKey);
+                stdTx.setPubKey(pubKey, sequence || undefined);
+            }
+            const signature = utils_1.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
+            stdTx.addSignature(signature);
             return stdTx;
         });
+    }
+    /**
+     * Single sign a transaction with signDoc
+     *
+     * @param stdTx StdTx with no signatures
+     * @param name Name of the key to sign the tx
+     * @param password Password of the key
+     * @param offline Offline signing, default `false`
+     * @returns signature
+     * @since v0.17
+     */
+    sign_signDoc(signDoc, name, password) {
+        if (is.empty(name)) {
+            throw new errors_1.SdkError(`Name of the key can not be empty`);
+        }
+        if (is.empty(password)) {
+            throw new errors_1.SdkError(`Password of the key can not be empty`);
+        }
+        if (!this.client.config.keyDAO.decrypt) {
+            throw new errors_1.SdkError(`Decrypt method of KeyDAO not implemented`);
+        }
+        const keyObj = this.client.config.keyDAO.read(name);
+        if (!keyObj) {
+            throw new errors_1.SdkError(`Key with name '${name}' not found`);
+        }
+        const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+        const signature = utils_1.Crypto.generateSignature(signDoc, privKey);
+        return signature;
     }
     /**
      * Broadcast tx async
@@ -170,7 +172,7 @@ class Tx {
     broadcastTxCommit(txBytes) {
         return this.client.rpcClient
             .request(types.RpcMethods.BroadcastTxCommit, {
-            tx: belt_1.bytesToBase64(txBytes),
+            tx: utils_1.Utils.bytesToBase64(txBytes),
         })
             .then(response => {
             var _a, _b, _c, _d;
@@ -213,7 +215,7 @@ class Tx {
         }
         return this.client.rpcClient
             .request(method, {
-            tx: belt_1.bytesToBase64(txBytes),
+            tx: utils_1.Utils.bytesToBase64(txBytes),
         })
             .then(response => {
             if (response.code && response.code > 0) {
@@ -222,16 +224,16 @@ class Tx {
             return response;
         });
     }
-    marshal(stdTx) {
-        const copyStdTx = stdTx;
-        Object.assign(copyStdTx, stdTx);
-        stdTx.value.msg.forEach((msg, idx) => {
-            if (msg.marshal) {
-                copyStdTx.value.msg[idx] = msg.marshal();
-            }
-        });
-        return copyStdTx;
-    }
+    // private marshal(stdTx: types.Tx<types.StdTx>): types.Tx<types.StdTx> {
+    //   const copyStdTx: types.Tx<types.StdTx> = stdTx;
+    //   Object.assign(copyStdTx, stdTx);
+    //   stdTx.value.msg.forEach((msg, idx) => {
+    //     if (msg.marshal) {
+    //       copyStdTx.value.msg[idx] = msg.marshal();
+    //     }
+    //   });
+    //   return copyStdTx;
+    // }
     newTxResult(hash, height, deliverTx) {
         return {
             hash,
@@ -241,6 +243,98 @@ class Tx {
             info: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.info,
             tags: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.tags,
         };
+    }
+    /**
+     * create message
+     * @param  {[type]} txMsg:{type:string, value:any} message
+     * @return {[type]} message instance of types.Msg
+     */
+    createMsg(txMsg) {
+        let msg = {};
+        switch (txMsg.type) {
+            //bank
+            case types.TxType.MsgSend: {
+                msg = new types.MsgSend(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgMultiSend: {
+                msg = new types.MsgMultiSend(txMsg.value);
+                break;
+            }
+            //staking
+            case types.TxType.MsgDelegate: {
+                msg = new types.MsgDelegate(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgUndelegate: {
+                msg = new types.MsgUndelegate(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgBeginRedelegate: {
+                msg = new types.MsgRedelegate(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgWithdrawDelegatorReward: {
+                msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgSetWithdrawAddress: {
+                msg = new types.MsgSetWithdrawAddress(txMsg.value);
+                break;
+            }
+            //token
+            case types.TxType.MsgIssueToken: {
+                msg = new types.MsgIssueToken(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgEditToken: {
+                msg = new types.MsgEditToken(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgMintToken: {
+                msg = new types.MsgMintToken(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgTransferTokenOwner: {
+                msg = new types.MsgTransferTokenOwner(txMsg.value);
+                break;
+            }
+            //coinswap
+            case types.TxType.MsgAddLiquidity: {
+                break;
+            }
+            case types.TxType.MsgRemoveLiquidity: {
+                break;
+            }
+            case types.TxType.MsgSwapOrder: {
+                break;
+            }
+            //nft
+            case types.TxType.MsgIssueDenom: {
+                msg = new types.MsgIssueDenom(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgMintNFT: {
+                msg = new types.MsgMintNFT(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgEditNFT: {
+                msg = new types.MsgEditNFT(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgTransferNFT: {
+                msg = new types.MsgTransferNFT(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgBurnNFT: {
+                msg = new types.MsgBurnNFT(txMsg.value);
+                break;
+            }
+            default: {
+                throw new Error("not exist tx type");
+            }
+        }
+        return msg;
     }
 }
 exports.Tx = Tx;

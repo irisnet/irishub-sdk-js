@@ -129,6 +129,39 @@ class Keys {
         return address;
     }
     /**
+     * Import a PrivateKey
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param privateKey privateKey hex
+     * @returns Bech32 address
+     * @since v0.17
+     */
+    importPrivateKey(name, password, privateKey) {
+        if (is.empty(name)) {
+            throw new errors_1.SdkError(`Name of the key can not be empty`);
+        }
+        if (is.empty(password)) {
+            throw new errors_1.SdkError(`Password of the key can not be empty`);
+        }
+        if (is.empty(privateKey)) {
+            throw new errors_1.SdkError(`privateKey can not be empty`);
+        }
+        const exists = this.client.config.keyDAO.read(name);
+        if (exists) {
+            throw new errors_1.SdkError(`Key with name '${name}' already exists`);
+        }
+        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privateKey);
+        const address = crypto_1.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+        const encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password);
+        // Save the key to app
+        this.client.config.keyDAO.write(name, {
+            address,
+            privKey: encryptedPrivKey,
+        });
+        return address;
+    }
+    /**
      * Export keystore of a key
      *
      * @param name Name of the key

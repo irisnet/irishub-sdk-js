@@ -8,10 +8,12 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./address"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./crypto"), exports);
 __exportStar(require("./store-keys"), exports);
+__exportStar(require("./txHelper"), exports);
+__exportStar(require("./txModelCreator"), exports);
 //# sourceMappingURL=index.js.map

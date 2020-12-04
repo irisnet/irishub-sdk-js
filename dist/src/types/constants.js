@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.RpcMethods = exports.Network = void 0;
+exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.Network = void 0;
 /** Network type config */
 var Network;
 (function (Network) {
@@ -23,5 +23,6 @@ var RpcMethods;
     RpcMethods["TxSearch"] = "tx_search";
     RpcMethods["Validators"] = "validators";
 })(RpcMethods = exports.RpcMethods || (exports.RpcMethods = {}));
+exports.doNotModify = '[do-not-modify]';
 exports.STD_DENOM = 'tiris', exports.IRIS_ATTO = 'iris-atto', exports.MIN_UNIT_SUFFIX = '-min';
 //# sourceMappingURL=constants.js.map

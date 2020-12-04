@@ -17,33 +17,12 @@ export declare class Bank {
     /** @hidden */
     constructor(client: Client);
     /**
-     * Get the cointype of a token
-     *
-     * @deprecated Please refer to [[asset.queryToken]]
-     * @since v0.17
-     */
-    queryCoinType(tokenName: string): void;
-    /**
      * Query account info from blockchain
      * @param address Bech32 address
      * @returns
      * @since v0.17
      */
     queryAccount(address: string): Promise<types.BaseAccount>;
-    /**
-     * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
-     * @param tokenID Identity of the token
-     * @returns
-     * @since v0.17
-     */
-    queryTokenStats(tokenID?: string): Promise<types.TokenStats>;
-    /**
-     * Query total supply
-     * @param denom Denom of the token
-     * @returns
-     * @since v1.0
-     */
-    queryTotalSupply(denom?: string): Promise<types.Coin[]>;
     /**
      * Send coins
      * @param to Recipient bech32 address
@@ -54,21 +33,39 @@ export declare class Bank {
      */
     send(to: string, amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
-     * Burn coins
-     * @param amount Coins to be burnt
+     * multiSend coins
+     * @param to Recipient bech32 address
+     * @param amount Coins to be sent
      * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    burn(amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
+    multiSend(to: string, amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
-     * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
-     * @param memoRegexp
-     * @param baseTx { types.BaseTx }
-     * @returns
-     * @since v0.17
+     * Balance queries the balance of a single coin for a single account.
+     * @type {[type]} object
      */
-    setMemoRegexp(memoRegexp: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    queryBalance(address: string, denom: string): Promise<object>;
+    /**
+     * AllBalances queries the balance of all coins for a single account.
+     * @type {[type]} object
+     */
+    queryAllBalances(address: string): Promise<object>;
+    /**
+     * TotalSupply queries the total supply of all coins.
+     * @type {[type]} object
+     */
+    queryTotalSupply(): Promise<object>;
+    /**
+     * SupplyOf queries the supply of a single coin.
+     * @type {[type]} object
+     */
+    querySupplyOf(denom: string): Promise<object>;
+    /**
+     * Params queries the parameters of x/bank module.
+     * @type {[type]} object
+     */
+    queryParams(): Promise<object>;
     /**
      * Subscribe Send Txs
      * @param conditions Query conditions for the subscription

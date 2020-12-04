@@ -28,20 +28,17 @@ export interface SwapOrderRequest {
     };
     deadline: number;
 }
-export declare class MsgAddLiquidity implements Msg {
-    type: string;
+export declare class MsgAddLiquidity extends Msg {
     value: object;
     constructor(request: DepositRequest, sender: string);
     getSignBytes(): object;
 }
-export declare class MsgRemoveLiquidity implements Msg {
-    type: string;
+export declare class MsgRemoveLiquidity extends Msg {
     value: object;
     constructor(request: WithdrawRequest, sender: string);
     getSignBytes(): object;
 }
-export declare class MsgSwapOrder implements Msg {
-    type: string;
+export declare class MsgSwapOrder extends Msg {
     value: object;
     constructor(request: SwapOrderRequest, isBuyOrder: boolean);
     getSignBytes(): object;

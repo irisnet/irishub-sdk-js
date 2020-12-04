@@ -12,13 +12,21 @@ export declare class Tx {
     /** @hidden */
     constructor(client: Client);
     /**
+     * Build Tx
+     * @param msgs Msgs to be sent
+     * @param baseTx
+     * @returns
+     * @since v0.17
+     */
+    buildTx(msgs: any[], baseTx: types.BaseTx): types.ProtoTx;
+    /**
      * Build, sign and broadcast the msgs
      * @param msgs Msgs to be sent
      * @param baseTx
      * @returns
      * @since v0.17
      */
-    buildAndSend(msgs: types.Msg[], baseTx: types.BaseTx): Promise<types.TxResult>;
+    buildAndSend(msgs: any[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Broadcast a tx
      * @param signedTx The tx object with signatures
@@ -26,7 +34,7 @@ export declare class Tx {
      * @returns
      * @since v0.17
      */
-    broadcast(signedTx: types.Tx<types.StdTx>, mode?: types.BroadcastMode): Promise<types.TxResult>;
+    broadcast(signedTx: types.ProtoTx, mode?: types.BroadcastMode): Promise<types.TxResult>;
     /**
      * Single sign a transaction
      *
@@ -37,7 +45,18 @@ export declare class Tx {
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx: types.Tx<types.StdTx>, name: string, password: string, offline?: boolean): Promise<types.Tx<types.StdTx>>;
+    sign(stdTx: types.ProtoTx, name: string, password: string): Promise<types.ProtoTx>;
+    /**
+     * Single sign a transaction with signDoc
+     *
+     * @param stdTx StdTx with no signatures
+     * @param name Name of the key to sign the tx
+     * @param password Password of the key
+     * @param offline Offline signing, default `false`
+     * @returns signature
+     * @since v0.17
+     */
+    sign_signDoc(signDoc: Uint8Array, name: string, password: string): string;
     /**
      * Broadcast tx async
      * @param txBytes The tx bytes with signatures
@@ -63,6 +82,14 @@ export declare class Tx {
      * @returns The result object of broadcasting
      */
     private broadcastTx;
-    private marshal;
     private newTxResult;
+    /**
+     * create message
+     * @param  {[type]} txMsg:{type:string, value:any} message
+     * @return {[type]} message instance of types.Msg
+     */
+    createMsg(txMsg: {
+        type: string;
+        value: any;
+    }): any;
 }
