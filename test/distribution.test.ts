@@ -42,7 +42,7 @@ describe('Distribution Tests', () => {
                 await BaseTest.getClient().distribution
                     .setWithdrawAddr('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
                     .then(res => {
-                        console.log(JSON.stringify(res));
+                        console.log(res);
                     })
                     .catch(error => {
                         console.log(error);
@@ -62,7 +62,7 @@ describe('Distribution Tests', () => {
                         BaseTest.baseTx,
                     )
                     .then(res => {
-                        console.log(JSON.stringify(res));
+                        console.log(res);
                     })
                     .catch(error => {
                         console.log(error);

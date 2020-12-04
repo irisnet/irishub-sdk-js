@@ -31,7 +31,7 @@ describe('Staking Tests', () => {
     test('query delegations of a delegator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegations({
-          delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+          delegator_addr:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
         })
         .then(res => {
           console.log(res);
@@ -198,12 +198,12 @@ describe('Staking Tests', () => {
     test('delegate', async () => {
       await BaseTest.getClient()
         .staking.delegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           { denom: 'ubif', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -214,12 +214,12 @@ describe('Staking Tests', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
         .staking.undelegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
               { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -230,13 +230,13 @@ describe('Staking Tests', () => {
     test('redelegate', async () => {
       await BaseTest.getClient()
         .staking.redelegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
-          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
+          'iva1736ypcrmwvurylfprfgmjwr625c6ycdv8uyjlp',
               { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
