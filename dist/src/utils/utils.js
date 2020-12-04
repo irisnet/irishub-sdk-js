@@ -256,6 +256,9 @@ class Utils {
     static base64ToString(b64) {
         return Buffer.from(b64, 'base64').toString();
     }
+    static bytesToBase64(bytes) {
+        return Buffer.from(bytes).toString('base64');
+    }
     /**
      * Decode base64 encoded tags
      * @param tags

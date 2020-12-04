@@ -131,12 +131,12 @@ export declare class Staking {
     /**
      * Undelegate from a validator
      * @param validatorAddr Bech32 validator address
-     * @param amount Amount to be unbonded from the validator
+     * @param amount Amount to be undelegated from the validator
      * @param baseTx
      * @returns
      * @since v0.17
      */
-    undelegate(validatorAddr: string, amount: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    undelegate(validatorAddr: string, amount: types.Coin, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Redelegate illiquid tokens from one validator to another
      * @param validatorSrcAddr Bech32 source validator address
@@ -145,7 +145,7 @@ export declare class Staking {
      * @param baseTx
      * @since v0.17
      */
-    redelegate(validatorSrcAddr: string, validatorDstAddr: string, amount: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    redelegate(validatorSrcAddr: string, validatorDstAddr: string, amount: types.Coin, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Subscribe validator information updates
      * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }

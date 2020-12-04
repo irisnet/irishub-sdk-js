@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MsgSwapOrder = exports.MsgRemoveLiquidity = exports.MsgAddLiquidity = void 0;
-class MsgAddLiquidity {
+const types_1 = require("./types");
+class MsgAddLiquidity extends types_1.Msg {
     constructor(request, sender) {
+        super('irismod/coinswap/MsgAddLiquidity');
         const deadline = new Date();
         deadline.setTime(deadline.getTime() + request.deadline);
-        this.type = 'irismod/coinswap/MsgAddLiquidity';
         this.value = {
             max_token: request.max_token,
             exact_standard_amt: String(request.exact_standard_amt),
@@ -19,11 +20,11 @@ class MsgAddLiquidity {
     }
 }
 exports.MsgAddLiquidity = MsgAddLiquidity;
-class MsgRemoveLiquidity {
+class MsgRemoveLiquidity extends types_1.Msg {
     constructor(request, sender) {
+        super('irismod/coinswap/MsgRemoveLiquidity');
         const deadline = new Date();
         deadline.setMilliseconds(deadline.getTime() + request.deadline);
-        this.type = 'irismod/coinswap/MsgRemoveLiquidity';
         this.value = {
             min_token: String(request.min_token),
             withdraw_liquidity: request.withdraw_liquidity,
@@ -37,11 +38,11 @@ class MsgRemoveLiquidity {
     }
 }
 exports.MsgRemoveLiquidity = MsgRemoveLiquidity;
-class MsgSwapOrder {
+class MsgSwapOrder extends types_1.Msg {
     constructor(request, isBuyOrder) {
+        super('irismod/coinswap/MsgSwapOrder');
         const deadline = new Date();
         deadline.setTime(deadline.getTime() + request.deadline);
-        this.type = 'irismod/coinswap/MsgSwapOrder';
         this.value = {
             input: request.input,
             output: request.output,

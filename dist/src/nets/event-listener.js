@@ -10,15 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventListener = void 0;
-const amino_js_1 = require("@irisnet/amino-js");
-const belt_1 = require("@tendermint/belt");
 const errors_1 = require("../errors");
 const types = require("../types");
 const utils_1 = require("../utils");
 const is = require("is_js");
 const ws_client_1 = require("./ws-client");
 const types_1 = require("../types");
-const amino_js_2 = require("@irisnet/amino-js");
 /** Internal event dao for caching the events */
 class EventDAO {
     constructor() {
@@ -275,7 +272,7 @@ class EventListener {
             const txs = blockData.block.data.txs;
             const decodedTxs = new Array();
             txs.forEach(msg => {
-                decodedTxs.push(amino_js_1.unmarshalTx(belt_1.base64ToBytes(msg)));
+                decodedTxs.push(this.client.protobuf.deserializeTx(msg));
             });
             blockData.block.data.txs = decodedTxs;
         }
@@ -311,7 +308,7 @@ class EventListener {
                         type,
                         value: v.pub_key.data,
                     };
-                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(amino_js_2.marshalPubKey(valPubkey, false)), this.client.config.bech32Prefix.ConsPub);
+                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(valPubkey, false)), this.client.config.bech32Prefix.ConsPub);
                     validators.push({
                         bech32_pubkey: bech32Pubkey,
                         pub_key: valPubkey,
@@ -352,7 +349,7 @@ class EventListener {
                         type,
                         value: v.pub_key.data,
                     };
-                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(amino_js_2.marshalPubKey(valPubkey, false)), this.client.config.bech32Prefix.ConsPub);
+                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(valPubkey, false)), this.client.config.bech32Prefix.ConsPub);
                     validators.push({
                         bech32_pubkey: bech32Pubkey,
                         pub_key: valPubkey,
@@ -383,8 +380,7 @@ class EventListener {
             return;
         }
         const txResult = data.data.value.TxResult;
-        txResult.tx = amino_js_1.unmarshalTx(belt_1.base64ToBytes(txResult.tx));
-        // Decode tags from base64
+        txResult.tx = this.client.protobuf.deserializeTx(txResult.tx);
         if (txResult.result.tags) {
             const tags = txResult.result.tags;
             const decodedTags = new Array();

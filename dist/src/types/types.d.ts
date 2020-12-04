@@ -2,11 +2,34 @@
  * Base Msg
  * @hidden
  */
-export interface Msg {
+export declare class Msg {
     type: string;
     value: any;
-    getSignBytes?(): object;
-    marshal?(): Msg;
+    constructor(type: string);
+    static getModelClass(): any;
+    getModel(): any;
+    pack(): any;
+}
+export declare enum TxType {
+    MsgSend = "cosmos.bank.v1beta1.MsgSend",
+    MsgMultiSend = "cosmos.bank.v1beta1.MsgMultiSend",
+    MsgDelegate = "cosmos.staking.v1beta1.MsgDelegate",
+    MsgUndelegate = "cosmos.staking.v1beta1.MsgUndelegate",
+    MsgBeginRedelegate = "cosmos.staking.v1beta1.MsgBeginRedelegate",
+    MsgWithdrawDelegatorReward = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+    MsgSetWithdrawAddress = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
+    MsgAddLiquidity = "irismod.coinswap.MsgAddLiquidity",
+    MsgRemoveLiquidity = "irismod.coinswap.MsgRemoveLiquidity",
+    MsgSwapOrder = "irismod.coinswap.MsgSwapOrder",
+    MsgIssueDenom = "irismod.nft.MsgIssueDenom",
+    MsgTransferNFT = "irismod.nft.MsgTransferNFT",
+    MsgEditNFT = "irismod.nft.MsgEditNFT",
+    MsgMintNFT = "irismod.nft.MsgMintNFT",
+    MsgBurnNFT = "irismod.nft.MsgBurnNFT",
+    MsgIssueToken = "irismod.token.MsgIssueToken",
+    MsgEditToken = "irismod.token.MsgEditToken",
+    MsgMintToken = "irismod.token.MsgMintToken",
+    MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner"
 }
 /**
  * Base Tx

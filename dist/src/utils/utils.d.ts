@@ -103,6 +103,7 @@ export declare class Utils {
     static sha3(hex: string): string;
     static sortObject(obj: any): any;
     static base64ToString(b64: string): string;
+    static bytesToBase64(bytes: Uint8Array): string;
     /**
      * Decode base64 encoded tags
      * @param tags

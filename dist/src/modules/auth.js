@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
+const types = require("../types");
 const is = require("is_js");
 /**
  * Auth module is only used to build `StdTx`
@@ -14,7 +15,7 @@ class Auth {
         this.client = client;
         this.defaultStdFee = {
             amount: [this.client.config.fee],
-            gas: this.client.config.gas,
+            gasLimit: this.client.config.gas,
         };
     }
     /**
@@ -30,24 +31,24 @@ class Auth {
      * @returns
      * @since v0.17
      */
-    newStdTx(msgs, baseTx, sigs = [], memo = '') {
-        const stdFee = { amount: [], gas: '' };
+    newStdTx(msgs, baseTx) {
+        const stdFee = { amount: [], gasLimit: '' };
         Object.assign(stdFee, this.defaultStdFee); // Copy from default std fee
         if (baseTx.fee) {
             stdFee.amount = [baseTx.fee];
         }
         if (baseTx.gas && is.not.empty(baseTx.gas)) {
-            stdFee.gas = baseTx.gas;
+            stdFee.gasLimit = baseTx.gas;
         }
-        return {
-            type: 'cosmos-sdk/StdTx',
-            value: {
-                msg: msgs,
-                fee: stdFee,
-                signatures: sigs,
-                memo,
-            },
-        };
+        let protoTx = new types.ProtoTx({
+            msgs,
+            memo: baseTx.memo || '',
+            stdFee,
+            chain_id: this.client.config.chainId,
+            account_number: baseTx.account_number || undefined,
+            sequence: baseTx.sequence || undefined
+        });
+        return protoTx;
     }
 }
 exports.Auth = Auth;

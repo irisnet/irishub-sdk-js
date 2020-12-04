@@ -23,6 +23,13 @@ export declare class Distribution {
      */
     queryRewards(address: string): Promise<types.Rewards>;
     /**
+     * Get the address of which the delegator receives the rewards
+     * @param delegatorAddress Bech32 account address
+     * @returns
+     * @since v0.17
+     */
+    queryWithdrawAddr(delegatorAddress: string): Promise<string>;
+    /**
      * Set another address to receive the rewards instead of using the delegator address
      * @param withdrawAddress Bech32 account address
      * @param baseTx
@@ -33,10 +40,9 @@ export declare class Distribution {
     /**
      * Withdraw rewards to the withdraw-address(default to the delegator address, you can set to another address via [[setWithdrawAddr]])
      * @param baseTx { types.BaseTx }
-     * @param onlyFromValidator only withdraw from this validator address
-     * @param isValidator also withdraw validator's commission, can be set to `true` only if the `onlyFromValidator` is specified
+     * @param validatorAddr withdraw from this validator address
      * @returns { Promise<types.TxResult> }
      * @since v0.17
      */
-    withdrawRewards(baseTx: types.BaseTx, onlyFromValidator?: string, isValidator?: boolean): Promise<types.TxResult>;
+    withdrawRewards(validatorAddr: string, baseTx: types.BaseTx): Promise<types.TxResult>;
 }

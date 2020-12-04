@@ -10,8 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Distribution = void 0;
-const is = require("is_js");
-const distribution_1 = require("../types/distribution");
+const types = require("../types");
 /**
  * This module is in charge of distributing collected transaction fee and inflated token to all validators and delegators.
  * To reduce computation stress, a lazy distribution strategy is brought in. lazy means that the benefit won't be paid directly to contributors automatically.
@@ -39,6 +38,17 @@ class Distribution {
         });
     }
     /**
+     * Get the address of which the delegator receives the rewards
+     * @param delegatorAddress Bech32 account address
+     * @returns
+     * @since v0.17
+     */
+    queryWithdrawAddr(delegatorAddress) {
+        return this.client.rpcClient.abciQuery('custom/distr/withdraw_addr', {
+            delegator_address: delegatorAddress,
+        });
+    }
+    /**
      * Set another address to receive the rewards instead of using the delegator address
      * @param withdrawAddress Bech32 account address
      * @param baseTx
@@ -49,7 +59,13 @@ class Distribution {
         return __awaiter(this, void 0, void 0, function* () {
             const from = this.client.keys.show(baseTx.from);
             const msgs = [
-                new distribution_1.MsgSetWithdrawAddress(from, withdrawAddress),
+                {
+                    type: types.TxType.MsgSetWithdrawAddress,
+                    value: {
+                        delegator_address: from,
+                        withdraw_address: withdrawAddress,
+                    }
+                }
             ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
@@ -57,26 +73,22 @@ class Distribution {
     /**
      * Withdraw rewards to the withdraw-address(default to the delegator address, you can set to another address via [[setWithdrawAddr]])
      * @param baseTx { types.BaseTx }
-     * @param onlyFromValidator only withdraw from this validator address
-     * @param isValidator also withdraw validator's commission, can be set to `true` only if the `onlyFromValidator` is specified
+     * @param validatorAddr withdraw from this validator address
      * @returns { Promise<types.TxResult> }
      * @since v0.17
      */
-    withdrawRewards(baseTx, onlyFromValidator = '', isValidator = false) {
+    withdrawRewards(validatorAddr, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
-            const from = this.client.keys.show(baseTx.from);
-            let msgs;
-            if (is.not.empty(onlyFromValidator)) {
-                if (isValidator) {
-                    msgs = [new distribution_1.MsgWithdrawValidatorRewardsAll(onlyFromValidator)];
+            const delegatorAddr = this.client.keys.show(baseTx.from);
+            const msgs = [
+                {
+                    type: types.TxType.MsgWithdrawDelegatorReward,
+                    value: {
+                        delegator_address: delegatorAddr,
+                        validator_address: validatorAddr,
+                    }
                 }
-                else {
-                    msgs = [new distribution_1.MsgWithdrawDelegatorReward(from, onlyFromValidator)];
-                }
-            }
-            else {
-                msgs = [new distribution_1.MsgWithdrawDelegatorRewardsAll(from)];
-            }
+            ];
             return this.client.tx.buildAndSend(msgs, baseTx);
         });
     }

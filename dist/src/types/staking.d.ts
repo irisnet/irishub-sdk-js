@@ -75,54 +75,86 @@ export interface Redelegation {
     shares_dst: string;
 }
 /**
+ * param struct for delegate tx
+ */
+export interface DelegateTxParam {
+    delegator_address: string;
+    validator_address: string;
+    amount: Coin;
+}
+/**
+ * param struct for undelegate tx
+ */
+export interface UndelegateTxParam {
+    delegator_address: string;
+    validator_address: string;
+    amount: Coin;
+}
+/**
+ * param struct for redelegate tx
+ */
+export interface RedelegateTxParam {
+    delegator_address: string;
+    validator_src_address: string;
+    validator_dst_address: string;
+    amount: Coin;
+}
+/**
  * Msg struct for delegating to a validator
  * @hidden
  */
-export declare class MsgDelegate implements Msg {
-    type: string;
-    value: {
-        delegator_addr: string;
-        validator_addr: string;
-        delegation: Coin;
-    };
-    constructor(delegatorAddr: string, validatorAddr: string, delegation: Coin);
-    getSignBytes(): object;
+export declare class MsgDelegate extends Msg {
+    value: DelegateTxParam;
+    constructor(msg: DelegateTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
 }
 /**
  * Msg struct for undelegating from a validator
  * @hidden
  */
-export declare class MsgUndelegate implements Msg {
-    type: string;
-    value: {
-        delegator_addr: string;
-        validator_addr: string;
-        shares_amount: string;
-    };
-    constructor(delegatorAddr: string, validatorAddr: string, sharesAmount: string);
-    getSignBytes(): object;
+export declare class MsgUndelegate extends Msg {
+    value: UndelegateTxParam;
+    constructor(msg: UndelegateTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
 }
 /**
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
-export declare class MsgRedelegate implements Msg {
-    type: string;
-    value: {
-        delegator_addr: string;
-        validator_src_addr: string;
-        validator_dst_addr: string;
-        shares_amount: string;
-    };
-    constructor(delegatorAddr: string, validatorSrcAddr: string, validatorDstAddr: string, sharesAmount: string);
-    getSignBytes(): object;
+export declare class MsgRedelegate extends Msg {
+    value: RedelegateTxParam;
+    constructor(msg: RedelegateTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
 }
 /**
  * Msg struct for updating validator informations
  * @hidden
  */
-export declare class MsgEditValidator implements Msg {
-    type: string;
+export declare class MsgEditValidator extends Msg {
     value: {
         Description: ValidatorDescription;
         address: string;
