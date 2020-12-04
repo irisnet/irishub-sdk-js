@@ -76,7 +76,7 @@ export class RpcClient {
    * @returns
    * @since v0.17
    */
-  protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any/* object | string*/> {
+  protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any/* object | string | null*/> {
     const params: types.AbciQueryRequest = {
       path,
     };
@@ -102,6 +102,8 @@ export class RpcClient {
           }
         } else if (response.response.code) {
           throw new SdkError(response.response.log, response.response.code);
+        } else{
+          return null;
         }
       }
       throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
@@ -151,6 +153,8 @@ export class RpcClient {
           // return res;
         } else if (response.response.code) {
           throw new SdkError(response.response.log, response.response.code);
+        } else{
+          return null;
         }
       }
       throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
