@@ -22,26 +22,89 @@ export class Token {
 
   /**
    * Query all tokens
+   * @param owner The optional token owner address
    * @returns Token[]
    */
-  queryTokens(): Promise<types.Token[]> {
-    return this.client.rpcClient.abciQuery<types.Token[]>(
-      'custom/token/tokens',{}
-    );
+  queryTokens(owner?: string): Promise<types.Token[]> {
+    const request = new types.token_query_pb.QueryTokensRequest();
+    if(is.not.undefined(owner)){
+      request.setOwner(owner);
+    }
+    return new Promise(async (resolve)=>{
+      const res = await this.client.rpcClient.protoQuery(
+        '/irismod.token.Query/Tokens',
+        request,
+        types.token_query_pb.QueryTokensResponse
+      );
+      let deserializedData: types.Token[] = [];
+      if(res && res.tokensList && is.array(res.tokensList)){
+        deserializedData = res.tokensList.map((item: {typeUrl: string, value: string})=>{
+          return types.token_token_pb.Token.deserializeBinary(item.value).toObject()
+        })
+      }
+      resolve(deserializedData);
+    })
+
   }
 
   /**
    * Query details of a group of tokens
-   * @param owner The optional token owner address
+   * @param denom symbol of token
    * @returns
-   * @since v0.17
+   * @since
    */
-  queryToken(owner?: string): Promise<types.Token> {
-    return this.client.rpcClient.abciQuery<types.Token>(
-      'custom/token/tokens',
-      {
 
+  queryToken(denom: string): Promise<types.Token | null> {
+    if(is.undefined(denom)){
+      throw new SdkError('denom can not be empty')
+    }
+    const request = new types.token_query_pb.QueryTokenRequest();
+    request.setDenom(denom);
+    return new Promise(async (resolve)=>{
+      const res = await this.client.rpcClient.protoQuery(
+        '/irismod.token.Query/Token',
+        request,
+        types.token_query_pb.QueryTokenResponse
+      );
+      let deserializedData: types.Token | null = null;
+      if(res && res.token && res.token.value){
+        deserializedData = types.token_token_pb.Token.deserializeBinary(res.token.value).toObject()
       }
+      resolve(deserializedData);
+    })
+  }
+
+  /**
+   * Query the token related fees
+   * @param symbol The token symbol
+   * @returns
+   * @since
+   */
+  queryFees(symbol: string): Promise<types.TokenFees> {
+    if (is.undefined(symbol)) {
+      throw new SdkError('symbol can not be empty')
+    }
+    const request = new types.token_query_pb.QueryFeesRequest();
+    request.setSymbol(symbol);
+    return this.client.rpcClient.protoQuery(
+      '/irismod.token.Query/Fees',
+      request,
+      types.token_query_pb.QueryFeesResponse
+    );
+  }
+
+  /**
+   * Query parameters of token tx
+   * @param null
+   * @returns
+   * @since
+   */
+  queryParameters(): Promise<types.TokenFees> {
+    const request = new types.token_query_pb.QueryParamsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/irismod.token.Query/Params',
+      request,
+      types.token_query_pb.QueryParamsResponse
     );
   }
 
@@ -142,43 +205,5 @@ export class Token {
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
-  /**
-   * Query the token related fees
-   * @param symbol The token symbol
-   * @returns
-   * @since v0.17
-   */
-  queryFees(symbol: string): Promise<types.TokenFees> {
-    return this.client.rpcClient.abciQuery<types.TokenFees>(
-      'custom/token/fees',
-      {
-        Symbol: symbol,
-      }
-    );
-  }
 
-  /**
-   * Get coin name by denom
-   *
-   * **NOTE:** For iris units in irishub v0.17, only support `iris` and `iris-atto`
-   *
-   * @param denom
-   * @since v0.17
-   */
-  private getCoinName(denom: string): string {
-    denom = denom.toLowerCase();
-
-    if (denom === types.STD_DENOM || denom === types.IRIS_ATTO) {
-      return types.STD_DENOM;
-    }
-
-    if (
-      !denom.startsWith(types.STD_DENOM + '-') &&
-      !denom.endsWith(types.MIN_UNIT_SUFFIX)
-    ) {
-      return denom;
-    }
-
-    return denom.substr(0, denom.indexOf(types.MIN_UNIT_SUFFIX));
-  }
 }

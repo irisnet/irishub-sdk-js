@@ -18,6 +18,7 @@ export const random_tx_pb= require( './proto-types/irismod/random/tx_pb');
 export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
+export const token_token_pb = require( './proto-types/irismod/token/token_pb');
 
 /***************QUERY***************/
 //cosmos query

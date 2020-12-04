@@ -4,9 +4,9 @@ const timeout = 10000;
 
 describe('Token Tests', () => {
   test(
-    'query token',
+    'query tokens',
     async () => {
-      await BaseTest.getClient().token.queryTokens().then((res) => {
+      await BaseTest.getClient().token.queryTokens('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp').then((res) => {
         console.log(res);
       }).catch(error => {
         console.log(error);
@@ -15,12 +15,12 @@ describe('Token Tests', () => {
     timeout
   );
   test(
-    'query tokens',
+    'query token',
     async () => {
       await BaseTest.getClient()
-        .token.queryToken()
+        .token.queryToken('coin')
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -32,9 +32,23 @@ describe('Token Tests', () => {
     'query fees',
     async () => {
       await BaseTest.getClient()
-        .token.queryFees('testcoin')
+        .token.queryFees('coin')
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'query parameters',
+    async () => {
+      await BaseTest.getClient()
+        .token.queryParameters()
+        .then(res => {
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
