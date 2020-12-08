@@ -48,8 +48,10 @@ class Utils {
                 };
             }
             // If token not found in local memory, then query from the blockchain
-            return this.client.asset.queryToken(coin.denom).then(token => {
-                this.tokenMap.set(coin.denom, token);
+            return this.client.token.queryToken(coin.denom).then(token => {
+                if (token) {
+                    this.tokenMap.set(coin.denom, token);
+                }
                 return this.toMinCoin(coin);
             });
         });
@@ -91,8 +93,10 @@ class Utils {
                 };
             }
             // If token not found in local memory, then query from the blockchain
-            return this.client.asset.queryToken(coin.denom).then(token => {
-                this.tokenMap.set(coin.denom, token);
+            return this.client.token.queryToken(coin.denom).then(token => {
+                if (token) {
+                    this.tokenMap.set(coin.denom, token);
+                }
                 return this.toMainCoin(coin);
             });
         });

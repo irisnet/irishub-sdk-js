@@ -47,11 +47,12 @@ class Client {
         this.rpcClient = new rpc_client_1.RpcClient(this.config.rpcConfig);
         this.eventListener = new event_listener_1.EventListener(this);
         // Modules
-        this.asset = new modules.Asset(this);
+        this.token = new modules.Token(this);
         this.utils = new modules.Utils(this);
         this.bank = new modules.Bank(this);
         this.keys = new modules.Keys(this);
         this.tx = new modules.Tx(this);
+        this.protobuf = new modules.Protobuf(this);
         this.staking = new modules.Staking(this);
         this.gov = new modules.Gov(this);
         this.slashing = new modules.Slashing(this);
@@ -62,6 +63,7 @@ class Client {
         this.auth = new modules.Auth(this);
         this.tendermint = new modules.Tendermint(this);
         this.coinswap = new modules.Coinswap(this);
+        this.nft = new modules.Nft(this);
         // Set default encrypt/decrypt methods
         if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
             const defaultKeyDAO = new DefaultKeyDAOImpl();

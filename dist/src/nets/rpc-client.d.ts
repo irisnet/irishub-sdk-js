@@ -26,6 +26,16 @@ export declare class RpcClient {
      */
     request<T>(method: string, params?: object): Promise<T>;
     /**
+     * Tendermint ABCI protobuf Query
+     *
+     * @param path Querier path
+     * @param protoRequest protobuf Request
+     * @param protoResponse protobuf Response so if "protoResponse" exists, well deserialize "ABCI Response" with "protoResponse" and return json object, else return base64 string
+     * @returns
+     * @since v0.17
+     */
+    protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any>;
+    /**
      * Tendermint ABCI Query
      *
      * @param path Querier path

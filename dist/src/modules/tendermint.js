@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tendermint = void 0;
 const types_1 = require("../types");
-const amino_js_1 = require("@irisnet/amino-js");
-const belt_1 = require("@tendermint/belt");
 const utils_1 = require("../utils");
 const hexEncoding = require("crypto-js/enc-hex");
 const base64Encoding = require("crypto-js/enc-base64");
@@ -34,7 +32,7 @@ class Tendermint {
                 const txs = res.block.data.txs;
                 const decodedTxs = new Array();
                 txs.forEach(msg => {
-                    decodedTxs.push(amino_js_1.unmarshalTx(belt_1.base64ToBytes(msg)));
+                    decodedTxs.push(this.client.protobuf.deserializeTx(msg));
                 });
                 res.block.data.txs = decodedTxs;
             }
@@ -86,7 +84,7 @@ class Tendermint {
             .then(res => {
             // Decode tags and tx
             res.tx_result.tags = utils_1.Utils.decodeTags(res.tx_result.tags);
-            res.tx = amino_js_1.unmarshalTx(belt_1.base64ToBytes(res.tx));
+            res.tx = this.client.protobuf.deserializeTx(res.tx);
             return res;
         });
     }
@@ -108,7 +106,7 @@ class Tendermint {
             if (res.validators) {
                 res.validators.forEach((v) => {
                     const bech32Address = utils_1.Crypto.encodeAddress(v.address, this.client.config.bech32Prefix.ConsAddr);
-                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(amino_js_1.marshalPubKey(v.pub_key, false)), this.client.config.bech32Prefix.ConsPub);
+                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(v.pub_key, false)), this.client.config.bech32Prefix.ConsPub);
                     result.validators.push({
                         bech32_address: bech32Address,
                         bech32_pubkey: bech32Pubkey,
@@ -143,7 +141,7 @@ class Tendermint {
                 // Decode tags and txs
                 res.txs.forEach((tx) => {
                     tx.tx_result.tags = utils_1.Utils.decodeTags(tx.tx_result.tags);
-                    tx.tx = amino_js_1.unmarshalTx(belt_1.base64ToBytes(tx.tx));
+                    tx.tx = this.client.protobuf.deserializeTx(tx.tx);
                     txs.push(tx);
                 });
                 res.txs = txs;

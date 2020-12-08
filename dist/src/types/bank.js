@@ -1,58 +1,85 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgSetMemoRegexp = exports.MsgBurn = exports.MsgSend = void 0;
+exports.MsgMultiSend = exports.MsgSend = void 0;
+const types_1 = require("./types");
+const utils_1 = require("../utils");
+const pbs = require("./proto");
 /**
  * Msg for sending coins
  *
  * @hidden
  */
-class MsgSend {
-    constructor(inputs, outputs) {
-        this.type = 'irishub/bank/Send';
-        this.value = {
-            inputs,
-            outputs,
-        };
+class MsgSend extends types_1.Msg {
+    constructor(msg) {
+        super(types_1.TxType.MsgSend);
+        this.value = msg;
     }
-    getSignBytes() {
-        return this.value;
+    static getModelClass() {
+        return pbs.bank_tx_pb.MsgSend;
+    }
+    getModel() {
+        let msg = new (MsgSend.getModelClass())();
+        msg.setFromAddress(this.value.from_address);
+        msg.setToAddress(this.value.to_address);
+        this.value.amount.forEach((item) => {
+            msg.addAmount(utils_1.TxModelCreator.createCoinModel(item.denom, item.amount));
+        });
+        return msg;
+    }
+    validate() {
+        if (!this.value.from_address) {
+            throw new Error("from_address is  empty");
+        }
+        if (!this.value.to_address) {
+            throw new Error("to_address is  empty");
+        }
+        if (!(this.value.amount && this.value.amount.length)) {
+            throw new Error("amount is  empty");
+        }
     }
 }
 exports.MsgSend = MsgSend;
 /**
- * Msg for burning coins
+ * Msg for sending coins
  *
  * @hidden
  */
-class MsgBurn {
-    constructor(owner, coins) {
-        this.type = 'irishub/bank/Burn';
-        this.value = {
-            owner,
-            coins,
-        };
+class MsgMultiSend extends types_1.Msg {
+    constructor(msg) {
+        super(types_1.TxType.MsgMultiSend);
+        this.value = msg;
     }
-    getSignBytes() {
-        return this;
+    static getModelClass() {
+        return pbs.bank_tx_pb.MsgMultiSend;
+    }
+    getModel() {
+        let msg = new (MsgMultiSend.getModelClass())();
+        this.value.inputs.forEach((item) => {
+            let input = new pbs.bank_tx_pb.Input();
+            input.setAddress(item.address);
+            item.coins.forEach((coin) => {
+                input.addCoins(utils_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
+            });
+            msg.addInputs(input);
+        });
+        this.value.outputs.forEach((item) => {
+            let output = new pbs.bank_tx_pb.Output();
+            output.setAddress(item.address);
+            item.coins.forEach((coin) => {
+                output.addCoins(utils_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
+            });
+            msg.addOutputs(output);
+        });
+        return msg;
+    }
+    validate() {
+        if (!this.value.inputs) {
+            throw new Error("inputs is empty");
+        }
+        if (!this.value.outputs) {
+            throw new Error("outputs is  empty");
+        }
     }
 }
-exports.MsgBurn = MsgBurn;
-/**
- * Msg for setting memo regexp for an address
- *
- * @hidden
- */
-class MsgSetMemoRegexp {
-    constructor(owner, memoRegexp) {
-        this.type = 'irishub/bank/SetMemoRegexp';
-        this.value = {
-            owner,
-            memo_regexp: memoRegexp,
-        };
-    }
-    getSignBytes() {
-        return this;
-    }
-}
-exports.MsgSetMemoRegexp = MsgSetMemoRegexp;
+exports.MsgMultiSend = MsgMultiSend;
 //# sourceMappingURL=bank.js.map

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MsgVote = exports.MsgDeposit = exports.MsgSubmitCommunityTaxUsageProposal = exports.MsgSubmitPlainTextProposal = exports.MsgSubmitParameterChangeProposal = exports.VoteOption = exports.CommunityTaxUsageType = exports.ProposalType = void 0;
+const types_1 = require("./types");
 /**
  * Proposal Types
  * @hidden
@@ -38,9 +39,9 @@ var VoteOption;
  * Msg struct for submitting a ParameterChangeProposal
  * @hidden
  */
-class MsgSubmitParameterChangeProposal {
+class MsgSubmitParameterChangeProposal extends types_1.Msg {
     constructor(params) {
-        this.type = 'irishub/gov/MsgSubmitProposal';
+        super('irishub/gov/MsgSubmitProposal');
         params.proposal_type = ProposalType[ProposalType.Parameter];
         this.value = params;
     }
@@ -66,9 +67,9 @@ exports.MsgSubmitParameterChangeProposal = MsgSubmitParameterChangeProposal;
  * Msg struct for submitting a PlainTextProposal
  * @hidden
  */
-class MsgSubmitPlainTextProposal {
+class MsgSubmitPlainTextProposal extends types_1.Msg {
     constructor(params) {
-        this.type = 'irishub/gov/MsgSubmitProposal';
+        super('irishub/gov/MsgSubmitProposal');
         params.proposal_type = ProposalType[ProposalType.PlainText];
         params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
         this.value = params;
@@ -94,9 +95,9 @@ exports.MsgSubmitPlainTextProposal = MsgSubmitPlainTextProposal;
  * Msg struct for submitting a CommunityTaxUsageProposal
  * @hidden
  */
-class MsgSubmitCommunityTaxUsageProposal {
+class MsgSubmitCommunityTaxUsageProposal extends types_1.Msg {
     constructor(params) {
-        this.type = 'irishub/gov/MsgSubmitCommunityTaxUsageProposal';
+        super('irishub/gov/MsgSubmitCommunityTaxUsageProposal');
         params.proposal_type = ProposalType[ProposalType.CommunityTaxUsage];
         params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
         this.value = params;
@@ -122,9 +123,9 @@ exports.MsgSubmitCommunityTaxUsageProposal = MsgSubmitCommunityTaxUsageProposal;
  * Msg struct for depositing to an active proposal in `depositing` period
  * @hidden
  */
-class MsgDeposit {
+class MsgDeposit extends types_1.Msg {
     constructor(proposalID, depositor, amount) {
-        this.type = 'irishub/gov/MsgDeposit';
+        super('irishub/gov/MsgDeposit');
         this.value = {
             proposal_id: proposalID,
             depositor,
@@ -140,9 +141,9 @@ exports.MsgDeposit = MsgDeposit;
  * Msg struct for voting to an active proposal in `voting` period
  * @hidden
  */
-class MsgVote {
+class MsgVote extends types_1.Msg {
     constructor(proposalID, voter, option) {
-        this.type = 'irishub/gov/MsgVote';
+        super('irishub/gov/MsgVote');
         this.value = {
             proposal_id: proposalID,
             voter,

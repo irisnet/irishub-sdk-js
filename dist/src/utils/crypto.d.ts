@@ -77,6 +77,28 @@ export declare class Crypto {
      */
     static getPublicKeySecp256k1FromPrivateKey(privateKeyHex: string): types.Pubkey;
     /**
+     * Calculates the amino prefix Secp256k1 public key from a given private key.
+     * @param privateKeyHex The private key hexstring
+     * @returns Tendermint public key
+     */
+    static getAminoPrefixPublicKey(privateKeyHex: string): string;
+    /**
+     * [marshalPubKey description]
+     * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+     * @param  {[type]} lengthPrefixed:boolean length prefixed
+     * @return {[type]} Uint8Array public key with amino prefix
+     */
+    static aminoMarshalPubKey(pubKey: {
+        type: string;
+        value: string;
+    }, lengthPrefixed?: boolean): Uint8Array;
+    /**
+     * get amino prefix from public key encode type.
+     * @param public key encode type
+     * @returns UintArray
+     */
+    static getAminoPrefix(prefix: string): Uint8Array;
+    /**
      * PubKey performs the point-scalar multiplication from the privKey on the
      * generator point to get the pubkey.
      * @param privateKey
@@ -99,20 +121,19 @@ export declare class Crypto {
      */
     static getAddressFromPrivateKey(privateKeyHex: string, prefix: string): string;
     /**
-     * Generates a signature (64 byte <r,s>) for a transaction based on given private key.
-     * @param signBytesHex Unsigned transaction sign bytes hexstring.
-     * @param privateKey The private key.
-     * @returns Signature. Does not include tx.
-     */
-    static generateSignature(signBytesHex: string, privateKey: string | Buffer): Buffer;
-    /**
      * Verifies a signature (64 byte <r,s>) given the sign bytes and public key.
      * @param sigHex The signature hexstring.
      * @param signBytesHex Unsigned transaction sign bytes hexstring.
      * @param publicKeyHex The public key.
      * @returns Signature. Does not include tx.
      */
-    static verifySignature(sigHex: string, signBytesHex: string, publicKeyHex: string): string;
+    /**
+     * Generates a signature (base64 string) for a signDocSerialize based on given private key.
+     * @param signDocSerialize from protobuf and tx.
+     * @param privateKey The private key.
+     * @returns Signature. Does not include tx.
+     */
+    static generateSignature(signDocSerialize: Uint8Array, private_key: string): string;
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -152,10 +173,10 @@ export declare class Crypto {
     static getPrivateKeyFromMnemonic(mnemonic: string, derive?: boolean, index?: number, password?: string): string;
     /**
      * Generate Tx hash from stdTx
-     * @param tx
-     * @throws if the tx is invlid of unsupported tx type
+     * @param  protobuf tx :base64 string
+     * @throws tx hash
      */
-    static generateTxHash(tx: types.Tx<types.StdTx>): string;
+    static generateTxHash(tx: string): string;
     /**
      * Copy from https://github.com/sipa/bech32/blob/master/ref/javascript/segwit_addr.js
      */

@@ -1,20 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MsgWithdrawValidatorRewardsAll = exports.MsgWithdrawDelegatorReward = exports.MsgWithdrawDelegatorRewardsAll = exports.MsgSetWithdrawAddress = void 0;
+const types_1 = require("./types");
+const pbs = require("./proto");
+const is = require("is_js");
+const errors_1 = require("../errors");
 /**
  * Msg struct for changing the withdraw address for a delegator (or validator self-delegation)
  * @hidden
  */
-class MsgSetWithdrawAddress {
-    constructor(delegatorAddr, withdrawAddr) {
-        this.type = 'irishub/distr/MsgModifyWithdrawAddress';
-        this.value = {
-            delegator_addr: delegatorAddr,
-            withdraw_addr: withdrawAddr,
-        };
+class MsgSetWithdrawAddress extends types_1.Msg {
+    constructor(msg) {
+        super(types_1.TxType.MsgSetWithdrawAddress);
+        this.value = msg;
     }
-    getSignBytes() {
-        return this;
+    static getModelClass() {
+        return pbs.distribution_tx_pb.MsgSetWithdrawAddress;
+    }
+    getModel() {
+        return new (MsgSetWithdrawAddress.getModelClass())()
+            .setDelegatorAddress(this.value.delegator_address)
+            .setWithdrawAddress(this.value.withdraw_address);
+    }
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate() {
+        if (is.empty(this.value.delegator_address)) {
+            throw new errors_1.SdkError(`delegator address can not be empty`);
+        }
+        if (is.empty(this.value.withdraw_address)) {
+            throw new errors_1.SdkError(`withdraw address can not be empty`);
+        }
+        return true;
     }
 }
 exports.MsgSetWithdrawAddress = MsgSetWithdrawAddress;
@@ -22,9 +43,9 @@ exports.MsgSetWithdrawAddress = MsgSetWithdrawAddress;
  * Msg struct for delegation withdraw for all of the delegator's delegations
  * @hidden
  */
-class MsgWithdrawDelegatorRewardsAll {
+class MsgWithdrawDelegatorRewardsAll extends types_1.Msg {
     constructor(delegatorAddr) {
-        this.type = 'irishub/distr/MsgWithdrawDelegationRewardsAll';
+        super('irishub/distr/MsgWithdrawDelegationRewardsAll');
         this.value = {
             delegator_addr: delegatorAddr,
         };
@@ -38,16 +59,33 @@ exports.MsgWithdrawDelegatorRewardsAll = MsgWithdrawDelegatorRewardsAll;
  * Msg struct for delegation withdraw from a single validator
  * @hidden
  */
-class MsgWithdrawDelegatorReward {
-    constructor(delegatorAddr, validatorAddr) {
-        this.type = 'irishub/distr/MsgWithdrawDelegationReward';
-        this.value = {
-            delegator_addr: delegatorAddr,
-            validator_addr: validatorAddr,
-        };
+class MsgWithdrawDelegatorReward extends types_1.Msg {
+    constructor(msg) {
+        super(types_1.TxType.MsgWithdrawDelegatorReward);
+        this.value = msg;
     }
-    getSignBytes() {
-        return this;
+    getModel() {
+        return new (MsgWithdrawDelegatorReward.getModelClass())()
+            .setDelegatorAddress(this.value.delegator_address)
+            .setValidatorAddress(this.value.validator_address);
+    }
+    static getModelClass() {
+        return pbs.distribution_tx_pb.MsgWithdrawDelegatorReward;
+    }
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate() {
+        if (is.empty(this.value.delegator_address)) {
+            throw new errors_1.SdkError(`delegator address can not be empty`);
+        }
+        if (is.empty(this.value.validator_address)) {
+            throw new errors_1.SdkError(`validator address can not be empty`);
+        }
+        return true;
     }
 }
 exports.MsgWithdrawDelegatorReward = MsgWithdrawDelegatorReward;
@@ -55,9 +93,9 @@ exports.MsgWithdrawDelegatorReward = MsgWithdrawDelegatorReward;
  * Msg struct for validator withdraw
  * @hidden
  */
-class MsgWithdrawValidatorRewardsAll {
+class MsgWithdrawValidatorRewardsAll extends types_1.Msg {
     constructor(validatorAddr) {
-        this.type = 'irishub/distr/MsgWithdrawValidatorRewardsAll';
+        super('irishub/distr/MsgWithdrawValidatorRewardsAll');
         this.value = {
             validator_addr: validatorAddr,
         };

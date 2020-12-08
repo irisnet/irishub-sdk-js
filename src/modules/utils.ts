@@ -50,7 +50,9 @@ export class Utils {
 
     // If token not found in local memory, then query from the blockchain
     return this.client.token.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token);
+      if (token) {
+        this.tokenMap.set(coin.denom, token!);
+      }
       return this.toMinCoin(coin);
     });
   }
@@ -94,7 +96,9 @@ export class Utils {
 
     // If token not found in local memory, then query from the blockchain
     return this.client.token.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token);
+      if (token) {
+        this.tokenMap.set(coin.denom, token!);
+      }
       return this.toMainCoin(coin);
     });
   }

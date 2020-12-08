@@ -8,7 +8,7 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 }));
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-}
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./auth"), exports);
 __exportStar(require("./bank"), exports);
@@ -26,10 +26,13 @@ __exportStar(require("./service"), exports);
 __exportStar(require("./oracle"), exports);
 __exportStar(require("./random"), exports);
 __exportStar(require("./events"), exports);
-__exportStar(require("./asset"), exports);
+__exportStar(require("./token"), exports);
 __exportStar(require("./block"), exports);
 __exportStar(require("./block-result"), exports);
 __exportStar(require("./validator"), exports);
 __exportStar(require("./query-builder"), exports);
 __exportStar(require("./coinswap"), exports);
+__exportStar(require("./protoTx"), exports);
+__exportStar(require("./nft"), exports);
+__exportStar(require("./proto"), exports);
 //# sourceMappingURL=index.js.map

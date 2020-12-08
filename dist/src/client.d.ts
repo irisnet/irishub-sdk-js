@@ -14,12 +14,14 @@ export declare class Client {
     eventListener: EventListener;
     /** Auth module */
     auth: modules.Auth;
-    /** Asset module */
-    asset: modules.Asset;
+    /** Token module */
+    token: modules.Token;
     /** Bank module */
     bank: modules.Bank;
     /** Key management module */
     keys: modules.Keys;
+    /** Protobuf module */
+    protobuf: modules.Protobuf;
     /** Staking module */
     staking: modules.Staking;
     /** Tx module */
@@ -42,6 +44,8 @@ export declare class Client {
     tendermint: modules.Tendermint;
     /** Coinswap module */
     coinswap: modules.Coinswap;
+    /** NFT module */
+    nft: modules.Nft;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**

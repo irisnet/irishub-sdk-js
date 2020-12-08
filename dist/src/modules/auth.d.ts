@@ -26,5 +26,5 @@ export declare class Auth {
      * @returns
      * @since v0.17
      */
-    newStdTx(msgs: types.Msg[], baseTx: types.BaseTx, sigs?: types.StdSignature[], memo?: string): types.Tx<types.StdTx>;
+    newStdTx(msgs: types.Msg[], baseTx: types.BaseTx): types.ProtoTx;
 }
