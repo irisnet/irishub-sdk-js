@@ -63,7 +63,7 @@ export class Auth {
 
   /**
    * Account returns account details based on address.
-   * @type {[type]} address
+   * @param address defines the address to query for.
    */
   queryAccount(address:string): Promise<types.BaseAccount> {
     if (!address) {
@@ -89,8 +89,7 @@ export class Auth {
   }
 
   /**
-   * Account returns account details based on address.
-   * @type {[type]} address
+   * Params queries all parameters.
    */
   queryParams(): Promise<object> {
     const request = new types.auth_query_pb.QueryParamsRequest();

@@ -20,6 +20,7 @@ export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
 
 /***************QUERY***************/
+export const base_query_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
 //cosmos query
 export const auth_query_pb = require( './proto-types/cosmos/auth/v1beta1/query_pb');
 export const bank_query_pb = require( './proto-types/cosmos/bank/v1beta1/query_pb');

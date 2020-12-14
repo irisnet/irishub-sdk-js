@@ -188,7 +188,8 @@ export class Nft {
 
   /**
    * Supply queries the total supply of a given denom or owner
-   * @type {[type]} object
+   * @param denom_id
+   * @param owner
    */
   querySupply(denom_id?:string, owner?:string): Promise<object> {
     if (!denom_id && !owner) {
@@ -207,7 +208,8 @@ export class Nft {
 
   /**
    * Owner queries the NFTs of the specified owner
-   * @type {[type]} object
+   * @param owner
+   * @param denom_id
    */
   queryOwner(owner:string, denom_id?:string): Promise<object> {
     if (!owner) {
@@ -226,7 +228,7 @@ export class Nft {
 
   /**
    * Collection queries the NFTs of the specified denom
-   * @type {[type]} object
+   * @param denom_id
    */
   queryCollection(denom_id:string): Promise<object> {
     if (!denom_id) {
@@ -244,7 +246,7 @@ export class Nft {
 
   /**
    * Denom queries the definition of a given denom
-   * @type {[type]} object
+   * @param denom_id
    */
   queryDenom(denom_id:string): Promise<object> {
     if (!denom_id) {
@@ -262,7 +264,6 @@ export class Nft {
 
   /**
    * Denoms queries all the denoms
-   * @type {[type]} object
    */
   queryDenoms(): Promise<object> {
     const request = new types.nft_query_pb.QueryDenomsRequest();
@@ -275,7 +276,8 @@ export class Nft {
 
   /**
    * NFT queries the NFT for the given denom and token ID
-   * @type {[type]} object
+   * @param denom_id
+   * @param token_id
    */
   queryNFT(denom_id:string, token_id:string): Promise<object> {
     if (!denom_id) {
