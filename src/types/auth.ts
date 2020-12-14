@@ -24,6 +24,7 @@ export interface StdSignature {
   // sequence: string;
 }
 
+
 /** Base params for the transaction */
 export interface BaseTx {
   /** Name of the key */
@@ -64,3 +65,9 @@ export interface StdSignMsg {
   memo: string;
   msgs: object[];
 }
+
+export interface BaseAccount {
+  address:string,
+  pubKey:{key:string},
+  accountNumber:number,
+  sequence:number}
