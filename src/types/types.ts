@@ -24,17 +24,22 @@ export class Msg {
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
 
-  // unpack(msgValue:string):object{
-  //   if (!msgValue) {
-  //     throw new Error("from_address is empty");
-  //   }
-  //   let msg = this.getModelClass().deserializeBinary(Buffer.from(msgValue,'base64'));
-  //   if (msg) {
-  //     return msg.toObject();
-  //   }else{
-  //     throw new Error("unpack message fail");
-  //   }
-  // }
+  /**
+   * unpack protobuf tx message
+   * @type {[type]}
+   * returns protobuf message instance
+   */
+  unpack(msgValue:string):any{
+    if (!msgValue) {
+      throw new Error("msgValue can not be empty");
+    }
+    let msg = (this.constructor as any).getModelClass().deserializeBinary(Buffer.from(msgValue,'base64'));
+    if (msg) {
+      return msg;
+    }else{
+      throw new Error("unpack message fail");
+    }
+  }
 }
 
 export enum TxType {
@@ -45,8 +50,11 @@ export enum TxType {
   MsgDelegate ="cosmos.staking.v1beta1.MsgDelegate",
   MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
   MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
+  //distribution
   MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
   MsgSetWithdrawAddress ="cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
+  MsgWithdrawValidatorCommission = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+  MsgFundCommunityPool = "cosmos.distribution.v1beta1.MsgFundCommunityPool",
   //coinswap
   MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
   MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",

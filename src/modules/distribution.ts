@@ -1,12 +1,9 @@
 import {Client} from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
-import {
-  MsgSetWithdrawAddress,
-  MsgWithdrawValidatorRewardsAll,
-  MsgWithdrawDelegatorReward,
-  MsgWithdrawDelegatorRewardsAll,
-} from '../types/distribution';
+import { Crypto } from '../utils/crypto';
+import { SdkError } from '../errors';
+
 
 /**
  * This module is in charge of distributing collected transaction fee and inflated token to all validators and delegators.
@@ -70,6 +67,55 @@ export class Distribution {
         value: {
           delegator_address:delegatorAddr,
           validator_address:validatorAddr,
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * withdraws the full commission to the validator
+   * @param validatorAddr withdraw from this validator address
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.TxResult> }
+   * @since v0.17
+   */
+  async withdrawValidatorCommission(
+    validator_address: string,
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    if (!Crypto.checkAddress(validator_address, this.client.config.bech32Prefix.ValAddr)) {
+      throw new SdkError('Invalid bech32 address');
+    }
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgWithdrawValidatorCommission,
+        value: {
+          validator_address:validator_address,
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * fundCommunityPool allows an account to directly fund the community pool
+   * @param amount Coins to be fund
+   * @param baseTx { types.BaseTx }
+   * @returns { Promise<types.TxResult> }
+   * @since v0.17
+   */
+  async fundCommunityPool(
+    amount: types.Coin[],
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const depositor = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgFundCommunityPool,
+        value: {
+          depositor:depositor,
+          amount:amount
         }
       }
     ];

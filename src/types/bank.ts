@@ -24,7 +24,7 @@ export class MsgSend extends Msg {
   }
 
   getModel():any{
-    let msg = new (MsgSend.getModelClass())();
+    let msg = new ((this.constructor as any).getModelClass())();
     msg.setFromAddress(this.value.from_address);
     msg.setToAddress(this.value.to_address);
     this.value.amount.forEach((item)=>{
@@ -67,7 +67,7 @@ export class MsgMultiSend extends Msg {
   }
 
   getModel():any{
-    let msg = new (MsgMultiSend.getModelClass())();
+    let msg = new ((this.constructor as any).getModelClass())();
     this.value.inputs.forEach((item)=>{
       let input = new pbs.bank_tx_pb.Input();
       input.setAddress(item.address);

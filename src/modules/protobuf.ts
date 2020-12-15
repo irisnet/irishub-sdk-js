@@ -75,12 +75,21 @@ export class Protobuf {
             messageModelClass = types.MsgRedelegate.getModelClass();
             break;
         }
+        //distribution
         case types.TxType.MsgWithdrawDelegatorReward: {
             messageModelClass = types.MsgWithdrawDelegatorReward.getModelClass();
             break;
         }
         case types.TxType.MsgSetWithdrawAddress: {
             messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
+            break;
+        }
+        case types.TxType.MsgWithdrawValidatorCommission: {
+            messageModelClass = types.MsgWithdrawValidatorCommission.getModelClass();
+            break;
+        }
+        case types.TxType.MsgFundCommunityPool: {
+            messageModelClass = types.MsgFundCommunityPool.getModelClass();
             break;
         }
         //token

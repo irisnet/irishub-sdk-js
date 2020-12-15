@@ -143,6 +143,44 @@ describe('Distribution Tests', () => {
         
     });
 
+    describe('withdraw Validator Commission', () => {
+        test(
+            'withdraw Validator Commission',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .withdrawValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+    });
+
+    describe('fund Community Pool', () => {
+        test(
+            'fund Community Pool',
+            async () => {
+                const amount: types.Coin[] = [
+                    {
+                        denom: 'stake',
+                        amount: '1',
+                    },
+                ];
+                await BaseTest.getClient().distribution
+                    .fundCommunityPool(amount, BaseTest.baseTx)
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+    });
+
     describe('Set Withdraw Address', () => {
         test(
             'set withdraw address',
@@ -155,7 +193,7 @@ describe('Distribution Tests', () => {
                     .catch(error => {
                         console.log(error);
                     });
-            }
+            },999999
         );
     });
 
