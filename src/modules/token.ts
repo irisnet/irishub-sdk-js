@@ -21,6 +21,104 @@ export class Token {
   }
 
   /**
+   * issue a new token
+   * @param IssueTokenTxParam
+   * @returns
+   */
+  async issueToken(
+    token: {
+      symbol: string;
+      name: string;
+      min_unit: string;
+      scale?: number;
+      initial_supply?: number;
+      max_supply?: number;
+      mintable?: boolean;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgIssueToken,
+        value: Object.assign({owner}, token)
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * edit a token existed
+   * @param EditTokenTxParam
+   * @returns
+   */
+  async editToken(
+    token: {
+      symbol: string;
+      name?: string;
+      max_supply?: number;
+      mintable?: string;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgEditToken,
+        value: Object.assign({owner}, token)
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * mint some amount of token
+   * @param MintTokenTxParam
+   * @returns
+   */
+  async mintToken(
+    token: {
+      symbol: string;
+      amount: number;
+      owner?: string;
+      to?: string;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgMintToken,
+        value: Object.assign({owner}, token)
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * transfer owner of token
+   * @param TransferTokenOwnerTxParam
+   * @returns
+   */
+  async transferTokenOwner(
+    token: {
+      symbol: string;
+      dst_owner: string;
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const owner = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgTransferTokenOwner,
+        value: Object.assign({src_owner: owner}, token)
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+
+  /**
    * Query all tokens
    * @param owner The optional token owner address
    * @returns Token[]
@@ -107,103 +205,4 @@ export class Token {
       types.token_query_pb.QueryParamsResponse
     );
   }
-
-  /**
-   * Query issue a new token
-   * @param IssueTokenTxParam
-   * @returns
-   */
-  async issueToken(
-    token: {
-      symbol: string;
-      name: string;
-      min_unit: string;
-      scale?: number;
-      initial_supply?: number;
-      max_supply?: number;
-      mintable?: boolean;
-    },
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const owner = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgIssueToken,
-        value: Object.assign({owner}, token)
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Query edit a token existed
-   * @param EditTokenTxParam
-   * @returns
-   */
-  async editToken(
-    token: {
-      symbol: string;
-      name?: string;
-      max_supply?: number;
-      mintable?: string;
-    },
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const owner = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgEditToken,
-        value: Object.assign({owner}, token)
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Query mint some amount of token
-   * @param MintTokenTxParam
-   * @returns
-   */
-  async mintToken(
-    token: {
-      symbol: string;
-      amount: number;
-      owner?: string;
-      to?: string;
-    },
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const owner = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgMintToken,
-        value: Object.assign({owner}, token)
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Query transfer owner of token
-   * @param TransferTokenOwnerTxParam
-   * @returns
-   */
-  async transferTokenOwner(
-    token: {
-      symbol: string;
-      dst_owner: string;
-    },
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const owner = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgTransferTokenOwner,
-        value: Object.assign({src_owner: owner}, token)
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-
 }

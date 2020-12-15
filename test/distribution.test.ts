@@ -2,12 +2,12 @@ import {BaseTest} from './basetest';
 import * as types from '../src/types';
 
 describe('Distribution Tests', () => {
-    describe('Query Rewards', () => {
+    describe('Query', () => {
         test(
-            'query rewards',
+            'query Params',
             async () => {
                 await BaseTest.getClient().distribution
-                    .queryRewards('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
+                    .queryParams()
                     .then(res => {
                         console.log(JSON.stringify(res));
                     })
@@ -16,14 +16,12 @@ describe('Distribution Tests', () => {
                     });
             }
         );
-    });
 
-    describe('Query Withdraw Address', () => {
         test(
-            'query withdraw-addr',
+            'query Validator Outstanding Rewards',
             async () => {
                 await BaseTest.getClient().distribution
-                    .queryWithdrawAddr('iaa1gvq24a5vn7twjupf3l2t7pnd9l4fm7uwwm4ujp')
+                    .queryValidatorOutstandingRewards('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
                     .then(res => {
                         console.log(JSON.stringify(res));
                     })
@@ -32,17 +30,127 @@ describe('Distribution Tests', () => {
                     });
             }
         );
-    });
 
+        test(
+            'query Validator Commission',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Validator Slashes',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryValidatorSlashes(
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+
+                    )
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Delegation Rewards',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegationRewards(
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Delegation Total Rewards',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegationTotalRewards(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Delegator Validators',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegatorValidators(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Delegator Withdraw Address',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegatorWithdrawAddress(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Community Pool',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryCommunityPool()
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+        
+    });
 
     describe('Set Withdraw Address', () => {
         test(
             'set withdraw address',
             async () => {
                 await BaseTest.getClient().distribution
-                    .setWithdrawAddr('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
+                    .setWithdrawAddr('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp', BaseTest.baseTx)
                     .then(res => {
-                        console.log(res);
+                        console.log(JSON.stringify(res));
                     })
                     .catch(error => {
                         console.log(error);
@@ -58,48 +166,16 @@ describe('Distribution Tests', () => {
 
                 await BaseTest.getClient()
                     .distribution.withdrawRewards(
-                        'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
                         BaseTest.baseTx,
                     )
                     .then(res => {
-                        console.log(res);
+                        console.log(JSON.stringify(res));
                     })
                     .catch(error => {
                         console.log(error);
                     });
             }
         );
-
-        /*test(
-            'withdraw all delegation rewards',
-            async () => {
-                await BaseTest.getClient()
-                    .distribution.withdrawRewards(BaseTest.baseTx)
-                    .then(res => {
-                        console.log(JSON.stringify(res));
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-        );*/
-
-        /*test(
-            'withdraw all rewards (delegation and validator commission)',
-            async () => {
-                await BaseTest.getClient()
-                    .distribution.withdrawRewards(
-                        BaseTest.baseTx,
-                        'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een',
-                        true
-                    )
-                    .then(res => {
-                        console.log(JSON.stringify(res));
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-        );*/
     });
 });

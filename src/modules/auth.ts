@@ -60,4 +60,43 @@ export class Auth {
     });
     return protoTx;
   }
+
+  /**
+   * Account returns account details based on address.
+   * @param address defines the address to query for.
+   */
+  queryAccount(address:string): Promise<types.BaseAccount> {
+    if (!address) {
+      throw new Error("address can ont be empty");
+    }
+    const request = new types.auth_query_pb.QueryAccountRequest();
+    request.setAddress(address);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.auth.v1beta1.Query/Account',
+      request,
+      types.auth_query_pb.QueryAccountResponse
+    ).then((data)=>{
+      let result:any = {};
+      if (data && data.account && data.account.value) {
+        result = types.auth_auth_pb.BaseAccount.deserializeBinary(data.account.value).toObject();
+        if (result.pubKey && result.pubKey.value) {
+          result.pubKey = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(result.pubKey.value).toObject();
+        }
+      }
+      return result as types.BaseAccount;
+    });
+  }
+
+  /**
+   * Params queries all parameters.
+   */
+  queryParams(): Promise<object> {
+    const request = new types.auth_query_pb.QueryParamsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.auth.v1beta1.Query/Params',
+      request,
+      types.auth_query_pb.QueryParamsResponse
+    );
+  }
 }

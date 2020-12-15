@@ -10,8 +10,8 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'ubif',
-            amount: '10000000',
+            denom: 'stake',
+            amount: '1',
           },
         ];
 
