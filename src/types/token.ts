@@ -82,7 +82,7 @@ export class MsgIssueToken extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgIssueToken.getModelClass())()
+    const msg = new ((this.constructor as any).getModelClass())()
       .setSymbol(this.value.symbol)
       .setName(this.value.name)
       .setMinUnit(this.value.min_unit)
@@ -146,7 +146,7 @@ export class MsgEditToken extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgEditToken.getModelClass())()
+    const msg = new ((this.constructor as any).getModelClass())()
       .setSymbol(this.value.symbol)
       .setOwner(this.value.owner);
     if (is.not.undefined(this.value.name)) {
@@ -198,7 +198,7 @@ export class MsgMintToken extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgMintToken.getModelClass())()
+    const msg = new ((this.constructor as any).getModelClass())()
       .setSymbol(this.value.symbol)
       .setAmount(this.value.amount)
       .setOwner(this.value.owner);
@@ -247,7 +247,7 @@ export class MsgTransferTokenOwner extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgTransferTokenOwner.getModelClass())()
+    const msg = new ((this.constructor as any).getModelClass())()
       .setSymbol(this.value.symbol)
       .setSrcOwner(this.value.src_owner)
       .setDstOwner(this.value.dst_owner);

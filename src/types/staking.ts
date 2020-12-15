@@ -134,7 +134,7 @@ export class MsgDelegate extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgDelegate.getModelClass())();
+    const msg = new ((this.constructor as any).getModelClass())();
     msg.setDelegatorAddress(this.value.delegator_address)
       .setValidatorAddress(this.value.validator_address)
       .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
@@ -177,7 +177,7 @@ export class MsgUndelegate extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgUndelegate.getModelClass())();
+    const msg = new ((this.constructor as any).getModelClass())();
     msg.setDelegatorAddress(this.value.delegator_address)
       .setValidatorAddress(this.value.validator_address)
       .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
@@ -220,7 +220,7 @@ export class MsgRedelegate extends Msg {
   }
 
   getModel(): any {
-    const msg = new (MsgRedelegate.getModelClass())();
+    const msg = new ((this.constructor as any).getModelClass())();
     msg.setDelegatorAddress(this.value.delegator_address)
       .setValidatorSrcAddress(this.value.validator_src_address)
       .setValidatorDstAddress(this.value.validator_dst_address)
