@@ -18,9 +18,9 @@ export const random_tx_pb= require( './proto-types/irismod/random/tx_pb');
 export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
-export const token_token_pb = require( './proto-types/irismod/token/token_pb');
 
 /***************QUERY***************/
+export const base_query_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
 //cosmos query
 export const auth_query_pb = require( './proto-types/cosmos/auth/v1beta1/query_pb');
 export const bank_query_pb = require( './proto-types/cosmos/bank/v1beta1/query_pb');
@@ -42,3 +42,12 @@ export const random_query_pb = require( './proto-types/irismod/random/query_pb')
 export const record_query_pb = require( './proto-types/irismod/record/query_pb');
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
 export const token_query_pb = require( './proto-types/irismod/token/query_pb');
+
+/***************MODULES***************/
+//cosmos module
+export const auth_auth_pb = require( './proto-types/cosmos/auth/v1beta1/auth_pb');
+export const crypto_secp256k1_keys_pb = require( './proto-types/cosmos/crypto/secp256k1/keys_pb');
+
+//irimod module
+export const token_token_pb = require( './proto-types/irismod/token/token_pb');
+

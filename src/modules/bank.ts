@@ -28,9 +28,9 @@ export class Bank {
    * @returns
    * @since v0.17
    */
-  queryAccount(address: string): Promise<types.BaseAccount> {
+  queryAccount(address: string): Promise<types.Account> {
     return Promise.all([
-      this.client.rpcClient.abciQuery<types.BaseAccount>(
+      this.client.rpcClient.abciQuery<types.Account>(
       'custom/auth/account',
       {
         address: address,
@@ -116,9 +116,16 @@ export class Bank {
 
   /**
    * Balance queries the balance of a single coin for a single account.
-   * @type {[type]} object
+   * @param address is the address to query balances for.
+   * @param denom is the coin denom to query balances for.
    */
   queryBalance(address:string, denom:string): Promise<object> {
+    if (!address) {
+      throw new Error("address can ont be empty");
+    }
+    if (!denom) {
+      throw new Error("denom can ont be empty");
+    }
     const request = new types.bank_query_pb.QueryBalanceRequest();
     request.setAddress(address);
     request.setDenom(denom);
@@ -132,9 +139,12 @@ export class Bank {
 
   /**
    * AllBalances queries the balance of all coins for a single account.
-   * @type {[type]} object
+   * @param address is the address to query balances for.
    */
   queryAllBalances(address:string): Promise<object> {
+    if (!address) {
+      throw new Error("address can ont be empty");
+    }
     const request = new types.bank_query_pb.QueryAllBalancesRequest();
     request.setAddress(address);
 
@@ -147,7 +157,6 @@ export class Bank {
 
   /**
    * TotalSupply queries the total supply of all coins.
-   * @type {[type]} object
    */
   queryTotalSupply(): Promise<object> {
     const request = new types.bank_query_pb.QueryTotalSupplyRequest();
@@ -160,9 +169,12 @@ export class Bank {
 
   /**
    * SupplyOf queries the supply of a single coin.
-   * @type {[type]} object
+   * @param denom is the coin denom to query balances for.
    */
   querySupplyOf(denom:string): Promise<object> {
+    if (!denom) {
+      throw new Error("denom can ont be empty");
+    }
     const request = new types.bank_query_pb.QuerySupplyOfRequest();
     request.setDenom(denom);
     return this.client.rpcClient.protoQuery(
@@ -174,7 +186,6 @@ export class Bank {
 
   /**
    * Params queries the parameters of x/bank module.
-   * @type {[type]} object
    */
   queryParams(): Promise<object> {
     const request = new types.bank_query_pb.QueryParamsRequest();
