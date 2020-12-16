@@ -16,8 +16,6 @@ var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
-var tendermint_libs_bits_types_pb = require('../../tendermint/libs/bits/types_pb.js');
-goog.object.extend(proto, tendermint_libs_bits_types_pb);
 var tendermint_crypto_proof_pb = require('../../tendermint/crypto/proof_pb.js');
 goog.object.extend(proto, tendermint_crypto_proof_pb);
 var tendermint_version_types_pb = require('../../tendermint/version/types_pb.js');
@@ -1774,8 +1772,7 @@ proto.tendermint.types.Data.prototype.toObject = function(opt_includeInstance) {
  */
 proto.tendermint.types.Data.toObject = function(includeInstance, msg) {
   var f, obj = {
-    txsList: msg.getTxsList_asB64(),
-    hash: msg.getHash_asB64()
+    txsList: msg.getTxsList_asB64()
   };
 
   if (includeInstance) {
@@ -1816,10 +1813,6 @@ proto.tendermint.types.Data.deserializeBinaryFromReader = function(msg, reader) 
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.addTxs(value);
       break;
-    case 2:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setHash(value);
-      break;
     default:
       reader.skipField();
       break;
@@ -1853,13 +1846,6 @@ proto.tendermint.types.Data.serializeBinaryToWriter = function(message, writer) 
   if (f.length > 0) {
     writer.writeRepeatedBytes(
       1,
-      f
-    );
-  }
-  f = message.getHash_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      2,
       f
     );
   }
@@ -1924,48 +1910,6 @@ proto.tendermint.types.Data.prototype.addTxs = function(value, opt_index) {
  */
 proto.tendermint.types.Data.prototype.clearTxsList = function() {
   return this.setTxsList([]);
-};
-
-
-/**
- * optional bytes hash = 2;
- * @return {!(string|Uint8Array)}
- */
-proto.tendermint.types.Data.prototype.getHash = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * optional bytes hash = 2;
- * This is a type-conversion wrapper around `getHash()`
- * @return {string}
- */
-proto.tendermint.types.Data.prototype.getHash_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getHash()));
-};
-
-
-/**
- * optional bytes hash = 2;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getHash()`
- * @return {!Uint8Array}
- */
-proto.tendermint.types.Data.prototype.getHash_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getHash()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
- * @return {!proto.tendermint.types.Data} returns this
- */
-proto.tendermint.types.Data.prototype.setHash = function(value) {
-  return jspb.Message.setProto3BytesField(this, 2, value);
 };
 
 
@@ -2442,9 +2386,7 @@ proto.tendermint.types.Commit.toObject = function(includeInstance, msg) {
     round: jspb.Message.getFieldWithDefault(msg, 2, 0),
     blockId: (f = msg.getBlockId()) && proto.tendermint.types.BlockID.toObject(includeInstance, f),
     signaturesList: jspb.Message.toObjectList(msg.getSignaturesList(),
-    proto.tendermint.types.CommitSig.toObject, includeInstance),
-    hash: msg.getHash_asB64(),
-    bitArray: (f = msg.getBitArray()) && tendermint_libs_bits_types_pb.BitArray.toObject(includeInstance, f)
+    proto.tendermint.types.CommitSig.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -2498,15 +2440,6 @@ proto.tendermint.types.Commit.deserializeBinaryFromReader = function(msg, reader
       var value = new proto.tendermint.types.CommitSig;
       reader.readMessage(value,proto.tendermint.types.CommitSig.deserializeBinaryFromReader);
       msg.addSignatures(value);
-      break;
-    case 5:
-      var value = /** @type {!Uint8Array} */ (reader.readBytes());
-      msg.setHash(value);
-      break;
-    case 6:
-      var value = new tendermint_libs_bits_types_pb.BitArray;
-      reader.readMessage(value,tendermint_libs_bits_types_pb.BitArray.deserializeBinaryFromReader);
-      msg.setBitArray(value);
       break;
     default:
       reader.skipField();
@@ -2565,21 +2498,6 @@ proto.tendermint.types.Commit.serializeBinaryToWriter = function(message, writer
       4,
       f,
       proto.tendermint.types.CommitSig.serializeBinaryToWriter
-    );
-  }
-  f = message.getHash_asU8();
-  if (f.length > 0) {
-    writer.writeBytes(
-      5,
-      f
-    );
-  }
-  f = message.getBitArray();
-  if (f != null) {
-    writer.writeMessage(
-      6,
-      f,
-      tendermint_libs_bits_types_pb.BitArray.serializeBinaryToWriter
     );
   }
 };
@@ -2693,85 +2611,6 @@ proto.tendermint.types.Commit.prototype.addSignatures = function(opt_value, opt_
  */
 proto.tendermint.types.Commit.prototype.clearSignaturesList = function() {
   return this.setSignaturesList([]);
-};
-
-
-/**
- * optional bytes hash = 5;
- * @return {!(string|Uint8Array)}
- */
-proto.tendermint.types.Commit.prototype.getHash = function() {
-  return /** @type {!(string|Uint8Array)} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
-};
-
-
-/**
- * optional bytes hash = 5;
- * This is a type-conversion wrapper around `getHash()`
- * @return {string}
- */
-proto.tendermint.types.Commit.prototype.getHash_asB64 = function() {
-  return /** @type {string} */ (jspb.Message.bytesAsB64(
-      this.getHash()));
-};
-
-
-/**
- * optional bytes hash = 5;
- * Note that Uint8Array is not supported on all browsers.
- * @see http://caniuse.com/Uint8Array
- * This is a type-conversion wrapper around `getHash()`
- * @return {!Uint8Array}
- */
-proto.tendermint.types.Commit.prototype.getHash_asU8 = function() {
-  return /** @type {!Uint8Array} */ (jspb.Message.bytesAsU8(
-      this.getHash()));
-};
-
-
-/**
- * @param {!(string|Uint8Array)} value
- * @return {!proto.tendermint.types.Commit} returns this
- */
-proto.tendermint.types.Commit.prototype.setHash = function(value) {
-  return jspb.Message.setProto3BytesField(this, 5, value);
-};
-
-
-/**
- * optional tendermint.libs.bits.BitArray bit_array = 6;
- * @return {?proto.tendermint.libs.bits.BitArray}
- */
-proto.tendermint.types.Commit.prototype.getBitArray = function() {
-  return /** @type{?proto.tendermint.libs.bits.BitArray} */ (
-    jspb.Message.getWrapperField(this, tendermint_libs_bits_types_pb.BitArray, 6));
-};
-
-
-/**
- * @param {?proto.tendermint.libs.bits.BitArray|undefined} value
- * @return {!proto.tendermint.types.Commit} returns this
-*/
-proto.tendermint.types.Commit.prototype.setBitArray = function(value) {
-  return jspb.Message.setWrapperField(this, 6, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.tendermint.types.Commit} returns this
- */
-proto.tendermint.types.Commit.prototype.clearBitArray = function() {
-  return this.setBitArray(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.tendermint.types.Commit.prototype.hasBitArray = function() {
-  return jspb.Message.getField(this, 6) != null;
 };
 
 

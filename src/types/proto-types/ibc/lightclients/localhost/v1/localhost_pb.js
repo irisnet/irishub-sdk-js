@@ -70,8 +70,7 @@ proto.ibc.lightclients.localhost.v1.ClientState.prototype.toObject = function(op
  */
 proto.ibc.lightclients.localhost.v1.ClientState.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    chainId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    chainId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     height: (f = msg.getHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f)
   };
 
@@ -111,13 +110,9 @@ proto.ibc.lightclients.localhost.v1.ClientState.deserializeBinaryFromReader = fu
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setId(value);
-      break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
       msg.setChainId(value);
       break;
-    case 3:
+    case 2:
       var value = new ibc_core_client_v1_client_pb.Height;
       reader.readMessage(value,ibc_core_client_v1_client_pb.Height.deserializeBinaryFromReader);
       msg.setHeight(value);
@@ -151,24 +146,17 @@ proto.ibc.lightclients.localhost.v1.ClientState.prototype.serializeBinary = func
  */
 proto.ibc.lightclients.localhost.v1.ClientState.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getId();
+  f = message.getChainId();
   if (f.length > 0) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getChainId();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
   f = message.getHeight();
   if (f != null) {
     writer.writeMessage(
-      3,
+      2,
       f,
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
@@ -177,10 +165,10 @@ proto.ibc.lightclients.localhost.v1.ClientState.serializeBinaryToWriter = functi
 
 
 /**
- * optional string id = 1;
+ * optional string chain_id = 1;
  * @return {string}
  */
-proto.ibc.lightclients.localhost.v1.ClientState.prototype.getId = function() {
+proto.ibc.lightclients.localhost.v1.ClientState.prototype.getChainId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -189,36 +177,18 @@ proto.ibc.lightclients.localhost.v1.ClientState.prototype.getId = function() {
  * @param {string} value
  * @return {!proto.ibc.lightclients.localhost.v1.ClientState} returns this
  */
-proto.ibc.lightclients.localhost.v1.ClientState.prototype.setId = function(value) {
+proto.ibc.lightclients.localhost.v1.ClientState.prototype.setChainId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
 
 /**
- * optional string chain_id = 2;
- * @return {string}
- */
-proto.ibc.lightclients.localhost.v1.ClientState.prototype.getChainId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.lightclients.localhost.v1.ClientState} returns this
- */
-proto.ibc.lightclients.localhost.v1.ClientState.prototype.setChainId = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional ibc.core.client.v1.Height height = 3;
+ * optional ibc.core.client.v1.Height height = 2;
  * @return {?proto.ibc.core.client.v1.Height}
  */
 proto.ibc.lightclients.localhost.v1.ClientState.prototype.getHeight = function() {
   return /** @type{?proto.ibc.core.client.v1.Height} */ (
-    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 3));
+    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 2));
 };
 
 
@@ -227,7 +197,7 @@ proto.ibc.lightclients.localhost.v1.ClientState.prototype.getHeight = function()
  * @return {!proto.ibc.lightclients.localhost.v1.ClientState} returns this
 */
 proto.ibc.lightclients.localhost.v1.ClientState.prototype.setHeight = function(value) {
-  return jspb.Message.setWrapperField(this, 3, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
@@ -245,7 +215,7 @@ proto.ibc.lightclients.localhost.v1.ClientState.prototype.clearHeight = function
  * @return {boolean}
  */
 proto.ibc.lightclients.localhost.v1.ClientState.prototype.hasHeight = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

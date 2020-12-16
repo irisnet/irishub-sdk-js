@@ -80,7 +80,8 @@ proto.ibc.core.connection.v1.GenesisState.toObject = function(includeInstance, m
     connectionsList: jspb.Message.toObjectList(msg.getConnectionsList(),
     ibc_core_connection_v1_connection_pb.IdentifiedConnection.toObject, includeInstance),
     clientConnectionPathsList: jspb.Message.toObjectList(msg.getClientConnectionPathsList(),
-    ibc_core_connection_v1_connection_pb.ConnectionPaths.toObject, includeInstance)
+    ibc_core_connection_v1_connection_pb.ConnectionPaths.toObject, includeInstance),
+    nextConnectionSequence: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -127,6 +128,10 @@ proto.ibc.core.connection.v1.GenesisState.deserializeBinaryFromReader = function
       reader.readMessage(value,ibc_core_connection_v1_connection_pb.ConnectionPaths.deserializeBinaryFromReader);
       msg.addClientConnectionPaths(value);
       break;
+    case 3:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setNextConnectionSequence(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -170,6 +175,13 @@ proto.ibc.core.connection.v1.GenesisState.serializeBinaryToWriter = function(mes
       2,
       f,
       ibc_core_connection_v1_connection_pb.ConnectionPaths.serializeBinaryToWriter
+    );
+  }
+  f = message.getNextConnectionSequence();
+  if (f !== 0) {
+    writer.writeUint64(
+      3,
+      f
     );
   }
 };
@@ -248,6 +260,24 @@ proto.ibc.core.connection.v1.GenesisState.prototype.addClientConnectionPaths = f
  */
 proto.ibc.core.connection.v1.GenesisState.prototype.clearClientConnectionPathsList = function() {
   return this.setClientConnectionPathsList([]);
+};
+
+
+/**
+ * optional uint64 next_connection_sequence = 3;
+ * @return {number}
+ */
+proto.ibc.core.connection.v1.GenesisState.prototype.getNextConnectionSequence = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.ibc.core.connection.v1.GenesisState} returns this
+ */
+proto.ibc.core.connection.v1.GenesisState.prototype.setNextConnectionSequence = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
