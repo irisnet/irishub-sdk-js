@@ -54,7 +54,7 @@ describe('Distribution Tests', () => {
 
                     )
                     .then(res => {
-                        console.log(JSON.stringify(res));
+                        console.log(res);
                     })
                     .catch(error => {
                         console.log(error);
@@ -87,7 +87,7 @@ describe('Distribution Tests', () => {
                         'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
                     )
                     .then(res => {
-                        console.log(JSON.stringify(res));
+                        console.log(res);
                     })
                     .catch(error => {
                         console.log(error);

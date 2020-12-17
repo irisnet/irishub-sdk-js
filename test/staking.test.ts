@@ -1,26 +1,15 @@
 import { BaseTest } from './basetest';
-import * as types from '../src/types';
 
 describe('Staking Tests', () => {
   describe('Query', () => {
     test('query delegation', async () => {
       await BaseTest.getClient()
         .staking.queryDelegation(
-          'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
+          'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
         )
         .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-    test('query delegations of a delegator', async () => {
-      await BaseTest.getClient()
-        .staking.queryDelegations('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
-        .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -29,11 +18,23 @@ describe('Staking Tests', () => {
     test('query unbonding delegation', async () => {
       await BaseTest.getClient()
         .staking.queryUnbondingDelegation(
-          'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-          'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een'
+          'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+          'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+    test('query delegations of a delegator', async () => {
+      await BaseTest.getClient()
+        .staking.queryDelegations({
+          delegator_addr:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
+        })
+        .then(res => {
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -41,97 +42,72 @@ describe('Staking Tests', () => {
     });
     test('query unbonding delegations of a delegator', async () => {
       await BaseTest.getClient()
-        .staking.queryUnbondingDelegations(
-          'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7'
+        .staking.queryDelegatorUnbondingDelegations(
+          {
+            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+          }
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     });
-    test('query redelegation', async () => {
+    test('query redelegation', async () => {//TODO(lsc) there is only one node in current blockchain net, redelegate tx can not work properly
       await BaseTest.getClient()
         .staking.queryRedelegation(
-          'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e',
-          'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een'
+          {
+            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            /*src_validator_addr:'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+            dst_validator_addr:'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',*/
+          }
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     });
-    test('query redelegations of a delegator', async () => {
+    test('query all validators info for given delegator', async () => {
       await BaseTest.getClient()
-        .staking.queryRedelegations(
-          'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7'
+        .staking.queryDelegatorValidators(
+          {
+            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+          }
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     });
-    test('query delegations to a validator', async () => {
+    test('queries validator info for given delegator validator', async () => {
       await BaseTest.getClient()
-        .staking.queryDelegationsTo(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
+        .staking.queryDelegatorValidator(
+          {
+            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+          }
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     });
-
-    test('query unbonding delegations from a validator', async () => {
+    test('queries the historical info for given height', async () => {//TODO(lsc) what can this api do?
       await BaseTest.getClient()
-        .staking.queryUnbondingDelegationsFrom(
-          'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een'
+        .staking.queryHistoricalInfo(
+          {
+            height:1000,
+          }
         )
         .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-
-    test('query redelegations from a validator', async () => {
-      await BaseTest.getClient()
-        .staking.queryRedelegationsFrom(
-          'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
-        )
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-
-    test('query a validator', async () => {
-      await BaseTest.getClient()
-        .staking.queryValidator('iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0')
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-
-    test('query all validators', async () => {
-      await BaseTest.getClient()
-        .staking.queryValidators(1)
-        .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -142,7 +118,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryPool()
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -153,24 +129,81 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryParams()
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
         });
     });
+    test('query delegations to a validator', async () => {
+      await BaseTest.getClient()
+        .staking.queryValidatorDelegations(
+          {
+            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
+          }
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query undelegating delegations from a validator', async () => {
+      await BaseTest.getClient()
+        .staking.queryValidatorUnbondingDelegations(
+          {
+            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
+          }
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+    test('query a validator', async () => {
+      await BaseTest.getClient()
+        .staking.queryValidator('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query all validators', async () => {
+      await BaseTest.getClient()
+        .staking.queryValidators({
+          page:1,
+          size:100,
+          count_total:true,
+          //status:'Bonded',
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+
   });
 
   describe('Delegate', () => {
     test('delegate', async () => {
       await BaseTest.getClient()
         .staking.delegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           { denom: 'ubif', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -181,12 +214,12 @@ describe('Staking Tests', () => {
     test('unbond', async () => {
       await BaseTest.getClient()
         .staking.undelegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
               { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
@@ -197,13 +230,13 @@ describe('Staking Tests', () => {
     test('redelegate', async () => {
       await BaseTest.getClient()
         .staking.redelegate(
-          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
-          'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
+          'iva1736ypcrmwvurylfprfgmjwr625c6ycdv8uyjlp',
               { denom: 'ubif', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
