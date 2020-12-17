@@ -15,6 +15,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+    
     test('query unbonding delegation', async () => {
       await BaseTest.getClient()
         .staking.queryUnbondingDelegation(
@@ -28,6 +29,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query delegations of a delegator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegations({
@@ -40,6 +42,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query unbonding delegations of a delegator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegatorUnbondingDelegations(
@@ -54,6 +57,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query redelegation', async () => {//TODO(lsc) there is only one node in current blockchain net, redelegate tx can not work properly
       await BaseTest.getClient()
         .staking.queryRedelegation(
@@ -70,6 +74,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query all validators info for given delegator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegatorValidators(
@@ -84,6 +89,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('queries validator info for given delegator validator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegatorValidator(
@@ -99,6 +105,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('queries the historical info for given height', async () => {//TODO(lsc) what can this api do?
       await BaseTest.getClient()
         .staking.queryHistoricalInfo(
@@ -135,6 +142,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query delegations to a validator', async () => {
       await BaseTest.getClient()
         .staking.queryValidatorDelegations(
@@ -164,6 +172,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
     test('query a validator', async () => {
       await BaseTest.getClient()
         .staking.queryValidator('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
@@ -190,8 +199,6 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
-
-
   });
 
   describe('Delegate', () => {

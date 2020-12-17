@@ -4,7 +4,7 @@ import {SdkError} from '../errors';
 import {EventQueryBuilder, EventKey, EventAction} from '../types';
 import {Utils, Crypto} from '../utils';
 import * as is from 'is_js';
-import {createPaginationModel} from "../helper/modelCreateHelper";
+import { ModelCreator } from "../helper";
 
 /**
  * This module provides staking functionalities for validators and delegators
@@ -21,6 +21,90 @@ export class Staking {
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
+  }
+
+  /**
+   * Delegate liquid tokens to an validator
+   *
+   * @param validatorAddr Bech32 validator address
+   * @param amount Amount to be delegated to the validator
+   * @param baseTx
+   * @returns
+   * @since v0.17
+   */
+  delegate(
+    validatorAddr: string,
+    amount: types.Coin,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgDelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Undelegate from a validator
+   * @param validatorAddr Bech32 validator address
+   * @param amount Amount to be undelegated from the validator
+   * @param baseTx
+   * @returns
+   * @since v0.17
+   */
+  async undelegate(
+    validatorAddr: string,
+    amount: types.Coin,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgUndelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Redelegate illiquid tokens from one validator to another
+   * @param validatorSrcAddr Bech32 source validator address
+   * @param validatorDstAddr Bech32 destination validator address
+   * @param amount Amount to be redelegated
+   * @param baseTx
+   * @since v0.17
+   */
+  async redelegate(
+    validatorSrcAddr: string,
+    validatorDstAddr: string,
+    amount: types.Coin,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgBeginRedelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_src_address: validatorSrcAddr,
+          validator_dst_address: validatorDstAddr,
+          amount
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
@@ -76,9 +160,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryDelegatorDelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorDelegations',
       request,
@@ -139,9 +221,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations',
       request,
@@ -175,9 +255,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryRedelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     if (is.not.undefined(src_validator_addr)) {
       request.setSrcValidatorAddr(src_validator_addr)
     }
@@ -214,9 +292,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryDelegatorValidatorsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorValidators',
       request,
@@ -304,9 +380,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryValidatorDelegationsRequest()
       .setValidatorAddr(validator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/ValidatorDelegations',
       request,
@@ -337,9 +411,7 @@ export class Staking {
     }
     const request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest()
       .setValidatorAddr(validator_addr)
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/ValidatorUnbondingDelegations',
       request,
@@ -363,7 +435,13 @@ export class Staking {
       '/cosmos.staking.v1beta1.Query/Validator',
       request,
       types.staking_query_pb.QueryValidatorResponse
-    );
+    ).then(res=>{
+      let result = {...res};
+      if (res.validator && res.validator.consensusPubkey && res.validator.consensusPubkey.value) {
+        result.validator.consensusPubkey = this.client.protobuf.deserializePubkey(res.validator.consensusPubkey);
+      }
+      return result;
+    });
   }
 
   /**
@@ -384,9 +462,7 @@ export class Staking {
   ): Promise<types.Validator[]> {
     const {key, page, size, count_total, status} = query;
     const request = new types.staking_query_pb.QueryValidatorsRequest()
-      .setPagination(createPaginationModel({
-        key, page, size, count_total
-      }));
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
     if (is.not.undefined(status)) {
       request.setStatus(status);
     }
@@ -394,7 +470,18 @@ export class Staking {
       '/cosmos.staking.v1beta1.Query/Validators',
       request,
       types.staking_query_pb.QueryValidatorsResponse
-    );
+    ).then(res=>{
+      let result:any = {...res};
+      if (res.validatorsList && res.validatorsList.length) {
+          result.validatorsList = res.validatorsList.map((val:any)=>{
+            if (val.consensusPubkey && val.consensusPubkey.value) {
+              val.consensusPubkey = this.client.protobuf.deserializePubkey(val.consensusPubkey);
+            }
+            return val;
+          });
+      }
+      return result;
+    });
   }
 
   /**
@@ -423,90 +510,6 @@ export class Staking {
       request,
       types.staking_query_pb.QueryParamsResponse
     );
-  }
-
-  /**
-   * Delegate liquid tokens to an validator
-   *
-   * @param validatorAddr Bech32 validator address
-   * @param amount Amount to be delegated to the validator
-   * @param baseTx
-   * @returns
-   * @since v0.17
-   */
-  delegate(
-    validatorAddr: string,
-    amount: types.Coin,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const delegatorAddr = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgDelegate,
-        value: {
-          delegator_address: delegatorAddr,
-          validator_address: validatorAddr,
-          amount
-        }
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Undelegate from a validator
-   * @param validatorAddr Bech32 validator address
-   * @param amount Amount to be undelegated from the validator
-   * @param baseTx
-   * @returns
-   * @since v0.17
-   */
-  async undelegate(
-    validatorAddr: string,
-    amount: types.Coin,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const delegatorAddr = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgUndelegate,
-        value: {
-          delegator_address: delegatorAddr,
-          validator_address: validatorAddr,
-          amount
-        }
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Redelegate illiquid tokens from one validator to another
-   * @param validatorSrcAddr Bech32 source validator address
-   * @param validatorDstAddr Bech32 destination validator address
-   * @param amount Amount to be redelegated
-   * @param baseTx
-   * @since v0.17
-   */
-  async redelegate(
-    validatorSrcAddr: string,
-    validatorDstAddr: string,
-    amount: types.Coin,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const delegatorAddr = this.client.keys.show(baseTx.from);
-    const msgs: any[] = [
-      {
-        type: types.TxType.MsgBeginRedelegate,
-        value: {
-          delegator_address: delegatorAddr,
-          validator_src_address: validatorSrcAddr,
-          validator_dst_address: validatorDstAddr,
-          amount
-        }
-      }
-    ];
-    return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**

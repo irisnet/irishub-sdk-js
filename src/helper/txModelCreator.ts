@@ -90,15 +90,4 @@ export class TxModelCreator {
         msg_any.setValue(value);
         return msg_any;
     }
-
-    static createPageRequest(
-        pageNumber:number = 1,
-        pageSize:number = 10,
-        countTotal:boolean = false):any{
-        const pagination = new types.base_query_pagination_pb.PageRequest();
-        pagination.setOffset((pageNumber - 1) * pageSize > 0 ? (pageNumber - 1) * pageSize : 0);
-        pagination.setLimit(pageSize > 0 ? pageSize : 10);
-        pagination.setCountTotal(countTotal);
-        return pagination;
-    }
 }

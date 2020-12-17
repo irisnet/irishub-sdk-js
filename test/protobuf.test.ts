@@ -49,4 +49,17 @@ describe('protobuf Tests', () => {
       console.log('signingInfo:',signingInfo);
     }
   );  
+
+  test(
+    'deserialize Signing Info',
+    async () => {
+      let pubKey_proto = {
+              "typeUrl":"/cosmos.crypto.ed25519.PubKey",
+              "value":"CiAXbTnFxwWEocyc0QcXC0cvMNWM9oYYG5Kc7TBHw6YS+g=="
+          };
+      let pubKey = BaseTest.getClient().protobuf.deserializePubkey(pubKey_proto);
+      console.log('pubKey:',pubKey);
+    }
+  ); 
+
 });

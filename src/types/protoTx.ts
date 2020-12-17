@@ -1,5 +1,5 @@
 'use strict';
-import { TxModelCreator } from '../utils';
+import { TxModelCreator } from '../helper';
 import * as types from '../types';
 
 const Sha256 = require('sha256');
