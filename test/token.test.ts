@@ -6,7 +6,7 @@ describe('Token Tests', () => {
   test(
     'query tokens',
     async () => {
-      await BaseTest.getClient().token.queryTokens('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp').then((res) => {
+      await BaseTest.getClient().token.queryTokens('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw').then((res) => {
         console.log(res);
       }).catch(error => {
         console.log(error);
@@ -61,16 +61,16 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.issueToken({
-          symbol: 'aaab',
-          name: 'cccd',
-          scale: 4,
-          min_unit: 'eeef',
+          symbol: 'BTC',
+          name: 'test',
+          scale: 6,
+          min_unit: 'btc',
           initial_supply: 1000000,
           max_supply: 10000000,
           mintable: true,
         }, BaseTest.baseTx)
         .then(res => {
-          console.log(JSON.stringify(res));
+          console.log(res);
         })
         .catch(error => {
           console.log(error);
