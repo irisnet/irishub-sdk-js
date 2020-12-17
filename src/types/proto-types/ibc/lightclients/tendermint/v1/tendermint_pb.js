@@ -16,8 +16,6 @@ var tendermint_types_validator_pb = require('../../../../tendermint/types/valida
 goog.object.extend(proto, tendermint_types_validator_pb);
 var tendermint_types_types_pb = require('../../../../tendermint/types/types_pb.js');
 goog.object.extend(proto, tendermint_types_types_pb);
-var tendermint_abci_types_pb = require('../../../../tendermint/abci/types_pb.js');
-goog.object.extend(proto, tendermint_abci_types_pb);
 var confio_proofs_pb = require('../../../../confio/proofs_pb.js');
 goog.object.extend(proto, confio_proofs_pb);
 var google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
@@ -146,7 +144,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.ibc.lightclients.tendermint.v1.ClientState.repeatedFields_ = [9];
+proto.ibc.lightclients.tendermint.v1.ClientState.repeatedFields_ = [8,9];
 
 
 
@@ -186,12 +184,11 @@ proto.ibc.lightclients.tendermint.v1.ClientState.toObject = function(includeInst
     maxClockDrift: (f = msg.getMaxClockDrift()) && google_protobuf_duration_pb.Duration.toObject(includeInstance, f),
     frozenHeight: (f = msg.getFrozenHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f),
     latestHeight: (f = msg.getLatestHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f),
-    consensusParams: (f = msg.getConsensusParams()) && tendermint_abci_types_pb.ConsensusParams.toObject(includeInstance, f),
     proofSpecsList: jspb.Message.toObjectList(msg.getProofSpecsList(),
     confio_proofs_pb.ProofSpec.toObject, includeInstance),
-    upgradePath: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    allowUpdateAfterExpiry: jspb.Message.getBooleanFieldWithDefault(msg, 11, false),
-    allowUpdateAfterMisbehaviour: jspb.Message.getBooleanFieldWithDefault(msg, 12, false)
+    upgradePathList: (f = jspb.Message.getRepeatedField(msg, 9)) == null ? undefined : f,
+    allowUpdateAfterExpiry: jspb.Message.getBooleanFieldWithDefault(msg, 10, false),
+    allowUpdateAfterMisbehaviour: jspb.Message.getBooleanFieldWithDefault(msg, 11, false)
   };
 
   if (includeInstance) {
@@ -263,24 +260,19 @@ proto.ibc.lightclients.tendermint.v1.ClientState.deserializeBinaryFromReader = f
       msg.setLatestHeight(value);
       break;
     case 8:
-      var value = new tendermint_abci_types_pb.ConsensusParams;
-      reader.readMessage(value,tendermint_abci_types_pb.ConsensusParams.deserializeBinaryFromReader);
-      msg.setConsensusParams(value);
-      break;
-    case 9:
       var value = new confio_proofs_pb.ProofSpec;
       reader.readMessage(value,confio_proofs_pb.ProofSpec.deserializeBinaryFromReader);
       msg.addProofSpecs(value);
       break;
-    case 10:
+    case 9:
       var value = /** @type {string} */ (reader.readString());
-      msg.setUpgradePath(value);
+      msg.addUpgradePath(value);
       break;
-    case 11:
+    case 10:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setAllowUpdateAfterExpiry(value);
       break;
-    case 12:
+    case 11:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setAllowUpdateAfterMisbehaviour(value);
       break;
@@ -368,40 +360,32 @@ proto.ibc.lightclients.tendermint.v1.ClientState.serializeBinaryToWriter = funct
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
   }
-  f = message.getConsensusParams();
-  if (f != null) {
-    writer.writeMessage(
-      8,
-      f,
-      tendermint_abci_types_pb.ConsensusParams.serializeBinaryToWriter
-    );
-  }
   f = message.getProofSpecsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
-      9,
+      8,
       f,
       confio_proofs_pb.ProofSpec.serializeBinaryToWriter
     );
   }
-  f = message.getUpgradePath();
+  f = message.getUpgradePathList();
   if (f.length > 0) {
-    writer.writeString(
-      10,
+    writer.writeRepeatedString(
+      9,
       f
     );
   }
   f = message.getAllowUpdateAfterExpiry();
   if (f) {
     writer.writeBool(
-      11,
+      10,
       f
     );
   }
   f = message.getAllowUpdateAfterMisbehaviour();
   if (f) {
     writer.writeBool(
-      12,
+      11,
       f
     );
   }
@@ -649,49 +633,12 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.hasLatestHeight = fun
 
 
 /**
- * optional tendermint.abci.ConsensusParams consensus_params = 8;
- * @return {?proto.tendermint.abci.ConsensusParams}
- */
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getConsensusParams = function() {
-  return /** @type{?proto.tendermint.abci.ConsensusParams} */ (
-    jspb.Message.getWrapperField(this, tendermint_abci_types_pb.ConsensusParams, 8));
-};
-
-
-/**
- * @param {?proto.tendermint.abci.ConsensusParams|undefined} value
- * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
-*/
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setConsensusParams = function(value) {
-  return jspb.Message.setWrapperField(this, 8, value);
-};
-
-
-/**
- * Clears the message field making it undefined.
- * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
- */
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.clearConsensusParams = function() {
-  return this.setConsensusParams(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.hasConsensusParams = function() {
-  return jspb.Message.getField(this, 8) != null;
-};
-
-
-/**
- * repeated ics23.ProofSpec proof_specs = 9;
+ * repeated ics23.ProofSpec proof_specs = 8;
  * @return {!Array<!proto.ics23.ProofSpec>}
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getProofSpecsList = function() {
   return /** @type{!Array<!proto.ics23.ProofSpec>} */ (
-    jspb.Message.getRepeatedWrapperField(this, confio_proofs_pb.ProofSpec, 9));
+    jspb.Message.getRepeatedWrapperField(this, confio_proofs_pb.ProofSpec, 8));
 };
 
 
@@ -700,7 +647,7 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getProofSpecsList = f
  * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
 */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setProofSpecsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 9, value);
+  return jspb.Message.setRepeatedWrapperField(this, 8, value);
 };
 
 
@@ -710,7 +657,7 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setProofSpecsList = f
  * @return {!proto.ics23.ProofSpec}
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.addProofSpecs = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 9, opt_value, proto.ics23.ProofSpec, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 8, opt_value, proto.ics23.ProofSpec, opt_index);
 };
 
 
@@ -724,29 +671,48 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.clearProofSpecsList =
 
 
 /**
- * optional string upgrade_path = 10;
- * @return {string}
+ * repeated string upgrade_path = 9;
+ * @return {!Array<string>}
  */
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getUpgradePath = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getUpgradePathList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 9));
+};
+
+
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
+ */
+proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setUpgradePathList = function(value) {
+  return jspb.Message.setField(this, 9, value || []);
 };
 
 
 /**
  * @param {string} value
+ * @param {number=} opt_index
  * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
  */
-proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setUpgradePath = function(value) {
-  return jspb.Message.setProto3StringField(this, 10, value);
+proto.ibc.lightclients.tendermint.v1.ClientState.prototype.addUpgradePath = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 9, value, opt_index);
 };
 
 
 /**
- * optional bool allow_update_after_expiry = 11;
+ * Clears the list making it empty but non-null.
+ * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
+ */
+proto.ibc.lightclients.tendermint.v1.ClientState.prototype.clearUpgradePathList = function() {
+  return this.setUpgradePathList([]);
+};
+
+
+/**
+ * optional bool allow_update_after_expiry = 10;
  * @return {boolean}
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getAllowUpdateAfterExpiry = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 11, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 10, false));
 };
 
 
@@ -755,16 +721,16 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getAllowUpdateAfterEx
  * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setAllowUpdateAfterExpiry = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 11, value);
+  return jspb.Message.setProto3BooleanField(this, 10, value);
 };
 
 
 /**
- * optional bool allow_update_after_misbehaviour = 12;
+ * optional bool allow_update_after_misbehaviour = 11;
  * @return {boolean}
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getAllowUpdateAfterMisbehaviour = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 12, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 11, false));
 };
 
 
@@ -773,7 +739,7 @@ proto.ibc.lightclients.tendermint.v1.ClientState.prototype.getAllowUpdateAfterMi
  * @return {!proto.ibc.lightclients.tendermint.v1.ClientState} returns this
  */
 proto.ibc.lightclients.tendermint.v1.ClientState.prototype.setAllowUpdateAfterMisbehaviour = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 12, value);
+  return jspb.Message.setProto3BooleanField(this, 11, value);
 };
 
 
@@ -1066,7 +1032,6 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.toObject = function(
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.toObject = function(includeInstance, msg) {
   var f, obj = {
     clientId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    chainId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     header1: (f = msg.getHeader1()) && proto.ibc.lightclients.tendermint.v1.Header.toObject(includeInstance, f),
     header2: (f = msg.getHeader2()) && proto.ibc.lightclients.tendermint.v1.Header.toObject(includeInstance, f)
   };
@@ -1110,15 +1075,11 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.deserializeBinaryFromReader = 
       msg.setClientId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setChainId(value);
-      break;
-    case 3:
       var value = new proto.ibc.lightclients.tendermint.v1.Header;
       reader.readMessage(value,proto.ibc.lightclients.tendermint.v1.Header.deserializeBinaryFromReader);
       msg.setHeader1(value);
       break;
-    case 4:
+    case 3:
       var value = new proto.ibc.lightclients.tendermint.v1.Header;
       reader.readMessage(value,proto.ibc.lightclients.tendermint.v1.Header.deserializeBinaryFromReader);
       msg.setHeader2(value);
@@ -1159,17 +1120,10 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.serializeBinaryToWriter = func
       f
     );
   }
-  f = message.getChainId();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
-    );
-  }
   f = message.getHeader1();
   if (f != null) {
     writer.writeMessage(
-      3,
+      2,
       f,
       proto.ibc.lightclients.tendermint.v1.Header.serializeBinaryToWriter
     );
@@ -1177,7 +1131,7 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.serializeBinaryToWriter = func
   f = message.getHeader2();
   if (f != null) {
     writer.writeMessage(
-      4,
+      3,
       f,
       proto.ibc.lightclients.tendermint.v1.Header.serializeBinaryToWriter
     );
@@ -1204,30 +1158,12 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.setClientId = functi
 
 
 /**
- * optional string chain_id = 2;
- * @return {string}
- */
-proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.getChainId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.lightclients.tendermint.v1.Misbehaviour} returns this
- */
-proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.setChainId = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
-};
-
-
-/**
- * optional Header header_1 = 3;
+ * optional Header header_1 = 2;
  * @return {?proto.ibc.lightclients.tendermint.v1.Header}
  */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.getHeader1 = function() {
   return /** @type{?proto.ibc.lightclients.tendermint.v1.Header} */ (
-    jspb.Message.getWrapperField(this, proto.ibc.lightclients.tendermint.v1.Header, 3));
+    jspb.Message.getWrapperField(this, proto.ibc.lightclients.tendermint.v1.Header, 2));
 };
 
 
@@ -1236,7 +1172,7 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.getHeader1 = functio
  * @return {!proto.ibc.lightclients.tendermint.v1.Misbehaviour} returns this
 */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.setHeader1 = function(value) {
-  return jspb.Message.setWrapperField(this, 3, value);
+  return jspb.Message.setWrapperField(this, 2, value);
 };
 
 
@@ -1254,17 +1190,17 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.clearHeader1 = funct
  * @return {boolean}
  */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.hasHeader1 = function() {
-  return jspb.Message.getField(this, 3) != null;
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
 /**
- * optional Header header_2 = 4;
+ * optional Header header_2 = 3;
  * @return {?proto.ibc.lightclients.tendermint.v1.Header}
  */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.getHeader2 = function() {
   return /** @type{?proto.ibc.lightclients.tendermint.v1.Header} */ (
-    jspb.Message.getWrapperField(this, proto.ibc.lightclients.tendermint.v1.Header, 4));
+    jspb.Message.getWrapperField(this, proto.ibc.lightclients.tendermint.v1.Header, 3));
 };
 
 
@@ -1273,7 +1209,7 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.getHeader2 = functio
  * @return {!proto.ibc.lightclients.tendermint.v1.Misbehaviour} returns this
 */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.setHeader2 = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
@@ -1291,7 +1227,7 @@ proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.clearHeader2 = funct
  * @return {boolean}
  */
 proto.ibc.lightclients.tendermint.v1.Misbehaviour.prototype.hasHeader2 = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1670,11 +1606,11 @@ proto.ibc.lightclients.tendermint.v1.Fraction.deserializeBinaryFromReader = func
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {number} */ (reader.readUint64());
       msg.setNumerator(value);
       break;
     case 2:
-      var value = /** @type {number} */ (reader.readInt64());
+      var value = /** @type {number} */ (reader.readUint64());
       msg.setDenominator(value);
       break;
     default:
@@ -1708,14 +1644,14 @@ proto.ibc.lightclients.tendermint.v1.Fraction.serializeBinaryToWriter = function
   var f = undefined;
   f = message.getNumerator();
   if (f !== 0) {
-    writer.writeInt64(
+    writer.writeUint64(
       1,
       f
     );
   }
   f = message.getDenominator();
   if (f !== 0) {
-    writer.writeInt64(
+    writer.writeUint64(
       2,
       f
     );
@@ -1724,7 +1660,7 @@ proto.ibc.lightclients.tendermint.v1.Fraction.serializeBinaryToWriter = function
 
 
 /**
- * optional int64 numerator = 1;
+ * optional uint64 numerator = 1;
  * @return {number}
  */
 proto.ibc.lightclients.tendermint.v1.Fraction.prototype.getNumerator = function() {
@@ -1742,7 +1678,7 @@ proto.ibc.lightclients.tendermint.v1.Fraction.prototype.setNumerator = function(
 
 
 /**
- * optional int64 denominator = 2;
+ * optional uint64 denominator = 2;
  * @return {number}
  */
 proto.ibc.lightclients.tendermint.v1.Fraction.prototype.getDenominator = function() {

@@ -14,14 +14,19 @@ var global = Function('return this')();
 
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
-var tendermint_types_types_pb = require('../../../tendermint/types/types_pb.js');
-goog.object.extend(proto, tendermint_types_types_pb);
-var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
-goog.object.extend(proto, google_protobuf_timestamp_pb);
+var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
+goog.object.extend(proto, google_protobuf_any_pb);
 var google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
 goog.object.extend(proto, google_protobuf_duration_pb);
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
+goog.object.extend(proto, google_protobuf_timestamp_pb);
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
+goog.object.extend(proto, cosmos_proto_cosmos_pb);
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
+var tendermint_types_types_pb = require('../../../tendermint/types/types_pb.js');
+goog.object.extend(proto, tendermint_types_types_pb);
+goog.exportSymbol('proto.cosmos.staking.v1beta1.BondStatus', null, global);
 goog.exportSymbol('proto.cosmos.staking.v1beta1.Commission', null, global);
 goog.exportSymbol('proto.cosmos.staking.v1beta1.CommissionRates', null, global);
 goog.exportSymbol('proto.cosmos.staking.v1beta1.DVPair', null, global);
@@ -1348,7 +1353,7 @@ proto.cosmos.staking.v1beta1.Validator.prototype.toObject = function(opt_include
 proto.cosmos.staking.v1beta1.Validator.toObject = function(includeInstance, msg) {
   var f, obj = {
     operatorAddress: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    consensusPubkey: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    consensusPubkey: (f = msg.getConsensusPubkey()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
     jailed: jspb.Message.getBooleanFieldWithDefault(msg, 3, false),
     status: jspb.Message.getFieldWithDefault(msg, 4, 0),
     tokens: jspb.Message.getFieldWithDefault(msg, 5, ""),
@@ -1399,7 +1404,8 @@ proto.cosmos.staking.v1beta1.Validator.deserializeBinaryFromReader = function(ms
       msg.setOperatorAddress(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new google_protobuf_any_pb.Any;
+      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
       msg.setConsensusPubkey(value);
       break;
     case 3:
@@ -1407,7 +1413,7 @@ proto.cosmos.staking.v1beta1.Validator.deserializeBinaryFromReader = function(ms
       msg.setJailed(value);
       break;
     case 4:
-      var value = /** @type {number} */ (reader.readInt32());
+      var value = /** @type {!proto.cosmos.staking.v1beta1.BondStatus} */ (reader.readEnum());
       msg.setStatus(value);
       break;
     case 5:
@@ -1478,10 +1484,11 @@ proto.cosmos.staking.v1beta1.Validator.serializeBinaryToWriter = function(messag
     );
   }
   f = message.getConsensusPubkey();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       2,
-      f
+      f,
+      google_protobuf_any_pb.Any.serializeBinaryToWriter
     );
   }
   f = message.getJailed();
@@ -1492,8 +1499,8 @@ proto.cosmos.staking.v1beta1.Validator.serializeBinaryToWriter = function(messag
     );
   }
   f = message.getStatus();
-  if (f !== 0) {
-    writer.writeInt32(
+  if (f !== 0.0) {
+    writer.writeEnum(
       4,
       f
     );
@@ -1572,20 +1579,39 @@ proto.cosmos.staking.v1beta1.Validator.prototype.setOperatorAddress = function(v
 
 
 /**
- * optional string consensus_pubkey = 2;
- * @return {string}
+ * optional google.protobuf.Any consensus_pubkey = 2;
+ * @return {?proto.google.protobuf.Any}
  */
 proto.cosmos.staking.v1beta1.Validator.prototype.getConsensusPubkey = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type{?proto.google.protobuf.Any} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_any_pb.Any, 2));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.google.protobuf.Any|undefined} value
+ * @return {!proto.cosmos.staking.v1beta1.Validator} returns this
+*/
+proto.cosmos.staking.v1beta1.Validator.prototype.setConsensusPubkey = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.cosmos.staking.v1beta1.Validator} returns this
  */
-proto.cosmos.staking.v1beta1.Validator.prototype.setConsensusPubkey = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+proto.cosmos.staking.v1beta1.Validator.prototype.clearConsensusPubkey = function() {
+  return this.setConsensusPubkey(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.cosmos.staking.v1beta1.Validator.prototype.hasConsensusPubkey = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -1608,20 +1634,20 @@ proto.cosmos.staking.v1beta1.Validator.prototype.setJailed = function(value) {
 
 
 /**
- * optional int32 status = 4;
- * @return {number}
+ * optional BondStatus status = 4;
+ * @return {!proto.cosmos.staking.v1beta1.BondStatus}
  */
 proto.cosmos.staking.v1beta1.Validator.prototype.getStatus = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+  return /** @type {!proto.cosmos.staking.v1beta1.BondStatus} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
 /**
- * @param {number} value
+ * @param {!proto.cosmos.staking.v1beta1.BondStatus} value
  * @return {!proto.cosmos.staking.v1beta1.Validator} returns this
  */
 proto.cosmos.staking.v1beta1.Validator.prototype.setStatus = function(value) {
-  return jspb.Message.setProto3IntField(this, 4, value);
+  return jspb.Message.setProto3EnumField(this, 4, value);
 };
 
 
@@ -4800,5 +4826,15 @@ proto.cosmos.staking.v1beta1.Pool.prototype.setBondedTokens = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.cosmos.staking.v1beta1.BondStatus = {
+  BOND_STATUS_UNSPECIFIED: 0,
+  BOND_STATUS_UNBONDED: 1,
+  BOND_STATUS_UNBONDING: 2,
+  BOND_STATUS_BONDED: 3
+};
 
 goog.object.extend(exports, proto.cosmos.staking.v1beta1);

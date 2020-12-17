@@ -403,5 +403,85 @@ proto.ibc.core.client.v1.QueryPromiseClient.prototype.consensusStates =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.client.v1.QueryClientParamsRequest,
+ *   !proto.ibc.core.client.v1.QueryClientParamsResponse>}
+ */
+const methodDescriptor_Query_ClientParams = new grpc.web.MethodDescriptor(
+  '/ibc.core.client.v1.Query/ClientParams',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.client.v1.QueryClientParamsRequest,
+  proto.ibc.core.client.v1.QueryClientParamsResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryClientParamsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryClientParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.client.v1.QueryClientParamsRequest,
+ *   !proto.ibc.core.client.v1.QueryClientParamsResponse>}
+ */
+const methodInfo_Query_ClientParams = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.client.v1.QueryClientParamsResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryClientParamsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryClientParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryClientParamsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.client.v1.QueryClientParamsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.client.v1.QueryClientParamsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.client.v1.QueryClient.prototype.clientParams =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/ClientParams',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ClientParams,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryClientParamsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.client.v1.QueryClientParamsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.client.v1.QueryPromiseClient.prototype.clientParams =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/ClientParams',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ClientParams);
+};
+
+
 module.exports = proto.ibc.core.client.v1;
 

@@ -66,7 +66,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.ibc.core.channel.v1.GenesisState.repeatedFields_ = [1,2,3,4,5,6];
+proto.ibc.core.channel.v1.GenesisState.repeatedFields_ = [1,2,3,4,5,6,7];
 
 
 
@@ -102,15 +102,18 @@ proto.ibc.core.channel.v1.GenesisState.toObject = function(includeInstance, msg)
     channelsList: jspb.Message.toObjectList(msg.getChannelsList(),
     ibc_core_channel_v1_channel_pb.IdentifiedChannel.toObject, includeInstance),
     acknowledgementsList: jspb.Message.toObjectList(msg.getAcknowledgementsList(),
-    ibc_core_channel_v1_channel_pb.PacketAckCommitment.toObject, includeInstance),
+    ibc_core_channel_v1_channel_pb.PacketState.toObject, includeInstance),
     commitmentsList: jspb.Message.toObjectList(msg.getCommitmentsList(),
-    ibc_core_channel_v1_channel_pb.PacketAckCommitment.toObject, includeInstance),
+    ibc_core_channel_v1_channel_pb.PacketState.toObject, includeInstance),
+    receiptsList: jspb.Message.toObjectList(msg.getReceiptsList(),
+    ibc_core_channel_v1_channel_pb.PacketState.toObject, includeInstance),
     sendSequencesList: jspb.Message.toObjectList(msg.getSendSequencesList(),
     proto.ibc.core.channel.v1.PacketSequence.toObject, includeInstance),
     recvSequencesList: jspb.Message.toObjectList(msg.getRecvSequencesList(),
     proto.ibc.core.channel.v1.PacketSequence.toObject, includeInstance),
     ackSequencesList: jspb.Message.toObjectList(msg.getAckSequencesList(),
-    proto.ibc.core.channel.v1.PacketSequence.toObject, includeInstance)
+    proto.ibc.core.channel.v1.PacketSequence.toObject, includeInstance),
+    nextChannelSequence: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -153,29 +156,38 @@ proto.ibc.core.channel.v1.GenesisState.deserializeBinaryFromReader = function(ms
       msg.addChannels(value);
       break;
     case 2:
-      var value = new ibc_core_channel_v1_channel_pb.PacketAckCommitment;
-      reader.readMessage(value,ibc_core_channel_v1_channel_pb.PacketAckCommitment.deserializeBinaryFromReader);
+      var value = new ibc_core_channel_v1_channel_pb.PacketState;
+      reader.readMessage(value,ibc_core_channel_v1_channel_pb.PacketState.deserializeBinaryFromReader);
       msg.addAcknowledgements(value);
       break;
     case 3:
-      var value = new ibc_core_channel_v1_channel_pb.PacketAckCommitment;
-      reader.readMessage(value,ibc_core_channel_v1_channel_pb.PacketAckCommitment.deserializeBinaryFromReader);
+      var value = new ibc_core_channel_v1_channel_pb.PacketState;
+      reader.readMessage(value,ibc_core_channel_v1_channel_pb.PacketState.deserializeBinaryFromReader);
       msg.addCommitments(value);
       break;
     case 4:
-      var value = new proto.ibc.core.channel.v1.PacketSequence;
-      reader.readMessage(value,proto.ibc.core.channel.v1.PacketSequence.deserializeBinaryFromReader);
-      msg.addSendSequences(value);
+      var value = new ibc_core_channel_v1_channel_pb.PacketState;
+      reader.readMessage(value,ibc_core_channel_v1_channel_pb.PacketState.deserializeBinaryFromReader);
+      msg.addReceipts(value);
       break;
     case 5:
       var value = new proto.ibc.core.channel.v1.PacketSequence;
       reader.readMessage(value,proto.ibc.core.channel.v1.PacketSequence.deserializeBinaryFromReader);
-      msg.addRecvSequences(value);
+      msg.addSendSequences(value);
       break;
     case 6:
       var value = new proto.ibc.core.channel.v1.PacketSequence;
       reader.readMessage(value,proto.ibc.core.channel.v1.PacketSequence.deserializeBinaryFromReader);
+      msg.addRecvSequences(value);
+      break;
+    case 7:
+      var value = new proto.ibc.core.channel.v1.PacketSequence;
+      reader.readMessage(value,proto.ibc.core.channel.v1.PacketSequence.deserializeBinaryFromReader);
       msg.addAckSequences(value);
+      break;
+    case 8:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setNextChannelSequence(value);
       break;
     default:
       reader.skipField();
@@ -219,7 +231,7 @@ proto.ibc.core.channel.v1.GenesisState.serializeBinaryToWriter = function(messag
     writer.writeRepeatedMessage(
       2,
       f,
-      ibc_core_channel_v1_channel_pb.PacketAckCommitment.serializeBinaryToWriter
+      ibc_core_channel_v1_channel_pb.PacketState.serializeBinaryToWriter
     );
   }
   f = message.getCommitmentsList();
@@ -227,18 +239,18 @@ proto.ibc.core.channel.v1.GenesisState.serializeBinaryToWriter = function(messag
     writer.writeRepeatedMessage(
       3,
       f,
-      ibc_core_channel_v1_channel_pb.PacketAckCommitment.serializeBinaryToWriter
+      ibc_core_channel_v1_channel_pb.PacketState.serializeBinaryToWriter
     );
   }
-  f = message.getSendSequencesList();
+  f = message.getReceiptsList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       4,
       f,
-      proto.ibc.core.channel.v1.PacketSequence.serializeBinaryToWriter
+      ibc_core_channel_v1_channel_pb.PacketState.serializeBinaryToWriter
     );
   }
-  f = message.getRecvSequencesList();
+  f = message.getSendSequencesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       5,
@@ -246,12 +258,27 @@ proto.ibc.core.channel.v1.GenesisState.serializeBinaryToWriter = function(messag
       proto.ibc.core.channel.v1.PacketSequence.serializeBinaryToWriter
     );
   }
-  f = message.getAckSequencesList();
+  f = message.getRecvSequencesList();
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       6,
       f,
       proto.ibc.core.channel.v1.PacketSequence.serializeBinaryToWriter
+    );
+  }
+  f = message.getAckSequencesList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      7,
+      f,
+      proto.ibc.core.channel.v1.PacketSequence.serializeBinaryToWriter
+    );
+  }
+  f = message.getNextChannelSequence();
+  if (f !== 0) {
+    writer.writeUint64(
+      8,
+      f
     );
   }
 };
@@ -296,17 +323,17 @@ proto.ibc.core.channel.v1.GenesisState.prototype.clearChannelsList = function() 
 
 
 /**
- * repeated PacketAckCommitment acknowledgements = 2;
- * @return {!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>}
+ * repeated PacketState acknowledgements = 2;
+ * @return {!Array<!proto.ibc.core.channel.v1.PacketState>}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.getAcknowledgementsList = function() {
-  return /** @type{!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>} */ (
-    jspb.Message.getRepeatedWrapperField(this, ibc_core_channel_v1_channel_pb.PacketAckCommitment, 2));
+  return /** @type{!Array<!proto.ibc.core.channel.v1.PacketState>} */ (
+    jspb.Message.getRepeatedWrapperField(this, ibc_core_channel_v1_channel_pb.PacketState, 2));
 };
 
 
 /**
- * @param {!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>} value
+ * @param {!Array<!proto.ibc.core.channel.v1.PacketState>} value
  * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
 */
 proto.ibc.core.channel.v1.GenesisState.prototype.setAcknowledgementsList = function(value) {
@@ -315,12 +342,12 @@ proto.ibc.core.channel.v1.GenesisState.prototype.setAcknowledgementsList = funct
 
 
 /**
- * @param {!proto.ibc.core.channel.v1.PacketAckCommitment=} opt_value
+ * @param {!proto.ibc.core.channel.v1.PacketState=} opt_value
  * @param {number=} opt_index
- * @return {!proto.ibc.core.channel.v1.PacketAckCommitment}
+ * @return {!proto.ibc.core.channel.v1.PacketState}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.addAcknowledgements = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.ibc.core.channel.v1.PacketAckCommitment, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.ibc.core.channel.v1.PacketState, opt_index);
 };
 
 
@@ -334,17 +361,17 @@ proto.ibc.core.channel.v1.GenesisState.prototype.clearAcknowledgementsList = fun
 
 
 /**
- * repeated PacketAckCommitment commitments = 3;
- * @return {!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>}
+ * repeated PacketState commitments = 3;
+ * @return {!Array<!proto.ibc.core.channel.v1.PacketState>}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.getCommitmentsList = function() {
-  return /** @type{!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>} */ (
-    jspb.Message.getRepeatedWrapperField(this, ibc_core_channel_v1_channel_pb.PacketAckCommitment, 3));
+  return /** @type{!Array<!proto.ibc.core.channel.v1.PacketState>} */ (
+    jspb.Message.getRepeatedWrapperField(this, ibc_core_channel_v1_channel_pb.PacketState, 3));
 };
 
 
 /**
- * @param {!Array<!proto.ibc.core.channel.v1.PacketAckCommitment>} value
+ * @param {!Array<!proto.ibc.core.channel.v1.PacketState>} value
  * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
 */
 proto.ibc.core.channel.v1.GenesisState.prototype.setCommitmentsList = function(value) {
@@ -353,12 +380,12 @@ proto.ibc.core.channel.v1.GenesisState.prototype.setCommitmentsList = function(v
 
 
 /**
- * @param {!proto.ibc.core.channel.v1.PacketAckCommitment=} opt_value
+ * @param {!proto.ibc.core.channel.v1.PacketState=} opt_value
  * @param {number=} opt_index
- * @return {!proto.ibc.core.channel.v1.PacketAckCommitment}
+ * @return {!proto.ibc.core.channel.v1.PacketState}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.addCommitments = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.ibc.core.channel.v1.PacketAckCommitment, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.ibc.core.channel.v1.PacketState, opt_index);
 };
 
 
@@ -372,12 +399,50 @@ proto.ibc.core.channel.v1.GenesisState.prototype.clearCommitmentsList = function
 
 
 /**
- * repeated PacketSequence send_sequences = 4;
+ * repeated PacketState receipts = 4;
+ * @return {!Array<!proto.ibc.core.channel.v1.PacketState>}
+ */
+proto.ibc.core.channel.v1.GenesisState.prototype.getReceiptsList = function() {
+  return /** @type{!Array<!proto.ibc.core.channel.v1.PacketState>} */ (
+    jspb.Message.getRepeatedWrapperField(this, ibc_core_channel_v1_channel_pb.PacketState, 4));
+};
+
+
+/**
+ * @param {!Array<!proto.ibc.core.channel.v1.PacketState>} value
+ * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
+*/
+proto.ibc.core.channel.v1.GenesisState.prototype.setReceiptsList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 4, value);
+};
+
+
+/**
+ * @param {!proto.ibc.core.channel.v1.PacketState=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.ibc.core.channel.v1.PacketState}
+ */
+proto.ibc.core.channel.v1.GenesisState.prototype.addReceipts = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.ibc.core.channel.v1.PacketState, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
+ */
+proto.ibc.core.channel.v1.GenesisState.prototype.clearReceiptsList = function() {
+  return this.setReceiptsList([]);
+};
+
+
+/**
+ * repeated PacketSequence send_sequences = 5;
  * @return {!Array<!proto.ibc.core.channel.v1.PacketSequence>}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.getSendSequencesList = function() {
   return /** @type{!Array<!proto.ibc.core.channel.v1.PacketSequence>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 4));
+    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 5));
 };
 
 
@@ -386,7 +451,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.getSendSequencesList = function
  * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
 */
 proto.ibc.core.channel.v1.GenesisState.prototype.setSendSequencesList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 4, value);
+  return jspb.Message.setRepeatedWrapperField(this, 5, value);
 };
 
 
@@ -396,7 +461,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.setSendSequencesList = function
  * @return {!proto.ibc.core.channel.v1.PacketSequence}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.addSendSequences = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 4, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
 };
 
 
@@ -410,12 +475,12 @@ proto.ibc.core.channel.v1.GenesisState.prototype.clearSendSequencesList = functi
 
 
 /**
- * repeated PacketSequence recv_sequences = 5;
+ * repeated PacketSequence recv_sequences = 6;
  * @return {!Array<!proto.ibc.core.channel.v1.PacketSequence>}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.getRecvSequencesList = function() {
   return /** @type{!Array<!proto.ibc.core.channel.v1.PacketSequence>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 5));
+    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 6));
 };
 
 
@@ -424,7 +489,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.getRecvSequencesList = function
  * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
 */
 proto.ibc.core.channel.v1.GenesisState.prototype.setRecvSequencesList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 5, value);
+  return jspb.Message.setRepeatedWrapperField(this, 6, value);
 };
 
 
@@ -434,7 +499,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.setRecvSequencesList = function
  * @return {!proto.ibc.core.channel.v1.PacketSequence}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.addRecvSequences = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 6, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
 };
 
 
@@ -448,12 +513,12 @@ proto.ibc.core.channel.v1.GenesisState.prototype.clearRecvSequencesList = functi
 
 
 /**
- * repeated PacketSequence ack_sequences = 6;
+ * repeated PacketSequence ack_sequences = 7;
  * @return {!Array<!proto.ibc.core.channel.v1.PacketSequence>}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.getAckSequencesList = function() {
   return /** @type{!Array<!proto.ibc.core.channel.v1.PacketSequence>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 6));
+    jspb.Message.getRepeatedWrapperField(this, proto.ibc.core.channel.v1.PacketSequence, 7));
 };
 
 
@@ -462,7 +527,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.getAckSequencesList = function(
  * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
 */
 proto.ibc.core.channel.v1.GenesisState.prototype.setAckSequencesList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 6, value);
+  return jspb.Message.setRepeatedWrapperField(this, 7, value);
 };
 
 
@@ -472,7 +537,7 @@ proto.ibc.core.channel.v1.GenesisState.prototype.setAckSequencesList = function(
  * @return {!proto.ibc.core.channel.v1.PacketSequence}
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.addAckSequences = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 6, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 7, opt_value, proto.ibc.core.channel.v1.PacketSequence, opt_index);
 };
 
 
@@ -482,6 +547,24 @@ proto.ibc.core.channel.v1.GenesisState.prototype.addAckSequences = function(opt_
  */
 proto.ibc.core.channel.v1.GenesisState.prototype.clearAckSequencesList = function() {
   return this.setAckSequencesList([]);
+};
+
+
+/**
+ * optional uint64 next_channel_sequence = 8;
+ * @return {number}
+ */
+proto.ibc.core.channel.v1.GenesisState.prototype.getNextChannelSequence = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.ibc.core.channel.v1.GenesisState} returns this
+ */
+proto.ibc.core.channel.v1.GenesisState.prototype.setNextChannelSequence = function(value) {
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 

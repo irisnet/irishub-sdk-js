@@ -16,6 +16,8 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
+var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js')
+
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var cosmos_upgrade_v1beta1_upgrade_pb = require('../../../cosmos/upgrade/v1beta1/upgrade_pb.js')
@@ -233,6 +235,86 @@ proto.cosmos.upgrade.v1beta1.QueryPromiseClient.prototype.appliedPlan =
       request,
       metadata || {},
       methodDescriptor_Query_AppliedPlan);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest,
+ *   !proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse>}
+ */
+const methodDescriptor_Query_UpgradedConsensusState = new grpc.web.MethodDescriptor(
+  '/cosmos.upgrade.v1beta1.Query/UpgradedConsensusState',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest,
+  proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse,
+  /**
+   * @param {!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest,
+ *   !proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse>}
+ */
+const methodInfo_Query_UpgradedConsensusState = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse,
+  /**
+   * @param {!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.upgrade.v1beta1.QueryClient.prototype.upgradedConsensusState =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.upgrade.v1beta1.Query/UpgradedConsensusState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedConsensusState,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.upgrade.v1beta1.QueryUpgradedConsensusStateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.upgrade.v1beta1.QueryPromiseClient.prototype.upgradedConsensusState =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.upgrade.v1beta1.Query/UpgradedConsensusState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedConsensusState);
 };
 
 

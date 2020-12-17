@@ -1416,7 +1416,8 @@ proto.ibc.lightclients.solomachine.v1.SignatureAndData.toObject = function(inclu
   var f, obj = {
     signature: msg.getSignature_asB64(),
     dataType: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    data: msg.getData_asB64()
+    data: msg.getData_asB64(),
+    timestamp: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -1465,6 +1466,10 @@ proto.ibc.lightclients.solomachine.v1.SignatureAndData.deserializeBinaryFromRead
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setData(value);
       break;
+    case 4:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setTimestamp(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1512,6 +1517,13 @@ proto.ibc.lightclients.solomachine.v1.SignatureAndData.serializeBinaryToWriter =
   if (f.length > 0) {
     writer.writeBytes(
       3,
+      f
+    );
+  }
+  f = message.getTimestamp();
+  if (f !== 0) {
+    writer.writeUint64(
+      4,
       f
     );
   }
@@ -1617,6 +1629,24 @@ proto.ibc.lightclients.solomachine.v1.SignatureAndData.prototype.getData_asU8 = 
  */
 proto.ibc.lightclients.solomachine.v1.SignatureAndData.prototype.setData = function(value) {
   return jspb.Message.setProto3BytesField(this, 3, value);
+};
+
+
+/**
+ * optional uint64 timestamp = 4;
+ * @return {number}
+ */
+proto.ibc.lightclients.solomachine.v1.SignatureAndData.prototype.getTimestamp = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.ibc.lightclients.solomachine.v1.SignatureAndData} returns this
+ */
+proto.ibc.lightclients.solomachine.v1.SignatureAndData.prototype.setTimestamp = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 

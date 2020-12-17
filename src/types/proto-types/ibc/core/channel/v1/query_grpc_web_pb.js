@@ -648,6 +648,86 @@ proto.ibc.core.channel.v1.QueryPromiseClient.prototype.packetCommitments =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.channel.v1.QueryPacketReceiptRequest,
+ *   !proto.ibc.core.channel.v1.QueryPacketReceiptResponse>}
+ */
+const methodDescriptor_Query_PacketReceipt = new grpc.web.MethodDescriptor(
+  '/ibc.core.channel.v1.Query/PacketReceipt',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.channel.v1.QueryPacketReceiptRequest,
+  proto.ibc.core.channel.v1.QueryPacketReceiptResponse,
+  /**
+   * @param {!proto.ibc.core.channel.v1.QueryPacketReceiptRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.channel.v1.QueryPacketReceiptResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.channel.v1.QueryPacketReceiptRequest,
+ *   !proto.ibc.core.channel.v1.QueryPacketReceiptResponse>}
+ */
+const methodInfo_Query_PacketReceipt = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.channel.v1.QueryPacketReceiptResponse,
+  /**
+   * @param {!proto.ibc.core.channel.v1.QueryPacketReceiptRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.channel.v1.QueryPacketReceiptResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.channel.v1.QueryPacketReceiptRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.channel.v1.QueryPacketReceiptResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.channel.v1.QueryPacketReceiptResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.channel.v1.QueryClient.prototype.packetReceipt =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.channel.v1.Query/PacketReceipt',
+      request,
+      metadata || {},
+      methodDescriptor_Query_PacketReceipt,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.channel.v1.QueryPacketReceiptRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.channel.v1.QueryPacketReceiptResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.channel.v1.QueryPromiseClient.prototype.packetReceipt =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.channel.v1.Query/PacketReceipt',
+      request,
+      metadata || {},
+      methodDescriptor_Query_PacketReceipt);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementRequest,
  *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementResponse>}
  */
@@ -722,6 +802,86 @@ proto.ibc.core.channel.v1.QueryPromiseClient.prototype.packetAcknowledgement =
       request,
       metadata || {},
       methodDescriptor_Query_PacketAcknowledgement);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest,
+ *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse>}
+ */
+const methodDescriptor_Query_PacketAcknowledgements = new grpc.web.MethodDescriptor(
+  '/ibc.core.channel.v1.Query/PacketAcknowledgements',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest,
+  proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse,
+  /**
+   * @param {!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest,
+ *   !proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse>}
+ */
+const methodInfo_Query_PacketAcknowledgements = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse,
+  /**
+   * @param {!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.channel.v1.QueryClient.prototype.packetAcknowledgements =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.channel.v1.Query/PacketAcknowledgements',
+      request,
+      metadata || {},
+      methodDescriptor_Query_PacketAcknowledgements,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.channel.v1.QueryPacketAcknowledgementsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.channel.v1.QueryPromiseClient.prototype.packetAcknowledgements =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.channel.v1.Query/PacketAcknowledgements',
+      request,
+      metadata || {},
+      methodDescriptor_Query_PacketAcknowledgements);
 };
 
 
@@ -808,80 +968,80 @@ proto.ibc.core.channel.v1.QueryPromiseClient.prototype.unreceivedPackets =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest,
- *   !proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse>}
+ *   !proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest,
+ *   !proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse>}
  */
-const methodDescriptor_Query_UnrelayedAcks = new grpc.web.MethodDescriptor(
-  '/ibc.core.channel.v1.Query/UnrelayedAcks',
+const methodDescriptor_Query_UnreceivedAcks = new grpc.web.MethodDescriptor(
+  '/ibc.core.channel.v1.Query/UnreceivedAcks',
   grpc.web.MethodType.UNARY,
-  proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest,
-  proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse,
+  proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest,
+  proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse,
   /**
-   * @param {!proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest} request
+   * @param {!proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse.deserializeBinary
+  proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest,
- *   !proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse>}
+ *   !proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest,
+ *   !proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse>}
  */
-const methodInfo_Query_UnrelayedAcks = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse,
+const methodInfo_Query_UnreceivedAcks = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse,
   /**
-   * @param {!proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest} request
+   * @param {!proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse.deserializeBinary
+  proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest} request The
+ * @param {!proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse)}
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.ibc.core.channel.v1.QueryClient.prototype.unrelayedAcks =
+proto.ibc.core.channel.v1.QueryClient.prototype.unreceivedAcks =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/ibc.core.channel.v1.Query/UnrelayedAcks',
+      '/ibc.core.channel.v1.Query/UnreceivedAcks',
       request,
       metadata || {},
-      methodDescriptor_Query_UnrelayedAcks,
+      methodDescriptor_Query_UnreceivedAcks,
       callback);
 };
 
 
 /**
- * @param {!proto.ibc.core.channel.v1.QueryUnrelayedAcksRequest} request The
+ * @param {!proto.ibc.core.channel.v1.QueryUnreceivedAcksRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.ibc.core.channel.v1.QueryUnrelayedAcksResponse>}
+ * @return {!Promise<!proto.ibc.core.channel.v1.QueryUnreceivedAcksResponse>}
  *     Promise that resolves to the response
  */
-proto.ibc.core.channel.v1.QueryPromiseClient.prototype.unrelayedAcks =
+proto.ibc.core.channel.v1.QueryPromiseClient.prototype.unreceivedAcks =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/ibc.core.channel.v1.Query/UnrelayedAcks',
+      '/ibc.core.channel.v1.Query/UnreceivedAcks',
       request,
       metadata || {},
-      methodDescriptor_Query_UnrelayedAcks);
+      methodDescriptor_Query_UnreceivedAcks);
 };
 
 

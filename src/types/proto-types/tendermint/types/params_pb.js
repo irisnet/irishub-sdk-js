@@ -676,7 +676,7 @@ proto.tendermint.types.EvidenceParams.toObject = function(includeInstance, msg) 
   var f, obj = {
     maxAgeNumBlocks: jspb.Message.getFieldWithDefault(msg, 1, 0),
     maxAgeDuration: (f = msg.getMaxAgeDuration()) && google_protobuf_duration_pb.Duration.toObject(includeInstance, f),
-    maxNum: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    maxBytes: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -723,8 +723,8 @@ proto.tendermint.types.EvidenceParams.deserializeBinaryFromReader = function(msg
       msg.setMaxAgeDuration(value);
       break;
     case 3:
-      var value = /** @type {number} */ (reader.readUint32());
-      msg.setMaxNum(value);
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setMaxBytes(value);
       break;
     default:
       reader.skipField();
@@ -770,9 +770,9 @@ proto.tendermint.types.EvidenceParams.serializeBinaryToWriter = function(message
       google_protobuf_duration_pb.Duration.serializeBinaryToWriter
     );
   }
-  f = message.getMaxNum();
+  f = message.getMaxBytes();
   if (f !== 0) {
-    writer.writeUint32(
+    writer.writeInt64(
       3,
       f
     );
@@ -836,10 +836,10 @@ proto.tendermint.types.EvidenceParams.prototype.hasMaxAgeDuration = function() {
 
 
 /**
- * optional uint32 max_num = 3;
+ * optional int64 max_bytes = 3;
  * @return {number}
  */
-proto.tendermint.types.EvidenceParams.prototype.getMaxNum = function() {
+proto.tendermint.types.EvidenceParams.prototype.getMaxBytes = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -848,7 +848,7 @@ proto.tendermint.types.EvidenceParams.prototype.getMaxNum = function() {
  * @param {number} value
  * @return {!proto.tendermint.types.EvidenceParams} returns this
  */
-proto.tendermint.types.EvidenceParams.prototype.setMaxNum = function(value) {
+proto.tendermint.types.EvidenceParams.prototype.setMaxBytes = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 

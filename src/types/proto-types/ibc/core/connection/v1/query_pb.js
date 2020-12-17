@@ -408,7 +408,6 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.toObject = function(include
   var f, obj = {
     connection: (f = msg.getConnection()) && ibc_core_connection_v1_connection_pb.ConnectionEnd.toObject(includeInstance, f),
     proof: msg.getProof_asB64(),
-    proofPath: jspb.Message.getFieldWithDefault(msg, 3, ""),
     proofHeight: (f = msg.getProofHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f)
   };
 
@@ -456,10 +455,6 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.deserializeBinaryFromReader
       msg.setProof(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setProofPath(value);
-      break;
-    case 4:
       var value = new ibc_core_client_v1_client_pb.Height;
       reader.readMessage(value,ibc_core_client_v1_client_pb.Height.deserializeBinaryFromReader);
       msg.setProofHeight(value);
@@ -508,17 +503,10 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.serializeBinaryToWriter = f
       f
     );
   }
-  f = message.getProofPath();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
   f = message.getProofHeight();
   if (f != null) {
     writer.writeMessage(
-      4,
+      3,
       f,
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
@@ -606,30 +594,12 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.setProof = functi
 
 
 /**
- * optional string proof_path = 3;
- * @return {string}
- */
-proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.getProofPath = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.core.connection.v1.QueryConnectionResponse} returns this
- */
-proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.setProofPath = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional ibc.core.client.v1.Height proof_height = 4;
+ * optional ibc.core.client.v1.Height proof_height = 3;
  * @return {?proto.ibc.core.client.v1.Height}
  */
 proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.getProofHeight = function() {
   return /** @type{?proto.ibc.core.client.v1.Height} */ (
-    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 4));
+    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 3));
 };
 
 
@@ -638,7 +608,7 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.getProofHeight = 
  * @return {!proto.ibc.core.connection.v1.QueryConnectionResponse} returns this
 */
 proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.setProofHeight = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
@@ -656,7 +626,7 @@ proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.clearProofHeight 
  * @return {boolean}
  */
 proto.ibc.core.connection.v1.QueryConnectionResponse.prototype.hasProofHeight = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1244,7 +1214,6 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.toObject = function(
   var f, obj = {
     connectionPathsList: (f = jspb.Message.getRepeatedField(msg, 1)) == null ? undefined : f,
     proof: msg.getProof_asB64(),
-    proofPath: jspb.Message.getFieldWithDefault(msg, 3, ""),
     proofHeight: (f = msg.getProofHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f)
   };
 
@@ -1291,10 +1260,6 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.deserializeBinaryFro
       msg.setProof(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setProofPath(value);
-      break;
-    case 4:
       var value = new ibc_core_client_v1_client_pb.Height;
       reader.readMessage(value,ibc_core_client_v1_client_pb.Height.deserializeBinaryFromReader);
       msg.setProofHeight(value);
@@ -1342,17 +1307,10 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.serializeBinaryToWri
       f
     );
   }
-  f = message.getProofPath();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
   f = message.getProofHeight();
   if (f != null) {
     writer.writeMessage(
-      4,
+      3,
       f,
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
@@ -1440,30 +1398,12 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.setProof =
 
 
 /**
- * optional string proof_path = 3;
- * @return {string}
- */
-proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.getProofPath = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.core.connection.v1.QueryClientConnectionsResponse} returns this
- */
-proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.setProofPath = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional ibc.core.client.v1.Height proof_height = 4;
+ * optional ibc.core.client.v1.Height proof_height = 3;
  * @return {?proto.ibc.core.client.v1.Height}
  */
 proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.getProofHeight = function() {
   return /** @type{?proto.ibc.core.client.v1.Height} */ (
-    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 4));
+    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 3));
 };
 
 
@@ -1472,7 +1412,7 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.getProofHe
  * @return {!proto.ibc.core.connection.v1.QueryClientConnectionsResponse} returns this
 */
 proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.setProofHeight = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
@@ -1490,7 +1430,7 @@ proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.clearProof
  * @return {boolean}
  */
 proto.ibc.core.connection.v1.QueryClientConnectionsResponse.prototype.hasProofHeight = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1658,7 +1598,6 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.toObject = funct
   var f, obj = {
     identifiedClientState: (f = msg.getIdentifiedClientState()) && ibc_core_client_v1_client_pb.IdentifiedClientState.toObject(includeInstance, f),
     proof: msg.getProof_asB64(),
-    proofPath: jspb.Message.getFieldWithDefault(msg, 3, ""),
     proofHeight: (f = msg.getProofHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f)
   };
 
@@ -1706,10 +1645,6 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.deserializeBinar
       msg.setProof(value);
       break;
     case 3:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setProofPath(value);
-      break;
-    case 4:
       var value = new ibc_core_client_v1_client_pb.Height;
       reader.readMessage(value,ibc_core_client_v1_client_pb.Height.deserializeBinaryFromReader);
       msg.setProofHeight(value);
@@ -1758,17 +1693,10 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.serializeBinaryT
       f
     );
   }
-  f = message.getProofPath();
-  if (f.length > 0) {
-    writer.writeString(
-      3,
-      f
-    );
-  }
   f = message.getProofHeight();
   if (f != null) {
     writer.writeMessage(
-      4,
+      3,
       f,
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
@@ -1856,30 +1784,12 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.setPro
 
 
 /**
- * optional string proof_path = 3;
- * @return {string}
- */
-proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.getProofPath = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.core.connection.v1.QueryConnectionClientStateResponse} returns this
- */
-proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.setProofPath = function(value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
-};
-
-
-/**
- * optional ibc.core.client.v1.Height proof_height = 4;
+ * optional ibc.core.client.v1.Height proof_height = 3;
  * @return {?proto.ibc.core.client.v1.Height}
  */
 proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.getProofHeight = function() {
   return /** @type{?proto.ibc.core.client.v1.Height} */ (
-    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 4));
+    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 3));
 };
 
 
@@ -1888,7 +1798,7 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.getPro
  * @return {!proto.ibc.core.connection.v1.QueryConnectionClientStateResponse} returns this
 */
 proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.setProofHeight = function(value) {
-  return jspb.Message.setWrapperField(this, 4, value);
+  return jspb.Message.setWrapperField(this, 3, value);
 };
 
 
@@ -1906,7 +1816,7 @@ proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.clearP
  * @return {boolean}
  */
 proto.ibc.core.connection.v1.QueryConnectionClientStateResponse.prototype.hasProofHeight = function() {
-  return jspb.Message.getField(this, 4) != null;
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1943,8 +1853,8 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.toOb
 proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     connectionId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    versionNumber: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    versionHeight: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    revisionNumber: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    revisionHeight: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -1987,11 +1897,11 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.deserializeBin
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setVersionNumber(value);
+      msg.setRevisionNumber(value);
       break;
     case 3:
       var value = /** @type {number} */ (reader.readUint64());
-      msg.setVersionHeight(value);
+      msg.setRevisionHeight(value);
       break;
     default:
       reader.skipField();
@@ -2029,14 +1939,14 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.serializeBinar
       f
     );
   }
-  f = message.getVersionNumber();
+  f = message.getRevisionNumber();
   if (f !== 0) {
     writer.writeUint64(
       2,
       f
     );
   }
-  f = message.getVersionHeight();
+  f = message.getRevisionHeight();
   if (f !== 0) {
     writer.writeUint64(
       3,
@@ -2065,10 +1975,10 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.setC
 
 
 /**
- * optional uint64 version_number = 2;
+ * optional uint64 revision_number = 2;
  * @return {number}
  */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getVersionNumber = function() {
+proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getRevisionNumber = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
@@ -2077,16 +1987,16 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getV
  * @param {number} value
  * @return {!proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest} returns this
  */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.setVersionNumber = function(value) {
+proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.setRevisionNumber = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
 /**
- * optional uint64 version_height = 3;
+ * optional uint64 revision_height = 3;
  * @return {number}
  */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getVersionHeight = function() {
+proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getRevisionHeight = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -2095,7 +2005,7 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.getV
  * @param {number} value
  * @return {!proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest} returns this
  */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.setVersionHeight = function(value) {
+proto.ibc.core.connection.v1.QueryConnectionConsensusStateRequest.prototype.setRevisionHeight = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -2135,7 +2045,6 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.toObject = fu
     consensusState: (f = msg.getConsensusState()) && google_protobuf_any_pb.Any.toObject(includeInstance, f),
     clientId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     proof: msg.getProof_asB64(),
-    proofPath: jspb.Message.getFieldWithDefault(msg, 4, ""),
     proofHeight: (f = msg.getProofHeight()) && ibc_core_client_v1_client_pb.Height.toObject(includeInstance, f)
   };
 
@@ -2187,10 +2096,6 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.deserializeBi
       msg.setProof(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setProofPath(value);
-      break;
-    case 5:
       var value = new ibc_core_client_v1_client_pb.Height;
       reader.readMessage(value,ibc_core_client_v1_client_pb.Height.deserializeBinaryFromReader);
       msg.setProofHeight(value);
@@ -2246,17 +2151,10 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.serializeBina
       f
     );
   }
-  f = message.getProofPath();
-  if (f.length > 0) {
-    writer.writeString(
-      4,
-      f
-    );
-  }
   f = message.getProofHeight();
   if (f != null) {
     writer.writeMessage(
-      5,
+      4,
       f,
       ibc_core_client_v1_client_pb.Height.serializeBinaryToWriter
     );
@@ -2362,30 +2260,12 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.set
 
 
 /**
- * optional string proof_path = 4;
- * @return {string}
- */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.getProofPath = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
-};
-
-
-/**
- * @param {string} value
- * @return {!proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse} returns this
- */
-proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.setProofPath = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
-};
-
-
-/**
- * optional ibc.core.client.v1.Height proof_height = 5;
+ * optional ibc.core.client.v1.Height proof_height = 4;
  * @return {?proto.ibc.core.client.v1.Height}
  */
 proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.getProofHeight = function() {
   return /** @type{?proto.ibc.core.client.v1.Height} */ (
-    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 5));
+    jspb.Message.getWrapperField(this, ibc_core_client_v1_client_pb.Height, 4));
 };
 
 
@@ -2394,7 +2274,7 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.get
  * @return {!proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse} returns this
 */
 proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.setProofHeight = function(value) {
-  return jspb.Message.setWrapperField(this, 5, value);
+  return jspb.Message.setWrapperField(this, 4, value);
 };
 
 
@@ -2412,7 +2292,7 @@ proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.cle
  * @return {boolean}
  */
 proto.ibc.core.connection.v1.QueryConnectionConsensusStateResponse.prototype.hasProofHeight = function() {
-  return jspb.Message.getField(this, 5) != null;
+  return jspb.Message.getField(this, 4) != null;
 };
 
 
