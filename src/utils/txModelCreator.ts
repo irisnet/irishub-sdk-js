@@ -8,7 +8,6 @@ let secp256k1_key_pb = require('../types/proto-types/cosmos/crypto/secp256k1/key
 let Coin_pb = require('../types/proto-types/cosmos/base/v1beta1/coin_pb');
 let Any_pb = require('../types/proto-types/google/protobuf/any_pb');
 
-
 export class TxModelCreator {
     static createBodyModel(msgs:types.Msg[], memo:string, timeoutHeight:number):any{
         let body = new Tx_pb.TxBody();
@@ -90,5 +89,16 @@ export class TxModelCreator {
         msg_any.setTypeUrl(`/${typeUrl}`);
         msg_any.setValue(value);
         return msg_any;
+    }
+
+    static createPageRequest(
+        pageNumber:number = 1,
+        pageSize:number = 10,
+        countTotal:boolean = false):any{
+        const pagination = new types.base_query_pagination_pb.PageRequest();
+        pagination.setOffset((pageNumber - 1) * pageSize > 0 ? (pageNumber - 1) * pageSize : 0);
+        pagination.setLimit(pageSize > 0 ? pageSize : 10);
+        pagination.setCountTotal(countTotal);
+        return pagination;
     }
 }
