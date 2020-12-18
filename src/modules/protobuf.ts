@@ -210,4 +210,29 @@ export class Protobuf {
       return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
     }
   }
+
+  /**
+   * deserialize Pubkey
+   * @param  {[type]} pubKey:{typeUrl:string, value:string}
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} pubKey object                        
+   */
+  deserializePubkey(pubKey:{typeUrl:string, value:string}, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
+    if (!pubKey) {
+      throw new SdkError('pubKey can not be empty');
+    }
+    let result:{typeUrl:string, value:any} = {...pubKey};
+    switch(pubKey.typeUrl){
+      case '/cosmos.crypto.ed25519.PubKey':
+      result.value = types.crypto_ed25519_keys_pb.PubKey.deserializeBinary(pubKey.value);
+      break;
+      case '/cosmos.crypto.secp256k1.PubKey':
+      result.value = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+      break;
+    }
+    if (!returnProtobufModel && result.value && result.value.toObject) {
+      result.value = result.value.toObject();
+    }
+    return result;
+  }
 }

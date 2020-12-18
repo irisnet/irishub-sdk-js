@@ -83,7 +83,6 @@ export class RpcClient {
     if (protoRequest && protoRequest.serializeBinary) {
       params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
     }
-
     return this.request<types.AbciQueryResponse>(
       types.RpcMethods.AbciQuery,
       params
@@ -107,8 +106,6 @@ export class RpcClient {
         }
       }
       throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
-    }).catch((err)=>{
-      throw new SdkError('ABCI query Error', err);
     });
   }
 
@@ -158,8 +155,6 @@ export class RpcClient {
         }
       }
       throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
-    }).catch((err)=>{
-      throw new SdkError('ABCI query Error', err);
     });
   }
 

@@ -8,7 +8,6 @@ let secp256k1_key_pb = require('../types/proto-types/cosmos/crypto/secp256k1/key
 let Coin_pb = require('../types/proto-types/cosmos/base/v1beta1/coin_pb');
 let Any_pb = require('../types/proto-types/google/protobuf/any_pb');
 
-
 export class TxModelCreator {
     static createBodyModel(msgs:types.Msg[], memo:string, timeoutHeight:number):any{
         let body = new Tx_pb.TxBody();

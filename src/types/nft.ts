@@ -1,5 +1,5 @@
 import { Coin, Msg, Pubkey, TxType, doNotModify } from './index';
-import { TxModelCreator } from '../utils';
+import { TxModelCreator } from '../helper';
 import * as is from 'is_js';
 import * as pbs from "./proto";
 

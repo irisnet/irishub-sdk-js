@@ -1,7 +1,8 @@
 import {Client} from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
-import { Crypto } from '../utils/crypto';
+import { Crypto } from '../utils';
+import { ModelCreator } from '../helper';
 import { SdkError } from '../errors';
 
 
@@ -186,11 +187,7 @@ export class Distribution {
     if (!validator_address) {
       throw new Error("validator_address can ont be empty");
     }
-    const pagination = new types.base_query_pagination_pb.PageRequest();
-    pagination.setOffset(page_number * page_size > 0 ? page_number * page_size : 0);
-    pagination.setLimit(page_size > 0 ? page_size : 10);
-    pagination.setCountTotal(true);
-
+    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true);
     const request = new types.distribution_query_pb.QueryValidatorSlashesRequest();
     request.setValidatorAddress(validator_address);
     request.setPagination(pagination);

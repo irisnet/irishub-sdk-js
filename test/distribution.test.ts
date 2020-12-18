@@ -2,6 +2,7 @@ import {BaseTest} from './basetest';
 import * as types from '../src/types';
 
 describe('Distribution Tests', () => {
+    let timeOut = 9999;
     describe('Query', () => {
         test(
             'query Params',
@@ -193,7 +194,8 @@ describe('Distribution Tests', () => {
                     .catch(error => {
                         console.log(error);
                     });
-            },999999
+            },
+            timeOut
         );
     });
 
@@ -213,7 +215,8 @@ describe('Distribution Tests', () => {
                     .catch(error => {
                         console.log(error);
                     });
-            }
+            },
+            timeOut
         );
     });
 });

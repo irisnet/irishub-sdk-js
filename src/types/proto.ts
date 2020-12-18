@@ -24,7 +24,6 @@ export const base_query_pagination_pb = require( './proto-types/cosmos/base/quer
 //cosmos query
 export const auth_query_pb = require( './proto-types/cosmos/auth/v1beta1/query_pb');
 export const bank_query_pb = require( './proto-types/cosmos/bank/v1beta1/query_pb');
-export const base_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
 export const distribution_query_pb = require( './proto-types/cosmos/distribution/v1beta1/query_pb');
 export const evidence_query_pb = require( './proto-types/cosmos/evidence/v1beta1/query_pb');
 export const gov_query_pb = require( './proto-types/cosmos/gov/v1beta1/query_pb');
@@ -47,7 +46,10 @@ export const token_query_pb = require( './proto-types/irismod/token/query_pb');
 //cosmos module
 export const auth_auth_pb = require( './proto-types/cosmos/auth/v1beta1/auth_pb');
 export const crypto_secp256k1_keys_pb = require( './proto-types/cosmos/crypto/secp256k1/keys_pb');
+export const crypto_ed25519_keys_pb = require( './proto-types/cosmos/crypto/ed25519/keys_pb');
 
 //irimod module
 export const token_token_pb = require( './proto-types/irismod/token/token_pb');
 
+//any
+export const any_pb = require( './proto-types/google/protobuf/any_pb');
