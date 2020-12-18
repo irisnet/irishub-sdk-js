@@ -1,87 +1,115 @@
 import { BaseTest } from './basetest';
 import * as types from '../src/types';
 
-describe('Tx Tests', () => {
-  const unsignedTx: types.Tx<types.StdTx> = {
-    type: 'irishub/bank/StdTx',
-    value: {
-      msg: [
-        {
-          type: 'irishub/bank/Send',
-          value: {
-            inputs: [
-              {
-                address: 'faa1gwr3espfjtz9su9x40p635dgfvm4ph9v6ydky5',
-                coins: [{ denom: 'iris-atto', amount: '1000000000000000000' }],
-              },
-            ],
-            outputs: [
-              {
-                address: 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7',
-                coins: [{ denom: 'iris-atto', amount: '1000000000000000000' }],
-              },
-            ],
-          },
-        },
-      ],
-      fee: {
-        amount: [{ denom: 'iris-atto', amount: '600000000000000000' }],
-        gas: '100000',
-      },
-      signatures: [],
-      memo: '',
-    },
-  };
+let timeout = 9999;
 
-  let signedTx: types.Tx<types.StdTx>;
+describe('Tx Tests', () => {
+  const amount: types.Coin[] = [
+    {
+      denom: 'stake',
+      amount: '1',
+    },
+  ];
+
+  const msgs: any[] = [
+    {
+      type:types.TxType.MsgSend,
+      value:{
+        from_address:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+        to_address:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+        amount
+      }
+    }
+  ];
+
+  const moreMessages: any[] = [
+    {
+      type:types.TxType.MsgSend,
+      value:{
+        from_address:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+        to_address:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+        amount
+      }
+    },
+    {
+      type:types.TxType.MsgSend,
+      value:{
+        from_address:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+        to_address:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+        amount
+      }
+    }
+  ];
+
+  describe('watch/cold wallet', () => {
+    test('watch/cold wallet tx', async () => {
+      let baseTx = {...BaseTest.baseTx};
+      baseTx.account_number = '8';
+      baseTx.sequence = '356';
+      // watch wallet
+      let unsignedStdTx =  BaseTest.getClient().tx.buildTx(msgs, baseTx);
+      let unsignedTxModel = unsignedStdTx.getProtoModel();
+      let unsignedTxStr = Buffer.from(unsignedTxModel.serializeBinary()).toString('base64');
+      // cold wallet
+      let recover_unsigned_tx_model = BaseTest.getClient().protobuf.deserializeTx(unsignedTxStr, true);
+      let recover_unsigned_std_tx = BaseTest.getClient().tx.newStdTxFromProtoTxModel(recover_unsigned_tx_model);
+      let recover_signed_std_tx = await BaseTest.getClient().tx.sign(recover_unsigned_std_tx, baseTx);
+      let recover_signed_std_tx_str = Buffer.from(recover_signed_std_tx.getProtoModel().serializeBinary()).toString('base64'); 
+      // watch wallet
+      let signed_std_tx = BaseTest.getClient().tx.newStdTxFromProtoTxModel(BaseTest.getClient().protobuf.deserializeTx(recover_signed_std_tx_str, true));
+      await BaseTest.getClient().tx.broadcast(signed_std_tx, baseTx.mode).then(res=>{
+        console.log(res);
+      }).catch(error => {
+        console.log(error);
+      });
+    });
+  });
+
+  let signedTx:any;
 
   describe('Signing', () => {
     test('sign tx online', async () => {
-      await BaseTest.getClient()
-        .tx.sign(unsignedTx, BaseTest.baseTx.from, BaseTest.baseTx.password)
-        .then(res => {
-          console.log(JSON.stringify(res));
-          signedTx = res;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      let unsignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
+      signedTx =  await BaseTest.getClient().tx.sign(unsignedTx, BaseTest.baseTx);
+      console.log(signedTx);
     });
 
     test('sign tx offline', async () => {
-      unsignedTx.value.signatures = [
-        {
-          account_number: signedTx.value.signatures[0].account_number,
-          sequence: signedTx.value.signatures[0].sequence,
-        },
-      ];
-      console.log(JSON.stringify(unsignedTx));
-      await BaseTest.getClient()
-        .tx.sign(
-          unsignedTx,
-          BaseTest.baseTx.from,
-          BaseTest.baseTx.password,
-          true
-        )
-        .then(res => {
-          console.log(JSON.stringify(res));
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      let baseTx = {...BaseTest.baseTx};
+      baseTx.account_number = '8';
+      baseTx.sequence = '356';
+      let unsignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
+      
+      let offlineSignedTx = await BaseTest.getClient().tx.sign(unsignedTx,baseTx);
+      console.log(offlineSignedTx);
     });
   });
 
   describe('Broadcast', () => {
     test('broadcast tx', async () => {
-      await BaseTest.getClient()
-        .tx.broadcast(signedTx, types.BroadcastMode.Commit)
+        await BaseTest.getClient()
+          .tx.broadcast(signedTx, types.BroadcastMode.Commit)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test('more messages', async () => {
+        await BaseTest.getClient()
+        .tx.buildAndSend(moreMessages,BaseTest.baseTx)
         .then(res => {
-          console.log(JSON.stringify(res));
+            console.log(JSON.stringify(res));
         })
         .catch(error => {
           console.log(error);
-        });
-    });
+        });;
+      },
+      timeout
+    );
   });
 });

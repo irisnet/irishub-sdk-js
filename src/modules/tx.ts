@@ -23,7 +23,7 @@ export class Tx {
    * Build Tx
    * @param msgs Msgs to be sent
    * @param baseTx
-   * @returns
+   * @returns unsignedTx
    * @since v0.17
    */
   buildTx(
@@ -35,6 +35,15 @@ export class Tx {
     });
     const unsignedTx: types.ProtoTx = this.client.auth.newStdTx(msgList, baseTx);
     return unsignedTx;
+  }
+
+  /**
+   * generate StdTx from protoTxModel
+   * @param  {[type]} protoTxModel:any instance of cosmos.tx.v1beta1.Tx 
+   * @return {[type]} unsignedTx
+   */
+  newStdTxFromProtoTxModel(protoTxModel:any):types.ProtoTx{
+    return  types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
   }
 
   /**
@@ -56,7 +65,7 @@ export class Tx {
     // unsignedTx.value.fee.amount = fee;
 
     // Sign Tx
-    const signedTx = await this.sign(unsignedTx, baseTx.from, baseTx.password);
+    const signedTx = await this.sign(unsignedTx, baseTx);
 
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
@@ -93,43 +102,44 @@ export class Tx {
    * Single sign a transaction
    *
    * @param stdTx StdTx with no signatures
-   * @param name Name of the key to sign the tx
-   * @param password Password of the key
-   * @param offline Offline signing, default `false`
+   * @param baseTx baseTx.from && baseTx.password is requred
    * @returns The signed tx
    * @since v0.17
    */
   async sign(
     stdTx: types.ProtoTx,
-    name: string,
-    password: string,
+    baseTx: types.BaseTx,
   ): Promise<types.ProtoTx> {
-    if (is.empty(name)) {
-      throw new SdkError(`Name of the key can not be empty`);
+    if (is.empty(baseTx.from)) {
+      throw new SdkError(`baseTx.from of the key can not be empty`);
     }
-    if (is.empty(password)) {
-      throw new SdkError(`Password of the key can not be empty`);
+    if (is.empty(baseTx.password)) {
+      throw new SdkError(`baseTx.password of the key can not be empty`);
     }
     if (!this.client.config.keyDAO.decrypt) {
       throw new SdkError(`Decrypt method of KeyDAO not implemented`);
     }
 
-    const keyObj = this.client.config.keyDAO.read(name);
+    const keyObj = this.client.config.keyDAO.read(baseTx.from);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${baseTx.from}' not found`);
     }
 
-    // Query account info from block chain
-    const account = await this.client.bank.queryAccount(keyObj.address);
-    let accountNumber = account.account_number || '';
-    let sequence = account.sequence || '0';
+    let accountNumber = baseTx.account_number || '';
+    let sequence = baseTx.sequence || '0';
 
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+    if (!baseTx.account_number || !baseTx.sequence) {
+      const account = await this.client.bank.queryAccount(keyObj.address);
+      if ( account.account_number ) { accountNumber = account.account_number }
+      if ( account.sequence ) { sequence = account.sequence }
+    }
+    // Query account info from block chain
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
       stdTx.setPubKey(pubKey, sequence || undefined);
     }
-    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
+    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey);
     stdTx.addSignature(signature);
 
     return stdTx;
