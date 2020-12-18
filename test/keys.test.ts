@@ -6,7 +6,7 @@ test('Keys', () => {
   
   // Create a new key
   const addedKey = client.keys.add('name1', password);
-  expect(addedKey.address.substring(0, 3)).toBe('faa');
+  expect(addedKey.address.substring(0, 3)).toBe('iaa');
   expect(addedKey.mnemonic.split(' ').length).toBe(24);
 
   // Recover a key

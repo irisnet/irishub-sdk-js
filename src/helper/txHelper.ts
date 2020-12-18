@@ -1,8 +1,5 @@
 import * as Bech32 from 'bech32';
-
-const Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
-const Any_pb = require('../types/proto-types/google/protobuf/any_pb');
-
+import * as types from '../types';
 
 export class TxHelper {
     static getHexPubkey(pubkey:string):string{
@@ -14,11 +11,11 @@ export class TxHelper {
     }
 
     static isSignDoc(signDoc:any):boolean{
-        return signDoc instanceof Tx_pb.SignDoc;
+        return signDoc instanceof types.tx_tx_pb.SignDoc;
     }
 
     static isAny(value:any):boolean{
-        return value instanceof Any_pb.Any;
+        return value instanceof types.any_pb.Any;
     }
 
     static ecodeModelAddress(address:string):Buffer{

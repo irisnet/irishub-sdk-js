@@ -2,15 +2,9 @@
 import * as types from '../types';
 import { TxHelper } from './txHelper';
 
-let Tx_pb = require('../types/proto-types/cosmos/tx/v1beta1/tx_pb');
-let Signing_pb = require('../types/proto-types/cosmos/tx/signing/v1beta1/signing_pb');
-let secp256k1_key_pb = require('../types/proto-types/cosmos/crypto/secp256k1/keys_pb.js');
-let Coin_pb = require('../types/proto-types/cosmos/base/v1beta1/coin_pb');
-let Any_pb = require('../types/proto-types/google/protobuf/any_pb');
-
 export class TxModelCreator {
     static createBodyModel(msgs:types.Msg[], memo:string, timeoutHeight:number):any{
-        let body = new Tx_pb.TxBody();
+        let body = new types.tx_tx_pb.TxBody();
         msgs.forEach((msg)=>{
             body.addMessages(msg.pack());
         });
@@ -24,7 +18,7 @@ export class TxModelCreator {
         sequence?:string, 
         publicKey?:string):any
     {
-        let authInfo = new Tx_pb.AuthInfo();
+        let authInfo = new types.tx_tx_pb.AuthInfo();
 
         let feeModel = TxModelCreator.createFeeModel(fee.amount, fee.gasLimit);
         authInfo.setFee(feeModel);
@@ -37,13 +31,13 @@ export class TxModelCreator {
     }
 
     static createSignerInfoModel(sequence:string, publicKey:string):any{
-        let single = new Tx_pb.ModeInfo.Single();
-        single.setMode(Signing_pb.SignMode.SIGN_MODE_DIRECT);
+        let single = new types.tx_tx_pb.ModeInfo.Single();
+        single.setMode(types.signing_signing_pb.SignMode.SIGN_MODE_DIRECT);
 
-        let mode_info = new Tx_pb.ModeInfo();
+        let mode_info = new types.tx_tx_pb.ModeInfo();
         mode_info.setSingle(single);
 
-        let signerInfo = new Tx_pb.SignerInfo();
+        let signerInfo = new types.tx_tx_pb.SignerInfo();
         signerInfo.setModeInfo(mode_info);
         signerInfo.setSequence(String(sequence));
         
@@ -62,13 +56,13 @@ export class TxModelCreator {
             pubByteArray = pubByteArray.slice(5)
         }
         
-        let pk = new secp256k1_key_pb.PubKey();
+        let pk = new types.crypto_secp256k1_keys_pb.PubKey();
         pk.setKey(Buffer.from(pubByteArray));
         return pk;
     }
 
     static createFeeModel(amounts:types.Coin[], gasLimit:string):any{
-        let fee = new Tx_pb.Fee();
+        let fee = new types.tx_tx_pb.Fee();
         amounts.forEach((amount)=>{
             let coin = TxModelCreator.createCoinModel(amount.denom, amount.amount);
             fee.addAmount(coin);
@@ -78,14 +72,14 @@ export class TxModelCreator {
     }
 
     static createCoinModel(denom:string, amount:string):any{
-        let coin = new Coin_pb.Coin();
+        let coin = new types.base_coin_pb.Coin();
         coin.setDenom(denom);
         coin.setAmount(String(amount));
         return coin;
     }
 
     static createAnyModel(typeUrl:string, value:Uint8Array):any{
-        let msg_any = new Any_pb.Any();
+        let msg_any = new types.any_pb.Any();
         msg_any.setTypeUrl(`/${typeUrl}`);
         msg_any.setValue(value);
         return msg_any;

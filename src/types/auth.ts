@@ -38,8 +38,6 @@ export interface BaseTx {
   account_number?: string | undefined;
   /** Sequence required for offline signatures */
   sequence?: string | undefined;
-  /** Public key required for offline signatures */
-  public_key?: string | undefined;
   mode?: BroadcastMode | undefined;
 }
 
