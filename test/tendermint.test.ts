@@ -18,6 +18,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+  
   test(
     'query block by height',
     async () => {
@@ -32,6 +33,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query latest block result',
     async () => {
@@ -46,6 +48,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query block result by height',
     async () => {
@@ -60,6 +63,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query tx by hash',
     async () => {
@@ -76,6 +80,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query latest validators',
     async () => {
@@ -90,6 +95,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query validators by height',
     async () => {
@@ -104,6 +110,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'search txs',
     async () => {
@@ -112,6 +119,21 @@ describe('Tendermint Tests', () => {
       );
       await BaseTest.getClient()
         .tendermint.searchTxs(condition)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+
+  test(
+    'query Net Info',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryNetInfo()
         .then(res => {
           console.log(JSON.stringify(res));
         })
