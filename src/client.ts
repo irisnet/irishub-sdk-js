@@ -17,7 +17,7 @@ export class Client {
   rpcClient: RpcClient;
 
   /** WebSocket event listener */
-  eventListener: EventListener;
+  eventListener?: EventListener;
 
   /** Auth module */
   auth: modules.Auth;

@@ -3,18 +3,9 @@
     "version": "0.0.1",
     "description": "IRISHub JavaScript SDK",
     "main": "src/index.js",
-    "typings": "index.js",
-    "types": "./dist/src",
+    "typings": "src/index.ts",
     "files": [
-        "dist",
-        "src/**/*.{ts,js}",
-        "types/**/*.ts",
-        "index.js",
-        "LICENSE",
-        "package.json",
-        "README.md",
-        "tsconfig.json",
-        "yarn.lock"
+        "dist/*"
     ],
     "license": "Apache-2.0",
     "keywords": [
@@ -28,7 +19,6 @@
         "test": "yarn run node && jest -i --config jest.config.js && sh test/scripts/clean.sh",
         "check": "gts check",
         "clean": "gts clean",
-        "compile": "tsc -p .",
         "build": "rm -rf dist/* && tsc --emitDeclarationOnly && babel --extensions '.ts' src -d dist/src && cp LICENSE dist/ && cp README.md dist/ && cp package.json dist/ && cp -rf src/types/proto-types dist/src/types/proto-types",
         "fix": "gts fix",
         "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js .",
@@ -52,11 +42,7 @@
         "ts-loader": "^6.2.2",
         "tslint": "^6.1.0",
         "typedoc": "^0.16.9",
-        "typescript": "^3.8.3",
-        "webpack": "^4.42.1",
-        "webpack-bundle-analyzer": "^3.6.1",
-        "webpack-cli": "^3.3.11",
-        "webpack-merge": "^4.2.2"
+        "typescript": "^3.8.3"
     },
     "dependencies": {
         "@types/mathjs": "^6.0.4",
