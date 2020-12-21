@@ -105,7 +105,7 @@ export class Client {
       // };
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
-    this.eventListener = new EventListener(this);
+    //this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
 
     // Modules
     this.token = new modules.Token(this);
