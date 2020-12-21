@@ -1,5 +1,6 @@
-export * from './types';
-export { Client, ClientConfig, KeyDAO } from './client';
+//export * from './types';
+//export { Client, ClientConfig, KeyDAO } from './client';
+export * from "./utils";
 import {
   Client,
   ClientConfig,
