@@ -1,1 +1,0 @@
-{"version":3,"file":"slashing.js","sourceRoot":"","sources":["../../../src/types/slashing.ts"],"names":[],"mappings":";;;AAAA,mCAAoC;AAyCpC;;;GAGG;AACH,MAAa,SAAU,SAAQ,WAAG;IAKhC,YAAY,OAAe;QACzB,KAAK,CAAC,4BAA4B,CAAC,CAAC;QACpC,IAAI,CAAC,KAAK,GAAG;YACX,OAAO;SACR,CAAC;IACJ,CAAC;IAED,YAAY;QACV,OAAO,IAAI,CAAC,KAAK,CAAC;IACpB,CAAC;CACF;AAfD,8BAeC"}

@@ -1,32 +1,71 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.Crypto = void 0;
-const csprng = require("secure-random");
-const bech32 = require("bech32");
-const cryp = require("crypto-browserify");
-const uuid = require("uuid");
-const is = require("is_js");
-const bip32 = require("bip32");
-const bip39 = require("bip39");
-const elliptic_1 = require("elliptic");
-const utils_1 = require("./utils");
-const types = require("../types");
-const errors_1 = require("../errors");
-const Sha256 = require('sha256');
-const Secp256k1 = require('secp256k1');
+
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var csprng = _interopRequireWildcard(require("secure-random"));
+
+var bech32 = _interopRequireWildcard(require("bech32"));
+
+var cryp = _interopRequireWildcard(require("crypto-browserify"));
+
+var uuid = _interopRequireWildcard(require("uuid"));
+
+var is = _interopRequireWildcard(require("is_js"));
+
+var bip32 = _interopRequireWildcard(require("bip32"));
+
+var bip39 = _interopRequireWildcard(require("bip39"));
+
+var _elliptic = require("elliptic");
+
+var _utils = require("./utils");
+
+var types = _interopRequireWildcard(require("../types"));
+
+var _errors = require("../errors");
+
+var Sha256 = require('sha256');
+
+var Secp256k1 = require('secp256k1');
 /**
  * Crypto Utils
  * @hidden
  */
-class Crypto {
+
+
+var Crypto = /*#__PURE__*/function () {
+  function Crypto() {
+    (0, _classCallCheck2["default"])(this, Crypto);
+  }
+
+  (0, _createClass2["default"])(Crypto, null, [{
+    key: "decodeAddress",
+    // secp256k1 privkey is 32 bytes
+    //hdpath
+
     /**
      * Decodes an address in bech32 format.
      * @param address The bech32 address to decode
      * @returns The decoded address buffer
      */
-    static decodeAddress(address) {
-        const decodeAddress = bech32.decode(address);
-        return Buffer.from(bech32.fromWords(decodeAddress.words));
+    value: function decodeAddress(address) {
+      var decodeAddress = bech32.decode(address);
+      return Buffer.from(bech32.fromWords(decodeAddress.words));
     }
     /**
      * Checks whether an address is valid.
@@ -34,22 +73,26 @@ class Crypto {
      * @param hrp The prefix to check for the bech32 address
      * @returns true if the address is valid
      */
-    static checkAddress(address, hrp) {
-        try {
-            if (!address.startsWith(hrp)) {
-                return false;
-            }
-            const decodedAddress = bech32.decode(address);
-            const decodedAddressLength = Crypto.decodeAddress(address).length;
-            if (decodedAddressLength === Crypto.DECODED_ADDRESS_LEN &&
-                decodedAddress.prefix === hrp) {
-                return true;
-            }
-            return false;
+
+  }, {
+    key: "checkAddress",
+    value: function checkAddress(address, hrp) {
+      try {
+        if (!address.startsWith(hrp)) {
+          return false;
         }
-        catch (err) {
-            return false;
+
+        var decodedAddress = bech32.decode(address);
+        var decodedAddressLength = Crypto.decodeAddress(address).length;
+
+        if (decodedAddressLength === Crypto.DECODED_ADDRESS_LEN && decodedAddress.prefix === hrp) {
+          return true;
         }
+
+        return false;
+      } catch (err) {
+        return false;
+      }
     }
     /**
      * Encodes an address from input data bytes.
@@ -58,9 +101,14 @@ class Crypto {
      * @param type The output type (default: hex)
      * @returns Bech32 address
      */
-    static encodeAddress(pubkey, hrp = 'iaa', type = 'hex') {
-        const words = bech32.toWords(Buffer.from(pubkey, type));
-        return bech32.encode(hrp, words);
+
+  }, {
+    key: "encodeAddress",
+    value: function encodeAddress(pubkey) {
+      var hrp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'iaa';
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'hex';
+      var words = bech32.toWords(Buffer.from(pubkey, type));
+      return bech32.encode(hrp, words);
     }
     /**
      * ConvertAndEncode converts from a base64 encoded byte array to bach32 encoded byte string and then to bech32
@@ -68,82 +116,108 @@ class Crypto {
      * @param data Base64 encoded byte array
      * @returns Bech32 address
      */
-    static convertAndEncode(hrp, data) {
-        const converted = Crypto.convertBits(data, 8, 5, true);
-        return bech32.encode(hrp, converted);
+
+  }, {
+    key: "convertAndEncode",
+    value: function convertAndEncode(hrp, data) {
+      var converted = Crypto.convertBits(data, 8, 5, true);
+      return bech32.encode(hrp, converted);
     }
     /**
      * DecodeAndConvert decodes a bech32 encoded string and converts to base64 encoded bytes
      * @param address Bech32 address
      * @returns Base64 encoded bytes
      */
-    static decodeAndConvert(address) {
-        const decodeAddress = bech32.decode(address);
-        return Crypto.convertBits(decodeAddress.words, 5, 8, false);
+
+  }, {
+    key: "decodeAndConvert",
+    value: function decodeAndConvert(address) {
+      var decodeAddress = bech32.decode(address);
+      return Crypto.convertBits(decodeAddress.words, 5, 8, false);
     }
     /**
      * Generates 32 bytes of random entropy
      * @param len The output length (default: 32 bytes)
      * @returns An entropy bytes hexstring
      */
-    static generatePrivateKey(len = Crypto.PRIVKEY_LEN) {
-        return utils_1.Utils.ab2hexstring(csprng(len));
+
+  }, {
+    key: "generatePrivateKey",
+    value: function generatePrivateKey() {
+      var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Crypto.PRIVKEY_LEN;
+      return _utils.Utils.ab2hexstring(csprng(len));
     }
     /**
      * Generates an arrayBuffer filled with random bits.
      * @param length The length of buffer.
      * @returns A random array buffer
      */
-    static generateRandomArray(length) {
-        return csprng(length);
+
+  }, {
+    key: "generateRandomArray",
+    value: function generateRandomArray(length) {
+      return csprng(length);
     }
     /**
      * Gets the pubkey hexstring
      * @param publicKey Encoded public key
      * @returns Public key hexstring
      */
-    static getPublicKey(publicKey) {
-        const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
-        return keyPair.getPublic();
+
+  }, {
+    key: "getPublicKey",
+    value: function getPublicKey(publicKey) {
+      var keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
+      return keyPair.getPublic();
     }
     /**
      * Calculates the public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @returns Public key hexstring
      */
-    static getPublicKeyFromPrivateKey(privateKeyHex) {
-        if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-            throw new errors_1.SdkError('invalid privateKey');
-        }
-        const curve = new elliptic_1.ec(Crypto.CURVE);
-        const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
-        const unencodedPubKey = keypair.getPublic().encode('hex');
-        return unencodedPubKey;
+
+  }, {
+    key: "getPublicKeyFromPrivateKey",
+    value: function getPublicKeyFromPrivateKey(privateKeyHex) {
+      if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
+        throw new _errors.SdkError('invalid privateKey');
+      }
+
+      var curve = new _elliptic.ec(Crypto.CURVE);
+      var keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
+      var unencodedPubKey = keypair.getPublic().encode('hex');
+      return unencodedPubKey;
     }
     /**
      * Calculates the Secp256k1 public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @returns Tendermint public key
      */
-    static getPublicKeySecp256k1FromPrivateKey(privateKeyHex) {
-        const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
-        const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-        const pubPoint = pubKey.getPublic();
-        const compressed = pubPoint.encodeCompressed();
-        return {
-            type: 'tendermint/PubKeySecp256k1',
-            value: Buffer.from(compressed).toString('base64'),
-        };
+
+  }, {
+    key: "getPublicKeySecp256k1FromPrivateKey",
+    value: function getPublicKeySecp256k1FromPrivateKey(privateKeyHex) {
+      var publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
+      var pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
+      var pubPoint = pubKey.getPublic();
+      var compressed = pubPoint.encodeCompressed();
+      return {
+        type: 'tendermint/PubKeySecp256k1',
+        value: Buffer.from(compressed).toString('base64')
+      };
     }
     /**
      * Calculates the amino prefix Secp256k1 public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @returns Tendermint public key
      */
-    static getAminoPrefixPublicKey(privateKeyHex) {
-        const tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
-        let pk = Crypto.aminoMarshalPubKey(tendermintPK);
-        return Buffer.from(pk).toString('hex');
+
+  }, {
+    key: "getAminoPrefixPublicKey",
+    value: function getAminoPrefixPublicKey(privateKeyHex) {
+      var tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
+      var pk = Crypto.aminoMarshalPubKey(tendermintPK);
+      return Buffer.from(pk).toString('hex');
     }
     /**
      * [marshalPubKey description]
@@ -151,32 +225,45 @@ class Crypto {
      * @param  {[type]} lengthPrefixed:boolean length prefixed
      * @return {[type]} Uint8Array public key with amino prefix
      */
-    static aminoMarshalPubKey(pubKey, lengthPrefixed) {
-        const { type, value } = pubKey;
-        let pk = Crypto.getAminoPrefix(type);
-        pk = pk.concat(Buffer.from(value, 'base64').length);
-        pk = pk.concat(Array.from(Buffer.from(value, 'base64')));
-        if (lengthPrefixed) {
-            pk = [pk.length, ...pk];
-        }
-        return pk;
+
+  }, {
+    key: "aminoMarshalPubKey",
+    value: function aminoMarshalPubKey(pubKey, lengthPrefixed) {
+      var type = pubKey.type,
+          value = pubKey.value;
+      var pk = Crypto.getAminoPrefix(type);
+      pk = pk.concat(Buffer.from(value, 'base64').length);
+      pk = pk.concat(Array.from(Buffer.from(value, 'base64')));
+
+      if (lengthPrefixed) {
+        pk = [pk.length].concat((0, _toConsumableArray2["default"])(pk));
+      }
+
+      return pk;
     }
     /**
      * get amino prefix from public key encode type.
      * @param public key encode type
      * @returns UintArray
      */
-    static getAminoPrefix(prefix) {
-        let b = Array.from(Buffer.from(Sha256(prefix), 'hex'));
-        while (b[0] === 0) {
-            b = b.slice(1, b.length - 1);
-        }
-        b = b.slice(3, b.length - 1);
-        while (b[0] === 0) {
-            b = b.slice(1, b.length - 1);
-        }
-        b = b.slice(0, 4);
-        return b;
+
+  }, {
+    key: "getAminoPrefix",
+    value: function getAminoPrefix(prefix) {
+      var b = Array.from(Buffer.from(Sha256(prefix), 'hex'));
+
+      while (b[0] === 0) {
+        b = b.slice(1, b.length - 1);
+      }
+
+      b = b.slice(3, b.length - 1);
+
+      while (b[0] === 0) {
+        b = b.slice(1, b.length - 1);
+      }
+
+      b = b.slice(0, 4);
+      return b;
     }
     /**
      * PubKey performs the point-scalar multiplication from the privKey on the
@@ -184,10 +271,13 @@ class Crypto {
      * @param privateKey
      * @returns Public key hexstring
      */
-    static generatePubKey(privateKey) {
-        const curve = new elliptic_1.ec(Crypto.CURVE);
-        const keypair = curve.keyFromPrivate(privateKey);
-        return keypair.getPublic();
+
+  }, {
+    key: "generatePubKey",
+    value: function generatePubKey(privateKey) {
+      var curve = new _elliptic.ec(Crypto.CURVE);
+      var keypair = curve.keyFromPrivate(privateKey);
+      return keypair.getPublic();
     }
     /**
      * Gets an address from a public key hex.
@@ -196,14 +286,21 @@ class Crypto {
      *
      * @returns The address
      */
-    static getAddressFromPublicKey(publicKeyHex, prefix) {
-        const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-        const pubPoint = pubKey.getPublic();
-        const compressed = pubPoint.encodeCompressed();
-        const hexed = utils_1.Utils.ab2hexstring(compressed);
-        const hash = utils_1.Utils.sha256ripemd160(hexed); // https://git.io/fAn8N
-        const address = Crypto.encodeAddress(hash, prefix);
-        return address;
+
+  }, {
+    key: "getAddressFromPublicKey",
+    value: function getAddressFromPublicKey(publicKeyHex, prefix) {
+      var pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
+      var pubPoint = pubKey.getPublic();
+      var compressed = pubPoint.encodeCompressed();
+
+      var hexed = _utils.Utils.ab2hexstring(compressed);
+
+      var hash = _utils.Utils.sha256ripemd160(hexed); // https://git.io/fAn8N
+
+
+      var address = Crypto.encodeAddress(hash, prefix);
+      return address;
     }
     /**
      * Gets an address from a private key.
@@ -211,8 +308,11 @@ class Crypto {
      * @param prefix Bech32 prefix
      * @returns The address
      */
-    static getAddressFromPrivateKey(privateKeyHex, prefix) {
-        return Crypto.getAddressFromPublicKey(Crypto.getPublicKeyFromPrivateKey(privateKeyHex), prefix);
+
+  }, {
+    key: "getAddressFromPrivateKey",
+    value: function getAddressFromPrivateKey(privateKeyHex, prefix) {
+      return Crypto.getAddressFromPublicKey(Crypto.getPublicKeyFromPrivateKey(privateKeyHex), prefix);
     }
     /**
      * Verifies a signature (64 byte <r,s>) given the sign bytes and public key.
@@ -234,17 +334,23 @@ class Crypto {
     //   const msgHashHex = Buffer.from(msgHash, 'hex');
     //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
     // }
+
     /**
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize, private_key) {
-        let hash = Buffer.from(Sha256(signDocSerialize, { asBytes: true }));
-        let prikeyArr = Buffer.from(private_key, 'hex');
-        let sig = Secp256k1.sign(hash, prikeyArr);
-        return sig.signature.toString('base64');
+
+  }, {
+    key: "generateSignature",
+    value: function generateSignature(signDocSerialize, private_key) {
+      var hash = Buffer.from(Sha256(signDocSerialize, {
+        asBytes: true
+      }));
+      var prikeyArr = Buffer.from(private_key, 'hex');
+      var sig = Secp256k1.sign(hash, prikeyArr);
+      return sig.signature.toString('base64');
     }
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
@@ -254,45 +360,48 @@ class Crypto {
      * @param iterations Number of iterations. Defaults to 262144
      * @returns The keystore object.
      */
-    static generateKeyStore(privateKeyHex, password, prefix, iterations = 262144) {
-        const salt = cryp.randomBytes(32);
-        const iv = cryp.randomBytes(16);
-        const cipherAlg = 'aes-128-ctr';
-        const kdf = 'pbkdf2';
-        const kdfparams = {
-            dklen: 32,
-            salt: salt.toString('hex'),
-            c: iterations,
-            prf: 'hmac-sha256',
-        };
-        const derivedKey = cryp.pbkdf2Sync(Buffer.from(password), salt, kdfparams.c, kdfparams.dklen, 'sha256');
-        const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
-        if (!cipher) {
-            throw new errors_1.SdkError('Unsupported cipher');
+
+  }, {
+    key: "generateKeyStore",
+    value: function generateKeyStore(privateKeyHex, password, prefix) {
+      var iterations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 262144;
+      var salt = cryp.randomBytes(32);
+      var iv = cryp.randomBytes(16);
+      var cipherAlg = 'aes-128-ctr';
+      var kdf = 'pbkdf2';
+      var kdfparams = {
+        dklen: 32,
+        salt: salt.toString('hex'),
+        c: iterations,
+        prf: 'hmac-sha256'
+      };
+      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), salt, kdfparams.c, kdfparams.dklen, 'sha256');
+      var cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
+
+      if (!cipher) {
+        throw new _errors.SdkError('Unsupported cipher');
+      }
+
+      var ciphertext = Buffer.concat([cipher.update(Buffer.from(privateKeyHex, 'hex')), cipher["final"]()]);
+      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+      return {
+        version: 1,
+        id: uuid.v4({
+          random: cryp.randomBytes(16)
+        }),
+        address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
+        crypto: {
+          ciphertext: ciphertext.toString('hex'),
+          cipherparams: {
+            iv: iv.toString('hex')
+          },
+          cipher: cipherAlg,
+          kdf: kdf,
+          kdfparams: kdfparams,
+          // mac must use sha3 according to web3 secret storage spec
+          mac: _utils.Utils.sha3(bufferValue.toString('hex'))
         }
-        const ciphertext = Buffer.concat([
-            cipher.update(Buffer.from(privateKeyHex, 'hex')),
-            cipher.final(),
-        ]);
-        const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
-        return {
-            version: 1,
-            id: uuid.v4({
-                random: cryp.randomBytes(16),
-            }),
-            address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
-            crypto: {
-                ciphertext: ciphertext.toString('hex'),
-                cipherparams: {
-                    iv: iv.toString('hex'),
-                },
-                cipher: cipherAlg,
-                kdf,
-                kdfparams,
-                // mac must use sha3 according to web3 secret storage spec
-                mac: utils_1.Utils.sha3(bufferValue.toString('hex')),
-            },
-        };
+      };
     }
     /**
      * Gets a private key from a keystore given its password.
@@ -300,45 +409,61 @@ class Crypto {
      * @param password The password.
      * @returns The private key
      */
-    static getPrivateKeyFromKeyStore(keystore, password) {
-        if (!is.string(password)) {
-            throw new errors_1.SdkError('No password given.');
+
+  }, {
+    key: "getPrivateKeyFromKeyStore",
+    value: function getPrivateKeyFromKeyStore(keystore, password) {
+      if (!is.string(password)) {
+        throw new _errors.SdkError('No password given.');
+      }
+
+      var json = is.object(keystore) ? keystore : JSON.parse(keystore.toString());
+      var kdfparams = json.crypto.kdfparams;
+
+      if (kdfparams.prf !== 'hmac-sha256') {
+        throw new _errors.SdkError('Unsupported parameters to PBKDF2');
+      }
+
+      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, 'hex'), kdfparams.c, kdfparams.dklen, 'sha256');
+      var ciphertext = Buffer.from(json.crypto.ciphertext, 'hex');
+      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]); // try sha3 (new / ethereum keystore) mac first
+
+      var mac = _utils.Utils.sha3(bufferValue.toString('hex'));
+
+      if (mac !== json.crypto.mac) {
+        // the legacy (sha256) mac is next to be checked. pre-testnet keystores used a sha256 digest for the mac.
+        // the sha256 mac was not compatible with ethereum keystores, so it was changed to sha3 for mainnet.
+        var macLegacy = _utils.Utils.sha256(bufferValue.toString('hex'));
+
+        if (macLegacy !== json.crypto.mac) {
+          throw new _errors.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?');
         }
-        const json = is.object(keystore)
-            ? keystore
-            : JSON.parse(keystore.toString());
-        const kdfparams = json.crypto.kdfparams;
-        if (kdfparams.prf !== 'hmac-sha256') {
-            throw new errors_1.SdkError('Unsupported parameters to PBKDF2');
-        }
-        const derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, 'hex'), kdfparams.c, kdfparams.dklen, 'sha256');
-        const ciphertext = Buffer.from(json.crypto.ciphertext, 'hex');
-        const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
-        // try sha3 (new / ethereum keystore) mac first
-        const mac = utils_1.Utils.sha3(bufferValue.toString('hex'));
-        if (mac !== json.crypto.mac) {
-            // the legacy (sha256) mac is next to be checked. pre-testnet keystores used a sha256 digest for the mac.
-            // the sha256 mac was not compatible with ethereum keystores, so it was changed to sha3 for mainnet.
-            const macLegacy = utils_1.Utils.sha256(bufferValue.toString('hex'));
-            if (macLegacy !== json.crypto.mac) {
-                throw new errors_1.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?');
-            }
-        }
-        const decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 16), Buffer.from(json.crypto.cipherparams.iv, 'hex'));
-        const privateKey = Buffer.concat([
-            decipher.update(ciphertext),
-            decipher.final(),
-        ]).toString('hex');
-        return privateKey;
+      }
+
+      var decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 16), Buffer.from(json.crypto.cipherparams.iv, 'hex'));
+      var privateKey = Buffer.concat([decipher.update(ciphertext), decipher["final"]()]).toString('hex');
+      return privateKey;
     }
     /**
      * Generates mnemonic phrase words using random entropy.
      *
      * @returns Mnemonic
      */
-    static generateMnemonic() {
-        return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
+
+  }, {
+    key: "generateMnemonic",
+    value: function generateMnemonic() {
+      return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
     }
+    /**
+     * Validates mnemonic phrase words.
+     * @param mnemonic The mnemonic phrase words
+     * @returns Validation result
+     */
+
+  }, {
+    key: "getPrivateKeyFromMnemonic",
+
     /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words
@@ -347,87 +472,104 @@ class Crypto {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    static getPrivateKeyFromMnemonic(mnemonic, derive = true, index = 0, password = '') {
-        if (!bip39.validateMnemonic(mnemonic)) {
-            throw new errors_1.SdkError('wrong mnemonic format');
+    value: function getPrivateKeyFromMnemonic(mnemonic) {
+      var derive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var password = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+
+      if (!bip39.validateMnemonic(mnemonic)) {
+        throw new _errors.SdkError('wrong mnemonic format');
+      }
+
+      var seed = bip39.mnemonicToSeedSync(mnemonic, password);
+
+      if (derive) {
+        var master = bip32.fromSeed(seed);
+        var child = master.derivePath(Crypto.HDPATH + index);
+
+        if (typeof child === 'undefined' || typeof child.privateKey === 'undefined') {
+          throw new _errors.SdkError('error getting private key from mnemonic');
         }
-        const seed = bip39.mnemonicToSeedSync(mnemonic, password);
-        if (derive) {
-            const master = bip32.fromSeed(seed);
-            const child = master.derivePath(Crypto.HDPATH + index);
-            if (typeof child === 'undefined' ||
-                typeof child.privateKey === 'undefined') {
-                throw new errors_1.SdkError('error getting private key from mnemonic');
-            }
-            return child.privateKey.toString('hex');
-        }
-        return seed.toString('hex');
+
+        return child.privateKey.toString('hex');
+      }
+
+      return seed.toString('hex');
     }
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string
      * @throws tx hash
      */
-    static generateTxHash(tx) {
-        if (!tx || typeof tx != 'string') {
-            throw new errors_1.SdkError('invalid tx');
-        }
-        const tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
-        if (!tx_pb) {
-            throw new errors_1.SdkError('deserialize tx err');
-        }
-        const txRaw = new types.tx_tx_pb.TxRaw();
-        txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());
-        txRaw.setAuthInfoBytes(tx_pb.getAuthInfo().serializeBinary());
-        tx_pb.getSignaturesList().forEach((signature) => {
-            txRaw.addSignatures(signature);
-        });
-        return (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
+
+  }, {
+    key: "generateTxHash",
+    value: function generateTxHash(tx) {
+      if (!tx || typeof tx != 'string') {
+        throw new _errors.SdkError('invalid tx');
+      }
+
+      var tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
+
+      if (!tx_pb) {
+        throw new _errors.SdkError('deserialize tx err');
+      }
+
+      var txRaw = new types.tx_tx_pb.TxRaw();
+      txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());
+      txRaw.setAuthInfoBytes(tx_pb.getAuthInfo().serializeBinary());
+      tx_pb.getSignaturesList().forEach(function (signature) {
+        txRaw.addSignatures(signature);
+      });
+      return (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
     }
     /**
      * Copy from https://github.com/sipa/bech32/blob/master/ref/javascript/segwit_addr.js
      */
-    static convertBits(data, frombits, tobits, pad) {
-        let acc = 0;
-        let bits = 0;
-        let ret = [];
-        let maxv = (1 << tobits) - 1;
-        for (let p = 0; p < data.length; ++p) {
-            let value = data[p];
-            if (value < 0 || value >> frombits !== 0) {
-                return [];
-            }
-            acc = (acc << frombits) | value;
-            bits += frombits;
-            while (bits >= tobits) {
-                bits -= tobits;
-                ret.push((acc >> bits) & maxv);
-            }
+
+  }, {
+    key: "convertBits",
+    value: function convertBits(data, frombits, tobits, pad) {
+      var acc = 0;
+      var bits = 0;
+      var ret = [];
+      var maxv = (1 << tobits) - 1;
+
+      for (var p = 0; p < data.length; ++p) {
+        var value = data[p];
+
+        if (value < 0 || value >> frombits !== 0) {
+          return [];
         }
-        if (pad) {
-            if (bits > 0) {
-                ret.push((acc << (tobits - bits)) & maxv);
-            }
+
+        acc = acc << frombits | value;
+        bits += frombits;
+
+        while (bits >= tobits) {
+          bits -= tobits;
+          ret.push(acc >> bits & maxv);
         }
-        else if (bits >= frombits || (acc << (tobits - bits)) & maxv) {
-            return [];
+      }
+
+      if (pad) {
+        if (bits > 0) {
+          ret.push(acc << tobits - bits & maxv);
         }
-        return ret;
+      } else if (bits >= frombits || acc << tobits - bits & maxv) {
+        return [];
+      }
+
+      return ret;
     }
-}
+  }]);
+  return Crypto;
+}();
+
 exports.Crypto = Crypto;
-// secp256k1 privkey is 32 bytes
-Crypto.PRIVKEY_LEN = 32;
-Crypto.MNEMONIC_LEN = 256;
-Crypto.DECODED_ADDRESS_LEN = 20;
-Crypto.CURVE = 'secp256k1';
-//hdpath
-Crypto.HDPATH = "44'/118'/0'/0/";
-Crypto.ec = new elliptic_1.ec(Crypto.CURVE);
-/**
- * Validates mnemonic phrase words.
- * @param mnemonic The mnemonic phrase words
- * @returns Validation result
- */
-Crypto.validateMnemonic = bip39.validateMnemonic;
-//# sourceMappingURL=crypto.js.map
+(0, _defineProperty2["default"])(Crypto, "PRIVKEY_LEN", 32);
+(0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 256);
+(0, _defineProperty2["default"])(Crypto, "DECODED_ADDRESS_LEN", 20);
+(0, _defineProperty2["default"])(Crypto, "CURVE", 'secp256k1');
+(0, _defineProperty2["default"])(Crypto, "HDPATH", "44'/118'/0'/0/");
+(0, _defineProperty2["default"])(Crypto, "ec", new _elliptic.ec(Crypto.CURVE));
+(0, _defineProperty2["default"])(Crypto, "validateMnemonic", bip39.validateMnemonic);

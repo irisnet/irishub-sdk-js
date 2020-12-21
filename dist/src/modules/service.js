@@ -1,39 +1,57 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.Service = void 0;
-const service_1 = require("../types/service");
-const errors_1 = require("../errors");
-const utils_1 = require("../utils");
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _service = require("../types/service");
+
+var _errors = require("../errors");
+
+var _utils = require("../utils");
+
 /**
  * @todo docs
  * @category Modules
  * @since v0.17
  */
-class Service {
-    /** @hidden */
-    constructor(client) {
-        this.client = client;
-    }
-    /**
-     * Query a service definition
-     *
-     * @param serviceName The unique service name
-     * @returns
-     * @since v0.17
-     */
-    queryDefinition(serviceName) {
-        return this.client.rpcClient.abciQuery('custom/service/definition', {
-            ServiceName: serviceName,
-        });
+var Service = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+  function Service(client) {
+    (0, _classCallCheck2["default"])(this, Service);
+    (0, _defineProperty2["default"])(this, "client", void 0);
+    this.client = client;
+  }
+  /**
+   * Query a service definition
+   *
+   * @param serviceName The unique service name
+   * @returns
+   * @since v0.17
+   */
+
+
+  (0, _createClass2["default"])(Service, [{
+    key: "queryDefinition",
+    value: function queryDefinition(serviceName) {
+      return this.client.rpcClient.abciQuery('custom/service/definition', {
+        ServiceName: serviceName
+      });
     }
     /**
      * Query a service binding
@@ -43,11 +61,14 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryBinding(serviceName, provider) {
-        return this.client.rpcClient.abciQuery('custom/service/binding', {
-            ServiceName: serviceName,
-            Provider: provider,
-        });
+
+  }, {
+    key: "queryBinding",
+    value: function queryBinding(serviceName, provider) {
+      return this.client.rpcClient.abciQuery('custom/service/binding', {
+        ServiceName: serviceName,
+        Provider: provider
+      });
     }
     /**
      * Query service bindings by service name
@@ -56,10 +77,13 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryBindings(serviceName) {
-        return this.client.rpcClient.abciQuery('custom/service/bindings', {
-            ServiceName: serviceName,
-        });
+
+  }, {
+    key: "queryBindings",
+    value: function queryBindings(serviceName) {
+      return this.client.rpcClient.abciQuery('custom/service/bindings', {
+        ServiceName: serviceName
+      });
     }
     /**
      * Query a service request
@@ -68,10 +92,13 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryRequest(requestID) {
-        return this.client.rpcClient.abciQuery('custom/service/request', {
-            RequestID: requestID,
-        });
+
+  }, {
+    key: "queryRequest",
+    value: function queryRequest(requestID) {
+      return this.client.rpcClient.abciQuery('custom/service/request', {
+        RequestID: requestID
+      });
     }
     /**
      * Query all requests of a specified service and provider
@@ -81,11 +108,14 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryRequests(serviceName, provider) {
-        return this.client.rpcClient.abciQuery('custom/service/request', {
-            ServiceName: serviceName,
-            Provider: provider,
-        });
+
+  }, {
+    key: "queryRequests",
+    value: function queryRequests(serviceName, provider) {
+      return this.client.rpcClient.abciQuery('custom/service/request', {
+        ServiceName: serviceName,
+        Provider: provider
+      });
     }
     /**
      * Query all requests of a specified request context ID and batch counter
@@ -95,11 +125,14 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryRequestsByReqCtx(requestContextID, batchCounter) {
-        return this.client.rpcClient.abciQuery('custom/service/requests_by_ctx', {
-            RequestContextID: utils_1.Utils.str2ab(requestContextID),
-            BatchCounter: batchCounter,
-        });
+
+  }, {
+    key: "queryRequestsByReqCtx",
+    value: function queryRequestsByReqCtx(requestContextID, batchCounter) {
+      return this.client.rpcClient.abciQuery('custom/service/requests_by_ctx', {
+        RequestContextID: _utils.Utils.str2ab(requestContextID),
+        BatchCounter: batchCounter
+      });
     }
     /**
      * Query a request context
@@ -108,10 +141,13 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryRequestContext(requestContextID) {
-        return this.client.rpcClient.abciQuery('custom/service/context', {
-            RequestContextID: utils_1.Utils.str2ab(requestContextID),
-        });
+
+  }, {
+    key: "queryRequestContext",
+    value: function queryRequestContext(requestContextID) {
+      return this.client.rpcClient.abciQuery('custom/service/context', {
+        RequestContextID: _utils.Utils.str2ab(requestContextID)
+      });
     }
     /**
      * Query a service response
@@ -120,10 +156,13 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryResponse(requestID) {
-        return this.client.rpcClient.abciQuery('custom/service/response', {
-            RequestID: requestID,
-        });
+
+  }, {
+    key: "queryResponse",
+    value: function queryResponse(requestID) {
+      return this.client.rpcClient.abciQuery('custom/service/response', {
+        RequestID: requestID
+      });
     }
     /**
      * Query service responses
@@ -133,11 +172,14 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryResponses(requestContextID, batchCounter) {
-        return this.client.rpcClient.abciQuery('custom/service/responses', {
-            RequestContextID: utils_1.Utils.str2ab(requestContextID),
-            BatchCounter: batchCounter,
-        });
+
+  }, {
+    key: "queryResponses",
+    value: function queryResponses(requestContextID, batchCounter) {
+      return this.client.rpcClient.abciQuery('custom/service/responses', {
+        RequestContextID: _utils.Utils.str2ab(requestContextID),
+        BatchCounter: batchCounter
+      });
     }
     /**
      * Query service fee
@@ -146,10 +188,13 @@ class Service {
      * @returns
      * @since v0.17
      */
-    queryFees(provider) {
-        return this.client.rpcClient.abciQuery('custom/service/fees', {
-            Address: provider,
-        });
+
+  }, {
+    key: "queryFees",
+    value: function queryFees(provider) {
+      return this.client.rpcClient.abciQuery('custom/service/fees', {
+        Address: provider
+      });
     }
     /**
      * Creating a new service definition
@@ -159,22 +204,41 @@ class Service {
      * @returns
      * @since v0.17
      */
-    defineService(definition, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const author = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgDefineService({
-                    name: definition.name,
-                    author,
-                    schemas: definition.schemas,
-                    description: definition.description,
-                    tags: definition.tags,
-                    author_description: definition.author_description,
-                }),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "defineService",
+    value: function () {
+      var _defineService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(definition, baseTx) {
+        var author, msgs;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                author = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgDefineService({
+                  name: definition.name,
+                  author: author,
+                  schemas: definition.schemas,
+                  description: definition.description,
+                  tags: definition.tags,
+                  author_description: definition.author_description
+                })];
+                return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function defineService(_x, _x2) {
+        return _defineService.apply(this, arguments);
+      }
+
+      return defineService;
+    }()
     /**
      * Bind an existing service definition
      *
@@ -183,21 +247,44 @@ class Service {
      * @returns
      * @since v0.17
      */
-    bindService(binding, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const deposit = yield this.client.utils.toMinCoins(binding.deposit);
-            const msgs = [
-                new service_1.MsgBindService({
-                    service_name: binding.serviceName,
-                    provider,
-                    deposit,
-                    pricing: binding.pricing,
-                }),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "bindService",
+    value: function () {
+      var _bindService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(binding, baseTx) {
+        var provider, deposit, msgs;
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                _context2.next = 3;
+                return this.client.utils.toMinCoins(binding.deposit);
+
+              case 3:
+                deposit = _context2.sent;
+                msgs = [new _service.MsgBindService({
+                  service_name: binding.serviceName,
+                  provider: provider,
+                  deposit: deposit,
+                  pricing: binding.pricing
+                })];
+                return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function bindService(_x3, _x4) {
+        return _bindService.apply(this, arguments);
+      }
+
+      return bindService;
+    }()
     /**
      * Update the specified service binding
      *
@@ -206,21 +293,44 @@ class Service {
      * @returns
      * @since v0.17
      */
-    updateServiceBinding(binding, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const deposit = yield this.client.utils.toMinCoins(binding.deposit);
-            const msgs = [
-                new service_1.MsgUpdateServiceBinding({
-                    service_name: binding.serviceName,
-                    provider,
-                    deposit,
-                    pricing: binding.pricing,
-                }),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "updateServiceBinding",
+    value: function () {
+      var _updateServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(binding, baseTx) {
+        var provider, deposit, msgs;
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                _context3.next = 3;
+                return this.client.utils.toMinCoins(binding.deposit);
+
+              case 3:
+                deposit = _context3.sent;
+                msgs = [new _service.MsgUpdateServiceBinding({
+                  service_name: binding.serviceName,
+                  provider: provider,
+                  deposit: deposit,
+                  pricing: binding.pricing
+                })];
+                return _context3.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function updateServiceBinding(_x5, _x6) {
+        return _updateServiceBinding.apply(this, arguments);
+      }
+
+      return updateServiceBinding;
+    }()
     /**
      * Disable an available service binding
      *
@@ -229,15 +339,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    disableServiceBinding(serviceName, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgDisableServiceBinding(serviceName, provider),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "disableServiceBinding",
+    value: function () {
+      var _disableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(serviceName, baseTx) {
+        var provider, msgs;
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgDisableServiceBinding(serviceName, provider)];
+                return _context4.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function disableServiceBinding(_x7, _x8) {
+        return _disableServiceBinding.apply(this, arguments);
+      }
+
+      return disableServiceBinding;
+    }()
     /**
      * Enable an unavailable service binding
      *
@@ -247,15 +376,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    enableServiceBinding(serviceName, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgEnableServiceBinding(serviceName, provider),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "enableServiceBinding",
+    value: function () {
+      var _enableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(serviceName, baseTx) {
+        var provider, msgs;
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgEnableServiceBinding(serviceName, provider)];
+                return _context5.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function enableServiceBinding(_x9, _x10) {
+        return _enableServiceBinding.apply(this, arguments);
+      }
+
+      return enableServiceBinding;
+    }()
     /**
      * Initiate a service call
      *
@@ -265,27 +413,31 @@ class Service {
      * @returns
      * @since v0.17
      */
-    invokeService(request, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // const consumer = this.client.keys.show(baseTx.from);
-            // const msgs: types.Msg[] = [
-            //   new MsgRequestService({
-            //     service_name: request.serviceName,
-            //     providers: request.providers,
-            //     consumer,
-            //     input: request.input,
-            //     service_fee_cap: request.serviceFeeCap,
-            //     timeout: request.timeout,
-            //     super_mode: request.superMode,
-            //     repeated: request.repeated,
-            //     repeated_frequency: request.repeatedFrequency,
-            //     repeated_total: request.repeatedTotal,
-            //   }),
-            // ];
-            // return this.client.tx.buildAndSend(msgs, baseTx);
-            throw new errors_1.SdkError('Not supported');
-        });
-    }
+
+  }, {
+    key: "invokeService",
+    value: function () {
+      var _invokeService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(request, baseTx) {
+        return _regenerator["default"].wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                throw new _errors.SdkError('Not supported');
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }));
+
+      function invokeService(_x11, _x12) {
+        return _invokeService.apply(this, arguments);
+      }
+
+      return invokeService;
+    }()
     /**
      * Set a withdrawal address for a provider
      *
@@ -294,15 +446,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    setWithdrawAddress(withdrawAddress, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgSetServiceWithdrawAddress(withdrawAddress, provider),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "setWithdrawAddress",
+    value: function () {
+      var _setWithdrawAddress = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(withdrawAddress, baseTx) {
+        var provider, msgs;
+        return _regenerator["default"].wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgSetServiceWithdrawAddress(withdrawAddress, provider)];
+                return _context7.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function setWithdrawAddress(_x13, _x14) {
+        return _setWithdrawAddress.apply(this, arguments);
+      }
+
+      return setWithdrawAddress;
+    }()
     /**
      * Refund deposits from the specified service binding
      *
@@ -311,15 +482,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    refundServiceDeposit(serviceName, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgRefundServiceDeposit(serviceName, provider),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "refundServiceDeposit",
+    value: function () {
+      var _refundServiceDeposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(serviceName, baseTx) {
+        var provider, msgs;
+        return _regenerator["default"].wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgRefundServiceDeposit(serviceName, provider)];
+                return _context8.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function refundServiceDeposit(_x15, _x16) {
+        return _refundServiceDeposit.apply(this, arguments);
+      }
+
+      return refundServiceDeposit;
+    }()
     /**
      * Start the specified request context
      *
@@ -328,15 +518,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    startRequestContext(requestContextID, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const consumer = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgStartRequestContext(requestContextID, consumer),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "startRequestContext",
+    value: function () {
+      var _startRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(requestContextID, baseTx) {
+        var consumer, msgs;
+        return _regenerator["default"].wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                consumer = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgStartRequestContext(requestContextID, consumer)];
+                return _context9.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      }));
+
+      function startRequestContext(_x17, _x18) {
+        return _startRequestContext.apply(this, arguments);
+      }
+
+      return startRequestContext;
+    }()
     /**
      * Pause the specified request context
      *
@@ -345,15 +554,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    pauseRequestContext(requestContextID, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const consumer = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgPauseRequestContext(requestContextID, consumer),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "pauseRequestContext",
+    value: function () {
+      var _pauseRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(requestContextID, baseTx) {
+        var consumer, msgs;
+        return _regenerator["default"].wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                consumer = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgPauseRequestContext(requestContextID, consumer)];
+                return _context10.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10, this);
+      }));
+
+      function pauseRequestContext(_x19, _x20) {
+        return _pauseRequestContext.apply(this, arguments);
+      }
+
+      return pauseRequestContext;
+    }()
     /**
      * Kill the specified request context
      *
@@ -362,15 +590,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    killRequestContext(requestContextID, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const consumer = this.client.keys.show(baseTx.from);
-            const msgs = [
-                new service_1.MsgKillRequestContext(requestContextID, consumer),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "killRequestContext",
+    value: function () {
+      var _killRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(requestContextID, baseTx) {
+        var consumer, msgs;
+        return _regenerator["default"].wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                consumer = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgKillRequestContext(requestContextID, consumer)];
+                return _context11.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function killRequestContext(_x21, _x22) {
+        return _killRequestContext.apply(this, arguments);
+      }
+
+      return killRequestContext;
+    }()
     /**
      * Update the specified request context
      *
@@ -379,26 +626,61 @@ class Service {
      * @returns
      * @since v0.17
      */
-    updateRequestContext(request, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const consumer = this.client.keys.show(baseTx.from);
-            const serviceFeeCap = request.service_fee_cap
-                ? yield this.client.utils.toMinCoins(request.service_fee_cap)
-                : [];
-            const msgs = [
-                new service_1.MsgUpdateRequestContext({
-                    request_context_id: request.request_context_id,
-                    providers: request.providers,
-                    service_fee_cap: serviceFeeCap,
-                    timeout: request.timeout || 0,
-                    repeated_frequency: request.repeated_frequency || 0,
-                    repeated_total: request.repeated_total || 0,
-                    consumer,
-                }),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "updateRequestContext",
+    value: function () {
+      var _updateRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(request, baseTx) {
+        var consumer, serviceFeeCap, msgs;
+        return _regenerator["default"].wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                consumer = this.client.keys.show(baseTx.from);
+
+                if (!request.service_fee_cap) {
+                  _context12.next = 7;
+                  break;
+                }
+
+                _context12.next = 4;
+                return this.client.utils.toMinCoins(request.service_fee_cap);
+
+              case 4:
+                _context12.t0 = _context12.sent;
+                _context12.next = 8;
+                break;
+
+              case 7:
+                _context12.t0 = [];
+
+              case 8:
+                serviceFeeCap = _context12.t0;
+                msgs = [new _service.MsgUpdateRequestContext({
+                  request_context_id: request.request_context_id,
+                  providers: request.providers,
+                  service_fee_cap: serviceFeeCap,
+                  timeout: request.timeout || 0,
+                  repeated_frequency: request.repeated_frequency || 0,
+                  repeated_total: request.repeated_total || 0,
+                  consumer: consumer
+                })];
+                return _context12.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 11:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      function updateRequestContext(_x23, _x24) {
+        return _updateRequestContext.apply(this, arguments);
+      }
+
+      return updateRequestContext;
+    }()
     /**
      * Withdraw the earned fees to the specified provider
      *
@@ -406,13 +688,34 @@ class Service {
      * @returns
      * @since v0.17
      */
-    withdrawEarnedFees(baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const provider = this.client.keys.show(baseTx.from);
-            const msgs = [new service_1.MsgWithdrawEarnedFees(provider)];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
+
+  }, {
+    key: "withdrawEarnedFees",
+    value: function () {
+      var _withdrawEarnedFees = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(baseTx) {
+        var provider, msgs;
+        return _regenerator["default"].wrap(function _callee13$(_context13) {
+          while (1) {
+            switch (_context13.prev = _context13.next) {
+              case 0:
+                provider = this.client.keys.show(baseTx.from);
+                msgs = [new _service.MsgWithdrawEarnedFees(provider)];
+                return _context13.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context13.stop();
+            }
+          }
+        }, _callee13, this);
+      }));
+
+      function withdrawEarnedFees(_x25) {
+        return _withdrawEarnedFees.apply(this, arguments);
+      }
+
+      return withdrawEarnedFees;
+    }()
     /**
      * Withdraw the service tax to the speicified destination address by the trustee
      *
@@ -421,14 +724,42 @@ class Service {
      * @returns
      * @since v0.17
      */
-    withdrawTax(destAddress, amount, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const trustee = this.client.keys.show(baseTx.from);
-            const coins = yield this.client.utils.toMinCoins(amount);
-            const msgs = [new service_1.MsgWithdrawTax(trustee, destAddress, coins)];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
-}
+
+  }, {
+    key: "withdrawTax",
+    value: function () {
+      var _withdrawTax = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(destAddress, amount, baseTx) {
+        var trustee, coins, msgs;
+        return _regenerator["default"].wrap(function _callee14$(_context14) {
+          while (1) {
+            switch (_context14.prev = _context14.next) {
+              case 0:
+                trustee = this.client.keys.show(baseTx.from);
+                _context14.next = 3;
+                return this.client.utils.toMinCoins(amount);
+
+              case 3:
+                coins = _context14.sent;
+                msgs = [new _service.MsgWithdrawTax(trustee, destAddress, coins)];
+                return _context14.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 6:
+              case "end":
+                return _context14.stop();
+            }
+          }
+        }, _callee14, this);
+      }));
+
+      function withdrawTax(_x26, _x27, _x28) {
+        return _withdrawTax.apply(this, arguments);
+      }
+
+      return withdrawTax;
+    }() // Service listeners not supported in browser
+
+  }]);
+  return Service;
+}();
+
 exports.Service = Service;
-//# sourceMappingURL=service.js.map

@@ -15,10 +15,16 @@ export declare class Tx {
      * Build Tx
      * @param msgs Msgs to be sent
      * @param baseTx
-     * @returns
+     * @returns unsignedTx
      * @since v0.17
      */
     buildTx(msgs: any[], baseTx: types.BaseTx): types.ProtoTx;
+    /**
+     * generate StdTx from protoTxModel
+     * @param  {[type]} protoTxModel:any instance of cosmos.tx.v1beta1.Tx
+     * @return {[type]} unsignedTx
+     */
+    newStdTxFromProtoTxModel(protoTxModel: any): types.ProtoTx;
     /**
      * Build, sign and broadcast the msgs
      * @param msgs Msgs to be sent
@@ -39,13 +45,11 @@ export declare class Tx {
      * Single sign a transaction
      *
      * @param stdTx StdTx with no signatures
-     * @param name Name of the key to sign the tx
-     * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param baseTx baseTx.from && baseTx.password is requred
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx: types.ProtoTx, name: string, password: string): Promise<types.ProtoTx>;
+    sign(stdTx: types.ProtoTx, baseTx: types.BaseTx): Promise<types.ProtoTx>;
     /**
      * Single sign a transaction with signDoc
      *

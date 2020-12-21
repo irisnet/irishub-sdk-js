@@ -29,8 +29,6 @@ export interface BaseTx {
     account_number?: string | undefined;
     /** Sequence required for offline signatures */
     sequence?: string | undefined;
-    /** Public key required for offline signatures */
-    public_key?: string | undefined;
     mode?: BroadcastMode | undefined;
 }
 /**
@@ -52,4 +50,12 @@ export interface StdSignMsg {
     fee: StdFee;
     memo: string;
     msgs: object[];
+}
+export interface BaseAccount {
+    address: string;
+    pubKey: {
+        key: string;
+    };
+    accountNumber: number;
+    sequence: number;
 }
