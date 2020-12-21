@@ -136,8 +136,8 @@ export class Tx {
     // Query account info from block chain
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
     if (!stdTx.hasPubKey()) {
-      const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
-      stdTx.setPubKey(pubKey, sequence || undefined);
+      const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
+      stdTx.setPubKey({type:baseTx.pubkeyType ||types.PubkeyType.secp256k1, value:pubKey}, sequence || undefined);
     }
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey);
     stdTx.addSignature(signature);

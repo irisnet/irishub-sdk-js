@@ -118,57 +118,98 @@ export class Crypto {
     return csprng(length);
   }
 
+  // /**
+  //  * Gets the pubkey hexstring
+  //  * @param publicKey Encoded public key
+  //  * @returns Public key hexstring
+  //  */
+  // static getPublicKey(publicKey: string): string {
+  //   const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
+  //   return Buffer.from(keyPair.getPublic().encodeCompressed()).toString('hex');
+  // }
+
   /**
-   * Gets the pubkey hexstring
-   * @param publicKey Encoded public key
+   * Calculates the full public key from a given private key.
+   * @param privateKeyHex The private key hexstring
+   * @param type Pubkey Type
    * @returns Public key hexstring
    */
-  static getPublicKey(publicKey: string): string {
-    const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
-    return keyPair.getPublic();
+  static getFullPublicKeyFromPrivateKey(privateKeyHex: string, type?:types.PubkeyType): string {
+    if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
+      throw new SdkError('invalid privateKey');
+    }
+    const pubkey = Crypto.generatePubKey(privateKeyHex, type);
+    switch(type){
+      case types.PubkeyType.ed25519:
+      break;
+      case types.PubkeyType.sm2:
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+        return pubkey.encode('hex')
+    }
+    return '';
   }
 
   /**
    * Calculates the public key from a given private key.
    * @param privateKeyHex The private key hexstring
+   * @param type Pubkey Type
    * @returns Public key hexstring
    */
-  static getPublicKeyFromPrivateKey(privateKeyHex: string): string {
+  static getPublicKeyFromPrivateKey(privateKeyHex: string, type?:types.PubkeyType): string {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
       throw new SdkError('invalid privateKey');
     }
-    const curve = new EC(Crypto.CURVE);
-    const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
-    const unencodedPubKey = keypair.getPublic().encode('hex');
-    return unencodedPubKey;
+    const pubkey = Crypto.generatePubKey(privateKeyHex, type);
+    switch(type){
+      case types.PubkeyType.ed25519:
+      break;
+      case types.PubkeyType.sm2:
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+        return Buffer.from(pubkey.encodeCompressed()).toString('hex');
+    }
+    return '';
   }
 
   /**
-   * Calculates the Secp256k1 public key from a given private key.
+   * PubKey performs the point-scalar multiplication from the privKey on the
+   * generator point to get the pubkey.
    * @param privateKeyHex The private key hexstring
-   * @returns Tendermint public key
+   * @param type Pubkey Type
+   * @returns Public key hexstring
    */
-  static getPublicKeySecp256k1FromPrivateKey(
-    privateKeyHex: string
-  ): types.Pubkey {
-    const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
-    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-    const pubPoint = pubKey.getPublic();
-    const compressed = pubPoint.encodeCompressed();
-    return {
-      type: 'tendermint/PubKeySecp256k1',
-      value: Buffer.from(compressed).toString('base64'),
-    };
+  static generatePubKey(privateKey: string, type?:types.PubkeyType): any {
+    let pubkey:any;
+    switch(type){
+      case types.PubkeyType.ed25519:
+      break;
+      case types.PubkeyType.sm2:
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+        const curve = new EC(Crypto.CURVE);
+        pubkey = curve.keyFromPrivate(privateKey, 'hex').getPublic();
+      break;
+    }
+    if (!pubkey) { new Error('generate publicKey error') }
+    return pubkey;
   }
 
   /**
    * Calculates the amino prefix Secp256k1 public key from a given private key.
    * @param privateKeyHex The private key hexstring
+   * @param type Pubkey Type
    * @returns Tendermint public key
    */
-  static getAminoPrefixPublicKey(privateKeyHex: string){
-    const tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
-    let pk:Uint8Array = Crypto.aminoMarshalPubKey(tendermintPK);
+  static getAminoPrefixPublicKey(privateKeyHex: string, type?:types.PubkeyType){
+    const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
+    let pk:Uint8Array = Crypto.aminoMarshalPubKey({
+      type: 'tendermint/PubKeySecp256k1',
+      value: Buffer.from(publicKeyHex,'hex').toString('base64'),
+    });
     return Buffer.from(pk).toString('hex');
   }
 
@@ -178,7 +219,7 @@ export class Crypto {
    * @param  {[type]} lengthPrefixed:boolean length prefixed
    * @return {[type]} Uint8Array public key with amino prefix
    */
-  static aminoMarshalPubKey(pubKey:{type:string, value:string}, lengthPrefixed?:boolean):Uint8Array{
+  static aminoMarshalPubKey(pubKey:types.Pubkey, lengthPrefixed?:boolean):Uint8Array{
     const { type, value } = pubKey;
     let pk:any = Crypto.getAminoPrefix(type);
     pk = pk.concat(Buffer.from(value,'base64').length);
@@ -208,18 +249,6 @@ export class Crypto {
   }
 
   /**
-   * PubKey performs the point-scalar multiplication from the privKey on the
-   * generator point to get the pubkey.
-   * @param privateKey
-   * @returns Public key hexstring
-   */
-  static generatePubKey(privateKey: Buffer): string {
-    const curve = new EC(Crypto.CURVE);
-    const keypair = curve.keyFromPrivate(privateKey);
-    return keypair.getPublic();
-  }
-
-  /**
    * Gets an address from a public key hex.
    * @param publicKeyHex The public key hexstring
    * @param prefix The address prefix
@@ -227,11 +256,7 @@ export class Crypto {
    * @returns The address
    */
   static getAddressFromPublicKey(publicKeyHex: string, prefix: string): string {
-    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-    const pubPoint = pubKey.getPublic();
-    const compressed = pubPoint.encodeCompressed();
-    const hexed = Utils.ab2hexstring(compressed);
-    const hash = Utils.sha256ripemd160(hexed); // https://git.io/fAn8N
+    const hash = Utils.sha256ripemd160(publicKeyHex); // https://git.io/fAn8N
     const address = Crypto.encodeAddress(hash, prefix);
     return address;
   }
@@ -240,15 +265,17 @@ export class Crypto {
    * Gets an address from a private key.
    * @param privateKeyHex The private key hexstring
    * @param prefix Bech32 prefix
+   * @param type Pubkey Type
    * @returns The address
    */
   static getAddressFromPrivateKey(
     privateKeyHex: string,
-    prefix: string
+    prefix: string,
+    type?:types.PubkeyType
   ): string {
     return Crypto.getAddressFromPublicKey(
-      Crypto.getPublicKeyFromPrivateKey(privateKeyHex),
-      prefix
+      Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type),
+      prefix,
     );
   }
 

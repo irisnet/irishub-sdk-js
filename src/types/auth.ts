@@ -1,4 +1,4 @@
-import { Coin, Msg, TxValue } from './types';
+import { Coin, Msg, TxValue, PubkeyType } from './types';
 
 /** Standard Tx */
 export interface StdTx extends TxValue {
@@ -38,6 +38,7 @@ export interface BaseTx {
   account_number?: string | undefined;
   /** Sequence required for offline signatures */
   sequence?: string | undefined;
+  pubkeyType?: PubkeyType; /** default secp256k1 */
   mode?: BroadcastMode | undefined;
 }
 

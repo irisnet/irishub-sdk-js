@@ -16,21 +16,21 @@ export class TxModelCreator {
     static createAuthInfoModel(
         fee:types.StdFee, 
         sequence?:string, 
-        publicKey?:string):any
+        publicKey?:string|types.Pubkey):any
     {
         let authInfo = new types.tx_tx_pb.AuthInfo();
 
         let feeModel = TxModelCreator.createFeeModel(fee.amount, fee.gasLimit);
         authInfo.setFee(feeModel);
 
-        if (publicKey && publicKey.length && typeof sequence != 'undefined') {
+        if (publicKey && typeof sequence != 'undefined') {
             let signerInfo = TxModelCreator.createSignerInfoModel(sequence, publicKey);
             authInfo.addSignerInfos(signerInfo);
         }
         return authInfo;
     }
 
-    static createSignerInfoModel(sequence:string, publicKey:string):any{
+    static createSignerInfoModel(sequence:string, publicKey:string|types.Pubkey):any{
         let single = new types.tx_tx_pb.ModeInfo.Single();
         single.setMode(types.signing_signing_pb.SignMode.SIGN_MODE_DIRECT);
 
@@ -48,15 +48,31 @@ export class TxModelCreator {
         return signerInfo;
     }
 
-    static createPublicKeyModel(publicKey:string):any{
-        let pk_hex = TxHelper.getHexPubkey(publicKey);
+    static createPublicKeyModel(publicKey:string|types.Pubkey):any{
+        if (typeof publicKey == 'string') {
+            publicKey = {type:types.PubkeyType.secp256k1, value:publicKey};
+        }
+        let pk_hex = TxHelper.getHexPubkey(publicKey.value);
         let pubByteArray = Array.from(Buffer.from(pk_hex, 'hex'));
         if (pubByteArray.length > 33) {
             //去掉amino编码前缀
             pubByteArray = pubByteArray.slice(5)
         }
-        
-        let pk = new types.crypto_secp256k1_keys_pb.PubKey();
+        let pk:any;
+
+        switch(publicKey.type){
+            case types.PubkeyType.secp256k1:
+            pk = new types.crypto_secp256k1_keys_pb.PubKey();
+            break;
+            case types.PubkeyType.ed25519:
+            pk = new types.crypto_ed25519_keys_pb.PubKey();
+            break;
+            case types.PubkeyType.sm2:
+            break;
+        }
+        if (!pk) {
+            throw new Error("Unsupported public Key types");
+        }
         pk.setKey(Buffer.from(pubByteArray));
         return pk;
     }
