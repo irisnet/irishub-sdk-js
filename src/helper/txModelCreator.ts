@@ -68,6 +68,7 @@ export class TxModelCreator {
             pk = new types.crypto_ed25519_keys_pb.PubKey();
             break;
             case types.PubkeyType.sm2:
+            pk = new types.crypto_sm2_keys_pb.PubKey();
             break;
         }
         if (!pk) {

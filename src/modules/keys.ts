@@ -191,7 +191,8 @@ export class Keys {
   importPrivateKey(
     name: string,
     password: string,
-    privateKey: string
+    privateKey: string,
+    type?:types.PubkeyType
   ): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -208,7 +209,7 @@ export class Keys {
       throw new SdkError(`Key with name '${name}' already exists`);
     }
 
-    const pubKey = Crypto.getPublicKeyFromPrivateKey(privateKey);
+    const pubKey = Crypto.getPublicKeyFromPrivateKey(privateKey,type);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
       this.client.config.bech32Prefix.AccAddr
@@ -218,7 +219,6 @@ export class Keys {
       privateKey,
       password
     );
-
     // Save the key to app
     this.client.config.keyDAO.write(name, {
       address,

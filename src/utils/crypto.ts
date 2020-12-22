@@ -6,6 +6,7 @@ import * as is from 'is_js';
 import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
 import { ec as EC } from 'elliptic';
+// import { sm2 as SM2 } from 'sm.js';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
@@ -13,6 +14,7 @@ import { SdkError } from '../errors';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
+const SM2 = require('sm.js').sm2;
 
 /**
  * Crypto Utils
@@ -143,10 +145,10 @@ export class Crypto {
       case types.PubkeyType.ed25519:
       break;
       case types.PubkeyType.sm2:
-      break;
+      return pubkey.pubToString();
       case types.PubkeyType.secp256k1:
       default:
-        return pubkey.encode('hex')
+      return pubkey.encode('hex');
     }
     return '';
   }
@@ -166,10 +168,10 @@ export class Crypto {
       case types.PubkeyType.ed25519:
       break;
       case types.PubkeyType.sm2:
-      break;
+      return Buffer.from(pubkey.pubToBytes('compress')).toString('hex');
       case types.PubkeyType.secp256k1:
       default:
-        return Buffer.from(pubkey.encodeCompressed()).toString('hex');
+      return Buffer.from(pubkey.encodeCompressed()).toString('hex');
     }
     return '';
   }
@@ -187,7 +189,7 @@ export class Crypto {
       case types.PubkeyType.ed25519:
       break;
       case types.PubkeyType.sm2:
-      break;
+      return new SM2.SM2KeyPair(null, privateKey);
       case types.PubkeyType.secp256k1:
       default:
         const curve = new EC(Crypto.CURVE);
@@ -306,11 +308,27 @@ export class Crypto {
    * @param privateKey The private key.
    * @returns Signature. Does not include tx.
    */
- static generateSignature(signDocSerialize:Uint8Array, private_key:string):string {
+ static generateSignature(signDocSerialize:Uint8Array, private_key:string, type?:types.PubkeyType):string {
       let hash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
-      let prikeyArr:Buffer = Buffer.from(private_key,'hex');
-      let sig = Secp256k1.sign(hash, prikeyArr);
-      return sig.signature.toString('base64');
+      let signature:any = '';
+      switch(type){
+
+        case types.PubkeyType.ed25519:
+        break;
+        case types.PubkeyType.sm2:
+        let sm2Sig = new SM2.SM2KeyPair(null, private_key);
+        sign = sm2Sig.sign(hash);
+        signature = Buffer.from(`${sign.r,sign.s}`,'hex').toString('base64');
+        break;
+        case types.PubkeyType.secp256k1:
+        default:
+        let prikeyArr:Buffer = Buffer.from(private_key,'hex');
+        let Secp256k1Sig = Secp256k1.sign(hash, prikeyArr);
+        signature = Secp256k1Sig.signature.toString('base64');
+        break;
+      }
+      if (!signature) { throw Error(' generate Signature error ') }
+      return signature;
   }
 
   /**
