@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Bank = void 0;
 const crypto_1 = require("../utils/crypto");
 const types = require("../types");
 const errors_1 = require("../errors");
@@ -108,9 +107,16 @@ class Bank {
     }
     /**
      * Balance queries the balance of a single coin for a single account.
-     * @type {[type]} object
+     * @param address is the address to query balances for.
+     * @param denom is the coin denom to query balances for.
      */
     queryBalance(address, denom) {
+        if (!address) {
+            throw new Error("address can ont be empty");
+        }
+        if (!denom) {
+            throw new Error("denom can ont be empty");
+        }
         const request = new types.bank_query_pb.QueryBalanceRequest();
         request.setAddress(address);
         request.setDenom(denom);
@@ -118,16 +124,18 @@ class Bank {
     }
     /**
      * AllBalances queries the balance of all coins for a single account.
-     * @type {[type]} object
+     * @param address is the address to query balances for.
      */
     queryAllBalances(address) {
+        if (!address) {
+            throw new Error("address can ont be empty");
+        }
         const request = new types.bank_query_pb.QueryAllBalancesRequest();
         request.setAddress(address);
         return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/AllBalances', request, types.bank_query_pb.QueryAllBalancesResponse);
     }
     /**
      * TotalSupply queries the total supply of all coins.
-     * @type {[type]} object
      */
     queryTotalSupply() {
         const request = new types.bank_query_pb.QueryTotalSupplyRequest();
@@ -135,16 +143,18 @@ class Bank {
     }
     /**
      * SupplyOf queries the supply of a single coin.
-     * @type {[type]} object
+     * @param denom is the coin denom to query balances for.
      */
     querySupplyOf(denom) {
+        if (!denom) {
+            throw new Error("denom can ont be empty");
+        }
         const request = new types.bank_query_pb.QuerySupplyOfRequest();
         request.setDenom(denom);
         return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/SupplyOf', request, types.bank_query_pb.QuerySupplyOfResponse);
     }
     /**
      * Params queries the parameters of x/bank module.
-     * @type {[type]} object
      */
     queryParams() {
         const request = new types.bank_query_pb.QueryParamsRequest();

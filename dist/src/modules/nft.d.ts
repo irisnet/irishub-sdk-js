@@ -74,32 +74,34 @@ export declare class Nft {
     burnNft(id: string, denom_id: string, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Supply queries the total supply of a given denom or owner
-     * @type {[type]} object
+     * @param denom_id
+     * @param owner
      */
     querySupply(denom_id?: string, owner?: string): Promise<object>;
     /**
      * Owner queries the NFTs of the specified owner
-     * @type {[type]} object
+     * @param owner
+     * @param denom_id
      */
     queryOwner(owner: string, denom_id?: string): Promise<object>;
     /**
      * Collection queries the NFTs of the specified denom
-     * @type {[type]} object
+     * @param denom_id
      */
     queryCollection(denom_id: string): Promise<object>;
     /**
      * Denom queries the definition of a given denom
-     * @type {[type]} object
+     * @param denom_id
      */
     queryDenom(denom_id: string): Promise<object>;
     /**
      * Denoms queries all the denoms
-     * @type {[type]} object
      */
     queryDenoms(): Promise<object>;
     /**
      * NFT queries the NFT for the given denom and token ID
-     * @type {[type]} object
+     * @param denom_id
+     * @param token_id
      */
     queryNFT(denom_id: string, token_id: string): Promise<object>;
 }

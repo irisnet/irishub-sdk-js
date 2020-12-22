@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Crypto = void 0;
 const csprng = require("secure-random");
 const bech32 = require("bech32");
 const cryp = require("crypto-browserify");

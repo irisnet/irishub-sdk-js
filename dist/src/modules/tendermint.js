@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tendermint = void 0;
 const types_1 = require("../types");
 const utils_1 = require("../utils");
 const hexEncoding = require("crypto-js/enc-hex");
@@ -94,8 +93,17 @@ class Tendermint {
      * @returns
      * @since v0.17
      */
-    queryValidators(height) {
-        const params = height ? { height: String(height) } : {};
+    queryValidators(height, page, size) {
+        const params = {};
+        if (height) {
+            params.height = String(height);
+        }
+        if (page) {
+            params.page = String(page);
+        }
+        if (size) {
+            params.per_page = String(size);
+        }
         return this.client.rpcClient
             .request(types_1.RpcMethods.Validators, params)
             .then(res => {
@@ -148,6 +156,15 @@ class Tendermint {
             }
             return res;
         });
+    }
+    /**
+     * query Net Info
+     *
+     * @returns
+     * @since v0.17
+     */
+    queryNetInfo() {
+        return this.client.rpcClient.request(types_1.RpcMethods.NetInfo, {});
     }
 }
 exports.Tendermint = Tendermint;

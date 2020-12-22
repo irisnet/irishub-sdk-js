@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TxType = exports.Msg = void 0;
-const utils_1 = require("../utils");
+const helper_1 = require("../helper");
 /**
  * Base Msg
  * @hidden
@@ -18,7 +17,24 @@ class Msg {
     }
     pack() {
         let msg = this.getModel();
-        return utils_1.TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
+        return helper_1.TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
+    }
+    /**
+     * unpack protobuf tx message
+     * @type {[type]}
+     * returns protobuf message instance
+     */
+    unpack(msgValue) {
+        if (!msgValue) {
+            throw new Error("msgValue can not be empty");
+        }
+        let msg = this.constructor.getModelClass().deserializeBinary(Buffer.from(msgValue, 'base64'));
+        if (msg) {
+            return msg;
+        }
+        else {
+            throw new Error("unpack message fail");
+        }
     }
 }
 exports.Msg = Msg;
@@ -31,8 +47,11 @@ var TxType;
     TxType["MsgDelegate"] = "cosmos.staking.v1beta1.MsgDelegate";
     TxType["MsgUndelegate"] = "cosmos.staking.v1beta1.MsgUndelegate";
     TxType["MsgBeginRedelegate"] = "cosmos.staking.v1beta1.MsgBeginRedelegate";
+    //distribution
     TxType["MsgWithdrawDelegatorReward"] = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
     TxType["MsgSetWithdrawAddress"] = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress";
+    TxType["MsgWithdrawValidatorCommission"] = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission";
+    TxType["MsgFundCommunityPool"] = "cosmos.distribution.v1beta1.MsgFundCommunityPool";
     //coinswap
     TxType["MsgAddLiquidity"] = "irismod.coinswap.MsgAddLiquidity";
     TxType["MsgRemoveLiquidity"] = "irismod.coinswap.MsgRemoveLiquidity";

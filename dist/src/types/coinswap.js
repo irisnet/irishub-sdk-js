@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgSwapOrder = exports.MsgRemoveLiquidity = exports.MsgAddLiquidity = void 0;
 const types_1 = require("./types");
 class MsgAddLiquidity extends types_1.Msg {
     constructor(request, sender) {

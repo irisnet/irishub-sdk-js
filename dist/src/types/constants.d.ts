@@ -16,7 +16,8 @@ export declare enum RpcMethods {
     BlockResults = "block_results",
     Tx = "tx",
     TxSearch = "tx_search",
-    Validators = "validators"
+    Validators = "validators",
+    NetInfo = "net_info"
 }
 export declare const doNotModify = "[do-not-modify]";
 export declare const STD_DENOM = "tiris", IRIS_ATTO = "iris-atto", MIN_UNIT_SUFFIX = "-min";

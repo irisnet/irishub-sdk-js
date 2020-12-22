@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Service = void 0;
 const service_1 = require("../types/service");
 const errors_1 = require("../errors");
 const utils_1 = require("../utils");
