@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgWithdrawTax = exports.MsgWithdrawEarnedFees = exports.MsgUpdateRequestContext = exports.MsgKillRequestContext = exports.MsgPauseRequestContext = exports.MsgStartRequestContext = exports.MsgRefundServiceDeposit = exports.MsgSetServiceWithdrawAddress = exports.MsgRequestService = exports.MsgEnableServiceBinding = exports.MsgDisableServiceBinding = exports.MsgUpdateServiceBinding = exports.MsgBindService = exports.MsgDefineService = void 0;
 const types_1 = require("./types");
 /**
  * Msg struct for creating a new service definition

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RpcClient = void 0;
 const axios_1 = require("axios");
 const utils_1 = require("../utils");
 const errors_1 = require("../errors");
@@ -99,8 +98,6 @@ class RpcClient {
                 }
             }
             throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        }).catch((err) => {
-            throw new errors_1.SdkError('ABCI query Error', err);
         });
     }
     /**
@@ -145,8 +142,6 @@ class RpcClient {
                 }
             }
             throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        }).catch((err) => {
-            throw new errors_1.SdkError('ABCI query Error', err);
         });
     }
     /**

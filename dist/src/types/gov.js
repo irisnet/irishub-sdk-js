@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgVote = exports.MsgDeposit = exports.MsgSubmitCommunityTaxUsageProposal = exports.MsgSubmitPlainTextProposal = exports.MsgSubmitParameterChangeProposal = exports.VoteOption = exports.CommunityTaxUsageType = exports.ProposalType = void 0;
 const types_1 = require("./types");
 /**
  * Proposal Types

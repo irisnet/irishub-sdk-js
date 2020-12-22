@@ -14,6 +14,51 @@ export declare class Token {
     /** @hidden */
     constructor(client: Client);
     /**
+     * issue a new token
+     * @param IssueTokenTxParam
+     * @returns
+     */
+    issueToken(token: {
+        symbol: string;
+        name: string;
+        min_unit: string;
+        scale?: number;
+        initial_supply?: number;
+        max_supply?: number;
+        mintable?: boolean;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * edit a token existed
+     * @param EditTokenTxParam
+     * @returns
+     */
+    editToken(token: {
+        symbol: string;
+        name?: string;
+        max_supply?: number;
+        mintable?: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * mint some amount of token
+     * @param MintTokenTxParam
+     * @returns
+     */
+    mintToken(token: {
+        symbol: string;
+        amount: number;
+        owner?: string;
+        to?: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * transfer owner of token
+     * @param TransferTokenOwnerTxParam
+     * @returns
+     */
+    transferTokenOwner(token: {
+        symbol: string;
+        dst_owner: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
      * Query all tokens
      * @param owner The optional token owner address
      * @returns Token[]
@@ -40,49 +85,4 @@ export declare class Token {
      * @since
      */
     queryParameters(): Promise<object>;
-    /**
-     * Query issue a new token
-     * @param IssueTokenTxParam
-     * @returns
-     */
-    issueToken(token: {
-        symbol: string;
-        name: string;
-        min_unit: string;
-        scale?: number;
-        initial_supply?: number;
-        max_supply?: number;
-        mintable?: boolean;
-    }, baseTx: types.BaseTx): Promise<types.TxResult>;
-    /**
-     * Query edit a token existed
-     * @param EditTokenTxParam
-     * @returns
-     */
-    editToken(token: {
-        symbol: string;
-        name?: string;
-        max_supply?: number;
-        mintable?: string;
-    }, baseTx: types.BaseTx): Promise<types.TxResult>;
-    /**
-     * Query mint some amount of token
-     * @param MintTokenTxParam
-     * @returns
-     */
-    mintToken(token: {
-        symbol: string;
-        amount: number;
-        owner?: string;
-        to?: string;
-    }, baseTx: types.BaseTx): Promise<types.TxResult>;
-    /**
-     * Query transfer owner of token
-     * @param TransferTokenOwnerTxParam
-     * @returns
-     */
-    transferTokenOwner(token: {
-        symbol: string;
-        dst_owner: string;
-    }, baseTx: types.BaseTx): Promise<types.TxResult>;
 }

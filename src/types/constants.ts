@@ -18,6 +18,7 @@ export enum RpcMethods {
   Tx = 'tx',
   TxSearch = 'tx_search',
   Validators = 'validators',
+  NetInfo = 'net_info',
 }
 
 export const doNotModify = '[do-not-modify]';

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Oracle = void 0;
 const errors_1 = require("../errors");
 /**
  * @category Modules

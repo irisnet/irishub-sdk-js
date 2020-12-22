@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgEditValidator = exports.MsgRedelegate = exports.MsgUndelegate = exports.MsgDelegate = void 0;
 const types_1 = require("./types");
-const utils_1 = require("../utils");
+const helper_1 = require("../helper");
 const types_2 = require("./types");
 const pbs = require("./proto");
 const is = require("is_js");
@@ -20,10 +19,10 @@ class MsgDelegate extends types_1.Msg {
         return pbs.staking_tx_pb.MsgDelegate;
     }
     getModel() {
-        const msg = new (MsgDelegate.getModelClass())();
+        const msg = new (this.constructor.getModelClass())();
         msg.setDelegatorAddress(this.value.delegator_address)
             .setValidatorAddress(this.value.validator_address)
-            .setAmount(utils_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+            .setAmount(helper_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         return msg;
     }
     /**
@@ -56,10 +55,10 @@ class MsgUndelegate extends types_1.Msg {
         return pbs.staking_tx_pb.MsgUndelegate;
     }
     getModel() {
-        const msg = new (MsgUndelegate.getModelClass())();
+        const msg = new (this.constructor.getModelClass())();
         msg.setDelegatorAddress(this.value.delegator_address)
             .setValidatorAddress(this.value.validator_address)
-            .setAmount(utils_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+            .setAmount(helper_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         return msg;
     }
     /**
@@ -92,11 +91,11 @@ class MsgRedelegate extends types_1.Msg {
         return pbs.staking_tx_pb.MsgBeginRedelegate;
     }
     getModel() {
-        const msg = new (MsgRedelegate.getModelClass())();
+        const msg = new (this.constructor.getModelClass())();
         msg.setDelegatorAddress(this.value.delegator_address)
             .setValidatorSrcAddress(this.value.validator_src_address)
             .setValidatorDstAddress(this.value.validator_dst_address)
-            .setAmount(utils_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+            .setAmount(helper_1.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         return msg;
     }
     /**

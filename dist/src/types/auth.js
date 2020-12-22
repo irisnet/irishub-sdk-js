@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BroadcastMode = void 0;
 /**
  * Broadcast Mode
  * - Sync: Broadcast transactions synchronously and wait for the recipient node to validate the txs

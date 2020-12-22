@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MsgTransferTokenOwner = exports.MsgMintToken = exports.MsgEditToken = exports.MsgIssueToken = void 0;
 const types_1 = require("./types");
 const is = require("is_js");
 const pbs = require("./proto");
@@ -19,7 +18,7 @@ class MsgIssueToken extends types_1.Msg {
         return pbs.token_tx_pb.MsgIssueToken;
     }
     getModel() {
-        const msg = new (MsgIssueToken.getModelClass())()
+        const msg = new (this.constructor.getModelClass())()
             .setSymbol(this.value.symbol)
             .setName(this.value.name)
             .setMinUnit(this.value.min_unit)
@@ -74,7 +73,7 @@ class MsgEditToken extends types_1.Msg {
         return pbs.token_tx_pb.MsgEditToken;
     }
     getModel() {
-        const msg = new (MsgEditToken.getModelClass())()
+        const msg = new (this.constructor.getModelClass())()
             .setSymbol(this.value.symbol)
             .setOwner(this.value.owner);
         if (is.not.undefined(this.value.name)) {
@@ -121,7 +120,7 @@ class MsgMintToken extends types_1.Msg {
         return pbs.token_tx_pb.MsgMintToken;
     }
     getModel() {
-        const msg = new (MsgMintToken.getModelClass())()
+        const msg = new (this.constructor.getModelClass())()
             .setSymbol(this.value.symbol)
             .setAmount(this.value.amount)
             .setOwner(this.value.owner);
@@ -163,7 +162,7 @@ class MsgTransferTokenOwner extends types_1.Msg {
         return pbs.token_tx_pb.MsgTransferTokenOwner;
     }
     getModel() {
-        const msg = new (MsgTransferTokenOwner.getModelClass())()
+        const msg = new (this.constructor.getModelClass())()
             .setSymbol(this.value.symbol)
             .setSrcOwner(this.value.src_owner)
             .setDstOwner(this.value.dst_owner);

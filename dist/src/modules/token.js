@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Token = void 0;
 const types = require("../types");
 const is = require("is_js");
 const errors_1 = require("../errors");
@@ -25,6 +24,74 @@ class Token {
     /** @hidden */
     constructor(client) {
         this.client = client;
+    }
+    /**
+     * issue a new token
+     * @param IssueTokenTxParam
+     * @returns
+     */
+    issueToken(token, baseTx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const owner = this.client.keys.show(baseTx.from);
+            const msgs = [
+                {
+                    type: types.TxType.MsgIssueToken,
+                    value: Object.assign({ owner }, token)
+                }
+            ];
+            return this.client.tx.buildAndSend(msgs, baseTx);
+        });
+    }
+    /**
+     * edit a token existed
+     * @param EditTokenTxParam
+     * @returns
+     */
+    editToken(token, baseTx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const owner = this.client.keys.show(baseTx.from);
+            const msgs = [
+                {
+                    type: types.TxType.MsgEditToken,
+                    value: Object.assign({ owner }, token)
+                }
+            ];
+            return this.client.tx.buildAndSend(msgs, baseTx);
+        });
+    }
+    /**
+     * mint some amount of token
+     * @param MintTokenTxParam
+     * @returns
+     */
+    mintToken(token, baseTx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const owner = this.client.keys.show(baseTx.from);
+            const msgs = [
+                {
+                    type: types.TxType.MsgMintToken,
+                    value: Object.assign({ owner }, token)
+                }
+            ];
+            return this.client.tx.buildAndSend(msgs, baseTx);
+        });
+    }
+    /**
+     * transfer owner of token
+     * @param TransferTokenOwnerTxParam
+     * @returns
+     */
+    transferTokenOwner(token, baseTx) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const owner = this.client.keys.show(baseTx.from);
+            const msgs = [
+                {
+                    type: types.TxType.MsgTransferTokenOwner,
+                    value: Object.assign({ src_owner: owner }, token)
+                }
+            ];
+            return this.client.tx.buildAndSend(msgs, baseTx);
+        });
     }
     /**
      * Query all tokens
@@ -91,74 +158,6 @@ class Token {
     queryParameters() {
         const request = new types.token_query_pb.QueryParamsRequest();
         return this.client.rpcClient.protoQuery('/irismod.token.Query/Params', request, types.token_query_pb.QueryParamsResponse);
-    }
-    /**
-     * Query issue a new token
-     * @param IssueTokenTxParam
-     * @returns
-     */
-    issueToken(token, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const owner = this.client.keys.show(baseTx.from);
-            const msgs = [
-                {
-                    type: types.TxType.MsgIssueToken,
-                    value: Object.assign({ owner }, token)
-                }
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
-    /**
-     * Query edit a token existed
-     * @param EditTokenTxParam
-     * @returns
-     */
-    editToken(token, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const owner = this.client.keys.show(baseTx.from);
-            const msgs = [
-                {
-                    type: types.TxType.MsgEditToken,
-                    value: Object.assign({ owner }, token)
-                }
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
-    /**
-     * Query mint some amount of token
-     * @param MintTokenTxParam
-     * @returns
-     */
-    mintToken(token, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const owner = this.client.keys.show(baseTx.from);
-            const msgs = [
-                {
-                    type: types.TxType.MsgMintToken,
-                    value: Object.assign({ owner }, token)
-                }
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
-    }
-    /**
-     * Query transfer owner of token
-     * @param TransferTokenOwnerTxParam
-     * @returns
-     */
-    transferTokenOwner(token, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const owner = this.client.keys.show(baseTx.from);
-            const msgs = [
-                {
-                    type: types.TxType.MsgTransferTokenOwner,
-                    value: Object.assign({ src_owner: owner }, token)
-                }
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
     }
 }
 exports.Token = Token;

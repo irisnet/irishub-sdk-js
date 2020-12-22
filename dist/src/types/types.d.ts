@@ -9,6 +9,12 @@ export declare class Msg {
     static getModelClass(): any;
     getModel(): any;
     pack(): any;
+    /**
+     * unpack protobuf tx message
+     * @type {[type]}
+     * returns protobuf message instance
+     */
+    unpack(msgValue: string): any;
 }
 export declare enum TxType {
     MsgSend = "cosmos.bank.v1beta1.MsgSend",
@@ -18,6 +24,8 @@ export declare enum TxType {
     MsgBeginRedelegate = "cosmos.staking.v1beta1.MsgBeginRedelegate",
     MsgWithdrawDelegatorReward = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
     MsgSetWithdrawAddress = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
+    MsgWithdrawValidatorCommission = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+    MsgFundCommunityPool = "cosmos.distribution.v1beta1.MsgFundCommunityPool",
     MsgAddLiquidity = "irismod.coinswap.MsgAddLiquidity",
     MsgRemoveLiquidity = "irismod.coinswap.MsgRemoveLiquidity",
     MsgSwapOrder = "irismod.coinswap.MsgSwapOrder",
