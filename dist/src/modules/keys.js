@@ -103,46 +103,54 @@ var Keys = /*#__PURE__*/function () {
 
   }, {
     key: "recover",
-    value: function recover(name, password, mnemonic) {
-      var derive = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-      var index = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-      var saltPassword = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+    value: function recover(
+    /*name: string,
+    password: string,*/
+    mnemonic) {
+      var derive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var saltPassword = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
-      if (is.empty(name)) {
-        throw new _errors.SdkError("Name of the key can not be empty");
+      /*if (is.empty(name)) {
+        throw new SdkError(`Name of the key can not be empty`);
       }
-
       if (is.empty(password)) {
-        throw new _errors.SdkError("Password of the key can not be empty");
-      }
-
+        throw new SdkError(`Password of the key can not be empty`);
+      }*/
       if (is.empty(mnemonic)) {
         throw new _errors.SdkError("Mnemonic of the key can not be empty");
       }
-
-      if (!this.client.config.keyDAO.encrypt) {
-        throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+      /*if (!this.client.config.keyDAO.encrypt) {
+        throw new SdkError(`Encrypt method of KeyDAO not implemented`);
       }
-
-      var exists = this.client.config.keyDAO.read(name);
-
+      const exists = this.client.config.keyDAO.read(name);
       if (exists) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' exists"));
-      }
+        throw new SdkError(`Key with name '${name}' exists`);
+      }*/
+
 
       var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, derive, index, saltPassword);
 
       var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
 
-      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, 'faa');
+      /*const encryptedPrivKey = this.client.config.keyDAO.encrypt(
+        privKey,
+        password
+      );*/
+      // Save the key to app
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
+      /*this.client.config.keyDAO.write(name, {
+        address,
+        privKey: encryptedPrivKey,
+      });*/
 
-      this.client.config.keyDAO.write(name, {
+
+      return {
         address: address,
-        privKey: encryptedPrivKey
-      });
-      return address;
+        pubKey: pubKey,
+        privateKey: privKey
+      };
     }
     /**
      * Import a key from keystore

@@ -1,4 +1,6 @@
-export * from "./utils";
+export * from './types';
+export { Client, ClientConfig, KeyDAO } from './client';
+export { Crypto } from "./utils";
 import { Client, ClientConfig } from './client';
 /**
  * Initialize IRISHub SDK

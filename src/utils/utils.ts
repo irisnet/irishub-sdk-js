@@ -209,9 +209,9 @@ export class Utils {
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }
-    const hexEncoded = hexEncoding.parse(hex);
-    const programSha256 = SHA256(hexEncoded);
-    return RIPEMD160(programSha256).toString();
+    const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
+    const programSha256 = typeof SHA256 === 'function' ? SHA256(hexEncoded) : SHA256.default(hexEncoded);
+    return typeof RIPEMD160 === 'function' ? RIPEMD160(programSha256).toString() : RIPEMD160.default(programSha256).toString();
   }
 
   /**
@@ -226,8 +226,8 @@ export class Utils {
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }
-    const hexEncoded = hexEncoding.parse(hex);
-    return SHA256(hexEncoded).toString();
+    const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
+    return typeof SHA256 === 'function' ? SHA256(hexEncoded).toString() : SHA256.default(hexEncoded).toString();
   }
 
   /**
@@ -242,8 +242,8 @@ export class Utils {
     if (hex.length % 2 !== 0) {
       throw new SdkError(`invalid hex string length: ${hex}`);
     }
-    const hexEncoded = hexEncoding.parse(hex);
-    return SHA3(hexEncoded).toString();
+    const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
+    return typeof SHA3 === 'function' ? SHA3(hexEncoded).toString() : SHA3.default(hexEncoded).toString();
   }
 
   static sortObject(obj: any): any {

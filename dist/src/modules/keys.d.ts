@@ -37,7 +37,11 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name: string, password: string, mnemonic: string, derive?: boolean, index?: number, saltPassword?: string): string;
+    recover(mnemonic: string, derive?: boolean, index?: number, saltPassword?: string): {
+        address: string;
+        privateKey: string;
+        pubKey: string;
+    };
     /**
      * Import a key from keystore
      *
