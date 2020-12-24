@@ -38,10 +38,16 @@ test('Keys', () => {
 });
 
 test('recover', () => {
-    /*const client = BaseTest.getClient();
+    const client = BaseTest.getClient();
     const nmemonic = 'fatigue panther innocent dress person fluid animal raven material embark target spread kiss smile cycle begin rocket pull couple story mass analyst guilt network'
-    const key = client.keys.recover(
-        nmemonic
-    );
-    console.log(key)*/
+    const key = client.keys.recover('', 'test',nmemonic);
+    console.log(key)
 });
+
+test('add', () => {
+    const client = BaseTest.getClient();
+    const key = client.keys.add('', 'test');
+    console.log(key)
+});
+
+

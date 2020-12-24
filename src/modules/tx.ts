@@ -134,7 +134,7 @@ export class Tx {
       if ( account.sequence ) { sequence = account.sequence }
     }
     // Query account info from block chain
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
       stdTx.setPubKey(pubKey, sequence || undefined);
@@ -175,7 +175,7 @@ export class Tx {
       throw new SdkError(`Key with name '${name}' not found`);
     }
 
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
     const signature = Crypto.generateSignature(signDoc, privKey);
     return signature;
   }

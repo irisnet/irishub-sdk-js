@@ -10,6 +10,7 @@
         "importHelpers": true,
         "declaration": true,
         "sourceMap": true,
+        "esModuleInterop": true,
         "moduleResolution": "node",
         "types": [
             "jest",

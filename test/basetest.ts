@@ -1,6 +1,7 @@
 import * as iris from '../src';
 import * as types from '../src/types';
 import { Client } from '../src/client';
+import {Wallet} from "../src";
 
 export class Consts {
   static timeout = 10000;
@@ -10,11 +11,11 @@ export class Consts {
 
 /** Test KeyDAO */
 export class TestKeyDAO implements iris.KeyDAO {
-  keyMap: { [key: string]: types.Key } = {};
-  write(name: string, key: types.Key) {
+  keyMap: { [key: string]: Wallet } = {};
+  write(name: string, key: Wallet) {
     this.keyMap[name] = key;
   }
-  read(name: string): types.Key {
+  read(name: string): Wallet {
     return this.keyMap[name];
   }
   delete(name: string) {

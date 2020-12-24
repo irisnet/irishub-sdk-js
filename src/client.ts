@@ -7,6 +7,7 @@ import * as types from './types';
 import { SdkError } from './errors';
 import * as AES from 'crypto-js/aes';
 import * as ENC from 'crypto-js/enc-utf8';
+import {Wallet} from "./types";
 
 /** IRISHub Client */
 export class Client {
@@ -273,7 +274,7 @@ export interface KeyDAO {
    * @param key The encrypted private key object
    * @throws `SdkError` if the save fails.
    */
-  write(name: string, key: types.Key): void;
+  write(name: string, key: Wallet): void;
 
   /**
    * Get the encrypted private key by name
@@ -281,14 +282,14 @@ export interface KeyDAO {
    * @param name Name of the key
    * @returns The encrypted private key object or undefined
    */
-  read(name: string): types.Key;
+  read(name: string): Wallet;
 
   /**
    * Delete the key by name
    * @param name Name of the key
    * @throws `SdkError` if the deletion fails.
    */
-  delete(name: string): void;
+  delete?(name: string): void;
 
   /**
    * Optional function to encrypt the private key by yourself. Default to AES Encryption
@@ -322,12 +323,12 @@ export interface Bech32Prefix {
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
-  write(name: string, key: types.Key): void {
+  write(name: string, key: Wallet): void {
     throw new SdkError(
       'Method not implemented. Please implement KeyDAO first.'
     );
   }
-  read(name: string): types.Key {
+  read(name: string): Wallet {
     throw new SdkError(
       'Method not implemented. Please implement KeyDAO first.'
     );
