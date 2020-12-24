@@ -72,12 +72,21 @@ class Protobuf {
                 messageModelClass = types.MsgRedelegate.getModelClass();
                 break;
             }
+            //distribution
             case types.TxType.MsgWithdrawDelegatorReward: {
                 messageModelClass = types.MsgWithdrawDelegatorReward.getModelClass();
                 break;
             }
             case types.TxType.MsgSetWithdrawAddress: {
                 messageModelClass = types.MsgSetWithdrawAddress.getModelClass();
+                break;
+            }
+            case types.TxType.MsgWithdrawValidatorCommission: {
+                messageModelClass = types.MsgWithdrawValidatorCommission.getModelClass();
+                break;
+            }
+            case types.TxType.MsgFundCommunityPool: {
+                messageModelClass = types.MsgFundCommunityPool.getModelClass();
                 break;
             }
             //token
@@ -194,6 +203,30 @@ class Protobuf {
         else {
             return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
         }
+    }
+    /**
+     * deserialize Pubkey
+     * @param  {[type]} pubKey:{typeUrl:string, value:string}
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} pubKey object
+     */
+    deserializePubkey(pubKey, returnProtobufModel) {
+        if (!pubKey) {
+            throw new errors_1.SdkError('pubKey can not be empty');
+        }
+        let result = Object.assign({}, pubKey);
+        switch (pubKey.typeUrl) {
+            case '/cosmos.crypto.ed25519.PubKey':
+                result.value = types.crypto_ed25519_keys_pb.PubKey.deserializeBinary(pubKey.value);
+                break;
+            case '/cosmos.crypto.secp256k1.PubKey':
+                result.value = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+                break;
+        }
+        if (!returnProtobufModel && result.value && result.value.toObject) {
+            result.value = result.value.toObject();
+        }
+        return result;
     }
 }
 exports.Protobuf = Protobuf;

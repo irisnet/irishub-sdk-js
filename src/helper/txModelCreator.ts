@@ -43,12 +43,12 @@ export class TxModelCreator {
         
         if (publicKey) {
             let pk = TxModelCreator.createPublicKeyModel(publicKey);
-            signerInfo.setPublicKey(TxModelCreator.createAnyModel('cosmos.crypto.secp256k1.PubKey',pk.serializeBinary()));
+            signerInfo.setPublicKey(TxModelCreator.createAnyModel(pk.type, pk.value.serializeBinary()));
         }
         return signerInfo;
     }
 
-    static createPublicKeyModel(publicKey:string|types.Pubkey):any{
+    static createPublicKeyModel(publicKey:string|types.Pubkey):{type:string, value:any}{
         if (typeof publicKey == 'string') {
             publicKey = {type:types.PubkeyType.secp256k1, value:publicKey};
         }
@@ -59,15 +59,18 @@ export class TxModelCreator {
             pubByteArray = pubByteArray.slice(5)
         }
         let pk:any;
-
+        let type = '';
         switch(publicKey.type){
             case types.PubkeyType.secp256k1:
+            type = 'cosmos.crypto.secp256k1.PubKey';
             pk = new types.crypto_secp256k1_keys_pb.PubKey();
             break;
             case types.PubkeyType.ed25519:
+            type = 'cosmos.crypto.ed25519.PubKey';
             pk = new types.crypto_ed25519_keys_pb.PubKey();
             break;
             case types.PubkeyType.sm2:
+            type = 'cosmos.crypto.sm2.PubKey';
             pk = new types.crypto_sm2_keys_pb.PubKey();
             break;
         }
@@ -75,7 +78,7 @@ export class TxModelCreator {
             throw new Error("Unsupported public Key types");
         }
         pk.setKey(Buffer.from(pubByteArray));
-        return pk;
+        return { type:type, value:pk };
     }
 
     static createFeeModel(amounts:types.Coin[], gasLimit:string):any{

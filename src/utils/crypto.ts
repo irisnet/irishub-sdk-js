@@ -5,8 +5,7 @@ import * as uuid from 'uuid';
 import * as is from 'is_js';
 import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
-import { ec as EC } from 'elliptic';
-// import { sm2 as SM2 } from 'sm.js';
+import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
@@ -14,7 +13,7 @@ import { SdkError } from '../errors';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
-const SM2 = require('sm.js').sm2;
+const SM2 = require('sm-crypto').sm2;
 
 /**
  * Crypto Utils
@@ -25,12 +24,9 @@ export class Crypto {
   static PRIVKEY_LEN = 32;
   static MNEMONIC_LEN = 256;
   static DECODED_ADDRESS_LEN = 20;
-  static CURVE = 'secp256k1';
 
   //hdpath
   static HDPATH = "44'/118'/0'/0/";
-
-  static ec = new EC(Crypto.CURVE);
 
   /**
    * Decodes an address in bech32 format.
@@ -71,13 +67,13 @@ export class Crypto {
 
   /**
    * Encodes an address from input data bytes.
-   * @param pubkey The public key to encode
+   * @param pubkeyHash The public key to encode
    * @param hrp The address prefix
    * @param type The output type (default: hex)
    * @returns Bech32 address
    */
-  static encodeAddress(pubkey: string, hrp = 'iaa', type = 'hex') {
-    const words = bech32.toWords(Buffer.from(pubkey, type));
+  static encodeAddress(pubkeyHash: string, hrp = 'iaa', type = 'hex') {
+    const words = bech32.toWords(Buffer.from(pubkeyHash, type));
     return bech32.encode(hrp, words);
   }
 
@@ -134,70 +130,52 @@ export class Crypto {
    * Calculates the full public key from a given private key.
    * @param privateKeyHex The private key hexstring
    * @param type Pubkey Type
-   * @returns Public key hexstring
+   * @returns Public key {type:type, value:hexstring}
    */
-  static getFullPublicKeyFromPrivateKey(privateKeyHex: string, type?:types.PubkeyType): string {
+  static getFullPublicKeyFromPrivateKey(privateKeyHex: string, type:types.PubkeyType = types.PubkeyType.secp256k1): types.Pubkey {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
       throw new SdkError('invalid privateKey');
     }
-    const pubkey = Crypto.generatePubKey(privateKeyHex, type);
+    let pubKey:string = '';
     switch(type){
       case types.PubkeyType.ed25519:
-      break;
+      throw new Error("not implement");
       case types.PubkeyType.sm2:
-      return pubkey.pubToString();
+      pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex);
+      break;
       case types.PubkeyType.secp256k1:
       default:
-      return pubkey.encode('hex');
+      const secp256k1pubkey = new EC('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+      pubKey = secp256k1pubkey.encode('hex');
+      break;
     }
-    return '';
+    return { type:type, value:pubKey };
   }
 
   /**
    * Calculates the public key from a given private key.
    * @param privateKeyHex The private key hexstring
    * @param type Pubkey Type
-   * @returns Public key hexstring
+   * @returns Public key {type:type, value:hexstring}
    */
-  static getPublicKeyFromPrivateKey(privateKeyHex: string, type?:types.PubkeyType): string {
+  static getPublicKeyFromPrivateKey(privateKeyHex: string, type:types.PubkeyType = types.PubkeyType.secp256k1): types.Pubkey {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
       throw new SdkError('invalid privateKey');
     }
-    const pubkey = Crypto.generatePubKey(privateKeyHex, type);
+    let pubKey:string = '';
     switch(type){
       case types.PubkeyType.ed25519:
-      break;
+      throw new Error("not implement");
       case types.PubkeyType.sm2:
-      return Buffer.from(pubkey.pubToBytes('compress')).toString('hex');
+      pubKey =  SM2.getPublicKeyFromPrivateKey(privateKeyHex, 'compress');
+      break;
       case types.PubkeyType.secp256k1:
       default:
-      return Buffer.from(pubkey.encodeCompressed()).toString('hex');
-    }
-    return '';
-  }
-
-  /**
-   * PubKey performs the point-scalar multiplication from the privKey on the
-   * generator point to get the pubkey.
-   * @param privateKeyHex The private key hexstring
-   * @param type Pubkey Type
-   * @returns Public key hexstring
-   */
-  static generatePubKey(privateKey: string, type?:types.PubkeyType): any {
-    let pubkey:any;
-    switch(type){
-      case types.PubkeyType.ed25519:
-      break;
-      case types.PubkeyType.sm2:
-      return new SM2.SM2KeyPair(null, privateKey);
-      case types.PubkeyType.secp256k1:
-      default:
-        const curve = new EC(Crypto.CURVE);
-        pubkey = curve.keyFromPrivate(privateKey, 'hex').getPublic();
+      const secp256k1pubkey = new EC('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+      pubKey = Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
       break;
     }
-    if (!pubkey) { new Error('generate publicKey error') }
-    return pubkey;
+    return { type:type, value:pubKey }
   }
 
   /**
@@ -207,10 +185,13 @@ export class Crypto {
    * @returns Tendermint public key
    */
   static getAminoPrefixPublicKey(privateKeyHex: string, type?:types.PubkeyType){
-    const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
+    const publicKey = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
+    if (publicKey.type != types.PubkeyType.secp256k1) {
+      throw new Error("not implement");
+    }
     let pk:Uint8Array = Crypto.aminoMarshalPubKey({
       type: 'tendermint/PubKeySecp256k1',
-      value: Buffer.from(publicKeyHex,'hex').toString('base64'),
+      value: Buffer.from(publicKey.value,'hex').toString('base64'),
     });
     return Buffer.from(pk).toString('hex');
   }
@@ -257,10 +238,23 @@ export class Crypto {
    *
    * @returns The address
    */
-  static getAddressFromPublicKey(publicKeyHex: string, prefix: string): string {
-    const hash = Utils.sha256ripemd160(publicKeyHex); // https://git.io/fAn8N
-    const address = Crypto.encodeAddress(hash, prefix);
-    return address;
+  static getAddressFromPublicKey(publicKey: string|types.Pubkey, prefix: string): string {
+    if (typeof publicKey == 'string') {
+      publicKey = {type:types.PubkeyType.secp256k1, value:publicKey};
+    }
+    let hash:string = ''; 
+    switch(publicKey.type){
+      case types.PubkeyType.ed25519:
+      throw new Error("not implement");
+      case types.PubkeyType.sm2:
+      hash = Utils.sha256(publicKey.value).substr(0,40);
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+      hash = Utils.sha256ripemd160(publicKey.value);
+      break;
+    }
+    return Crypto.encodeAddress(hash, prefix);;
   }
 
   /**
@@ -309,21 +303,23 @@ export class Crypto {
    * @returns Signature. Does not include tx.
    */
  static generateSignature(signDocSerialize:Uint8Array, private_key:string, type?:types.PubkeyType):string {
-      let hash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
-      let signature:any = '';
+      let signature:string = '';
       switch(type){
-
         case types.PubkeyType.ed25519:
-        break;
+        throw new Error("not implement");
         case types.PubkeyType.sm2:
-        let sm2Sig = new SM2.SM2KeyPair(null, private_key);
-        sign = sm2Sig.sign(hash);
-        signature = Buffer.from(`${sign.r,sign.s}`,'hex').toString('base64');
+        const sm2Sig = SM2.doSignature(
+          Buffer.from(signDocSerialize),
+          private_key, 
+          {hash:true}
+        );
+        signature = Buffer.from(sm2Sig, 'hex').toString('base64');
         break;
         case types.PubkeyType.secp256k1:
         default:
+        const msghash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
         let prikeyArr:Buffer = Buffer.from(private_key,'hex');
-        let Secp256k1Sig = Secp256k1.sign(hash, prikeyArr);
+        let Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
         signature = Secp256k1Sig.signature.toString('base64');
         break;
       }
@@ -480,8 +476,8 @@ export class Crypto {
    */
   static getPrivateKeyFromMnemonic(
     mnemonic: string,
-    derive = true,
     index = 0,
+    derive = true,
     password = ''
   ): string {
     if (!bip39.validateMnemonic(mnemonic)) {

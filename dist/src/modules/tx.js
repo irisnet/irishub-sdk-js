@@ -29,7 +29,7 @@ class Tx {
      * Build Tx
      * @param msgs Msgs to be sent
      * @param baseTx
-     * @returns
+     * @returns unsignedTx
      * @since v0.17
      */
     buildTx(msgs, baseTx) {
@@ -38,6 +38,14 @@ class Tx {
         });
         const unsignedTx = this.client.auth.newStdTx(msgList, baseTx);
         return unsignedTx;
+    }
+    /**
+     * generate StdTx from protoTxModel
+     * @param  {[type]} protoTxModel:any instance of cosmos.tx.v1beta1.Tx
+     * @return {[type]} unsignedTx
+     */
+    newStdTxFromProtoTxModel(protoTxModel) {
+        return types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
     }
     /**
      * Build, sign and broadcast the msgs
@@ -54,7 +62,7 @@ class Tx {
             // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
             // unsignedTx.value.fee.amount = fee;
             // Sign Tx
-            const signedTx = yield this.sign(unsignedTx, baseTx.from, baseTx.password);
+            const signedTx = yield this.sign(unsignedTx, baseTx);
             // Broadcast Tx
             return this.broadcast(signedTx, baseTx.mode);
         });
@@ -85,37 +93,43 @@ class Tx {
      * Single sign a transaction
      *
      * @param stdTx StdTx with no signatures
-     * @param name Name of the key to sign the tx
-     * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param baseTx baseTx.from && baseTx.password is requred
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx, name, password) {
+    sign(stdTx, baseTx) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (is.empty(name)) {
-                throw new errors_1.SdkError(`Name of the key can not be empty`);
+            if (is.empty(baseTx.from)) {
+                throw new errors_1.SdkError(`baseTx.from of the key can not be empty`);
             }
-            if (is.empty(password)) {
-                throw new errors_1.SdkError(`Password of the key can not be empty`);
+            if (is.empty(baseTx.password)) {
+                throw new errors_1.SdkError(`baseTx.password of the key can not be empty`);
             }
             if (!this.client.config.keyDAO.decrypt) {
                 throw new errors_1.SdkError(`Decrypt method of KeyDAO not implemented`);
             }
-            const keyObj = this.client.config.keyDAO.read(name);
+            const keyObj = this.client.config.keyDAO.read(baseTx.from);
             if (!keyObj) {
-                throw new errors_1.SdkError(`Key with name '${name}' not found`);
+                throw new errors_1.SdkError(`Key with name '${baseTx.from}' not found`);
+            }
+            let accountNumber = baseTx.account_number || '';
+            let sequence = baseTx.sequence || '0';
+            if (!baseTx.account_number || !baseTx.sequence) {
+                const account = yield this.client.bank.queryAccount(keyObj.address);
+                if (account.account_number) {
+                    accountNumber = account.account_number;
+                }
+                if (account.sequence) {
+                    sequence = account.sequence;
+                }
             }
             // Query account info from block chain
-            const account = yield this.client.bank.queryAccount(keyObj.address);
-            let accountNumber = account.account_number || '';
-            let sequence = account.sequence || '0';
-            const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+            const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
             if (!stdTx.hasPubKey()) {
-                const pubKey = utils_1.Crypto.getAminoPrefixPublicKey(privKey);
+                const pubKey = utils_1.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                 stdTx.setPubKey(pubKey, sequence || undefined);
             }
-            const signature = utils_1.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined).serializeBinary(), privKey);
+            const signature = utils_1.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
             stdTx.addSignature(signature);
             return stdTx;
         });
@@ -130,7 +144,7 @@ class Tx {
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc, name, password) {
+    sign_signDoc(signDoc, name, password, type) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -145,7 +159,7 @@ class Tx {
             throw new errors_1.SdkError(`Key with name '${name}' not found`);
         }
         const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-        const signature = utils_1.Crypto.generateSignature(signDoc, privKey);
+        const signature = utils_1.Crypto.generateSignature(signDoc, privKey, type);
         return signature;
     }
     /**
@@ -274,12 +288,21 @@ class Tx {
                 msg = new types.MsgRedelegate(txMsg.value);
                 break;
             }
+            //distribution
             case types.TxType.MsgWithdrawDelegatorReward: {
                 msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
                 break;
             }
             case types.TxType.MsgSetWithdrawAddress: {
                 msg = new types.MsgSetWithdrawAddress(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgWithdrawValidatorCommission: {
+                msg = new types.MsgWithdrawValidatorCommission(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgFundCommunityPool: {
+                msg = new types.MsgFundCommunityPool(txMsg.value);
                 break;
             }
             //token

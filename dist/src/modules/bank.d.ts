@@ -22,7 +22,7 @@ export declare class Bank {
      * @returns
      * @since v0.17
      */
-    queryAccount(address: string): Promise<types.BaseAccount>;
+    queryAccount(address: string): Promise<types.Account>;
     /**
      * Send coins
      * @param to Recipient bech32 address
@@ -43,27 +43,26 @@ export declare class Bank {
     multiSend(to: string, amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Balance queries the balance of a single coin for a single account.
-     * @type {[type]} object
+     * @param address is the address to query balances for.
+     * @param denom is the coin denom to query balances for.
      */
     queryBalance(address: string, denom: string): Promise<object>;
     /**
      * AllBalances queries the balance of all coins for a single account.
-     * @type {[type]} object
+     * @param address is the address to query balances for.
      */
     queryAllBalances(address: string): Promise<object>;
     /**
      * TotalSupply queries the total supply of all coins.
-     * @type {[type]} object
      */
     queryTotalSupply(): Promise<object>;
     /**
      * SupplyOf queries the supply of a single coin.
-     * @type {[type]} object
+     * @param denom is the coin denom to query balances for.
      */
     querySupplyOf(denom: string): Promise<object>;
     /**
      * Params queries the parameters of x/bank module.
-     * @type {[type]} object
      */
     queryParams(): Promise<object>;
     /**

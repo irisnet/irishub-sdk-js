@@ -21,7 +21,7 @@ export declare class Keys {
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
-    add(name: string, password: string): {
+    add(name: string, password: string, type?: types.PubkeyType): {
         address: string;
         mnemonic: string;
     };
@@ -37,7 +37,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name: string, password: string, mnemonic: string, derive?: boolean, index?: number, saltPassword?: string): string;
+    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): string;
     /**
      * Import a key from keystore
      *
@@ -47,7 +47,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    import(name: string, password: string, keystore: string | types.Keystore): string;
+    import(name: string, password: string, keystore: string | types.Keystore, type?: types.PubkeyType): string;
     /**
      * Import a PrivateKey
      *
@@ -57,7 +57,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    importPrivateKey(name: string, password: string, privateKey: string): string;
+    importPrivateKey(name: string, password: string, privateKey: string, type?: types.PubkeyType): string;
     /**
      * Export keystore of a key
      *

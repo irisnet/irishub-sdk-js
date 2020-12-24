@@ -27,4 +27,13 @@ export declare class Auth {
      * @since v0.17
      */
     newStdTx(msgs: types.Msg[], baseTx: types.BaseTx): types.ProtoTx;
+    /**
+     * Account returns account details based on address.
+     * @param address defines the address to query for.
+     */
+    queryAccount(address: string): Promise<types.BaseAccount>;
+    /**
+     * Params queries all parameters.
+     */
+    queryParams(): Promise<object>;
 }

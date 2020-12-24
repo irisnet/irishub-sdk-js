@@ -137,11 +137,10 @@ export class Tx {
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
-      stdTx.setPubKey({type:baseTx.pubkeyType ||types.PubkeyType.secp256k1, value:pubKey}, sequence || undefined);
+      stdTx.setPubKey(pubKey, sequence || undefined);
     }
     const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
     stdTx.addSignature(signature);
-
     return stdTx;
   }
 

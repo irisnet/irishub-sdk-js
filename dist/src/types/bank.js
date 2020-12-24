@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MsgMultiSend = exports.MsgSend = void 0;
 const types_1 = require("./types");
-const utils_1 = require("../utils");
+const helper_1 = require("../helper");
 const pbs = require("./proto");
 /**
  * Msg for sending coins
@@ -18,11 +18,11 @@ class MsgSend extends types_1.Msg {
         return pbs.bank_tx_pb.MsgSend;
     }
     getModel() {
-        let msg = new (MsgSend.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setFromAddress(this.value.from_address);
         msg.setToAddress(this.value.to_address);
         this.value.amount.forEach((item) => {
-            msg.addAmount(utils_1.TxModelCreator.createCoinModel(item.denom, item.amount));
+            msg.addAmount(helper_1.TxModelCreator.createCoinModel(item.denom, item.amount));
         });
         return msg;
     }
@@ -53,12 +53,12 @@ class MsgMultiSend extends types_1.Msg {
         return pbs.bank_tx_pb.MsgMultiSend;
     }
     getModel() {
-        let msg = new (MsgMultiSend.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         this.value.inputs.forEach((item) => {
             let input = new pbs.bank_tx_pb.Input();
             input.setAddress(item.address);
             item.coins.forEach((coin) => {
-                input.addCoins(utils_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
+                input.addCoins(helper_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
             });
             msg.addInputs(input);
         });
@@ -66,7 +66,7 @@ class MsgMultiSend extends types_1.Msg {
             let output = new pbs.bank_tx_pb.Output();
             output.setAddress(item.address);
             item.coins.forEach((coin) => {
-                output.addCoins(utils_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
+                output.addCoins(helper_1.TxModelCreator.createCoinModel(coin.denom, coin.amount));
             });
             msg.addOutputs(output);
         });

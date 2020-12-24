@@ -14,6 +14,4 @@ __exportStar(require("./address"), exports);
 __exportStar(require("./utils"), exports);
 __exportStar(require("./crypto"), exports);
 __exportStar(require("./store-keys"), exports);
-__exportStar(require("./txHelper"), exports);
-__exportStar(require("./txModelCreator"), exports);
 //# sourceMappingURL=index.js.map

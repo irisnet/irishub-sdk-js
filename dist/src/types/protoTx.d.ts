@@ -4,15 +4,16 @@ export declare class ProtoTx {
     body: any;
     authInfo: any;
     signatures: string[];
-    constructor(properties: {
+    constructor(properties?: {
         msgs: types.Msg[];
         memo: string;
         stdFee: types.StdFee;
         chain_id: string;
         account_number?: string;
         sequence?: string;
-        publicKey?: string;
-    });
+        publicKey?: string | types.Pubkey;
+    }, protoTxModel?: any);
+    static newStdTxFromProtoTxModel(protoTxModel: any): types.ProtoTx;
     /**
      * add signature
      * @param {[string]} signature base64
@@ -20,15 +21,15 @@ export declare class ProtoTx {
     addSignature(signature: string): void;
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex
+     * @param {[string]} bech32/hex or object. if string, use Secp256k1 type
      * @param {optional [number]} sequence
      */
-    setPubKey(pubkey: string, sequence?: string): void;
+    setPubKey(pubkey: string | types.Pubkey, sequence?: string): void;
     /**
      * Get SignDoc for signature
      * @returns SignDoc  protobuf.Tx.SignDoc
      */
-    getSignDoc(account_number?: string): any;
+    getSignDoc(account_number?: string, chain_id?: string): any;
     /**
      * TxRaw is a variant of Tx that pins the signer's exact binary representation
         of body and auth_info. This is used for signing, broadcasting and
@@ -54,6 +55,7 @@ export declare class ProtoTx {
      * @returns tx hash
      */
     getTxHash(): string;
+    getProtoModel(): any;
     /**
      *  get tx content
      * @returns tx info

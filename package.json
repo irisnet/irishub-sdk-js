@@ -67,15 +67,16 @@
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^3.1.9-1",
     "events": "^3.1.0",
+    "google-protobuf": "3.13.0",
+    "grpc-web": "^1.2.1",
     "is_js": "^0.9.0",
     "isomorphic-ws": "^4.0.1",
     "mathjs": "^6.6.1",
     "ndjson": "^1.5.0",
     "pumpify": "^2.0.1",
-    "sha256": "^0.2.0",
     "secp256k1": "^3.7.1",
     "secure-random": "^1.1.2",
-    "google-protobuf": "3.13.0",
-    "grpc-web": "^1.2.1"
+    "sha256": "^0.2.0",
+    "sm-crypto": "git+https://github.com/hangts/sm-crypto.git"
   }
 }

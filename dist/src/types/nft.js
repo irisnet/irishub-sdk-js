@@ -17,7 +17,7 @@ class MsgIssueDenom extends index_1.Msg {
         return pbs.nft_tx_pb.MsgIssueDenom;
     }
     getModel() {
-        let msg = new (MsgIssueDenom.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setId(this.value.id);
         msg.setName(this.value.name);
         msg.setSchema(this.value.schema);
@@ -54,7 +54,7 @@ class MsgMintNFT extends index_1.Msg {
         return pbs.nft_tx_pb.MsgMintNFT;
     }
     getModel() {
-        let msg = new (MsgMintNFT.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setId(this.value.id);
         msg.setDenomId(this.value.denom_id);
         msg.setName(this.value.name);
@@ -103,7 +103,7 @@ class MsgEditNFT extends index_1.Msg {
         return pbs.nft_tx_pb.MsgEditNFT;
     }
     getModel() {
-        let msg = new (MsgEditNFT.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setId(this.value.id);
         msg.setDenomId(this.value.denom_id);
         msg.setSender(this.value.sender);
@@ -154,7 +154,7 @@ class MsgTransferNFT extends index_1.Msg {
         return pbs.nft_tx_pb.MsgTransferNFT;
     }
     getModel() {
-        let msg = new (MsgTransferNFT.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setId(this.value.id);
         msg.setDenomId(this.value.denom_id);
         msg.setSender(this.value.sender);
@@ -209,7 +209,7 @@ class MsgBurnNFT extends index_1.Msg {
         return pbs.nft_tx_pb.MsgBurnNFT;
     }
     getModel() {
-        let msg = new (MsgBurnNFT.getModelClass())();
+        let msg = new (this.constructor.getModelClass())();
         msg.setId(this.value.id);
         msg.setDenomId(this.value.denom_id);
         msg.setSender(this.value.sender);

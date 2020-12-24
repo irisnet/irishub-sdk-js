@@ -59,15 +59,48 @@ export declare class MsgWithdrawDelegatorReward extends Msg {
     validate(): boolean;
 }
 /**
- * Msg struct for validator withdraw
+ * Msg struct forWithdraw Validator Commission.
  * @hidden
  */
-export declare class MsgWithdrawValidatorRewardsAll extends Msg {
+export declare class MsgWithdrawValidatorCommission extends Msg {
     value: {
-        validator_addr: string;
+        validator_address: string;
     };
-    constructor(validatorAddr: string);
-    getSignBytes(): object;
+    constructor(msg: {
+        validator_address: string;
+    });
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}
+/**
+ * Msg struct Msg Fund Community Pool.
+ * @hidden
+ */
+export declare class MsgFundCommunityPool extends Msg {
+    value: {
+        amount: Coin[];
+        depositor: string;
+    };
+    constructor(msg: {
+        amount: Coin[];
+        depositor: string;
+    });
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
 }
 /** Common rewards struct */
 export interface Rewards {
