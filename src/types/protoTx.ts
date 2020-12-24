@@ -56,7 +56,7 @@ export class ProtoTx {
 
     /**
      * add public key
-     * @param {[string]} bech32/hex or object. if string, use Secp256k1 type 
+     * @param {[string]} bech32/hex or object. if string, default Secp256k1
      * @param {optional [number]} sequence 
      */
     setPubKey(pubkey:string|types.Pubkey, sequence?:string){
