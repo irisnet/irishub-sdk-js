@@ -223,7 +223,7 @@ var Tx = /*#__PURE__*/function () {
 
               case 17:
                 // Query account info from block chain
-                privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
+                privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
                 if (!stdTx.hasPubKey()) {
                   pubKey = _utils.Crypto.getAminoPrefixPublicKey(privKey);
@@ -280,7 +280,7 @@ var Tx = /*#__PURE__*/function () {
         throw new _errors.SdkError("Key with name '".concat(name, "' not found"));
       }
 
-      var privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+      var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
 
       var signature = _utils.Crypto.generateSignature(signDoc, privKey);
 

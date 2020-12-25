@@ -63,12 +63,6 @@ var Keys = /*#__PURE__*/function () {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
       }
 
-      var exists = this.client.config.keyDAO.read(name);
-
-      if (exists) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' already exists"));
-      }
-
       var mnemonic = _crypto.Crypto.generateMnemonic();
 
       var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic);
@@ -77,11 +71,14 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password); // Save the key to app
 
       this.client.config.keyDAO.write(name, {
         address: address,
-        privKey: encryptedPrivKey
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey,
+        mnemonic: encryptedMnemonic
       });
       return {
         address: address,
@@ -124,12 +121,6 @@ var Keys = /*#__PURE__*/function () {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
       }
 
-      var exists = this.client.config.keyDAO.read(name);
-
-      if (exists) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' exists"));
-      }
-
       var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, derive, index, saltPassword);
 
       var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
@@ -140,7 +131,8 @@ var Keys = /*#__PURE__*/function () {
 
       this.client.config.keyDAO.write(name, {
         address: address,
-        privKey: encryptedPrivKey
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey
       });
       return address;
     }
@@ -173,12 +165,6 @@ var Keys = /*#__PURE__*/function () {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
       }
 
-      var exists = this.client.config.keyDAO.read(name);
-
-      if (exists) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' already exists"));
-      }
-
       var privKey = _crypto.Crypto.getPrivateKeyFromKeyStore(keystore, password);
 
       var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
@@ -189,7 +175,8 @@ var Keys = /*#__PURE__*/function () {
 
       this.client.config.keyDAO.write(name, {
         address: address,
-        privKey: encryptedPrivKey
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey
       });
       return address;
     }
@@ -232,7 +219,8 @@ var Keys = /*#__PURE__*/function () {
 
       this.client.config.keyDAO.write(name, {
         address: address,
-        privKey: encryptedPrivKey
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey
       });
       return address;
     }
@@ -267,7 +255,7 @@ var Keys = /*#__PURE__*/function () {
         throw new _errors.SdkError("Key with name '".concat(name, "' not found"));
       }
 
-      var privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, keyPassword);
+      var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, keyPassword);
 
       var keystore = _crypto.Crypto.generateKeyStore(privKey, keystorePassword, this.client.config.bech32Prefix.AccAddr);
 
@@ -303,7 +291,7 @@ var Keys = /*#__PURE__*/function () {
       } // Check keystore password
 
 
-      this.client.config.keyDAO.decrypt(keyObj.privKey, password); // Delete the key from app
+      this.client.config.keyDAO.decrypt(keyObj.privateKey, password); // Delete the key from app
 
       this.client.config.keyDAO["delete"](name);
     }

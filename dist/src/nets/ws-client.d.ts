@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import * as EventEmitter from 'events';
+import EventEmitter from 'events';
 /**
  * IRISHub Websocket Client
  * @since v0.17

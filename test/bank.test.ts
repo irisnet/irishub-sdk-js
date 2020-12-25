@@ -22,7 +22,7 @@ describe('Bank Tests', () => {
             BaseTest.baseTx
           )
           .then(res => {
-            console.log(JSON.stringify(res));
+            console.log(res);
           })
           .catch(error => {
             console.log(error);

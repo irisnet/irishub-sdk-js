@@ -21,9 +21,9 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var types = _interopRequireWildcard(require("../types"));
 
-var EventEmitter = _interopRequireWildcard(require("events"));
+var _events = _interopRequireDefault(require("events"));
 
-var Websocket = _interopRequireWildcard(require("isomorphic-ws"));
+var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
 
 var _errors = require("../errors");
 
@@ -43,7 +43,7 @@ var WsClient = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "ws", void 0);
     (0, _defineProperty2["default"])(this, "eventEmitter", void 0);
     this.url = url;
-    this.eventEmitter = new EventEmitter();
+    this.eventEmitter = new _events["default"]();
   }
   /**
    * Initialize ws client
@@ -56,7 +56,7 @@ var WsClient = /*#__PURE__*/function () {
     value: function connect() {
       var _this = this;
 
-      this.ws = new Websocket(this.url + '/websocket');
+      this.ws = new _isomorphicWs["default"](this.url + '/websocket');
 
       if (!this.ws) {
         throw new _errors.SdkError('Websocket client not initialized'); // Should not happen

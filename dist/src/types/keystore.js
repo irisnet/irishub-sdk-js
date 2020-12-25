@@ -16,6 +16,15 @@ exports.StoreType = void 0;
  * @hidden
  */
 
+/**
+ * Key struct
+ * @hidden
+ */
+
+/**
+ * wallet struct
+ */
+
 /** 
  * Crypto struct
  * @hidden
