@@ -1,16 +1,35 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProtoTx = void 0;
-const utils_1 = require("../utils");
+const helper_1 = require("../helper");
+const types = require("../types");
 const Sha256 = require('sha256');
-let Tx_pb = require('./proto-types/cosmos/tx/v1beta1/tx_pb');
 class ProtoTx {
-    constructor(properties) {
-        let { msgs, memo, stdFee, account_number, chain_id, sequence, publicKey } = properties;
-        this.txData = properties;
-        this.body = utils_1.TxModelCreator.createBodyModel(msgs, memo, 0);
-        this.authInfo = utils_1.TxModelCreator.createAuthInfoModel(stdFee, sequence, publicKey);
+    constructor(properties, protoTxModel) {
         this.signatures = [];
+        if (!properties && !protoTxModel) {
+            throw new Error("there must be one properties or protoTxModel");
+        }
+        if (properties) {
+            let { msgs, memo, stdFee, account_number, chain_id, sequence, publicKey } = properties;
+            this.txData = properties;
+            this.body = helper_1.TxModelCreator.createBodyModel(msgs, memo, 0);
+            this.authInfo = helper_1.TxModelCreator.createAuthInfoModel(stdFee, sequence, publicKey);
+        }
+        else if (protoTxModel) {
+            if (protoTxModel.hasBody() && protoTxModel.hasAuthInfo()) {
+                this.txData = {};
+                this.body = protoTxModel.getBody();
+                this.authInfo = protoTxModel.getAuthInfo();
+                this.signatures = protoTxModel.getSignaturesList();
+            }
+        }
+    }
+    static newStdTxFromProtoTxModel(protoTxModel) {
+        if (!protoTxModel.hasBody() || !protoTxModel.hasAuthInfo()) {
+            throw new Error("Proto Tx Model is invalid");
+        }
+        return new ProtoTx(undefined, protoTxModel);
     }
     /**
      * add signature
@@ -24,33 +43,36 @@ class ProtoTx {
     }
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex
+     * @param {[string]} bech32/hex or object. if string, use Secp256k1 type
      * @param {optional [number]} sequence
      */
     setPubKey(pubkey, sequence) {
         sequence = sequence || this.txData.sequence;
         if (!sequence) {
-            throw new Error("sequence is  empty");
+            throw new Error("sequence is empty");
         }
-        let signerInfo = utils_1.TxModelCreator.createSignerInfoModel(sequence, pubkey);
+        let signerInfo = helper_1.TxModelCreator.createSignerInfoModel(sequence, pubkey);
         this.authInfo.addSignerInfos(signerInfo);
     }
     /**
      * Get SignDoc for signature
      * @returns SignDoc  protobuf.Tx.SignDoc
      */
-    getSignDoc(account_number) {
+    getSignDoc(account_number, chain_id) {
         if (!this.hasPubKey()) {
             throw new Error("please set pubKey");
         }
         if (!account_number && !this.txData.account_number) {
             throw new Error("account_number is  empty");
         }
-        let signDoc = new Tx_pb.SignDoc();
+        if (!chain_id && !this.txData.chain_id) {
+            throw new Error("chain_id is  empty");
+        }
+        let signDoc = new types.tx_tx_pb.SignDoc();
         signDoc.setBodyBytes(this.body.serializeBinary());
         signDoc.setAuthInfoBytes(this.authInfo.serializeBinary());
         signDoc.setAccountNumber(String(account_number || this.txData.account_number));
-        signDoc.setChainId(this.txData.chain_id);
+        signDoc.setChainId(chain_id || this.txData.chain_id);
         return signDoc;
     }
     /**
@@ -68,7 +90,7 @@ class ProtoTx {
         if (!this.signatures || !this.signatures.length) {
             throw new Error("please sign tx");
         }
-        let txRaw = new Tx_pb.TxRaw();
+        let txRaw = new types.tx_tx_pb.TxRaw();
         txRaw.setBodyBytes(this.body.serializeBinary());
         txRaw.setAuthInfoBytes(this.authInfo.serializeBinary());
         this.signatures.forEach((signature) => {
@@ -89,7 +111,7 @@ class ProtoTx {
      * @returns base64 string
      */
     getData() {
-        let tx = new Tx_pb.Tx();
+        let tx = new types.tx_tx_pb.Tx();
         tx.setBody(this.body);
         tx.setAuthInfo(this.authInfo);
         this.signatures.forEach((signature) => {
@@ -106,17 +128,21 @@ class ProtoTx {
         let txHash = (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
         return txHash;
     }
-    /**
-     *  get tx content
-     * @returns tx info
-     */
-    getDisplayContent() {
-        let tx = new Tx_pb.Tx();
+    getProtoModel() {
+        let tx = new types.tx_tx_pb.Tx();
         tx.setBody(this.body);
         tx.setAuthInfo(this.authInfo);
         this.signatures.forEach((signature) => {
             tx.addSignatures(signature);
         });
+        return tx;
+    }
+    /**
+     *  get tx content
+     * @returns tx info
+     */
+    getDisplayContent() {
+        let tx = this.getProtoModel();
         return JSON.stringify(tx.toObject());
     }
 }

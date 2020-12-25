@@ -165,7 +165,8 @@ class Nft {
     }
     /**
      * Supply queries the total supply of a given denom or owner
-     * @type {[type]} object
+     * @param denom_id
+     * @param owner
      */
     querySupply(denom_id, owner) {
         if (!denom_id && !owner) {
@@ -182,7 +183,8 @@ class Nft {
     }
     /**
      * Owner queries the NFTs of the specified owner
-     * @type {[type]} object
+     * @param owner
+     * @param denom_id
      */
     queryOwner(owner, denom_id) {
         if (!owner) {
@@ -197,7 +199,7 @@ class Nft {
     }
     /**
      * Collection queries the NFTs of the specified denom
-     * @type {[type]} object
+     * @param denom_id
      */
     queryCollection(denom_id) {
         if (!denom_id) {
@@ -209,7 +211,7 @@ class Nft {
     }
     /**
      * Denom queries the definition of a given denom
-     * @type {[type]} object
+     * @param denom_id
      */
     queryDenom(denom_id) {
         if (!denom_id) {
@@ -221,7 +223,6 @@ class Nft {
     }
     /**
      * Denoms queries all the denoms
-     * @type {[type]} object
      */
     queryDenoms() {
         const request = new types.nft_query_pb.QueryDenomsRequest();
@@ -229,7 +230,8 @@ class Nft {
     }
     /**
      * NFT queries the NFT for the given denom and token ID
-     * @type {[type]} object
+     * @param denom_id
+     * @param token_id
      */
     queryNFT(denom_id, token_id) {
         if (!denom_id) {

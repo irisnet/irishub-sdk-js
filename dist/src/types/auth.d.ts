@@ -1,4 +1,4 @@
-import { Coin, Msg, TxValue } from './types';
+import { Coin, Msg, TxValue, PubkeyType } from './types';
 /** Standard Tx */
 export interface StdTx extends TxValue {
     msg: Msg[];
@@ -29,8 +29,7 @@ export interface BaseTx {
     account_number?: string | undefined;
     /** Sequence required for offline signatures */
     sequence?: string | undefined;
-    /** Public key required for offline signatures */
-    public_key?: string | undefined;
+    pubkeyType?: PubkeyType; /** default secp256k1 */
     mode?: BroadcastMode | undefined;
 }
 /**
@@ -52,4 +51,12 @@ export interface StdSignMsg {
     fee: StdFee;
     memo: string;
     msgs: object[];
+}
+export interface BaseAccount {
+    address: string;
+    pubKey: {
+        key: string;
+    };
+    accountNumber: number;
+    sequence: number;
 }

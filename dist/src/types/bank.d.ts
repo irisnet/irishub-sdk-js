@@ -56,7 +56,7 @@ export interface EventDataMsgSend {
     to: string;
     amount: Coin[];
 }
-export interface BaseAccount {
+export interface Account {
     /** Bech32 account address */
     address: string;
     coins: Coin[];

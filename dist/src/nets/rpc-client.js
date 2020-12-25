@@ -99,8 +99,6 @@ class RpcClient {
                 }
             }
             throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        }).catch((err) => {
-            throw new errors_1.SdkError('ABCI query Error', err);
         });
     }
     /**
@@ -145,8 +143,6 @@ class RpcClient {
                 }
             }
             throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        }).catch((err) => {
-            throw new errors_1.SdkError('ABCI query Error', err);
         });
     }
     /**

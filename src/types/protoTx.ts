@@ -16,7 +16,7 @@ export class ProtoTx {
         chain_id:string,
         account_number?:string,
         sequence?:string,
-        publicKey?:string
+        publicKey?:string|types.Pubkey
     }, protoTxModel?:any) {
         if (!properties && !protoTxModel) {
             throw new Error("there must be one properties or protoTxModel");
@@ -56,13 +56,13 @@ export class ProtoTx {
 
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex 
+     * @param {[string]} bech32/hex or object. if string, default Secp256k1
      * @param {optional [number]} sequence 
      */
-    setPubKey(pubkey:string, sequence?:string){
+    setPubKey(pubkey:string|types.Pubkey, sequence?:string){
         sequence = sequence || this.txData.sequence;
         if (!sequence) {
-            throw new Error("sequence is  empty");
+            throw new Error("sequence is empty");
         }
         let signerInfo = TxModelCreator.createSignerInfoModel(sequence, pubkey);
         this.authInfo.addSignerInfos(signerInfo);
