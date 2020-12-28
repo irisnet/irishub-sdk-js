@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MsgTransferTokenOwner = exports.MsgMintToken = exports.MsgEditToken = exports.MsgIssueToken = void 0;
 const types_1 = require("./types");
 const is = require("is_js");
 const pbs = require("./proto");

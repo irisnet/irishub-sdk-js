@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MsgBurnNFT = exports.MsgTransferNFT = exports.MsgEditNFT = exports.MsgMintNFT = exports.MsgIssueDenom = void 0;
 const index_1 = require("./index");
 const pbs = require("./proto");
 /**

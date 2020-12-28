@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Keys = void 0;
 const crypto_1 = require("../utils/crypto");
 const errors_1 = require("../errors");
 const is = require("is_js");
@@ -22,6 +23,7 @@ class Keys {
      *
      * @param name Name of the key
      * @param password Password for encrypting the keystore
+     * @param type Pubkey Type
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
@@ -57,8 +59,9 @@ class Keys {
      * @param name Name of the key
      * @param password Password for encrypting the keystore
      * @param mnemonic Mnemonic of the key
-     * @param derive Derive a private key using the default HD path (default: true)
+     * @param type Pubkey Type
      * @param index The bip44 address index (default: 0)
+     * @param derive Derive a private key using the default HD path (default: true)
      * @param saltPassword A passphrase for generating the salt, according to bip39
      * @returns Bech32 address
      * @since v0.17
@@ -97,6 +100,7 @@ class Keys {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param keystore Keystore json or object
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
@@ -134,6 +138,7 @@ class Keys {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param privateKey privateKey hex
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */

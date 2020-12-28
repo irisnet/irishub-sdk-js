@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MsgMultiSend = exports.MsgSend = void 0;
 const types_1 = require("./types");
 const helper_1 = require("../helper");
 const pbs = require("./proto");

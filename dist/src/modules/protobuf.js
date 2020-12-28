@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Protobuf = void 0;
 const types = require("../types");
 const errors_1 = require("../errors");
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');

@@ -137,14 +137,14 @@ class Tx {
     /**
      * Single sign a transaction with signDoc
      *
-     * @param stdTx StdTx with no signatures
+     * @param signDoc from protobuf
      * @param name Name of the key to sign the tx
      * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param type pubkey Type
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc, name, password, type) {
+    sign_signDoc(signDoc, name, password, type = types.PubkeyType.secp256k1) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Crypto = void 0;
 const csprng = require("secure-random");
 const bech32 = require("bech32");
 const cryp = require("crypto-browserify");
@@ -97,20 +98,11 @@ class Crypto {
     static generateRandomArray(length) {
         return csprng(length);
     }
-    // /**
-    //  * Gets the pubkey hexstring
-    //  * @param publicKey Encoded public key
-    //  * @returns Public key hexstring
-    //  */
-    // static getPublicKey(publicKey: string): string {
-    //   const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
-    //   return Buffer.from(keyPair.getPublic().encodeCompressed()).toString('hex');
-    // }
     /**
      * Calculates the full public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @param type Pubkey Type
-     * @returns Public key hexstring
+     * @returns Public key {type:type, value:hexstring}
      */
     static getFullPublicKeyFromPrivateKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
         if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
@@ -135,7 +127,7 @@ class Crypto {
      * Calculates the public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @param type Pubkey Type
-     * @returns Public key hexstring
+     * @returns Public key {type:type, value:hexstring}
      */
     static getPublicKeyFromPrivateKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
         if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
@@ -162,7 +154,7 @@ class Crypto {
      * @param type Pubkey Type
      * @returns Tendermint public key
      */
-    static getAminoPrefixPublicKey(privateKeyHex, type) {
+    static getAminoPrefixPublicKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
         const publicKey = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
         if (publicKey.type != types.PubkeyType.secp256k1) {
             throw new Error("not implement");
@@ -239,7 +231,7 @@ class Crypto {
      * @param type Pubkey Type
      * @returns The address
      */
-    static getAddressFromPrivateKey(privateKeyHex, prefix, type) {
+    static getAddressFromPrivateKey(privateKeyHex, prefix, type = types.PubkeyType.secp256k1) {
         return Crypto.getAddressFromPublicKey(Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type), prefix);
     }
     /**
@@ -266,9 +258,10 @@ class Crypto {
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
+     * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize, private_key, type) {
+    static generateSignature(signDocSerialize, private_key, type = types.PubkeyType.secp256k1) {
         let signature = '';
         switch (type) {
             case types.PubkeyType.ed25519:
@@ -279,9 +272,9 @@ class Crypto {
                 break;
             case types.PubkeyType.secp256k1:
             default:
-                const hash = Buffer.from(Sha256(signDocSerialize, { asBytes: true }));
+                const msghash = Buffer.from(Sha256(signDocSerialize, { asBytes: true }));
                 let prikeyArr = Buffer.from(private_key, 'hex');
-                let Secp256k1Sig = Secp256k1.sign(hash, prikeyArr);
+                let Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
                 signature = Secp256k1Sig.signature.toString('base64');
                 break;
         }
