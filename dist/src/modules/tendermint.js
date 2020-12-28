@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tendermint = void 0;
 const types_1 = require("../types");
 const utils_1 = require("../utils");
 const hexEncoding = require("crypto-js/enc-hex");

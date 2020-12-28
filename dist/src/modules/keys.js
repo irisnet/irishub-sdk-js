@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Keys = void 0;
 const crypto_1 = require("../utils/crypto");
 const errors_1 = require("../errors");
 const is = require("is_js");
+const types = require("../types");
 /**
  * This module allows you to manage your local tendermint keystore (wallets) for iris.
  *
@@ -21,10 +23,11 @@ class Keys {
      *
      * @param name Name of the key
      * @param password Password for encrypting the keystore
+     * @param type Pubkey Type
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
-    add(name, password) {
+    add(name, password, type = types.PubkeyType.secp256k1) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -40,7 +43,7 @@ class Keys {
         }
         const mnemonic = crypto_1.Crypto.generateMnemonic();
         const privKey = crypto_1.Crypto.getPrivateKeyFromMnemonic(mnemonic);
-        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey);
+        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey, type);
         const address = crypto_1.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
         const encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
         // Save the key to app
@@ -56,13 +59,14 @@ class Keys {
      * @param name Name of the key
      * @param password Password for encrypting the keystore
      * @param mnemonic Mnemonic of the key
-     * @param derive Derive a private key using the default HD path (default: true)
+     * @param type Pubkey Type
      * @param index The bip44 address index (default: 0)
+     * @param derive Derive a private key using the default HD path (default: true)
      * @param saltPassword A passphrase for generating the salt, according to bip39
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name, password, mnemonic, derive = true, index = 0, saltPassword = '') {
+    recover(name, password, mnemonic, type = types.PubkeyType.secp256k1, index = 0, derive = true, saltPassword = '') {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -79,8 +83,8 @@ class Keys {
         if (exists) {
             throw new errors_1.SdkError(`Key with name '${name}' exists`);
         }
-        const privKey = crypto_1.Crypto.getPrivateKeyFromMnemonic(mnemonic, derive, index, saltPassword);
-        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey);
+        const privKey = crypto_1.Crypto.getPrivateKeyFromMnemonic(mnemonic, index, derive, saltPassword);
+        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey, type);
         const address = crypto_1.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
         const encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
         // Save the key to app
@@ -96,10 +100,11 @@ class Keys {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param keystore Keystore json or object
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
-    import(name, password, keystore) {
+    import(name, password, keystore, type = types.PubkeyType.secp256k1) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -117,7 +122,7 @@ class Keys {
             throw new errors_1.SdkError(`Key with name '${name}' already exists`);
         }
         const privKey = crypto_1.Crypto.getPrivateKeyFromKeyStore(keystore, password);
-        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey);
+        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privKey, type);
         const address = crypto_1.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
         const encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
         // Save the key to app
@@ -133,10 +138,11 @@ class Keys {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param privateKey privateKey hex
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
-    importPrivateKey(name, password, privateKey) {
+    importPrivateKey(name, password, privateKey, type = types.PubkeyType.secp256k1) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -150,7 +156,7 @@ class Keys {
         if (exists) {
             throw new errors_1.SdkError(`Key with name '${name}' already exists`);
         }
-        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privateKey);
+        const pubKey = crypto_1.Crypto.getPublicKeyFromPrivateKey(privateKey, type);
         const address = crypto_1.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
         const encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password);
         // Save the key to app

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AddressUtils = void 0;
 const utils_1 = require("./utils");
 const crypto_1 = require("./crypto");
 /**

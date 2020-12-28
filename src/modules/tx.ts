@@ -136,22 +136,21 @@ export class Tx {
     // Query account info from block chain
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
     if (!stdTx.hasPubKey()) {
-      const pubKey = Crypto.getAminoPrefixPublicKey(privKey);
+      const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence || undefined);
     }
-    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey);
+    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
     stdTx.addSignature(signature);
-
     return stdTx;
   }
 
   /**
    * Single sign a transaction with signDoc
    *
-   * @param stdTx StdTx with no signatures
+   * @param signDoc from protobuf
    * @param name Name of the key to sign the tx
    * @param password Password of the key
-   * @param offline Offline signing, default `false`
+   * @param type pubkey Type
    * @returns signature
    * @since v0.17
    */
@@ -159,6 +158,7 @@ export class Tx {
     signDoc: Uint8Array,
     name: string,
     password: string,
+    type:types.PubkeyType = types.PubkeyType.secp256k1
   ): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -176,7 +176,7 @@ export class Tx {
     }
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-    const signature = Crypto.generateSignature(signDoc, privKey);
+    const signature = Crypto.generateSignature(signDoc, privKey, type);
     return signature;
   }
 

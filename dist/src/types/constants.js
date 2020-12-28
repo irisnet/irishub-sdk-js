@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.Network = void 0;
 /** Network type config */
 var Network;
 (function (Network) {

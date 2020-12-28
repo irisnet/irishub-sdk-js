@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SdkError = exports.CODES = void 0;
 const CODESPACE_ROOT = 'sdk';
 /** Error codes in irishub v1.0 */
 exports.CODES = {

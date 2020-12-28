@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TxHelper = void 0;
 const Bech32 = require("bech32");
 const types = require("../types");
 class TxHelper {

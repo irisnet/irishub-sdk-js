@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Crypto = void 0;
 const csprng = require("secure-random");
 const bech32 = require("bech32");
 const cryp = require("crypto-browserify");
@@ -13,6 +14,7 @@ const types = require("../types");
 const errors_1 = require("../errors");
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
+const SM2 = require('sm-crypto').sm2;
 /**
  * Crypto Utils
  * @hidden
@@ -52,13 +54,13 @@ class Crypto {
     }
     /**
      * Encodes an address from input data bytes.
-     * @param pubkey The public key to encode
+     * @param pubkeyHash The public key to encode
      * @param hrp The address prefix
      * @param type The output type (default: hex)
      * @returns Bech32 address
      */
-    static encodeAddress(pubkey, hrp = 'iaa', type = 'hex') {
-        const words = bech32.toWords(Buffer.from(pubkey, type));
+    static encodeAddress(pubkeyHash, hrp = 'iaa', type = 'hex') {
+        const words = bech32.toWords(Buffer.from(pubkeyHash, type));
         return bech32.encode(hrp, words);
     }
     /**
@@ -97,51 +99,70 @@ class Crypto {
         return csprng(length);
     }
     /**
-     * Gets the pubkey hexstring
-     * @param publicKey Encoded public key
-     * @returns Public key hexstring
+     * Calculates the full public key from a given private key.
+     * @param privateKeyHex The private key hexstring
+     * @param type Pubkey Type
+     * @returns Public key {type:type, value:hexstring}
      */
-    static getPublicKey(publicKey) {
-        const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
-        return keyPair.getPublic();
+    static getFullPublicKeyFromPrivateKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
+        if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
+            throw new errors_1.SdkError('invalid privateKey');
+        }
+        let pubKey = '';
+        switch (type) {
+            case types.PubkeyType.ed25519:
+                throw new Error("not implement");
+            case types.PubkeyType.sm2:
+                pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex);
+                break;
+            case types.PubkeyType.secp256k1:
+            default:
+                const secp256k1pubkey = new elliptic_1.ec('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+                pubKey = secp256k1pubkey.encode('hex');
+                break;
+        }
+        return { type: type, value: pubKey };
     }
     /**
      * Calculates the public key from a given private key.
      * @param privateKeyHex The private key hexstring
-     * @returns Public key hexstring
+     * @param type Pubkey Type
+     * @returns Public key {type:type, value:hexstring}
      */
-    static getPublicKeyFromPrivateKey(privateKeyHex) {
+    static getPublicKeyFromPrivateKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
         if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
             throw new errors_1.SdkError('invalid privateKey');
         }
-        const curve = new elliptic_1.ec(Crypto.CURVE);
-        const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
-        const unencodedPubKey = keypair.getPublic().encode('hex');
-        return unencodedPubKey;
-    }
-    /**
-     * Calculates the Secp256k1 public key from a given private key.
-     * @param privateKeyHex The private key hexstring
-     * @returns Tendermint public key
-     */
-    static getPublicKeySecp256k1FromPrivateKey(privateKeyHex) {
-        const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
-        const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-        const pubPoint = pubKey.getPublic();
-        const compressed = pubPoint.encodeCompressed();
-        return {
-            type: 'tendermint/PubKeySecp256k1',
-            value: Buffer.from(compressed).toString('base64'),
-        };
+        let pubKey = '';
+        switch (type) {
+            case types.PubkeyType.ed25519:
+                throw new Error("not implement");
+            case types.PubkeyType.sm2:
+                pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex, 'compress');
+                break;
+            case types.PubkeyType.secp256k1:
+            default:
+                const secp256k1pubkey = new elliptic_1.ec('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+                pubKey = Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
+                break;
+        }
+        return { type: type, value: pubKey };
     }
     /**
      * Calculates the amino prefix Secp256k1 public key from a given private key.
      * @param privateKeyHex The private key hexstring
+     * @param type Pubkey Type
      * @returns Tendermint public key
      */
-    static getAminoPrefixPublicKey(privateKeyHex) {
-        const tendermintPK = Crypto.getPublicKeySecp256k1FromPrivateKey(privateKeyHex);
-        let pk = Crypto.aminoMarshalPubKey(tendermintPK);
+    static getAminoPrefixPublicKey(privateKeyHex, type = types.PubkeyType.secp256k1) {
+        const publicKey = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
+        if (publicKey.type != types.PubkeyType.secp256k1) {
+            throw new Error("not implement");
+        }
+        let pk = Crypto.aminoMarshalPubKey({
+            type: 'tendermint/PubKeySecp256k1',
+            value: Buffer.from(publicKey.value, 'hex').toString('base64'),
+        });
         return Buffer.from(pk).toString('hex');
     }
     /**
@@ -178,40 +199,40 @@ class Crypto {
         return b;
     }
     /**
-     * PubKey performs the point-scalar multiplication from the privKey on the
-     * generator point to get the pubkey.
-     * @param privateKey
-     * @returns Public key hexstring
-     */
-    static generatePubKey(privateKey) {
-        const curve = new elliptic_1.ec(Crypto.CURVE);
-        const keypair = curve.keyFromPrivate(privateKey);
-        return keypair.getPublic();
-    }
-    /**
      * Gets an address from a public key hex.
      * @param publicKeyHex The public key hexstring
      * @param prefix The address prefix
      *
      * @returns The address
      */
-    static getAddressFromPublicKey(publicKeyHex, prefix) {
-        const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-        const pubPoint = pubKey.getPublic();
-        const compressed = pubPoint.encodeCompressed();
-        const hexed = utils_1.Utils.ab2hexstring(compressed);
-        const hash = utils_1.Utils.sha256ripemd160(hexed); // https://git.io/fAn8N
-        const address = Crypto.encodeAddress(hash, prefix);
-        return address;
+    static getAddressFromPublicKey(publicKey, prefix) {
+        if (typeof publicKey == 'string') {
+            publicKey = { type: types.PubkeyType.secp256k1, value: publicKey };
+        }
+        let hash = '';
+        switch (publicKey.type) {
+            case types.PubkeyType.ed25519:
+                throw new Error("not implement");
+            case types.PubkeyType.sm2:
+                hash = utils_1.Utils.sha256(publicKey.value).substr(0, 40);
+                break;
+            case types.PubkeyType.secp256k1:
+            default:
+                hash = utils_1.Utils.sha256ripemd160(publicKey.value);
+                break;
+        }
+        return Crypto.encodeAddress(hash, prefix);
+        ;
     }
     /**
      * Gets an address from a private key.
      * @param privateKeyHex The private key hexstring
      * @param prefix Bech32 prefix
+     * @param type Pubkey Type
      * @returns The address
      */
-    static getAddressFromPrivateKey(privateKeyHex, prefix) {
-        return Crypto.getAddressFromPublicKey(Crypto.getPublicKeyFromPrivateKey(privateKeyHex), prefix);
+    static getAddressFromPrivateKey(privateKeyHex, prefix, type = types.PubkeyType.secp256k1) {
+        return Crypto.getAddressFromPublicKey(Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type), prefix);
     }
     /**
      * Verifies a signature (64 byte <r,s>) given the sign bytes and public key.
@@ -237,13 +258,30 @@ class Crypto {
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
+     * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize, private_key) {
-        let hash = Buffer.from(Sha256(signDocSerialize, { asBytes: true }));
-        let prikeyArr = Buffer.from(private_key, 'hex');
-        let sig = Secp256k1.sign(hash, prikeyArr);
-        return sig.signature.toString('base64');
+    static generateSignature(signDocSerialize, private_key, type = types.PubkeyType.secp256k1) {
+        let signature = '';
+        switch (type) {
+            case types.PubkeyType.ed25519:
+                throw new Error("not implement");
+            case types.PubkeyType.sm2:
+                const sm2Sig = SM2.doSignature(Buffer.from(signDocSerialize), private_key, { hash: true });
+                signature = Buffer.from(sm2Sig, 'hex').toString('base64');
+                break;
+            case types.PubkeyType.secp256k1:
+            default:
+                const msghash = Buffer.from(Sha256(signDocSerialize, { asBytes: true }));
+                let prikeyArr = Buffer.from(private_key, 'hex');
+                let Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
+                signature = Secp256k1Sig.signature.toString('base64');
+                break;
+        }
+        if (!signature) {
+            throw Error(' generate Signature error ');
+        }
+        return signature;
     }
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
@@ -346,7 +384,7 @@ class Crypto {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    static getPrivateKeyFromMnemonic(mnemonic, derive = true, index = 0, password = '') {
+    static getPrivateKeyFromMnemonic(mnemonic, index = 0, derive = true, password = '') {
         if (!bip39.validateMnemonic(mnemonic)) {
             throw new errors_1.SdkError('wrong mnemonic format');
         }
@@ -419,10 +457,8 @@ exports.Crypto = Crypto;
 Crypto.PRIVKEY_LEN = 32;
 Crypto.MNEMONIC_LEN = 256;
 Crypto.DECODED_ADDRESS_LEN = 20;
-Crypto.CURVE = 'secp256k1';
 //hdpath
 Crypto.HDPATH = "44'/118'/0'/0/";
-Crypto.ec = new elliptic_1.ec(Crypto.CURVE);
 /**
  * Validates mnemonic phrase words.
  * @param mnemonic The mnemonic phrase words

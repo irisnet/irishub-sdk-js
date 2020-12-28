@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Random = void 0;
 const types = require("../types");
 const random_1 = require("../types/random");
 const types_1 = require("../types");

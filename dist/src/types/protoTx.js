@@ -1,5 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ProtoTx = void 0;
 const helper_1 = require("../helper");
 const types = require("../types");
 const Sha256 = require('sha256');
@@ -42,13 +43,13 @@ class ProtoTx {
     }
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex
+     * @param {[string]} bech32/hex or object. if string, default Secp256k1
      * @param {optional [number]} sequence
      */
     setPubKey(pubkey, sequence) {
         sequence = sequence || this.txData.sequence;
         if (!sequence) {
-            throw new Error("sequence is  empty");
+            throw new Error("sequence is empty");
         }
         let signerInfo = helper_1.TxModelCreator.createSignerInfoModel(sequence, pubkey);
         this.authInfo.addSignerInfos(signerInfo);

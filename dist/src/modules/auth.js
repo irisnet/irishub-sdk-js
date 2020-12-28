@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Auth = void 0;
 const types = require("../types");
 const is = require("is_js");
 /**
