@@ -48,7 +48,6 @@ class Slashing {
      */
     querySigningInfo(bech32ConsAddress, height) {
         const key = utils_1.StoreKeys.getSigningInfoKey(bech32ConsAddress);
-        console.log('key:', key);
         return this.client.rpcClient
             .queryStore(key, 'slashing', height)
             .then(res => {

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PubkeyType = exports.TxType = exports.Msg = void 0;
 const helper_1 = require("../helper");
 /**
  * Base Msg
@@ -67,4 +68,14 @@ var TxType;
     TxType["MsgMintToken"] = "irismod.token.MsgMintToken";
     TxType["MsgTransferTokenOwner"] = "irismod.token.MsgTransferTokenOwner";
 })(TxType = exports.TxType || (exports.TxType = {}));
+/**
+ * Base Pubkey Type
+ * @hidden
+ */
+var PubkeyType;
+(function (PubkeyType) {
+    PubkeyType["secp256k1"] = "secp256k1";
+    PubkeyType["ed25519"] = "ed25519";
+    PubkeyType["sm2"] = "sm2";
+})(PubkeyType = exports.PubkeyType || (exports.PubkeyType = {}));
 //# sourceMappingURL=types.js.map

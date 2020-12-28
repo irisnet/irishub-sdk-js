@@ -48,7 +48,6 @@ export class Slashing {
     height?: number
   ): Promise<types.ValidatorSigningInfo> {
     const key = StoreKeys.getSigningInfoKey(bech32ConsAddress);
-    console.log('key:',key);
     return this.client.rpcClient
       .queryStore<any>(key, 'slashing', height)
       .then(res => {

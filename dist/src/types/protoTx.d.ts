@@ -11,7 +11,7 @@ export declare class ProtoTx {
         chain_id: string;
         account_number?: string;
         sequence?: string;
-        publicKey?: string;
+        publicKey?: string | types.Pubkey;
     }, protoTxModel?: any);
     static newStdTxFromProtoTxModel(protoTxModel: any): types.ProtoTx;
     /**
@@ -21,10 +21,10 @@ export declare class ProtoTx {
     addSignature(signature: string): void;
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex
+     * @param {[string]} bech32/hex or object. if string, use Secp256k1 type
      * @param {optional [number]} sequence
      */
-    setPubKey(pubkey: string, sequence?: string): void;
+    setPubKey(pubkey: string | types.Pubkey, sequence?: string): void;
     /**
      * Get SignDoc for signature
      * @returns SignDoc  protobuf.Tx.SignDoc

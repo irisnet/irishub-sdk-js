@@ -121,6 +121,16 @@ export interface Pubkey {
   value: string;
 }
 
+/** 
+ * Base Pubkey Type
+ * @hidden
+ */
+export enum PubkeyType {
+  secp256k1 = 'secp256k1',
+  ed25519 = 'ed25519',//not implement
+  sm2 = 'sm2'
+}
+
 /** Tag struct */
 export interface Tag {
   key: string;

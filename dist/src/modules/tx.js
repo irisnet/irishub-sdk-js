@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tx = void 0;
 const is = require("is_js");
 const types = require("../types");
 const errors_1 = require("../errors");
@@ -125,10 +126,10 @@ class Tx {
             // Query account info from block chain
             const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, baseTx.password);
             if (!stdTx.hasPubKey()) {
-                const pubKey = utils_1.Crypto.getAminoPrefixPublicKey(privKey);
+                const pubKey = utils_1.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                 stdTx.setPubKey(pubKey, sequence || undefined);
             }
-            const signature = utils_1.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey);
+            const signature = utils_1.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
             stdTx.addSignature(signature);
             return stdTx;
         });
@@ -143,7 +144,7 @@ class Tx {
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc, name, password) {
+    sign_signDoc(signDoc, name, password, type) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -158,7 +159,7 @@ class Tx {
             throw new errors_1.SdkError(`Key with name '${name}' not found`);
         }
         const privKey = this.client.config.keyDAO.decrypt(keyObj.privKey, password);
-        const signature = utils_1.Crypto.generateSignature(signDoc, privKey);
+        const signature = utils_1.Crypto.generateSignature(signDoc, privKey, type);
         return signature;
     }
     /**
