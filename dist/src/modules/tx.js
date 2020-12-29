@@ -81,11 +81,11 @@ class Tx {
                 return this.broadcastTxCommit(txBytes);
             case types.BroadcastMode.Sync:
                 return this.broadcastTxSync(txBytes).then(response => {
-                    return this.newTxResult(response.hash);
+                    return this.newTxResult(response);
                 });
             default:
                 return this.broadcastTxAsync(txBytes).then(response => {
-                    return this.newTxResult(response.hash);
+                    return this.newTxResult(response);
                 });
         }
     }
@@ -137,14 +137,14 @@ class Tx {
     /**
      * Single sign a transaction with signDoc
      *
-     * @param stdTx StdTx with no signatures
+     * @param signDoc from protobuf
      * @param name Name of the key to sign the tx
      * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param type pubkey Type
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc, name, password, type) {
+    sign_signDoc(signDoc, name, password, type = types.PubkeyType.secp256k1) {
         if (is.empty(name)) {
             throw new errors_1.SdkError(`Name of the key can not be empty`);
         }
@@ -189,7 +189,6 @@ class Tx {
             tx: utils_1.Utils.bytesToBase64(txBytes),
         })
             .then(response => {
-            var _a, _b, _c, _d;
             // Check tx error
             if (response.check_tx && response.check_tx.code > 0) {
                 console.error(response.check_tx);
@@ -203,14 +202,7 @@ class Tx {
             if (response.deliver_tx && response.deliver_tx.tags) {
                 response.deliver_tx.tags = utils_1.Utils.decodeTags(response.deliver_tx.tags);
             }
-            return {
-                hash: response.hash,
-                height: response.height,
-                gas_wanted: (_a = response.deliver_tx) === null || _a === void 0 ? void 0 : _a.gas_wanted,
-                gas_used: (_b = response.deliver_tx) === null || _b === void 0 ? void 0 : _b.gas_used,
-                info: (_c = response.deliver_tx) === null || _c === void 0 ? void 0 : _c.info,
-                tags: (_d = response.deliver_tx) === null || _d === void 0 ? void 0 : _d.tags,
-            };
+            return this.newTxResult(response);
         });
     }
     /**
@@ -248,15 +240,25 @@ class Tx {
     //   });
     //   return copyStdTx;
     // }
-    newTxResult(hash, height, deliverTx) {
-        return {
-            hash,
-            height,
-            gas_wanted: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_wanted,
-            gas_used: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_used,
-            info: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.info,
-            tags: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.tags,
-        };
+    newTxResult(txRespond) {
+        const txResult = { hash: txRespond.hash };
+        if (txRespond.height) {
+            txResult.height = txRespond.height;
+        }
+        ;
+        if (txRespond.deliver_tx) {
+            try {
+                txResult.log = JSON.parse(txRespond.deliver_tx.log);
+            }
+            catch (e) {
+                txResult.log = txRespond.deliver_tx.log;
+            }
+            txResult.info = txRespond.deliver_tx.info;
+            txResult.gas_wanted = txRespond.deliver_tx.gas_wanted;
+            txResult.gas_used = txRespond.deliver_tx.gas_used;
+            txResult.events = txRespond.deliver_tx.events;
+        }
+        return txResult;
     }
     /**
      * create message
@@ -351,6 +353,31 @@ class Tx {
             }
             case types.TxType.MsgBurnNFT: {
                 msg = new types.MsgBurnNFT(txMsg.value);
+                break;
+            }
+            //contract
+            case types.TxType.MsgStoreCode: {
+                msg = new types.MsgStoreCode(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgInstantiateContract: {
+                msg = new types.MsgInstantiateContract(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgExecuteContract: {
+                msg = new types.MsgExecuteContract(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgMigrateContract: {
+                msg = new types.MsgMigrateContract(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgUpdateAdmin: {
+                msg = new types.MsgUpdateAdmin(txMsg.value);
+                break;
+            }
+            case types.TxType.MsgClearAdmin: {
+                msg = new types.MsgClearAdmin(txMsg.value);
                 break;
             }
             default: {

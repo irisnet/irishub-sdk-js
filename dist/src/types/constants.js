@@ -22,6 +22,7 @@ var RpcMethods;
     RpcMethods["Tx"] = "tx";
     RpcMethods["TxSearch"] = "tx_search";
     RpcMethods["Validators"] = "validators";
+    RpcMethods["NetInfo"] = "net_info";
 })(RpcMethods = exports.RpcMethods || (exports.RpcMethods = {}));
 exports.doNotModify = '[do-not-modify]';
 exports.STD_DENOM = 'tiris', exports.IRIS_ATTO = 'iris-atto', exports.MIN_UNIT_SUFFIX = '-min';

@@ -131,7 +131,7 @@ class Distribution {
      */
     queryValidatorOutstandingRewards(validator_address) {
         if (!validator_address) {
-            throw new Error("validator_address can ont be empty");
+            throw new Error("validator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryValidatorOutstandingRewardsRequest();
         request.setValidatorAddress(validator_address);
@@ -143,7 +143,7 @@ class Distribution {
      */
     queryValidatorCommission(validator_address) {
         if (!validator_address) {
-            throw new Error("validator_address can ont be empty");
+            throw new Error("validator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryValidatorCommissionRequest();
         request.setValidatorAddress(validator_address);
@@ -159,7 +159,7 @@ class Distribution {
      */
     queryValidatorSlashes(validator_address, starting_height = 0, ending_height = 0, page_number = 1, page_size = 10) {
         if (!validator_address) {
-            throw new Error("validator_address can ont be empty");
+            throw new Error("validator_address can not be empty");
         }
         const pagination = helper_1.ModelCreator.createPaginationModel(page_number, page_size, true);
         const request = new types.distribution_query_pb.QueryValidatorSlashesRequest();
@@ -180,10 +180,10 @@ class Distribution {
      */
     queryDelegationRewards(validator_address, delegator_address) {
         if (!validator_address) {
-            throw new Error("validator_address can ont be empty");
+            throw new Error("validator_address can not be empty");
         }
         if (!delegator_address) {
-            throw new Error("delegator_address can ont be empty");
+            throw new Error("delegator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryDelegationRewardsRequest();
         request.setValidatorAddress(validator_address);
@@ -196,7 +196,7 @@ class Distribution {
      */
     queryDelegationTotalRewards(delegator_address) {
         if (!delegator_address) {
-            throw new Error("delegator_address can ont be empty");
+            throw new Error("delegator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryDelegationTotalRewardsRequest();
         request.setDelegatorAddress(delegator_address);
@@ -208,7 +208,7 @@ class Distribution {
      */
     queryDelegatorValidators(delegator_address) {
         if (!delegator_address) {
-            throw new Error("delegator_address can ont be empty");
+            throw new Error("delegator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryDelegatorValidatorsRequest();
         request.setDelegatorAddress(delegator_address);
@@ -220,7 +220,7 @@ class Distribution {
      */
     queryDelegatorWithdrawAddress(delegator_address) {
         if (!delegator_address) {
-            throw new Error("delegator_address can ont be empty");
+            throw new Error("delegator_address can not be empty");
         }
         const request = new types.distribution_query_pb.QueryDelegatorWithdrawAddressRequest();
         request.setDelegatorAddress(delegator_address);

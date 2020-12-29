@@ -18,6 +18,9 @@ export const random_tx_pb= require( './proto-types/irismod/random/tx_pb');
 export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
+//wasm tx
+export const contract_tx_pb= require( './proto-types/wasm/msg_pb');
+export const contract_types_pb= require( './proto-types/wasm/types_pb');
 
 /***************QUERY***************/
 export const base_query_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
@@ -41,6 +44,8 @@ export const random_query_pb = require( './proto-types/irismod/random/query_pb')
 export const record_query_pb = require( './proto-types/irismod/record/query_pb');
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
 export const token_query_pb = require( './proto-types/irismod/token/query_pb');
+// wasm query
+export const contract_query_pb = require( './proto-types/wasm/query_pb');
 
 /***************MODULES***************/
 //cosmos module

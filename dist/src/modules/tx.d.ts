@@ -53,14 +53,14 @@ export declare class Tx {
     /**
      * Single sign a transaction with signDoc
      *
-     * @param stdTx StdTx with no signatures
+     * @param signDoc from protobuf
      * @param name Name of the key to sign the tx
      * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param type pubkey Type
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc: Uint8Array, name: string, password: string, type: types.PubkeyType): string;
+    sign_signDoc(signDoc: Uint8Array, name: string, password: string, type?: types.PubkeyType): string;
     /**
      * Broadcast tx async
      * @param txBytes The tx bytes with signatures

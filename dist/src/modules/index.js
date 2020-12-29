@@ -28,4 +28,5 @@ __exportStar(require("./tendermint"), exports);
 __exportStar(require("./coinswap"), exports);
 __exportStar(require("./protobuf"), exports);
 __exportStar(require("./nft"), exports);
+__exportStar(require("./contract"), exports);
 //# sourceMappingURL=index.js.map

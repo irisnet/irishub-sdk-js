@@ -113,10 +113,10 @@ class Bank {
      */
     queryBalance(address, denom) {
         if (!address) {
-            throw new Error("address can ont be empty");
+            throw new Error("address can not be empty");
         }
         if (!denom) {
-            throw new Error("denom can ont be empty");
+            throw new Error("denom can not be empty");
         }
         const request = new types.bank_query_pb.QueryBalanceRequest();
         request.setAddress(address);
@@ -129,7 +129,7 @@ class Bank {
      */
     queryAllBalances(address) {
         if (!address) {
-            throw new Error("address can ont be empty");
+            throw new Error("address can not be empty");
         }
         const request = new types.bank_query_pb.QueryAllBalancesRequest();
         request.setAddress(address);
@@ -148,7 +148,7 @@ class Bank {
      */
     querySupplyOf(denom) {
         if (!denom) {
-            throw new Error("denom can ont be empty");
+            throw new Error("denom can not be empty");
         }
         const request = new types.bank_query_pb.QuerySupplyOfRequest();
         request.setDenom(denom);

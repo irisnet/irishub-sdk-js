@@ -38,7 +38,7 @@ export declare class Tendermint {
      * @returns
      * @since v0.17
      */
-    queryValidators(height?: number): Promise<types.QueryValidatorResult>;
+    queryValidators(height?: number, page?: number, size?: number): Promise<types.QueryValidatorResult>;
     /**
      * Search txs
      *
@@ -48,4 +48,16 @@ export declare class Tendermint {
      * @since v0.17
      */
     searchTxs(conditions: types.EventQueryBuilder, page?: number, size?: number): Promise<types.SearchTxsResult>;
+    /**
+     * query Net Info
+     *
+     * @returns
+     * @since v0.17
+     */
+    queryNetInfo(): Promise<{
+        listening: boolean;
+        listeners: string[];
+        n_peers: string;
+        peers: any[];
+    }>;
 }

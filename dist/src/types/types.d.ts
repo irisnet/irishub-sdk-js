@@ -37,7 +37,13 @@ export declare enum TxType {
     MsgIssueToken = "irismod.token.MsgIssueToken",
     MsgEditToken = "irismod.token.MsgEditToken",
     MsgMintToken = "irismod.token.MsgMintToken",
-    MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner"
+    MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner",
+    MsgStoreCode = "wasmd.x.wasmd.v1beta1.MsgStoreCode",
+    MsgInstantiateContract = "wasmd.x.wasmd.v1beta1.MsgInstantiateContract",
+    MsgExecuteContract = "wasmd.x.wasmd.v1beta1.MsgExecuteContract",
+    MsgMigrateContract = "wasmd.x.wasmd.v1beta1.MsgMigrateContract",
+    MsgUpdateAdmin = "wasmd.x.wasmd.v1beta1.MsgUpdateAdmin",
+    MsgClearAdmin = "wasmd.x.wasmd.v1beta1.MsgClearAdmin"
 }
 /**
  * Base Tx

@@ -44,6 +44,8 @@ export declare class Client {
     tendermint: modules.Tendermint;
     /** Coinswap module */
     coinswap: modules.Coinswap;
+    /** Contract module */
+    contract: modules.Contract;
     /** NFT module */
     nft: modules.Nft;
     /** IRISHub SDK Constructor */
