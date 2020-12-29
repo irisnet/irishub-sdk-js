@@ -89,11 +89,11 @@ export class Tx {
         return this.broadcastTxCommit(txBytes);
       case types.BroadcastMode.Sync:
         return this.broadcastTxSync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
       default:
         return this.broadcastTxAsync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
     }
   }
@@ -228,14 +228,7 @@ export class Tx {
         if (response.deliver_tx && response.deliver_tx.tags) {
           response.deliver_tx.tags = Utils.decodeTags(response.deliver_tx.tags);
         }
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: response.deliver_tx?.gas_wanted,
-          gas_used: response.deliver_tx?.gas_used,
-          info: response.deliver_tx?.info,
-          tags: response.deliver_tx?.tags,
-        };
+        return this.newTxResult(response);
       });
   }
 
@@ -267,7 +260,6 @@ export class Tx {
         if (response.code && response.code > 0) {
           throw new SdkError(response.log, response.code);
         }
-
         return response;
       });
   }
@@ -284,18 +276,22 @@ export class Tx {
   // }
 
   private newTxResult(
-    hash: string,
-    height?: number,
-    deliverTx?: types.ResultTx
+    txRespond:any,
   ): types.TxResult {
-    return {
-      hash,
-      height,
-      gas_wanted: deliverTx?.gas_wanted,
-      gas_used: deliverTx?.gas_used,
-      info: deliverTx?.info,
-      tags: deliverTx?.tags,
-    };
+    const txResult:any = { hash:txRespond.hash };
+    if (txRespond.height) { txResult.height = txRespond.height };
+    if (txRespond.deliver_tx) {
+      try{
+        txResult.log = JSON.parse(txRespond.deliver_tx.log);
+      }catch(e){
+        txResult.log = txRespond.deliver_tx.log;
+      }
+      txResult.info = txRespond.deliver_tx.info;
+      txResult.gas_wanted = txRespond.deliver_tx.gas_wanted;
+      txResult.gas_used = txRespond.deliver_tx.gas_used;
+      txResult.events = txRespond.deliver_tx.events;
+    }
+    return txResult;
   }
 
   /**
@@ -394,6 +390,31 @@ export class Tx {
       }
       case types.TxType.MsgBurnNFT: {
           msg = new types.MsgBurnNFT(txMsg.value)
+          break;
+      }
+      //contract
+      case types.TxType.MsgStoreCode: {
+          msg = new types.MsgStoreCode(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgInstantiateContract: {
+          msg = new types.MsgInstantiateContract(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgExecuteContract: {
+          msg = new types.MsgExecuteContract(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgMigrateContract: {
+          msg = new types.MsgMigrateContract(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgUpdateAdmin: {
+          msg = new types.MsgUpdateAdmin(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgClearAdmin: {
+          msg = new types.MsgClearAdmin(txMsg.value)
           break;
       }
       default: {

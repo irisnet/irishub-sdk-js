@@ -15,7 +15,7 @@ export class Client {
 
   /** Axios client for tendermint rpc requests */
   rpcClient: RpcClient;
-
+  
   /** WebSocket event listener */
   eventListener: EventListener;
 
@@ -27,7 +27,7 @@ export class Client {
 
   /** Bank module */
   bank: modules.Bank;
-
+  
   /** Key management module */
   keys: modules.Keys;
 
@@ -66,6 +66,9 @@ export class Client {
 
   /** Coinswap module */
   coinswap: modules.Coinswap;
+
+  /** Contract module */
+  contract: modules.Contract;
 
   /** NFT module */
   nft: modules.Nft;
@@ -124,9 +127,9 @@ export class Client {
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
     this.coinswap = new modules.Coinswap(this);
+    this.contract = new modules.Contract(this);
     this.nft = new modules.Nft(this);
     
-
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
       const defaultKeyDAO = new DefaultKeyDAOImpl();

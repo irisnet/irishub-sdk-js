@@ -144,6 +144,31 @@ export class Protobuf {
             messageModelClass = types.MsgBurnNFT.getModelClass();
             break;
         }
+        //contract
+        case types.TxType.MsgStoreCode: {
+            messageModelClass = types.MsgStoreCode.getModelClass();
+            break;
+        }
+        case types.TxType.MsgInstantiateContract: {
+            messageModelClass = types.MsgInstantiateContract.getModelClass();
+            break;
+        }
+        case types.TxType.MsgExecuteContract: {
+            messageModelClass = types.MsgExecuteContract.getModelClass();
+            break;
+        }
+        case types.TxType.MsgMigrateContract: {
+            messageModelClass = types.MsgMigrateContract.getModelClass();
+            break;
+        }
+        case types.TxType.MsgUpdateAdmin: {
+            messageModelClass = types.MsgUpdateAdmin.getModelClass();
+            break;
+        }
+        case types.TxType.MsgClearAdmin: {
+            messageModelClass = types.MsgClearAdmin.getModelClass();
+            break;
+        }
         default: {
             throw new Error("not exist tx type");
         }

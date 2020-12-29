@@ -67,7 +67,7 @@ export class Auth {
    */
   queryAccount(address:string): Promise<types.BaseAccount> {
     if (!address) {
-      throw new Error("address can ont be empty");
+      throw new Error("address can not be empty");
     }
     const request = new types.auth_query_pb.QueryAccountRequest();
     request.setAddress(address);
