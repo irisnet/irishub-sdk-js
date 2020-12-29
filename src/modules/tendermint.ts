@@ -107,8 +107,15 @@ export class Tendermint {
    * @returns
    * @since v0.17
    */
-  queryValidators(height?: number): Promise<types.QueryValidatorResult> {
-    const params = height ? { height: String(height) } : {};
+  queryValidators(
+    height?: number,
+    page?: number,
+    size?: number
+    ): Promise<types.QueryValidatorResult> {
+    const params:any = {};
+    if (height) { params.height = String(height) }
+    if (page) { params.page = String(page) }
+    if (size) { params.per_page = String(size) }
     return this.client.rpcClient
       .request<any>(RpcMethods.Validators, params)
       .then(res => {
@@ -172,5 +179,20 @@ export class Tendermint {
         }
         return res as types.SearchTxsResult;
       });
+  }
+
+  /**
+   * query Net Info
+   *
+   * @returns
+   * @since v0.17
+   */
+  queryNetInfo(): Promise<{
+    listening:boolean,
+    listeners:string[],
+    n_peers:string,
+    peers:any[]
+  }> {
+    return this.client.rpcClient.request<any>(RpcMethods.NetInfo, {});
   }
 }

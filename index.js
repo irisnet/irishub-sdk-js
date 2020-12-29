@@ -5,5 +5,5 @@ try {
 catch (e) {
 }
 
-// module.exports = node ? require('./dist/node') : require('./dist/web');
-module.exports = require('./dist/web');
+module.exports = node ? require('./dist/node') : require('./dist/web');
+// module.exports = require('./dist/web');

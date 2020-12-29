@@ -60,14 +60,14 @@ export declare class Crypto {
      * Calculates the full public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @param type Pubkey Type
-     * @returns Public key hexstring
+     * @returns Public key {type:type, value:hexstring}
      */
     static getFullPublicKeyFromPrivateKey(privateKeyHex: string, type?: types.PubkeyType): types.Pubkey;
     /**
      * Calculates the public key from a given private key.
      * @param privateKeyHex The private key hexstring
      * @param type Pubkey Type
-     * @returns Public key hexstring
+     * @returns Public key {type:type, value:hexstring}
      */
     static getPublicKeyFromPrivateKey(privateKeyHex: string, type?: types.PubkeyType): types.Pubkey;
     /**
@@ -117,6 +117,7 @@ export declare class Crypto {
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
+     * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
     static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): string;
