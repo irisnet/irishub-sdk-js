@@ -16,3 +16,4 @@ export * from './tendermint';
 export * from './coinswap';
 export * from './protobuf';
 export * from './nft';
+export * from './contract';

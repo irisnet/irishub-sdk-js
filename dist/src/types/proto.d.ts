@@ -16,6 +16,8 @@ export declare const random_tx_pb: any;
 export declare const record_tx_pb: any;
 export declare const service_tx_pb: any;
 export declare const token_tx_pb: any;
+export declare const contract_tx_pb: any;
+export declare const contract_types_pb: any;
 /***************QUERY***************/
 export declare const base_query_pagination_pb: any;
 export declare const auth_query_pb: any;
@@ -36,6 +38,7 @@ export declare const random_query_pb: any;
 export declare const record_query_pb: any;
 export declare const service_query_pb: any;
 export declare const token_query_pb: any;
+export declare const contract_query_pb: any;
 /***************MODULES***************/
 export declare const auth_auth_pb: any;
 export declare const crypto_secp256k1_keys_pb: any;

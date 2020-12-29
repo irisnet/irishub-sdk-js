@@ -67,6 +67,13 @@ var TxType;
     TxType["MsgEditToken"] = "irismod.token.MsgEditToken";
     TxType["MsgMintToken"] = "irismod.token.MsgMintToken";
     TxType["MsgTransferTokenOwner"] = "irismod.token.MsgTransferTokenOwner";
+    //Contract
+    TxType["MsgStoreCode"] = "wasmd.x.wasmd.v1beta1.MsgStoreCode";
+    TxType["MsgInstantiateContract"] = "wasmd.x.wasmd.v1beta1.MsgInstantiateContract";
+    TxType["MsgExecuteContract"] = "wasmd.x.wasmd.v1beta1.MsgExecuteContract";
+    TxType["MsgMigrateContract"] = "wasmd.x.wasmd.v1beta1.MsgMigrateContract";
+    TxType["MsgUpdateAdmin"] = "wasmd.x.wasmd.v1beta1.MsgUpdateAdmin";
+    TxType["MsgClearAdmin"] = "wasmd.x.wasmd.v1beta1.MsgClearAdmin";
 })(TxType = exports.TxType || (exports.TxType = {}));
 /**
  * Base Pubkey Type

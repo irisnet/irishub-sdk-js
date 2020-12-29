@@ -34,5 +34,6 @@ __exportStar(require("./query-builder"), exports);
 __exportStar(require("./coinswap"), exports);
 __exportStar(require("./protoTx"), exports);
 __exportStar(require("./nft"), exports);
+__exportStar(require("./contract"), exports);
 __exportStar(require("./proto"), exports);
 //# sourceMappingURL=index.js.map

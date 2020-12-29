@@ -63,6 +63,7 @@ class Client {
         this.auth = new modules.Auth(this);
         this.tendermint = new modules.Tendermint(this);
         this.coinswap = new modules.Coinswap(this);
+        this.contract = new modules.Contract(this);
         this.nft = new modules.Nft(this);
         // Set default encrypt/decrypt methods
         if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {

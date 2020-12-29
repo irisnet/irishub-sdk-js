@@ -188,7 +188,7 @@ class Nft {
      */
     queryOwner(owner, denom_id) {
         if (!owner) {
-            throw new Error("owner can ont be empty");
+            throw new Error("owner can not be empty");
         }
         const request = new types.nft_query_pb.QueryOwnerRequest();
         request.setOwner(owner);
@@ -203,7 +203,7 @@ class Nft {
      */
     queryCollection(denom_id) {
         if (!denom_id) {
-            throw new Error("denom_id can ont be empty");
+            throw new Error("denom_id can not be empty");
         }
         const request = new types.nft_query_pb.QueryCollectionRequest();
         request.setDenomId(denom_id);
@@ -215,7 +215,7 @@ class Nft {
      */
     queryDenom(denom_id) {
         if (!denom_id) {
-            throw new Error("denom_id can ont be empty");
+            throw new Error("denom_id can not be empty");
         }
         const request = new types.nft_query_pb.QueryDenomRequest();
         request.setDenomId(denom_id);
@@ -235,10 +235,10 @@ class Nft {
      */
     queryNFT(denom_id, token_id) {
         if (!denom_id) {
-            throw new Error("denom_id can ont be empty");
+            throw new Error("denom_id can not be empty");
         }
         if (!token_id) {
-            throw new Error("token_id can ont be empty");
+            throw new Error("token_id can not be empty");
         }
         const request = new types.nft_query_pb.QueryNFTRequest();
         request.setDenomId(denom_id);

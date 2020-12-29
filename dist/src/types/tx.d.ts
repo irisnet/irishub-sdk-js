@@ -38,6 +38,8 @@ export interface QueryTxResult {
     hash: string;
     height: string;
     index: number;
+    log: object;
+    events: object[];
     tx_result: QueryTxInnerResult;
     tx: Tx<StdTx>;
 }
