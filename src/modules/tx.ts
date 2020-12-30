@@ -125,7 +125,7 @@ export class Tx {
       throw new SdkError(`Key with name '${baseTx.from}' not found`);
     }
 
-    let accountNumber = baseTx.account_number || '';
+    let accountNumber = baseTx.account_number??'0';
     let sequence = baseTx.sequence || '0';
 
     if (!baseTx.account_number || !baseTx.sequence) {
