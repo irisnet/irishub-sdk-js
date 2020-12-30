@@ -276,6 +276,23 @@ class Utils {
         });
         return decodedTags;
     }
+    /**
+   * get amino prefix from public key encode type.
+   * @param public key encode type
+   * @returns UintArray
+   */
+    static getAminoPrefix(prefix) {
+        let b = Array.from(Buffer.from(SHA256(prefix).toString(), 'hex'));
+        while (b[0] === 0) {
+            b = b.slice(1);
+        }
+        b = b.slice(3);
+        while (b[0] === 0) {
+            b = b.slice(1);
+        }
+        b = b.slice(0, 4);
+        return b;
+    }
 }
 exports.Utils = Utils;
 //# sourceMappingURL=utils.js.map

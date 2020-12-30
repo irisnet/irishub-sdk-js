@@ -98,6 +98,7 @@ class Tx {
      * @since v0.17
      */
     sign(stdTx, baseTx) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             if (is.empty(baseTx.from)) {
                 throw new errors_1.SdkError(`baseTx.from of the key can not be empty`);
@@ -112,7 +113,7 @@ class Tx {
             if (!keyObj) {
                 throw new errors_1.SdkError(`Key with name '${baseTx.from}' not found`);
             }
-            let accountNumber = baseTx.account_number || '';
+            let accountNumber = (_a = baseTx.account_number) !== null && _a !== void 0 ? _a : '0';
             let sequence = baseTx.sequence || '0';
             if (!baseTx.account_number || !baseTx.sequence) {
                 const account = yield this.client.bank.queryAccount(keyObj.address);
