@@ -27,15 +27,16 @@ export class BaseTest {
     from: Consts.keyName,
     password: Consts.keyPassword,
     mode: types.BroadcastMode.Commit,
+    pubkeyType:types.PubkeyType.sm2
   };
 
   static getClient(): Client {
     let config = {
-        node: 'http://106.53.32.134:26657',
+        node: 'http://10.1.4.101:26657',
         network: iris.Network.Mainnet,
-        chainId: 'test',
-        gas: '200000',
-        fee: { denom: 'stake', amount: '2' },
+        chainId: 'chain-dqasEu',
+        gas: '2000000',
+        fee: { denom: 'stake', amount: '200' },
     };
     let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
@@ -62,7 +63,8 @@ export class BaseTest {
     client.keys.importPrivateKey(
       Consts.keyName,
       Consts.keyPassword,
-      privateKey
+      privateKey,
+      types.PubkeyType.sm2
     );
     return client;
   }

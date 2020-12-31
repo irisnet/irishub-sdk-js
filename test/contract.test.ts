@@ -79,7 +79,7 @@ describe('Construct Tests', () => {
           ).catch(error => {
             console.log(error);
           });
-          console.log('execute:',execute);
+        console.log('execute:',execute);
       },
       timeout
     );
