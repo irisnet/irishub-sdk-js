@@ -355,14 +355,14 @@ export class EventListener {
       if (blockData.result_end_block.validator_updates) {
         const validators: types.EventDataValidatorUpdate[] = [];
         blockData.result_end_block.validator_updates.forEach((v: any) => {
-          let type = '';
+          let type = types.PubkeyType.secp256k1;
           switch (v.pub_key.type) {
             case 'secp256k1': {
-              type = 'tendermint/PubKeySecp256k1';
+              type = types.PubkeyType.secp256k1;
               break;
             }
             case 'ed25519': {
-              type = 'tendermint/PubKeyEd25519';
+              type = types.PubkeyType.ed25519;
               break;
             }
             default:
@@ -373,7 +373,7 @@ export class EventListener {
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(valPubkey, false)),
+            Crypto.aminoMarshalPubKey(valPubkey, false),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({
@@ -429,14 +429,14 @@ export class EventListener {
         blockHeader.result_end_block.validator_updates.forEach((v: any) => {
           const type =
             v.pub_key.type === 'secp256k1'
-              ? 'tendermint/PubKeySecp256k1'
-              : 'tendermint/PubKeyEd25519';
+              ? types.PubkeyType.secp256k1
+              : types.PubkeyType.ed25519;
           const valPubkey: types.Pubkey = {
             type,
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(valPubkey, false)),
+            Crypto.aminoMarshalPubKey(valPubkey, false),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({

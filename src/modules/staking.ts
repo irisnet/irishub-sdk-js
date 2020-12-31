@@ -598,7 +598,7 @@ export class Staking {
             this.client.config.bech32Prefix.ConsAddr
           );
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(Crypto.aminoMarshalPubKey(event.pub_key)),
+            Crypto.aminoMarshalPubKey(event.pub_key),
             this.client.config.bech32Prefix.ConsPub
           );
           const update: types.ExtendedEventDataValidatorSetUpdates = {
