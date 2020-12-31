@@ -417,7 +417,7 @@ class Staking {
             }
             data === null || data === void 0 ? void 0 : data.forEach(event => {
                 const bech32Address = utils_1.Crypto.encodeAddress(event.address, this.client.config.bech32Prefix.ConsAddr);
-                const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(event.pub_key)), this.client.config.bech32Prefix.ConsPub);
+                const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Crypto.aminoMarshalPubKey(event.pub_key), this.client.config.bech32Prefix.ConsPub);
                 const update = {
                     address: event.address,
                     pub_key: event.pub_key,
