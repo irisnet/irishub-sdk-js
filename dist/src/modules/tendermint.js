@@ -115,7 +115,7 @@ class Tendermint {
             if (res.validators) {
                 res.validators.forEach((v) => {
                     const bech32Address = utils_1.Crypto.encodeAddress(v.address, this.client.config.bech32Prefix.ConsAddr);
-                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Utils.ab2hexstring(utils_1.Crypto.aminoMarshalPubKey(v.pub_key, false)), this.client.config.bech32Prefix.ConsPub);
+                    const bech32Pubkey = utils_1.Crypto.encodeAddress(utils_1.Crypto.aminoMarshalPubKey(v.pub_key, false), this.client.config.bech32Prefix.ConsPub);
                     result.validators.push({
                         bech32_address: bech32Address,
                         bech32_pubkey: bech32Pubkey,

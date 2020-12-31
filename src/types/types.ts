@@ -124,7 +124,7 @@ export interface JsonRpcError {
  * @hidden
  */
 export interface Pubkey {
-  type: string;
+  type: PubkeyType;
   value: string;
 }
 

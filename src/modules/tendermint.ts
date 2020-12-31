@@ -130,7 +130,7 @@ export class Tendermint {
               this.client.config.bech32Prefix.ConsAddr
             );
             const bech32Pubkey = Crypto.encodeAddress(
-              Utils.ab2hexstring(Crypto.aminoMarshalPubKey(v.pub_key, false)),
+              Crypto.aminoMarshalPubKey(v.pub_key, false),
               this.client.config.bech32Prefix.ConsPub
             );
             result.validators.push({

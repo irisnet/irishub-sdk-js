@@ -71,25 +71,12 @@ export declare class Crypto {
      */
     static getPublicKeyFromPrivateKey(privateKeyHex: string, type?: types.PubkeyType): types.Pubkey;
     /**
-     * Calculates the amino prefix Secp256k1 public key from a given private key.
-     * @param privateKeyHex The private key hexstring
-     * @param type Pubkey Type
-     * @returns Tendermint public key
-     */
-    static getAminoPrefixPublicKey(privateKeyHex: string, type?: types.PubkeyType): string;
-    /**
      * [marshalPubKey description]
-     * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+     * @param  {[type]} pubKey:{type: types.PubkeyType, value:base64String} Tendermint public key
      * @param  {[type]} lengthPrefixed:boolean length prefixed
-     * @return {[type]} Uint8Array public key with amino prefix
+     * @return {[type]} pubKey hexString public key with amino prefix
      */
-    static aminoMarshalPubKey(pubKey: types.Pubkey, lengthPrefixed?: boolean): Uint8Array;
-    /**
-     * get amino prefix from public key encode type.
-     * @param public key encode type
-     * @returns UintArray
-     */
-    static getAminoPrefix(prefix: string): Uint8Array;
+    static aminoMarshalPubKey(pubKey: types.Pubkey, lengthPrefixed?: boolean): string;
     /**
      * Gets an address from a public key hex.
      * @param publicKeyHex The public key hexstring

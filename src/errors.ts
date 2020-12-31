@@ -96,7 +96,7 @@ export class SdkError extends Error {
    */
   constructor(msg: string, code = CODES.InvalidRequest) {
     super(msg);
-    const mappedCode = errorMap.get(this.codespace + code);
-    this.code = mappedCode ? mappedCode : CODES.InvalidRequest;
+    // const mappedCode = errorMap.get(this.codespace + code);
+    this.code = code;
   }
 }

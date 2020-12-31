@@ -1,4 +1,5 @@
 import { Crypto } from '../src/utils';
+import * as types from '../src/types';
 
 test('Crypto', async () => {
   // Generates mnemonic
@@ -27,4 +28,13 @@ test('Crypto', async () => {
 
   console.log(Buffer.from('bXbzqbOidvLADyfR/cLVm2o6L9vcpPh+PF6O8m2sOQ4=', 'hex'));
   // TODO
+});
+
+test('Marshal PubKey', async ()=>{
+  let pk =  Crypto.aminoMarshalPubKey({
+    type:types.PubkeyType.ed25519,
+    value:'F205xccFhKHMnNEHFwtHLzDVjPaGGBuSnO0wR8OmEvo='
+  });
+  let pk_bech32 = Crypto.encodeAddress(pk,'icp');
+  console.log('pk_bech32:',pk_bech32);
 });

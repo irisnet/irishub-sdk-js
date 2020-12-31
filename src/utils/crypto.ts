@@ -175,59 +175,37 @@ export class Crypto {
   }
 
   /**
-   * Calculates the amino prefix Secp256k1 public key from a given private key.
-   * @param privateKeyHex The private key hexstring
-   * @param type Pubkey Type
-   * @returns Tendermint public key
-   */
-  static getAminoPrefixPublicKey(
-    privateKeyHex: string, 
-    type:types.PubkeyType = types.PubkeyType.secp256k1
-    ){
-    const publicKey = Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type);
-    if (publicKey.type != types.PubkeyType.secp256k1) {
-      throw new Error("not implement");
-    }
-    let pk:Uint8Array = Crypto.aminoMarshalPubKey({
-      type: 'tendermint/PubKeySecp256k1',
-      value: Buffer.from(publicKey.value,'hex').toString('base64'),
-    });
-    return Buffer.from(pk).toString('hex');
-  }
-
-  /**
    * [marshalPubKey description]
-   * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+   * @param  {[type]} pubKey:{type: types.PubkeyType, value:base64String} Tendermint public key
    * @param  {[type]} lengthPrefixed:boolean length prefixed
-   * @return {[type]} Uint8Array public key with amino prefix
+   * @return {[type]} pubKey hexString public key with amino prefix
    */
-  static aminoMarshalPubKey(pubKey:types.Pubkey, lengthPrefixed?:boolean):Uint8Array{
+  static aminoMarshalPubKey(
+    pubKey:types.Pubkey, 
+    lengthPrefixed?:boolean):string{
     const { type, value } = pubKey;
-    let pk:any = Crypto.getAminoPrefix(type);
+    let pubKeyType = '';
+    switch (type){
+      case types.PubkeyType.secp256k1:
+      pubKeyType = 'tendermint/PubKeySecp256k1';
+      break;
+      case types.PubkeyType.ed25519:
+      pubKeyType = 'tendermint/PubKeyEd25519';
+      break;
+      case types.PubkeyType.sm2:
+      pubKeyType = 'tendermint/PubKeySm2';
+      break;
+      default:
+      pubKeyType = type;
+      break;
+    }
+    let pk:any = Utils.getAminoPrefix(pubKeyType);
     pk = pk.concat(Buffer.from(value,'base64').length);
     pk = pk.concat(Array.from(Buffer.from(value,'base64')));
     if (lengthPrefixed) {
       pk = [pk.length,...pk];
     }
-    return pk;
-  }
-
-  /**
-   * get amino prefix from public key encode type.
-   * @param public key encode type
-   * @returns UintArray
-   */
-  static getAminoPrefix(prefix:string):Uint8Array{
-    let b:any = Array.from(Buffer.from(Sha256(prefix),'hex'));
-    while (b[0] === 0) {
-        b = b.slice(1, b.length - 1)
-    }
-    b = b.slice(3, b.length - 1);
-    while (b[0] === 0) {
-        b = b.slice(1, b.length - 1)
-    }
-    b = b.slice(0, 4);
-    return b;
+    return Buffer.from(pk).toString('hex');
   }
 
   /**
