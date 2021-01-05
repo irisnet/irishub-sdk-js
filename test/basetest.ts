@@ -32,7 +32,7 @@ export class BaseTest {
   static getClient(): Client {
     let config = {
         node: 'http://106.53.32.134:26657',
-        network: iris.Network.Mainnet,
+        network: iris.types.Network.Mainnet,
         chainId: 'test',
         gas: '200000',
         fee: { denom: 'stake', amount: '2' },
@@ -41,7 +41,7 @@ export class BaseTest {
 
     // let config = {
     //     node: 'http://34.80.22.255:26657',
-    //     network: iris.Network.Mainnet,
+    //     network: iris.types.Network.Mainnet,
     //     chainId: 'bifrost-1',
     //     gas: '200000',
     //     fee: { denom: 'ubif', amount: '5000' },
