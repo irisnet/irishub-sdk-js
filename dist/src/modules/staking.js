@@ -581,7 +581,7 @@ var Staking = /*#__PURE__*/function () {
         data === null || data === void 0 ? void 0 : data.forEach(function (event) {
           var bech32Address = _utils.Crypto.encodeAddress(event.address, _this3.client.config.bech32Prefix.ConsAddr);
 
-          var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Utils.ab2hexstring(_utils.Crypto.aminoMarshalPubKey(event.pub_key)), _this3.client.config.bech32Prefix.ConsPub);
+          var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Crypto.aminoMarshalPubKey(event.pub_key), _this3.client.config.bech32Prefix.ConsPub);
 
           var update = {
             address: event.address,

@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TxType = exports.Msg = void 0;
+exports.PubkeyType = exports.TxType = exports.Msg = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -100,3 +100,18 @@ exports.TxType = TxType;
   TxType["MsgMintToken"] = "irismod.token.MsgMintToken";
   TxType["MsgTransferTokenOwner"] = "irismod.token.MsgTransferTokenOwner";
 })(TxType || (exports.TxType = TxType = {}));
+
+/** 
+ * Base Pubkey Type
+ * @hidden
+ */
+var PubkeyType;
+/** Tag struct */
+
+exports.PubkeyType = PubkeyType;
+
+(function (PubkeyType) {
+  PubkeyType["secp256k1"] = "secp256k1";
+  PubkeyType["ed25519"] = "ed25519";
+  PubkeyType["sm2"] = "sm2";
+})(PubkeyType || (exports.PubkeyType = PubkeyType = {}));

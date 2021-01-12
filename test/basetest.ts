@@ -1,7 +1,5 @@
 import * as iris from '../src';
-import * as types from '../src/types';
 import { Client } from '../src/client';
-import {Wallet} from "../src";
 
 export class Consts {
   static timeout = 10000;
@@ -11,11 +9,11 @@ export class Consts {
 
 /** Test KeyDAO */
 export class TestKeyDAO implements iris.KeyDAO {
-  keyMap: { [key: string]: Wallet } = {};
-  write(name: string, key: Wallet) {
+  keyMap: { [key: string]: iris.types.Wallet } = {};
+  write(name: string, key: iris.types.Wallet) {
     this.keyMap[name] = key;
   }
-  read(name: string): Wallet {
+  read(name: string): iris.types.Wallet {
     return this.keyMap[name];
   }
   delete(name: string) {
@@ -24,19 +22,20 @@ export class TestKeyDAO implements iris.KeyDAO {
 }
 
 export class BaseTest {
-  static baseTx: types.BaseTx = {
+  static baseTx: iris.types.BaseTx = {
     from: Consts.keyName,
     password: Consts.keyPassword,
-    mode: types.BroadcastMode.Commit,
+    mode: iris.types.BroadcastMode.Commit,
+    // pubkeyType:types.PubkeyType.sm2
   };
 
   static getClient(): Client {
     let config = {
-        node: 'http://106.53.32.134:26657',
+        node: 'http://192.168.150.31:16657',
         network: iris.types.Network.Mainnet,
-        chainId: 'test',
-        gas: '200000',
-        fee: { denom: 'stake', amount: '2' },
+        chainId: 'irishub-dev',
+        gas: '20000000',
+        fee: { denom: 'ubif', amount: '200' },
     };
     let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
@@ -54,17 +53,18 @@ export class BaseTest {
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
-    // client.keys.recover(
-    //   Consts.keyName,
-    //   Consts.keyPassword,
-    //   'case divide galaxy brain mother bicycle sketch utility shaft resource virus swear slender evidence valid brain lonely grief join build civil update muffin swarm'
-    // );
-
-    client.keys.importPrivateKey(
+    client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      privateKey
+      'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'
     );
+
+    // client.keys.importPrivateKey(
+    //   Consts.keyName,
+    //   Consts.keyPassword,
+    //   privateKey,
+    //   types.PubkeyType.sm2
+    // );
     return client;
   }
 }

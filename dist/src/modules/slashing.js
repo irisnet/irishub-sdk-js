@@ -76,7 +76,6 @@ var Slashing = /*#__PURE__*/function () {
 
       var key = _utils.StoreKeys.getSigningInfoKey(bech32ConsAddress);
 
-      console.log('key:', key);
       return this.client.rpcClient.queryStore(key, 'slashing', height).then(function (res) {
         if (!res || !res.response || !res.response.value) {
           throw new _errors.SdkError('Validator not found');

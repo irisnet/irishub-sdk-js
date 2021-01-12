@@ -40,7 +40,7 @@ var TxModelCreator = /*#__PURE__*/function () {
       var feeModel = TxModelCreator.createFeeModel(fee.amount, fee.gasLimit);
       authInfo.setFee(feeModel);
 
-      if (publicKey && publicKey.length && typeof sequence != 'undefined') {
+      if (publicKey && typeof sequence != 'undefined') {
         var signerInfo = TxModelCreator.createSignerInfoModel(sequence, publicKey);
         authInfo.addSignerInfos(signerInfo);
       }
@@ -60,7 +60,7 @@ var TxModelCreator = /*#__PURE__*/function () {
 
       if (publicKey) {
         var pk = TxModelCreator.createPublicKeyModel(publicKey);
-        signerInfo.setPublicKey(TxModelCreator.createAnyModel('cosmos.crypto.secp256k1.PubKey', pk.serializeBinary()));
+        signerInfo.setPublicKey(TxModelCreator.createAnyModel(pk.type, pk.value.serializeBinary()));
       }
 
       return signerInfo;
@@ -68,7 +68,14 @@ var TxModelCreator = /*#__PURE__*/function () {
   }, {
     key: "createPublicKeyModel",
     value: function createPublicKeyModel(publicKey) {
-      var pk_hex = _txHelper.TxHelper.getHexPubkey(publicKey);
+      if (typeof publicKey == 'string') {
+        publicKey = {
+          type: types.PubkeyType.secp256k1,
+          value: publicKey
+        };
+      }
+
+      var pk_hex = _txHelper.TxHelper.getHexPubkey(publicKey.value);
 
       var pubByteArray = Array.from(Buffer.from(pk_hex, 'hex'));
 
@@ -77,9 +84,35 @@ var TxModelCreator = /*#__PURE__*/function () {
         pubByteArray = pubByteArray.slice(5);
       }
 
-      var pk = new types.crypto_secp256k1_keys_pb.PubKey();
+      var pk;
+      var type = '';
+
+      switch (publicKey.type) {
+        case types.PubkeyType.secp256k1:
+          type = 'cosmos.crypto.secp256k1.PubKey';
+          pk = new types.crypto_secp256k1_keys_pb.PubKey();
+          break;
+
+        case types.PubkeyType.ed25519:
+          type = 'cosmos.crypto.ed25519.PubKey';
+          pk = new types.crypto_ed25519_keys_pb.PubKey();
+          break;
+
+        case types.PubkeyType.sm2:
+          type = 'cosmos.crypto.sm2.PubKey';
+          pk = new types.crypto_sm2_keys_pb.PubKey();
+          break;
+      }
+
+      if (!pk) {
+        throw new Error("Unsupported public Key types");
+      }
+
       pk.setKey(Buffer.from(pubByteArray));
-      return pk;
+      return {
+        type: type,
+        value: pk
+      };
     }
   }, {
     key: "createFeeModel",

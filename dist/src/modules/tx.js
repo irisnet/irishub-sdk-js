@@ -101,9 +101,11 @@ var Tx = /*#__PURE__*/function () {
 
               case 3:
                 signedTx = _context.sent;
+                console.log('hhhhhhhhh:', signedTx.getDisplayContent()); // Broadcast Tx
+
                 return _context.abrupt("return", this.broadcast(signedTx, baseTx.mode));
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -160,6 +162,8 @@ var Tx = /*#__PURE__*/function () {
     key: "sign",
     value: function () {
       var _sign = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
+        var _baseTx$account_numbe;
+
         var keyObj, accountNumber, sequence, account, privKey, pubKey, signature;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
@@ -199,7 +203,7 @@ var Tx = /*#__PURE__*/function () {
                 throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"));
 
               case 9:
-                accountNumber = baseTx.account_number || '';
+                accountNumber = (_baseTx$account_numbe = baseTx.account_number) !== null && _baseTx$account_numbe !== void 0 ? _baseTx$account_numbe : '0';
                 sequence = baseTx.sequence || '0';
 
                 if (!(!baseTx.account_number || !baseTx.sequence)) {
@@ -226,11 +230,11 @@ var Tx = /*#__PURE__*/function () {
                 privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
                 if (!stdTx.hasPubKey()) {
-                  pubKey = _utils.Crypto.getAminoPrefixPublicKey(privKey);
+                  pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                   stdTx.setPubKey(pubKey, sequence || undefined);
                 }
 
-                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey);
+                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
                 stdTx.addSignature(signature);
                 return _context2.abrupt("return", stdTx);
 
@@ -251,10 +255,10 @@ var Tx = /*#__PURE__*/function () {
     /**
      * Single sign a transaction with signDoc
      *
-     * @param stdTx StdTx with no signatures
+     * @param signDoc from protobuf
      * @param name Name of the key to sign the tx
      * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param type pubkey Type
      * @returns signature
      * @since v0.17
      */
@@ -262,6 +266,8 @@ var Tx = /*#__PURE__*/function () {
   }, {
     key: "sign_signDoc",
     value: function sign_signDoc(signDoc, name, password) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
+
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
       }
@@ -282,7 +288,7 @@ var Tx = /*#__PURE__*/function () {
 
       var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
 
-      var signature = _utils.Crypto.generateSignature(signDoc, privKey);
+      var signature = _utils.Crypto.generateSignature(signDoc, privKey, type);
 
       return signature;
     }

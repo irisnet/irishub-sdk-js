@@ -106,11 +106,11 @@ var SdkError = /*#__PURE__*/function (_Error) {
 
     var code = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : CODES.InvalidRequest;
     (0, _classCallCheck2["default"])(this, SdkError);
-    _this = _super.call(this, msg);
+    _this = _super.call(this, msg); // const mappedCode = errorMap.get(this.codespace + code);
+
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "codespace", CODESPACE_ROOT);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "code", CODES.InvalidRequest);
-    var mappedCode = errorMap.get(_this.codespace + code);
-    _this.code = mappedCode ? mappedCode : CODES.InvalidRequest;
+    _this.code = code;
     return _this;
   }
 

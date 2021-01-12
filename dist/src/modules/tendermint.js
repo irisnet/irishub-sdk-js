@@ -165,7 +165,7 @@ var Tendermint = /*#__PURE__*/function () {
           res.validators.forEach(function (v) {
             var bech32Address = _utils.Crypto.encodeAddress(v.address, _this3.client.config.bech32Prefix.ConsAddr);
 
-            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Utils.ab2hexstring(_utils.Crypto.aminoMarshalPubKey(v.pub_key, false)), _this3.client.config.bech32Prefix.ConsPub);
+            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Crypto.aminoMarshalPubKey(v.pub_key, false), _this3.client.config.bech32Prefix.ConsPub);
 
             result.validators.push({
               bech32_address: bech32Address,

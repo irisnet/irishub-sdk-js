@@ -70,7 +70,7 @@ var ProtoTx = /*#__PURE__*/function () {
     }
     /**
      * add public key
-     * @param {[string]} pubkey   bech32/hex 
+     * @param {[string]} bech32/hex or object. if string, default Secp256k1
      * @param {optional [number]} sequence 
      */
 
@@ -80,7 +80,7 @@ var ProtoTx = /*#__PURE__*/function () {
       sequence = sequence || this.txData.sequence;
 
       if (!sequence) {
-        throw new Error("sequence is  empty");
+        throw new Error("sequence is empty");
       }
 
       var signerInfo = _helper.TxModelCreator.createSignerInfoModel(sequence, pubkey);
@@ -112,6 +112,7 @@ var ProtoTx = /*#__PURE__*/function () {
       signDoc.setAuthInfoBytes(this.authInfo.serializeBinary());
       signDoc.setAccountNumber(String(account_number || this.txData.account_number));
       signDoc.setChainId(chain_id || this.txData.chain_id);
+      console.log('signDocsignDoc:', signDoc.toObject());
       return signDoc;
     }
     /**
