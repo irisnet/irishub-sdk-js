@@ -292,7 +292,7 @@ export class Utils {
    * @returns UintArray
    */
   static getAminoPrefix(prefix:string):Uint8Array{
-    let b:any = Array.from(Buffer.from(SHA256(prefix).toString(),'hex'));
+    let b:any = Array.from(Buffer.from((typeof SHA256 === 'function' ? SHA256 : SHA256.default)(prefix).toString(),'hex'));
     while (b[0] === 0) {
         b = b.slice(1)
     }

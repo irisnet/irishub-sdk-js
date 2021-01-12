@@ -69,7 +69,7 @@ export class Keys {
     this.client.config.keyDAO.write(name, {
         address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey,
+        publicKey: Crypto.aminoMarshalPubKey(pubKey),
         mnemonic: encryptedMnemonic,
     });
 
@@ -136,7 +136,7 @@ export class Keys {
     this.client.config.keyDAO.write(name, {
         address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey,
+        publicKey: Crypto.aminoMarshalPubKey(pubKey),
     });
 
     return address;
@@ -191,7 +191,7 @@ export class Keys {
     this.client.config.keyDAO.write(name, {
         address,
         privateKey: encryptedPrivKey,
-        publicKey:pubKey,
+        publicKey:Crypto.aminoMarshalPubKey(pubKey),
     });
 
     return address;
@@ -242,7 +242,7 @@ export class Keys {
     this.client.config.keyDAO.write(name, {
         address,
         privateKey: encryptedPrivKey,
-        publicKey:pubKey
+        publicKey:Crypto.aminoMarshalPubKey(pubKey)
     });
 
     return address;
@@ -273,7 +273,7 @@ export class Keys {
     }
 
     const privKey = this.client.config.keyDAO.decrypt(
-      keyObj.privKey,
+      keyObj.privateKey,
       keyPassword
     );
 
@@ -308,10 +308,10 @@ export class Keys {
     }
 
     // Check keystore password
-    this.client.config.keyDAO.decrypt(keyObj.privKey, password);
+    this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
 
     // Delete the key from app
-    this.client.config.keyDAO.delete(name);
+    this.client.config.keyDAO.delete!(name);
   }
 
   /**
