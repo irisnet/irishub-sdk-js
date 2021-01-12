@@ -1,16 +1,44 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./modelCreator"), exports);
-__exportStar(require("./txHelper"), exports);
-__exportStar(require("./txModelCreator"), exports);
-//# sourceMappingURL=index.js.map
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _modelCreator = require("./modelCreator");
+
+Object.keys(_modelCreator).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _modelCreator[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _modelCreator[key];
+    }
+  });
+});
+
+var _txHelper = require("./txHelper");
+
+Object.keys(_txHelper).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _txHelper[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _txHelper[key];
+    }
+  });
+});
+
+var _txModelCreator = require("./txModelCreator");
+
+Object.keys(_txModelCreator).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _txModelCreator[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _txModelCreator[key];
+    }
+  });
+});

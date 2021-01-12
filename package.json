@@ -2,11 +2,12 @@
   "name": "@irisnet/irishub-sdk",
   "version": "0.0.1",
   "description": "IRISHub JavaScript SDK",
-  "main": "index.js",
-  "typings": "index.js",
+  "main": "src/index.js",
+  "typings": "src/index.ts",
   "types": "./dist/src",
   "files": [
     "dist",
+    "dist/*",
     "src/**/*.{ts,js}",
     "types/**/*.ts",
     "index.js",
@@ -28,14 +29,14 @@
     "test": "yarn run node && jest -i --config jest.config.js && sh test/scripts/clean.sh",
     "check": "gts check",
     "clean": "gts clean",
-    "compile": "tsc -p .",
-    "build": "rm -rf dist/* && webpack --config build --progress --colors --display-error-details && yarn run compile",
+    "build": "rm -rf dist/* && tsc --emitDeclarationOnly && babel --extensions '.ts' src -d dist/src && cp LICENSE dist/ && cp README.md dist/ && cp package.json dist/ && cp -rf src/types/proto-types dist/src/types/proto-types",
     "fix": "gts fix",
     "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js .",
     "proto-gen": "sh ./scripts/protocgen.sh"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.5",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.7.6",
@@ -51,11 +52,7 @@
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.0",
     "typedoc": "^0.16.9",
-    "typescript": "^3.8.3",
-    "webpack": "^4.42.1",
-    "webpack-bundle-analyzer": "^3.6.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@types/mathjs": "^6.0.4",

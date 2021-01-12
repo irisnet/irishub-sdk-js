@@ -1,6 +1,6 @@
 import * as types from '../types';
-import * as EventEmitter from 'events';
-import * as Websocket from 'isomorphic-ws';
+import EventEmitter from 'events';
+import Websocket from 'isomorphic-ws';
 import { SdkError } from '../errors';
 
 /**

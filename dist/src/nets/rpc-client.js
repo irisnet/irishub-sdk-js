@@ -1,63 +1,98 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.RpcClient = void 0;
-const axios_1 = require("axios");
-const utils_1 = require("../utils");
-const errors_1 = require("../errors");
-const is = require("is_js");
-const types = require("../types");
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _utils = require("../utils");
+
+var _errors = require("../errors");
+
+var is = _interopRequireWildcard(require("is_js"));
+
+var types = _interopRequireWildcard(require("../types"));
+
 /**
  * Tendermint JSON RPC Client
  * @since v0.17
  */
-class RpcClient {
-    /**
-     * Initialize Tendermint JSON RPC Client
-     * @param url Rpc address of irishub node
-     * @param config The other configurations, refer to { [[AxiosRequestConfig]] }
-     * @returns
-     * @since v0.17
-     */
-    constructor(config) {
-        if (is.empty(config)) {
-            throw new errors_1.SdkError('RpcClient Config not initialized');
-        }
-        if (is.empty(config.baseURL)) {
-            throw new errors_1.SdkError('baseURL of RpcClient cannot be empty');
-        }
-        if (is.empty(config.timeout)) {
-            config.timeout = 2000; // Set default timeout
-        }
-        config.url = '/'; // Fixed url
-        this.config = config;
-        this.instance = axios_1.default.create(config);
+var RpcClient = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+
+  /**
+   * Initialize Tendermint JSON RPC Client
+   * @param url Rpc address of irishub node
+   * @param config The other configurations, refer to { [[AxiosRequestConfig]] }
+   * @returns
+   * @since v0.17
+   */
+  function RpcClient(config) {
+    (0, _classCallCheck2["default"])(this, RpcClient);
+    (0, _defineProperty2["default"])(this, "instance", void 0);
+    (0, _defineProperty2["default"])(this, "config", void 0);
+
+    if (is.empty(config)) {
+      throw new _errors.SdkError('RpcClient Config not initialized');
     }
-    /**
-     * Post Tendermint JSON RPC Request
-     *
-     * @param method Tendermint RPC method
-     * @param params Request params
-     * @returns
-     * @since v0.17
-     */
-    request(method, params = {}) {
-        const data = {
-            jsonrpc: '2.0',
-            id: 'jsonrpc-client',
-            method,
-            params,
-        };
-        return this.instance
-            .post(this.config.baseURL, data)
-            .then(response => {
-            const res = response.data;
-            // Internal error
-            if (res.error) {
-                console.error(res.error);
-                throw new errors_1.SdkError(res.error.message, res.error.code);
-            }
-            return res.result;
-        });
+
+    if (is.empty(config.baseURL)) {
+      throw new _errors.SdkError('baseURL of RpcClient cannot be empty');
+    }
+
+    if (is.empty(config.timeout)) {
+      config.timeout = 2000; // Set default timeout
+    }
+
+    config.url = '/'; // Fixed url
+
+    this.config = config;
+    this.instance = _axios["default"].create(config);
+  }
+  /**
+   * Post Tendermint JSON RPC Request
+   *
+   * @param method Tendermint RPC method
+   * @param params Request params
+   * @returns
+   * @since v0.17
+   */
+
+
+  (0, _createClass2["default"])(RpcClient, [{
+    key: "request",
+    value: function request(method) {
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var data = {
+        jsonrpc: '2.0',
+        id: 'jsonrpc-client',
+        method: method,
+        params: params
+      };
+      return this.instance.post(this.config.baseURL, data).then(function (response) {
+        var res = response.data; // Internal error
+
+        if (res.error) {
+          console.error(res.error);
+          throw new _errors.SdkError(res.error.message, res.error.code);
+        }
+
+        return res.result;
+      });
     }
     /**
      * Tendermint ABCI protobuf Query
@@ -68,38 +103,40 @@ class RpcClient {
      * @returns
      * @since v0.17
      */
-    protoQuery(path, protoRequest, protoResponse) {
-        const params = {
-            path,
-        };
-        if (protoRequest && protoRequest.serializeBinary) {
-            params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
-        }
-        return this.request(types.RpcMethods.AbciQuery, params).then(response => {
-            if (response && response.response) {
-                if (response.response.value) {
-                    if (protoResponse) {
-                        try {
-                            return protoResponse.deserializeBinary(response.response.value).toObject();
-                        }
-                        catch (err) {
-                            console.error(`protobuf deserialize  error from ${path}`);
-                            return response.response.value;
-                        }
-                    }
-                    else {
-                        return response.response.value;
-                    }
-                }
-                else if (response.response.code) {
-                    throw new errors_1.SdkError(response.response.log, response.response.code);
-                }
-                else {
-                    return null;
-                }
+
+  }, {
+    key: "protoQuery",
+    value: function protoQuery(path, protoRequest, protoResponse) {
+      var params = {
+        path: path
+      };
+
+      if (protoRequest && protoRequest.serializeBinary) {
+        params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
+      }
+
+      return this.request(types.RpcMethods.AbciQuery, params).then(function (response) {
+        if (response && response.response) {
+          if (response.response.value) {
+            if (protoResponse) {
+              try {
+                return protoResponse.deserializeBinary(response.response.value).toObject();
+              } catch (err) {
+                console.error("protobuf deserialize  error from ".concat(path));
+                return response.response.value;
+              }
+            } else {
+              return response.response.value;
             }
-            throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        });
+          } else if (response.response.code) {
+            throw new _errors.SdkError(response.response.log, response.response.code);
+          } else {
+            return null;
+          }
+        }
+
+        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log));
+      });
     }
     /**
      * Tendermint ABCI Query
@@ -110,40 +147,45 @@ class RpcClient {
      * @returns
      * @since v0.17
      */
-    abciQuery(path, data, height) {
-        const params = {
-            path,
-        };
-        if (data) {
-            params.data = utils_1.Utils.obj2hexstring(data);
+
+  }, {
+    key: "abciQuery",
+    value: function abciQuery(path, data, height) {
+      var params = {
+        path: path
+      };
+
+      if (data) {
+        params.data = _utils.Utils.obj2hexstring(data);
+      }
+
+      if (height) {
+        params.height = String(height);
+      }
+
+      return this.request(types.RpcMethods.AbciQuery, params).then(function (response) {
+        if (response && response.response) {
+          if (response.response.value) {
+            var value = Buffer.from(response.response.value, 'base64').toString();
+
+            try {
+              return JSON.parse(value).value;
+            } catch (err) {
+              return value;
+            } // const res = JSON.parse(value);
+            // if (!res) return {};
+            // if (res.type && res.value) return res.value;
+            // return res;
+
+          } else if (response.response.code) {
+            throw new _errors.SdkError(response.response.log, response.response.code);
+          } else {
+            return null;
+          }
         }
-        if (height) {
-            params.height = String(height);
-        }
-        return this.request(types.RpcMethods.AbciQuery, params).then(response => {
-            if (response && response.response) {
-                if (response.response.value) {
-                    const value = Buffer.from(response.response.value, 'base64').toString();
-                    try {
-                        return JSON.parse(value).value;
-                    }
-                    catch (err) {
-                        return value;
-                    }
-                    // const res = JSON.parse(value);
-                    // if (!res) return {};
-                    // if (res.type && res.value) return res.value;
-                    // return res;
-                }
-                else if (response.response.code) {
-                    throw new errors_1.SdkError(response.response.log, response.response.code);
-                }
-                else {
-                    return null;
-                }
-            }
-            throw new errors_1.SdkError(`Internal Error from ${path}:${response.response.log}`);
-        });
+
+        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log));
+      });
     }
     /**
      *
@@ -153,15 +195,20 @@ class RpcClient {
      * @returns
      * @since v0.17
      */
-    queryStore(key, storeName, height) {
-        const path = `/store/${storeName}/key`;
-        const params = {
-            path,
-            data: utils_1.Utils.ab2hexstring(key),
-            height: height ? String(height) : '0',
-        };
-        return this.request(types.RpcMethods.AbciQuery, params);
+
+  }, {
+    key: "queryStore",
+    value: function queryStore(key, storeName, height) {
+      var path = "/store/".concat(storeName, "/key");
+      var params = {
+        path: path,
+        data: _utils.Utils.ab2hexstring(key),
+        height: height ? String(height) : '0'
+      };
+      return this.request(types.RpcMethods.AbciQuery, params);
     }
-}
+  }]);
+  return RpcClient;
+}();
+
 exports.RpcClient = RpcClient;
-//# sourceMappingURL=rpc-client.js.map

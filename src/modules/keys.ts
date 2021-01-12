@@ -43,10 +43,10 @@ export class Keys {
     if (!this.client.config.keyDAO.encrypt) {
       throw new SdkError(`Encrypt method of KeyDAO not implemented`);
     }
-    const exists = this.client.config.keyDAO.read(name);
-    if (exists) {
-      throw new SdkError(`Key with name '${name}' already exists`);
-    }
+    // const exists = this.client.config.keyDAO.read(name);
+    // if (exists) {
+    //   throw new SdkError(`Key with name '${name}' already exists`);
+    // }
     const mnemonic = Crypto.generateMnemonic();
     const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, type);
@@ -60,10 +60,17 @@ export class Keys {
       password
     );
 
+    const encryptedMnemonic = this.client.config.keyDAO.encrypt(
+        mnemonic,
+        password
+    );
+
     // Save the key to app
     this.client.config.keyDAO.write(name, {
-      address,
-      privKey: encryptedPrivKey,
+        address,
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey,
+        mnemonic: encryptedMnemonic,
     });
 
     return { address, mnemonic };
@@ -103,10 +110,10 @@ export class Keys {
     if (!this.client.config.keyDAO.encrypt) {
       throw new SdkError(`Encrypt method of KeyDAO not implemented`);
     }
-    const exists = this.client.config.keyDAO.read(name);
-    if (exists) {
-      throw new SdkError(`Key with name '${name}' exists`);
-    }
+    // const exists = this.client.config.keyDAO.read(name);
+    // if (exists) {
+    //   throw new SdkError(`Key with name '${name}' exists`);
+    // }
 
     const privKey = Crypto.getPrivateKeyFromMnemonic(
       mnemonic,
@@ -127,8 +134,9 @@ export class Keys {
 
     // Save the key to app
     this.client.config.keyDAO.write(name, {
-      address,
-      privKey: encryptedPrivKey,
+        address,
+        privateKey: encryptedPrivKey,
+        publicKey: pubKey,
     });
 
     return address;
@@ -162,10 +170,10 @@ export class Keys {
     if (!this.client.config.keyDAO.encrypt) {
       throw new SdkError(`Encrypt method of KeyDAO not implemented`);
     }
-    const exists = this.client.config.keyDAO.read(name);
-    if (exists) {
-      throw new SdkError(`Key with name '${name}' already exists`);
-    }
+    // const exists = this.client.config.keyDAO.read(name);
+    // if (exists) {
+    //   throw new SdkError(`Key with name '${name}' already exists`);
+    // }
 
     const privKey = Crypto.getPrivateKeyFromKeyStore(keystore, password);
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, type);
@@ -181,8 +189,9 @@ export class Keys {
 
     // Save the key to app
     this.client.config.keyDAO.write(name, {
-      address,
-      privKey: encryptedPrivKey,
+        address,
+        privateKey: encryptedPrivKey,
+        publicKey:pubKey,
     });
 
     return address;
@@ -214,10 +223,10 @@ export class Keys {
       throw new SdkError(`privateKey can not be empty`);
     }
     
-    const exists = this.client.config.keyDAO.read(name);
-    if (exists) {
-      throw new SdkError(`Key with name '${name}' already exists`);
-    }
+    // const exists = this.client.config.keyDAO.read(name);
+    // if (exists) {
+    //   throw new SdkError(`Key with name '${name}' already exists`);
+    // }
 
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privateKey, type);
     const address = Crypto.getAddressFromPublicKey(
@@ -231,8 +240,9 @@ export class Keys {
     );
     // Save the key to app
     this.client.config.keyDAO.write(name, {
-      address,
-      privKey: encryptedPrivKey,
+        address,
+        privateKey: encryptedPrivKey,
+        publicKey:pubKey
     });
 
     return address;
