@@ -66,7 +66,6 @@ export class Tx {
 
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx);
-    console.log('hhhhhhhhh:',signedTx.getDisplayContent());
     // Broadcast Tx
     return this.broadcast(signedTx, baseTx.mode);
   }

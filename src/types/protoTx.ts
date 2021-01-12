@@ -87,7 +87,6 @@ export class ProtoTx {
         signDoc.setAuthInfoBytes(this.authInfo.serializeBinary());
         signDoc.setAccountNumber(String(account_number || this.txData.account_number));
         signDoc.setChainId(chain_id || this.txData.chain_id);
-        console.log('signDocsignDoc:',signDoc.toObject());
         return signDoc;
     }
 

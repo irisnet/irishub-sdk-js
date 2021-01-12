@@ -31,9 +31,9 @@ export class BaseTest {
 
   static getClient(): Client {
     let config = {
-        node: 'http://192.168.150.31:16657',
+        node: 'http://192.168.150.31:56657',
         network: iris.types.Network.Mainnet,
-        chainId: 'irishub-dev',
+        chainId: 'bifrost-2',
         gas: '20000000',
         fee: { denom: 'ubif', amount: '200' },
     };
@@ -56,7 +56,7 @@ export class BaseTest {
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'
+      'next review tape teach walnut cash crater evidence ketchup sister lyrics defy pioneer wisdom property arch film damage near link avoid panda vacant suggest'
     );
 
     // client.keys.importPrivateKey(
