@@ -3,7 +3,7 @@ import * as SHA3 from 'crypto-js/sha3';
 import * as SHA256 from 'crypto-js/sha256';
 import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as types from '../types';
 
 /**
@@ -18,7 +18,7 @@ export class Utils {
    */
   static str2ab(str: string): Uint8Array {
     if (typeof str !== 'string') {
-      throw new SdkError('str2ab expects a string');
+      throw new SdkError('str2ab expects a string',CODES.Internal);
     }
     const result = new Uint8Array(str.length);
     for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -34,7 +34,7 @@ export class Utils {
    */
   static str2ba(str: string): number[] {
     if (typeof str !== 'string') {
-      throw new SdkError('str2ba expects a string');
+      throw new SdkError('str2ba expects a string',CODES.Internal);
     }
     const result = [];
     for (let i = 0, strLen = str.length; i < strLen; i++) {
@@ -50,7 +50,7 @@ export class Utils {
    */
   static ab2hexstring(arr: Uint8Array): string {
     if (typeof arr !== 'object') {
-      throw new SdkError('ab2hexstring expects an array');
+      throw new SdkError('ab2hexstring expects an array',CODES.Internal);
     }
     let result = '';
     for (let i = 0; i < arr.length; i++) {
@@ -86,7 +86,7 @@ export class Utils {
    */
   static int2hex(num: number) {
     if (typeof num !== 'number') {
-      throw new SdkError('int2hex expects a number');
+      throw new SdkError('int2hex expects a number',CODES.Internal);
     }
     const h = num.toString(16);
     return h.length % 2 ? '0' + h : h;
@@ -143,7 +143,7 @@ export class Utils {
    */
   static reverseArray(arr: Uint8Array): Uint8Array {
     if (typeof arr !== 'object' || !arr.length) {
-      throw new SdkError('reverseArray expects an array');
+      throw new SdkError('reverseArray expects an array',CODES.Internal);
     }
     const result = new Uint8Array(arr.length);
     for (let i = 0; i < arr.length; i++) {
@@ -193,7 +193,7 @@ export class Utils {
    */
   static ensureHex(str: string) {
     if (!Utils.isHex(str)) {
-      throw new SdkError(`Expected a hexstring but got ${str}`);
+      throw new SdkError(`Expected a hexstring but got ${str}`,CODES.Internal);
     }
   }
 
@@ -204,10 +204,10 @@ export class Utils {
    */
   static sha256ripemd160(hex: string): string {
     if (typeof hex !== 'string') {
-      throw new SdkError('sha256ripemd160 expects a string');
+      throw new SdkError('sha256ripemd160 expects a string',CODES.Internal);
     }
     if (hex.length % 2 !== 0) {
-      throw new SdkError(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`,CODES.Internal);
     }
     const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
     const programSha256 = typeof SHA256 === 'function' ? SHA256(hexEncoded) : SHA256.default(hexEncoded);
@@ -221,10 +221,10 @@ export class Utils {
    */
   static sha256(hex: string): string {
     if (typeof hex !== 'string') {
-      throw new SdkError('sha256 expects a hex string');
+      throw new SdkError('sha256 expects a hex string',CODES.Internal);
     }
     if (hex.length % 2 !== 0) {
-      throw new SdkError(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`,CODES.Internal);
     }
     const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
     return typeof SHA256 === 'function' ? SHA256(hexEncoded).toString() : SHA256.default(hexEncoded).toString();
@@ -237,10 +237,10 @@ export class Utils {
    */
   static sha3(hex: string): string {
     if (typeof hex !== 'string') {
-      throw new SdkError('sha3 expects a hex string');
+      throw new SdkError('sha3 expects a hex string',CODES.Internal);
     }
     if (hex.length % 2 !== 0) {
-      throw new SdkError(`invalid hex string length: ${hex}`);
+      throw new SdkError(`invalid hex string length: ${hex}`,CODES.Internal);
     }
     const hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding.default.parse(hex);
     return typeof SHA3 === 'function' ? SHA3(hexEncoded).toString() : SHA3.default(hexEncoded).toString();

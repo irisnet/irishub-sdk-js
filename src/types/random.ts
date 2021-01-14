@@ -1,4 +1,5 @@
 import { Coin, Msg } from './types';
+import { SdkError, CODES } from '../errors';
 
 export interface RandomInfo {
   request_tx_hash: string;

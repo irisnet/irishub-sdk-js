@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
@@ -327,7 +327,7 @@ export class Keys {
     }
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`,CODES.KeyNotFound);
     }
     return keyObj.address;
   }

@@ -1,6 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import * as mathjs from 'mathjs';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Utils for the IRISHub SDK

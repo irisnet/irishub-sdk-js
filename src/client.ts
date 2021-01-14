@@ -4,7 +4,7 @@ import { RpcClient } from './nets/rpc-client';
 import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
-import { SdkError } from './errors';
+import { SdkError, CODES } from './errors';
 import * as AES from 'crypto-js/aes';
 import * as ENC from 'crypto-js/enc-utf8';
 import {Wallet} from "./types";
@@ -325,23 +325,26 @@ export interface Bech32Prefix {
 export class DefaultKeyDAOImpl implements KeyDAO {
   write(name: string, key: Wallet): void {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
   read(name: string): Wallet {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
   delete(name: string): void {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
   encrypt(privKey: string, password: string): string {
     const encrypted = AES.encrypt(privKey, password).toString();
     if (!encrypted) {
-      throw new SdkError('Private key encrypt failed');
+      throw new SdkError('Private key encrypt failed',CODES.Internal);
     }
     return encrypted;
   }
@@ -349,7 +352,7 @@ export class DefaultKeyDAOImpl implements KeyDAO {
   decrypt(encrptedPrivKey: string, password: string): string {
     const decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
     if (!decrypted) {
-      throw new SdkError('Wrong password');
+      throw new SdkError('Wrong password',CODES.InvalidPassword);
     }
     return decrypted;
   }

@@ -1,4 +1,4 @@
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as types from '../types';
 import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
@@ -366,7 +366,7 @@ export class EventListener {
               break;
             }
             default:
-              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`);
+              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`,CODES.InvalidPubkey);
           }
           const valPubkey: types.Pubkey = {
             type,

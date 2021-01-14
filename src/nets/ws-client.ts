@@ -1,7 +1,7 @@
 import * as types from '../types';
 import EventEmitter from 'events';
 import Websocket from 'isomorphic-ws';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 /**
  * IRISHub Websocket Client
@@ -27,7 +27,7 @@ export class WsClient {
   connect(): void {
     this.ws = new Websocket(this.url + '/websocket');
     if (!this.ws) {
-      throw new SdkError('Websocket client not initialized'); // Should not happen
+      throw new SdkError('Websocket client not initialized',CODES.Internal); // Should not happen
     }
 
     this.ws.onopen = () => {
@@ -69,11 +69,11 @@ export class WsClient {
       this.send(types.RpcMethods.UnsubscribeAll, id);
       this.eventEmitter.on(id, error => {
         if (error) {
-          throw new SdkError(error.message);
+          throw new SdkError(error.message,CODES.Internal);
         }
 
         if (!this.ws) {
-          throw new SdkError('Websocket client not initialized'); // Should not happen
+          throw new SdkError('Websocket client not initialized',CODES.Internal); // Should not happen
         }
 
         // Remove all listeners
@@ -103,7 +103,7 @@ export class WsClient {
    */
   send(method: string, id: string, query?: string): void {
     if (!this.ws) {
-      throw new SdkError('Websocket client not initialized'); // Should not happen
+      throw new SdkError('Websocket client not initialized',CODES.Internal); // Should not happen
     }
     this.ws.send(
       JSON.stringify({

@@ -1,6 +1,6 @@
 import {Client} from '../client';
 import * as types from '../types';
-import {SdkError} from '../errors';
+import { SdkError, CODES } from '../errors';
 import {EventQueryBuilder, EventKey, EventAction} from '../types';
 import {Utils, Crypto} from '../utils';
 import * as is from 'is_js';
@@ -647,6 +647,6 @@ export class Staking {
    * ** Not Supported **
    */
   createValidator() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 }

@@ -1,7 +1,7 @@
 import {Client} from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
-import {SdkError} from '../errors';
+import { SdkError, CODES } from '../errors';
 
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.

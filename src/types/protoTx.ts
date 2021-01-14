@@ -1,6 +1,7 @@
 'use strict';
 import { TxModelCreator } from '../helper';
 import * as types from '../types';
+import { SdkError, CODES } from '../errors';
 
 const Sha256 = require('sha256');
 
@@ -19,7 +20,7 @@ export class ProtoTx {
         publicKey?:string|types.Pubkey
     }, protoTxModel?:any) {
         if (!properties && !protoTxModel) {
-            throw new Error("there must be one properties or protoTxModel");
+            throw new SdkError("there must be one properties or protoTxModel",CODES.Internal);
         }
         if (properties) {
             let {msgs, memo, stdFee, account_number, chain_id, sequence, publicKey} = properties;
@@ -38,7 +39,7 @@ export class ProtoTx {
 
     static newStdTxFromProtoTxModel(protoTxModel:any):types.ProtoTx{
         if (!protoTxModel.hasBody() || !protoTxModel.hasAuthInfo()){
-            throw new Error("Proto Tx Model is invalid");
+            throw new SdkError("Proto Tx Model is invalid",CODES.TxParseError);
         }
         return new ProtoTx( undefined ,protoTxModel);
     }
@@ -49,7 +50,7 @@ export class ProtoTx {
      */
     addSignature(signature:string){
         if (!signature || !signature.length) {
-            throw new Error("signature is  empty");
+            throw new SdkError("signature is  empty",CODES.NoSignatures);
         }
         this.signatures.push(signature);
     }
@@ -62,7 +63,7 @@ export class ProtoTx {
     setPubKey(pubkey:string|types.Pubkey, sequence?:string){
         sequence = sequence || this.txData.sequence;
         if (!sequence) {
-            throw new Error("sequence is empty");
+            throw new SdkError("sequence is empty",CODES.InvalidSequence);
         }
         let signerInfo = TxModelCreator.createSignerInfoModel(sequence, pubkey);
         this.authInfo.addSignerInfos(signerInfo);
@@ -74,13 +75,13 @@ export class ProtoTx {
      */
     getSignDoc(account_number?:string, chain_id?:string):any{
         if (!this.hasPubKey()) {
-            throw new Error("please set pubKey");
+            throw new SdkError("please set pubKey",CODES.InvalidPubkey);
         }
         if (!account_number && !this.txData.account_number) {
-            throw new Error("account_number is  empty");
+            throw new SdkError("account_number is  empty",CODES.IncorrectAccountSequence);
         }
         if (!chain_id && !this.txData.chain_id) {
-            throw new Error("chain_id is  empty");
+            throw new SdkError("chain_id is  empty",CODES.InvalidChainId);
         }
         let signDoc = new types.tx_tx_pb.SignDoc();
         signDoc.setBodyBytes(this.body.serializeBinary());
@@ -100,10 +101,10 @@ export class ProtoTx {
      */
     getTxRaw():any{
         if (!this.hasPubKey()) {
-            throw new Error("please set pubKey");
+            throw new SdkError("please set pubKey",CODES.InvalidPubkey);
         }
         if (!this.signatures || !this.signatures.length) {
-            throw new Error("please sign tx");
+            throw new SdkError("please sign tx",CODES.NoSignatures);
         }
         let txRaw = new types.tx_tx_pb.TxRaw();
         txRaw.setBodyBytes(this.body.serializeBinary());

@@ -9,7 +9,7 @@ import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
@@ -127,12 +127,12 @@ export class Crypto {
     type:types.PubkeyType = types.PubkeyType.secp256k1
     ): types.Pubkey {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-      throw new SdkError('invalid privateKey');
+      throw new SdkError('invalid privateKey',CODES.KeyNotFound);
     }
     let pubKey:string = '';
     switch(type){
       case types.PubkeyType.ed25519:
-      throw new Error("not implement");
+      throw new SdkError("not implement",CODES.Panic);
       case types.PubkeyType.sm2:
       pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex);
       break;
@@ -156,12 +156,12 @@ export class Crypto {
     type:types.PubkeyType = types.PubkeyType.secp256k1
     ): types.Pubkey {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-      throw new SdkError('invalid privateKey');
+      throw new SdkError('invalid privateKey',CODES.KeyNotFound);
     }
     let pubKey:string = '';
     switch(type){
       case types.PubkeyType.ed25519:
-      throw new Error("not implement");
+      throw new SdkError("not implement",CODES.Panic);
       case types.PubkeyType.sm2:
       pubKey =  SM2.getPublicKeyFromPrivateKey(privateKeyHex, 'compress');
       break;
@@ -222,7 +222,7 @@ export class Crypto {
     let hash:string = ''; 
     switch(publicKey.type){
       case types.PubkeyType.ed25519:
-      throw new Error("not implement");
+      throw new SdkError("not implement",CODES.Panic);
       case types.PubkeyType.sm2:
       hash = Utils.sha256(publicKey.value).substr(0,40);
       break;
@@ -288,7 +288,7 @@ export class Crypto {
       let signature:string = '';
       switch(type){
         case types.PubkeyType.ed25519:
-        throw new Error("not implement");
+        throw new SdkError("not implement",CODES.Panic);
         case types.PubkeyType.sm2:
         const sm2Sig = SM2.doSignature(
           Buffer.from(signDocSerialize),
@@ -344,7 +344,7 @@ export class Crypto {
     );
     const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
     if (!cipher) {
-      throw new SdkError('Unsupported cipher');
+      throw new SdkError('Unsupported cipher',CODES.Internal);
     }
 
     const ciphertext = Buffer.concat([
@@ -384,7 +384,7 @@ export class Crypto {
     password: string
   ): string {
     if (!is.string(password)) {
-      throw new SdkError('No password given.');
+      throw new SdkError('No password given.',CODES.InvalidPassword);
     }
 
     const json = is.object(keystore)
@@ -393,7 +393,7 @@ export class Crypto {
     const kdfparams = json.crypto.kdfparams;
 
     if (kdfparams.prf !== 'hmac-sha256') {
-      throw new SdkError('Unsupported parameters to PBKDF2');
+      throw new SdkError('Unsupported parameters to PBKDF2',CODES.Internal);
     }
 
     const derivedKey = cryp.pbkdf2Sync(
@@ -414,7 +414,8 @@ export class Crypto {
       const macLegacy = Utils.sha256(bufferValue.toString('hex'));
       if (macLegacy !== json.crypto.mac) {
         throw new SdkError(
-          'Keystore mac check failed (sha3 & sha256) wrong password?'
+          'Keystore mac check failed (sha3 & sha256) wrong password?',
+          CODES.Internal
         );
       }
     }
@@ -463,7 +464,7 @@ export class Crypto {
     password = ''
   ): string {
     if (!bip39.validateMnemonic(mnemonic)) {
-      throw new SdkError('wrong mnemonic format');
+      throw new SdkError('wrong mnemonic format',CODES.InvalidMnemonic);
     }
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     if (derive) {
@@ -473,7 +474,7 @@ export class Crypto {
         typeof child === 'undefined' ||
         typeof child.privateKey === 'undefined'
       ) {
-        throw new SdkError('error getting private key from mnemonic');
+        throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
       }
       return child.privateKey.toString('hex');
     }
@@ -487,11 +488,11 @@ export class Crypto {
    */
   static generateTxHash(tx: string): string {
     if (!tx || typeof tx != 'string') {
-      throw new SdkError('invalid tx');
+      throw new SdkError('invalid tx',CODES.TxParseError);
     }
     const tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
     if (!tx_pb) {
-      throw new SdkError('deserialize tx err');
+      throw new SdkError('deserialize tx err',CODES.TxParseError);
     }
     const txRaw = new types.tx_tx_pb.TxRaw();
     txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());

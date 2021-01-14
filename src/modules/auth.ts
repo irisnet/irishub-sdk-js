@@ -1,6 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Auth module is only used to build `StdTx`
@@ -67,7 +68,7 @@ export class Auth {
    */
   queryAccount(address:string): Promise<types.BaseAccount> {
     if (!address) {
-      throw new Error("address can ont be empty");
+      throw new SdkError("address can ont be empty");
     }
     const request = new types.auth_query_pb.QueryAccountRequest();
     request.setAddress(address);

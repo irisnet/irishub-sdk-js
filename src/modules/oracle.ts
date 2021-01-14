@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 /**
  * @category Modules
@@ -68,7 +68,7 @@ export class Oracle {
    * ** Not Supported **
    */
   createFeed() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 
   /**
@@ -77,7 +77,7 @@ export class Oracle {
    * ** Not Supported **
    */
   startFeed() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 
   /**
@@ -86,7 +86,7 @@ export class Oracle {
    * ** Not Supported **
    */
   pauseFeed() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
   
   /**
@@ -95,6 +95,6 @@ export class Oracle {
    * ** Not Supported **
    */
   editFeed() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 }

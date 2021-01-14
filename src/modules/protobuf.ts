@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
 
@@ -145,7 +145,7 @@ export class Protobuf {
             break;
         }
         default: {
-            throw new Error("not exist tx type");
+            throw new SdkError("not exist tx type",CODES.InvalidType);
         }
     }
     if (messageModelClass && messageModelClass.deserializeBinary) {

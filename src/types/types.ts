@@ -1,4 +1,5 @@
-import { TxHelper, TxModelCreator } from '../helper'
+import { TxHelper, TxModelCreator } from '../helper';
+import { SdkError, CODES } from '../errors';
 /** 
  * Base Msg
  * @hidden
@@ -12,11 +13,11 @@ export class Msg {
   } 
 
   static getModelClass():any{
-    throw new Error("not implement");
+    throw new SdkError("not implement",CODES.Internal);
   }
 
   getModel():any{
-    throw new Error("not implement");
+    throw new SdkError("not implement",CODES.Internal);
   }
 
   pack(): any{
@@ -31,13 +32,13 @@ export class Msg {
    */
   unpack(msgValue:string):any{
     if (!msgValue) {
-      throw new Error("msgValue can not be empty");
+      throw new SdkError("msgValue can not be empty",CODES.Internal);
     }
     let msg = (this.constructor as any).getModelClass().deserializeBinary(Buffer.from(msgValue,'base64'));
     if (msg) {
       return msg;
     }else{
-      throw new Error("unpack message fail");
+      throw new SdkError("unpack message fail",CODES.FailedUnpackingProtobufMessagFromAny);
     }
   }
 }

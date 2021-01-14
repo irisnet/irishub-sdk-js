@@ -1,7 +1,7 @@
 import {Client} from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
-import {SdkError} from '../errors';
+import { SdkError, CODES } from '../errors';
 import {Utils, Crypto} from '../utils';
 
 /**
@@ -60,10 +60,6 @@ export class Tx {
     // Build Unsigned Tx
     const unsignedTx: types.ProtoTx = this.buildTx(msgs, baseTx);
 
-    // Not supported in ibc-alpha
-    // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
-    // unsignedTx.value.fee.amount = fee;
-
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx);
     // Broadcast Tx
@@ -116,12 +112,12 @@ export class Tx {
       throw new SdkError(`baseTx.password of the key can not be empty`);
     }
     if (!this.client.config.keyDAO.decrypt) {
-      throw new SdkError(`Decrypt method of KeyDAO not implemented`);
+      throw new SdkError(`Decrypt method of KeyDAO not implemented`,CODES.Panic);
     }
 
     const keyObj = this.client.config.keyDAO.read(baseTx.from);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${baseTx.from}' not found`);
+      throw new SdkError(`Key with name '${baseTx.from}' not found`,CODES.KeyNotFound);
     }
 
     let accountNumber = baseTx.account_number??'0';
@@ -171,7 +167,7 @@ export class Tx {
 
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${name}' not found`);
+      throw new SdkError(`Key with name '${name}' not found`,CODES.KeyNotFound);
     }
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
@@ -255,7 +251,7 @@ export class Tx {
         types.RpcMethods.BroadcastTxAsync,
       ])
     ) {
-      throw new SdkError(`Unsupported broadcast method: ${method}`);
+      throw new SdkError(`Unsupported broadcast method: ${method}`,CODES.Internal);
     }
 
     return this.client.rpcClient
@@ -396,7 +392,7 @@ export class Tx {
           break;
       }
       default: {
-          throw new Error("not exist tx type");
+          throw new SdkError("not exist tx type",CODES.InvalidType);
       }
     }
     return msg;

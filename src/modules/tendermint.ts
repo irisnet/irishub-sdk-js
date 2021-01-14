@@ -4,6 +4,7 @@ import { RpcMethods } from '../types';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Tendermint module provides tendermint rpc queriers implementation

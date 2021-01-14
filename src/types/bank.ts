@@ -1,7 +1,7 @@
 import { Coin, Msg, Pubkey, TxType } from './types';
 import { TxModelCreator } from '../helper';
 import * as pbs from "./proto";
-
+import { SdkError, CODES } from '../errors';
 /**
  * Msg for sending coins
  *
@@ -35,13 +35,13 @@ export class MsgSend extends Msg {
 
   validate() {
     if (!this.value.from_address) {
-      throw new Error("from_address is  empty");
+      throw new SdkError("from_address is  empty");
     }
     if (!this.value.to_address) {
-      throw new Error("to_address is  empty");
+      throw new SdkError("to_address is  empty");
     }
     if (!(this.value.amount && this.value.amount.length)) {
-      throw new Error("amount is  empty");
+      throw new SdkError("amount is  empty");
     }
   }
 }
@@ -89,10 +89,10 @@ export class MsgMultiSend extends Msg {
 
   validate() {
     if (!this.value.inputs) {
-      throw new Error("inputs is empty");
+      throw new SdkError("inputs is empty");
     }
     if (!this.value.outputs) {
-      throw new Error("outputs is  empty");
+      throw new SdkError("outputs is  empty");
     }
   }
 }

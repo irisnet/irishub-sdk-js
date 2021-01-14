@@ -1,5 +1,6 @@
 import { Client } from '../client';
 import * as types from '../types';
+import { SdkError, CODES } from '../errors';
 import {
   MsgSubmitParameterChangeProposal,
   MsgSubmitPlainTextProposal,
