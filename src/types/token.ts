@@ -1,7 +1,7 @@
 import {Coin, Msg, TxType} from './types';
 import * as is from "is_js";
 import * as pbs from "./proto";
-import {SdkError} from "../errors";
+import { SdkError, CODES } from "../errors";
 import {doNotModify} from "./constants";
 
 export interface Token {

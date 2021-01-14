@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 /**
  * This module implements NFT related functions
@@ -193,7 +193,7 @@ export class Nft {
    */
   querySupply(denom_id?:string, owner?:string): Promise<object> {
     if (!denom_id && !owner) {
-      throw new Error("there must be one denom_id or owner");
+      throw new SdkError("there must be one denom_id or owner");
     }
     const request = new types.nft_query_pb.QuerySupplyRequest();
     if (denom_id) {request.setDenomId(denom_id)}
@@ -213,7 +213,7 @@ export class Nft {
    */
   queryOwner(owner:string, denom_id?:string): Promise<object> {
     if (!owner) {
-      throw new Error("owner can ont be empty");
+      throw new SdkError("owner can ont be empty");
     }
     const request = new types.nft_query_pb.QueryOwnerRequest();
     request.setOwner(owner);
@@ -232,7 +232,7 @@ export class Nft {
    */
   queryCollection(denom_id:string): Promise<object> {
     if (!denom_id) {
-      throw new Error("denom_id can ont be empty");
+      throw new SdkError("denom_id can ont be empty");
     }
     const request = new types.nft_query_pb.QueryCollectionRequest();
     request.setDenomId(denom_id);
@@ -250,7 +250,7 @@ export class Nft {
    */
   queryDenom(denom_id:string): Promise<object> {
     if (!denom_id) {
-      throw new Error("denom_id can ont be empty");
+      throw new SdkError("denom_id can ont be empty");
     }
     const request = new types.nft_query_pb.QueryDenomRequest();
     request.setDenomId(denom_id);
@@ -281,10 +281,10 @@ export class Nft {
    */
   queryNFT(denom_id:string, token_id:string): Promise<object> {
     if (!denom_id) {
-      throw new Error("denom_id can ont be empty");
+      throw new SdkError("denom_id can ont be empty");
     }
     if (!token_id) {
-      throw new Error("token_id can ont be empty");
+      throw new SdkError("token_id can ont be empty");
     }
     const request = new types.nft_query_pb.QueryNFTRequest();
     request.setDenomId(denom_id);

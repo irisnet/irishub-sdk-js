@@ -81,8 +81,17 @@ export interface JsonRpcError {
  * @hidden
  */
 export interface Pubkey {
-    type: string;
+    type: PubkeyType;
     value: string;
+}
+/**
+ * Base Pubkey Type
+ * @hidden
+ */
+export declare enum PubkeyType {
+    secp256k1 = "secp256k1",
+    ed25519 = "ed25519",
+    sm2 = "sm2"
 }
 /** Tag struct */
 export interface Tag {

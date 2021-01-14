@@ -9,9 +9,7 @@ export declare class Crypto {
     static PRIVKEY_LEN: number;
     static MNEMONIC_LEN: number;
     static DECODED_ADDRESS_LEN: number;
-    static CURVE: string;
     static HDPATH: string;
-    static ec: any;
     /**
      * Decodes an address in bech32 format.
      * @param address The bech32 address to decode
@@ -27,12 +25,12 @@ export declare class Crypto {
     static checkAddress(address: string, hrp: string): boolean;
     /**
      * Encodes an address from input data bytes.
-     * @param pubkey The public key to encode
+     * @param pubkeyHash The public key to encode
      * @param hrp The address prefix
      * @param type The output type (default: hex)
      * @returns Bech32 address
      */
-    static encodeAddress(pubkey: string, hrp?: string, type?: string): any;
+    static encodeAddress(pubkeyHash: string, hrp?: string, type?: string): any;
     /**
      * ConvertAndEncode converts from a base64 encoded byte array to bach32 encoded byte string and then to bech32
      * @param hrp The address prefix
@@ -59,52 +57,26 @@ export declare class Crypto {
      */
     static generateRandomArray(length: number): ArrayBuffer;
     /**
-     * Gets the pubkey hexstring
-     * @param publicKey Encoded public key
-     * @returns Public key hexstring
+     * Calculates the full public key from a given private key.
+     * @param privateKeyHex The private key hexstring
+     * @param type Pubkey Type
+     * @returns Public key {type:type, value:hexstring}
      */
-    static getPublicKey(publicKey: string): string;
+    static getFullPublicKeyFromPrivateKey(privateKeyHex: string, type?: types.PubkeyType): types.Pubkey;
     /**
      * Calculates the public key from a given private key.
      * @param privateKeyHex The private key hexstring
-     * @returns Public key hexstring
+     * @param type Pubkey Type
+     * @returns Public key {type:type, value:hexstring}
      */
-    static getPublicKeyFromPrivateKey(privateKeyHex: string): string;
-    /**
-     * Calculates the Secp256k1 public key from a given private key.
-     * @param privateKeyHex The private key hexstring
-     * @returns Tendermint public key
-     */
-    static getPublicKeySecp256k1FromPrivateKey(privateKeyHex: string): types.Pubkey;
-    /**
-     * Calculates the amino prefix Secp256k1 public key from a given private key.
-     * @param privateKeyHex The private key hexstring
-     * @returns Tendermint public key
-     */
-    static getAminoPrefixPublicKey(privateKeyHex: string): string;
+    static getPublicKeyFromPrivateKey(privateKeyHex: string, type?: types.PubkeyType): types.Pubkey;
     /**
      * [marshalPubKey description]
-     * @param  {[type]} pubKey:{type:string, value:base64String} Tendermint public key
+     * @param  {[type]} pubKey:{type: types.PubkeyType, value:base64String} Tendermint public key
      * @param  {[type]} lengthPrefixed:boolean length prefixed
-     * @return {[type]} Uint8Array public key with amino prefix
+     * @return {[type]} pubKey hexString public key with amino prefix
      */
-    static aminoMarshalPubKey(pubKey: {
-        type: string;
-        value: string;
-    }, lengthPrefixed?: boolean): Uint8Array;
-    /**
-     * get amino prefix from public key encode type.
-     * @param public key encode type
-     * @returns UintArray
-     */
-    static getAminoPrefix(prefix: string): Uint8Array;
-    /**
-     * PubKey performs the point-scalar multiplication from the privKey on the
-     * generator point to get the pubkey.
-     * @param privateKey
-     * @returns Public key hexstring
-     */
-    static generatePubKey(privateKey: Buffer): string;
+    static aminoMarshalPubKey(pubKey: types.Pubkey, lengthPrefixed?: boolean): string;
     /**
      * Gets an address from a public key hex.
      * @param publicKeyHex The public key hexstring
@@ -112,14 +84,15 @@ export declare class Crypto {
      *
      * @returns The address
      */
-    static getAddressFromPublicKey(publicKeyHex: string, prefix: string): string;
+    static getAddressFromPublicKey(publicKey: string | types.Pubkey, prefix: string): string;
     /**
      * Gets an address from a private key.
      * @param privateKeyHex The private key hexstring
      * @param prefix Bech32 prefix
+     * @param type Pubkey Type
      * @returns The address
      */
-    static getAddressFromPrivateKey(privateKeyHex: string, prefix: string): string;
+    static getAddressFromPrivateKey(privateKeyHex: string, prefix: string, type?: types.PubkeyType): string;
     /**
      * Verifies a signature (64 byte <r,s>) given the sign bytes and public key.
      * @param sigHex The signature hexstring.
@@ -131,9 +104,10 @@ export declare class Crypto {
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
+     * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize: Uint8Array, private_key: string): string;
+    static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): string;
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -170,7 +144,7 @@ export declare class Crypto {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    static getPrivateKeyFromMnemonic(mnemonic: string, derive?: boolean, index?: number, password?: string): string;
+    static getPrivateKeyFromMnemonic(mnemonic: string, index?: number, derive?: boolean, password?: string): string;
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string

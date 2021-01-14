@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { MsgUnjail } from '../types/slashing';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import { StoreKeys } from '../utils';
 import * as Bech32 from 'bech32';
 
@@ -33,7 +33,7 @@ export class Slashing {
     //   'custom/slashing/parameters'
     // );
 
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 
   /**
@@ -48,7 +48,6 @@ export class Slashing {
     height?: number
   ): Promise<types.ValidatorSigningInfo> {
     const key = StoreKeys.getSigningInfoKey(bech32ConsAddress);
-    console.log('key:',key);
     return this.client.rpcClient
       .queryStore<any>(key, 'slashing', height)
       .then(res => {

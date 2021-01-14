@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
@@ -121,10 +121,10 @@ export class Bank {
    */
   queryBalance(address:string, denom:string): Promise<object> {
     if (!address) {
-      throw new Error("address can ont be empty");
+      throw new SdkError("address can ont be empty");
     }
     if (!denom) {
-      throw new Error("denom can ont be empty");
+      throw new SdkError("denom can ont be empty");
     }
     const request = new types.bank_query_pb.QueryBalanceRequest();
     request.setAddress(address);
@@ -143,7 +143,7 @@ export class Bank {
    */
   queryAllBalances(address:string): Promise<object> {
     if (!address) {
-      throw new Error("address can ont be empty");
+      throw new SdkError("address can ont be empty");
     }
     const request = new types.bank_query_pb.QueryAllBalancesRequest();
     request.setAddress(address);
@@ -173,7 +173,7 @@ export class Bank {
    */
   querySupplyOf(denom:string): Promise<object> {
     if (!denom) {
-      throw new Error("denom can ont be empty");
+      throw new SdkError("denom can ont be empty");
     }
     const request = new types.bank_query_pb.QuerySupplyOfRequest();
     request.setDenom(denom);

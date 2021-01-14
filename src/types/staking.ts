@@ -3,7 +3,7 @@ import {TxModelCreator} from "../helper";
 import {TxType} from "./types";
 import * as pbs from './proto';
 import * as is from "is_js";
-import {SdkError} from "../errors";
+import { SdkError, CODES } from "../errors";
 
 /** Validator details */
 export interface Validator {

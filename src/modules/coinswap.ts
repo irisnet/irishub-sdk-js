@@ -12,7 +12,7 @@ import {
   STD_DENOM,
   Coin,
 } from '../types';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Implementation of the [Constant Product Market Maker Model](https://github.com/runtimeverification/verified-smart-contracts/blob/uniswap/uniswap/x-y-k.pdf) token exchange protocol on IRISHub.

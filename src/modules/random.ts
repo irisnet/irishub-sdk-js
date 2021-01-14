@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { MsgRequestRand } from '../types/random';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import { EventQueryBuilder, EventKey } from '../types';
 
 /**

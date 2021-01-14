@@ -421,18 +421,18 @@ var EventListener = /*#__PURE__*/function () {
         if (blockData.result_end_block.validator_updates) {
           var validators = [];
           blockData.result_end_block.validator_updates.forEach(function (v) {
-            var type = '';
+            var type = types.PubkeyType.secp256k1;
 
             switch (v.pub_key.type) {
               case 'secp256k1':
                 {
-                  type = 'tendermint/PubKeySecp256k1';
+                  type = types.PubkeyType.secp256k1;
                   break;
                 }
 
               case 'ed25519':
                 {
-                  type = 'tendermint/PubKeyEd25519';
+                  type = types.PubkeyType.ed25519;
                   break;
                 }
 
@@ -445,7 +445,7 @@ var EventListener = /*#__PURE__*/function () {
               value: v.pub_key.data
             };
 
-            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Utils.ab2hexstring(_utils.Crypto.aminoMarshalPubKey(valPubkey, false)), _this8.client.config.bech32Prefix.ConsPub);
+            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Crypto.aminoMarshalPubKey(valPubkey, false), _this8.client.config.bech32Prefix.ConsPub);
 
             validators.push({
               bech32_pubkey: bech32Pubkey,
@@ -488,13 +488,13 @@ var EventListener = /*#__PURE__*/function () {
         if (blockHeader.result_end_block.validator_updates) {
           var validators = [];
           blockHeader.result_end_block.validator_updates.forEach(function (v) {
-            var type = v.pub_key.type === 'secp256k1' ? 'tendermint/PubKeySecp256k1' : 'tendermint/PubKeyEd25519';
+            var type = v.pub_key.type === 'secp256k1' ? types.PubkeyType.secp256k1 : types.PubkeyType.ed25519;
             var valPubkey = {
               type: type,
               value: v.pub_key.data
             };
 
-            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Utils.ab2hexstring(_utils.Crypto.aminoMarshalPubKey(valPubkey, false)), _this9.client.config.bech32Prefix.ConsPub);
+            var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Crypto.aminoMarshalPubKey(valPubkey, false), _this9.client.config.bech32Prefix.ConsPub);
 
             validators.push({
               bech32_pubkey: bech32Pubkey,

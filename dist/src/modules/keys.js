@@ -21,6 +21,8 @@ var _errors = require("../errors");
 
 var is = _interopRequireWildcard(require("is_js"));
 
+var types = _interopRequireWildcard(require("../types"));
+
 /**
  * This module allows you to manage your local tendermint keystore (wallets) for iris.
  *
@@ -43,6 +45,7 @@ var Keys = /*#__PURE__*/function () {
    *
    * @param name Name of the key
    * @param password Password for encrypting the keystore
+   * @param type Pubkey Type
    * @returns Bech32 address and mnemonic
    * @since v0.17
    */
@@ -51,6 +54,8 @@ var Keys = /*#__PURE__*/function () {
   (0, _createClass2["default"])(Keys, [{
     key: "add",
     value: function add(name, password) {
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : types.PubkeyType.secp256k1;
+
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
       }
@@ -61,13 +66,17 @@ var Keys = /*#__PURE__*/function () {
 
       if (!this.client.config.keyDAO.encrypt) {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-      }
+      } // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' already exists`);
+      // }
+
 
       var mnemonic = _crypto.Crypto.generateMnemonic();
 
       var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic);
 
-      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
@@ -77,7 +86,7 @@ var Keys = /*#__PURE__*/function () {
       this.client.config.keyDAO.write(name, {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey,
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
         mnemonic: encryptedMnemonic
       });
       return {
@@ -91,8 +100,9 @@ var Keys = /*#__PURE__*/function () {
      * @param name Name of the key
      * @param password Password for encrypting the keystore
      * @param mnemonic Mnemonic of the key
-     * @param derive Derive a private key using the default HD path (default: true)
+     * @param type Pubkey Type
      * @param index The bip44 address index (default: 0)
+     * @param derive Derive a private key using the default HD path (default: true)
      * @param saltPassword A passphrase for generating the salt, according to bip39
      * @returns Bech32 address
      * @since v0.17
@@ -101,9 +111,10 @@ var Keys = /*#__PURE__*/function () {
   }, {
     key: "recover",
     value: function recover(name, password, mnemonic) {
-      var derive = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
       var index = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-      var saltPassword = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '';
+      var derive = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+      var saltPassword = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
 
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
@@ -119,11 +130,15 @@ var Keys = /*#__PURE__*/function () {
 
       if (!this.client.config.keyDAO.encrypt) {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-      }
+      } // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' exists`);
+      // }
 
-      var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, derive, index, saltPassword);
 
-      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
+      var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, index, derive, saltPassword);
+
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
@@ -132,7 +147,7 @@ var Keys = /*#__PURE__*/function () {
       this.client.config.keyDAO.write(name, {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
       });
       return address;
     }
@@ -142,6 +157,7 @@ var Keys = /*#__PURE__*/function () {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param keystore Keystore json or object
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
@@ -149,6 +165,8 @@ var Keys = /*#__PURE__*/function () {
   }, {
     key: "import",
     value: function _import(name, password, keystore) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
+
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
       }
@@ -163,11 +181,15 @@ var Keys = /*#__PURE__*/function () {
 
       if (!this.client.config.keyDAO.encrypt) {
         throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-      }
+      } // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' already exists`);
+      // }
+
 
       var privKey = _crypto.Crypto.getPrivateKeyFromKeyStore(keystore, password);
 
-      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey);
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
@@ -176,7 +198,7 @@ var Keys = /*#__PURE__*/function () {
       this.client.config.keyDAO.write(name, {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
       });
       return address;
     }
@@ -186,6 +208,7 @@ var Keys = /*#__PURE__*/function () {
      * @param name Name of the key
      * @param password Password of the keystore
      * @param privateKey privateKey hex
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
@@ -193,6 +216,8 @@ var Keys = /*#__PURE__*/function () {
   }, {
     key: "importPrivateKey",
     value: function importPrivateKey(name, password, privateKey) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
+
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
       }
@@ -203,15 +228,13 @@ var Keys = /*#__PURE__*/function () {
 
       if (is.empty(privateKey)) {
         throw new _errors.SdkError("privateKey can not be empty");
-      }
+      } // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' already exists`);
+      // }
 
-      var exists = this.client.config.keyDAO.read(name);
 
-      if (exists) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' already exists"));
-      }
-
-      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privateKey);
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privateKey, type);
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
@@ -220,7 +243,7 @@ var Keys = /*#__PURE__*/function () {
       this.client.config.keyDAO.write(name, {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: pubKey
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
       });
       return address;
     }

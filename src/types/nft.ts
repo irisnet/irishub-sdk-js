@@ -2,6 +2,7 @@ import { Coin, Msg, Pubkey, TxType, doNotModify } from './index';
 import { TxModelCreator } from '../helper';
 import * as is from 'is_js';
 import * as pbs from "./proto";
+import { SdkError, CODES } from '../errors';
 
 /**
  * param struct for issue denom tx
@@ -40,16 +41,16 @@ export class MsgIssueDenom extends Msg {
 
   Validate() {
     if (!this.value.id) {
-      throw new Error("id can not be empty");
+      throw new SdkError("id can not be empty");
     }
     if (!this.value.name) {
-      throw new Error("name can not be empty");
+      throw new SdkError("name can not be empty");
     }
     if (!this.value.schema) {
-      throw new Error("schema can not be empty");
+      throw new SdkError("schema can not be empty");
     }
     if (!this.value.sender) {
-      throw new Error("sender can not be empty");
+      throw new SdkError("sender can not be empty");
     }
   }
 }
@@ -98,25 +99,25 @@ export class MsgMintNFT extends Msg {
 
   Validate() {
     if (!this.value.id) {
-      throw new Error("id can not be empty");
+      throw new SdkError("id can not be empty");
     }
     if (!this.value.denom_id) {
-      throw new Error("denom_id can not be empty");
+      throw new SdkError("denom_id can not be empty");
     }
     if (!this.value.name) {
-      throw new Error("name can not be empty");
+      throw new SdkError("name can not be empty");
     }
     if (!this.value.uri) {
-      throw new Error("uri can not be empty");
+      throw new SdkError("uri can not be empty");
     }
     if (!this.value.data) {
-      throw new Error("data can not be empty");
+      throw new SdkError("data can not be empty");
     }
     if (!this.value.sender) {
-      throw new Error("sender can not be empty");
+      throw new SdkError("sender can not be empty");
     }
     if (!this.value.recipient) {
-      throw new Error("recipient can not be empty");
+      throw new SdkError("recipient can not be empty");
     }
   }
 }
@@ -174,13 +175,13 @@ export class MsgEditNFT extends Msg {
 
   Validate() {
     if (!this.value.id) {
-      throw new Error("id can not be empty");
+      throw new SdkError("id can not be empty");
     }
     if (!this.value.denom_id) {
-      throw new Error("denom_id can not be empty");
+      throw new SdkError("denom_id can not be empty");
     }
     if (!this.value.sender) {
-      throw new Error("sender can not be empty");
+      throw new SdkError("sender can not be empty");
     }
   }
 }
@@ -240,16 +241,16 @@ export class MsgTransferNFT extends Msg {
 
   Validate() {
     if (!this.value.id) {
-      throw new Error("id can not be empty");
+      throw new SdkError("id can not be empty");
     }
     if (!this.value.denom_id) {
-      throw new Error("denom_id can not be empty");
+      throw new SdkError("denom_id can not be empty");
     }
     if (!this.value.sender) {
-      throw new Error("sender can not be empty");
+      throw new SdkError("sender can not be empty");
     }
     if (!this.value.recipient) {
-      throw new Error("recipient can not be empty");
+      throw new SdkError("recipient can not be empty");
     }
   }
 }
@@ -289,13 +290,13 @@ export class MsgBurnNFT extends Msg {
 
   Validate() {
     if (!this.value.id) {
-      throw new Error("id can not be empty");
+      throw new SdkError("id can not be empty");
     }
     if (!this.value.denom_id) {
-      throw new Error("denom_id can not be empty");
+      throw new SdkError("denom_id can not be empty");
     }
     if (!this.value.sender) {
-      throw new Error("sender can not be empty");
+      throw new SdkError("sender can not be empty");
     }
   }
 }

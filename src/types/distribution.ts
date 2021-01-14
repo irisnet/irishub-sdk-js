@@ -2,7 +2,7 @@ import {Coin, Msg, TxType} from './types';
 import * as pbs from "./proto";
 import * as is from 'is_js';
 import { TxModelCreator } from '../helper';
-import {SdkError} from "../errors";
+import { SdkError, CODES } from "../errors";
 
 /**
  * param struct for set withdraw address tx

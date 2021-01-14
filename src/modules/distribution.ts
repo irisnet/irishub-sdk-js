@@ -3,7 +3,7 @@ import * as types from '../types';
 import * as is from 'is_js';
 import { Crypto } from '../utils';
 import { ModelCreator } from '../helper';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 
 
 /**
@@ -141,7 +141,7 @@ export class Distribution {
    */
   queryValidatorOutstandingRewards(validator_address:string): Promise<object> {
     if (!validator_address) {
-      throw new Error("validator_address can ont be empty");
+      throw new SdkError("validator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryValidatorOutstandingRewardsRequest();
     request.setValidatorAddress(validator_address);
@@ -158,7 +158,7 @@ export class Distribution {
    */
   queryValidatorCommission(validator_address:string): Promise<object> {
     if (!validator_address) {
-      throw new Error("validator_address can ont be empty");
+      throw new SdkError("validator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryValidatorCommissionRequest();
     request.setValidatorAddress(validator_address);
@@ -185,7 +185,7 @@ export class Distribution {
     page_size:number = 10
     ): Promise<object> {
     if (!validator_address) {
-      throw new Error("validator_address can ont be empty");
+      throw new SdkError("validator_address can ont be empty");
     }
     const pagination = ModelCreator.createPaginationModel(page_number, page_size, true);
     const request = new types.distribution_query_pb.QueryValidatorSlashesRequest();
@@ -208,10 +208,10 @@ export class Distribution {
    */
   queryDelegationRewards(validator_address:string, delegator_address:string): Promise<object> {
     if (!validator_address) {
-      throw new Error("validator_address can ont be empty");
+      throw new SdkError("validator_address can ont be empty");
     }
     if (!delegator_address) {
-      throw new Error("delegator_address can ont be empty");
+      throw new SdkError("delegator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryDelegationRewardsRequest();
     request.setValidatorAddress(validator_address);
@@ -229,7 +229,7 @@ export class Distribution {
    */
   queryDelegationTotalRewards(delegator_address:string): Promise<object> {
     if (!delegator_address) {
-      throw new Error("delegator_address can ont be empty");
+      throw new SdkError("delegator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryDelegationTotalRewardsRequest();
     request.setDelegatorAddress(delegator_address);
@@ -246,7 +246,7 @@ export class Distribution {
    */
   queryDelegatorValidators(delegator_address:string): Promise<object> {
     if (!delegator_address) {
-      throw new Error("delegator_address can ont be empty");
+      throw new SdkError("delegator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryDelegatorValidatorsRequest();
     request.setDelegatorAddress(delegator_address);
@@ -263,7 +263,7 @@ export class Distribution {
    */
   queryDelegatorWithdrawAddress(delegator_address:string): Promise<object> {
     if (!delegator_address) {
-      throw new Error("delegator_address can ont be empty");
+      throw new SdkError("delegator_address can ont be empty");
     }
     const request = new types.distribution_query_pb.QueryDelegatorWithdrawAddressRequest();
     request.setDelegatorAddress(delegator_address);

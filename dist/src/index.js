@@ -1,16 +1,17 @@
 "use strict";
 
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {
-  newClient: true,
-  Client: true,
-  ClientConfig: true,
-  KeyDAO: true,
-  Crypto: true
-};
 exports.newClient = newClient;
+Object.defineProperty(exports, "Crypto", {
+  enumerable: true,
+  get: function get() {
+    return _utils.Crypto;
+  }
+});
 Object.defineProperty(exports, "Client", {
   enumerable: true,
   get: function get() {
@@ -29,30 +30,17 @@ Object.defineProperty(exports, "KeyDAO", {
     return _client.KeyDAO;
   }
 });
-Object.defineProperty(exports, "Crypto", {
-  enumerable: true,
-  get: function get() {
-    return _utils.Crypto;
-  }
-});
+exports.utils = exports.types = void 0;
 
-var _types = require("./types");
+var _types = _interopRequireWildcard(require("./types"));
 
-Object.keys(_types).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  if (key in exports && exports[key] === _types[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _types[key];
-    }
-  });
-});
+exports.types = _types;
+
+var _utils = _interopRequireWildcard(require("./utils"));
+
+exports.utils = _utils;
 
 var _client = require("./client");
-
-var _utils = require("./utils");
 
 /**
  * Initialize IRISHub SDK

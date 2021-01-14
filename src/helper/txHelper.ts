@@ -1,5 +1,6 @@
 import * as Bech32 from 'bech32';
 import * as types from '../types';
+import { SdkError, CODES } from '../errors';
 
 export class TxHelper {
     static getHexPubkey(pubkey:string):string{
@@ -20,7 +21,7 @@ export class TxHelper {
 
     static ecodeModelAddress(address:string):Buffer{
         if (!address) {
-            throw new Error("address is empty");
+            throw new SdkError("address is empty",CODES.UnknownAddress);
         }
         let words = Bech32.decode(address,'utf-8').words;
         return Buffer.from(Bech32.fromWords(words));

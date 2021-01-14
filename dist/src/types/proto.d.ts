@@ -40,6 +40,7 @@ export declare const token_query_pb: any;
 export declare const auth_auth_pb: any;
 export declare const crypto_secp256k1_keys_pb: any;
 export declare const crypto_ed25519_keys_pb: any;
+export declare const crypto_sm2_keys_pb: any;
 export declare const base_coin_pb: any;
 export declare const signing_signing_pb: any;
 export declare const token_token_pb: any;

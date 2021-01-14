@@ -1,5 +1,5 @@
 import { Coin, Msg } from './types';
-
+import { SdkError, CODES } from '../errors';
 /**
  * Proposal Types
  * @hidden

@@ -15,7 +15,7 @@ import {
   MsgWithdrawEarnedFees,
   MsgWithdrawTax,
 } from '../types/service';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import { Utils } from '../utils';
 import { Coin } from '../types';
 
@@ -389,7 +389,7 @@ export class Service {
     // ];
 
     // return this.client.tx.buildAndSend(msgs, baseTx);
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 
   /**

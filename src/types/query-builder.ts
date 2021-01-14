@@ -1,4 +1,4 @@
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as is from 'is_js';
 
 export class Condition {
@@ -38,7 +38,7 @@ export class Condition {
 
   toString(): string {
     if (is.empty(this.key) || is.empty(this.value) || is.empty(this.op)) {
-      throw new SdkError('invalid condition');
+      throw new SdkError('invalid condition',CODES.Internal);
     }
     return this.key + this.op + "'" + this.value + "'";
   }
