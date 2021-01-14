@@ -40,11 +40,12 @@ export const CODES = {
   InternalLogicError:35,
   Conflict:36,
   FeatureNotSupported:37,
+  Panic:111222,
 
   //sdk custom 
   InvalidMnemonic:801,
-  DerivePrivateKeyError:802,
-  Panic:111222
+  DerivePrivateKeyError:802
+  
 };
 
 /** IRISHub SDK Error */
