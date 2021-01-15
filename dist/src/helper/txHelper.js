@@ -17,6 +17,8 @@ var Bech32 = _interopRequireWildcard(require("bech32"));
 
 var types = _interopRequireWildcard(require("../types"));
 
+var _errors = require("../errors");
+
 var TxHelper = /*#__PURE__*/function () {
   function TxHelper() {
     (0, _classCallCheck2["default"])(this, TxHelper);
@@ -46,7 +48,7 @@ var TxHelper = /*#__PURE__*/function () {
     key: "ecodeModelAddress",
     value: function ecodeModelAddress(address) {
       if (!address) {
-        throw new Error("address is empty");
+        throw new _errors.SdkError("address is empty", _errors.CODES.UnknownAddress);
       }
 
       var words = Bech32.decode(address, 'utf-8').words;

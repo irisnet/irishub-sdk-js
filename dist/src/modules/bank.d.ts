@@ -1,6 +1,5 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
 /**
  * This module is mainly used to transfer coins between accounts,
  * query account balances, and provide common offline transaction signing and broadcasting methods.
@@ -16,13 +15,6 @@ export declare class Bank {
     private client;
     /** @hidden */
     constructor(client: Client);
-    /**
-     * Query account info from blockchain
-     * @param address Bech32 address
-     * @returns
-     * @since v0.17
-     */
-    queryAccount(address: string): Promise<types.Account>;
     /**
      * Send coins
      * @param to Recipient bech32 address
@@ -65,15 +57,4 @@ export declare class Bank {
      * Params queries the parameters of x/bank module.
      */
     queryParams(): Promise<object>;
-    /**
-     * Subscribe Send Txs
-     * @param conditions Query conditions for the subscription
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-    subscribeSendTx(conditions: {
-        from?: string;
-        to?: string;
-    }, callback: (error?: SdkError, data?: types.EventDataMsgSend) => void): types.EventSubscription;
 }

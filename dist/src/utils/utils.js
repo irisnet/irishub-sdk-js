@@ -46,7 +46,7 @@ var Utils = /*#__PURE__*/function () {
      */
     value: function str2ab(str) {
       if (typeof str !== 'string') {
-        throw new _errors.SdkError('str2ab expects a string');
+        throw new _errors.SdkError('str2ab expects a string', _errors.CODES.Internal);
       }
 
       var result = new Uint8Array(str.length);
@@ -67,7 +67,7 @@ var Utils = /*#__PURE__*/function () {
     key: "str2ba",
     value: function str2ba(str) {
       if (typeof str !== 'string') {
-        throw new _errors.SdkError('str2ba expects a string');
+        throw new _errors.SdkError('str2ba expects a string', _errors.CODES.Internal);
       }
 
       var result = [];
@@ -88,7 +88,7 @@ var Utils = /*#__PURE__*/function () {
     key: "ab2hexstring",
     value: function ab2hexstring(arr) {
       if ((0, _typeof2["default"])(arr) !== 'object') {
-        throw new _errors.SdkError('ab2hexstring expects an array');
+        throw new _errors.SdkError('ab2hexstring expects an array', _errors.CODES.Internal);
       }
 
       var result = '';
@@ -133,7 +133,7 @@ var Utils = /*#__PURE__*/function () {
     key: "int2hex",
     value: function int2hex(num) {
       if (typeof num !== 'number') {
-        throw new _errors.SdkError('int2hex expects a number');
+        throw new _errors.SdkError('int2hex expects a number', _errors.CODES.Internal);
       }
 
       var h = num.toString(16);
@@ -198,7 +198,7 @@ var Utils = /*#__PURE__*/function () {
     key: "reverseArray",
     value: function reverseArray(arr) {
       if ((0, _typeof2["default"])(arr) !== 'object' || !arr.length) {
-        throw new _errors.SdkError('reverseArray expects an array');
+        throw new _errors.SdkError('reverseArray expects an array', _errors.CODES.Internal);
       }
 
       var result = new Uint8Array(arr.length);
@@ -258,7 +258,7 @@ var Utils = /*#__PURE__*/function () {
     key: "ensureHex",
     value: function ensureHex(str) {
       if (!Utils.isHex(str)) {
-        throw new _errors.SdkError("Expected a hexstring but got ".concat(str));
+        throw new _errors.SdkError("Expected a hexstring but got ".concat(str), _errors.CODES.Internal);
       }
     }
     /**
@@ -271,11 +271,11 @@ var Utils = /*#__PURE__*/function () {
     key: "sha256ripemd160",
     value: function sha256ripemd160(hex) {
       if (typeof hex !== 'string') {
-        throw new _errors.SdkError('sha256ripemd160 expects a string');
+        throw new _errors.SdkError('sha256ripemd160 expects a string', _errors.CODES.Internal);
       }
 
       if (hex.length % 2 !== 0) {
-        throw new _errors.SdkError("invalid hex string length: ".concat(hex));
+        throw new _errors.SdkError("invalid hex string length: ".concat(hex), _errors.CODES.Internal);
       }
 
       var hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding["default"].parse(hex);
@@ -292,11 +292,11 @@ var Utils = /*#__PURE__*/function () {
     key: "sha256",
     value: function sha256(hex) {
       if (typeof hex !== 'string') {
-        throw new _errors.SdkError('sha256 expects a hex string');
+        throw new _errors.SdkError('sha256 expects a hex string', _errors.CODES.Internal);
       }
 
       if (hex.length % 2 !== 0) {
-        throw new _errors.SdkError("invalid hex string length: ".concat(hex));
+        throw new _errors.SdkError("invalid hex string length: ".concat(hex), _errors.CODES.Internal);
       }
 
       var hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding["default"].parse(hex);
@@ -312,11 +312,11 @@ var Utils = /*#__PURE__*/function () {
     key: "sha3",
     value: function sha3(hex) {
       if (typeof hex !== 'string') {
-        throw new _errors.SdkError('sha3 expects a hex string');
+        throw new _errors.SdkError('sha3 expects a hex string', _errors.CODES.Internal);
       }
 
       if (hex.length % 2 !== 0) {
-        throw new _errors.SdkError("invalid hex string length: ".concat(hex));
+        throw new _errors.SdkError("invalid hex string length: ".concat(hex), _errors.CODES.Internal);
       }
 
       var hexEncoded = typeof hexEncoding === 'function' ? hexEncoding.parse(hex) : hexEncoding["default"].parse(hex);

@@ -173,14 +173,14 @@ var Crypto = /*#__PURE__*/function () {
       var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : types.PubkeyType.secp256k1;
 
       if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-        throw new _errors.SdkError('invalid privateKey');
+        throw new _errors.SdkError('invalid privateKey', _errors.CODES.KeyNotFound);
       }
 
       var pubKey = '';
 
       switch (type) {
         case types.PubkeyType.ed25519:
-          throw new Error("not implement");
+          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
 
         case types.PubkeyType.sm2:
           pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex);
@@ -211,14 +211,14 @@ var Crypto = /*#__PURE__*/function () {
       var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : types.PubkeyType.secp256k1;
 
       if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-        throw new _errors.SdkError('invalid privateKey');
+        throw new _errors.SdkError('invalid privateKey', _errors.CODES.KeyNotFound);
       }
 
       var pubKey = '';
 
       switch (type) {
         case types.PubkeyType.ed25519:
-          throw new Error("not implement");
+          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
 
         case types.PubkeyType.sm2:
           pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex, 'compress');
@@ -301,7 +301,7 @@ var Crypto = /*#__PURE__*/function () {
 
       switch (publicKey.type) {
         case types.PubkeyType.ed25519:
-          throw new Error("not implement");
+          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
 
         case types.PubkeyType.sm2:
           hash = _utils.Utils.sha256(publicKey.value).substr(0, 40);
@@ -367,7 +367,7 @@ var Crypto = /*#__PURE__*/function () {
 
       switch (type) {
         case types.PubkeyType.ed25519:
-          throw new Error("not implement");
+          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
 
         case types.PubkeyType.sm2:
           var sm2Sig = SM2.doSignature(Buffer.from(signDocSerialize), private_key, {
@@ -420,7 +420,7 @@ var Crypto = /*#__PURE__*/function () {
       var cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
 
       if (!cipher) {
-        throw new _errors.SdkError('Unsupported cipher');
+        throw new _errors.SdkError('Unsupported cipher', _errors.CODES.Internal);
       }
 
       var ciphertext = Buffer.concat([cipher.update(Buffer.from(privateKeyHex, 'hex')), cipher["final"]()]);
@@ -455,14 +455,14 @@ var Crypto = /*#__PURE__*/function () {
     key: "getPrivateKeyFromKeyStore",
     value: function getPrivateKeyFromKeyStore(keystore, password) {
       if (!is.string(password)) {
-        throw new _errors.SdkError('No password given.');
+        throw new _errors.SdkError('No password given.', _errors.CODES.InvalidPassword);
       }
 
       var json = is.object(keystore) ? keystore : JSON.parse(keystore.toString());
       var kdfparams = json.crypto.kdfparams;
 
       if (kdfparams.prf !== 'hmac-sha256') {
-        throw new _errors.SdkError('Unsupported parameters to PBKDF2');
+        throw new _errors.SdkError('Unsupported parameters to PBKDF2', _errors.CODES.Internal);
       }
 
       var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, 'hex'), kdfparams.c, kdfparams.dklen, 'sha256');
@@ -477,7 +477,7 @@ var Crypto = /*#__PURE__*/function () {
         var macLegacy = _utils.Utils.sha256(bufferValue.toString('hex'));
 
         if (macLegacy !== json.crypto.mac) {
-          throw new _errors.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?');
+          throw new _errors.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?', _errors.CODES.Internal);
         }
       }
 
@@ -519,7 +519,7 @@ var Crypto = /*#__PURE__*/function () {
       var password = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
 
       if (!bip39.validateMnemonic(mnemonic)) {
-        throw new _errors.SdkError('wrong mnemonic format');
+        throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
       }
 
       var seed = bip39.mnemonicToSeedSync(mnemonic, password);
@@ -529,7 +529,7 @@ var Crypto = /*#__PURE__*/function () {
         var child = master.derivePath(Crypto.HDPATH + index);
 
         if (typeof child === 'undefined' || typeof child.privateKey === 'undefined') {
-          throw new _errors.SdkError('error getting private key from mnemonic');
+          throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
         }
 
         return child.privateKey.toString('hex');
@@ -547,13 +547,13 @@ var Crypto = /*#__PURE__*/function () {
     key: "generateTxHash",
     value: function generateTxHash(tx) {
       if (!tx || typeof tx != 'string') {
-        throw new _errors.SdkError('invalid tx');
+        throw new _errors.SdkError('invalid tx', _errors.CODES.TxParseError);
       }
 
       var tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
 
       if (!tx_pb) {
-        throw new _errors.SdkError('deserialize tx err');
+        throw new _errors.SdkError('deserialize tx err', _errors.CODES.TxParseError);
       }
 
       var txRaw = new types.tx_tx_pb.TxRaw();

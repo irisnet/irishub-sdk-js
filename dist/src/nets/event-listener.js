@@ -437,7 +437,7 @@ var EventListener = /*#__PURE__*/function () {
                 }
 
               default:
-                throw new _errors.SdkError("Unsupported pubkey type: ".concat(v.pub_key.type));
+                throw new _errors.SdkError("Unsupported pubkey type: ".concat(v.pub_key.type), _errors.CODES.InvalidPubkey);
             }
 
             var valPubkey = {

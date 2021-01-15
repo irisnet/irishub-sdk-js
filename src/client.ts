@@ -18,7 +18,7 @@ export class Client {
   rpcClient: RpcClient;
 
   /** WebSocket event listener */
-  eventListener: EventListener;
+  // eventListener: EventListener;
 
   /** Auth module */
   auth: modules.Auth;
@@ -42,7 +42,7 @@ export class Client {
   tx: modules.Tx;
 
   /** Gov module */
-  gov: modules.Gov;
+  // gov: modules.Gov;
 
   /** Slashing module */
   slashing: modules.Slashing;
@@ -51,13 +51,13 @@ export class Client {
   distribution: modules.Distribution;
 
   /** Service module */
-  service: modules.Service;
+  // service: modules.Service;
 
   /** Oracle module */
-  oracle: modules.Oracle;
+  // oracle: modules.Oracle;
 
   /** Random module */
-  random: modules.Random;
+  // random: modules.Random;
 
   /** Utils module */
   utils: modules.Utils;
@@ -66,7 +66,7 @@ export class Client {
   tendermint: modules.Tendermint;
 
   /** Coinswap module */
-  coinswap: modules.Coinswap;
+  // coinswap: modules.Coinswap;
 
   /** NFT module */
   nft: modules.Nft;
@@ -95,18 +95,9 @@ export class Client {
             ConsPub: 'fcp',
           };
 
-      // Support ibc-alpha
-      // {
-      //   AccAddr: 'cosmos',
-      //   AccPub: 'cosmospub',
-      //   ValAddr: 'cosmosvaloper',
-      //   ValPub: 'cosmosvaloperpub',
-      //   ConsAddr: 'cosmosvalcons',
-      //   ConsPub: 'cosmosvalconspub',
-      // };
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
-    this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
+    // this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
 
     // Modules
     this.token = new modules.Token(this);
@@ -116,15 +107,15 @@ export class Client {
     this.tx = new modules.Tx(this);
     this.protobuf = new modules.Protobuf(this);
     this.staking = new modules.Staking(this);
-    this.gov = new modules.Gov(this);
+    // this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
     this.distribution = new modules.Distribution(this);
-    this.service = new modules.Service(this);
-    this.oracle = new modules.Oracle(this);
-    this.random = new modules.Random(this);
+    // this.service = new modules.Service(this);
+    // this.oracle = new modules.Oracle(this);
+    // this.random = new modules.Random(this);
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
-    this.coinswap = new modules.Coinswap(this);
+    // this.coinswap = new modules.Coinswap(this);
     this.nft = new modules.Nft(this);
     
 
@@ -254,9 +245,9 @@ export class DefaultClientConfig implements ClientConfig {
   constructor() {
     this.node = '';
     this.network = types.Network.Mainnet;
-    this.chainId = 'irishub';
+    this.chainId = '';
     this.gas = '100000';
-    this.fee = { amount: '0.6', denom: 'iris' };
+    this.fee = { amount: '', denom: '' };
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };

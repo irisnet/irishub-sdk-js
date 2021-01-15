@@ -29,6 +29,8 @@ var _helper = require("../helper");
 
 var pbs = _interopRequireWildcard(require("./proto"));
 
+var _errors = require("../errors");
+
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -68,15 +70,15 @@ var MsgSend = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.from_address) {
-        throw new Error("from_address is  empty");
+        throw new _errors.SdkError("from_address is  empty");
       }
 
       if (!this.value.to_address) {
-        throw new Error("to_address is  empty");
+        throw new _errors.SdkError("to_address is  empty");
       }
 
       if (!(this.value.amount && this.value.amount.length)) {
-        throw new Error("amount is  empty");
+        throw new _errors.SdkError("amount is  empty");
       }
     }
   }], [{
@@ -137,11 +139,11 @@ var MsgMultiSend = /*#__PURE__*/function (_Msg2) {
     key: "validate",
     value: function validate() {
       if (!this.value.inputs) {
-        throw new Error("inputs is empty");
+        throw new _errors.SdkError("inputs is empty");
       }
 
       if (!this.value.outputs) {
-        throw new Error("outputs is  empty");
+        throw new _errors.SdkError("outputs is  empty");
       }
     }
   }], [{

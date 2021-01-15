@@ -220,7 +220,7 @@ var Protobuf = /*#__PURE__*/function () {
 
         default:
           {
-            throw new Error("not exist tx type");
+            throw new _errors.SdkError("not exist tx type", _errors.CODES.InvalidType);
           }
       }
 

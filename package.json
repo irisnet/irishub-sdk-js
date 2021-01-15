@@ -2,7 +2,7 @@
   "name": "@irisnet/irishub-sdk",
   "version": "0.0.1",
   "description": "IRISHub JavaScript SDK",
-  "main": "src/index.js",
+  "main": "index.js",
   "typings": "src/index.ts",
   "types": "./dist/src",
   "files": [

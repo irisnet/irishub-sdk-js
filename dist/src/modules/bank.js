@@ -45,37 +45,16 @@ var Bank = /*#__PURE__*/function () {
     this.client = client;
   }
   /**
-   * Query account info from blockchain
-   * @param address Bech32 address
+   * Send coins
+   * @param to Recipient bech32 address
+   * @param amount Coins to be sent
+   * @param baseTx { types.BaseTx }
    * @returns
    * @since v0.17
    */
 
 
   (0, _createClass2["default"])(Bank, [{
-    key: "queryAccount",
-    value: function queryAccount(address) {
-      return Promise.all([this.client.rpcClient.abciQuery('custom/auth/account', {
-        address: address
-      }), this.client.rpcClient.abciQuery('custom/bank/all_balances', {
-        address: address
-      })]).then(function (res) {
-        var acc = res[0];
-        var bal = res[1];
-        acc.coins = bal;
-        return acc;
-      });
-    }
-    /**
-     * Send coins
-     * @param to Recipient bech32 address
-     * @param amount Coins to be sent
-     * @param baseTx { types.BaseTx }
-     * @returns
-     * @since v0.17
-     */
-
-  }, {
     key: "send",
     value: function () {
       var _send = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
@@ -184,11 +163,11 @@ var Bank = /*#__PURE__*/function () {
     key: "queryBalance",
     value: function queryBalance(address, denom) {
       if (!address) {
-        throw new Error("address can ont be empty");
+        throw new _errors.SdkError("address can ont be empty");
       }
 
       if (!denom) {
-        throw new Error("denom can ont be empty");
+        throw new _errors.SdkError("denom can ont be empty");
       }
 
       var request = new types.bank_query_pb.QueryBalanceRequest();
@@ -205,7 +184,7 @@ var Bank = /*#__PURE__*/function () {
     key: "queryAllBalances",
     value: function queryAllBalances(address) {
       if (!address) {
-        throw new Error("address can ont be empty");
+        throw new _errors.SdkError("address can ont be empty");
       }
 
       var request = new types.bank_query_pb.QueryAllBalancesRequest();
@@ -231,7 +210,7 @@ var Bank = /*#__PURE__*/function () {
     key: "querySupplyOf",
     value: function querySupplyOf(denom) {
       if (!denom) {
-        throw new Error("denom can ont be empty");
+        throw new _errors.SdkError("denom can ont be empty");
       }
 
       var request = new types.bank_query_pb.QuerySupplyOfRequest();
@@ -247,54 +226,6 @@ var Bank = /*#__PURE__*/function () {
     value: function queryParams() {
       var request = new types.bank_query_pb.QueryParamsRequest();
       return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Params', request, types.bank_query_pb.QueryParamsResponse);
-    }
-    /**
-     * Subscribe Send Txs
-     * @param conditions Query conditions for the subscription
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-
-  }, {
-    key: "subscribeSendTx",
-    value: function subscribeSendTx(conditions, callback) {
-      var queryBuilder = new types.EventQueryBuilder().addCondition(new types.Condition(types.EventKey.Action).eq(types.EventAction.Send));
-
-      if (conditions.from) {
-        queryBuilder.addCondition(new types.Condition(types.EventKey.Sender).eq(conditions.from));
-      }
-
-      if (conditions.to) {
-        queryBuilder.addCondition(new types.Condition(types.EventKey.Recipient).eq(conditions.to));
-      }
-
-      var subscription = this.client.eventListener.subscribeTx(queryBuilder, function (error, data) {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        data === null || data === void 0 ? void 0 : data.tx.value.msg.forEach(function (msg) {
-          if (msg.type !== 'irishub/bank/Send') return;
-          var msgSend = msg;
-          var height = data.height;
-          var hash = data.hash;
-          msgSend.value.inputs.forEach(function (input, index) {
-            var from = input.address;
-            var to = msgSend.value.outputs[index].address;
-            var amount = input.coins;
-            callback(undefined, {
-              height: height,
-              hash: hash,
-              from: from,
-              to: to,
-              amount: amount
-            });
-          });
-        });
-      });
-      return subscription;
     }
   }]);
   return Bank;

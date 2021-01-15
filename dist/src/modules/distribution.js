@@ -236,7 +236,7 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryValidatorOutstandingRewards",
     value: function queryValidatorOutstandingRewards(validator_address) {
       if (!validator_address) {
-        throw new Error("validator_address can ont be empty");
+        throw new _errors.SdkError("validator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryValidatorOutstandingRewardsRequest();
@@ -252,7 +252,7 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryValidatorCommission",
     value: function queryValidatorCommission(validator_address) {
       if (!validator_address) {
-        throw new Error("validator_address can ont be empty");
+        throw new _errors.SdkError("validator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryValidatorCommissionRequest();
@@ -277,7 +277,7 @@ var Distribution = /*#__PURE__*/function () {
       var page_size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 10;
 
       if (!validator_address) {
-        throw new Error("validator_address can ont be empty");
+        throw new _errors.SdkError("validator_address can ont be empty");
       }
 
       var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
@@ -306,11 +306,11 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryDelegationRewards",
     value: function queryDelegationRewards(validator_address, delegator_address) {
       if (!validator_address) {
-        throw new Error("validator_address can ont be empty");
+        throw new _errors.SdkError("validator_address can ont be empty");
       }
 
       if (!delegator_address) {
-        throw new Error("delegator_address can ont be empty");
+        throw new _errors.SdkError("delegator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryDelegationRewardsRequest();
@@ -327,7 +327,7 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryDelegationTotalRewards",
     value: function queryDelegationTotalRewards(delegator_address) {
       if (!delegator_address) {
-        throw new Error("delegator_address can ont be empty");
+        throw new _errors.SdkError("delegator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryDelegationTotalRewardsRequest();
@@ -343,7 +343,7 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryDelegatorValidators",
     value: function queryDelegatorValidators(delegator_address) {
       if (!delegator_address) {
-        throw new Error("delegator_address can ont be empty");
+        throw new _errors.SdkError("delegator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryDelegatorValidatorsRequest();
@@ -359,7 +359,7 @@ var Distribution = /*#__PURE__*/function () {
     key: "queryDelegatorWithdrawAddress",
     value: function queryDelegatorWithdrawAddress(delegator_address) {
       if (!delegator_address) {
-        throw new Error("delegator_address can ont be empty");
+        throw new _errors.SdkError("delegator_address can ont be empty");
       }
 
       var request = new types.distribution_query_pb.QueryDelegatorWithdrawAddressRequest();

@@ -305,7 +305,7 @@ var Nft = /*#__PURE__*/function () {
     key: "querySupply",
     value: function querySupply(denom_id, owner) {
       if (!denom_id && !owner) {
-        throw new Error("there must be one denom_id or owner");
+        throw new _errors.SdkError("there must be one denom_id or owner");
       }
 
       var request = new types.nft_query_pb.QuerySupplyRequest();
@@ -330,7 +330,7 @@ var Nft = /*#__PURE__*/function () {
     key: "queryOwner",
     value: function queryOwner(owner, denom_id) {
       if (!owner) {
-        throw new Error("owner can ont be empty");
+        throw new _errors.SdkError("owner can ont be empty");
       }
 
       var request = new types.nft_query_pb.QueryOwnerRequest();
@@ -351,7 +351,7 @@ var Nft = /*#__PURE__*/function () {
     key: "queryCollection",
     value: function queryCollection(denom_id) {
       if (!denom_id) {
-        throw new Error("denom_id can ont be empty");
+        throw new _errors.SdkError("denom_id can ont be empty");
       }
 
       var request = new types.nft_query_pb.QueryCollectionRequest();
@@ -367,7 +367,7 @@ var Nft = /*#__PURE__*/function () {
     key: "queryDenom",
     value: function queryDenom(denom_id) {
       if (!denom_id) {
-        throw new Error("denom_id can ont be empty");
+        throw new _errors.SdkError("denom_id can ont be empty");
       }
 
       var request = new types.nft_query_pb.QueryDenomRequest();
@@ -394,11 +394,11 @@ var Nft = /*#__PURE__*/function () {
     key: "queryNFT",
     value: function queryNFT(denom_id, token_id) {
       if (!denom_id) {
-        throw new Error("denom_id can ont be empty");
+        throw new _errors.SdkError("denom_id can ont be empty");
       }
 
       if (!token_id) {
-        throw new Error("token_id can ont be empty");
+        throw new _errors.SdkError("token_id can ont be empty");
       }
 
       var request = new types.nft_query_pb.QueryNFTRequest();

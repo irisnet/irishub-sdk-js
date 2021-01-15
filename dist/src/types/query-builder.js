@@ -64,7 +64,7 @@ var Condition = /*#__PURE__*/function () {
     key: "toString",
     value: function toString() {
       if (is.empty(this.key) || is.empty(this.value) || is.empty(this.op)) {
-        throw new _errors.SdkError('invalid condition');
+        throw new _errors.SdkError('invalid condition', _errors.CODES.Internal);
       }
 
       return this.key + this.op + "'" + this.value + "'";

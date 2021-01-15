@@ -2,7 +2,7 @@
   "name": "@irisnet/irishub-sdk",
   "version": "0.0.1",
   "description": "IRISHub JavaScript SDK",
-  "main": "src/index.js",
+  "main": "index.js",
   "typings": "src/index.ts",
   "types": "./dist/src",
   "files": [
@@ -74,6 +74,6 @@
     "secp256k1": "^3.7.1",
     "secure-random": "^1.1.2",
     "sha256": "^0.2.0",
-    "sm-crypto": "git+https://github.com/hangts/sm-crypto.git"
+    "sm-crypto": "git+https://github.com/bianjieai/sm-crypto-js.git#main"
   }
 }

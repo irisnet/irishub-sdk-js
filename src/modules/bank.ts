@@ -23,36 +23,6 @@ export class Bank {
   }
 
   /**
-   * Query account info from blockchain
-   * @param address Bech32 address
-   * @returns
-   * @since v0.17
-   */
-  queryAccount(address: string): Promise<types.Account> {
-    return Promise.all([
-      this.client.rpcClient.abciQuery<types.Account>(
-      'custom/auth/account',
-      {
-        address: address,
-      }
-    ),
-    this.client.rpcClient.abciQuery<types.Coin[]>(
-      'custom/bank/all_balances',
-      {
-        address: address,
-      }
-    )
-    ]
-
-    ).then(res => {
-      const acc = res[0];
-      const bal = res[1];
-      acc.coins = bal;
-      return acc;
-    });
-  }
-
-  /**
    * Send coins
    * @param to Recipient bech32 address
    * @param amount Coins to be sent
@@ -194,55 +164,5 @@ export class Bank {
       request,
       types.bank_query_pb.QueryParamsResponse
     );
-  }
-
-  /**
-   * Subscribe Send Txs
-   * @param conditions Query conditions for the subscription
-   * @param callback A function to receive notifications
-   * @returns
-   * @since v0.17
-   */
-  subscribeSendTx(
-    conditions: { from?: string; to?: string },
-    callback: (error?: SdkError, data?: types.EventDataMsgSend) => void
-  ): types.EventSubscription {
-    const queryBuilder = new EventQueryBuilder().addCondition(
-      new types.Condition(EventKey.Action).eq(EventAction.Send)
-    );
-
-    if (conditions.from) {
-      queryBuilder.addCondition(
-        new types.Condition(EventKey.Sender).eq(conditions.from)
-      );
-    }
-    if (conditions.to) {
-      queryBuilder.addCondition(
-        new types.Condition(EventKey.Recipient).eq(conditions.to)
-      );
-    }
-
-    const subscription = this.client.eventListener.subscribeTx(
-      queryBuilder,
-      (error, data) => {
-        if (error) {
-          callback(error);
-          return;
-        }
-        data?.tx.value.msg.forEach(msg => {
-          if (msg.type !== 'irishub/bank/Send') return;
-          const msgSend = msg as types.MsgMultiSend;
-          const height = data.height;
-          const hash = data.hash;
-          msgSend.value.inputs.forEach((input: types.Input, index: number) => {
-            const from = input.address;
-            const to = msgSend.value.outputs[index].address;
-            const amount = input.coins;
-            callback(undefined, { height, hash, from, to, amount });
-          });
-        });
-      }
-    );
-    return subscription;
   }
 }

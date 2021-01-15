@@ -23,8 +23,6 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
 
-var _utils = require("../utils");
-
 var is = _interopRequireWildcard(require("is_js"));
 
 var _helper = require("../helper");
@@ -509,101 +507,6 @@ var Staking = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Params', request, types.staking_query_pb.QueryParamsResponse);
     }
     /**
-     * Subscribe validator information updates
-     * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-
-  }, {
-    key: "subscribeValidatorInfoUpdates",
-    value: function subscribeValidatorInfoUpdates(conditions, callback) {
-      var queryBuilder = new types.EventQueryBuilder().addCondition(new types.Condition(types.EventKey.Action).eq(types.EventAction.EditValidator));
-
-      if (conditions.validatorAddress) {
-        queryBuilder.addCondition(new types.Condition(types.EventKey.DestinationValidator).eq(conditions.validatorAddress));
-      }
-
-      var subscription = this.client.eventListener.subscribeTx(queryBuilder, function (error, data) {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        data === null || data === void 0 ? void 0 : data.tx.value.msg.forEach(function (msg) {
-          if (msg.type !== 'irishub/stake/MsgEditValidator') return;
-          var msgEditValidator = msg;
-          var height = data.height;
-          var hash = data.hash;
-          var description = msgEditValidator.value.Description;
-          var address = msgEditValidator.value.address;
-          var commission_rate = msgEditValidator.value.commission_rate;
-          callback(undefined, {
-            height: height,
-            hash: hash,
-            description: description,
-            address: address,
-            commission_rate: commission_rate
-          });
-        });
-      });
-      return subscription;
-    }
-    /**
-     * Subscribe validator set updates
-     * @param conditions Query conditions for the subscription { validatorPubKeys: string[] - The `icp` (or `fcp` on testnets) prefixed bech32 validator consensus pubkey }
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-
-  }, {
-    key: "subscribeValidatorSetUpdates",
-    value: function subscribeValidatorSetUpdates(conditions, callback) {
-      var _this3 = this;
-
-      // Add pubkeys to the set
-      var listeningSet = new Set();
-
-      if (conditions.validatorConsPubKeys) {
-        conditions.validatorConsPubKeys.forEach(function (pubkey) {
-          listeningSet.add(pubkey);
-        });
-      } // Subscribe notifications from blockchain
-
-
-      var subscription = this.client.eventListener.subscribeValidatorSetUpdates(function (error, data) {
-        if (error) {
-          callback(error);
-        }
-
-        data === null || data === void 0 ? void 0 : data.forEach(function (event) {
-          var bech32Address = _utils.Crypto.encodeAddress(event.address, _this3.client.config.bech32Prefix.ConsAddr);
-
-          var bech32Pubkey = _utils.Crypto.encodeAddress(_utils.Crypto.aminoMarshalPubKey(event.pub_key), _this3.client.config.bech32Prefix.ConsPub);
-
-          var update = {
-            address: event.address,
-            pub_key: event.pub_key,
-            voting_power: event.voting_power,
-            proposer_priority: event.proposer_priority,
-            bech32_address: bech32Address,
-            bech32_pubkey: bech32Pubkey
-          };
-
-          if (listeningSet.size > 0) {
-            if (listeningSet.has(update.bech32_pubkey)) {
-              callback(undefined, update);
-            }
-          } else {
-            callback(undefined, update);
-          }
-        });
-      });
-      return subscription;
-    }
-    /**
      * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
      *
      * Removing on irishub v1.0
@@ -636,7 +539,7 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "createValidator",
     value: function createValidator() {
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
   }]);
   return Staking;
