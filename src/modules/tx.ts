@@ -130,6 +130,9 @@ export class Tx {
     }
     // Query account info from block chain
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
+    if (!privKey) {
+      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
+    }
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence || undefined);
