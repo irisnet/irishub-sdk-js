@@ -91,21 +91,16 @@ var Tx = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 // Build Unsigned Tx
-                unsignedTx = this.buildTx(msgs, baseTx); // Not supported in ibc-alpha
-                // const fee = await this.client.utils.toMinCoins(unsignedTx.value.fee.amount);
-                // unsignedTx.value.fee.amount = fee;
-                // Sign Tx
+                unsignedTx = this.buildTx(msgs, baseTx); // Sign Tx
 
                 _context.next = 3;
                 return this.sign(unsignedTx, baseTx);
 
               case 3:
                 signedTx = _context.sent;
-                console.log('hhhhhhhhh:', signedTx.getDisplayContent()); // Broadcast Tx
-
                 return _context.abrupt("return", this.broadcast(signedTx, baseTx.mode));
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -190,7 +185,7 @@ var Tx = /*#__PURE__*/function () {
                   break;
                 }
 
-                throw new _errors.SdkError("Decrypt method of KeyDAO not implemented");
+                throw new _errors.SdkError("Decrypt method of KeyDAO not implemented", _errors.CODES.Panic);
 
               case 6:
                 keyObj = this.client.config.keyDAO.read(baseTx.from);
@@ -200,7 +195,7 @@ var Tx = /*#__PURE__*/function () {
                   break;
                 }
 
-                throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"));
+                throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"), _errors.CODES.KeyNotFound);
 
               case 9:
                 accountNumber = (_baseTx$account_numbe = baseTx.account_number) !== null && _baseTx$account_numbe !== void 0 ? _baseTx$account_numbe : '0';
@@ -212,17 +207,17 @@ var Tx = /*#__PURE__*/function () {
                 }
 
                 _context2.next = 14;
-                return this.client.bank.queryAccount(keyObj.address);
+                return this.client.auth.queryAccount(keyObj.address);
 
               case 14:
                 account = _context2.sent;
 
-                if (account.account_number) {
-                  accountNumber = account.account_number;
+                if (account.accountNumber) {
+                  accountNumber = String(account.accountNumber) || '0';
                 }
 
                 if (account.sequence) {
-                  sequence = account.sequence;
+                  sequence = String(account.sequence) || '0';
                 }
 
               case 17:
@@ -283,7 +278,7 @@ var Tx = /*#__PURE__*/function () {
       var keyObj = this.client.config.keyDAO.read(name);
 
       if (!keyObj) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' not found"));
+        throw new _errors.SdkError("Key with name '".concat(name, "' not found"), _errors.CODES.KeyNotFound);
       }
 
       var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
@@ -366,7 +361,7 @@ var Tx = /*#__PURE__*/function () {
     value: function broadcastTx(txBytes, method) {
       // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
       if (is.not.inArray(method, [types.RpcMethods.BroadcastTxSync, types.RpcMethods.BroadcastTxAsync])) {
-        throw new _errors.SdkError("Unsupported broadcast method: ".concat(method));
+        throw new _errors.SdkError("Unsupported broadcast method: ".concat(method), _errors.CODES.Internal);
       }
 
       return this.client.rpcClient.request(method, {
@@ -544,7 +539,7 @@ var Tx = /*#__PURE__*/function () {
 
         default:
           {
-            throw new Error("not exist tx type");
+            throw new _errors.SdkError("not exist tx type", _errors.CODES.InvalidType);
           }
       }
 

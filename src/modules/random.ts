@@ -69,39 +69,4 @@ export class Random {
 
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
-
-  /**
-   * Subscribe notification when the random is generated
-   * @param requestID The request id of the random number
-   * @param callback A function to receive notifications
-   * @since v0.17
-   */
-  subscribeRandom(
-    requestID: string,
-    callback: (error?: SdkError, data?: types.RandomInfo) => void
-  ): types.EventSubscription {
-    const condition = new EventQueryBuilder().addCondition(
-      new types.Condition(EventKey.RequestID).eq(requestID)
-    );
-    const subscription = this.client.eventListener.subscribeNewBlock(
-      (error?: SdkError, data?: types.EventDataNewBlock) => {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        const tags = data?.result_begin_block.tags;
-        if (!tags) return;
-        tags.forEach(tag => {
-          if (tag.key === 'request-id' && tag.value === requestID) {
-            this.queryRandom(requestID).then(random => {
-              callback(undefined, random);
-            });
-          }
-        });
-      },
-      condition
-    );
-    return subscription;
-  }
 }

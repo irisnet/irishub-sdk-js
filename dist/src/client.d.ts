@@ -1,7 +1,6 @@
 import * as consts from './types/constants';
 import * as modules from './modules';
 import { RpcClient } from './nets/rpc-client';
-import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
 import { Wallet } from "./types";
@@ -12,7 +11,6 @@ export declare class Client {
     /** Axios client for tendermint rpc requests */
     rpcClient: RpcClient;
     /** WebSocket event listener */
-    eventListener: EventListener;
     /** Auth module */
     auth: modules.Auth;
     /** Token module */
@@ -28,23 +26,18 @@ export declare class Client {
     /** Tx module */
     tx: modules.Tx;
     /** Gov module */
-    gov: modules.Gov;
     /** Slashing module */
     slashing: modules.Slashing;
     /** Distribution module */
     distribution: modules.Distribution;
     /** Service module */
-    service: modules.Service;
     /** Oracle module */
-    oracle: modules.Oracle;
     /** Random module */
-    random: modules.Random;
     /** Utils module */
     utils: modules.Utils;
     /** Tendermint module */
     tendermint: modules.Tendermint;
     /** Coinswap module */
-    coinswap: modules.Coinswap;
     /** NFT module */
     nft: modules.Nft;
     /** IRISHub SDK Constructor */

@@ -124,12 +124,15 @@ export class Tx {
     let sequence = baseTx.sequence || '0';
 
     if (!baseTx.account_number || !baseTx.sequence) {
-      const account = await this.client.bank.queryAccount(keyObj.address);
-      if ( account.account_number ) { accountNumber = account.account_number }
-      if ( account.sequence ) { sequence = account.sequence }
+      const account = await this.client.auth.queryAccount(keyObj.address);
+      if ( account.accountNumber ) { accountNumber = String(account.accountNumber) || '0' }
+      if ( account.sequence ) { sequence = String(account.sequence) || '0' }
     }
     // Query account info from block chain
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
+    if (!privKey) {
+      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
+    }
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence || undefined);

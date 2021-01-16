@@ -59,7 +59,7 @@ var Slashing = /*#__PURE__*/function () {
       // return this.client.rpcClient.abciQuery<types.SlashingParams>(
       //   'custom/slashing/parameters'
       // );
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
     /**
      * Query a validator's signing information

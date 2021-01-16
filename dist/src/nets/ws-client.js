@@ -59,7 +59,7 @@ var WsClient = /*#__PURE__*/function () {
       this.ws = new _isomorphicWs["default"](this.url + '/websocket');
 
       if (!this.ws) {
-        throw new _errors.SdkError('Websocket client not initialized'); // Should not happen
+        throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
       }
 
       this.ws.onopen = function () {
@@ -114,11 +114,11 @@ var WsClient = /*#__PURE__*/function () {
 
                   _this2.eventEmitter.on(id, function (error) {
                     if (error) {
-                      throw new _errors.SdkError(error.message);
+                      throw new _errors.SdkError(error.message, _errors.CODES.Internal);
                     }
 
                     if (!_this2.ws) {
-                      throw new _errors.SdkError('Websocket client not initialized'); // Should not happen
+                      throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
                     } // Remove all listeners
 
 
@@ -169,7 +169,7 @@ var WsClient = /*#__PURE__*/function () {
     key: "send",
     value: function send(method, id, query) {
       if (!this.ws) {
-        throw new _errors.SdkError('Websocket client not initialized'); // Should not happen
+        throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
       }
 
       this.ws.send(JSON.stringify({

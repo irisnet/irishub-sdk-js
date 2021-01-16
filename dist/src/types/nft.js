@@ -27,6 +27,8 @@ var _index = require("./index");
 
 var pbs = _interopRequireWildcard(require("./proto"));
 
+var _errors = require("../errors");
+
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
@@ -65,19 +67,19 @@ var MsgIssueDenom = /*#__PURE__*/function (_Msg) {
     key: "Validate",
     value: function Validate() {
       if (!this.value.id) {
-        throw new Error("id can not be empty");
+        throw new _errors.SdkError("id can not be empty");
       }
 
       if (!this.value.name) {
-        throw new Error("name can not be empty");
+        throw new _errors.SdkError("name can not be empty");
       }
 
       if (!this.value.schema) {
-        throw new Error("schema can not be empty");
+        throw new _errors.SdkError("schema can not be empty");
       }
 
       if (!this.value.sender) {
-        throw new Error("sender can not be empty");
+        throw new _errors.SdkError("sender can not be empty");
       }
     }
   }], [{
@@ -132,31 +134,31 @@ var MsgMintNFT = /*#__PURE__*/function (_Msg2) {
     key: "Validate",
     value: function Validate() {
       if (!this.value.id) {
-        throw new Error("id can not be empty");
+        throw new _errors.SdkError("id can not be empty");
       }
 
       if (!this.value.denom_id) {
-        throw new Error("denom_id can not be empty");
+        throw new _errors.SdkError("denom_id can not be empty");
       }
 
       if (!this.value.name) {
-        throw new Error("name can not be empty");
+        throw new _errors.SdkError("name can not be empty");
       }
 
       if (!this.value.uri) {
-        throw new Error("uri can not be empty");
+        throw new _errors.SdkError("uri can not be empty");
       }
 
       if (!this.value.data) {
-        throw new Error("data can not be empty");
+        throw new _errors.SdkError("data can not be empty");
       }
 
       if (!this.value.sender) {
-        throw new Error("sender can not be empty");
+        throw new _errors.SdkError("sender can not be empty");
       }
 
       if (!this.value.recipient) {
-        throw new Error("recipient can not be empty");
+        throw new _errors.SdkError("recipient can not be empty");
       }
     }
   }], [{
@@ -226,15 +228,15 @@ var MsgEditNFT = /*#__PURE__*/function (_Msg3) {
     key: "Validate",
     value: function Validate() {
       if (!this.value.id) {
-        throw new Error("id can not be empty");
+        throw new _errors.SdkError("id can not be empty");
       }
 
       if (!this.value.denom_id) {
-        throw new Error("denom_id can not be empty");
+        throw new _errors.SdkError("denom_id can not be empty");
       }
 
       if (!this.value.sender) {
-        throw new Error("sender can not be empty");
+        throw new _errors.SdkError("sender can not be empty");
       }
     }
   }], [{
@@ -305,19 +307,19 @@ var MsgTransferNFT = /*#__PURE__*/function (_Msg4) {
     key: "Validate",
     value: function Validate() {
       if (!this.value.id) {
-        throw new Error("id can not be empty");
+        throw new _errors.SdkError("id can not be empty");
       }
 
       if (!this.value.denom_id) {
-        throw new Error("denom_id can not be empty");
+        throw new _errors.SdkError("denom_id can not be empty");
       }
 
       if (!this.value.sender) {
-        throw new Error("sender can not be empty");
+        throw new _errors.SdkError("sender can not be empty");
       }
 
       if (!this.value.recipient) {
-        throw new Error("recipient can not be empty");
+        throw new _errors.SdkError("recipient can not be empty");
       }
     }
   }], [{
@@ -368,15 +370,15 @@ var MsgBurnNFT = /*#__PURE__*/function (_Msg5) {
     key: "Validate",
     value: function Validate() {
       if (!this.value.id) {
-        throw new Error("id can not be empty");
+        throw new _errors.SdkError("id can not be empty");
       }
 
       if (!this.value.denom_id) {
-        throw new Error("denom_id can not be empty");
+        throw new _errors.SdkError("denom_id can not be empty");
       }
 
       if (!this.value.sender) {
-        throw new Error("sender can not be empty");
+        throw new _errors.SdkError("sender can not be empty");
       }
     }
   }], [{

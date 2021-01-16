@@ -19,6 +19,8 @@ var _helper = require("../helper");
 
 var types = _interopRequireWildcard(require("../types"));
 
+var _errors = require("../errors");
+
 var Sha256 = require('sha256');
 
 var ProtoTx = /*#__PURE__*/function () {
@@ -30,7 +32,7 @@ var ProtoTx = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "signatures", []);
 
     if (!properties && !protoTxModel) {
-      throw new Error("there must be one properties or protoTxModel");
+      throw new _errors.SdkError("there must be one properties or protoTxModel", _errors.CODES.Internal);
     }
 
     if (properties) {
@@ -63,7 +65,7 @@ var ProtoTx = /*#__PURE__*/function () {
      */
     value: function addSignature(signature) {
       if (!signature || !signature.length) {
-        throw new Error("signature is  empty");
+        throw new _errors.SdkError("signature is  empty", _errors.CODES.NoSignatures);
       }
 
       this.signatures.push(signature);
@@ -80,7 +82,7 @@ var ProtoTx = /*#__PURE__*/function () {
       sequence = sequence || this.txData.sequence;
 
       if (!sequence) {
-        throw new Error("sequence is empty");
+        throw new _errors.SdkError("sequence is empty", _errors.CODES.InvalidSequence);
       }
 
       var signerInfo = _helper.TxModelCreator.createSignerInfoModel(sequence, pubkey);
@@ -96,15 +98,15 @@ var ProtoTx = /*#__PURE__*/function () {
     key: "getSignDoc",
     value: function getSignDoc(account_number, chain_id) {
       if (!this.hasPubKey()) {
-        throw new Error("please set pubKey");
+        throw new _errors.SdkError("please set pubKey", _errors.CODES.InvalidPubkey);
       }
 
       if (!account_number && !this.txData.account_number) {
-        throw new Error("account_number is  empty");
+        throw new _errors.SdkError("account_number is  empty", _errors.CODES.IncorrectAccountSequence);
       }
 
       if (!chain_id && !this.txData.chain_id) {
-        throw new Error("chain_id is  empty");
+        throw new _errors.SdkError("chain_id is  empty", _errors.CODES.InvalidChainId);
       }
 
       var signDoc = new types.tx_tx_pb.SignDoc();
@@ -112,7 +114,6 @@ var ProtoTx = /*#__PURE__*/function () {
       signDoc.setAuthInfoBytes(this.authInfo.serializeBinary());
       signDoc.setAccountNumber(String(account_number || this.txData.account_number));
       signDoc.setChainId(chain_id || this.txData.chain_id);
-      console.log('signDocsignDoc:', signDoc.toObject());
       return signDoc;
     }
     /**
@@ -128,11 +129,11 @@ var ProtoTx = /*#__PURE__*/function () {
     key: "getTxRaw",
     value: function getTxRaw() {
       if (!this.hasPubKey()) {
-        throw new Error("please set pubKey");
+        throw new _errors.SdkError("please set pubKey", _errors.CODES.InvalidPubkey);
       }
 
       if (!this.signatures || !this.signatures.length) {
-        throw new Error("please sign tx");
+        throw new _errors.SdkError("please sign tx", _errors.CODES.NoSignatures);
       }
 
       var txRaw = new types.tx_tx_pb.TxRaw();
@@ -208,7 +209,7 @@ var ProtoTx = /*#__PURE__*/function () {
     key: "newStdTxFromProtoTxModel",
     value: function newStdTxFromProtoTxModel(protoTxModel) {
       if (!protoTxModel.hasBody() || !protoTxModel.hasAuthInfo()) {
-        throw new Error("Proto Tx Model is invalid");
+        throw new _errors.SdkError("Proto Tx Model is invalid", _errors.CODES.TxParseError);
       }
 
       return new ProtoTx(undefined, protoTxModel);

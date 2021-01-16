@@ -1,6 +1,5 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
 /**
  * This module provides staking functionalities for validators and delegators
  *
@@ -209,26 +208,6 @@ export declare class Staking {
      * @since
      */
     queryParams(): Promise<types.StakingParams>;
-    /**
-     * Subscribe validator information updates
-     * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-    subscribeValidatorInfoUpdates(conditions: {
-        validatorAddress?: string;
-    }, callback: (error?: SdkError, data?: types.EventDataMsgEditValidator) => void): types.EventSubscription;
-    /**
-     * Subscribe validator set updates
-     * @param conditions Query conditions for the subscription { validatorPubKeys: string[] - The `icp` (or `fcp` on testnets) prefixed bech32 validator consensus pubkey }
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
-     */
-    subscribeValidatorSetUpdates(conditions: {
-        validatorConsPubKeys?: string[];
-    }, callback: (error?: SdkError, data?: types.ExtendedEventDataValidatorSetUpdates) => void): types.EventSubscription;
     /**
      * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
      *

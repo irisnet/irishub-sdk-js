@@ -1,7 +1,5 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
 Object.defineProperty(exports, "__esModule", {
@@ -18,8 +16,6 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
-
-var types = _interopRequireWildcard(require("../types"));
 
 var _random = require("../types/random");
 
@@ -109,37 +105,6 @@ var Random = /*#__PURE__*/function () {
 
       return request;
     }()
-    /**
-     * Subscribe notification when the random is generated
-     * @param requestID The request id of the random number
-     * @param callback A function to receive notifications
-     * @since v0.17
-     */
-
-  }, {
-    key: "subscribeRandom",
-    value: function subscribeRandom(requestID, callback) {
-      var _this2 = this;
-
-      var condition = new types.EventQueryBuilder().addCondition(new types.Condition(types.EventKey.RequestID).eq(requestID));
-      var subscription = this.client.eventListener.subscribeNewBlock(function (error, data) {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        var tags = data === null || data === void 0 ? void 0 : data.result_begin_block.tags;
-        if (!tags) return;
-        tags.forEach(function (tag) {
-          if (tag.key === 'request-id' && tag.value === requestID) {
-            _this2.queryRandom(requestID).then(function (random) {
-              callback(undefined, random);
-            });
-          }
-        });
-      }, condition);
-      return subscription;
-    }
   }]);
   return Random;
 }();

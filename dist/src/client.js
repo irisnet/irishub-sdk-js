@@ -21,8 +21,6 @@ var modules = _interopRequireWildcard(require("./modules"));
 
 var _rpcClient = require("./nets/rpc-client");
 
-var _eventListener = require("./nets/event-listener");
-
 var types = _interopRequireWildcard(require("./types"));
 
 var _errors = require("./errors");
@@ -38,6 +36,7 @@ var Client = /*#__PURE__*/function () {
   /** Axios client for tendermint rpc requests */
 
   /** WebSocket event listener */
+  // eventListener: EventListener;
 
   /** Auth module */
 
@@ -54,22 +53,27 @@ var Client = /*#__PURE__*/function () {
   /** Tx module */
 
   /** Gov module */
+  // gov: modules.Gov;
 
   /** Slashing module */
 
   /** Distribution module */
 
   /** Service module */
+  // service: modules.Service;
 
   /** Oracle module */
+  // oracle: modules.Oracle;
 
   /** Random module */
+  // random: modules.Random;
 
   /** Utils module */
 
   /** Tendermint module */
 
   /** Coinswap module */
+  // coinswap: modules.Coinswap;
 
   /** NFT module */
 
@@ -78,7 +82,6 @@ var Client = /*#__PURE__*/function () {
     (0, _classCallCheck2["default"])(this, Client);
     (0, _defineProperty2["default"])(this, "config", void 0);
     (0, _defineProperty2["default"])(this, "rpcClient", void 0);
-    (0, _defineProperty2["default"])(this, "eventListener", void 0);
     (0, _defineProperty2["default"])(this, "auth", void 0);
     (0, _defineProperty2["default"])(this, "token", void 0);
     (0, _defineProperty2["default"])(this, "bank", void 0);
@@ -86,15 +89,10 @@ var Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "protobuf", void 0);
     (0, _defineProperty2["default"])(this, "staking", void 0);
     (0, _defineProperty2["default"])(this, "tx", void 0);
-    (0, _defineProperty2["default"])(this, "gov", void 0);
     (0, _defineProperty2["default"])(this, "slashing", void 0);
     (0, _defineProperty2["default"])(this, "distribution", void 0);
-    (0, _defineProperty2["default"])(this, "service", void 0);
-    (0, _defineProperty2["default"])(this, "oracle", void 0);
-    (0, _defineProperty2["default"])(this, "random", void 0);
     (0, _defineProperty2["default"])(this, "utils", void 0);
     (0, _defineProperty2["default"])(this, "tendermint", void 0);
-    (0, _defineProperty2["default"])(this, "coinswap", void 0);
     (0, _defineProperty2["default"])(this, "nft", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
@@ -112,19 +110,9 @@ var Client = /*#__PURE__*/function () {
       ValPub: 'fvp',
       ConsAddr: 'fca',
       ConsPub: 'fcp'
-    }; // Support ibc-alpha
-    // {
-    //   AccAddr: 'cosmos',
-    //   AccPub: 'cosmospub',
-    //   ValAddr: 'cosmosvaloper',
-    //   ValPub: 'cosmosvaloperpub',
-    //   ConsAddr: 'cosmosvalcons',
-    //   ConsPub: 'cosmosvalconspub',
-    // };
-
+    };
     this.config.rpcConfig.baseURL = this.config.node;
-    this.rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig);
-    this.eventListener = new _eventListener.EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
+    this.rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig); // this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
     // Modules
 
     this.token = new modules.Token(this);
@@ -133,16 +121,16 @@ var Client = /*#__PURE__*/function () {
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
     this.protobuf = new modules.Protobuf(this);
-    this.staking = new modules.Staking(this);
-    this.gov = new modules.Gov(this);
+    this.staking = new modules.Staking(this); // this.gov = new modules.Gov(this);
+
     this.slashing = new modules.Slashing(this);
-    this.distribution = new modules.Distribution(this);
-    this.service = new modules.Service(this);
-    this.oracle = new modules.Oracle(this);
-    this.random = new modules.Random(this);
+    this.distribution = new modules.Distribution(this); // this.service = new modules.Service(this);
+    // this.oracle = new modules.Oracle(this);
+    // this.random = new modules.Random(this);
+
     this.auth = new modules.Auth(this);
-    this.tendermint = new modules.Tendermint(this);
-    this.coinswap = new modules.Coinswap(this);
+    this.tendermint = new modules.Tendermint(this); // this.coinswap = new modules.Coinswap(this);
+
     this.nft = new modules.Nft(this); // Set default encrypt/decrypt methods
 
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
@@ -262,11 +250,11 @@ var DefaultClientConfig = function DefaultClientConfig() {
   (0, _defineProperty2["default"])(this, "rpcConfig", void 0);
   this.node = '';
   this.network = types.Network.Mainnet;
-  this.chainId = 'irishub';
+  this.chainId = '';
   this.gas = '100000';
   this.fee = {
-    amount: '0.6',
-    denom: 'iris'
+    amount: '',
+    denom: ''
   };
   this.keyDAO = new DefaultKeyDAOImpl();
   this.bech32Prefix = {};
@@ -289,17 +277,17 @@ var DefaultKeyDAOImpl = /*#__PURE__*/function () {
   (0, _createClass2["default"])(DefaultKeyDAOImpl, [{
     key: "write",
     value: function write(name, key) {
-      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.');
+      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.', _errors.CODES.Panic);
     }
   }, {
     key: "read",
     value: function read(name) {
-      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.');
+      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.', _errors.CODES.Panic);
     }
   }, {
     key: "delete",
     value: function _delete(name) {
-      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.');
+      throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.', _errors.CODES.Panic);
     }
   }, {
     key: "encrypt",
@@ -307,7 +295,7 @@ var DefaultKeyDAOImpl = /*#__PURE__*/function () {
       var encrypted = AES.encrypt(privKey, password).toString();
 
       if (!encrypted) {
-        throw new _errors.SdkError('Private key encrypt failed');
+        throw new _errors.SdkError('Private key encrypt failed', _errors.CODES.Internal);
       }
 
       return encrypted;
@@ -318,7 +306,7 @@ var DefaultKeyDAOImpl = /*#__PURE__*/function () {
       var decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
 
       if (!decrypted) {
-        throw new _errors.SdkError('Wrong password');
+        throw new _errors.SdkError('Wrong password', _errors.CODES.InvalidPassword);
       }
 
       return decrypted;

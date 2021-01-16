@@ -19,6 +19,8 @@ var types = _interopRequireWildcard(require("../types"));
 
 var is = _interopRequireWildcard(require("is_js"));
 
+var _errors = require("../errors");
+
 /**
  * Auth module is only used to build `StdTx`
  *
@@ -92,7 +94,7 @@ var Auth = /*#__PURE__*/function () {
     key: "queryAccount",
     value: function queryAccount(address) {
       if (!address) {
-        throw new Error("address can ont be empty");
+        throw new _errors.SdkError("address can ont be empty");
       }
 
       var request = new types.auth_query_pb.QueryAccountRequest();

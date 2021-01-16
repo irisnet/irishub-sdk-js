@@ -336,7 +336,7 @@ var Keys = /*#__PURE__*/function () {
       var keyObj = this.client.config.keyDAO.read(name);
 
       if (!keyObj) {
-        throw new _errors.SdkError("Key with name '".concat(name, "' not found"));
+        throw new _errors.SdkError("Key with name '".concat(name, "' not found"), _errors.CODES.KeyNotFound);
       }
 
       return keyObj.address;

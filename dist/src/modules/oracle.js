@@ -83,7 +83,7 @@ var Oracle = /*#__PURE__*/function () {
   }, {
     key: "createFeed",
     value: function createFeed() {
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
     /**
      * Start a feed in `paused` state
@@ -94,7 +94,7 @@ var Oracle = /*#__PURE__*/function () {
   }, {
     key: "startFeed",
     value: function startFeed() {
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
     /**
      * Pause a feed in `running` state
@@ -105,7 +105,7 @@ var Oracle = /*#__PURE__*/function () {
   }, {
     key: "pauseFeed",
     value: function pauseFeed() {
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
     /**
      * Modify the feed information and update service invocation parameters by feed creator
@@ -116,7 +116,7 @@ var Oracle = /*#__PURE__*/function () {
   }, {
     key: "editFeed",
     value: function editFeed() {
-      throw new _errors.SdkError('Not supported');
+      throw new _errors.SdkError('Not supported', _errors.CODES.Internal);
     }
   }]);
   return Oracle;

@@ -17,6 +17,8 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _txHelper = require("./txHelper");
 
+var _errors = require("../errors");
+
 var TxModelCreator = /*#__PURE__*/function () {
   function TxModelCreator() {
     (0, _classCallCheck2["default"])(this, TxModelCreator);
@@ -105,7 +107,7 @@ var TxModelCreator = /*#__PURE__*/function () {
       }
 
       if (!pk) {
-        throw new Error("Unsupported public Key types");
+        throw new _errors.SdkError("Unsupported public Key types", _errors.CODES.InvalidPubkey);
       }
 
       pk.setKey(Buffer.from(pubByteArray));

@@ -2,7 +2,7 @@
 export declare const CODES: {
     OK: number;
     Internal: number;
-    TxDecode: number;
+    TxParseError: number;
     InvalidSequence: number;
     Unauthorized: number;
     InsufficientFunds: number;
@@ -14,7 +14,6 @@ export declare const CODES: {
     OutOfGas: number;
     MemoTooLarge: number;
     InsufficientFee: number;
-    OutOfService: number;
     TooManySignatures: number;
     NoSignatures: number;
     ErrJsonMarshal: number;
@@ -23,11 +22,28 @@ export declare const CODES: {
     TxInMempoolCache: number;
     MempoolIsFull: number;
     TxTooLarge: number;
+    KeyNotFound: number;
+    InvalidPassword: number;
+    SignerDoesNotMatch: number;
+    InvalidGasAdjustment: number;
+    InvalidHeight: number;
+    InvalidVersion: number;
+    InvalidChainId: number;
+    InvalidType: number;
+    TxTimeoutHeight: number;
+    UnknownExtensionOptions: number;
+    IncorrectAccountSequence: number;
+    FailedPackingProtobufMessageToAny: number;
+    FailedUnpackingProtobufMessagFromAny: number;
+    InternalLogicError: number;
+    Conflict: number;
+    FeatureNotSupported: number;
+    Panic: number;
+    InvalidMnemonic: number;
+    DerivePrivateKeyError: number;
 };
 /** IRISHub SDK Error */
 export declare class SdkError extends Error {
-    /** Error code space, reserved field */
-    codespace: string;
     /** Error code */
     code: number;
     /**
