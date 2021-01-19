@@ -126,7 +126,7 @@ const account: string = client.keys.recover(`iris_wallet`, 'S8js8Ka82lqAc', `fat
 ```typescript
 const account: string = client.keys.recover(`iris_wallet`, 'S8js8Ka82lqAc', `{"version":"1","id":"1d295464-aaa8-418e-b374-3052a91dc26a","address":"faa1eqvkfthtrr93g4p9qspp54w6dtjtrn279vcmpn","crypto":{"ciphertext":"a6ee40e3b38a7b24a373ec006bcc039ccbae45dc3b1f314405ab51ee975d6b1f","cipherparams":{"iv":"453b83b1331d334b70d160616fe43ace"},"cipher":"aes-128-ctr","kdf":"pbkdf2","kdfparams":{"dklen":32,"salt":"e702e41edf7277a39f7f5cc641c19e1b492cc29bf737aec9b53b496c9f217b37","c":10000,"prf":"hmac-sha256"},"mac":"6e8ed2619f0b30f00c20f9f01858368efbd0feae5811792d8b41a60c2d71d310"}}`);
 ```
-- transfer
+- transfer example
 ```typescript
 const res = await client.bank.send({
     to:`iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw`,
@@ -145,80 +145,123 @@ const res = await client.bank.send({
     }
 })
 ```
+### bank `src/modules/bank.ts`
+- send 
+- multiSend
+- queryBalance
+- queryAllBalances
+- queryTotalSupply
+- querySupplyOf
+- queryParams
+### auth `src/modules/auth.ts`
+- newStdTx
+- queryAccount
+- queryParams
+### distribution `src/modules/distribution.ts`
+- setWithdrawAddr
+- withdrawRewards
+- withdrawValidatorCommission
+- fundCommunityPool
+- queryParams
+- queryValidatorOutstandingRewards
+- queryValidatorCommission
+- queryValidatorSlashes
+- queryDelegationRewards
+- queryDelegationTotalRewards
+- queryDelegatorValidators
+- queryDelegatorWithdrawAddress
+- queryCommunityPool
+### gov `src/modules/gov.ts`
+- queryProposal
+- queryProposals
+- queryVote
+- queryVotes
+- queryDeposit
+- queryDeposits
+- queryTally
+- submitParameterChangeProposal
+- submitPlainTextProposal
+- submitCommunityTaxUsageProposal
+- deposit
+- vote
+### keys `src/modules/keys.ts`
+- add
+- recover
+- import
+- importPrivateKey
+- export
+- delete
+- show
+### nft `src/modules/nft.ts`
+- issueDenom
+- mintNft
+- editNft
+- transferNft
+- burnNft
+- querySupply
+- queryOwner
+- queryCollection
+- queryDenom
+- queryDenoms
+- queryNFT
+### slashing `src/modules/slashing.ts`
+- queryParams
+- querySigningInfo
+- unjail
+### staking `src/modules/staking.ts`
 - delegate
-```typescript
-const res = await client.staking.delegate({
-    validatorAddr:`iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0`,
-    amount:[{
-        denom:`uiris`,
-        amount:`1000000`
-    }],
-    baseTx:{
-        from:`iris_wallet`,
-        password:`S8js8Ka82lqAc`,
-        gas:50000,
-        fee:{
-            denom:`uiris`,
-            amount:`500000`
-        }
-    }
-})
-```
 - undelegate
-```typescript
-const res = await client.staking.undelegate({
-    validatorAddr:`iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0`,
-    amount:[{
-        denom:`uiris`,
-        amount:`1000000`
-    }],
-    baseTx:{
-        from:`iris_wallet`,
-        password:`S8js8Ka82lqAc`,
-        gas:50000,
-        fee:{
-            denom:`uiris`,
-            amount:`500000`
-        }
-    }
-})
-```
 - redelegate
-```typescript
-const res = await client.staking.redelegate({
-    validatorSrcAddr:`iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0`,
-    validatorDstAddr:`iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2`,
-    amount:[{
-        denom:`uiris`,
-        amount:`1000000`
-    }],
-    baseTx:{
-        from:`iris_wallet`,
-        password:`S8js8Ka82lqAc`,
-        gas:50000,
-        fee:{
-            denom:`uiris`,
-            amount:`500000`
-        }
-    }
-})
-```
-- withdraw reward
-```typescript
-const res = await client.distribution.withdrawRewards({
-    validatorSrcAddr:`iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0`,
-    amount:[{
-        denom:`uiris`,
-        amount:`1000000`
-    }],
-    baseTx:{
-        from:`iris_wallet`,
-        password:`S8js8Ka82lqAc`,
-        gas:50000,
-        fee:{
-            denom:`uiris`,
-            amount:`500000`
-        }
-    }
-})
-```
+- queryDelegation
+- queryDelegations
+- queryUnbondingDelegation
+- queryDelegatorUnbondingDelegations
+- queryRedelegation
+- queryDelegatorValidators
+- queryDelegatorValidator
+- queryHistoricalInfo
+- queryValidatorDelegations
+- queryValidatorUnbondingDelegations
+- queryValidator
+- queryValidators
+- queryPool
+- queryParams
+- appendZero
+- createValidator
+### tendermint `src/modules/tendermint.ts`
+- queryBlock
+- queryBlockResult
+- queryTx
+- queryValidators
+- searchTxs
+- queryNetInfo
+### token `src/modules/token.ts`
+- issueToken
+- editToken
+- mintToken
+- transferTokenOwner
+- queryTokens
+- queryToken
+- queryFees
+- queryParameters
+### tx `src/modules/tx.ts`
+- buildTx
+- newStdTxFromProtoTxModel
+- buildAndSend
+- broadcast
+- sign
+- sign_signDoc
+- broadcastTxAsync
+- broadcastTxSync
+- broadcastTxCommit
+- broadcastTx
+- newTxResult
+- createMsg
+### protobuf `src/modules/protobuf.ts`
+- deserializeTx
+- unpackMsg
+- deserializeSignDoc
+- deserializeTxRaw
+- deserializeSigningInfo
+- deserializePubkey
+
