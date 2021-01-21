@@ -68,10 +68,11 @@ export declare class Keys {
      * @param name Name of the key
      * @param keyPassword Password of the key
      * @param keystorePassword Password for encrypting the keystore
+     * @param iterations
      * @returns Keystore json
      * @since v0.17
      */
-    export(name: string, keyPassword: string, keystorePassword: string): string;
+    export(name: string, keyPassword: string, keystorePassword: string, iterations?: number): string;
     /**
      * Delete a key
      *

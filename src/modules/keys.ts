@@ -254,10 +254,11 @@ export class Keys {
    * @param name Name of the key
    * @param keyPassword Password of the key
    * @param keystorePassword Password for encrypting the keystore
+   * @param iterations
    * @returns Keystore json
    * @since v0.17
    */
-  export(name: string, keyPassword: string, keystorePassword: string): string {
+  export(name: string, keyPassword: string, keystorePassword: string, iterations?: number): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -280,7 +281,8 @@ export class Keys {
     const keystore = Crypto.generateKeyStore(
       privKey,
       keystorePassword,
-      this.client.config.bech32Prefix.AccAddr
+      this.client.config.bech32Prefix.AccAddr,
+        iterations
     );
     return JSON.stringify(keystore);
   }

@@ -224,6 +224,14 @@ var Tx = /*#__PURE__*/function () {
                 // Query account info from block chain
                 privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
+                if (privKey) {
+                  _context2.next = 20;
+                  break;
+                }
+
+                throw new _errors.SdkError("decrypto the private key error", _errors.CODES.InvalidPassword);
+
+              case 20:
                 if (!stdTx.hasPubKey()) {
                   pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                   stdTx.setPubKey(pubKey, sequence || undefined);
@@ -233,7 +241,7 @@ var Tx = /*#__PURE__*/function () {
                 stdTx.addSignature(signature);
                 return _context2.abrupt("return", stdTx);
 
-              case 22:
+              case 24:
               case "end":
                 return _context2.stop();
             }
