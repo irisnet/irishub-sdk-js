@@ -253,13 +253,14 @@ var Keys = /*#__PURE__*/function () {
      * @param name Name of the key
      * @param keyPassword Password of the key
      * @param keystorePassword Password for encrypting the keystore
+     * @param iterations
      * @returns Keystore json
      * @since v0.17
      */
 
   }, {
     key: "export",
-    value: function _export(name, keyPassword, keystorePassword) {
+    value: function _export(name, keyPassword, keystorePassword, iterations) {
       if (is.empty(name)) {
         throw new _errors.SdkError("Name of the key can not be empty");
       }
@@ -280,7 +281,7 @@ var Keys = /*#__PURE__*/function () {
 
       var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, keyPassword);
 
-      var keystore = _crypto.Crypto.generateKeyStore(privKey, keystorePassword, this.client.config.bech32Prefix.AccAddr);
+      var keystore = _crypto.Crypto.generateKeyStore(privKey, keystorePassword, this.client.config.bech32Prefix.AccAddr, iterations);
 
       return JSON.stringify(keystore);
     }
