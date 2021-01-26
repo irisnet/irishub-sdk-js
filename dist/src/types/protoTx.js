@@ -21,6 +21,8 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
 
+var _protobuf = require("../modules/protobuf");
+
 var Sha256 = require('sha256');
 
 var ProtoTx = /*#__PURE__*/function () {
@@ -202,8 +204,7 @@ var ProtoTx = /*#__PURE__*/function () {
   }, {
     key: "getDisplayContent",
     value: function getDisplayContent() {
-      var tx = this.getProtoModel();
-      return JSON.stringify(tx.toObject());
+      return new _protobuf.Protobuf({}).deserializeTx(Buffer.from(this.getData()).toString('base64'));
     }
   }], [{
     key: "newStdTxFromProtoTxModel",

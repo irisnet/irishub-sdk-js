@@ -2,6 +2,7 @@
 import { TxModelCreator } from '../helper';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
+import { Protobuf } from '../modules/protobuf';
 
 const Sha256 = require('sha256');
 
@@ -162,8 +163,7 @@ export class ProtoTx {
      *  get tx content
      * @returns tx info
      */
-    getDisplayContent():string{
-        let tx = this.getProtoModel();
-        return JSON.stringify(tx.toObject());
+    getDisplayContent():object{
+        return new Protobuf({} as any).deserializeTx(Buffer.from(this.getData()).toString('base64'));
     }
 }
