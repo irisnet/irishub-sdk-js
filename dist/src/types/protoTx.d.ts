@@ -60,5 +60,5 @@ export declare class ProtoTx {
      *  get tx content
      * @returns tx info
      */
-    getDisplayContent(): string;
+    getDisplayContent(): object;
 }

@@ -17,7 +17,7 @@ are in the `test` folder.
 Install the package via npm.
 
 ```bash
-npm install https://github.com/irisnet/irishub-sdk-js.git#develop
+npm install https://github.com/irisnet/irishub-sdk-js.git
 ```
 
 ## Config

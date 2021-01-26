@@ -74,6 +74,18 @@ var Tx = /*#__PURE__*/function () {
       return types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
     }
     /**
+     * generate StdTx from Tx Data
+     * @param  {[type]} TxData:string  base64 string form txBytes
+     * @return {[type]} unsignedTx
+     */
+
+  }, {
+    key: "newStdTxFromTxData",
+    value: function newStdTxFromTxData(TxDataString) {
+      var protoTxModel = this.client.protobuf.deserializeTx(TxDataString, true);
+      return types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
+    }
+    /**
      * Build, sign and broadcast the msgs
      * @param msgs Msgs to be sent
      * @param baseTx
