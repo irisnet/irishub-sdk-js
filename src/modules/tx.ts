@@ -47,6 +47,16 @@ export class Tx {
   }
 
   /**
+   * generate StdTx from Tx Data
+   * @param  {[type]} TxData:string  base64 string form txBytes
+   * @return {[type]} unsignedTx
+   */
+  newStdTxFromTxData(TxDataString:string):types.ProtoTx{
+    const protoTxModel = this.client.protobuf.deserializeTx(TxDataString, true)
+    return  types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
+  }
+
+  /**
    * Build, sign and broadcast the msgs
    * @param msgs Msgs to be sent
    * @param baseTx
