@@ -1,10 +1,10 @@
-import { Client } from '../client';
+import {Client} from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
-import { MsgDelegate, MsgUndelegate, MsgRedelegate } from '../types/staking';
-import { EventQueryBuilder, EventKey, EventAction } from '../types';
-import { Utils, Crypto } from '../utils';
-import { marshalPubKey } from '@irisnet/amino-js';
+import { SdkError, CODES } from '../errors';
+import {EventQueryBuilder, EventKey, EventAction} from '../types';
+import {Utils, Crypto} from '../utils';
+import * as is from 'is_js';
+import { ModelCreator } from "../helper";
 
 /**
  * This module provides staking functionalities for validators and delegators
@@ -12,235 +12,15 @@ import { marshalPubKey } from '@irisnet/amino-js';
  * [More Details](https://www.irisnet.org/docs/features/stake.html)
  *
  * @category Modules
- * @since v0.17
+ * @since
  */
 export class Staking {
   /** @hidden */
   private client: Client;
+
   /** @hidden */
   constructor(client: Client) {
     this.client = client;
-  }
-
-  /**
-   * Query a delegation based on delegator address and validator address
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @param validatorAddr Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryDelegation(
-    delegatorAddr: string,
-    validatorAddr: string
-  ): Promise<types.Delegation> {
-    return this.client.rpcClient.abciQuery<types.Delegation>(
-      'custom/stake/delegation',
-      {
-        DelegatorAddr: delegatorAddr,
-        ValidatorAddr: validatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all delegations made from one delegator
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @returns
-   * @since v0.17
-   */
-  queryDelegations(delegatorAddr: string): Promise<types.Delegation[]> {
-    return this.client.rpcClient.abciQuery<types.Delegation[]>(
-      'custom/stake/delegatorDelegations',
-      {
-        DelegatorAddr: delegatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query an unbonding-delegation record based on delegator and validator address
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @param validatorAddr Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryUnbondingDelegation(
-    delegatorAddr: string,
-    validatorAddr: string
-  ): Promise<types.UnbondingDelegation> {
-    return this.client.rpcClient.abciQuery<types.UnbondingDelegation>(
-      'custom/stake/unbondingDelegation',
-      {
-        DelegatorAddr: delegatorAddr,
-        ValidatorAddr: validatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all unbonding-delegations records for one delegator
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @returns
-   * @since v0.17
-   */
-  queryUnbondingDelegations(
-    delegatorAddr: string
-  ): Promise<types.UnbondingDelegation[]> {
-    return this.client.rpcClient.abciQuery<types.UnbondingDelegation[]>(
-      'custom/stake/delegatorUnbondingDelegations',
-      {
-        DelegatorAddr: delegatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query a redelegation record based on delegator and a source and destination validator address
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @param srcValidatorAddr Bech32 source validator address
-   * @param dstValidatorAddr Bech32 destination validator address
-   * @returns
-   * @since v0.17
-   */
-  queryRedelegation(
-    delegatorAddr: string,
-    srcValidatorAddr: string,
-    dstValidatorAddr: string
-  ): Promise<types.Redelegation[]> {
-    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
-      'custom/stake/redelegation',
-      {
-        DelegatorAddr: delegatorAddr,
-        ValSrcAddr: srcValidatorAddr,
-        ValDstAddr: dstValidatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all redelegations records for one delegator
-   *
-   * @param delegatorAddr Bech32 delegator address
-   * @returns
-   * @since v0.17
-   */
-  queryRedelegations(delegatorAddr: string): Promise<types.Redelegation[]> {
-    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
-      'custom/stake/delegatorRedelegations',
-      {
-        DelegatorAddr: delegatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all delegations to one validator
-   *
-   * @param validatorAddr Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryDelegationsTo(validatorAddr: string): Promise<types.Delegation[]> {
-    return this.client.rpcClient.abciQuery<types.Delegation[]>(
-      'custom/stake/validatorDelegations',
-      {
-        ValidatorAddr: validatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all unbonding delegatations from a validator
-   *
-   * @param validatorAddr Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryUnbondingDelegationsFrom(
-    validatorAddr: string
-  ): Promise<types.UnbondingDelegation[]> {
-    return this.client.rpcClient.abciQuery<types.UnbondingDelegation[]>(
-      'custom/stake/validatorUnbondingDelegations',
-      {
-        ValidatorAddr: validatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query all outgoing redelegatations from a validator
-   *
-   * @param validatorAddr Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryRedelegationsFrom(validatorAddr: string): Promise<types.Redelegation[]> {
-    return this.client.rpcClient.abciQuery<types.Redelegation[]>(
-      'custom/stake/validatorRedelegations',
-      {
-        ValidatorAddr: validatorAddr,
-      }
-    );
-  }
-
-  /**
-   * Query a validator
-   *
-   * @param address Bech32 validator address
-   * @returns
-   * @since v0.17
-   */
-  queryValidator(address: string): Promise<types.Validator> {
-    return this.client.rpcClient.abciQuery<types.Validator>(
-      'custom/stake/validator',
-      {
-        ValidatorAddr: address,
-      }
-    );
-  }
-
-  /**
-   * Query for all validators
-   * @param page Page number
-   * @param size Page size
-   * @returns
-   * @since v0.17
-   */
-  queryValidators(page: number, size?: 100): Promise<types.Validator[]> {
-    return this.client.rpcClient.abciQuery<types.Validator[]>(
-      'custom/stake/validators',
-      {
-        Page: page,
-        Size: size,
-      }
-    );
-  }
-
-  /**
-   * Query the current staking pool values
-   * @returns
-   * @since v0.17
-   */
-  queryPool(): Promise<types.StakingPool> {
-    return this.client.rpcClient.abciQuery<types.StakingPool>(
-      'custom/stake/pool'
-    );
-  }
-
-  /**
-   * Query the current staking parameters information
-   * @returns
-   * @since v0.17
-   */
-  queryParams(): Promise<types.StakingParams> {
-    return this.client.rpcClient.abciQuery<types.StakingParams>(
-      'custom/stake/parameters'
-    );
   }
 
   /**
@@ -258,8 +38,15 @@ export class Staking {
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [
-      new MsgDelegate(delegatorAddr, validatorAddr, amount),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgDelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
@@ -267,28 +54,26 @@ export class Staking {
   /**
    * Undelegate from a validator
    * @param validatorAddr Bech32 validator address
-   * @param amount Amount to be unbonded from the validator
+   * @param amount Amount to be undelegated from the validator
    * @param baseTx
    * @returns
    * @since v0.17
    */
   async undelegate(
     validatorAddr: string,
-    amount: string,
+    amount: types.Coin,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const validator = await this.queryValidator(validatorAddr);
-
-    const shares =
-      Number(amount) *
-      (Number(validator.tokens) / Number(validator.delegator_shares));
-    const msgs: types.Msg[] = [
-      new MsgUndelegate(
-        delegatorAddr,
-        validatorAddr,
-        this.appendZero(String(shares), 10)
-      ),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgUndelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
@@ -304,134 +89,427 @@ export class Staking {
   async redelegate(
     validatorSrcAddr: string,
     validatorDstAddr: string,
-    amount: string,
+    amount: types.Coin,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const delegatorAddr = this.client.keys.show(baseTx.from);
-    const srcValidator = await this.queryValidator(validatorSrcAddr);
-
-    const shares =
-      Number(amount) *
-      (Number(srcValidator.tokens) / Number(srcValidator.delegator_shares));
-    const msgs: types.Msg[] = [
-      new MsgRedelegate(
-        delegatorAddr,
-        validatorSrcAddr,
-        validatorDstAddr,
-        this.appendZero(String(shares), 10)
-      ),
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgBeginRedelegate,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_src_address: validatorSrcAddr,
+          validator_dst_address: validatorDstAddr,
+          amount
+        }
+      }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
-   * Subscribe validator information updates
-   * @param conditions Query conditions for the subscription { validatorAddress: string - The `iva` (or `fva` on testnets) prefixed bech32 validator address }
-   * @param callback A function to receive notifications
+   * Query a delegation based on delegator address and validator address
+   *
+   * @param delegator_addr Bech32 delegator address
+   * @param validator_addr Bech32 validator address
    * @returns
-   * @since v0.17
+   * @since
    */
-  subscribeValidatorInfoUpdates(
-    conditions: { validatorAddress?: string },
-    callback: (error?: SdkError, data?: types.EventDataMsgEditValidator) => void
-  ): types.EventSubscription {
-    const queryBuilder = new EventQueryBuilder().addCondition(
-      new types.Condition(EventKey.Action).eq(EventAction.EditValidator)
-    );
-
-    if (conditions.validatorAddress) {
-      queryBuilder.addCondition(
-        new types.Condition(EventKey.DestinationValidator).eq(
-          conditions.validatorAddress
-        )
-      );
+  queryDelegation(
+    delegator_addr: string,
+    validator_addr: string
+  ): Promise<types.Delegation> {
+    if (is.undefined(validator_addr)) {
+      throw new SdkError('validator address can not be empty');
+    }
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
     }
 
-    const subscription = this.client.eventListener.subscribeTx(
-      queryBuilder,
-      (error, data) => {
-        if (error) {
-          callback(error);
-          return;
-        }
-        data?.tx.value.msg.forEach(msg => {
-          if (msg.type !== 'irishub/stake/MsgEditValidator') return;
-          const msgEditValidator = msg as types.MsgEditValidator;
-          const height = data.height;
-          const hash = data.hash;
-          const description = msgEditValidator.value.Description;
-          const address = msgEditValidator.value.address;
-          const commission_rate = msgEditValidator.value.commission_rate;
-          callback(undefined, {
-            height,
-            hash,
-            description,
-            address,
-            commission_rate,
-          });
-        });
-      }
+    const request = new types.staking_query_pb.QueryDelegationRequest()
+      .setValidatorAddr(validator_addr)
+      .setDelegatorAddr(delegator_addr);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Delegation',
+      request,
+      types.staking_query_pb.QueryDelegationResponse
     );
-    return subscription;
   }
 
   /**
-   * Subscribe validator set updates
-   * @param conditions Query conditions for the subscription { validatorPubKeys: string[] - The `icp` (or `fcp` on testnets) prefixed bech32 validator consensus pubkey }
-   * @param callback A function to receive notifications
+   * Query all delegations made from one delegator
+   *
+   * @param pagination page info
+   * @param delegator_addr Bech32 delegator address
    * @returns
-   * @since v0.17
+   * @since
    */
-  subscribeValidatorSetUpdates(
-    conditions: { validatorConsPubKeys?: string[] },
-    callback: (
-      error?: SdkError,
-      data?: types.ExtendedEventDataValidatorSetUpdates
-    ) => void
-  ): types.EventSubscription {
-    // Add pubkeys to the set
-    const listeningSet = new Set<string>();
-    if (conditions.validatorConsPubKeys) {
-      conditions.validatorConsPubKeys.forEach(pubkey => {
-        listeningSet.add(pubkey);
-      });
+  queryDelegations(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      delegator_addr: string;
+    }
+  ): Promise<types.Delegation[]> {
+    const {key, page, size, count_total, delegator_addr} = query;
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryDelegatorDelegationsRequest()
+      .setDelegatorAddr(delegator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/DelegatorDelegations',
+      request,
+      types.staking_query_pb.QueryDelegatorDelegationsResponse
+    );
+  }
+
+  /**
+   * Query an unbonding-delegation record based on delegator and validator address
+   *
+   * @param delegator_addr Bech32 delegator address
+   * @param validator_addr Bech32 validator address
+   * @returns
+   * @since
+   */
+  queryUnbondingDelegation(
+    delegator_addr: string,
+    validator_addr: string
+  ): Promise<types.UnbondingDelegation> {
+    if (is.undefined(validator_addr)) {
+      throw new SdkError('validator address can not be empty');
+    }
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
     }
 
-    // Subscribe notifications from blockchain
-    const subscription = this.client.eventListener.subscribeValidatorSetUpdates(
-      (error, data) => {
-        if (error) {
-          callback(error);
-        }
+    const request = new types.staking_query_pb.QueryUnbondingDelegationRequest()
+      .setValidatorAddr(validator_addr)
+      .setDelegatorAddr(delegator_addr);
 
-        data?.forEach(event => {
-          const bech32Address = Crypto.encodeAddress(
-            event.address,
-            this.client.config.bech32Prefix.ConsAddr
-          );
-          const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(event.pub_key, false)),
-            this.client.config.bech32Prefix.ConsPub
-          );
-          const update: types.ExtendedEventDataValidatorSetUpdates = {
-            address: event.address,
-            pub_key: event.pub_key,
-            voting_power: event.voting_power,
-            proposer_priority: event.proposer_priority,
-            bech32_address: bech32Address,
-            bech32_pubkey: bech32Pubkey,
-          };
-          if (listeningSet.size > 0) {
-            if (listeningSet.has(update.bech32_pubkey)) {
-              callback(undefined, update);
-            }
-          } else {
-            callback(undefined, update);
-          }
-        });
-      }
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/UnbondingDelegation',
+      request,
+      types.staking_query_pb.QueryUnbondingDelegationResponse
     );
-    return subscription;
+  }
+
+  /**
+   * Query all unbonding-delegations records for one delegator
+   *
+   * @param pagination page info
+   * @param delegator_addr Bech32 delegator address
+   * @returns
+   * @since
+   */
+  queryDelegatorUnbondingDelegations(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      delegator_addr: string;
+    }
+  ): Promise<types.UnbondingDelegation[]> {
+    const {key, page, size, count_total, delegator_addr} = query;
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest()
+      .setDelegatorAddr(delegator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations',
+      request,
+      types.staking_query_pb.QueryDelegatorUnbondingDelegationsResponse
+    );
+  }
+
+  /**
+   * Query a redelegation record based on delegator and a source and destination validator address
+   *
+   * @param delegator_addr Bech32 delegator address
+   * @param src_validator_addr (optional) Bech32 source validator address
+   * @param dst_validator_addr (optional) Bech32 destination validator address
+   * @returns
+   * @since
+   */
+  queryRedelegation(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      delegator_addr: string;
+      src_validator_addr?: string;
+      dst_validator_addr?:string;
+    }
+  ): Promise<types.Redelegation[]> {
+    const {key, page, size, count_total, delegator_addr,src_validator_addr, dst_validator_addr} = query;
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryRedelegationsRequest()
+      .setDelegatorAddr(delegator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    if (is.not.undefined(src_validator_addr)) {
+      request.setSrcValidatorAddr(src_validator_addr)
+    }
+    if (is.not.undefined(dst_validator_addr)) {
+      request.setDstValidatorAddr(dst_validator_addr);
+    }
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Redelegations',
+      request,
+      types.staking_query_pb.QueryRedelegationsResponse
+    );
+  }
+
+  /**
+   * Query all validators info for given delegator
+   *
+   * @param delegator_addr Bech32 delegator address
+   * @param pagination page info
+   * @returns
+   * @since
+   */
+  queryDelegatorValidators(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      delegator_addr: string;
+    }
+  ): Promise<object> {
+    const {key, page, size, count_total, delegator_addr} = query;
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryDelegatorValidatorsRequest()
+      .setDelegatorAddr(delegator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/DelegatorValidators',
+      request,
+      types.staking_query_pb.QueryDelegatorValidatorsResponse
+    );
+  }
+
+  /**
+   * Query validator info for given delegator validator
+   *
+   * @param delegator_addr Bech32 delegator address
+   * @param validator_addr Bech32 validator address
+   * @returns
+   * @since
+   */
+  queryDelegatorValidator(
+    query: {
+      delegator_addr: string;
+      validator_addr: string;
+    }
+  ): Promise<object> {
+    const { delegator_addr, validator_addr} = query;
+    if (is.undefined(delegator_addr)) {
+      throw new SdkError('delegator address can not be empty');
+    }
+    if (is.undefined(validator_addr)) {
+      throw new SdkError('validator address can not be empty');
+    }
+
+    const request = new types.staking_query_pb.QueryDelegatorValidatorRequest()
+      .setDelegatorAddr(delegator_addr)
+      .setValidatorAddr(validator_addr);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/DelegatorValidator',
+      request,
+      types.staking_query_pb.QueryDelegatorValidatorResponse
+    );
+  }
+
+  /**
+   * Query the historical info for given height.
+   *
+   * @param height defines at which height to query the historical info
+   * @returns
+   * @since
+   */
+  queryHistoricalInfo(
+    query: {
+      height: number;
+    }
+  ): Promise<object> {
+    const { height} = query;
+    if (is.undefined(height)) {
+      throw new SdkError('block height can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryHistoricalInfoRequest()
+      .setHeight(height);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/HistoricalInfo',
+      request,
+      types.staking_query_pb.QueryHistoricalInfoResponse
+    );
+  }
+
+  /**
+   * Query all delegations to one validator
+   *
+   * @param validator_addr Bech32 validator address
+   * @param pagination page info
+   * @returns
+   * @since
+   */
+  queryValidatorDelegations(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      validator_addr: string;
+    }
+  ): Promise<types.Delegation[]> {
+    const {key, page, size, count_total, validator_addr} = query;
+    if (is.undefined(validator_addr)) {
+      throw new SdkError('validator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryValidatorDelegationsRequest()
+      .setValidatorAddr(validator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/ValidatorDelegations',
+      request,
+      types.staking_query_pb.QueryValidatorDelegationsResponse
+    );
+  }
+
+  /**
+   * Query all unbonding delegatations from a validator
+   *
+   * @param validator_addr Bech32 validator address
+   * @param pagination page info
+   * @returns
+   * @since
+   */
+  queryValidatorUnbondingDelegations(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      validator_addr: string;
+    }
+  ): Promise<types.UnbondingDelegation[]> {
+    const {key, page, size, count_total, validator_addr} = query;
+    if (is.undefined(validator_addr)) {
+      throw new SdkError('validator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest()
+      .setValidatorAddr(validator_addr)
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/ValidatorUnbondingDelegations',
+      request,
+      types.staking_query_pb.QueryValidatorUnbondingDelegationsResponse
+    );
+  }
+
+  /**
+   * Query a validator
+   *
+   * @param address Bech32 validator address
+   * @returns
+   * @since
+   */
+  queryValidator(address: string): Promise<types.Validator> {
+    if (is.undefined(address)) {
+      throw new SdkError('validator address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryValidatorRequest().setValidatorAddr(address);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Validator',
+      request,
+      types.staking_query_pb.QueryValidatorResponse
+    ).then(res=>{
+      let result = {...res};
+      if (res.validator && res.validator.consensusPubkey && res.validator.consensusPubkey.value) {
+        result.validator.consensusPubkey = this.client.protobuf.deserializePubkey(res.validator.consensusPubkey);
+      }
+      return result;
+    });
+  }
+
+  /**
+   * Query for all validators
+   * @param pagination page info
+   * @param status validator status
+   * @returns
+   * @since
+   */
+  queryValidators(
+    query: {
+      key?: string,
+      page?: number;
+      size?: number;
+      count_total?: boolean;
+      status?: string;
+    }
+  ): Promise<types.Validator[]> {
+    const {key, page, size, count_total, status} = query;
+    const request = new types.staking_query_pb.QueryValidatorsRequest()
+      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+    if (is.not.undefined(status)) {
+      request.setStatus(status);
+    }
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Validators',
+      request,
+      types.staking_query_pb.QueryValidatorsResponse
+    ).then(res=>{
+      let result:any = {...res};
+      if (res.validatorsList && res.validatorsList.length) {
+          result.validatorsList = res.validatorsList.map((val:any)=>{
+            if (val.consensusPubkey && val.consensusPubkey.value) {
+              val.consensusPubkey = this.client.protobuf.deserializePubkey(val.consensusPubkey);
+            }
+            return val;
+          });
+      }
+      return result;
+    });
+  }
+
+  /**
+   * Query the current staking pool values
+   * @returns
+   * @since
+   */
+  queryPool(): Promise<types.StakingPool> {
+    const request = new types.staking_query_pb.QueryPoolRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Pool',
+      request,
+      types.staking_query_pb.QueryPoolResponse
+    );
+  }
+
+  /**
+   * Query the current staking parameters information
+   * @returns
+   * @since
+   */
+  queryParams(): Promise<types.StakingParams> {
+    const request = new types.staking_query_pb.QueryParamsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/Params',
+      request,
+      types.staking_query_pb.QueryParamsResponse
+    );
   }
 
   /**
@@ -459,6 +537,6 @@ export class Staking {
    * ** Not Supported **
    */
   createValidator() {
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 }

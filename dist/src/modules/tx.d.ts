@@ -12,13 +12,33 @@ export declare class Tx {
     /** @hidden */
     constructor(client: Client);
     /**
+     * Build Tx
+     * @param msgs Msgs to be sent
+     * @param baseTx
+     * @returns unsignedTx
+     * @since v0.17
+     */
+    buildTx(msgs: any[], baseTx: types.BaseTx): types.ProtoTx;
+    /**
+     * generate StdTx from protoTxModel
+     * @param  {[type]} protoTxModel:any instance of cosmos.tx.v1beta1.Tx
+     * @return {[type]} unsignedTx
+     */
+    newStdTxFromProtoTxModel(protoTxModel: any): types.ProtoTx;
+    /**
+     * generate StdTx from Tx Data
+     * @param  {[type]} TxData:string  base64 string form txBytes
+     * @return {[type]} unsignedTx
+     */
+    newStdTxFromTxData(TxDataString: string): types.ProtoTx;
+    /**
      * Build, sign and broadcast the msgs
      * @param msgs Msgs to be sent
      * @param baseTx
      * @returns
      * @since v0.17
      */
-    buildAndSend(msgs: types.Msg[], baseTx: types.BaseTx): Promise<types.TxResult>;
+    buildAndSend(msgs: any[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Broadcast a tx
      * @param signedTx The tx object with signatures
@@ -26,18 +46,27 @@ export declare class Tx {
      * @returns
      * @since v0.17
      */
-    broadcast(signedTx: types.Tx<types.StdTx>, mode?: types.BroadcastMode): Promise<types.TxResult>;
+    broadcast(signedTx: types.ProtoTx, mode?: types.BroadcastMode): Promise<types.TxResult>;
     /**
      * Single sign a transaction
      *
      * @param stdTx StdTx with no signatures
-     * @param name Name of the key to sign the tx
-     * @param password Password of the key
-     * @param offline Offline signing, default `false`
+     * @param baseTx baseTx.from && baseTx.password is requred
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx: types.Tx<types.StdTx>, name: string, password: string, offline?: boolean): Promise<types.Tx<types.StdTx>>;
+    sign(stdTx: types.ProtoTx, baseTx: types.BaseTx): Promise<types.ProtoTx>;
+    /**
+     * Single sign a transaction with signDoc
+     *
+     * @param signDoc from protobuf
+     * @param name Name of the key to sign the tx
+     * @param password Password of the key
+     * @param type pubkey Type
+     * @returns signature
+     * @since v0.17
+     */
+    sign_signDoc(signDoc: Uint8Array, name: string, password: string, type?: types.PubkeyType): string;
     /**
      * Broadcast tx async
      * @param txBytes The tx bytes with signatures
@@ -63,6 +92,14 @@ export declare class Tx {
      * @returns The result object of broadcasting
      */
     private broadcastTx;
-    private marshal;
     private newTxResult;
+    /**
+     * create message
+     * @param  {[type]} txMsg:{type:string, value:any} message
+     * @return {[type]} message instance of types.Msg
+     */
+    createMsg(txMsg: {
+        type: string;
+        value: any;
+    }): any;
 }

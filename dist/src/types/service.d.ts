@@ -62,8 +62,7 @@ export interface ServiceFee {
  * Msg struct for creating a new service definition
  * @hidden
  */
-export declare class MsgDefineService implements Msg {
-    type: string;
+export declare class MsgDefineService extends Msg {
     value: {
         name: string;
         description?: string;
@@ -86,8 +85,7 @@ export declare class MsgDefineService implements Msg {
  * Msg struct for binding a service definition
  * @hidden
  */
-export declare class MsgBindService implements Msg {
-    type: string;
+export declare class MsgBindService extends Msg {
     value: {
         service_name: string;
         provider: string;
@@ -106,8 +104,7 @@ export declare class MsgBindService implements Msg {
  * Msg struct for updating a service binding
  * @hidden
  */
-export declare class MsgUpdateServiceBinding implements Msg {
-    type: string;
+export declare class MsgUpdateServiceBinding extends Msg {
     value: {
         service_name: string;
         provider: string;
@@ -126,8 +123,7 @@ export declare class MsgUpdateServiceBinding implements Msg {
  * Msg struct for disabling a service binding
  * @hidden
  */
-export declare class MsgDisableServiceBinding implements Msg {
-    type: string;
+export declare class MsgDisableServiceBinding extends Msg {
     value: {
         service_name: string;
         provider: string;
@@ -139,8 +135,7 @@ export declare class MsgDisableServiceBinding implements Msg {
  * Msg struct for enabling a service binding
  * @hidden
  */
-export declare class MsgEnableServiceBinding implements Msg {
-    type: string;
+export declare class MsgEnableServiceBinding extends Msg {
     value: {
         service_name: string;
         provider: string;
@@ -152,8 +147,7 @@ export declare class MsgEnableServiceBinding implements Msg {
  * Msg struct for invoking a service
  * @hidden
  */
-export declare class MsgRequestService implements Msg {
-    type: string;
+export declare class MsgRequestService extends Msg {
     value: {
         service_name: string;
         providers: string[];
@@ -183,8 +177,7 @@ export declare class MsgRequestService implements Msg {
 /**
  * @hidden
  */
-export declare class MsgSetServiceWithdrawAddress implements Msg {
-    type: string;
+export declare class MsgSetServiceWithdrawAddress extends Msg {
     value: {
         provider: string;
         withdraw_address: string;
@@ -196,8 +189,7 @@ export declare class MsgSetServiceWithdrawAddress implements Msg {
  * Msg struct for refunding deposit from a service binding
  * @hidden
  */
-export declare class MsgRefundServiceDeposit implements Msg {
-    type: string;
+export declare class MsgRefundServiceDeposit extends Msg {
     value: {
         service_name: string;
         provider: string;
@@ -209,8 +201,7 @@ export declare class MsgRefundServiceDeposit implements Msg {
  * Msg struct for resuming a request context
  * @hidden
  */
-export declare class MsgStartRequestContext implements Msg {
-    type: string;
+export declare class MsgStartRequestContext extends Msg {
     value: {
         request_context_id: string;
         consumer: string;
@@ -222,8 +213,7 @@ export declare class MsgStartRequestContext implements Msg {
  * Msg struct for pausing a request context
  * @hidden
  */
-export declare class MsgPauseRequestContext implements Msg {
-    type: string;
+export declare class MsgPauseRequestContext extends Msg {
     value: {
         request_context_id: string;
         consumer: string;
@@ -235,8 +225,7 @@ export declare class MsgPauseRequestContext implements Msg {
  * Msg struct for killing a request context
  * @hidden
  */
-export declare class MsgKillRequestContext implements Msg {
-    type: string;
+export declare class MsgKillRequestContext extends Msg {
     value: {
         request_context_id: string;
         consumer: string;
@@ -248,8 +237,7 @@ export declare class MsgKillRequestContext implements Msg {
  * Msg struct for invoking a service
  * @hidden
  */
-export declare class MsgUpdateRequestContext implements Msg {
-    type: string;
+export declare class MsgUpdateRequestContext extends Msg {
     value: {
         request_context_id: string;
         providers: string[];
@@ -274,8 +262,7 @@ export declare class MsgUpdateRequestContext implements Msg {
  * Msg struct for withdrawing the fees earned by the provider
  * @hidden
  */
-export declare class MsgWithdrawEarnedFees implements Msg {
-    type: string;
+export declare class MsgWithdrawEarnedFees extends Msg {
     value: {
         provider: string;
     };
@@ -286,8 +273,7 @@ export declare class MsgWithdrawEarnedFees implements Msg {
  * Msg struct for withdrawing the service tax
  * @hidden
  */
-export declare class MsgWithdrawTax implements Msg {
-    type: string;
+export declare class MsgWithdrawTax extends Msg {
     value: {
         trustee: string;
         dest_address: string;

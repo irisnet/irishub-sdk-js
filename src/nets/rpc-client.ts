@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Utils } from '../utils';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
 
@@ -10,7 +10,9 @@ import * as types from '../types';
  */
 export class RpcClient {
   /** @hidden */
-  instance: AxiosInstance;
+  private instance: AxiosInstance;
+  /** @hidden */
+  private config: AxiosRequestConfig;
 
   /**
    * Initialize Tendermint JSON RPC Client
@@ -32,6 +34,7 @@ export class RpcClient {
 
     config.url = '/'; // Fixed url
 
+    this.config = config;
     this.instance = axios.create(config);
   }
 
@@ -51,20 +54,59 @@ export class RpcClient {
       params,
     };
     return this.instance
-      .request<types.JSONRPCResponse<T>>({
-        data,
-      })
+      .post<types.JSONRPCResponse<T>>(this.config.baseURL!, data)
       .then(response => {
         const res = response.data;
-
         // Internal error
         if (res.error) {
-          console.log(res.error);
+          console.error(res.error);
           throw new SdkError(res.error.message, res.error.code);
         }
 
         return res.result;
       });
+  }
+
+  /**
+   * Tendermint ABCI protobuf Query
+   *
+   * @param path Querier path
+   * @param protoRequest protobuf Request
+   * @param protoResponse protobuf Response so if "protoResponse" exists, well deserialize "ABCI Response" with "protoResponse" and return json object, else return base64 string
+   * @returns
+   * @since v0.17
+   */
+  protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any/* object | string | null*/> {
+    const params: types.AbciQueryRequest = {
+      path,
+    };
+    if (protoRequest && protoRequest.serializeBinary) {
+      params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
+    }
+    return this.request<types.AbciQueryResponse>(
+      types.RpcMethods.AbciQuery,
+      params
+    ).then(response => {
+      if (response && response.response) {
+        if (response.response.value) {
+          if (protoResponse) {
+            try{
+              return protoResponse.deserializeBinary(response.response.value).toObject();
+            }catch(err){
+              console.error(`protobuf deserialize  error from ${path}`);
+              return response.response.value;
+            }
+          }else{
+            return response.response.value;
+          }
+        } else if (response.response.code) {
+          throw new SdkError(response.response.log, response.response.code);
+        } else{
+          return null;
+        }
+      }
+      throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
+    });
   }
 
   /**
@@ -84,30 +126,35 @@ export class RpcClient {
       params.data = Utils.obj2hexstring(data);
     }
     if (height) {
-      params.height = height;
+      params.height = String(height);
     }
 
     return this.request<types.AbciQueryResponse>(
       types.RpcMethods.AbciQuery,
       params
     ).then(response => {
-      if (response.response) {
+      if (response && response.response) {
         if (response.response.value) {
           const value = Buffer.from(
             response.response.value,
             'base64'
           ).toString();
-          const res = JSON.parse(value);
-
-          if (!res) return {};
-          if (res.type && res.value) return res.value;
-          return res;
+          try{
+            return JSON.parse(value).value;
+          }catch(err){
+            return value;
+          }
+          // const res = JSON.parse(value);
+          // if (!res) return {};
+          // if (res.type && res.value) return res.value;
+          // return res;
         } else if (response.response.code) {
-          throw new SdkError('Bad Request', response.response.code);
+          throw new SdkError(response.response.log, response.response.code);
+        } else{
+          return null;
         }
       }
-      console.log(response);
-      throw new SdkError('Bad Request');
+      throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
     });
   }
 

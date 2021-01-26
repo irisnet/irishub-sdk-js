@@ -4,9 +4,10 @@ import { RpcClient } from './nets/rpc-client';
 import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
-import { SdkError } from './errors';
+import { SdkError, CODES } from './errors';
 import * as AES from 'crypto-js/aes';
 import * as ENC from 'crypto-js/enc-utf8';
+import {Wallet} from "./types";
 
 /** IRISHub Client */
 export class Client {
@@ -17,19 +18,22 @@ export class Client {
   rpcClient: RpcClient;
 
   /** WebSocket event listener */
-  eventListener: EventListener;
+  // eventListener: EventListener;
 
   /** Auth module */
   auth: modules.Auth;
 
-  /** Asset module */
-  asset: modules.Asset;
+  /** Token module */
+  token: modules.Token;
 
   /** Bank module */
   bank: modules.Bank;
 
   /** Key management module */
   keys: modules.Keys;
+
+  /** Protobuf module */
+  protobuf: modules.Protobuf;
 
   /** Staking module */
   staking: modules.Staking;
@@ -38,7 +42,7 @@ export class Client {
   tx: modules.Tx;
 
   /** Gov module */
-  gov: modules.Gov;
+  // gov: modules.Gov;
 
   /** Slashing module */
   slashing: modules.Slashing;
@@ -47,13 +51,13 @@ export class Client {
   distribution: modules.Distribution;
 
   /** Service module */
-  service: modules.Service;
+  // service: modules.Service;
 
   /** Oracle module */
-  oracle: modules.Oracle;
+  // oracle: modules.Oracle;
 
   /** Random module */
-  random: modules.Random;
+  // random: modules.Random;
 
   /** Utils module */
   utils: modules.Utils;
@@ -61,11 +65,13 @@ export class Client {
   /** Tendermint module */
   tendermint: modules.Tendermint;
 
-  /** Htlc module */
-  htlc: modules.Htlc
+  /** Coinswap module */
+  // coinswap: modules.Coinswap;
+
+  /** NFT module */
+  nft: modules.Nft;
 
   /** IRISHub SDK Constructor */
-
   constructor(config: DefaultClientConfig) {
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
@@ -88,26 +94,30 @@ export class Client {
             ConsAddr: 'fca',
             ConsPub: 'fcp',
           };
+
     this.config.rpcConfig.baseURL = this.config.node;
     this.rpcClient = new RpcClient(this.config.rpcConfig);
-    this.eventListener = new EventListener(this);
+    // this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
 
     // Modules
-    this.asset = new modules.Asset(this);
+    this.token = new modules.Token(this);
     this.utils = new modules.Utils(this);
     this.bank = new modules.Bank(this);
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
+    this.protobuf = new modules.Protobuf(this);
     this.staking = new modules.Staking(this);
-    this.gov = new modules.Gov(this);
+    // this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
     this.distribution = new modules.Distribution(this);
-    this.service = new modules.Service(this);
-    this.oracle = new modules.Oracle(this);
-    this.random = new modules.Random(this);
+    // this.service = new modules.Service(this);
+    // this.oracle = new modules.Oracle(this);
+    // this.random = new modules.Random(this);
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
-    this.htlc = new modules.Htlc(this);
+    // this.coinswap = new modules.Coinswap(this);
+    this.nft = new modules.Nft(this);
+    
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
@@ -235,9 +245,9 @@ export class DefaultClientConfig implements ClientConfig {
   constructor() {
     this.node = '';
     this.network = types.Network.Mainnet;
-    this.chainId = 'irishub';
+    this.chainId = '';
     this.gas = '100000';
-    this.fee = { amount: '0.6', denom: 'iris' };
+    this.fee = { amount: '', denom: '' };
     this.keyDAO = new DefaultKeyDAOImpl();
     this.bech32Prefix = {} as Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };
@@ -255,7 +265,7 @@ export interface KeyDAO {
    * @param key The encrypted private key object
    * @throws `SdkError` if the save fails.
    */
-  write(name: string, key: types.Key): void;
+  write(name: string, key: Wallet): void;
 
   /**
    * Get the encrypted private key by name
@@ -263,14 +273,14 @@ export interface KeyDAO {
    * @param name Name of the key
    * @returns The encrypted private key object or undefined
    */
-  read(name: string): types.Key;
+  read(name: string): Wallet;
 
   /**
    * Delete the key by name
    * @param name Name of the key
    * @throws `SdkError` if the deletion fails.
    */
-  delete(name: string): void;
+  delete?(name: string): void;
 
   /**
    * Optional function to encrypt the private key by yourself. Default to AES Encryption
@@ -304,25 +314,28 @@ export interface Bech32Prefix {
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {
-  write(name: string, key: types.Key): void {
+  write(name: string, key: Wallet): void {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
-  read(name: string): types.Key {
+  read(name: string): Wallet {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
   delete(name: string): void {
     throw new SdkError(
-      'Method not implemented. Please implement KeyDAO first.'
+      'Method not implemented. Please implement KeyDAO first.',
+      CODES.Panic
     );
   }
   encrypt(privKey: string, password: string): string {
     const encrypted = AES.encrypt(privKey, password).toString();
     if (!encrypted) {
-      throw new SdkError('Private key encrypt failed');
+      throw new SdkError('Private key encrypt failed',CODES.Internal);
     }
     return encrypted;
   }
@@ -330,7 +343,7 @@ export class DefaultKeyDAOImpl implements KeyDAO {
   decrypt(encrptedPrivKey: string, password: string): string {
     const decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
     if (!decrypted) {
-      throw new SdkError('Wrong password');
+      throw new SdkError('Wrong password',CODES.InvalidPassword);
     }
     return decrypted;
   }

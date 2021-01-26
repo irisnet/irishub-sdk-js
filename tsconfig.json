@@ -1,21 +1,31 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
-  "allowJs": true,
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "outDir": "dist",
-    "sourceMap": true,
-    "types": ["jest", "node"],
-    "resolveJsonModule": true,
-  },
-  "typedocOptions": {
-    "mode": "file",
-    "inputFiles": ["./src"],
-    "out": "docs"
-  },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts", "test/jest.config.js"
-  ]
+    "extends": "./node_modules/gts/tsconfig-google.json",
+    "allowJs": true,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "ESNext",
+        "outDir": "dist/src",
+        "lib": ["dom", "esnext"],
+        "strict": true,
+        "importHelpers": true,
+        "declaration": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "types": [
+            "jest",
+            "node"
+        ],
+        "resolveJsonModule": true
+    },
+    "typedocOptions": {
+        "mode": "file",
+        "inputFiles": [
+            "./src"
+        ],
+        "out": "docs"
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
 }

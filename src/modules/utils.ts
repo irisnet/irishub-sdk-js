@@ -1,6 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import * as mathjs from 'mathjs';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Utils for the IRISHub SDK
@@ -10,11 +11,14 @@ import * as mathjs from 'mathjs';
 export class Utils {
   /** @hidden */
   private client: Client;
+  /** @hidden */
   private tokenMap: Map<string, types.Token>;
+  /** @hidden */
   private mathConfig = {
     number: 'BigNumber', // Choose 'number' (default), 'BigNumber', or 'Fraction'
     precision: 64, // 64 by default, only applicable for BigNumbers
   };
+  /** @hidden */
   private math: Partial<mathjs.MathJsStatic>;
 
   /** @hidden */
@@ -35,19 +39,21 @@ export class Utils {
     const amt = this.math.bignumber!(coin.amount);
     const token = this.tokenMap.get(coin.denom);
     if (token) {
-      if (coin.denom === token.min_unit_alias) return coin;
+      if (coin.denom === token.min_unit) return coin;
       return {
-        denom: token.min_unit_alias,
+        denom: token.min_unit,
         amount: this.math.multiply!(
           amt,
-          this.math.pow!(10, token.decimal)
+          this.math.pow!(10, token.scale)
         ).toString(),
       };
     }
 
     // If token not found in local memory, then query from the blockchain
-    return this.client.asset.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token.base_token);
+    return this.client.token.queryToken(coin.denom).then(token => {
+      if (token) {
+        this.tokenMap.set(coin.denom, token!);
+      }
       return this.toMinCoin(coin);
     });
   }
@@ -84,14 +90,16 @@ export class Utils {
         denom: token.symbol,
         amount: this.math.divide!(
           amt,
-          this.math.pow!(10, token.decimal)
+          this.math.pow!(10, token.scale)
         ).toString(),
       };
     }
 
     // If token not found in local memory, then query from the blockchain
-    return this.client.asset.queryToken(coin.denom).then(token => {
-      this.tokenMap.set(coin.denom, token.base_token);
+    return this.client.token.queryToken(coin.denom).then(token => {
+      if (token) {
+        this.tokenMap.set(coin.denom, token!);
+      }
       return this.toMainCoin(coin);
     });
   }

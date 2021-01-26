@@ -17,6 +17,21 @@ export interface Key {
     privKey: string;
 }
 /**
+ * Key struct
+ * @hidden
+ */
+interface KeyPair {
+    privateKey: string;
+    publicKey: string;
+}
+/**
+ * wallet struct
+ */
+export interface Wallet extends KeyPair {
+    address: string;
+    mnemonic?: string;
+}
+/**
  * Crypto struct
  * @hidden
  */
@@ -54,3 +69,4 @@ export declare enum StoreType {
     Keystore = 0,
     Key = 1
 }
+export {};

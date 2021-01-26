@@ -1,5 +1,7 @@
-export * from './types/constants';
-export { KeyDAO } from './client';
+export * as types from './types';
+export * as utils from './utils';
+export { Client, ClientConfig, KeyDAO } from './client';
+export { Crypto } from "./utils";
 import { Client, ClientConfig } from './client';
 /**
  * Initialize IRISHub SDK

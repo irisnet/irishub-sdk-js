@@ -1,9 +1,7 @@
 import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
-import * as AminoTypes from '@irisnet/amino-js/types';
-import { SdkError } from '../errors';
-import { MsgSend, MsgBurn, MsgSetMemoRegexp } from '../types/bank';
+import { SdkError, CODES } from '../errors';
 import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
@@ -25,47 +23,6 @@ export class Bank {
   }
 
   /**
-   * Get the cointype of a token
-   *
-   * @deprecated Please refer to [[asset.queryToken]]
-   * @since v0.17
-   */
-  queryCoinType(tokenName: string) {
-    throw new SdkError('Not supported');
-  }
-
-  /**
-   * Query account info from blockchain
-   * @param address Bech32 address
-   * @returns
-   * @since v0.17
-   * // TODO:
-   */
-  queryAccount(address: string): Promise<types.BaseAccount> {
-    return this.client.rpcClient.abciQuery<types.BaseAccount>(
-      'custom/acc/account',
-      {
-        Address: address,
-      }
-    );
-  }
-
-  /**
-   * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
-   * @param tokenID Identity of the token
-   * @returns
-   * @since v0.17
-   */
-  queryTokenStats(tokenID?: string): Promise<types.TokenStats> {
-    return this.client.rpcClient.abciQuery<types.TokenStats>(
-      'custom/acc/tokenStats',
-      {
-        TokenId: tokenID,
-      }
-    );
-  }
-
-  /**
    * Send coins
    * @param to Recipient bech32 address
    * @param amount Coins to be sent
@@ -82,100 +39,130 @@ export class Bank {
     if (!Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
       throw new SdkError('Invalid bech32 address');
     }
-
     const from = this.client.keys.show(baseTx.from);
-
-    const coins = await this.client.utils.toMinCoins(amount);
-    const msgs: types.Msg[] = [
-      new MsgSend([{ address: from, coins }], [{ address: to, coins }]),
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgSend,
+        value:{
+          from_address:from,
+          to_address:to,
+          amount
+        }
+      }
     ];
-
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
-   * Burn coins
-   * @param amount Coins to be burnt
+   * multiSend coins
+   * @param to Recipient bech32 address
+   * @param amount Coins to be sent
    * @param baseTx { types.BaseTx }
    * @returns
    * @since v0.17
    */
-  async burn(
+  async multiSend(
+    to: string,
     amount: types.Coin[],
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
-    const from = this.client.keys.show(baseTx.from);
-
-    const coins = await this.client.utils.toMinCoins(amount);
-    const msgs: types.Msg[] = [new MsgBurn(from, coins)];
-
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
-   * @param memoRegexp
-   * @param baseTx { types.BaseTx }
-   * @returns
-   * @since v0.17
-   */
-  async setMemoRegexp(
-    memoRegexp: string,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const from = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [new MsgSetMemoRegexp(from, memoRegexp)];
-
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Subscribe Send Txs
-   * @param conditions Query conditions for the subscription
-   * @param callback A function to receive notifications
-   * @returns
-   * @since v0.17
-   */
-  subscribeSendTx(
-    conditions: { from?: string; to?: string },
-    callback: (error?: SdkError, data?: types.EventDataMsgSend) => void
-  ): types.EventSubscription {
-    const queryBuilder = new EventQueryBuilder().addCondition(
-      new types.Condition(EventKey.Action).eq(EventAction.Send)
-    );
-
-    if (conditions.from) {
-      queryBuilder.addCondition(
-        new types.Condition(EventKey.Sender).eq(conditions.from)
-      );
+    // Validate bech32 address
+    if (!Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
+      throw new SdkError('Invalid bech32 address');
     }
-    if (conditions.to) {
-      queryBuilder.addCondition(
-        new types.Condition(EventKey.Recipient).eq(conditions.to)
-      );
-    }
-
-    const subscription = this.client.eventListener.subscribeTx(
-      queryBuilder,
-      (error, data) => {
-        if (error) {
-          callback(error);
-          return;
+    const from = this.client.keys.show(baseTx.from);
+    const coins = amount;
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgMultiSend,
+        value:{
+          inputs:[{ address: from, coins }],
+          outputs:[{ address: to, coins }],
         }
-        data?.tx.value.msg.forEach(msg => {
-          if (msg.type !== 'irishub/bank/Send') return;
-          const msgSend = msg as types.MsgSend;
-          const height = data.height;
-          const hash = data.hash;
-          msgSend.value.inputs.forEach((input: types.Input, index: number) => {
-            const from = input.address;
-            const to = msgSend.value.outputs[index].address;
-            const amount = input.coins;
-            callback(undefined, { height, hash, from, to, amount });
-          });
-        });
       }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Balance queries the balance of a single coin for a single account.
+   * @param address is the address to query balances for.
+   * @param denom is the coin denom to query balances for.
+   */
+  queryBalance(address:string, denom:string): Promise<object> {
+    if (!address) {
+      throw new SdkError("address can ont be empty");
+    }
+    if (!denom) {
+      throw new SdkError("denom can ont be empty");
+    }
+    const request = new types.bank_query_pb.QueryBalanceRequest();
+    request.setAddress(address);
+    request.setDenom(denom);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/Balance',
+      request,
+      types.bank_query_pb.QueryBalanceResponse
     );
-    return subscription;
+  }
+
+  /**
+   * AllBalances queries the balance of all coins for a single account.
+   * @param address is the address to query balances for.
+   */
+  queryAllBalances(address:string): Promise<object> {
+    if (!address) {
+      throw new SdkError("address can ont be empty");
+    }
+    const request = new types.bank_query_pb.QueryAllBalancesRequest();
+    request.setAddress(address);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/AllBalances',
+      request,
+      types.bank_query_pb.QueryAllBalancesResponse
+    );
+  }
+
+  /**
+   * TotalSupply queries the total supply of all coins.
+   */
+  queryTotalSupply(): Promise<object> {
+    const request = new types.bank_query_pb.QueryTotalSupplyRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/TotalSupply',
+      request,
+      types.bank_query_pb.QueryTotalSupplyResponse
+    );
+  }
+
+  /**
+   * SupplyOf queries the supply of a single coin.
+   * @param denom is the coin denom to query balances for.
+   */
+  querySupplyOf(denom:string): Promise<object> {
+    if (!denom) {
+      throw new SdkError("denom can ont be empty");
+    }
+    const request = new types.bank_query_pb.QuerySupplyOfRequest();
+    request.setDenom(denom);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/SupplyOf',
+      request,
+      types.bank_query_pb.QuerySupplyOfResponse
+    );
+  }
+
+  /**
+   * Params queries the parameters of x/bank module.
+   */
+  queryParams(): Promise<object> {
+    const request = new types.bank_query_pb.QueryParamsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/Params',
+      request,
+      types.bank_query_pb.QueryParamsResponse
+    );
   }
 }

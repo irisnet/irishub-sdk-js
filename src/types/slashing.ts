@@ -43,14 +43,13 @@ export interface SlashingParams {
  * Msg struct for unjailing jailed validator
  * @hidden
  */
-export class MsgUnjail implements Msg {
-  type: string;
+export class MsgUnjail extends Msg {
   value: {
     address: string;
   };
 
   constructor(address: string) {
-    this.type = 'irishub/slashing/MsgUnjail';
+    super('irishub/slashing/MsgUnjail');
     this.value = {
       address,
     };
@@ -64,9 +63,9 @@ export class MsgUnjail implements Msg {
 /** Defines the signing info for a validator */
 export interface ValidatorSigningInfo {
   address: string;
-  start_height: string;
-  index_offset: string;
-  jailed_until: string;
+  startHeight: string;
+  indexOffset: string;
+  jailedUntil: string;
   tombstoned: boolean;
-  missed_blocks_counter: string;
+  missedBlocksCounter: string;
 }

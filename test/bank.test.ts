@@ -1,171 +1,139 @@
 import * as types from '../src/types';
 import { BaseTest } from './basetest';
-import {Client} from "../src/client";
-import {SdkError} from "../src/errors";
 
 const timeout = 10000;
-let txExpect = function(res: any) {
-    console.log(JSON.stringify(res));
-    expect(res).not.toBeNull();
-    expect(res.hash).not.toBeNull();
-    expect(res.tags).not.toBeNull();
-}
 
 describe('Bank Tests', () => {
   describe('Send', () => {
-    test('send coins ok',
+    test(
+      'send coins',
       async () => {
-        const target: string = 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7';
-        const amount: types.Coin[] = [{
-            denom: 'iris-atto',
-            amount: '1000000000000000000',
-          }];
-          let client: Client = BaseTest.getClient();
-          await client.bank.send(target, amount, BaseTest.baseTx
-          ).then(res => {
-            txExpect(res);
-            expect(res.tags == undefined? '': res.tags.filter(kv=>kv.key=='sender')[0].value).toEqual(client.keys.show(BaseTest.baseTx.from));
-            expect(res.tags == undefined? '': res.tags.filter(kv=>kv.key=='recipient')[0].value).toEqual(target);
-          }).catch(error => {
+        const amount: types.Coin[] = [
+          {
+            denom: 'ubif',
+            amount: '313',
+          },
+        ];
+
+        await BaseTest.getClient()
+          .bank.send(
+            'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            amount,
+            BaseTest.baseTx
+          )
+          .then(res => {
+            console.log(res);
+          })
+          .catch(error => {
             console.log(error);
-            expect(error).toBeNull();
           });
-      }, timeout);
-      test('send coins failed as fund not enough',
-          async () => {
-              const target: string = 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7';
-              const amount: types.Coin[] = [{
-                      denom: 'iris-atto',
-                      amount: '100000000000000000000000000000000000',
-                  }];
-              let client: Client = BaseTest.getClient();
-              await client.bank.send(target, amount, BaseTest.baseTx
-              ).catch(error => {
-                  console.log(error);
-                  expect(error).not.toBeNull();
-                  expect(error.code).toEqual(10); // the message of code: 10 is "subtracting [100000000000000000000000000000000000iris-atto] from [1729814657319195035637027iris-atto,99999999999000000000000000000kbambo-min,995kflower-min,13700000000000000000000000000kfly-min,999899000mondex.sun-min] yields negative coin(s)"
-              });
-          }, timeout);
-      test('send coins failed as unknown token',
-          async () => {
-              const target: string = 'faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7';
-              const amount: types.Coin[] = [{
-                      denom: 'iris-attoooooooooooooooooo',
-                      amount: '1000000000000000000',
-                  }];
-              let client: Client = BaseTest.getClient();
-              await client.bank.send(target, amount, BaseTest.baseTx
-              ).catch(error => {
-                  console.log(error);
-                  expect(error).not.toBeNull();
-                  expect(error.code).toEqual(6);
-              });
-          }, timeout);
-      test('send coins failed as target address wrong',
-          async () => {
-            const target: string = 'faa1nl2dxgelxu9ektxypyul8cdjp0x3k';
-            const amount: types.Coin[] = [{
-                    denom: 'iris-atto',
-                    amount: '1000000000000000000',
-                }];
-            await BaseTest.getClient().bank.send(target, amount, BaseTest.baseTx).catch(error => {
-                console.log(error);
-                expect(() => {throw error}).toThrowError(new SdkError('Invalid bech32 address'));
-            })
-          }, timeout);
+      },
+      timeout
+    );
   });
 
-  describe('Burn', () => {
-    test('burn coins ok',
+  describe('multiSend', () => {
+    test(
+      'send coins',
       async () => {
-        const amount: types.Coin[] = [{
-            denom: 'iris-atto',
-            amount: '100000000000000000',
-          }];
-        await BaseTest.getClient().bank.burn(amount, BaseTest.baseTx)
-          .then(res => {
-            txExpect(res);
-            expect(res.tags == undefined? '': res.tags.filter(kv=>kv.key=='burnAmount')[0].value).toEqual(`${amount[0].amount}${amount[0].denom}`);
-          }).catch(error => {
-            console.log(error);
-            expect(error).toBeNull();
-          });
-      }, timeout);
-    test('burn coins failed as unknown token',
-        async () => {
-            const amount: types.Coin[] = [{
-                denom: 'iris-at',
-                amount: '100000000000000000',
-            }];
-            await BaseTest.getClient().bank.burn(amount, BaseTest.baseTx).catch(error => {
-                    console.log(error);
-                    expect(() => {throw error}).toThrowError(new SdkError('Bad Request', 6));
-                });
-        }, timeout);
-      test('burn coins failed as fund not enough',
-          async () => {
-              const amount: types.Coin[] = [{
-                  denom: 'iris-atto',
-                  amount: '100000000000000000000000000000000000',
-              }];
-              await BaseTest.getClient().bank.burn(amount, BaseTest.baseTx).catch(error => {
-                      console.log(error);
-                      expect(() => {throw error}).toThrowError(SdkError);
-                  });
-          }, timeout);
-});
+        const amount: types.Coin[] = [
+          {
+            denom: 'ubif',
+            amount: '1',
+          },
+        ];
 
-  describe('Set Memo Regexp', () => {
-    test('set memo regexp ok',
-      async () => {
-        let reg = 'test*';
-        await BaseTest.getClient().bank.setMemoRegexp(reg, BaseTest.baseTx)
+        await BaseTest.getClient()
+          .bank.multiSend(
+            'iaa1gytgufwqkz9tmhjgljfxd3qcwpdzymj6022q3w',
+            amount,
+            BaseTest.baseTx
+          )
           .then(res => {
-            txExpect(res);
-            expect(res.tags == undefined? '': res.tags.filter(kv=>kv.key=='memoRegexp')[0].value).toEqual(reg);
-          }).catch(error => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
             console.log(error);
-            expect(error).toBeNull();
           });
-      }, timeout);
-      test('set memo regexp failed as memo too length',
-          async () => {
-              let reg = 'test11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111*';
-              await BaseTest.getClient().bank.setMemoRegexp(reg, BaseTest.baseTx).catch(error => {
-                      console.log(error);
-                      expect(() => {throw error}).toThrowError(SdkError);
-                  });
-          }, timeout);
+      },
+      timeout
+    );
   });
 
-  describe('Query Token Stats', () => {
-    test('query single token stats',
+  describe('Queries', () => {
+    test(
+      'query Balance',
       async () => {
         await BaseTest.getClient()
-          .bank.queryTokenStats('iris')
+          .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
           .then(res => {
             console.log(JSON.stringify(res));
-            expect(res).not.toBeNull();
-            expect(res).toHaveLength(1);
-          }).catch(error => {
+          })
+          .catch(error => {
             console.log(error);
-            expect(error).toBeNull();
           });
-      }, timeout);
+      },
+      timeout
+    );
 
-    test('query all token stats',
+    test(
+      'query All Balances',
       async () => {
         await BaseTest.getClient()
-          .bank.queryTokenStats()
+          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
           .then(res => {
             console.log(JSON.stringify(res));
-            expect(res).not.toBeNull();
-            expect(res.total_supply.length).toBeGreaterThan(0);
-            expect(res.bonded_tokens).toBeNull();
-          }).catch(error => {
+          })
+          .catch(error => {
             console.log(error);
-            expect(error).toBeNull();
           });
-      }, timeout);
+      },
+      timeout
+    );
+
+    test(
+      'query Total Supply',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryTotalSupply()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+    
+    test(
+      'query Supply Of',
+      async () => {
+        await BaseTest.getClient()
+          .bank.querySupplyOf('btc')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query All Balances',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryParams()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
   });
 });

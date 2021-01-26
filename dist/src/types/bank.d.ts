@@ -4,42 +4,38 @@ import { Coin, Msg, Pubkey } from './types';
  *
  * @hidden
  */
-export declare class MsgSend implements Msg {
-    type: string;
+export declare class MsgSend extends Msg {
+    value: {
+        from_address: string;
+        to_address: string;
+        amount: Coin[];
+    };
+    constructor(msg: {
+        from_address: string;
+        to_address: string;
+        amount: Coin[];
+    });
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
+}
+/**
+ * Msg for sending coins
+ *
+ * @hidden
+ */
+export declare class MsgMultiSend extends Msg {
     value: {
         inputs: Input[];
         outputs: Output[];
     };
-    constructor(inputs: Input[], outputs: Output[]);
-    getSignBytes(): object;
-}
-/**
- * Msg for burning coins
- *
- * @hidden
- */
-export declare class MsgBurn implements Msg {
-    type: string;
-    value: {
-        owner: string;
-        coins: Coin[];
-    };
-    constructor(owner: string, coins: Coin[]);
-    getSignBytes(): object;
-}
-/**
- * Msg for setting memo regexp for an address
- *
- * @hidden
- */
-export declare class MsgSetMemoRegexp implements Msg {
-    type: string;
-    value: {
-        owner: string;
-        memo_regexp: string;
-    };
-    constructor(owner: string, memoRegexp: string);
-    getSignBytes(): object;
+    constructor(msg: {
+        inputs: Input[];
+        outputs: Output[];
+    });
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
 }
 /** Base input and output struct */
 export interface InputOutput {
@@ -53,17 +49,6 @@ export interface Input extends InputOutput {
 /** Output implemention of [[InputOutput]] */
 export interface Output extends InputOutput {
 }
-/** Token statistics */
-export interface TokenStats {
-    /** Non bonded tokens */
-    loose_tokens: Coin[];
-    /** Bonded tokens */
-    bonded_tokens: Coin[];
-    /** Burned tokens */
-    burned_tokens: Coin[];
-    /** Total supply */
-    total_supply: Coin[];
-}
 export interface EventDataMsgSend {
     height: string;
     hash: string;
@@ -71,7 +56,7 @@ export interface EventDataMsgSend {
     to: string;
     amount: Coin[];
 }
-export interface BaseAccount {
+export interface Account {
     /** Bech32 account address */
     address: string;
     coins: Coin[];

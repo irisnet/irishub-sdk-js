@@ -1,112 +1,222 @@
-import { BaseTest } from './basetest';
+import {BaseTest} from './basetest';
 import * as types from '../src/types';
 
 describe('Distribution Tests', () => {
-  describe('Query Rewards', () => {
-    test(
-      'query rewards',
-      async () => {
-        await BaseTest.getClient().distribution
-          .queryRewards('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7')
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
-  });
+    let timeOut = 9999;
+    describe('Query', () => {
+        test(
+            'query Params',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryParams()
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-  describe('Query Withdraw Address', () => {
-    test(
-      'query withdraw-addr',
-      async () => {
-        await BaseTest.getClient().distribution
-          .queryWithdrawAddr('iaa1gvq24a5vn7twjupf3l2t7pnd9l4fm7uwwm4ujp')
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
-  });
+        test(
+            'query Validator Outstanding Rewards',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryValidatorOutstandingRewards('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
+        test(
+            'query Validator Commission',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-  describe('Set Withdraw Address', () => {
-    test(
-      'set withdraw address',
-      async () => {
-        const amount: types.Coin[] = [
-          {
-            denom: 'iris-atto',
-            amount: '1000000000000000000',
-          },
-        ];
+        test(
+            'query Validator Slashes',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryValidatorSlashes(
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
 
-        await BaseTest.getClient().distribution
-          .setWithdrawAddr('faa1nl2dxgelxu9ektxypyul8cdjp0x3ksfqcgxhg7', BaseTest.baseTx)
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
-  });
+                    )
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-  describe('Withdraw Rewards', () => {
-    test(
-      'withdraw delegation rewards from a specified validator',
-      async () => {
+        test(
+            'query Delegation Rewards',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegationRewards(
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-        await BaseTest.getClient()
-          .distribution.withdrawRewards(
-            BaseTest.baseTx,
-            'fva1nl2dxgelxu9ektxypyul8cdjp0x3ksfqdevc4e'
-          )
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
+        test(
+            'query Delegation Total Rewards',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegationTotalRewards(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-    test(
-      'withdraw all delegation rewards',
-      async () => {
-        await BaseTest.getClient()
-          .distribution.withdrawRewards(BaseTest.baseTx)
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
+        test(
+            'query Delegator Validators',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegatorValidators(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
 
-    test(
-      'withdraw all rewards (delegation and validator commission)',
-      async () => {
-        await BaseTest.getClient()
-          .distribution.withdrawRewards(
-            BaseTest.baseTx,
-            'fva1gwr3espfjtz9su9x40p635dgfvm4ph9v048een',
-            true
-          )
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
-  });
+        test(
+            'query Delegator Withdraw Address',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryDelegatorWithdrawAddress(
+                        'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'query Community Pool',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryCommunityPool()
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+        
+    });
+
+    describe('withdraw Validator Commission', () => {
+        test(
+            'withdraw Validator Commission',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .withdrawValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+    });
+
+    describe('fund Community Pool', () => {
+        test(
+            'fund Community Pool',
+            async () => {
+                const amount: types.Coin[] = [
+                    {
+                        denom: 'stake',
+                        amount: '1',
+                    },
+                ];
+                await BaseTest.getClient().distribution
+                    .fundCommunityPool(amount, BaseTest.baseTx)
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+    });
+
+    describe('Set Withdraw Address', () => {
+        test(
+            'set withdraw address',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .setWithdrawAddr('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp', BaseTest.baseTx)
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            timeOut
+        );
+    });
+
+    describe('Withdraw Rewards', () => {
+        test(
+            'withdraw delegation rewards from a specified validator',
+            async () => {
+
+                await BaseTest.getClient()
+                    .distribution.withdrawRewards(
+                        'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+                        BaseTest.baseTx,
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            timeOut
+        );
+    });
 });

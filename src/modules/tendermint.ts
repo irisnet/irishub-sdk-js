@@ -1,11 +1,10 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { unmarshalTx, marshalPubKey } from '@irisnet/amino-js';
-import { base64ToBytes } from '@tendermint/belt';
 import { Utils, Crypto } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
+import { SdkError, CODES } from '../errors';
 
 /**
  * Tendermint module provides tendermint rpc queriers implementation
@@ -35,10 +34,10 @@ export class Tendermint {
         // Decode txs
         if (res.block && res.block.data && res.block.data.txs) {
           const txs: string[] = res.block.data.txs;
-          const decodedTxs = new Array<types.Tx<types.StdTx>>();
+          const decodedTxs = new Array();
           txs.forEach(msg => {
             decodedTxs.push(
-              unmarshalTx(base64ToBytes(msg)) as types.Tx<types.StdTx>
+              this.client.protobuf.deserializeTx(msg)
             );
           });
           res.block.data.txs = decodedTxs;
@@ -98,7 +97,7 @@ export class Tendermint {
       .then(res => {
         // Decode tags and tx
         res.tx_result.tags = Utils.decodeTags(res.tx_result.tags);
-        res.tx = unmarshalTx(base64ToBytes(res.tx)) as types.Tx<types.StdTx>;
+        res.tx = this.client.protobuf.deserializeTx(res.tx);
         return res as types.QueryTxResult;
       });
   }
@@ -109,8 +108,15 @@ export class Tendermint {
    * @returns
    * @since v0.17
    */
-  queryValidators(height?: number): Promise<types.QueryValidatorResult> {
-    const params = height ? { height: String(height) } : {};
+  queryValidators(
+    height?: number,
+    page?: number,
+    size?: number
+    ): Promise<types.QueryValidatorResult> {
+    const params:any = {};
+    if (height) { params.height = String(height) }
+    if (page) { params.page = String(page) }
+    if (size) { params.per_page = String(size) }
     return this.client.rpcClient
       .request<any>(RpcMethods.Validators, params)
       .then(res => {
@@ -125,7 +131,7 @@ export class Tendermint {
               this.client.config.bech32Prefix.ConsAddr
             );
             const bech32Pubkey = Crypto.encodeAddress(
-              Utils.ab2hexstring(marshalPubKey(v.pub_key, false)),
+              Crypto.aminoMarshalPubKey(v.pub_key, false),
               this.client.config.bech32Prefix.ConsPub
             );
             result.validators.push({
@@ -167,12 +173,27 @@ export class Tendermint {
           // Decode tags and txs
           res.txs.forEach((tx: any) => {
             tx.tx_result.tags = Utils.decodeTags(tx.tx_result.tags);
-            tx.tx = unmarshalTx(base64ToBytes(tx.tx));
+            tx.tx = this.client.protobuf.deserializeTx(tx.tx);
             txs.push(tx);
           });
           res.txs = txs;
         }
         return res as types.SearchTxsResult;
       });
+  }
+
+  /**
+   * query Net Info
+   *
+   * @returns
+   * @since v0.17
+   */
+  queryNetInfo(): Promise<{
+    listening:boolean,
+    listeners:string[],
+    n_peers:string,
+    peers:any[]
+  }> {
+    return this.client.rpcClient.request<any>(RpcMethods.NetInfo, {});
   }
 }

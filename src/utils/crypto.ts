@@ -5,12 +5,15 @@ import * as uuid from 'uuid';
 import * as is from 'is_js';
 import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
-import { ec as EC } from 'elliptic';
+import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
-import { SdkError } from '../errors';
-import { marshalTx } from '@irisnet/amino-js';
+import { SdkError, CODES } from '../errors';
+
+const Sha256 = require('sha256');
+const Secp256k1 = require('secp256k1');
+const SM2 = require('sm-crypto').sm2;
 
 /**
  * Crypto Utils
@@ -21,12 +24,9 @@ export class Crypto {
   static PRIVKEY_LEN = 32;
   static MNEMONIC_LEN = 256;
   static DECODED_ADDRESS_LEN = 20;
-  static CURVE = 'secp256k1';
 
   //hdpath
   static HDPATH = "44'/118'/0'/0/";
-
-  static ec = new EC(Crypto.CURVE);
 
   /**
    * Decodes an address in bech32 format.
@@ -67,13 +67,13 @@ export class Crypto {
 
   /**
    * Encodes an address from input data bytes.
-   * @param pubkey The public key to encode
+   * @param pubkeyHash The public key to encode
    * @param hrp The address prefix
    * @param type The output type (default: hex)
    * @returns Bech32 address
    */
-  static encodeAddress(pubkey: string, hrp = 'iaa', type = 'hex') {
-    const words = bech32.toWords(Buffer.from(pubkey, type));
+  static encodeAddress(pubkeyHash: string, hrp = 'iaa', type = 'hex') {
+    const words = bech32.toWords(Buffer.from(pubkeyHash, type));
     return bech32.encode(hrp, words);
   }
 
@@ -117,58 +117,95 @@ export class Crypto {
   }
 
   /**
-   * Gets the pubkey hexstring
-   * @param publicKey Encoded public key
-   * @returns Public key hexstring
+   * Calculates the full public key from a given private key.
+   * @param privateKeyHex The private key hexstring
+   * @param type Pubkey Type
+   * @returns Public key {type:type, value:hexstring}
    */
-  static getPublicKey(publicKey: string): string {
-    const keyPair = Crypto.ec.keyFromPublic(publicKey, 'hex');
-    return keyPair.getPublic();
+  static getFullPublicKeyFromPrivateKey(
+    privateKeyHex: string, 
+    type:types.PubkeyType = types.PubkeyType.secp256k1
+    ): types.Pubkey {
+    if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
+      throw new SdkError('invalid privateKey',CODES.KeyNotFound);
+    }
+    let pubKey:string = '';
+    switch(type){
+      case types.PubkeyType.ed25519:
+      throw new SdkError("not implement",CODES.Panic);
+      case types.PubkeyType.sm2:
+      pubKey = SM2.getPublicKeyFromPrivateKey(privateKeyHex);
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+      const secp256k1pubkey = new EC('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+      pubKey = secp256k1pubkey.encode('hex');
+      break;
+    }
+    return { type:type, value:pubKey };
   }
 
   /**
    * Calculates the public key from a given private key.
    * @param privateKeyHex The private key hexstring
-   * @returns Public key hexstring
+   * @param type Pubkey Type
+   * @returns Public key {type:type, value:hexstring}
    */
-  static getPublicKeyFromPrivateKey(privateKeyHex: string): string {
+  static getPublicKeyFromPrivateKey(
+    privateKeyHex: string, 
+    type:types.PubkeyType = types.PubkeyType.secp256k1
+    ): types.Pubkey {
     if (!privateKeyHex || privateKeyHex.length !== Crypto.PRIVKEY_LEN * 2) {
-      throw new SdkError('invalid privateKey');
+      throw new SdkError('invalid privateKey',CODES.KeyNotFound);
     }
-    const curve = new EC(Crypto.CURVE);
-    const keypair = curve.keyFromPrivate(privateKeyHex, 'hex');
-    const unencodedPubKey = keypair.getPublic().encode('hex');
-    return unencodedPubKey;
+    let pubKey:string = '';
+    switch(type){
+      case types.PubkeyType.ed25519:
+      throw new SdkError("not implement",CODES.Panic);
+      case types.PubkeyType.sm2:
+      pubKey =  SM2.getPublicKeyFromPrivateKey(privateKeyHex, 'compress');
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+      const secp256k1pubkey = new EC('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
+      pubKey = Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
+      break;
+    }
+    return { type:type, value:pubKey }
   }
 
   /**
-   * Calculates the Secp256k1 public key from a given private key.
-   * @param privateKeyHex The private key hexstring
-   * @returns Tendermint public key
+   * [marshalPubKey description]
+   * @param  {[type]} pubKey:{type: types.PubkeyType, value:base64String} Tendermint public key
+   * @param  {[type]} lengthPrefixed:boolean length prefixed
+   * @return {[type]} pubKey hexString public key with amino prefix
    */
-  static getPublicKeySecp256k1FromPrivateKey(
-    privateKeyHex: string
-  ): types.Pubkey {
-    const publicKeyHex = Crypto.getPublicKeyFromPrivateKey(privateKeyHex);
-    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-    const pubPoint = pubKey.getPublic();
-    const compressed = pubPoint.encodeCompressed();
-    return {
-      type: 'tendermint/PubKeySecp256k1',
-      value: Buffer.from(compressed).toString('base64'),
-    };
-  }
-
-  /**
-   * PubKey performs the point-scalar multiplication from the privKey on the
-   * generator point to get the pubkey.
-   * @param privateKey
-   * @returns Public key hexstring
-   */
-  static generatePubKey(privateKey: Buffer): string {
-    const curve = new EC(Crypto.CURVE);
-    const keypair = curve.keyFromPrivate(privateKey);
-    return keypair.getPublic();
+  static aminoMarshalPubKey(
+    pubKey:types.Pubkey, 
+    lengthPrefixed?:boolean):string{
+    const { type, value } = pubKey;
+    let pubKeyType = '';
+    switch (type){
+      case types.PubkeyType.secp256k1:
+      pubKeyType = 'tendermint/PubKeySecp256k1';
+      break;
+      case types.PubkeyType.ed25519:
+      pubKeyType = 'tendermint/PubKeyEd25519';
+      break;
+      case types.PubkeyType.sm2:
+      pubKeyType = 'tendermint/PubKeySm2';
+      break;
+      default:
+      pubKeyType = type;
+      break;
+    }
+    let pk:any = Utils.getAminoPrefix(pubKeyType);
+    pk = pk.concat(Buffer.from(value,'base64').length);
+    pk = pk.concat(Array.from(Buffer.from(value,'base64')));
+    if (lengthPrefixed) {
+      pk = [pk.length,...pk];
+    }
+    return Buffer.from(pk).toString('hex');
   }
 
   /**
@@ -178,49 +215,41 @@ export class Crypto {
    *
    * @returns The address
    */
-  static getAddressFromPublicKey(publicKeyHex: string, prefix: string): string {
-    const pubKey = Crypto.ec.keyFromPublic(publicKeyHex, 'hex');
-    const pubPoint = pubKey.getPublic();
-    const compressed = pubPoint.encodeCompressed();
-    const hexed = Utils.ab2hexstring(compressed);
-    const hash = Utils.sha256ripemd160(hexed); // https://git.io/fAn8N
-    const address = Crypto.encodeAddress(hash, prefix);
-    return address;
+  static getAddressFromPublicKey(publicKey: string|types.Pubkey, prefix: string): string {
+    if (typeof publicKey == 'string') {
+      publicKey = {type:types.PubkeyType.secp256k1, value:publicKey};
+    }
+    let hash:string = ''; 
+    switch(publicKey.type){
+      case types.PubkeyType.ed25519:
+      throw new SdkError("not implement",CODES.Panic);
+      case types.PubkeyType.sm2:
+      hash = Utils.sha256(publicKey.value).substr(0,40);
+      break;
+      case types.PubkeyType.secp256k1:
+      default:
+      hash = Utils.sha256ripemd160(publicKey.value);
+      break;
+    }
+    return Crypto.encodeAddress(hash, prefix);;
   }
 
   /**
    * Gets an address from a private key.
    * @param privateKeyHex The private key hexstring
    * @param prefix Bech32 prefix
+   * @param type Pubkey Type
    * @returns The address
    */
   static getAddressFromPrivateKey(
     privateKeyHex: string,
-    prefix: string
+    prefix: string,
+    type:types.PubkeyType = types.PubkeyType.secp256k1
   ): string {
     return Crypto.getAddressFromPublicKey(
-      Crypto.getPublicKeyFromPrivateKey(privateKeyHex),
-      prefix
+      Crypto.getPublicKeyFromPrivateKey(privateKeyHex, type),
+      prefix,
     );
-  }
-
-  /**
-   * Generates a signature (64 byte <r,s>) for a transaction based on given private key.
-   * @param signBytesHex Unsigned transaction sign bytes hexstring.
-   * @param privateKey The private key.
-   * @returns Signature. Does not include tx.
-   */
-  static generateSignature(
-    signBytesHex: string,
-    privateKey: string | Buffer
-  ): Buffer {
-    const msgHash = Utils.sha256(signBytesHex);
-    const msgHashHex = Buffer.from(msgHash, 'hex');
-    const signature = ecc.sign(
-      msgHashHex,
-      Buffer.from(privateKey.toString(), 'hex')
-    ); // enc ignored if buffer
-    return signature;
   }
 
   /**
@@ -230,18 +259,54 @@ export class Crypto {
    * @param publicKeyHex The public key.
    * @returns Signature. Does not include tx.
    */
-  static verifySignature(
-    sigHex: string,
-    signBytesHex: string,
-    publicKeyHex: string
-  ): string {
-    const publicKey = Buffer.from(publicKeyHex, 'hex');
-    if (!ecc.isPoint(publicKey)) {
-      throw new SdkError('Invalid public key provided');
-    }
-    const msgHash = Utils.sha256(signBytesHex);
-    const msgHashHex = Buffer.from(msgHash, 'hex');
-    return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
+  // static verifySignature(
+  //   sigHex: string,
+  //   signBytesHex: string,
+  //   publicKeyHex: string
+  // ): string {
+  //   const publicKey = Buffer.from(publicKeyHex, 'hex');
+  //   if (!ecc.isPoint(publicKey)) {
+  //     throw new SdkError('Invalid public key provided');
+  //   }
+  //   const msgHash = Utils.sha256(signBytesHex);
+  //   const msgHashHex = Buffer.from(msgHash, 'hex');
+  //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
+  // }
+
+  /**
+   * Generates a signature (base64 string) for a signDocSerialize based on given private key.
+   * @param signDocSerialize from protobuf and tx.
+   * @param privateKey The private key.
+   * @param type Pubkey Type.
+   * @returns Signature. Does not include tx.
+   */
+ static generateSignature(
+  signDocSerialize:Uint8Array, 
+  private_key:string, 
+  type:types.PubkeyType = types.PubkeyType.secp256k1
+  ):string {
+      let signature:string = '';
+      switch(type){
+        case types.PubkeyType.ed25519:
+        throw new SdkError("not implement",CODES.Panic);
+        case types.PubkeyType.sm2:
+        const sm2Sig = SM2.doSignature(
+          Buffer.from(signDocSerialize),
+          private_key, 
+          {hash:true}
+        );
+        signature = Buffer.from(sm2Sig, 'hex').toString('base64');
+        break;
+        case types.PubkeyType.secp256k1:
+        default:
+        const msghash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
+        let prikeyArr:Buffer = Buffer.from(private_key,'hex');
+        let Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
+        signature = Secp256k1Sig.signature.toString('base64');
+        break;
+      }
+      if (!signature) { throw Error(' generate Signature error ') }
+      return signature;
   }
 
   /**
@@ -279,7 +344,7 @@ export class Crypto {
     );
     const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
     if (!cipher) {
-      throw new SdkError('Unsupported cipher');
+      throw new SdkError('Unsupported cipher',CODES.Internal);
     }
 
     const ciphertext = Buffer.concat([
@@ -319,7 +384,7 @@ export class Crypto {
     password: string
   ): string {
     if (!is.string(password)) {
-      throw new SdkError('No password given.');
+      throw new SdkError('No password given.',CODES.InvalidPassword);
     }
 
     const json = is.object(keystore)
@@ -328,7 +393,7 @@ export class Crypto {
     const kdfparams = json.crypto.kdfparams;
 
     if (kdfparams.prf !== 'hmac-sha256') {
-      throw new SdkError('Unsupported parameters to PBKDF2');
+      throw new SdkError('Unsupported parameters to PBKDF2',CODES.Internal);
     }
 
     const derivedKey = cryp.pbkdf2Sync(
@@ -349,7 +414,8 @@ export class Crypto {
       const macLegacy = Utils.sha256(bufferValue.toString('hex'));
       if (macLegacy !== json.crypto.mac) {
         throw new SdkError(
-          'Keystore mac check failed (sha3 & sha256) wrong password?'
+          'Keystore mac check failed (sha3 & sha256) wrong password?',
+          CODES.Internal
         );
       }
     }
@@ -393,12 +459,12 @@ export class Crypto {
    */
   static getPrivateKeyFromMnemonic(
     mnemonic: string,
-    derive = true,
     index = 0,
+    derive = true,
     password = ''
   ): string {
     if (!bip39.validateMnemonic(mnemonic)) {
-      throw new SdkError('wrong mnemonic format');
+      throw new SdkError('wrong mnemonic format',CODES.InvalidMnemonic);
     }
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     if (derive) {
@@ -408,7 +474,7 @@ export class Crypto {
         typeof child === 'undefined' ||
         typeof child.privateKey === 'undefined'
       ) {
-        throw new SdkError('error getting private key from mnemonic');
+        throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
       }
       return child.privateKey.toString('hex');
     }
@@ -417,11 +483,24 @@ export class Crypto {
 
   /**
    * Generate Tx hash from stdTx
-   * @param tx
-   * @throws if the tx is invlid of unsupported tx type
+   * @param  protobuf tx :base64 string
+   * @throws tx hash
    */
-  static generateTxHash(tx: types.Tx<types.StdTx>): string {
-    return Utils.sha256(Utils.ab2hexstring(marshalTx(tx))).toUpperCase();
+  static generateTxHash(tx: string): string {
+    if (!tx || typeof tx != 'string') {
+      throw new SdkError('invalid tx',CODES.TxParseError);
+    }
+    const tx_pb = types.tx_tx_pb.Tx.deserializeBinary(tx);
+    if (!tx_pb) {
+      throw new SdkError('deserialize tx err',CODES.TxParseError);
+    }
+    const txRaw = new types.tx_tx_pb.TxRaw();
+    txRaw.setBodyBytes(tx_pb.getBody().serializeBinary());
+    txRaw.setAuthInfoBytes(tx_pb.getAuthInfo().serializeBinary());
+    tx_pb.getSignaturesList().forEach((signature:Uint8Array)=>{
+        txRaw.addSignatures(signature);
+    })
+    return (Sha256(txRaw.serializeBinary()) || '').toUpperCase();
   }
 
   /**

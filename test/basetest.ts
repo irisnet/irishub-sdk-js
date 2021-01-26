@@ -1,5 +1,4 @@
 import * as iris from '../src';
-import * as types from '../src/types';
 import { Client } from '../src/client';
 
 export class Consts {
@@ -10,11 +9,11 @@ export class Consts {
 
 /** Test KeyDAO */
 export class TestKeyDAO implements iris.KeyDAO {
-  keyMap: { [key: string]: types.Key } = {};
-  write(name: string, key: types.Key) {
+  keyMap: { [key: string]: iris.types.Wallet } = {};
+  write(name: string, key: iris.types.Wallet) {
     this.keyMap[name] = key;
   }
-  read(name: string): types.Key {
+  read(name: string): iris.types.Wallet {
     return this.keyMap[name];
   }
   delete(name: string) {
@@ -23,52 +22,49 @@ export class TestKeyDAO implements iris.KeyDAO {
 }
 
 export class BaseTest {
-  static baseTx: types.BaseTx = {
+  static baseTx: iris.types.BaseTx = {
     from: Consts.keyName,
     password: Consts.keyPassword,
-    mode: types.BroadcastMode.Commit,
-    fee: { amount: '1', denom: 'iris' }
+    mode: iris.types.BroadcastMode.Commit,
+    // pubkeyType:types.PubkeyType.sm2
   };
+
   static getClient(): Client {
+    let config = {
+        node: 'http://192.168.150.31:56657',
+        network: iris.types.Network.Mainnet,
+        chainId: 'bifrost-2',
+        gas: '20000000',
+        fee: { denom: 'ubif', amount: '200' },
+    };
+    let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
+
+    // let config = {
+    //     node: 'http://34.80.22.255:26657',
+    //     network: iris.types.Network.Mainnet,
+    //     chainId: 'bifrost-1',
+    //     gas: '200000',
+    //     fee: { denom: 'ubif', amount: '5000' },
+    // };
+    // let privateKey = '80A69946ADD77EF0C17F43E72E759164F6F0A2A7E9D5D3E0966A3BCA8DE3D177'
+
     const client = iris
-      .newClient({
-        node: 'http://localhost:26657',
-        network: iris.Network.Testnet,
-        chainId: 'test',
-        gas: '100000',
-      })
+      .newClient(config)
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'balcony reopen dumb battle smile crisp snake truth expose bird thank peasant best opera faint scorpion debate skill ethics fossil dinner village news logic'
+      'next review tape teach walnut cash crater evidence ketchup sister lyrics defy pioneer wisdom property arch film damage near link avoid panda vacant suggest'
     );
-    return client;
-  }
-  static getDevClient(): Client{
-    const client = iris.newClient({
-      node: 'http://irisnet-rpc.dev.rainbow.one',
-      network: iris.Network.Testnet,
-      chainId: 'rainbow-dev',
-      gas: '100000'
-    }).withKeyDAO(new TestKeyDAO())
-    .withRpcConfig({timeout: Consts.timeout});
-    client.keys.recover(this.baseTx.from, this.baseTx.password,
-        'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success');
-    return client;
-  }
-  static getQaClient(): Client{
-    const client = iris.newClient({
-      node: 'http://irisnet-rpc.qa.rainbow.one',
-      network: iris.Network.Testnet,
-      chainId: 'rainbow-qa',
-      gas: '100000'
-    }).withKeyDAO(new TestKeyDAO())
-        .withRpcConfig({timeout: Consts.timeout});
-    client.keys.recover(this.baseTx.from, this.baseTx.password,
-        'arrow ignore inquiry lottery high ship crash leopard liar example never oval final fancy resist nuclear trip novel poem fine odor soccer bus lumber');
+
+    // client.keys.importPrivateKey(
+    //   Consts.keyName,
+    //   Consts.keyPassword,
+    //   privateKey,
+    //   types.PubkeyType.sm2
+    // );
     return client;
   }
 }

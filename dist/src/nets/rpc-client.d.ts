@@ -1,11 +1,13 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 /**
  * Tendermint JSON RPC Client
  * @since v0.17
  */
 export declare class RpcClient {
     /** @hidden */
-    instance: AxiosInstance;
+    private instance;
+    /** @hidden */
+    private config;
     /**
      * Initialize Tendermint JSON RPC Client
      * @param url Rpc address of irishub node
@@ -23,6 +25,16 @@ export declare class RpcClient {
      * @since v0.17
      */
     request<T>(method: string, params?: object): Promise<T>;
+    /**
+     * Tendermint ABCI protobuf Query
+     *
+     * @param path Querier path
+     * @param protoRequest protobuf Request
+     * @param protoResponse protobuf Response so if "protoResponse" exists, well deserialize "ABCI Response" with "protoResponse" and return json object, else return base64 string
+     * @returns
+     * @since v0.17
+     */
+    protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any>;
     /**
      * Tendermint ABCI Query
      *

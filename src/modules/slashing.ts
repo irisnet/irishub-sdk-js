@@ -1,14 +1,9 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { MsgUnjail } from '../types/slashing';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import { StoreKeys } from '../utils';
-import {
-  unmarshalValidatorSigningInfo,
-  encodeBech32,
-  decodeBech32,
-} from '@irisnet/amino-js';
-import { base64ToBytes } from '@tendermint/belt';
+import * as Bech32 from 'bech32';
 
 /**
  * In Proof-of-Stake blockchain, validators will get block provisions by staking their token.
@@ -38,7 +33,7 @@ export class Slashing {
     //   'custom/slashing/parameters'
     // );
 
-    throw new SdkError('Not supported');
+    throw new SdkError('Not supported',CODES.Internal);
   }
 
   /**
@@ -59,9 +54,7 @@ export class Slashing {
         if (!res || !res.response || !res.response.value) {
           throw new SdkError('Validator not found');
         }
-        return unmarshalValidatorSigningInfo(
-          base64ToBytes(res.response.value)
-        ) as types.ValidatorSigningInfo;
+        return this.client.protobuf.deserializeSigningInfo(res.response.value) as types.ValidatorSigningInfo;
       });
   }
 
@@ -73,10 +66,10 @@ export class Slashing {
    */
   async unjail(baseTx: types.BaseTx): Promise<types.TxResult> {
     const val = this.client.keys.show(baseTx.from);
-    const [hrp, bytes] = decodeBech32(val);
-    const validatorAddr = encodeBech32(
+    const words = Bech32.decode(val).words;    
+    const validatorAddr = Bech32.encode(
       this.client.config.bech32Prefix.ValAddr,
-      bytes
+      words
     );
     const msgs: types.Msg[] = [new MsgUnjail(validatorAddr)];
 

@@ -146,8 +146,7 @@ export interface ParameterChangeProposal extends BaseProposal {
  * Msg struct for submitting a ParameterChangeProposal
  * @hidden
  */
-export declare class MsgSubmitParameterChangeProposal implements Msg {
-    type: string;
+export declare class MsgSubmitParameterChangeProposal extends Msg {
     value: ParameterChangeProposal;
     constructor(params: ParameterChangeProposal);
     getSignBytes(): object;
@@ -163,8 +162,7 @@ export interface PlainTextProposal extends BaseProposal {
  * Msg struct for submitting a PlainTextProposal
  * @hidden
  */
-export declare class MsgSubmitPlainTextProposal implements Msg {
-    type: string;
+export declare class MsgSubmitPlainTextProposal extends Msg {
     value: PlainTextProposal;
     constructor(params: PlainTextProposal);
     getSignBytes(): object;
@@ -183,8 +181,7 @@ export interface CommunityTaxUsageProposal extends BaseProposal {
  * Msg struct for submitting a CommunityTaxUsageProposal
  * @hidden
  */
-export declare class MsgSubmitCommunityTaxUsageProposal implements Msg {
-    type: string;
+export declare class MsgSubmitCommunityTaxUsageProposal extends Msg {
     value: CommunityTaxUsageProposal;
     constructor(params: CommunityTaxUsageProposal);
     getSignBytes(): object;
@@ -194,8 +191,7 @@ export declare class MsgSubmitCommunityTaxUsageProposal implements Msg {
  * Msg struct for depositing to an active proposal in `depositing` period
  * @hidden
  */
-export declare class MsgDeposit implements Msg {
-    type: string;
+export declare class MsgDeposit extends Msg {
     value: {
         proposal_id: string;
         depositor: string;
@@ -208,8 +204,7 @@ export declare class MsgDeposit implements Msg {
  * Msg struct for voting to an active proposal in `voting` period
  * @hidden
  */
-export declare class MsgVote implements Msg {
-    type: string;
+export declare class MsgVote extends Msg {
     value: {
         proposal_id: string;
         voter: string;

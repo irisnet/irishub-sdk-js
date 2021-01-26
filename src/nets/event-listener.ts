@@ -1,12 +1,9 @@
-import { unmarshalTx } from '@irisnet/amino-js';
-import { base64ToBytes } from '@tendermint/belt';
-import { SdkError } from '../errors';
+import { SdkError, CODES } from '../errors';
 import * as types from '../types';
 import { Utils, Crypto } from '../utils';
 import * as is from 'is_js';
 import { WsClient } from './ws-client';
 import { EventQueryBuilder, EventKey } from '../types';
-import { marshalPubKey } from '@irisnet/amino-js';
 import { Client } from '../client';
 
 /** Internal subscription interface */
@@ -324,10 +321,10 @@ export class EventListener {
     // Decode txs
     if (blockData.block && blockData.block.data && blockData.block.data.txs) {
       const txs: string[] = blockData.block.data.txs;
-      const decodedTxs = new Array<types.Tx<types.StdTx>>();
+      const decodedTxs = new Array();
       txs.forEach(msg => {
         decodedTxs.push(
-          unmarshalTx(base64ToBytes(msg)) as types.Tx<types.StdTx>
+          this.client.protobuf.deserializeTx(msg)
         );
       });
       blockData.block.data.txs = decodedTxs;
@@ -358,25 +355,25 @@ export class EventListener {
       if (blockData.result_end_block.validator_updates) {
         const validators: types.EventDataValidatorUpdate[] = [];
         blockData.result_end_block.validator_updates.forEach((v: any) => {
-          let type = '';
+          let type = types.PubkeyType.secp256k1;
           switch (v.pub_key.type) {
             case 'secp256k1': {
-              type = 'tendermint/PubKeySecp256k1';
+              type = types.PubkeyType.secp256k1;
               break;
             }
             case 'ed25519': {
-              type = 'tendermint/PubKeyEd25519';
+              type = types.PubkeyType.ed25519;
               break;
             }
             default:
-              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`);
+              throw new SdkError(`Unsupported pubkey type: ${v.pub_key.type}`,CODES.InvalidPubkey);
           }
           const valPubkey: types.Pubkey = {
             type,
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            Crypto.aminoMarshalPubKey(valPubkey, false),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({
@@ -432,14 +429,14 @@ export class EventListener {
         blockHeader.result_end_block.validator_updates.forEach((v: any) => {
           const type =
             v.pub_key.type === 'secp256k1'
-              ? 'tendermint/PubKeySecp256k1'
-              : 'tendermint/PubKeyEd25519';
+              ? types.PubkeyType.secp256k1
+              : types.PubkeyType.ed25519;
           const valPubkey: types.Pubkey = {
             type,
             value: v.pub_key.data,
           };
           const bech32Pubkey = Crypto.encodeAddress(
-            Utils.ab2hexstring(marshalPubKey(valPubkey, false)),
+            Crypto.aminoMarshalPubKey(valPubkey, false),
             this.client.config.bech32Prefix.ConsPub
           );
           validators.push({
@@ -489,9 +486,7 @@ export class EventListener {
     }
 
     const txResult = data.data.value.TxResult;
-    txResult.tx = unmarshalTx(base64ToBytes(txResult.tx));
-
-    // Decode tags from base64
+    txResult.tx = this.client.protobuf.deserializeTx(txResult.tx);
     if (txResult.result.tags) {
       const tags = txResult.result.tags as types.Tag[];
       const decodedTags = new Array<types.Tag>();
