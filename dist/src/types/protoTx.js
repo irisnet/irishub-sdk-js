@@ -83,7 +83,7 @@ var ProtoTx = /*#__PURE__*/function () {
     value: function setPubKey(pubkey, sequence) {
       sequence = sequence || this.txData.sequence;
 
-      if (!sequence) {
+      if (typeof sequence == 'undefined') {
         throw new _errors.SdkError("sequence is empty", _errors.CODES.InvalidSequence);
       }
 
@@ -103,7 +103,7 @@ var ProtoTx = /*#__PURE__*/function () {
         throw new _errors.SdkError("please set pubKey", _errors.CODES.InvalidPubkey);
       }
 
-      if (!account_number && !this.txData.account_number) {
+      if (typeof account_number == 'undefined' && typeof this.txData.account_number == 'undefined') {
         throw new _errors.SdkError("account_number is  empty", _errors.CODES.IncorrectAccountSequence);
       }
 
@@ -114,7 +114,7 @@ var ProtoTx = /*#__PURE__*/function () {
       var signDoc = new types.tx_tx_pb.SignDoc();
       signDoc.setBodyBytes(this.body.serializeBinary());
       signDoc.setAuthInfoBytes(this.authInfo.serializeBinary());
-      signDoc.setAccountNumber(String(account_number || this.txData.account_number));
+      signDoc.setAccountNumber(account_number !== null && account_number !== void 0 ? account_number : this.txData.account_number);
       signDoc.setChainId(chain_id || this.txData.chain_id);
       return signDoc;
     }

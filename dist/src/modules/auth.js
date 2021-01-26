@@ -79,9 +79,9 @@ var Auth = /*#__PURE__*/function () {
         msgs: msgs,
         memo: baseTx.memo || '',
         stdFee: stdFee,
-        chain_id: this.client.config.chainId,
-        account_number: baseTx.account_number??undefined,
-        sequence: baseTx.sequence??undefined
+        chain_id: baseTx.chainId || this.client.config.chainId,
+        account_number: baseTx.account_number || undefined,
+        sequence: baseTx.sequence || undefined
       });
       return protoTx;
     }

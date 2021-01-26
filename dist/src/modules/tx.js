@@ -169,91 +169,99 @@ var Tx = /*#__PURE__*/function () {
     key: "sign",
     value: function () {
       var _sign = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
-        var _baseTx$account_numbe;
+        var _accountNumber;
 
-        var keyObj, accountNumber, sequence, account, privKey, pubKey, signature;
+        var offline,
+            keyObj,
+            accountNumber,
+            sequence,
+            _account$accountNumbe,
+            _account$sequence,
+            account,
+            privKey,
+            _sequence,
+            pubKey,
+            signature,
+            _args2 = arguments;
+
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                offline = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : false;
+
                 if (!is.empty(baseTx.from)) {
-                  _context2.next = 2;
+                  _context2.next = 3;
                   break;
                 }
 
                 throw new _errors.SdkError("baseTx.from of the key can not be empty");
 
-              case 2:
+              case 3:
                 if (!is.empty(baseTx.password)) {
-                  _context2.next = 4;
+                  _context2.next = 5;
                   break;
                 }
 
                 throw new _errors.SdkError("baseTx.password of the key can not be empty");
 
-              case 4:
+              case 5:
                 if (this.client.config.keyDAO.decrypt) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 throw new _errors.SdkError("Decrypt method of KeyDAO not implemented", _errors.CODES.Panic);
 
-              case 6:
+              case 7:
                 keyObj = this.client.config.keyDAO.read(baseTx.from);
 
                 if (keyObj) {
-                  _context2.next = 9;
+                  _context2.next = 10;
                   break;
                 }
 
                 throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"), _errors.CODES.KeyNotFound);
 
-              case 9:
-                accountNumber = (_baseTx$account_numbe = baseTx.account_number) !== null && _baseTx$account_numbe !== void 0 ? _baseTx$account_numbe : '0';
-                sequence = baseTx.sequence || '0';
+              case 10:
+                accountNumber = baseTx.account_number;
+                sequence = baseTx.sequence;
 
-                if (!(!baseTx.account_number || !baseTx.sequence)) {
-                  _context2.next = 17;
+                if (!((!baseTx.account_number || !baseTx.sequence) && !offline)) {
+                  _context2.next = 18;
                   break;
                 }
 
-                _context2.next = 14;
+                _context2.next = 15;
                 return this.client.auth.queryAccount(keyObj.address);
 
-              case 14:
+              case 15:
                 account = _context2.sent;
+                accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
+                sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
 
-                if (account.accountNumber) {
-                  accountNumber = String(account.accountNumber) || '0';
-                }
-
-                if (account.sequence) {
-                  sequence = String(account.sequence) || '0';
-                }
-
-              case 17:
+              case 18:
                 // Query account info from block chain
                 privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
                 if (privKey) {
-                  _context2.next = 20;
+                  _context2.next = 21;
                   break;
                 }
 
                 throw new _errors.SdkError("decrypto the private key error", _errors.CODES.InvalidPassword);
 
-              case 20:
+              case 21:
                 if (!stdTx.hasPubKey()) {
                   pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
-                  stdTx.setPubKey(pubKey, sequence || undefined);
+                  stdTx.setPubKey(pubKey, (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : undefined);
                 }
 
-                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
+                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc((_accountNumber = accountNumber) !== null && _accountNumber !== void 0 ? _accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
                 stdTx.addSignature(signature);
                 return _context2.abrupt("return", stdTx);
 
-              case 24:
+              case 25:
               case "end":
                 return _context2.stop();
             }

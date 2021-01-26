@@ -58,7 +58,7 @@ var TxModelCreator = /*#__PURE__*/function () {
       mode_info.setSingle(single);
       var signerInfo = new types.tx_tx_pb.SignerInfo();
       signerInfo.setModeInfo(mode_info);
-      signerInfo.setSequence(String(sequence));
+      signerInfo.setSequence(sequence);
 
       if (publicKey) {
         var pk = TxModelCreator.createPublicKeyModel(publicKey);
