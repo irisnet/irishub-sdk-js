@@ -1,5 +1,4 @@
-import { PubKey } from '@irisnet/amino-js/types';
-import { Coin, Msg, TxValue } from './types';
+import { Coin, Msg, TxValue, PubkeyType } from './types';
 
 /** Standard Tx */
 export interface StdTx extends TxValue {
@@ -12,16 +11,19 @@ export interface StdTx extends TxValue {
 /** Standard Fee */
 export interface StdFee {
   amount: Coin[];
-  gas: string;
+  gasLimit: string;
 }
 
 /** Standard Signature */
 export interface StdSignature {
-  pub_key?: PubKey;
+  pub_key?: string;
   signature?: string;
-  account_number: string;
-  sequence: string;
+
+  // To support ibc-alpha
+  // account_number: string;
+  // sequence: string;
 }
+
 
 /** Base params for the transaction */
 export interface BaseTx {
@@ -32,6 +34,11 @@ export interface BaseTx {
   gas?: string | undefined;
   fee?: Coin | undefined;
   memo?: string | undefined;
+  /** Account_number required for offline signatures */
+  account_number?: string | undefined;
+  /** Sequence required for offline signatures */
+  sequence?: string | undefined;
+  pubkeyType?: PubkeyType; /** default secp256k1 */
   mode?: BroadcastMode | undefined;
 }
 
@@ -49,10 +56,17 @@ export enum BroadcastMode {
 
 /** Standard Msg to sign */
 export interface StdSignMsg {
+  // To support ibc-alpha
   account_number: string;
+  sequence: string;
   chain_id: string;
   fee: StdFee;
   memo: string;
   msgs: object[];
-  sequence: string;
 }
+
+export interface BaseAccount {
+  address:string,
+  pubKey:{key:string},
+  accountNumber:number,
+  sequence:number}

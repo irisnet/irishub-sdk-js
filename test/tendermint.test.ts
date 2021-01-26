@@ -18,11 +18,12 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+  
   test(
     'query block by height',
     async () => {
       await BaseTest.getClient()
-        .tendermint.queryBlock(2)
+        .tendermint.queryBlock(196)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -32,6 +33,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query latest block result',
     async () => {
@@ -46,11 +48,12 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query block result by height',
     async () => {
       await BaseTest.getClient()
-        .tendermint.queryBlockResult(10996)
+        .tendermint.queryBlockResult(196)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -60,12 +63,13 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query tx by hash',
     async () => {
       await BaseTest.getClient()
         .tendermint.queryTx(
-          '0D0B65520771CE6F74267230B30C14F64EE732751EDA79547FCA881841BA5E51'
+          '46A832D1509A1BF5B0F3559E1CF931A6006144D2A487E0A36D3120E6205B1FF7'
         )
         .then(res => {
           console.log(JSON.stringify(res));
@@ -76,6 +80,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query latest validators',
     async () => {
@@ -90,6 +95,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'query validators by height',
     async () => {
@@ -104,6 +110,7 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
   test(
     'search txs',
     async () => {
@@ -112,6 +119,21 @@ describe('Tendermint Tests', () => {
       );
       await BaseTest.getClient()
         .tendermint.searchTxs(condition)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+
+  test(
+    'query Net Info',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryNetInfo()
         .then(res => {
           console.log(JSON.stringify(res));
         })

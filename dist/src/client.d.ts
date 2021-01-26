@@ -1,9 +1,9 @@
 import * as consts from './types/constants';
 import * as modules from './modules';
 import { RpcClient } from './nets/rpc-client';
-import { EventListener } from './nets/event-listener';
 import { AxiosRequestConfig } from 'axios';
 import * as types from './types';
+import { Wallet } from "./types";
 /** IRISHub Client */
 export declare class Client {
     /** IRISHub Client Config */
@@ -11,35 +11,35 @@ export declare class Client {
     /** Axios client for tendermint rpc requests */
     rpcClient: RpcClient;
     /** WebSocket event listener */
-    eventListener: EventListener;
     /** Auth module */
     auth: modules.Auth;
-    /** Asset module */
-    asset: modules.Asset;
+    /** Token module */
+    token: modules.Token;
     /** Bank module */
     bank: modules.Bank;
     /** Key management module */
     keys: modules.Keys;
+    /** Protobuf module */
+    protobuf: modules.Protobuf;
     /** Staking module */
     staking: modules.Staking;
     /** Tx module */
     tx: modules.Tx;
     /** Gov module */
-    gov: modules.Gov;
     /** Slashing module */
     slashing: modules.Slashing;
     /** Distribution module */
     distribution: modules.Distribution;
     /** Service module */
-    service: modules.Service;
     /** Oracle module */
-    oracle: modules.Oracle;
     /** Random module */
-    random: modules.Random;
     /** Utils module */
     utils: modules.Utils;
     /** Tendermint module */
     tendermint: modules.Tendermint;
+    /** Coinswap module */
+    /** NFT module */
+    nft: modules.Nft;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**
@@ -129,20 +129,20 @@ export interface KeyDAO {
      * @param key The encrypted private key object
      * @throws `SdkError` if the save fails.
      */
-    write(name: string, key: types.Key): void;
+    write(name: string, key: Wallet): void;
     /**
      * Get the encrypted private key by name
      *
      * @param name Name of the key
      * @returns The encrypted private key object or undefined
      */
-    read(name: string): types.Key;
+    read(name: string): Wallet;
     /**
      * Delete the key by name
      * @param name Name of the key
      * @throws `SdkError` if the deletion fails.
      */
-    delete(name: string): void;
+    delete?(name: string): void;
     /**
      * Optional function to encrypt the private key by yourself. Default to AES Encryption
      * @param privKey The plain private key
@@ -172,8 +172,8 @@ export interface Bech32Prefix {
     ConsPub: string;
 }
 export declare class DefaultKeyDAOImpl implements KeyDAO {
-    write(name: string, key: types.Key): void;
-    read(name: string): types.Key;
+    write(name: string, key: Wallet): void;
+    read(name: string): Wallet;
     delete(name: string): void;
     encrypt(privKey: string, password: string): string;
     decrypt(encrptedPrivKey: string, password: string): string;

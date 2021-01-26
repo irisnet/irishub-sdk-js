@@ -1,90 +1,161 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const types = require("../types");
-const EventEmitter = require("events");
-const Websocket = require("isomorphic-ws");
-const errors_1 = require("../errors");
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WsClient = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var types = _interopRequireWildcard(require("../types"));
+
+var _events = _interopRequireDefault(require("events"));
+
+var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
+
+var _errors = require("../errors");
+
 /**
  * IRISHub Websocket Client
  * @since v0.17
  */
-class WsClient {
-    constructor(url) {
-        this.url = url;
-        this.eventEmitter = new EventEmitter();
-    }
-    /**
-     * Initialize ws client
-     * @since v0.17
-     */
-    connect() {
-        this.ws = new Websocket(this.url + '/websocket');
-        if (!this.ws) {
-            throw new errors_1.SdkError('Websocket client not initialized'); // Should not happen
-        }
-        this.ws.onopen = () => {
-            console.log('Websocket connected');
-            this.eventEmitter.emit('open');
-        };
-        this.ws.onclose = () => {
-            console.log('Websocket disconnected');
-            this.eventEmitter.emit('close');
-        };
-        this.ws.onmessage = (resp) => {
-            const data = JSON.parse(resp.data.toString());
-            if (!data.id) {
-                this.eventEmitter.emit('error', 'Unexpected response: ' + JSON.stringify(data));
-            }
-            // Route the data to the specified subscriber based on the request ID
-            this.eventEmitter.emit(data.id, data.error, data.result);
-        };
-        this.ws.onerror = (err) => {
-            console.log('Websocket error');
-            this.eventEmitter.emit('error', err);
-        };
+var WsClient = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+
+  /** Event emitter */
+  function WsClient(url) {
+    (0, _classCallCheck2["default"])(this, WsClient);
+    (0, _defineProperty2["default"])(this, "url", void 0);
+    (0, _defineProperty2["default"])(this, "ws", void 0);
+    (0, _defineProperty2["default"])(this, "eventEmitter", void 0);
+    this.url = url;
+    this.eventEmitter = new _events["default"]();
+  }
+  /**
+   * Initialize ws client
+   * @since v0.17
+   */
+
+
+  (0, _createClass2["default"])(WsClient, [{
+    key: "connect",
+    value: function connect() {
+      var _this = this;
+
+      this.ws = new _isomorphicWs["default"](this.url + '/websocket');
+
+      if (!this.ws) {
+        throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
+      }
+
+      this.ws.onopen = function () {
+        console.log('Websocket connected');
+
+        _this.eventEmitter.emit('open');
+      };
+
+      this.ws.onclose = function () {
+        console.log('Websocket disconnected');
+
+        _this.eventEmitter.emit('close');
+      };
+
+      this.ws.onmessage = function (resp) {
+        var data = JSON.parse(resp.data.toString());
+
+        if (!data.id) {
+          _this.eventEmitter.emit('error', 'Unexpected response: ' + JSON.stringify(data));
+        } // Route the data to the specified subscriber based on the request ID
+
+
+        _this.eventEmitter.emit(data.id, data.error, data.result);
+      };
+
+      this.ws.onerror = function (err) {
+        console.log('Websocket error');
+
+        _this.eventEmitter.emit('error', err);
+      };
     }
     /**
      * Disconnect from server
      * @since v0.17
      */
-    disconnect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise(reslove => {
-                // Unsubscribe all from server
-                const id = 'unsubscribe_all';
-                this.send(types.RpcMethods.UnsubscribeAll, id);
-                this.eventEmitter.on(id, error => {
+
+  }, {
+    key: "disconnect",
+    value: function () {
+      var _disconnect = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+        var _this2 = this;
+
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                return _context.abrupt("return", new Promise(function (reslove) {
+                  // Unsubscribe all from server
+                  var id = 'unsubscribe_all';
+
+                  _this2.send(types.RpcMethods.UnsubscribeAll, id);
+
+                  _this2.eventEmitter.on(id, function (error) {
                     if (error) {
-                        throw new errors_1.SdkError(error.message);
+                      throw new _errors.SdkError(error.message, _errors.CODES.Internal);
                     }
-                    if (!this.ws) {
-                        throw new errors_1.SdkError('Websocket client not initialized'); // Should not happen
-                    }
-                    // Remove all listeners
-                    this.eventEmitter.removeAllListeners();
-                    // Destroy ws instance
-                    this.ws.terminate();
+
+                    if (!_this2.ws) {
+                      throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
+                    } // Remove all listeners
+
+
+                    _this2.eventEmitter.removeAllListeners(); // Destroy ws instance
+
+
+                    _this2.ws.terminate();
+
                     reslove();
-                });
-            });
-        });
-    }
+                  });
+                }));
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function disconnect() {
+        return _disconnect.apply(this, arguments);
+      }
+
+      return disconnect;
+    }()
     /**
      * Check if the ws client is connected or not
      * @since v0.17
      */
-    isReady() {
-        var _a;
-        return ((_a = this.ws) === null || _a === void 0 ? void 0 : _a.readyState) === 1;
+
+  }, {
+    key: "isReady",
+    value: function isReady() {
+      var _this$ws;
+
+      return ((_this$ws = this.ws) === null || _this$ws === void 0 ? void 0 : _this$ws.readyState) === 1;
     }
     /**
      * Send subscription to tendermint
@@ -93,19 +164,25 @@ class WsClient {
      * @param query The tendermint query string
      * @since v0.17
      */
-    send(method, id, query) {
-        if (!this.ws) {
-            throw new errors_1.SdkError('Websocket client not initialized'); // Should not happen
+
+  }, {
+    key: "send",
+    value: function send(method, id, query) {
+      if (!this.ws) {
+        throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
+      }
+
+      this.ws.send(JSON.stringify({
+        jsonrpc: '2.0',
+        method: method,
+        id: id,
+        params: {
+          query: query
         }
-        this.ws.send(JSON.stringify({
-            jsonrpc: '2.0',
-            method,
-            id,
-            params: {
-                query,
-            },
-        }));
+      }));
     }
-}
+  }]);
+  return WsClient;
+}();
+
 exports.WsClient = WsClient;
-//# sourceMappingURL=ws-client.js.map

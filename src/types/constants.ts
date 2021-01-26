@@ -18,9 +18,12 @@ export enum RpcMethods {
   Tx = 'tx',
   TxSearch = 'tx_search',
   Validators = 'validators',
+  NetInfo = 'net_info',
 }
 
-export const IRIS = 'iris',
+export const doNotModify = '[do-not-modify]';
+
+export const STD_DENOM = 'tiris',
   IRIS_ATTO = 'iris-atto',
 	MIN_UNIT_SUFFIX = '-min';
 

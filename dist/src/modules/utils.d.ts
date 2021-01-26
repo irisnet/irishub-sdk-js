@@ -8,8 +8,11 @@ import * as types from '../types';
 export declare class Utils {
     /** @hidden */
     private client;
+    /** @hidden */
     private tokenMap;
+    /** @hidden */
     private mathConfig;
+    /** @hidden */
     private math;
     /** @hidden */
     constructor(client: Client);

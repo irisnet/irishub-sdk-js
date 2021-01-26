@@ -1,19 +1,30 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const crypto_1 = require("../utils/crypto");
-const types = require("../types");
-const errors_1 = require("../errors");
-const bank_1 = require("../types/bank");
-const types_1 = require("../types");
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Bank = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _crypto = require("../utils/crypto");
+
+var types = _interopRequireWildcard(require("../types"));
+
+var _errors = require("../errors");
+
 /**
  * This module is mainly used to transfer coins between accounts,
  * query account balances, and provide common offline transaction signing and broadcasting methods.
@@ -24,130 +35,200 @@ const types_1 = require("../types");
  * @category Modules
  * @since v0.17
  */
-class Bank {
-    /** @hidden */
-    constructor(client) {
-        this.client = client;
-    }
+var Bank = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+  function Bank(client) {
+    (0, _classCallCheck2["default"])(this, Bank);
+    (0, _defineProperty2["default"])(this, "client", void 0);
+    this.client = client;
+  }
+  /**
+   * Send coins
+   * @param to Recipient bech32 address
+   * @param amount Coins to be sent
+   * @param baseTx { types.BaseTx }
+   * @returns
+   * @since v0.17
+   */
+
+
+  (0, _createClass2["default"])(Bank, [{
+    key: "send",
+    value: function () {
+      var _send = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
+        var from, msgs;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (_crypto.Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                throw new _errors.SdkError('Invalid bech32 address');
+
+              case 2:
+                from = this.client.keys.show(baseTx.from);
+                msgs = [{
+                  type: types.TxType.MsgSend,
+                  value: {
+                    from_address: from,
+                    to_address: to,
+                    amount: amount
+                  }
+                }];
+                return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function send(_x, _x2, _x3) {
+        return _send.apply(this, arguments);
+      }
+
+      return send;
+    }()
     /**
-     * Get the cointype of a token
-     *
-     * @deprecated Please refer to [[asset.queryToken]]
-     * @since v0.17
-     */
-    queryCoinType(tokenName) {
-        throw new errors_1.SdkError('Not supported');
-    }
-    /**
-     * Query account info from blockchain
-     * @param address Bech32 address
-     * @returns
-     * @since v0.17
-     * // TODO:
-     */
-    queryAccount(address) {
-        return this.client.rpcClient.abciQuery('custom/acc/account', {
-            Address: address,
-        });
-    }
-    /**
-     * Query the token statistic, including total loose tokens, total burned tokens and total bonded tokens.
-     * @param tokenID Identity of the token
-     * @returns
-     * @since v0.17
-     */
-    queryTokenStats(tokenID) {
-        return this.client.rpcClient.abciQuery('custom/acc/tokenStats', {
-            TokenId: tokenID,
-        });
-    }
-    /**
-     * Send coins
+     * multiSend coins
      * @param to Recipient bech32 address
      * @param amount Coins to be sent
      * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    send(to, amount, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // Validate bech32 address
-            if (!crypto_1.Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
-                throw new errors_1.SdkError('Invalid bech32 address');
+
+  }, {
+    key: "multiSend",
+    value: function () {
+      var _multiSend = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(to, amount, baseTx) {
+        var from, coins, msgs;
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (_crypto.Crypto.checkAddress(to, this.client.config.bech32Prefix.AccAddr)) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                throw new _errors.SdkError('Invalid bech32 address');
+
+              case 2:
+                from = this.client.keys.show(baseTx.from);
+                coins = amount;
+                msgs = [{
+                  type: types.TxType.MsgMultiSend,
+                  value: {
+                    inputs: [{
+                      address: from,
+                      coins: coins
+                    }],
+                    outputs: [{
+                      address: to,
+                      coins: coins
+                    }]
+                  }
+                }];
+                return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 6:
+              case "end":
+                return _context2.stop();
             }
-            const from = this.client.keys.show(baseTx.from);
-            const coins = yield this.client.utils.toMinCoins(amount);
-            const msgs = [
-                new bank_1.MsgSend([{ address: from, coins }], [{ address: to, coins }]),
-            ];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
+          }
+        }, _callee2, this);
+      }));
+
+      function multiSend(_x4, _x5, _x6) {
+        return _multiSend.apply(this, arguments);
+      }
+
+      return multiSend;
+    }()
+    /**
+     * Balance queries the balance of a single coin for a single account.
+     * @param address is the address to query balances for.
+     * @param denom is the coin denom to query balances for.
+     */
+
+  }, {
+    key: "queryBalance",
+    value: function queryBalance(address, denom) {
+      if (!address) {
+        throw new _errors.SdkError("address can ont be empty");
+      }
+
+      if (!denom) {
+        throw new _errors.SdkError("denom can ont be empty");
+      }
+
+      var request = new types.bank_query_pb.QueryBalanceRequest();
+      request.setAddress(address);
+      request.setDenom(denom);
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Balance', request, types.bank_query_pb.QueryBalanceResponse);
     }
     /**
-     * Burn coins
-     * @param amount Coins to be burnt
-     * @param baseTx { types.BaseTx }
-     * @returns
-     * @since v0.17
+     * AllBalances queries the balance of all coins for a single account.
+     * @param address is the address to query balances for.
      */
-    burn(amount, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const from = this.client.keys.show(baseTx.from);
-            const coins = yield this.client.utils.toMinCoins(amount);
-            const msgs = [new bank_1.MsgBurn(from, coins)];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
+
+  }, {
+    key: "queryAllBalances",
+    value: function queryAllBalances(address) {
+      if (!address) {
+        throw new _errors.SdkError("address can ont be empty");
+      }
+
+      var request = new types.bank_query_pb.QueryAllBalancesRequest();
+      request.setAddress(address);
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/AllBalances', request, types.bank_query_pb.QueryAllBalancesResponse);
     }
     /**
-     * Set memo regexp for your own address, so that you can only receive coins from transactions with the corresponding memo.
-     * @param memoRegexp
-     * @param baseTx { types.BaseTx }
-     * @returns
-     * @since v0.17
+     * TotalSupply queries the total supply of all coins.
      */
-    setMemoRegexp(memoRegexp, baseTx) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const from = this.client.keys.show(baseTx.from);
-            const msgs = [new bank_1.MsgSetMemoRegexp(from, memoRegexp)];
-            return this.client.tx.buildAndSend(msgs, baseTx);
-        });
+
+  }, {
+    key: "queryTotalSupply",
+    value: function queryTotalSupply() {
+      var request = new types.bank_query_pb.QueryTotalSupplyRequest();
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/TotalSupply', request, types.bank_query_pb.QueryTotalSupplyResponse);
     }
     /**
-     * Subscribe Send Txs
-     * @param conditions Query conditions for the subscription
-     * @param callback A function to receive notifications
-     * @returns
-     * @since v0.17
+     * SupplyOf queries the supply of a single coin.
+     * @param denom is the coin denom to query balances for.
      */
-    subscribeSendTx(conditions, callback) {
-        const queryBuilder = new types_1.EventQueryBuilder().addCondition(new types.Condition(types_1.EventKey.Action).eq(types_1.EventAction.Send));
-        if (conditions.from) {
-            queryBuilder.addCondition(new types.Condition(types_1.EventKey.Sender).eq(conditions.from));
-        }
-        if (conditions.to) {
-            queryBuilder.addCondition(new types.Condition(types_1.EventKey.Recipient).eq(conditions.to));
-        }
-        const subscription = this.client.eventListener.subscribeTx(queryBuilder, (error, data) => {
-            if (error) {
-                callback(error);
-                return;
-            }
-            data === null || data === void 0 ? void 0 : data.tx.value.msg.forEach(msg => {
-                if (msg.type !== 'irishub/bank/Send')
-                    return;
-                const msgSend = msg;
-                const height = data.height;
-                const hash = data.hash;
-                msgSend.value.inputs.forEach((input, index) => {
-                    const from = input.address;
-                    const to = msgSend.value.outputs[index].address;
-                    const amount = input.coins;
-                    callback(undefined, { height, hash, from, to, amount });
-                });
-            });
-        });
-        return subscription;
+
+  }, {
+    key: "querySupplyOf",
+    value: function querySupplyOf(denom) {
+      if (!denom) {
+        throw new _errors.SdkError("denom can ont be empty");
+      }
+
+      var request = new types.bank_query_pb.QuerySupplyOfRequest();
+      request.setDenom(denom);
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/SupplyOf', request, types.bank_query_pb.QuerySupplyOfResponse);
     }
-}
+    /**
+     * Params queries the parameters of x/bank module.
+     */
+
+  }, {
+    key: "queryParams",
+    value: function queryParams() {
+      var request = new types.bank_query_pb.QueryParamsRequest();
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Params', request, types.bank_query_pb.QueryParamsResponse);
+    }
+  }]);
+  return Bank;
+}();
+
 exports.Bank = Bank;
-//# sourceMappingURL=bank.js.map

@@ -16,8 +16,7 @@ export interface RandomRequest {
  * Msg struct for requesting a random number
  * @hidden
  */
-export declare class MsgRequestRand implements Msg {
-    type: string;
+export declare class MsgRequestRand extends Msg {
     value: {
         consumer: string;
         'block-interval': number;

@@ -1,6 +1,5 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { SdkError } from '../errors';
 /**
  * @category Modules
  * @since v0.17
@@ -34,11 +33,4 @@ export declare class Random {
      * @since v0.17
      */
     request(blockInterval: number, baseTx: types.BaseTx): Promise<types.TxResult>;
-    /**
-     * Subscribe notification when the random is generated
-     * @param requestID The request id of the random number
-     * @param callback A function to receive notifications
-     * @since v0.17
-     */
-    subscribeRandom(requestID: string, callback: (error?: SdkError, data?: types.RandomInfo) => void): types.EventSubscription;
 }

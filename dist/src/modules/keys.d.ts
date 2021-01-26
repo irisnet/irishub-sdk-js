@@ -18,10 +18,11 @@ export declare class Keys {
      *
      * @param name Name of the key
      * @param password Password for encrypting the keystore
+     * @param type Pubkey Type
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
-    add(name: string, password: string): {
+    add(name: string, password: string, type?: types.PubkeyType): {
         address: string;
         mnemonic: string;
     };
@@ -31,33 +32,47 @@ export declare class Keys {
      * @param name Name of the key
      * @param password Password for encrypting the keystore
      * @param mnemonic Mnemonic of the key
-     * @param derive Derive a private key using the default HD path (default: true)
+     * @param type Pubkey Type
      * @param index The bip44 address index (default: 0)
+     * @param derive Derive a private key using the default HD path (default: true)
      * @param saltPassword A passphrase for generating the salt, according to bip39
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name: string, password: string, mnemonic: string, derive?: boolean, index?: number, saltPassword?: string): string;
+    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): string;
     /**
      * Import a key from keystore
      *
      * @param name Name of the key
      * @param password Password of the keystore
      * @param keystore Keystore json or object
+     * @param type Pubkey Type
      * @returns Bech32 address
      * @since v0.17
      */
-    import(name: string, password: string, keystore: string | types.Keystore): string;
+    import(name: string, password: string, keystore: string | types.Keystore, type?: types.PubkeyType): string;
+    /**
+     * Import a PrivateKey
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param privateKey privateKey hex
+     * @param type Pubkey Type
+     * @returns Bech32 address
+     * @since v0.17
+     */
+    importPrivateKey(name: string, password: string, privateKey: string, type?: types.PubkeyType): string;
     /**
      * Export keystore of a key
      *
      * @param name Name of the key
      * @param keyPassword Password of the key
      * @param keystorePassword Password for encrypting the keystore
+     * @param iterations
      * @returns Keystore json
      * @since v0.17
      */
-    export(name: string, keyPassword: string, keystorePassword: string): string;
+    export(name: string, keyPassword: string, keystorePassword: string, iterations?: number): string;
     /**
      * Delete a key
      *

@@ -1,5 +1,5 @@
 import { Coin, Msg } from './types';
-
+import { SdkError, CODES } from '../errors';
 /**
  * Proposal Types
  * @hidden
@@ -159,12 +159,11 @@ export interface ParameterChangeProposal extends BaseProposal {}
  * Msg struct for submitting a ParameterChangeProposal
  * @hidden
  */
-export class MsgSubmitParameterChangeProposal implements Msg {
-  type: string;
+export class MsgSubmitParameterChangeProposal extends Msg {
   value: ParameterChangeProposal;
 
   constructor(params: ParameterChangeProposal) {
-    this.type = 'irishub/gov/MsgSubmitProposal';
+    super('irishub/gov/MsgSubmitProposal');
     params.proposal_type = ProposalType[ProposalType.Parameter];
     this.value = params;
   }
@@ -184,7 +183,7 @@ export class MsgSubmitParameterChangeProposal implements Msg {
         initial_deposit: this.value.initial_deposit,
         params: this.value.params,
       },
-    };
+    } as Msg;
   }
 }
 
@@ -200,12 +199,11 @@ export interface PlainTextProposal extends BaseProposal {}
  * Msg struct for submitting a PlainTextProposal
  * @hidden
  */
-export class MsgSubmitPlainTextProposal implements Msg {
-  type: string;
+export class MsgSubmitPlainTextProposal extends Msg {
   value: PlainTextProposal;
 
   constructor(params: PlainTextProposal) {
-    this.type = 'irishub/gov/MsgSubmitProposal';
+    super('irishub/gov/MsgSubmitProposal');
     params.proposal_type = ProposalType[ProposalType.PlainText];
     params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
     this.value = params;
@@ -225,7 +223,7 @@ export class MsgSubmitPlainTextProposal implements Msg {
         proposer: this.value.proposer,
         initial_deposit: this.value.initial_deposit,
       },
-    };
+    }  as Msg;
   }
 }
 
@@ -245,12 +243,11 @@ export interface CommunityTaxUsageProposal extends BaseProposal {
  * Msg struct for submitting a CommunityTaxUsageProposal
  * @hidden
  */
-export class MsgSubmitCommunityTaxUsageProposal implements Msg {
-  type: string;
+export class MsgSubmitCommunityTaxUsageProposal extends Msg {
   value: CommunityTaxUsageProposal;
 
   constructor(params: CommunityTaxUsageProposal) {
-    this.type = 'irishub/gov/MsgSubmitCommunityTaxUsageProposal';
+    super('irishub/gov/MsgSubmitCommunityTaxUsageProposal')
     params.proposal_type = ProposalType[ProposalType.CommunityTaxUsage];
     params.params = null; // TODO: Historical issue: Proposals except `ParameterChange` must specify the `params` to be null
     this.value = params;
@@ -270,7 +267,7 @@ export class MsgSubmitCommunityTaxUsageProposal implements Msg {
         proposer: this.value.proposer,
         initial_deposit: this.value.initial_deposit,
       },
-    };
+    } as Msg;
   }
 }
 
@@ -278,8 +275,7 @@ export class MsgSubmitCommunityTaxUsageProposal implements Msg {
  * Msg struct for depositing to an active proposal in `depositing` period
  * @hidden
  */
-export class MsgDeposit implements Msg {
-  type: string;
+export class MsgDeposit extends Msg {
   value: {
     proposal_id: string;
     depositor: string;
@@ -287,11 +283,11 @@ export class MsgDeposit implements Msg {
   };
 
   constructor(proposalID: string, depositor: string, amount: Coin[]) {
-    this.type = 'irishub/gov/MsgDeposit';
+    super('irishub/gov/MsgDeposit');
     this.value = {
       proposal_id: proposalID,
-      depositor: depositor,
-      amount: amount,
+      depositor,
+      amount,
     };
   }
 
@@ -304,8 +300,7 @@ export class MsgDeposit implements Msg {
  * Msg struct for voting to an active proposal in `voting` period
  * @hidden
  */
-export class MsgVote implements Msg {
-  type: string;
+export class MsgVote extends Msg {
   value: {
     proposal_id: string;
     voter: string;
@@ -313,10 +308,10 @@ export class MsgVote implements Msg {
   };
 
   constructor(proposalID: string, voter: string, option: VoteOption) {
-    this.type = 'irishub/gov/MsgVote';
+    super('irishub/gov/MsgVote');
     this.value = {
       proposal_id: proposalID,
-      voter: voter,
+      voter,
       option: VoteOption[option],
     };
   }
@@ -331,8 +326,8 @@ export class MsgVote implements Msg {
       value: {
         proposal_id: this.value.proposal_id,
         voter: this.value.voter,
-        option: (<any>VoteOption)[this.value.option],
+        option: (VoteOption as any)[this.value.option],
       },
-    };
+    } as Msg;
   }
 }

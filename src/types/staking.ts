@@ -1,4 +1,9 @@
-import { Coin, Msg, Pubkey } from './types';
+import {Coin, Msg, Pubkey} from './types';
+import {TxModelCreator} from "../helper";
+import {TxType} from "./types";
+import * as pbs from './proto';
+import * as is from "is_js";
+import { SdkError, CODES } from "../errors";
 
 /** Validator details */
 export interface Validator {
@@ -84,96 +89,163 @@ export interface Redelegation {
 }
 
 /**
+ * param struct for delegate tx
+ */
+export interface DelegateTxParam {
+  delegator_address: string;
+  validator_address: string;
+  amount: Coin;
+}
+
+/**
+ * param struct for undelegate tx
+ */
+export interface UndelegateTxParam {
+  delegator_address: string;
+  validator_address: string;
+  amount: Coin;
+}
+
+/**
+ * param struct for redelegate tx
+ */
+export interface RedelegateTxParam {
+  delegator_address: string;
+  validator_src_address: string;
+  validator_dst_address: string;
+  amount: Coin;
+}
+
+
+/**
  * Msg struct for delegating to a validator
  * @hidden
  */
-export class MsgDelegate implements Msg {
-  type: string;
-  value: {
-    delegator_addr: string;
-    validator_addr: string;
-    delegation: Coin;
-  };
+export class MsgDelegate extends Msg {
+  value: DelegateTxParam;
 
-  constructor(delegatorAddr: string, validatorAddr: string, delegation: Coin) {
-    this.type = 'irishub/stake/MsgDelegate';
-    this.value = {
-      delegator_addr: delegatorAddr,
-      validator_addr: validatorAddr,
-      delegation: delegation,
-    };
+  constructor(msg: DelegateTxParam) {
+    super(TxType.MsgDelegate);
+    this.value = msg;
   }
 
-  getSignBytes(): object {
-    return this;
+  static getModelClass(): any{
+    return pbs.staking_tx_pb.MsgDelegate;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
+
+
 
 /**
  * Msg struct for undelegating from a validator
  * @hidden
  */
-export class MsgUndelegate implements Msg {
-  type: string;
-  value: {
-    delegator_addr: string;
-    validator_addr: string;
-    shares_amount: string;
-  };
+export class MsgUndelegate extends Msg {
+  value: UndelegateTxParam;
 
-  constructor(
-    delegatorAddr: string,
-    validatorAddr: string,
-    sharesAmount: string
-  ) {
-    this.type = 'irishub/stake/BeginUnbonding';
-    this.value = {
-      delegator_addr: delegatorAddr,
-      validator_addr: validatorAddr,
-      shares_amount: sharesAmount,
-    };
+  constructor(msg: UndelegateTxParam) {
+    super(TxType.MsgUndelegate);
+    this.value = msg;
   }
 
-  getSignBytes(): object {
-    return this.value;
+  static getModelClass(): any{
+    return pbs.staking_tx_pb.MsgUndelegate;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
   }
 }
+
+
 
 /**
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
-export class MsgRedelegate implements Msg {
-  type: string;
-  value: {
-    delegator_addr: string;
-    validator_src_addr: string;
-    validator_dst_addr: string;
-    shares_amount: string;
-  };
+export class MsgRedelegate extends Msg {
+  value: RedelegateTxParam;
 
-  constructor(
-    delegatorAddr: string,
-    validatorSrcAddr: string,
-    validatorDstAddr: string,
-    sharesAmount: string
-  ) {
-    this.type = 'irishub/stake/BeginRedelegate';
-    this.value = {
-      delegator_addr: delegatorAddr,
-      validator_src_addr: validatorSrcAddr,
-      validator_dst_addr: validatorDstAddr,
-      shares_amount: sharesAmount,
-    };
+  constructor(msg: RedelegateTxParam) {
+    super(TxType.MsgBeginRedelegate);
+    this.value = msg;
   }
 
-  getSignBytes(): object {
-    return {
-      delegator_addr: this.value.delegator_addr,
-      validator_src_addr: this.value.validator_src_addr,
-      validator_dst_addr: this.value.validator_dst_addr,
-      shares: this.value.shares_amount,
-    };
+  static getModelClass(): any{
+    return pbs.staking_tx_pb.MsgBeginRedelegate;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorSrcAddress(this.value.validator_src_address)
+      .setValidatorDstAddress(this.value.validator_dst_address)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_src_address)) {
+      throw new SdkError(`source validator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_dst_address)) {
+      throw new SdkError(`destination validator address can not be empty`);
+    }
+
+    return true;
   }
 }
 
@@ -181,8 +253,7 @@ export class MsgRedelegate implements Msg {
  * Msg struct for updating validator informations
  * @hidden
  */
-export class MsgEditValidator implements Msg {
-  type: string;
+export class MsgEditValidator extends Msg {
   value: {
     Description: ValidatorDescription;
     address: string;
@@ -194,7 +265,7 @@ export class MsgEditValidator implements Msg {
     address: string,
     commissionRate: number
   ) {
-    this.type = 'irishub/stake/MsgEditValidator';
+    super('irishub/stake/MsgEditValidator');
     this.value = {
       Description: description,
       address,

@@ -1,4 +1,5 @@
 import { Coin, Msg } from './types';
+import { SdkError, CODES } from '../errors';
 
 export interface RandomInfo {
   request_tx_hash: string;
@@ -19,15 +20,14 @@ export interface RandomRequest {
  * Msg struct for requesting a random number
  * @hidden
  */
-export class MsgRequestRand implements Msg {
-  type: string;
+export class MsgRequestRand extends Msg {
   value: {
     consumer: string;
     'block-interval': number;
   };
 
   constructor(consumer: string, blockInterval: number) {
-    this.type = 'irishub/slashing/MsgUnjail';
+    super('irishub/slashing/MsgUnjail');
     this.value = {
       consumer,
       'block-interval': blockInterval,

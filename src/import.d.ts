@@ -15,4 +15,4 @@ declare module 'elliptic';
 declare module 'tiny-secp256k1';
 declare module 'events';
 
-declare var window: any;
+declare var window: Window & typeof globalThis;
