@@ -55,7 +55,7 @@ export declare class Tx {
      * @returns The signed tx
      * @since v0.17
      */
-    sign(stdTx: types.ProtoTx, baseTx: types.BaseTx): Promise<types.ProtoTx>;
+    sign(stdTx: types.ProtoTx, baseTx: types.BaseTx, offline?: boolean): Promise<types.ProtoTx>;
     /**
      * Single sign a transaction with signDoc
      *
