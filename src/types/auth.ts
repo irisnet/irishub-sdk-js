@@ -35,9 +35,11 @@ export interface BaseTx {
   fee?: Coin | undefined;
   memo?: string | undefined;
   /** Account_number required for offline signatures */
-  account_number?: string | undefined;
+  account_number?: number | undefined;
   /** Sequence required for offline signatures */
-  sequence?: string | undefined;
+  sequence?: number | undefined;
+  /** chainId required for offline signatures */
+  chainId?:string, 
   pubkeyType?: PubkeyType; /** default secp256k1 */
   mode?: BroadcastMode | undefined;
 }
