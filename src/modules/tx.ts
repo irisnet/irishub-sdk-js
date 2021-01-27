@@ -256,7 +256,7 @@ export class Tx {
    */
   private broadcastTx(
     txBytes: Uint8Array,
-    method: string
+    method: string = types.RpcMethods.BroadcastTxAsync
   ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
     if (
