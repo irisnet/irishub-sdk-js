@@ -62,27 +62,6 @@ export class MsgSetWithdrawAddress extends Msg {
 }
 
 /**
- * Msg struct for delegation withdraw for all of the delegator's delegations
- * @hidden
- */
-export class MsgWithdrawDelegatorRewardsAll extends Msg {
-  value: {
-    delegator_addr: string;
-  };
-
-  constructor(delegatorAddr: string) {
-    super('irishub/distr/MsgWithdrawDelegationRewardsAll')
-    this.value = {
-      delegator_addr: delegatorAddr,
-    };
-  }
-
-  getSignBytes(): object {
-    return this;
-  }
-}
-
-/**
  * Msg struct for delegation withdraw from a single validator
  * @hidden
  */
@@ -197,27 +176,6 @@ export class MsgFundCommunityPool extends Msg {
     return true;
   }
 }
-
-// /**
-//  * Msg struct for validator withdraw
-//  * @hidden
-//  */
-// export class MsgWithdrawValidatorRewardsAll extends Msg {
-//   value: {
-//     validator_addr: string;
-//   };
-
-//   constructor(validatorAddr: string) {
-//     super('irishub/distr/MsgWithdrawValidatorRewardsAll')
-//     this.value = {
-//       validator_addr: validatorAddr,
-//     };
-//   }
-
-//   getSignBytes(): object {
-//     return this;
-//   }
-// }
 
 /** Common rewards struct */
 export interface Rewards {

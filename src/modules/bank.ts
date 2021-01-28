@@ -2,7 +2,6 @@ import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
-import { EventQueryBuilder, EventKey, EventAction } from '../types';
 
 /**
  * This module is mainly used to transfer coins between accounts,
