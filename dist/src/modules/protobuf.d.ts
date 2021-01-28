@@ -17,30 +17,41 @@ export declare class Protobuf {
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
      * @return {[type]} Tx object
      */
-    deserializeTx(tx: string, returnProtobufModel?: boolean): types.ValidatorSigningInfo | object;
+    deserializeTx(tx: string, returnProtobufModel?: boolean): object;
     /**
      * Unpack protobuffer tx msg
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @param  {[type]} msg tx msg of proto any type
      * @return {[type]} message object
      */
     unpackMsg(msg: {
         typeUrl: string;
         value: string;
-    }, returnProtobufModel?: boolean): types.ValidatorSigningInfo | object | null;
+    }, returnProtobufModel?: boolean): object | null;
+    /**
+     * Unpack protobuffer Proposal Content
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @param  {[type]} content proposal Content of proto any type
+     * @return {[type]} message object
+     */
+    unpackProposalContent(content: {
+        typeUrl: string;
+        value: string;
+    }, returnProtobufModel?: boolean): object | null;
     /**
      * deserialize SignDoc
      * @param  {[type]} signDoc:string  base64 string
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
      * @return {[type]} signDoc object
      */
-    deserializeSignDoc(signDoc: string, returnProtobufModel?: boolean): types.ValidatorSigningInfo | object;
+    deserializeSignDoc(signDoc: string, returnProtobufModel?: boolean): object;
     /**
      * deserialize txRaw
      * @param  {[type]} txRaw:string  base64 string
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
      * @return {[type]} txRaw object
      */
-    deserializeTxRaw(txRaw: string, returnProtobufModel?: boolean): types.ValidatorSigningInfo | object;
+    deserializeTxRaw(txRaw: string, returnProtobufModel?: boolean): object;
     /**
      * deserialize Signing Info
      * @param  {[type]} signingInfo:string  base64 string
@@ -57,5 +68,5 @@ export declare class Protobuf {
     deserializePubkey(pubKey: {
         typeUrl: string;
         value: string;
-    }, returnProtobufModel?: boolean): types.ValidatorSigningInfo | object;
+    }, returnProtobufModel?: boolean): object;
 }

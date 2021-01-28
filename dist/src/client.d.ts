@@ -26,6 +26,7 @@ export declare class Client {
     /** Tx module */
     tx: modules.Tx;
     /** Gov module */
+    gov: modules.Gov;
     /** Slashing module */
     slashing: modules.Slashing;
     /** Distribution module */
