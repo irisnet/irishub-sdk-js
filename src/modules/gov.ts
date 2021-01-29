@@ -113,7 +113,6 @@ export class Gov {
     }
     const request = new types.gov_query_pb.QueryProposalRequest();
     request.setProposalId(proposal_id);
-    //todo:hangtaishan  parse proposal content
     return this.client.rpcClient.protoQuery(
       '/cosmos.gov.v1beta1.Query/Proposal',
       request,
@@ -158,7 +157,6 @@ export class Gov {
     }
     request.setPagination(pagination);
 
-    //todo:hangtaishan  parse proposal content
     return this.client.rpcClient.protoQuery(
       '/cosmos.gov.v1beta1.Query/Proposals',
       request,

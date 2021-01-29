@@ -276,7 +276,7 @@ export interface SoftwareUpgradePlan {
   time?: timestamp;
   height?:number;
   info?:string;
-  // upgraded_client_state:any;
+  // upgraded_client_state:any;   //not implement
 }
 
 /**

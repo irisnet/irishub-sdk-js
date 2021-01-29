@@ -187,8 +187,7 @@ var Gov = /*#__PURE__*/function () {
       }
 
       var request = new types.gov_query_pb.QueryProposalRequest();
-      request.setProposalId(proposal_id); //todo:hangtaishan  parse proposal content
-
+      request.setProposalId(proposal_id);
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/Proposal', request, types.gov_query_pb.QueryProposalResponse).then(function (res) {
         if (res && res.proposal && res.proposal.content && res.proposal.content.typeUrl && res.proposal.content.value) {
           res.proposal.content = _this.client.protobuf.unpackProposalContent(res.proposal.content);
@@ -226,8 +225,7 @@ var Gov = /*#__PURE__*/function () {
         request.setDepositor(option.depositor);
       }
 
-      request.setPagination(pagination); //todo:hangtaishan  parse proposal content
-
+      request.setPagination(pagination);
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/Proposals', request, types.gov_query_pb.QueryProposalsResponse).then(function (res) {
         if (res && res.proposalsList) {
           res.proposalsList = res.proposalsList.map(function (item) {
