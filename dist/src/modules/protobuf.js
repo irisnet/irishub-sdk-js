@@ -23,15 +23,12 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
 /**
  * ProtobufModel module allows you to deserialize protobuf serialize string
  *
  * @category Modules
  * @since v0.17
  */
-
-
 var Protobuf = /*#__PURE__*/function () {
   /** @hidden */
 
@@ -75,6 +72,7 @@ var Protobuf = /*#__PURE__*/function () {
     /**
      * Unpack protobuffer tx msg
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @param  {[type]} msg tx msg of proto any type
      * @return {[type]} message object 
      */
 
@@ -217,6 +215,25 @@ var Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgBurnNFT.getModelClass();
             break;
           }
+        //gov
+
+        case types.TxType.MsgSubmitProposal:
+          {
+            messageModelClass = types.MsgSubmitProposal.getModelClass();
+            break;
+          }
+
+        case types.TxType.MsgVote:
+          {
+            messageModelClass = types.MsgVote.getModelClass();
+            break;
+          }
+
+        case types.TxType.MsgDeposit:
+          {
+            messageModelClass = types.MsgDeposit.getModelClass();
+            break;
+          }
 
         default:
           {
@@ -232,7 +249,73 @@ var Protobuf = /*#__PURE__*/function () {
           messageObj.type = typeUrl;
         }
 
+        if (typeUrl == types.TxType.MsgSubmitProposal && messageObj.content && messageObj.content.typeUrl && messageObj.content.value) {
+          messageObj.content = this.unpackProposalContent(messageObj.content);
+        }
+
         return messageObj;
+      } else {
+        return null;
+      }
+    }
+    /**
+     * Unpack protobuffer Proposal Content
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @param  {[type]} content proposal Content of proto any type
+     * @return {[type]} message object 
+     */
+
+  }, {
+    key: "unpackProposalContent",
+    value: function unpackProposalContent(content, returnProtobufModel) {
+      if (!content) {
+        return null;
+      }
+
+      var contentModelClass;
+      var typeUrl = content.typeUrl.replace(/^\//, '');
+
+      switch (typeUrl) {
+        case types.ProposalType.Text_Proposal:
+          {
+            contentModelClass = types.gov_gov_pb.TextProposal;
+            break;
+          }
+
+        case types.ProposalType.Community_Pool_Spend_Proposal:
+          {
+            contentModelClass = types.distribution_distribution_pb.CommunityPoolSpendProposal;
+            break;
+          }
+
+        case types.ProposalType.Parameter_Change_Proposal:
+          {
+            contentModelClass = types.params_params_pb.ParameterChangeProposal;
+            break;
+          }
+
+        case types.ProposalType.Software_Upgrade_Proposal:
+          {
+            contentModelClass = types.upgrade_upgrade_pb.SoftwareUpgradeProposal;
+            break;
+          }
+
+        case types.ProposalType.Cancel_Software_Upgrade_Proposal:
+          {
+            contentModelClass = types.upgrade_upgrade_pb.CancelSoftwareUpgradeProposal;
+            break;
+          }
+      }
+
+      if (contentModelClass && contentModelClass.deserializeBinary) {
+        var contentObj = contentModelClass.deserializeBinary(content.value);
+
+        if (!returnProtobufModel && contentObj && contentObj.toObject) {
+          contentObj = contentObj.toObject();
+          contentObj.type = typeUrl;
+        }
+
+        return contentObj;
       } else {
         return null;
       }
@@ -292,9 +375,9 @@ var Protobuf = /*#__PURE__*/function () {
       }
 
       if (returnProtobufModel) {
-        return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo);
+        return types.slashing_slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo);
       } else {
-        return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
+        return types.slashing_slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
       }
     }
     /**

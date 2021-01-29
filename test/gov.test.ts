@@ -5,7 +5,7 @@ describe('Gov Tests', () => {
   describe('Query', () => {
     test('query proposal', async () => {
       await BaseTest.getClient().gov
-        .queryProposal(164)
+        .queryProposal(29)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -16,8 +16,7 @@ describe('Gov Tests', () => {
     test('query proposals', async () => {
       await BaseTest.getClient().gov
         .queryProposals({
-          limit: 1,
-        })
+        },1,100)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -27,7 +26,7 @@ describe('Gov Tests', () => {
     });
     test('query vote', async () => {
       await BaseTest.getClient().gov
-        .queryVote(1, 'faa1rug6dlx3rugu50ha0a35at6fwv2sss9l9amknx')
+        .queryVote(13, 'iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -37,7 +36,17 @@ describe('Gov Tests', () => {
     });
     test('query votes', async () => {
       await BaseTest.getClient().gov
-        .queryVotes(2)
+        .queryVotes(13)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+    test('query Params', async () => {
+      await BaseTest.getClient().gov
+        .queryParams('deposit')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -47,7 +56,7 @@ describe('Gov Tests', () => {
     });
     test('query deposit', async () => {
       await BaseTest.getClient().gov
-        .queryDeposit(260, 'faa1rug6dlx3rugu50ha0a35at6fwv2sss9l9amknx')
+        .queryDeposit(15, 'iaa14wmlevjxxnshdhc8vrpj0eq5q4wuujeevktx90')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -57,7 +66,7 @@ describe('Gov Tests', () => {
     });
     test('query deposits', async () => {
       await BaseTest.getClient().gov
-        .queryDeposits(260)
+        .queryDeposits(15)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -67,7 +76,7 @@ describe('Gov Tests', () => {
     });
     test('query tally', async () => {
       await BaseTest.getClient().gov
-        .queryTally(260)
+        .queryTallyResult(29)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -79,45 +88,26 @@ describe('Gov Tests', () => {
 
   const initDeposit: types.Coin[] = [
     {
-      denom: 'iris-atto',
-      amount: '1000000000000000000000',
+      denom: 'ubif',
+      amount: '100',
     },
   ];
-  describe('Submit ParameterChange Proposal', () => {
-    test(
-      'submitParameterChangeProposal',
-      async () => {
-        const params: types.ChangeParameter[] = [
-          {
-            subspace: 'slashing',
-            key: 'MaxEvidenceAge',
-            value: '51840',
-          },
-        ];
-        await BaseTest.getClient()
-          .gov.submitParameterChangeProposal(
-            'Title',
-            'Desc',
-            initDeposit,
-            params,
-            BaseTest.baseTx
-          )
-          .then(res => {
-            console.log(JSON.stringify(res));
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
-    );
-  });
 
   describe('Submit PlainText Proposal', () => {
     test(
       'submitPlainTextProposal',
       async () => {
         await BaseTest.getClient().gov
-          .submitPlainTextProposal('Title', 'Desc', initDeposit, BaseTest.baseTx)
+          .submitProposal(
+            {
+              type:types.ProposalType.Text_Proposal,
+              value:{ 
+                title:'1111',
+                description:'1111'
+              }
+            },
+            initDeposit, 
+            BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -128,20 +118,113 @@ describe('Gov Tests', () => {
     );
   });
 
-  describe('Submit CommunityTaxUsag Proposal', () => {
+  describe('Submit Parameter Change Proposal', () => {
     test(
-      'submitCommunityTaxUsageProposal',
+      'submitParameterChangeProposal',
       async () => {
-        await BaseTest.getClient()
-          .gov.submitCommunityTaxUsageProposal(
-            'Title',
-            'Desc',
-            initDeposit,
-            types.CommunityTaxUsageType.Distribute,
-            'faa1rug6dlx3rugu50ha0a35at6fwv2sss9l9amknx',
-            0.5,
-            BaseTest.baseTx
-          )
+        await BaseTest.getClient().gov
+          .submitProposal(
+            {
+              type:types.ProposalType.Parameter_Change_Proposal,
+              value:{ 
+                title:'3333',
+                description:'3333',
+                changes:[
+                  {
+                    subspace: 'staking',
+                    key: 'MaxValidators',
+                    value: '4',
+                  }
+                ]
+              }
+            },
+            initDeposit, 
+            BaseTest.baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('Submit Community Pool Spend Proposal', () => {
+    test(
+      'Submit CommunityPoolSpendProposal',
+      async () => {
+        await BaseTest.getClient().gov
+          .submitProposal(
+            {
+              type:types.ProposalType.Community_Pool_Spend_Proposal,
+              value:{ 
+                title:'1111',
+                description:'1111',
+                recipient: 'iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr',
+                amount: [{denom: 'ubif',amount: '100'}]
+              }
+            },
+            initDeposit, 
+            BaseTest.baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('Submit Software Upgrade Proposal', () => {
+    test(
+      'submitSoftwareUpgradeProposal',
+      async () => {
+        await BaseTest.getClient().gov
+          .submitProposal(
+            {
+              type:types.ProposalType.Software_Upgrade_Proposal,
+              value:{ 
+                title:'6666',
+                description:'6666',
+                plan:{
+                  name:'6666',
+                  time:{
+                    seconds: new Date().getTime()/1000 + 3000, 
+                    nanos:0
+                  },
+                  info:'123123',
+                }
+              }
+            },
+            initDeposit, 
+            BaseTest.baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('Submit Cancel Software Upgrade Proposal', () => {
+    test(
+      'submitCancelSoftwareUpgradeProposal',
+      async () => {
+        await BaseTest.getClient().gov
+          .submitProposal(
+            {
+              type:types.ProposalType.Cancel_Software_Upgrade_Proposal,
+              value:{ 
+                title:'5555',
+                description:'5555'
+              }
+            },
+            initDeposit, 
+            BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -158,13 +241,8 @@ describe('Gov Tests', () => {
       async () => {
         await BaseTest.getClient()
           .gov.deposit(
-            1,
-            [
-              {
-                denom: 'iris-atto',
-                amount: '1000000000000000000000',
-              },
-            ],
+            29,
+            initDeposit,
             BaseTest.baseTx
           )
           .then(res => {
@@ -182,7 +260,7 @@ describe('Gov Tests', () => {
       'vote',
       async () => {
         await BaseTest.getClient().gov
-          .vote(1, types.VoteOption.Yes, BaseTest.baseTx)
+          .vote(29, types.VoteOption.VOTE_OPTION_YES, BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })

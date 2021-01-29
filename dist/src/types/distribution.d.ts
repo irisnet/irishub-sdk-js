@@ -31,17 +31,6 @@ export declare class MsgSetWithdrawAddress extends Msg {
     validate(): boolean;
 }
 /**
- * Msg struct for delegation withdraw for all of the delegator's delegations
- * @hidden
- */
-export declare class MsgWithdrawDelegatorRewardsAll extends Msg {
-    value: {
-        delegator_addr: string;
-    };
-    constructor(delegatorAddr: string);
-    getSignBytes(): object;
-}
-/**
  * Msg struct for delegation withdraw from a single validator
  * @hidden
  */

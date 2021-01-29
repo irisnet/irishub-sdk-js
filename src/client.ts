@@ -42,7 +42,7 @@ export class Client {
   tx: modules.Tx;
 
   /** Gov module */
-  // gov: modules.Gov;
+  gov: modules.Gov;
 
   /** Slashing module */
   slashing: modules.Slashing;
@@ -107,7 +107,7 @@ export class Client {
     this.tx = new modules.Tx(this);
     this.protobuf = new modules.Protobuf(this);
     this.staking = new modules.Staking(this);
-    // this.gov = new modules.Gov(this);
+    this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
     this.distribution = new modules.Distribution(this);
     // this.service = new modules.Service(this);

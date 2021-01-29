@@ -256,7 +256,7 @@ export class Tx {
    */
   private broadcastTx(
     txBytes: Uint8Array,
-    method: string
+    method: string = types.RpcMethods.BroadcastTxAsync
   ): Promise<types.ResultBroadcastTxAsync> {
     // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
     if (
@@ -403,6 +403,19 @@ export class Tx {
       }
       case types.TxType.MsgBurnNFT: {
           msg = new types.MsgBurnNFT(txMsg.value)
+          break;
+      }
+      //gov
+      case types.TxType.MsgSubmitProposal: {
+          msg = new types.MsgSubmitProposal(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgVote: {
+          msg = new types.MsgVote(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgDeposit: {
+          msg = new types.MsgDeposit(txMsg.value)
           break;
       }
       default: {

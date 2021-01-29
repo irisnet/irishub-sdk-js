@@ -386,7 +386,9 @@ var Tx = /*#__PURE__*/function () {
 
   }, {
     key: "broadcastTx",
-    value: function broadcastTx(txBytes, method) {
+    value: function broadcastTx(txBytes) {
+      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : types.RpcMethods.BroadcastTxAsync;
+
       // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
       if (is.not.inArray(method, [types.RpcMethods.BroadcastTxSync, types.RpcMethods.BroadcastTxAsync])) {
         throw new _errors.SdkError("Unsupported broadcast method: ".concat(method), _errors.CODES.Internal);
@@ -562,6 +564,25 @@ var Tx = /*#__PURE__*/function () {
         case types.TxType.MsgBurnNFT:
           {
             msg = new types.MsgBurnNFT(txMsg.value);
+            break;
+          }
+        //gov
+
+        case types.TxType.MsgSubmitProposal:
+          {
+            msg = new types.MsgSubmitProposal(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgVote:
+          {
+            msg = new types.MsgVote(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgDeposit:
+          {
+            msg = new types.MsgDeposit(txMsg.value);
             break;
           }
 
