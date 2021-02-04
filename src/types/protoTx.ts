@@ -62,7 +62,7 @@ export class ProtoTx {
      * @param {optional [number]} sequence 
      */
     setPubKey(pubkey:string|types.Pubkey, sequence?:number){
-        sequence = sequence || this.txData.sequence;
+        sequence = sequence ?? this.txData.sequence;
         if (typeof sequence == 'undefined') {
             throw new SdkError("sequence is empty",CODES.InvalidSequence);
         }
