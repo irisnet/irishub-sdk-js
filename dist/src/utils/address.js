@@ -25,13 +25,13 @@ var AddressUtils = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(AddressUtils, null, [{
     key: "getAddrHexFromBech32",
-
+    value:
     /**
      * Convert bech32 address to hex string
      * @param addr Bech32 address
      * @returns Hex address
      */
-    value: function getAddrHexFromBech32(addr) {
+    function getAddrHexFromBech32(addr) {
       return _utils.Utils.ab2hexstring(_crypto.Crypto.decodeAddress(addr));
     }
   }]);

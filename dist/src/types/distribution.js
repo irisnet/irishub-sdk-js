@@ -119,14 +119,14 @@ var MsgWithdrawDelegatorReward = /*#__PURE__*/function (_Msg2) {
     }
   }, {
     key: "validate",
-
+    value:
     /**
      * validate necessary params
      *
      * @return whether is is validated
      * @throws `SdkError` if validate failed.
      */
-    value: function validate() {
+    function validate() {
       if (is.empty(this.value.delegator_address)) {
         throw new _errors.SdkError("delegator address can not be empty");
       }

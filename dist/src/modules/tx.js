@@ -354,13 +354,13 @@ var Tx = /*#__PURE__*/function () {
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           console.error(response.check_tx);
-          throw new _errors.SdkError(response.check_tx.log, response.check_tx.code);
+          throw new _errors.SdkError(response.check_tx.log, response.check_tx.code, response.check_tx.codespace);
         } // Deliver tx error
 
 
         if (response.deliver_tx && response.deliver_tx.code > 0) {
           console.error(response.deliver_tx);
-          throw new _errors.SdkError(response.deliver_tx.log, response.deliver_tx.code);
+          throw new _errors.SdkError(response.deliver_tx.log, response.deliver_tx.code, response.deliver_tx.codespace);
         }
 
         if (response.deliver_tx && response.deliver_tx.tags) {
@@ -398,7 +398,7 @@ var Tx = /*#__PURE__*/function () {
         tx: _utils.Utils.bytesToBase64(txBytes)
       }).then(function (response) {
         if (response.code && response.code > 0) {
-          throw new _errors.SdkError(response.log, response.code);
+          throw new _errors.SdkError(response.log, response.code, response.codespace);
         }
 
         return response;

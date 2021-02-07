@@ -303,9 +303,15 @@ var DefaultKeyDAOImpl = /*#__PURE__*/function () {
   }, {
     key: "decrypt",
     value: function decrypt(encrptedPrivKey, password) {
-      var decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+      var decrypted;
 
-      if (!decrypted) {
+      try {
+        decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+
+        if (!decrypted) {
+          throw new _errors.SdkError('Wrong password', _errors.CODES.InvalidPassword);
+        }
+      } catch (e) {
         throw new _errors.SdkError('Wrong password', _errors.CODES.InvalidPassword);
       }
 
