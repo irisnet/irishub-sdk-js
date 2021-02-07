@@ -60,7 +60,7 @@ export class RpcClient {
         // Internal error
         if (res.error) {
           console.error(res.error);
-          throw new SdkError(res.error.message, res.error.code);
+          throw new SdkError(res.error.message, res.error.code, `rpc_${method}`);
         }
 
         return res.result;
@@ -100,12 +100,12 @@ export class RpcClient {
             return response.response.value;
           }
         } else if (response.response.code) {
-          throw new SdkError(response.response.log, response.response.code);
+          throw new SdkError(response.response.log, response.response.code, response.response.codespace);
         } else{
           return null;
         }
       }
-      throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
+      throw new SdkError(`Internal Error from ${path}:${response.response.log}`,response.response.code, response.response.codespace);
     });
   }
 
@@ -149,12 +149,12 @@ export class RpcClient {
           // if (res.type && res.value) return res.value;
           // return res;
         } else if (response.response.code) {
-          throw new SdkError(response.response.log, response.response.code);
+          throw new SdkError(response.response.log, response.response.code, response.response.codespace);
         } else{
           return null;
         }
       }
-      throw new SdkError(`Internal Error from ${path}:${response.response.log}`);
+      throw new SdkError(`Internal Error from ${path}:${response.response.log}`, response.response.code, response.response.codespace);
     });
   }
 

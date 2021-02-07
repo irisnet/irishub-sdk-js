@@ -341,8 +341,13 @@ export class DefaultKeyDAOImpl implements KeyDAO {
   }
 
   decrypt(encrptedPrivKey: string, password: string): string {
-    const decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
-    if (!decrypted) {
+    let decrypted:string;
+    try{
+      decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+      if (!decrypted) {
+        throw new SdkError('Wrong password',CODES.InvalidPassword);
+      }
+    }catch(e){
       throw new SdkError('Wrong password',CODES.InvalidPassword);
     }
     return decrypted;
