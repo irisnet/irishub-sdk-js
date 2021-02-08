@@ -94,11 +94,11 @@ export class Tx {
         return this.broadcastTxCommit(txBytes);
       case types.BroadcastMode.Sync:
         return this.broadcastTxSync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
       default:
         return this.broadcastTxAsync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
     }
   }
@@ -238,14 +238,7 @@ export class Tx {
         if (response.deliver_tx && response.deliver_tx.tags) {
           response.deliver_tx.tags = Utils.decodeTags(response.deliver_tx.tags);
         }
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: response.deliver_tx?.gas_wanted,
-          gas_used: response.deliver_tx?.gas_used,
-          info: response.deliver_tx?.info,
-          tags: response.deliver_tx?.tags,
-        };
+        return this.newTxResult(response);
       });
   }
 
@@ -277,7 +270,6 @@ export class Tx {
         if (response.code && response.code > 0) {
           throw new SdkError(response.log, response.code, response.codespace);
         }
-
         return response;
       });
   }
@@ -293,19 +285,22 @@ export class Tx {
   //   return copyStdTx;
   // }
 
-  private newTxResult(
-    hash: string,
-    height?: number,
-    deliverTx?: types.ResultTx
-  ): types.TxResult {
-    return {
-      hash,
-      height,
-      gas_wanted: deliverTx?.gas_wanted,
-      gas_used: deliverTx?.gas_used,
-      info: deliverTx?.info,
-      tags: deliverTx?.tags,
-    };
+  private newTxResult(response:any): types.TxResult {
+    let result:types.TxResult = { hash:response.hash };
+    if (response.height) {
+      result = { ...result, height:response.height };
+    }
+    if (response.deliver_tx) {
+      result = {
+        ...result,
+        log: response.deliver_tx?.log || '',
+        info: response.deliver_tx?.info || '',
+        gas_wanted: response.deliver_tx?.gas_wanted || 0,
+        gas_used: response.deliver_tx?.gas_used || 0,
+        events: response.deliver_tx?.events || [],
+      }
+    }
+    return result;
   }
 
   /**
