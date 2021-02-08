@@ -27,6 +27,10 @@ var _errors = require("../errors");
 
 var _utils = require("../utils");
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Tx module allows you to sign or broadcast transactions
  *
@@ -147,12 +151,12 @@ var Tx = /*#__PURE__*/function () {
 
         case types.BroadcastMode.Sync:
           return this.broadcastTxSync(txBytes).then(function (response) {
-            return _this2.newTxResult(response.hash);
+            return _this2.newTxResult(response);
           });
 
         default:
           return this.broadcastTxAsync(txBytes).then(function (response) {
-            return _this2.newTxResult(response.hash);
+            return _this2.newTxResult(response);
           });
       }
     }
@@ -345,11 +349,11 @@ var Tx = /*#__PURE__*/function () {
   }, {
     key: "broadcastTxCommit",
     value: function broadcastTxCommit(txBytes) {
+      var _this3 = this;
+
       return this.client.rpcClient.request(types.RpcMethods.BroadcastTxCommit, {
         tx: _utils.Utils.bytesToBase64(txBytes)
       }).then(function (response) {
-        var _response$deliver_tx, _response$deliver_tx2, _response$deliver_tx3, _response$deliver_tx4;
-
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           console.error(response.check_tx);
@@ -366,14 +370,7 @@ var Tx = /*#__PURE__*/function () {
           response.deliver_tx.tags = _utils.Utils.decodeTags(response.deliver_tx.tags);
         }
 
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: (_response$deliver_tx = response.deliver_tx) === null || _response$deliver_tx === void 0 ? void 0 : _response$deliver_tx.gas_wanted,
-          gas_used: (_response$deliver_tx2 = response.deliver_tx) === null || _response$deliver_tx2 === void 0 ? void 0 : _response$deliver_tx2.gas_used,
-          info: (_response$deliver_tx3 = response.deliver_tx) === null || _response$deliver_tx3 === void 0 ? void 0 : _response$deliver_tx3.info,
-          tags: (_response$deliver_tx4 = response.deliver_tx) === null || _response$deliver_tx4 === void 0 ? void 0 : _response$deliver_tx4.tags
-        };
+        return _this3.newTxResult(response);
       });
     }
     /**
@@ -415,15 +412,30 @@ var Tx = /*#__PURE__*/function () {
 
   }, {
     key: "newTxResult",
-    value: function newTxResult(hash, height, deliverTx) {
-      return {
-        hash: hash,
-        height: height,
-        gas_wanted: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_wanted,
-        gas_used: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_used,
-        info: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.info,
-        tags: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.tags
+    value: function newTxResult(response) {
+      var result = {
+        hash: response.hash
       };
+
+      if (response.height) {
+        result = _objectSpread(_objectSpread({}, result), {}, {
+          height: response.height
+        });
+      }
+
+      if (response.deliver_tx) {
+        var _response$deliver_tx, _response$deliver_tx2, _response$deliver_tx3, _response$deliver_tx4, _response$deliver_tx5;
+
+        result = _objectSpread(_objectSpread({}, result), {}, {
+          log: ((_response$deliver_tx = response.deliver_tx) === null || _response$deliver_tx === void 0 ? void 0 : _response$deliver_tx.log) || '',
+          info: ((_response$deliver_tx2 = response.deliver_tx) === null || _response$deliver_tx2 === void 0 ? void 0 : _response$deliver_tx2.info) || '',
+          gas_wanted: ((_response$deliver_tx3 = response.deliver_tx) === null || _response$deliver_tx3 === void 0 ? void 0 : _response$deliver_tx3.gas_wanted) || 0,
+          gas_used: ((_response$deliver_tx4 = response.deliver_tx) === null || _response$deliver_tx4 === void 0 ? void 0 : _response$deliver_tx4.gas_used) || 0,
+          events: ((_response$deliver_tx5 = response.deliver_tx) === null || _response$deliver_tx5 === void 0 ? void 0 : _response$deliver_tx5.events) || []
+        });
+      }
+
+      return result;
     }
     /**
      * create message

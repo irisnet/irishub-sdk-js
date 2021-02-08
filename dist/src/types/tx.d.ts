@@ -12,10 +12,11 @@ export interface ResultBroadcastTxAsync {
 export interface TxResult {
     hash: string;
     height?: number;
-    gas_used?: number;
-    gas_wanted?: number;
+    log?: string;
     info?: string;
-    tags?: Tag[];
+    gas_wanted?: number;
+    gas_used?: number;
+    events?: object[][];
 }
 /** BroadcastTx Result */
 export interface ResultBroadcastTx {
