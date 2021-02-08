@@ -131,19 +131,20 @@ export class Tx {
       throw new SdkError(`Key with name '${baseTx.from}' not found`,CODES.KeyNotFound);
     }
 
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
+    if (!privKey) {
+      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
+    }
+
     let accountNumber = baseTx.account_number;
     let sequence = baseTx.sequence;
-
+    // Query account info from block chain
     if ((!baseTx.account_number || !baseTx.sequence) && !offline) {
       const account = await this.client.auth.queryAccount(keyObj.address);
       accountNumber = account.accountNumber??0;
       sequence = account.sequence??0;
     }
-    // Query account info from block chain
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
-    if (!privKey) {
-      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
-    }
+
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence??undefined);

@@ -173,12 +173,12 @@ var Tx = /*#__PURE__*/function () {
 
         var offline,
             keyObj,
+            privKey,
             accountNumber,
             sequence,
             _account$accountNumbe,
             _account$sequence,
             account,
-            privKey,
             _sequence,
             pubKey,
             signature,
@@ -224,32 +224,31 @@ var Tx = /*#__PURE__*/function () {
                 throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"), _errors.CODES.KeyNotFound);
 
               case 10:
-                accountNumber = baseTx.account_number;
-                sequence = baseTx.sequence;
-
-                if (!((!baseTx.account_number || !baseTx.sequence) && !offline)) {
-                  _context2.next = 18;
-                  break;
-                }
-
-                _context2.next = 15;
-                return this.client.auth.queryAccount(keyObj.address);
-
-              case 15:
-                account = _context2.sent;
-                accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
-                sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
-
-              case 18:
-                // Query account info from block chain
                 privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
                 if (privKey) {
-                  _context2.next = 21;
+                  _context2.next = 13;
                   break;
                 }
 
                 throw new _errors.SdkError("decrypto the private key error", _errors.CODES.InvalidPassword);
+
+              case 13:
+                accountNumber = baseTx.account_number;
+                sequence = baseTx.sequence; // Query account info from block chain
+
+                if (!((!baseTx.account_number || !baseTx.sequence) && !offline)) {
+                  _context2.next = 21;
+                  break;
+                }
+
+                _context2.next = 18;
+                return this.client.auth.queryAccount(keyObj.address);
+
+              case 18:
+                account = _context2.sent;
+                accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
+                sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
 
               case 21:
                 if (!stdTx.hasPubKey()) {
