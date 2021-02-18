@@ -1,6 +1,5 @@
 import { Client } from '../client';
 import * as types from '../types';
-import { CommunityTaxUsageType } from '../types/gov';
 /**
  * This module provides governance functionalities
  *
@@ -15,123 +14,79 @@ export declare class Gov {
     /** @hidden */
     constructor(client: Client);
     /**
-     * Query details of a single proposal
-     * @param proposalID Identity of a proposal
+     * submit Proposal
+     * @param proposal_id
+     * @param option
+     * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    queryProposal(proposalID: number): Promise<types.ProposalResult>;
+    submitProposal(content: {
+        type: types.ProposalType;
+        value: types.TextProposal | types.CommunityPoolSpendProposal | types.ParameterChangeProposal | types.CancelSoftwareUpgradeProposal | types.SoftwareUpgradeProposal;
+    }, initial_deposit: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
-     * Query proposals by conditions
-     * @param params
+     * vote
+     * @param proposal_id
+     * @param option
+     * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    queryProposals(params?: types.QueryProposalsParams): Promise<types.ProposalResult[]>;
+    vote(proposal_id: number, option: types.VoteOption, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
-     * Query a vote
-     * @param proposalID Identity of a proposal
-     * @param voter Bech32 voter address
+     * deposit
+     * @param proposal_id
+     * @param amount
+     * @param baseTx { types.BaseTx }
      * @returns
      * @since v0.17
      */
-    queryVote(proposalID: number, voter: string): Promise<types.VoteResult>;
+    deposit(proposal_id: number, amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
-     * Query all votes of a proposal
-     * @param proposalID Identity of a proposal
-     * @returns
-     * @since v0.17
+     * Proposal queries proposal details based on ProposalID.
+     * @param proposal_id defines the unique id of the proposal.
      */
-    queryVotes(proposalID: number): Promise<types.VoteResult[]>;
+    queryProposal(proposal_id: number): Promise<object>;
     /**
-     * Query a deposit of a proposal
-     * @param proposalID Identity of a proposal
-     * @param depositor Bech32 depositor address
-     * @returns
-     * @since v0.17
+     * Proposals queries all proposals based on given status.
+     * @param proposal_id defines the unique id of the proposal.
      */
-    queryDeposit(proposalID: number, depositor: string): Promise<types.VoteResult>;
+    queryProposals(option: {
+        proposal_status?: types.ProposalStatus;
+        voter?: string;
+        depositor?: string;
+    }, page_number?: number, page_size?: number): Promise<object>;
     /**
-     * Query all deposits of a proposal
-     * @param proposalID Identity of a proposal
-     * @returns
-     * @since v0.17
+     * Vote queries voted information based on proposalID, voterAddr.
+     * @param proposal_id defines the unique id of the proposal.
+     * @param voter defines the oter address for the proposals.
      */
-    queryDeposits(proposalID: number): Promise<types.VoteResult>;
+    queryVote(proposal_id: number, voter: string): Promise<object>;
     /**
-     * Query the statistics of a proposal
-     * @param proposalID Identity of a proposal
-     * @returns
-     * @since v0.17
+     * Votes queries votes of a given proposal.
+     * @param proposal_id defines the unique id of the proposal.
      */
-    queryTally(proposalID: number): Promise<types.TallyResult>;
+    queryVotes(proposal_id: number, page_number?: number, page_size?: number): Promise<object>;
     /**
-     * Submit a ParameterChangeProposal along with an initial deposit
-     *
-     * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-     *
-     * [Read about which parameters can be changed online](https://www.irisnet.org/docs/concepts/gov-params.html)
-     *
-     * @param title Title of the proposal
-     * @param description Description of the proposal
-     * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-     * @param params On-chain Parameter to be changed, eg. `[{"subspace":"mint","key":"Inflation","value":"0.05"}]`
-     * @param baseTx
-     * @returns
-     * @since v0.17
+     * Params queries all parameters of the gov module.
+     * @param params_type defines which parameters to query for, can be one of "voting", "tallying" or "deposit".
      */
-    submitParameterChangeProposal(title: string, description: string, initialDeposit: types.Coin[], params: types.ChangeParameter[], baseTx: types.BaseTx): Promise<types.TxResult>;
+    queryParams(params_type: string): Promise<object>;
     /**
-     * Submit a PlainTextProposal along with an initial deposit
-     *
-     * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-     *
-     * @param title Title of the proposal
-     * @param description Description of the proposal
-     * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-     * @param baseTx
-     * @returns
-     * @since v0.17
+     * Deposit queries single deposit information based proposalID, depositAddr.
+     * @param proposal_id defines the unique id of the proposal.
+     * @param depositor defines the deposit addresses from the proposals.
      */
-    submitPlainTextProposal(title: string, description: string, initialDeposit: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
+    queryDeposit(proposal_id: number, depositor: string): Promise<object>;
     /**
-     * Submit a CommunityTaxUsageProposal along with an initial deposit
-     *
-     * There are three usages, Burn, Distribute and Grant. Burn means burning tokens from community funds.
-     * Distribute and Grant will transfer tokens to the destination trustee's account from community funds.
-     *
-     * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-     *
-     * @param title Title of the proposal
-     * @param description Description of the proposal
-     * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-     * @param usage Type of the CommunityTaxUsage
-     * @param dest_address Bech32 destination address to receive the distributed or granted funds
-     * @param percent Percentage of the current community pool to be used
-     * @param baseTx
-     * @since v0.17
+     * Deposits queries all deposits of a single proposal.
+     * @param proposal_id defines the unique id of the proposal.
      */
-    submitCommunityTaxUsageProposal(title: string, description: string, initialDeposit: types.Coin[], usage: CommunityTaxUsageType, destAddress: string, percent: number, baseTx: types.BaseTx): Promise<types.TxResult>;
+    queryDeposits(proposal_id: number, page_number?: number, page_size?: number): Promise<object>;
     /**
-     * Deposit tokens for an active proposal.
-     *
-     * When the total deposit amount exceeds the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level), the proposal will enter the voting procedure.
-     *
-     * @param proposalID Identity of a proposal
-     * @param amount Amount to be deposited
-     * @param baseTx
-     * @returns
-     * @since v0.17
+     * TallyResult queries the tally of a proposal vote.
+     * @param proposal_id defines the unique id of the proposal.
      */
-    deposit(proposalID: number, amount: types.Coin[], baseTx: types.BaseTx): Promise<types.TxResult>;
-    /**
-     * Vote for an active proposal, options: Yes/No/NoWithVeto/Abstain.
-     * Only validators and delegators can vote for proposals in the voting period.
-     *
-     * @param proposalID Identity of a proposal
-     * @param option Vote option
-     * @param baseTx
-     * @since v0.17
-     */
-    vote(proposalID: number, option: types.VoteOption, baseTx: types.BaseTx): Promise<types.TxResult>;
+    queryTallyResult(proposal_id: number): Promise<object>;
 }

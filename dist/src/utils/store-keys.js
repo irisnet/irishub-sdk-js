@@ -27,13 +27,13 @@ var StoreKeys = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(StoreKeys, null, [{
     key: "getAccountStoreKey",
-
+    value:
     /**
      * Turn an address to key used to get it from the account store
      * @param address Bech32 address
      * @returns Base64 encoded byte array
      */
-    value: function getAccountStoreKey(address) {
+    function getAccountStoreKey(address) {
       var bytes = _crypto.Crypto.decodeAndConvert(address);
 
       return Uint8Array.from(StoreKeys.addressStoreKeyPrefix.concat(bytes));

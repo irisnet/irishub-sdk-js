@@ -1,14 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
+import { ModelCreator } from '../helper';
 import { SdkError, CODES } from '../errors';
-import {
-  MsgSubmitParameterChangeProposal,
-  MsgSubmitPlainTextProposal,
-  CommunityTaxUsageType,
-  MsgSubmitCommunityTaxUsageProposal,
-  MsgDeposit,
-  MsgVote,
-} from '../types/gov';
 
 /**
  * This module provides governance functionalities
@@ -27,287 +20,287 @@ export class Gov {
   }
 
   /**
-   * Query details of a single proposal
-   * @param proposalID Identity of a proposal
+   * submit Proposal
+   * @param proposal_id 
+   * @param option
+   * @param baseTx { types.BaseTx }
    * @returns
    * @since v0.17
    */
-  queryProposal(proposalID: number): Promise<types.ProposalResult> {
-    return this.client.rpcClient.abciQuery<types.ProposalResult>(
-      'custom/gov/proposal',
-      {
-        ProposalID: String(proposalID),
-      }
-    );
-  }
-
-  /**
-   * Query proposals by conditions
-   * @param params
-   * @returns
-   * @since v0.17
-   */
-  queryProposals(
-    params?: types.QueryProposalsParams
-  ): Promise<types.ProposalResult[]> {
-    let queryParams = {};
-    if (params) {
-      queryParams = {
-        Voter: params.voter,
-        Depositor: params.depositor,
-        ProposalStatus: params.proposalStatus,
-        Limit: String(params.limit),
-      };
-    }
-    return this.client.rpcClient.abciQuery<types.ProposalResult[]>(
-      'custom/gov/proposals',
-      queryParams
-    );
-  }
-
-  /**
-   * Query a vote
-   * @param proposalID Identity of a proposal
-   * @param voter Bech32 voter address
-   * @returns
-   * @since v0.17
-   */
-  queryVote(proposalID: number, voter: string): Promise<types.VoteResult> {
-    return this.client.rpcClient.abciQuery<types.VoteResult>(
-      'custom/gov/vote',
-      {
-        ProposalID: String(proposalID),
-        Voter: voter,
-      }
-    );
-  }
-
-  /**
-   * Query all votes of a proposal
-   * @param proposalID Identity of a proposal
-   * @returns
-   * @since v0.17
-   */
-  queryVotes(proposalID: number): Promise<types.VoteResult[]> {
-    return this.client.rpcClient.abciQuery<types.VoteResult[]>(
-      'custom/gov/votes',
-      {
-        ProposalID: String(proposalID),
-      }
-    );
-  }
-
-  /**
-   * Query a deposit of a proposal
-   * @param proposalID Identity of a proposal
-   * @param depositor Bech32 depositor address
-   * @returns
-   * @since v0.17
-   */
-  queryDeposit(
-    proposalID: number,
-    depositor: string
-  ): Promise<types.VoteResult> {
-    return this.client.rpcClient.abciQuery<types.VoteResult>(
-      'custom/gov/deposit',
-      {
-        ProposalID: String(proposalID),
-        Depositor: depositor,
-      }
-    );
-  }
-
-  /**
-   * Query all deposits of a proposal
-   * @param proposalID Identity of a proposal
-   * @returns
-   * @since v0.17
-   */
-  queryDeposits(proposalID: number): Promise<types.VoteResult> {
-    return this.client.rpcClient.abciQuery<types.VoteResult>(
-      'custom/gov/deposits',
-      {
-        ProposalID: String(proposalID),
-      }
-    );
-  }
-
-  /**
-   * Query the statistics of a proposal
-   * @param proposalID Identity of a proposal
-   * @returns
-   * @since v0.17
-   */
-  queryTally(proposalID: number): Promise<types.TallyResult> {
-    return this.client.rpcClient.abciQuery<types.TallyResult>(
-      'custom/gov/tally',
-      {
-        ProposalID: String(proposalID),
-      }
-    );
-  }
-
-  /**
-   * Submit a ParameterChangeProposal along with an initial deposit
-   *
-   * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-   *
-   * [Read about which parameters can be changed online](https://www.irisnet.org/docs/concepts/gov-params.html)
-   *
-   * @param title Title of the proposal
-   * @param description Description of the proposal
-   * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-   * @param params On-chain Parameter to be changed, eg. `[{"subspace":"mint","key":"Inflation","value":"0.05"}]`
-   * @param baseTx
-   * @returns
-   * @since v0.17
-   */
-  async submitParameterChangeProposal(
-    title: string,
-    description: string,
-    initialDeposit: types.Coin[],
-    params: types.ChangeParameter[],
+  async submitProposal(
+    content: {
+      type: types.ProposalType,
+      value: types.TextProposal | types.CommunityPoolSpendProposal | types.ParameterChangeProposal | types.CancelSoftwareUpgradeProposal | types.SoftwareUpgradeProposal
+    },
+    initial_deposit:types.Coin[],
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
-    const proposer = this.client.keys.show(baseTx.from);
-    const coins = await this.client.utils.toMinCoins(initialDeposit);
-    const msgs: types.Msg[] = [
-      new MsgSubmitParameterChangeProposal({
-        title,
-        description,
-        proposer,
-        initial_deposit: coins,
-        params,
-      }),
+    const from = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgSubmitProposal,
+        value:{
+          content: content,
+          initial_deposit: initial_deposit,
+          proposer: from
+        }
+      }
     ];
-
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
-   * Submit a PlainTextProposal along with an initial deposit
-   *
-   * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-   *
-   * @param title Title of the proposal
-   * @param description Description of the proposal
-   * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-   * @param baseTx
+   * vote
+   * @param proposal_id 
+   * @param option
+   * @param baseTx { types.BaseTx }
    * @returns
    * @since v0.17
    */
-  async submitPlainTextProposal(
-    title: string,
-    description: string,
-    initialDeposit: types.Coin[],
+  async vote(
+    proposal_id: number,
+    option: types.VoteOption,
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
-    const proposer = this.client.keys.show(baseTx.from);
-    const coins = await this.client.utils.toMinCoins(initialDeposit);
-    const msgs: types.Msg[] = [
-      new MsgSubmitPlainTextProposal({
-        title,
-        description,
-        proposer,
-        initial_deposit: coins,
-      }),
+    const from = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgVote,
+        value:{
+          proposal_id: proposal_id,
+          voter: from,
+          option: option,
+        }
+      }
     ];
-
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
-   * Submit a CommunityTaxUsageProposal along with an initial deposit
-   *
-   * There are three usages, Burn, Distribute and Grant. Burn means burning tokens from community funds.
-   * Distribute and Grant will transfer tokens to the destination trustee's account from community funds.
-   *
-   * The proposer must deposit at least 30% of the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level) to submit a proposal.
-   *
-   * @param title Title of the proposal
-   * @param description Description of the proposal
-   * @param initialDeposit Initial deposit of the proposal(at least 30% of minDeposit)
-   * @param usage Type of the CommunityTaxUsage
-   * @param dest_address Bech32 destination address to receive the distributed or granted funds
-   * @param percent Percentage of the current community pool to be used
-   * @param baseTx
-   * @since v0.17
-   */
-  async submitCommunityTaxUsageProposal(
-    title: string,
-    description: string,
-    initialDeposit: types.Coin[],
-    usage: CommunityTaxUsageType,
-    destAddress: string,
-    percent: number,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const proposer = this.client.keys.show(baseTx.from);
-
-    const coins = await this.client.utils.toMinCoins(initialDeposit);
-    const msgs: types.Msg[] = [
-      new MsgSubmitCommunityTaxUsageProposal({
-        title,
-        description,
-        proposer,
-        initial_deposit: coins,
-        usage: CommunityTaxUsageType[usage],
-        dest_address: destAddress,
-        percent: String(percent),
-      }),
-    ];
-
-    return this.client.tx.buildAndSend(msgs, baseTx);
-  }
-
-  /**
-   * Deposit tokens for an active proposal.
-   *
-   * When the total deposit amount exceeds the [MinDeposit](https://www.irisnet.org/docs/features/governance.html#proposal-level), the proposal will enter the voting procedure.
-   *
-   * @param proposalID Identity of a proposal
-   * @param amount Amount to be deposited
-   * @param baseTx
+   * deposit
+   * @param proposal_id 
+   * @param amount
+   * @param baseTx { types.BaseTx }
    * @returns
    * @since v0.17
    */
   async deposit(
-    proposalID: number,
+    proposal_id: number,
     amount: types.Coin[],
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
-    const depositor = this.client.keys.show(baseTx.from);
-
-    const coins = await this.client.utils.toMinCoins(amount);
-    const msgs: types.Msg[] = [
-      new MsgDeposit(String(proposalID), depositor, coins),
+    const from = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgDeposit,
+        value:{
+          proposal_id: proposal_id,
+          depositor: from,
+          amount: amount,
+        }
+      }
     ];
-
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
   /**
-   * Vote for an active proposal, options: Yes/No/NoWithVeto/Abstain.
-   * Only validators and delegators can vote for proposals in the voting period.
-   *
-   * @param proposalID Identity of a proposal
-   * @param option Vote option
-   * @param baseTx
-   * @since v0.17
+   * Proposal queries proposal details based on ProposalID.
+   * @param proposal_id defines the unique id of the proposal.
    */
-  async vote(
-    proposalID: number,
-    option: types.VoteOption,
-    baseTx: types.BaseTx
-  ): Promise<types.TxResult> {
-    const voter = this.client.keys.show(baseTx.from);
-    const msgs: types.Msg[] = [new MsgVote(String(proposalID), voter, option)];
-
-    return this.client.tx.buildAndSend(msgs, baseTx);
+  queryProposal(proposal_id:number): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    const request = new types.gov_query_pb.QueryProposalRequest();
+    request.setProposalId(proposal_id);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Proposal',
+      request,
+      types.gov_query_pb.QueryProposalResponse
+    ).then((res)=>{
+      if (
+        res && 
+        res.proposal && 
+        res.proposal.content && 
+        res.proposal.content.typeUrl && 
+        res.proposal.content.value
+        ) {
+        res.proposal.content = this.client.protobuf.unpackProposalContent(res.proposal.content);
+      }
+      return res;
+    });
   }
 
-  // =================== NOT SUPPORTED ==================== //
-  // submitSoftwareUpgradeProposal;                         //
-  // submitSystemHaltProposal;                              //
-  // =================== NOT SUPPORTED ==================== //
+  /**
+   * Proposals queries all proposals based on given status.
+   * @param proposal_id defines the unique id of the proposal.
+   */
+  queryProposals(
+    option:{
+      proposal_status?:types.ProposalStatus,
+      voter?:string,
+      depositor?:string
+    },
+    page_number:number = 1,
+    page_size:number = 10
+    ): Promise<object> {
+    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
+    const request = new types.gov_query_pb.QueryProposalsRequest();
+    if (typeof option.proposal_status != 'undefined') {
+      request.setProposalStatus(option.proposal_status);
+    }
+    if (option.voter) {
+      request.setVoter(option.voter);
+    }
+    if (option.depositor) {
+      request.setDepositor(option.depositor);
+    }
+    request.setPagination(pagination);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Proposals',
+      request,
+      types.gov_query_pb.QueryProposalsResponse
+    ).then((res)=>{
+      if (res && res.proposalsList) {
+        res.proposalsList = res.proposalsList.map((item:any)=>{
+          if (item.content && item.content.typeUrl && item.content.value) {
+            item.content = this.client.protobuf.unpackProposalContent(item.content);
+          }
+          return item;
+        });
+      }
+      return res;
+    });
+  }
+
+  /**
+   * Vote queries voted information based on proposalID, voterAddr.
+   * @param proposal_id defines the unique id of the proposal.
+   * @param voter defines the oter address for the proposals.
+   */
+  queryVote(proposal_id:number,voter:string): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    if (!voter) {
+      throw new SdkError("voter can ont be empty");
+    }
+    const request = new types.gov_query_pb.QueryVoteRequest();
+    request.setProposalId(proposal_id);
+    request.setVoter(voter);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Vote',
+      request,
+      types.gov_query_pb.QueryVoteResponse
+    );
+  }
+
+  /**
+   * Votes queries votes of a given proposal.
+   * @param proposal_id defines the unique id of the proposal.
+   */
+  queryVotes(
+    proposal_id:number,
+    page_number:number = 1,
+    page_size:number = 10
+    ): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
+    const request = new types.gov_query_pb.QueryVotesRequest();
+    request.setProposalId(proposal_id);
+    request.setPagination(pagination);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Votes',
+      request,
+      types.gov_query_pb.QueryVotesResponse
+    );
+  }
+
+  /**
+   * Params queries all parameters of the gov module.
+   * @param params_type defines which parameters to query for, can be one of "voting", "tallying" or "deposit".
+   */
+  queryParams(params_type:string): Promise<object> {
+    if (!params_type) {
+      throw new SdkError("params_type can be one of 'voting', 'tallying' or 'deposit'");
+    }
+    const request = new types.gov_query_pb.QueryParamsRequest();
+    request.setParamsType(params_type);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Params',
+      request,
+      types.gov_query_pb.QueryParamsResponse
+    );
+  }
+
+  /**
+   * Deposit queries single deposit information based proposalID, depositAddr.
+   * @param proposal_id defines the unique id of the proposal.
+   * @param depositor defines the deposit addresses from the proposals.
+   */
+  queryDeposit(proposal_id:number, depositor:string): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    if (!depositor) {
+      throw new SdkError("depositor can ont be empty");
+    }
+    const request = new types.gov_query_pb.QueryDepositRequest();
+    request.setProposalId(proposal_id);
+    request.setDepositor(depositor);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Deposit',
+      request,
+      types.gov_query_pb.QueryDepositResponse
+    );
+  }
+
+  /**
+   * Deposits queries all deposits of a single proposal.
+   * @param proposal_id defines the unique id of the proposal.
+   */
+  queryDeposits(
+    proposal_id:number,
+    page_number:number = 1,
+    page_size:number = 10
+    ): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
+    const request = new types.gov_query_pb.QueryDepositsRequest();
+    request.setProposalId(proposal_id);
+    request.setPagination(pagination);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/Deposits',
+      request,
+      types.gov_query_pb.QueryDepositsResponse
+    );
+  }
+
+  /**
+   * TallyResult queries the tally of a proposal vote.
+   * @param proposal_id defines the unique id of the proposal.
+   */
+  queryTallyResult(proposal_id:number): Promise<object> {
+    if (!proposal_id) {
+      throw new SdkError("proposal_id can ont be empty");
+    }
+    const request = new types.gov_query_pb.QueryTallyResultRequest();
+    request.setProposalId(proposal_id);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.gov.v1beta1.Query/TallyResult',
+      request,
+      types.gov_query_pb.QueryTallyResultResponse
+    );
+  }
 }

@@ -1,8 +1,8 @@
 import * as types from '../types';
 export declare class TxModelCreator {
     static createBodyModel(msgs: types.Msg[], memo: string, timeoutHeight: number): any;
-    static createAuthInfoModel(fee: types.StdFee, sequence?: string, publicKey?: string | types.Pubkey): any;
-    static createSignerInfoModel(sequence: string, publicKey: string | types.Pubkey): any;
+    static createAuthInfoModel(fee: types.StdFee, sequence?: number, publicKey?: string | types.Pubkey): any;
+    static createSignerInfoModel(sequence: number, publicKey: string | types.Pubkey): any;
     static createPublicKeyModel(publicKey: string | types.Pubkey): {
         type: string;
         value: any;

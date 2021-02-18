@@ -38,13 +38,13 @@ var Utils = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(Utils, null, [{
     key: "str2ab",
-
+    value:
     /**
      * String to ArrayBuffer
      * @param str ASCII string
      * @returns Uint8Array
      */
-    value: function str2ab(str) {
+    function str2ab(str) {
       if (typeof str !== 'string') {
         throw new _errors.SdkError('str2ab expects a string', _errors.CODES.Internal);
       }

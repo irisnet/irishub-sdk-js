@@ -16,7 +16,7 @@ export class TxModelCreator {
 
     static createAuthInfoModel(
         fee:types.StdFee, 
-        sequence?:string, 
+        sequence?:number, 
         publicKey?:string|types.Pubkey):any
     {
         let authInfo = new types.tx_tx_pb.AuthInfo();
@@ -31,7 +31,7 @@ export class TxModelCreator {
         return authInfo;
     }
 
-    static createSignerInfoModel(sequence:string, publicKey:string|types.Pubkey):any{
+    static createSignerInfoModel(sequence:number, publicKey:string|types.Pubkey):any{
         let single = new types.tx_tx_pb.ModeInfo.Single();
         single.setMode(types.signing_signing_pb.SignMode.SIGN_MODE_DIRECT);
 
@@ -40,7 +40,7 @@ export class TxModelCreator {
 
         let signerInfo = new types.tx_tx_pb.SignerInfo();
         signerInfo.setModeInfo(mode_info);
-        signerInfo.setSequence(String(sequence));
+        signerInfo.setSequence(sequence);
         
         if (publicKey) {
             let pk = TxModelCreator.createPublicKeyModel(publicKey);

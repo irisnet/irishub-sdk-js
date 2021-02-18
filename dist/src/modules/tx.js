@@ -27,6 +27,10 @@ var _errors = require("../errors");
 
 var _utils = require("../utils");
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 /**
  * Tx module allows you to sign or broadcast transactions
  *
@@ -147,12 +151,12 @@ var Tx = /*#__PURE__*/function () {
 
         case types.BroadcastMode.Sync:
           return this.broadcastTxSync(txBytes).then(function (response) {
-            return _this2.newTxResult(response.hash);
+            return _this2.newTxResult(response);
           });
 
         default:
           return this.broadcastTxAsync(txBytes).then(function (response) {
-            return _this2.newTxResult(response.hash);
+            return _this2.newTxResult(response);
           });
       }
     }
@@ -169,91 +173,98 @@ var Tx = /*#__PURE__*/function () {
     key: "sign",
     value: function () {
       var _sign = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
-        var _baseTx$account_numbe;
+        var _accountNumber;
 
-        var keyObj, accountNumber, sequence, account, privKey, pubKey, signature;
+        var offline,
+            keyObj,
+            privKey,
+            accountNumber,
+            sequence,
+            _account$accountNumbe,
+            _account$sequence,
+            account,
+            _sequence,
+            pubKey,
+            signature,
+            _args2 = arguments;
+
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                offline = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : false;
+
                 if (!is.empty(baseTx.from)) {
-                  _context2.next = 2;
+                  _context2.next = 3;
                   break;
                 }
 
                 throw new _errors.SdkError("baseTx.from of the key can not be empty");
 
-              case 2:
+              case 3:
                 if (!is.empty(baseTx.password)) {
-                  _context2.next = 4;
+                  _context2.next = 5;
                   break;
                 }
 
                 throw new _errors.SdkError("baseTx.password of the key can not be empty");
 
-              case 4:
+              case 5:
                 if (this.client.config.keyDAO.decrypt) {
-                  _context2.next = 6;
+                  _context2.next = 7;
                   break;
                 }
 
                 throw new _errors.SdkError("Decrypt method of KeyDAO not implemented", _errors.CODES.Panic);
 
-              case 6:
+              case 7:
                 keyObj = this.client.config.keyDAO.read(baseTx.from);
 
                 if (keyObj) {
-                  _context2.next = 9;
+                  _context2.next = 10;
                   break;
                 }
 
                 throw new _errors.SdkError("Key with name '".concat(baseTx.from, "' not found"), _errors.CODES.KeyNotFound);
 
-              case 9:
-                accountNumber = (_baseTx$account_numbe = baseTx.account_number) !== null && _baseTx$account_numbe !== void 0 ? _baseTx$account_numbe : '0';
-                sequence = baseTx.sequence || '0';
-
-                if (!(!baseTx.account_number || !baseTx.sequence)) {
-                  _context2.next = 17;
-                  break;
-                }
-
-                _context2.next = 14;
-                return this.client.auth.queryAccount(keyObj.address);
-
-              case 14:
-                account = _context2.sent;
-
-                if (account.accountNumber) {
-                  accountNumber = String(account.accountNumber) || '0';
-                }
-
-                if (account.sequence) {
-                  sequence = String(account.sequence) || '0';
-                }
-
-              case 17:
-                // Query account info from block chain
+              case 10:
                 privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
 
                 if (privKey) {
-                  _context2.next = 20;
+                  _context2.next = 13;
                   break;
                 }
 
                 throw new _errors.SdkError("decrypto the private key error", _errors.CODES.InvalidPassword);
 
-              case 20:
-                if (!stdTx.hasPubKey()) {
-                  pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
-                  stdTx.setPubKey(pubKey, sequence || undefined);
+              case 13:
+                accountNumber = baseTx.account_number;
+                sequence = baseTx.sequence; // Query account info from block chain
+
+                if (!((!baseTx.account_number || !baseTx.sequence) && !offline)) {
+                  _context2.next = 21;
+                  break;
                 }
 
-                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc(accountNumber || undefined, this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
+                _context2.next = 18;
+                return this.client.auth.queryAccount(keyObj.address);
+
+              case 18:
+                account = _context2.sent;
+                accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
+                sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
+
+              case 21:
+                if (!stdTx.hasPubKey()) {
+                  pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
+                  stdTx.setPubKey(pubKey, (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : undefined);
+                }
+
+                signature = _utils.Crypto.generateSignature(stdTx.getSignDoc((_accountNumber = accountNumber) !== null && _accountNumber !== void 0 ? _accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
                 stdTx.addSignature(signature);
                 return _context2.abrupt("return", stdTx);
 
-              case 24:
+              case 25:
               case "end":
                 return _context2.stop();
             }
@@ -338,35 +349,28 @@ var Tx = /*#__PURE__*/function () {
   }, {
     key: "broadcastTxCommit",
     value: function broadcastTxCommit(txBytes) {
+      var _this3 = this;
+
       return this.client.rpcClient.request(types.RpcMethods.BroadcastTxCommit, {
         tx: _utils.Utils.bytesToBase64(txBytes)
       }).then(function (response) {
-        var _response$deliver_tx, _response$deliver_tx2, _response$deliver_tx3, _response$deliver_tx4;
-
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           console.error(response.check_tx);
-          throw new _errors.SdkError(response.check_tx.log, response.check_tx.code);
+          throw new _errors.SdkError(response.check_tx.log, response.check_tx.code, response.check_tx.codespace);
         } // Deliver tx error
 
 
         if (response.deliver_tx && response.deliver_tx.code > 0) {
           console.error(response.deliver_tx);
-          throw new _errors.SdkError(response.deliver_tx.log, response.deliver_tx.code);
+          throw new _errors.SdkError(response.deliver_tx.log, response.deliver_tx.code, response.deliver_tx.codespace);
         }
 
         if (response.deliver_tx && response.deliver_tx.tags) {
           response.deliver_tx.tags = _utils.Utils.decodeTags(response.deliver_tx.tags);
         }
 
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: (_response$deliver_tx = response.deliver_tx) === null || _response$deliver_tx === void 0 ? void 0 : _response$deliver_tx.gas_wanted,
-          gas_used: (_response$deliver_tx2 = response.deliver_tx) === null || _response$deliver_tx2 === void 0 ? void 0 : _response$deliver_tx2.gas_used,
-          info: (_response$deliver_tx3 = response.deliver_tx) === null || _response$deliver_tx3 === void 0 ? void 0 : _response$deliver_tx3.info,
-          tags: (_response$deliver_tx4 = response.deliver_tx) === null || _response$deliver_tx4 === void 0 ? void 0 : _response$deliver_tx4.tags
-        };
+        return _this3.newTxResult(response);
       });
     }
     /**
@@ -378,7 +382,9 @@ var Tx = /*#__PURE__*/function () {
 
   }, {
     key: "broadcastTx",
-    value: function broadcastTx(txBytes, method) {
+    value: function broadcastTx(txBytes) {
+      var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : types.RpcMethods.BroadcastTxAsync;
+
       // Only accepts 'broadcast_tx_sync' and 'broadcast_tx_async'
       if (is.not.inArray(method, [types.RpcMethods.BroadcastTxSync, types.RpcMethods.BroadcastTxAsync])) {
         throw new _errors.SdkError("Unsupported broadcast method: ".concat(method), _errors.CODES.Internal);
@@ -388,7 +394,7 @@ var Tx = /*#__PURE__*/function () {
         tx: _utils.Utils.bytesToBase64(txBytes)
       }).then(function (response) {
         if (response.code && response.code > 0) {
-          throw new _errors.SdkError(response.log, response.code);
+          throw new _errors.SdkError(response.log, response.code, response.codespace);
         }
 
         return response;
@@ -406,15 +412,30 @@ var Tx = /*#__PURE__*/function () {
 
   }, {
     key: "newTxResult",
-    value: function newTxResult(hash, height, deliverTx) {
-      return {
-        hash: hash,
-        height: height,
-        gas_wanted: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_wanted,
-        gas_used: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.gas_used,
-        info: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.info,
-        tags: deliverTx === null || deliverTx === void 0 ? void 0 : deliverTx.tags
+    value: function newTxResult(response) {
+      var result = {
+        hash: response.hash
       };
+
+      if (response.height) {
+        result = _objectSpread(_objectSpread({}, result), {}, {
+          height: response.height
+        });
+      }
+
+      if (response.deliver_tx) {
+        var _response$deliver_tx, _response$deliver_tx2, _response$deliver_tx3, _response$deliver_tx4, _response$deliver_tx5;
+
+        result = _objectSpread(_objectSpread({}, result), {}, {
+          log: ((_response$deliver_tx = response.deliver_tx) === null || _response$deliver_tx === void 0 ? void 0 : _response$deliver_tx.log) || '',
+          info: ((_response$deliver_tx2 = response.deliver_tx) === null || _response$deliver_tx2 === void 0 ? void 0 : _response$deliver_tx2.info) || '',
+          gas_wanted: ((_response$deliver_tx3 = response.deliver_tx) === null || _response$deliver_tx3 === void 0 ? void 0 : _response$deliver_tx3.gas_wanted) || 0,
+          gas_used: ((_response$deliver_tx4 = response.deliver_tx) === null || _response$deliver_tx4 === void 0 ? void 0 : _response$deliver_tx4.gas_used) || 0,
+          events: ((_response$deliver_tx5 = response.deliver_tx) === null || _response$deliver_tx5 === void 0 ? void 0 : _response$deliver_tx5.events) || []
+        });
+      }
+
+      return result;
     }
     /**
      * create message
@@ -554,6 +575,25 @@ var Tx = /*#__PURE__*/function () {
         case types.TxType.MsgBurnNFT:
           {
             msg = new types.MsgBurnNFT(txMsg.value);
+            break;
+          }
+        //gov
+
+        case types.TxType.MsgSubmitProposal:
+          {
+            msg = new types.MsgSubmitProposal(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgVote:
+          {
+            msg = new types.MsgVote(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgDeposit:
+          {
+            msg = new types.MsgDeposit(txMsg.value);
             break;
           }
 

@@ -7,16 +7,18 @@ export interface ResultBroadcastTxAsync {
   data: string;
   log: string;
   hash: string;
+  codespace: string;
 }
 
 /** SDK Tx Result */
 export interface TxResult {
   hash: string;
   height?: number;
-  gas_used?: number;
-  gas_wanted?: number;
+  log?:string;
   info?: string;
-  tags?: Tag[];
+  gas_wanted?: number;
+  gas_used?: number;
+  events?: object[][];
 }
 
 /** BroadcastTx Result */
@@ -36,6 +38,8 @@ export interface ResultTx {
   gas_wanted: number;
   info: string;
   tags: Tag[];
+  codespace: string;
+  events: any[];
 }
 
 /** Tx query result */

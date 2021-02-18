@@ -11,7 +11,7 @@ describe('Bank Tests', () => {
         const amount: types.Coin[] = [
           {
             denom: 'ubif',
-            amount: '313',
+            amount: '1',
           },
         ];
 
