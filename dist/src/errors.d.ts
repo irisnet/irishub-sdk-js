@@ -46,9 +46,10 @@ export declare const CODES: {
 export declare class SdkError extends Error {
     /** Error code */
     code: number;
+    codespace: string;
     /**
      * Initialize SdkError with irishub error msg
      * @param msg irishub error msg
      */
-    constructor(msg: string, code?: number);
+    constructor(msg: string, code?: number, space?: string);
 }

@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgFundCommunityPool = exports.MsgWithdrawValidatorCommission = exports.MsgWithdrawDelegatorReward = exports.MsgWithdrawDelegatorRewardsAll = exports.MsgSetWithdrawAddress = void 0;
+exports.MsgFundCommunityPool = exports.MsgWithdrawValidatorCommission = exports.MsgWithdrawDelegatorReward = exports.MsgSetWithdrawAddress = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -90,59 +90,26 @@ var MsgSetWithdrawAddress = /*#__PURE__*/function (_Msg) {
   return MsgSetWithdrawAddress;
 }(_types.Msg);
 /**
- * Msg struct for delegation withdraw for all of the delegator's delegations
+ * Msg struct for delegation withdraw from a single validator
  * @hidden
  */
 
 
 exports.MsgSetWithdrawAddress = MsgSetWithdrawAddress;
 
-var MsgWithdrawDelegatorRewardsAll = /*#__PURE__*/function (_Msg2) {
-  (0, _inherits2["default"])(MsgWithdrawDelegatorRewardsAll, _Msg2);
+var MsgWithdrawDelegatorReward = /*#__PURE__*/function (_Msg2) {
+  (0, _inherits2["default"])(MsgWithdrawDelegatorReward, _Msg2);
 
-  var _super2 = _createSuper(MsgWithdrawDelegatorRewardsAll);
-
-  function MsgWithdrawDelegatorRewardsAll(delegatorAddr) {
-    var _this2;
-
-    (0, _classCallCheck2["default"])(this, MsgWithdrawDelegatorRewardsAll);
-    _this2 = _super2.call(this, 'irishub/distr/MsgWithdrawDelegationRewardsAll');
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
-    _this2.value = {
-      delegator_addr: delegatorAddr
-    };
-    return _this2;
-  }
-
-  (0, _createClass2["default"])(MsgWithdrawDelegatorRewardsAll, [{
-    key: "getSignBytes",
-    value: function getSignBytes() {
-      return this;
-    }
-  }]);
-  return MsgWithdrawDelegatorRewardsAll;
-}(_types.Msg);
-/**
- * Msg struct for delegation withdraw from a single validator
- * @hidden
- */
-
-
-exports.MsgWithdrawDelegatorRewardsAll = MsgWithdrawDelegatorRewardsAll;
-
-var MsgWithdrawDelegatorReward = /*#__PURE__*/function (_Msg3) {
-  (0, _inherits2["default"])(MsgWithdrawDelegatorReward, _Msg3);
-
-  var _super3 = _createSuper(MsgWithdrawDelegatorReward);
+  var _super2 = _createSuper(MsgWithdrawDelegatorReward);
 
   function MsgWithdrawDelegatorReward(msg) {
-    var _this3;
+    var _this2;
 
     (0, _classCallCheck2["default"])(this, MsgWithdrawDelegatorReward);
-    _this3 = _super3.call(this, _types.TxType.MsgWithdrawDelegatorReward);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
-    _this3.value = msg;
-    return _this3;
+    _this2 = _super2.call(this, _types.TxType.MsgWithdrawDelegatorReward);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
+    _this2.value = msg;
+    return _this2;
   }
 
   (0, _createClass2["default"])(MsgWithdrawDelegatorReward, [{
@@ -152,14 +119,14 @@ var MsgWithdrawDelegatorReward = /*#__PURE__*/function (_Msg3) {
     }
   }, {
     key: "validate",
-
+    value:
     /**
      * validate necessary params
      *
      * @return whether is is validated
      * @throws `SdkError` if validate failed.
      */
-    value: function validate() {
+    function validate() {
       if (is.empty(this.value.delegator_address)) {
         throw new _errors.SdkError("delegator address can not be empty");
       }
@@ -186,19 +153,19 @@ var MsgWithdrawDelegatorReward = /*#__PURE__*/function (_Msg3) {
 
 exports.MsgWithdrawDelegatorReward = MsgWithdrawDelegatorReward;
 
-var MsgWithdrawValidatorCommission = /*#__PURE__*/function (_Msg4) {
-  (0, _inherits2["default"])(MsgWithdrawValidatorCommission, _Msg4);
+var MsgWithdrawValidatorCommission = /*#__PURE__*/function (_Msg3) {
+  (0, _inherits2["default"])(MsgWithdrawValidatorCommission, _Msg3);
 
-  var _super4 = _createSuper(MsgWithdrawValidatorCommission);
+  var _super3 = _createSuper(MsgWithdrawValidatorCommission);
 
   function MsgWithdrawValidatorCommission(msg) {
-    var _this4;
+    var _this3;
 
     (0, _classCallCheck2["default"])(this, MsgWithdrawValidatorCommission);
-    _this4 = _super4.call(this, _types.TxType.MsgWithdrawValidatorCommission);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
-    _this4.value = msg;
-    return _this4;
+    _this3 = _super3.call(this, _types.TxType.MsgWithdrawValidatorCommission);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
+    _this3.value = msg;
+    return _this3;
   }
 
   (0, _createClass2["default"])(MsgWithdrawValidatorCommission, [{
@@ -238,19 +205,19 @@ var MsgWithdrawValidatorCommission = /*#__PURE__*/function (_Msg4) {
 
 exports.MsgWithdrawValidatorCommission = MsgWithdrawValidatorCommission;
 
-var MsgFundCommunityPool = /*#__PURE__*/function (_Msg5) {
-  (0, _inherits2["default"])(MsgFundCommunityPool, _Msg5);
+var MsgFundCommunityPool = /*#__PURE__*/function (_Msg4) {
+  (0, _inherits2["default"])(MsgFundCommunityPool, _Msg4);
 
-  var _super5 = _createSuper(MsgFundCommunityPool);
+  var _super4 = _createSuper(MsgFundCommunityPool);
 
   function MsgFundCommunityPool(msg) {
-    var _this5;
+    var _this4;
 
     (0, _classCallCheck2["default"])(this, MsgFundCommunityPool);
-    _this5 = _super5.call(this, _types.TxType.MsgFundCommunityPool);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this5), "value", void 0);
-    _this5.value = msg;
-    return _this5;
+    _this4 = _super4.call(this, _types.TxType.MsgFundCommunityPool);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
+    _this4.value = msg;
+    return _this4;
   }
 
   (0, _createClass2["default"])(MsgFundCommunityPool, [{
@@ -290,25 +257,7 @@ var MsgFundCommunityPool = /*#__PURE__*/function (_Msg5) {
     }
   }]);
   return MsgFundCommunityPool;
-}(_types.Msg); // /**
-//  * Msg struct for validator withdraw
-//  * @hidden
-//  */
-// export class MsgWithdrawValidatorRewardsAll extends Msg {
-//   value: {
-//     validator_addr: string;
-//   };
-//   constructor(validatorAddr: string) {
-//     super('irishub/distr/MsgWithdrawValidatorRewardsAll')
-//     this.value = {
-//       validator_addr: validatorAddr,
-//     };
-//   }
-//   getSignBytes(): object {
-//     return this;
-//   }
-// }
-
+}(_types.Msg);
 /** Common rewards struct */
 
 

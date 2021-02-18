@@ -2,8 +2,6 @@ import { Client } from '../client';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
 
-const slashing_pb = require('../types/proto-types/cosmos/slashing/v1beta1/slashing_pb');
-
 /**
  * ProtobufModel module allows you to deserialize protobuf serialize string
  *
@@ -24,7 +22,7 @@ export class Protobuf {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} Tx object                        
    */
-  deserializeTx(tx:string, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
+  deserializeTx(tx:string, returnProtobufModel?:boolean):object{
     if (!tx) {
       throw new SdkError('tx can not be empty');
     }
@@ -44,9 +42,10 @@ export class Protobuf {
   /**
    * Unpack protobuffer tx msg
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @param  {[type]} msg tx msg of proto any type
    * @return {[type]} message object 
    */
-  unpackMsg(msg:{typeUrl:string,value:string}, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object|null{
+  unpackMsg(msg:{typeUrl:string,value:string}, returnProtobufModel?:boolean):object|null{
     if (!msg) {
       throw new SdkError('message can not be empty');
     }
@@ -144,6 +143,19 @@ export class Protobuf {
             messageModelClass = types.MsgBurnNFT.getModelClass();
             break;
         }
+        //gov
+        case types.TxType.MsgSubmitProposal: {
+            messageModelClass = types.MsgSubmitProposal.getModelClass();
+            break;
+        }
+        case types.TxType.MsgVote: {
+            messageModelClass = types.MsgVote.getModelClass();
+            break;
+        }
+        case types.TxType.MsgDeposit: {
+            messageModelClass = types.MsgDeposit.getModelClass();
+            break;
+        }
         default: {
             throw new SdkError("not exist tx type",CODES.InvalidType);
         }
@@ -154,7 +166,56 @@ export class Protobuf {
           messageObj = messageObj.toObject();
           messageObj.type = typeUrl;
         }
+        if (typeUrl == types.TxType.MsgSubmitProposal && messageObj.content && messageObj.content.typeUrl && messageObj.content.value) {
+          messageObj.content = this.unpackProposalContent(messageObj.content);
+        }
         return messageObj;
+    }else{
+      return null;
+    }
+  }
+
+  /**
+   * Unpack protobuffer Proposal Content
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @param  {[type]} content proposal Content of proto any type
+   * @return {[type]} message object 
+   */
+  unpackProposalContent(content:{typeUrl:string,value:string}, returnProtobufModel?:boolean):object|null{
+    if (!content) {
+      return null;
+    }
+    let contentModelClass:any;
+    let typeUrl = content.typeUrl.replace(/^\//,'');
+    switch (typeUrl) {
+        case types.ProposalType.Text_Proposal: {
+            contentModelClass = types.gov_gov_pb.TextProposal;
+            break;
+        }
+        case types.ProposalType.Community_Pool_Spend_Proposal: {
+            contentModelClass = types.distribution_distribution_pb.CommunityPoolSpendProposal;
+            break;
+        }
+        case types.ProposalType.Parameter_Change_Proposal: {
+            contentModelClass = types.params_params_pb.ParameterChangeProposal;
+            break;
+        }
+        case types.ProposalType.Software_Upgrade_Proposal: {
+            contentModelClass = types.upgrade_upgrade_pb.SoftwareUpgradeProposal;
+            break;
+        }
+        case types.ProposalType.Cancel_Software_Upgrade_Proposal: {
+            contentModelClass = types.upgrade_upgrade_pb.CancelSoftwareUpgradeProposal;
+            break;
+        }
+    }
+    if (contentModelClass && contentModelClass.deserializeBinary) {
+        let contentObj = contentModelClass.deserializeBinary(content.value);
+        if (!returnProtobufModel && contentObj && contentObj.toObject) {
+          contentObj = contentObj.toObject();
+          contentObj.type = typeUrl;
+        }
+        return contentObj;
     }else{
       return null;
     }
@@ -166,7 +227,7 @@ export class Protobuf {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} signDoc object                        
    */
-  deserializeSignDoc(signDoc:string, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
+  deserializeSignDoc(signDoc:string, returnProtobufModel?:boolean):object{
     if (!signDoc) {
       throw new SdkError('signDoc can not be empty');
     }
@@ -183,7 +244,7 @@ export class Protobuf {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} txRaw object                        
    */
-  deserializeTxRaw(txRaw:string, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
+  deserializeTxRaw(txRaw:string, returnProtobufModel?:boolean):object{
     if (!txRaw) {
       throw new SdkError('txRaw can not be empty');
     }
@@ -205,9 +266,9 @@ export class Protobuf {
       throw new SdkError('signing info can not be empty');
     }
     if (returnProtobufModel) {
-      return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo);
+      return types.slashing_slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo);
     }else{
-      return slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
+      return types.slashing_slashing_pb.ValidatorSigningInfo.deserializeBinary(signingInfo).toObject();
     }
   }
 
@@ -217,7 +278,7 @@ export class Protobuf {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} pubKey object                        
    */
-  deserializePubkey(pubKey:{typeUrl:string, value:string}, returnProtobufModel?:boolean):types.ValidatorSigningInfo|object{
+  deserializePubkey(pubKey:{typeUrl:string, value:string}, returnProtobufModel?:boolean):object{
     if (!pubKey) {
       throw new SdkError('pubKey can not be empty');
     }

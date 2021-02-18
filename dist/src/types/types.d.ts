@@ -37,7 +37,10 @@ export declare enum TxType {
     MsgIssueToken = "irismod.token.MsgIssueToken",
     MsgEditToken = "irismod.token.MsgEditToken",
     MsgMintToken = "irismod.token.MsgMintToken",
-    MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner"
+    MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner",
+    MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",
+    MsgVote = "cosmos.gov.v1beta1.MsgVote",
+    MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit"
 }
 /**
  * Base Tx
@@ -67,6 +70,7 @@ export interface JSONRPCResponse<T> {
     id: string;
     error: JsonRpcError;
     result: T;
+    codespace?: string;
 }
 /**
  * JsonRpc Error
@@ -75,6 +79,7 @@ export interface JsonRpcError {
     code: number;
     message: string;
     data: string;
+    codespace?: string;
 }
 /**
  * Base Pubkey

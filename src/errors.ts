@@ -54,14 +54,16 @@ export class SdkError extends Error {
   // codespace = CODESPACE_ROOT;
   /** Error code */
   code = CODES.InvalidRequest;
+  codespace: string = 'sdk-js';
 
   /**
    * Initialize SdkError with irishub error msg
    * @param msg irishub error msg
    */
-  constructor(msg: string, code = CODES.InvalidRequest) {
+  constructor(msg: string, code = CODES.InvalidRequest, space?:string) {
     super(msg);
     // const mappedCode = errorMap.get(this.codespace + code);
     this.code = code;
+    this.codespace = space??this.codespace;
   }
 }

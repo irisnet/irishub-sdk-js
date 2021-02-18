@@ -53,7 +53,6 @@ var Client = /*#__PURE__*/function () {
   /** Tx module */
 
   /** Gov module */
-  // gov: modules.Gov;
 
   /** Slashing module */
 
@@ -89,6 +88,7 @@ var Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "protobuf", void 0);
     (0, _defineProperty2["default"])(this, "staking", void 0);
     (0, _defineProperty2["default"])(this, "tx", void 0);
+    (0, _defineProperty2["default"])(this, "gov", void 0);
     (0, _defineProperty2["default"])(this, "slashing", void 0);
     (0, _defineProperty2["default"])(this, "distribution", void 0);
     (0, _defineProperty2["default"])(this, "utils", void 0);
@@ -121,8 +121,8 @@ var Client = /*#__PURE__*/function () {
     this.keys = new modules.Keys(this);
     this.tx = new modules.Tx(this);
     this.protobuf = new modules.Protobuf(this);
-    this.staking = new modules.Staking(this); // this.gov = new modules.Gov(this);
-
+    this.staking = new modules.Staking(this);
+    this.gov = new modules.Gov(this);
     this.slashing = new modules.Slashing(this);
     this.distribution = new modules.Distribution(this); // this.service = new modules.Service(this);
     // this.oracle = new modules.Oracle(this);
@@ -303,9 +303,15 @@ var DefaultKeyDAOImpl = /*#__PURE__*/function () {
   }, {
     key: "decrypt",
     value: function decrypt(encrptedPrivKey, password) {
-      var decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+      var decrypted;
 
-      if (!decrypted) {
+      try {
+        decrypted = AES.decrypt(encrptedPrivKey, password).toString(ENC);
+
+        if (!decrypted) {
+          throw new _errors.SdkError('Wrong password', _errors.CODES.InvalidPassword);
+        }
+      } catch (e) {
         throw new _errors.SdkError('Wrong password', _errors.CODES.InvalidPassword);
       }
 
