@@ -70,6 +70,7 @@ export interface JSONRPCResponse<T> {
     id: string;
     error: JsonRpcError;
     result: T;
+    codespace?: string;
 }
 /**
  * JsonRpc Error
@@ -78,6 +79,7 @@ export interface JsonRpcError {
     code: number;
     message: string;
     data: string;
+    codespace?: string;
 }
 /**
  * Base Pubkey

@@ -94,11 +94,11 @@ export class Tx {
         return this.broadcastTxCommit(txBytes);
       case types.BroadcastMode.Sync:
         return this.broadcastTxSync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
       default:
         return this.broadcastTxAsync(txBytes).then(response => {
-          return this.newTxResult(response.hash);
+          return this.newTxResult(response);
         });
     }
   }
@@ -131,19 +131,20 @@ export class Tx {
       throw new SdkError(`Key with name '${baseTx.from}' not found`,CODES.KeyNotFound);
     }
 
+    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
+    if (!privKey) {
+      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
+    }
+
     let accountNumber = baseTx.account_number;
     let sequence = baseTx.sequence;
-
+    // Query account info from block chain
     if ((!baseTx.account_number || !baseTx.sequence) && !offline) {
       const account = await this.client.auth.queryAccount(keyObj.address);
       accountNumber = account.accountNumber??0;
       sequence = account.sequence??0;
     }
-    // Query account info from block chain
-    const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
-    if (!privKey) {
-      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
-    }
+
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence??undefined);
@@ -225,26 +226,19 @@ export class Tx {
         // Check tx error
         if (response.check_tx && response.check_tx.code > 0) {
           console.error(response.check_tx);
-          throw new SdkError(response.check_tx.log, response.check_tx.code);
+          throw new SdkError(response.check_tx.log, response.check_tx.code, response.check_tx.codespace);
         }
 
         // Deliver tx error
         if (response.deliver_tx && response.deliver_tx.code > 0) {
           console.error(response.deliver_tx);
-          throw new SdkError(response.deliver_tx.log, response.deliver_tx.code);
+          throw new SdkError(response.deliver_tx.log, response.deliver_tx.code, response.deliver_tx.codespace);
         }
 
         if (response.deliver_tx && response.deliver_tx.tags) {
           response.deliver_tx.tags = Utils.decodeTags(response.deliver_tx.tags);
         }
-        return {
-          hash: response.hash,
-          height: response.height,
-          gas_wanted: response.deliver_tx?.gas_wanted,
-          gas_used: response.deliver_tx?.gas_used,
-          info: response.deliver_tx?.info,
-          tags: response.deliver_tx?.tags,
-        };
+        return this.newTxResult(response);
       });
   }
 
@@ -274,9 +268,8 @@ export class Tx {
       })
       .then(response => {
         if (response.code && response.code > 0) {
-          throw new SdkError(response.log, response.code);
+          throw new SdkError(response.log, response.code, response.codespace);
         }
-
         return response;
       });
   }
@@ -292,19 +285,22 @@ export class Tx {
   //   return copyStdTx;
   // }
 
-  private newTxResult(
-    hash: string,
-    height?: number,
-    deliverTx?: types.ResultTx
-  ): types.TxResult {
-    return {
-      hash,
-      height,
-      gas_wanted: deliverTx?.gas_wanted,
-      gas_used: deliverTx?.gas_used,
-      info: deliverTx?.info,
-      tags: deliverTx?.tags,
-    };
+  private newTxResult(response:any): types.TxResult {
+    let result:types.TxResult = { hash:response.hash };
+    if (response.height) {
+      result = { ...result, height:response.height };
+    }
+    if (response.deliver_tx) {
+      result = {
+        ...result,
+        log: response.deliver_tx?.log || '',
+        info: response.deliver_tx?.info || '',
+        gas_wanted: response.deliver_tx?.gas_wanted || 0,
+        gas_used: response.deliver_tx?.gas_used || 0,
+        events: response.deliver_tx?.events || [],
+      }
+    }
+    return result;
   }
 
   /**

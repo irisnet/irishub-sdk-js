@@ -88,7 +88,7 @@ var RpcClient = /*#__PURE__*/function () {
 
         if (res.error) {
           console.error(res.error);
-          throw new _errors.SdkError(res.error.message, res.error.code);
+          throw new _errors.SdkError(res.error.message, res.error.code, "rpc_".concat(method));
         }
 
         return res.result;
@@ -129,13 +129,13 @@ var RpcClient = /*#__PURE__*/function () {
               return response.response.value;
             }
           } else if (response.response.code) {
-            throw new _errors.SdkError(response.response.log, response.response.code);
+            throw new _errors.SdkError(response.response.log, response.response.code, response.response.codespace);
           } else {
             return null;
           }
         }
 
-        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log));
+        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log), response.response.code, response.response.codespace);
       });
     }
     /**
@@ -178,13 +178,13 @@ var RpcClient = /*#__PURE__*/function () {
             // return res;
 
           } else if (response.response.code) {
-            throw new _errors.SdkError(response.response.log, response.response.code);
+            throw new _errors.SdkError(response.response.log, response.response.code, response.response.codespace);
           } else {
             return null;
           }
         }
 
-        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log));
+        throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log), response.response.code, response.response.codespace);
       });
     }
     /**

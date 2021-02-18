@@ -94,14 +94,14 @@ var EventQueryBuilder = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(EventQueryBuilder, [{
     key: "addCondition",
-
+    value:
     /**
      * Add a query condition
      * @param eventKey
      * @param value
      * @returns The builder itself
      */
-    value: function addCondition(condition) {
+    function addCondition(condition) {
       this.conditions.push(condition);
       return this;
     }

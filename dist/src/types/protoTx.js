@@ -60,12 +60,12 @@ var ProtoTx = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(ProtoTx, [{
     key: "addSignature",
-
+    value:
     /**
      * add signature
      * @param {[string]} signature base64
      */
-    value: function addSignature(signature) {
+    function addSignature(signature) {
       if (!signature || !signature.length) {
         throw new _errors.SdkError("signature is  empty", _errors.CODES.NoSignatures);
       }
