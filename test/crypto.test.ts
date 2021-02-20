@@ -33,8 +33,17 @@ test('Crypto', async () => {
 test('Marshal PubKey', async ()=>{
   let pk =  Crypto.aminoMarshalPubKey({
     type:types.PubkeyType.ed25519,
-    value:'F205xccFhKHMnNEHFwtHLzDVjPaGGBuSnO0wR8OmEvo='
+    value:'FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c=='
   });
   let pk_bech32 = Crypto.encodeAddress(pk,'icp');
   console.log('pk_bech32:',pk_bech32);
 });
+
+test('get Address From PublicKey', async ()=>{
+  let pk =  Crypto.getAddressFromPublicKey({
+    type:types.PubkeyType.ed25519,
+    value:Buffer.from('FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c==','base64').toString('hex')
+  },'ica');
+  console.log('pk_bech32:',pk);
+});
+

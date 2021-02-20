@@ -222,7 +222,8 @@ export class Crypto {
     let hash:string = ''; 
     switch(publicKey.type){
       case types.PubkeyType.ed25519:
-      throw new SdkError("not implement",CODES.Panic);
+      hash = Utils.sha256(publicKey.value).substr(0,40);
+      break;
       case types.PubkeyType.sm2:
       hash = Utils.sha256(publicKey.value).substr(0,40);
       break;
