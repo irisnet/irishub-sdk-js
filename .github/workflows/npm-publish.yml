@@ -4,12 +4,11 @@
 name: Publish
 
 on:
-  create:
   push:
-    branches:
-      - master
     tags:
       - '.*'
+      - '**'
+      - '*'
 
 jobs:
   publish-npm:
