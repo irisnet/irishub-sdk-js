@@ -33,7 +33,7 @@ export class Keys {
     name: string, 
     password: string, 
     type:types.PubkeyType = types.PubkeyType.secp256k1
-    ): { address: string; mnemonic: string } {
+    ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -65,15 +65,16 @@ export class Keys {
         password
     );
 
-    // Save the key to app
-    this.client.config.keyDAO.write(name, {
+    let wallet = {
         address,
         privateKey: encryptedPrivKey,
         publicKey: Crypto.aminoMarshalPubKey(pubKey),
         mnemonic: encryptedMnemonic,
-    });
+    };
+    // Save the key to app
+    this.client.config.keyDAO.write(name, wallet);
 
-    return { address, mnemonic };
+    return wallet;
   }
 
   /**
@@ -97,7 +98,7 @@ export class Keys {
     index = 0,
     derive = true,
     saltPassword = '',
-  ): string {
+  ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -132,14 +133,15 @@ export class Keys {
       password
     );
 
-    // Save the key to app
-    this.client.config.keyDAO.write(name, {
+    let wallet = {
         address,
         privateKey: encryptedPrivKey,
         publicKey: Crypto.aminoMarshalPubKey(pubKey),
-    });
-
-    return address;
+        mnemonic
+    };
+    // Save the key to app
+    this.client.config.keyDAO.write(name, wallet);
+    return wallet;
   }
 
   /**
@@ -157,7 +159,7 @@ export class Keys {
     password: string,
     keystore: string | types.Keystore,
     type:types.PubkeyType = types.PubkeyType.secp256k1
-  ): string {
+  ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -187,14 +189,15 @@ export class Keys {
       password
     );
 
-    // Save the key to app
-    this.client.config.keyDAO.write(name, {
+    let wallet = {
         address,
         privateKey: encryptedPrivKey,
         publicKey:Crypto.aminoMarshalPubKey(pubKey),
-    });
+    };
+    // Save the key to app
+    this.client.config.keyDAO.write(name, wallet);
 
-    return address;
+    return wallet;
   }
 
   /**
@@ -212,7 +215,7 @@ export class Keys {
     password: string,
     privateKey: string,
     type:types.PubkeyType = types.PubkeyType.secp256k1
-  ): string {
+  ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -238,14 +241,15 @@ export class Keys {
       privateKey,
       password
     );
-    // Save the key to app
-    this.client.config.keyDAO.write(name, {
+
+    let wallet = {
         address,
         privateKey: encryptedPrivKey,
         publicKey:Crypto.aminoMarshalPubKey(pubKey)
-    });
-
-    return address;
+    };
+    // Save the key to app
+    this.client.config.keyDAO.write(name, wallet);
+    return wallet;
   }
 
   /**
