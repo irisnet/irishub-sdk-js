@@ -81,18 +81,16 @@ var Keys = /*#__PURE__*/function () {
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
       var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
-      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
         mnemonic: encryptedMnemonic
-      });
-      return {
-        address: address,
-        mnemonic: mnemonic
-      };
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Recover a key
@@ -142,14 +140,16 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
+        mnemonic: mnemonic
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Import a key from keystore
@@ -193,14 +193,15 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Import a PrivateKey
@@ -238,14 +239,15 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Export keystore of a key
