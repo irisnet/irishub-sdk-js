@@ -133,11 +133,16 @@ export class Keys {
       password
     );
 
+    const encryptedMnemonic = this.client.config.keyDAO.encrypt(
+        mnemonic,
+        password
+    );
+
     let wallet = {
         address,
         privateKey: encryptedPrivKey,
         publicKey: Crypto.aminoMarshalPubKey(pubKey),
-        mnemonic
+        mnemonic: encryptedMnemonic
     };
     // Save the key to app
     this.client.config.keyDAO.write(name, wallet);

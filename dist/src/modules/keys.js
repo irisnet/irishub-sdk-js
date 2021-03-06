@@ -141,11 +141,12 @@ var Keys = /*#__PURE__*/function () {
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
       var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
       var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
-        mnemonic: mnemonic
+        mnemonic: encryptedMnemonic
       }; // Save the key to app
 
       this.client.config.keyDAO.write(name, wallet);
