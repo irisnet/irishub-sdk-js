@@ -172,16 +172,19 @@ var Protobuf = /*#__PURE__*/function () {
 
         case types.TxType.MsgAddLiquidity:
           {
+            messageModelClass = types.MsgAddLiquidity.getModelClass();
             break;
           }
 
         case types.TxType.MsgRemoveLiquidity:
           {
+            messageModelClass = types.MsgRemoveLiquidity.getModelClass();
             break;
           }
 
         case types.TxType.MsgSwapOrder:
           {
+            messageModelClass = types.MsgSwapOrder.getModelClass();
             break;
           }
         //nft

@@ -44,6 +44,7 @@ export declare const crypto_sm2_keys_pb: any;
 export declare const base_coin_pb: any;
 export declare const signing_signing_pb: any;
 export declare const gov_gov_pb: any;
+export declare const coinswap_coinswap_pb: any;
 export declare const distribution_distribution_pb: any;
 export declare const params_params_pb: any;
 export declare const upgrade_upgrade_pb: any;
