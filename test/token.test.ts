@@ -61,10 +61,10 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.issueToken({
-          symbol: 'BTC',
+          symbol: 'kittt',
           name: 'test',
           scale: 6,
-          min_unit: 'btc',
+          min_unit: 'kit',
           initial_supply: 1000000,
           max_supply: 10000000,
           mintable: true,
