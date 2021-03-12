@@ -6,7 +6,7 @@ import { SdkError, CODES } from '../errors';
 /**
  * param struct for add liquidity tx
  */
- export interface AddLiquidityTxParam {
+export interface AddLiquidityTxParam {
   max_token: Coin,
   exact_standard_amt: string,
   min_liquidity: string,
@@ -29,16 +29,16 @@ export class MsgAddLiquidity extends Msg {
     sender: string
   };
 
-  constructor(msg:AddLiquidityTxParam) {
+  constructor(msg: AddLiquidityTxParam) {
     super(TxType.MsgAddLiquidity);
     this.value = msg;
   }
 
-  static getModelClass():any{
+  static getModelClass(): any {
     return pbs.coinswap_tx_pb.MsgAddLiquidity;
   }
 
-  getModel():any{
+  getModel(): any {
     let msg = new ((this.constructor as any).getModelClass())();
     msg.setExactStandardAmt(this.value.exact_standard_amt);
     msg.setMinLiquidity(this.value.min_liquidity);
@@ -70,7 +70,7 @@ export class MsgAddLiquidity extends Msg {
 /**
  * param struct for add liquidity tx
  */
- export interface RemoveLiquidityTxParam {
+export interface RemoveLiquidityTxParam {
   withdraw_liquidity: Coin,
   min_token: string,
   min_standard_amt: string,
@@ -84,7 +84,7 @@ export class MsgAddLiquidity extends Msg {
  *
  * @hidden
  */
- export class MsgRemoveLiquidity extends Msg {
+export class MsgRemoveLiquidity extends Msg {
   value: {
     withdraw_liquidity: Coin,
     min_token: string,
@@ -93,16 +93,16 @@ export class MsgAddLiquidity extends Msg {
     sender: string
   };
 
-  constructor(msg:RemoveLiquidityTxParam) {
+  constructor(msg: RemoveLiquidityTxParam) {
     super(TxType.MsgRemoveLiquidity);
     this.value = msg;
   }
 
-  static getModelClass():any{
+  static getModelClass(): any {
     return pbs.coinswap_tx_pb.MsgRemoveLiquidity;
   }
 
-  getModel():any{
+  getModel(): any {
     let msg = new ((this.constructor as any).getModelClass())();
     msg.setWithdrawLiquidity(TxModelCreator.createCoinModel(this.value.withdraw_liquidity.denom, this.value.withdraw_liquidity.amount));
     msg.setMinToken(this.value.min_token);
@@ -135,9 +135,15 @@ export class MsgAddLiquidity extends Msg {
 /**
  * param struct for add liquidity tx
  */
- export interface SwapOrderTxParam {
-  input: Input,
-  output: Output,
+export interface SwapOrderTxParam {
+  input: {
+    address: string;
+    coin: Coin;
+  },
+  output: {
+    address: string;
+    coin: Coin;
+  },
   deadline: number,
   is_buy_order: boolean
 }
@@ -147,24 +153,30 @@ export class MsgAddLiquidity extends Msg {
  *
  * @hidden
  */
- export class MsgSwapOrder extends Msg {
+export class MsgSwapOrder extends Msg {
   value: {
-    input: Input,
-    output: Output,
+    input: {
+      address: string;
+      coin: Coin;
+    },
+    output: {
+      address: string;
+      coin: Coin;
+    },
     deadline: number,
     is_buy_order: boolean
   };
 
-  constructor(msg:SwapOrderTxParam) {
+  constructor(msg: SwapOrderTxParam) {
     super(TxType.MsgSwapOrder);
     this.value = msg;
   }
 
-  static getModelClass():any{
+  static getModelClass(): any {
     return pbs.coinswap_tx_pb.MsgSwapOrder;
   }
 
-  getModel():any{
+  getModel(): any {
     let msg = new ((this.constructor as any).getModelClass())();
     let inputMsg = new pbs.coinswap_coinswap_pb.Input();
     inputMsg.setAddress(this.value.input.address);
@@ -194,20 +206,6 @@ export class MsgAddLiquidity extends Msg {
     }
   }
 }
-
-
-/** Base input and output struct */
-export interface InputOutput {
-  /** Bech32 account address */
-  address: string;
-  coin: Coin;
-}
-
-/** Input implemention of InputOutput */
-export interface Input extends InputOutput {}
-
-/** Output implemention of InputOutput */
-export interface Output extends InputOutput {}
 
 export interface Liquidity {
   standard: Coin;
