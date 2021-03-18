@@ -15,13 +15,7 @@ export interface AddLiquidityTxParam {
  * @hidden
  */
 export declare class MsgAddLiquidity extends Msg {
-    value: {
-        max_token: Coin;
-        exact_standard_amt: string;
-        min_liquidity: string;
-        deadline: number;
-        sender: string;
-    };
+    value: AddLiquidityTxParam;
     constructor(msg: AddLiquidityTxParam);
     static getModelClass(): any;
     getModel(): any;
@@ -43,13 +37,7 @@ export interface RemoveLiquidityTxParam {
  * @hidden
  */
 export declare class MsgRemoveLiquidity extends Msg {
-    value: {
-        withdraw_liquidity: Coin;
-        min_token: string;
-        min_standard_amt: string;
-        deadline: number;
-        sender: string;
-    };
+    value: RemoveLiquidityTxParam;
     constructor(msg: RemoveLiquidityTxParam);
     static getModelClass(): any;
     getModel(): any;
@@ -76,18 +64,7 @@ export interface SwapOrderTxParam {
  * @hidden
  */
 export declare class MsgSwapOrder extends Msg {
-    value: {
-        input: {
-            address: string;
-            coin: Coin;
-        };
-        output: {
-            address: string;
-            coin: Coin;
-        };
-        deadline: number;
-        is_buy_order: boolean;
-    };
+    value: SwapOrderTxParam;
     constructor(msg: SwapOrderTxParam);
     static getModelClass(): any;
     getModel(): any;
