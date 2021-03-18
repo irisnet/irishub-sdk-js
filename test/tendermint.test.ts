@@ -23,7 +23,7 @@ describe('Tendermint Tests', () => {
     'query block by height',
     async () => {
       await BaseTest.getClient()
-        .tendermint.queryBlock(196)
+        .tendermint.queryBlock(1755803)
         .then(res => {
           console.log(JSON.stringify(res));
         })

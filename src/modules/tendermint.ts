@@ -40,6 +40,7 @@ export class Tendermint {
               this.client.protobuf.deserializeTx(msg)
             );
           });
+          res.block.data.originalTxs = res.block.data.txs;
           res.block.data.txs = decodedTxs;
         }
         return res as types.Block;
