@@ -301,7 +301,8 @@ var Crypto = /*#__PURE__*/function () {
 
       switch (publicKey.type) {
         case types.PubkeyType.ed25519:
-          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
+          hash = _utils.Utils.sha256(publicKey.value).substr(0, 40);
+          break;
 
         case types.PubkeyType.sm2:
           hash = _utils.Utils.sha256(publicKey.value).substr(0, 40);
