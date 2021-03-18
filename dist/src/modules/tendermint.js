@@ -62,6 +62,7 @@ var Tendermint = /*#__PURE__*/function () {
           txs.forEach(function (msg) {
             decodedTxs.push(_this.client.protobuf.deserializeTx(msg));
           });
+          res.block.data.originalTxs = res.block.data.txs;
           res.block.data.txs = decodedTxs;
         }
 
