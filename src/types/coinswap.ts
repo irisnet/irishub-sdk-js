@@ -1,7 +1,7 @@
-import { Coin, Msg, Pubkey, TxType } from './types';
+import { Coin, Msg, TxType } from './types';
 import { TxModelCreator } from '../helper';
 import * as pbs from "./proto";
-import { SdkError, CODES } from '../errors';
+import { SdkError } from '../errors';
 
 /**
  * param struct for add liquidity tx
@@ -21,13 +21,7 @@ export interface AddLiquidityTxParam {
  * @hidden
  */
 export class MsgAddLiquidity extends Msg {
-  value: {
-    max_token: Coin,
-    exact_standard_amt: string,
-    min_liquidity: string,
-    deadline: number,
-    sender: string
-  };
+  value: AddLiquidityTxParam;
 
   constructor(msg: AddLiquidityTxParam) {
     super(TxType.MsgAddLiquidity);
@@ -85,13 +79,7 @@ export interface RemoveLiquidityTxParam {
  * @hidden
  */
 export class MsgRemoveLiquidity extends Msg {
-  value: {
-    withdraw_liquidity: Coin,
-    min_token: string,
-    min_standard_amt: string,
-    deadline: number,
-    sender: string
-  };
+  value: RemoveLiquidityTxParam;
 
   constructor(msg: RemoveLiquidityTxParam) {
     super(TxType.MsgRemoveLiquidity);
@@ -154,18 +142,7 @@ export interface SwapOrderTxParam {
  * @hidden
  */
 export class MsgSwapOrder extends Msg {
-  value: {
-    input: {
-      address: string;
-      coin: Coin;
-    },
-    output: {
-      address: string;
-      coin: Coin;
-    },
-    deadline: number,
-    is_buy_order: boolean
-  };
+  value: SwapOrderTxParam;
 
   constructor(msg: SwapOrderTxParam) {
     super(TxType.MsgSwapOrder);
