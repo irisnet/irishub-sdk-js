@@ -41,6 +41,22 @@ var Htlc = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
+  /**
+   * create an HTLC
+   * @param {Object} param {
+   *  sender
+   *  to
+   *  receiver_on_other_chain
+   *  sender_on_other_chain
+   *  amount
+   *  hash_lock
+   *  timestamp
+   *  time_lock
+   *  transfer
+   *  }
+   *  @param baseTx { types.BaseTx }
+   */
+
 
   (0, _createClass2["default"])(Htlc, [{
     key: "createHTLC",
@@ -56,6 +72,14 @@ var Htlc = /*#__PURE__*/function () {
       }];
       return this.client.tx.buildAndSend(msgs, baseTx);
     }
+    /**
+     * claim an HTLC
+     * @param sender
+     * @param id
+     * @param secret
+     * @param baseTx
+     */
+
   }, {
     key: "claimHTLC",
     value: function claimHTLC(sender, id, secret, baseTx) {
@@ -69,6 +93,11 @@ var Htlc = /*#__PURE__*/function () {
       }];
       return this.client.tx.buildAndSend(msgs, baseTx);
     }
+    /**
+     * HTLC queries the HTLC by the specified hash lock
+     * @type id
+     */
+
   }, {
     key: "queryHTLC",
     value: function queryHTLC(id) {
@@ -80,6 +109,11 @@ var Htlc = /*#__PURE__*/function () {
       request.setId(id);
       return this.client.rpcClient.protoQuery('/irismod.htlc.Query/HTLC', request, types.htlc_query_pb.QueryHTLCResponse);
     }
+    /**
+     * AssetSupply queries the supply of an asset
+     * @type denom
+     */
+
   }, {
     key: "queryAssetSupply",
     value: function queryAssetSupply(denom) {
@@ -91,12 +125,20 @@ var Htlc = /*#__PURE__*/function () {
       request.setDenom(denom);
       return this.client.rpcClient.protoQuery('/irismod.htlc.Query/AssetSupply', request, types.htlc_query_pb.QueryAssetSupplyResponse);
     }
+    /**
+     * AssetSupplies queries the supplies of all assets
+     */
+
   }, {
     key: "queryAssetSupplies",
     value: function queryAssetSupplies() {
       var request = new types.htlc_query_pb.QueryAssetSuppliesRequest();
       return this.client.rpcClient.protoQuery('/irismod.htlc.Query/AssetSupplies', request, types.htlc_query_pb.QueryAssetSuppliesResponse);
     }
+    /**
+     * Params queries the htlc parameters
+     */
+
   }, {
     key: "queryParams",
     value: function queryParams() {

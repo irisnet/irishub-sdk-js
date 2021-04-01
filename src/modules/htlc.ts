@@ -18,6 +18,21 @@ export class Htlc {
     this.client = client;
   }
 
+  /**
+   * create an HTLC
+   * @param {Object} param {
+   *  sender
+   *  to
+   *  receiver_on_other_chain
+   *  sender_on_other_chain
+   *  amount
+   *  hash_lock
+   *  timestamp
+   *  time_lock
+   *  transfer
+   *  }
+   *  @param baseTx { types.BaseTx }
+   */
   createHTLC( 
     param:{
       sender: string,
@@ -44,6 +59,13 @@ export class Htlc {
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
+  /**
+   * claim an HTLC
+   * @param sender
+   * @param id
+   * @param secret
+   * @param baseTx
+   */
   claimHTLC( 
     sender: string, 
     id: string, 
@@ -63,6 +85,10 @@ export class Htlc {
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
   
+  /**
+   * HTLC queries the HTLC by the specified hash lock
+   * @type id
+   */
   queryHTLC(id:string): Promise<object>{
     if (!id) {
       throw new SdkError("id can ont be empty");
@@ -76,6 +102,10 @@ export class Htlc {
     );
   }
 
+  /**
+   * AssetSupply queries the supply of an asset
+   * @type denom
+   */
   queryAssetSupply(denom:string): Promise<object>{
     if (!denom) {
       throw new SdkError("denom can ont be empty");
@@ -89,6 +119,9 @@ export class Htlc {
     );
   }
 
+  /**
+   * AssetSupplies queries the supplies of all assets
+   */
   queryAssetSupplies(): Promise<object>{
     const request = new types.htlc_query_pb.QueryAssetSuppliesRequest();
     return this.client.rpcClient.protoQuery(
@@ -98,6 +131,9 @@ export class Htlc {
     );
   }
 
+  /**
+   * Params queries the htlc parameters
+   */
   queryParams(): Promise<object>{
     const request = new types.htlc_query_pb.QueryParamsRequest();
     return this.client.rpcClient.protoQuery(
