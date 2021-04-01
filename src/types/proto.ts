@@ -53,6 +53,7 @@ export const crypto_sm2_keys_pb = require( './proto-types/cosmos/crypto/sm2/keys
 export const base_coin_pb = require('./proto-types/cosmos/base/v1beta1/coin_pb');
 export const signing_signing_pb = require('./proto-types/cosmos/tx/signing/v1beta1/signing_pb');
 export const gov_gov_pb = require( './proto-types/cosmos/gov/v1beta1/gov_pb');
+export const coinswap_coinswap_pb = require( './proto-types/irismod/coinswap/coinswap_pb');
 export const distribution_distribution_pb = require( './proto-types/cosmos/distribution/v1beta1/distribution_pb');
 export const params_params_pb = require( './proto-types/cosmos/params/v1beta1/params_pb');
 export const upgrade_upgrade_pb = require( './proto-types/cosmos/upgrade/v1beta1/upgrade_pb');

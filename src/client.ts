@@ -66,7 +66,7 @@ export class Client {
   tendermint: modules.Tendermint;
 
   /** Coinswap module */
-  // coinswap: modules.Coinswap;
+  coinswap: modules.Coinswap;
 
   /** NFT module */
   nft: modules.Nft;
@@ -115,7 +115,7 @@ export class Client {
     // this.random = new modules.Random(this);
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
-    // this.coinswap = new modules.Coinswap(this);
+    this.coinswap = new modules.Coinswap(this);
     this.nft = new modules.Nft(this);
     
 

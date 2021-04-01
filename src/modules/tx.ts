@@ -369,15 +369,15 @@ export class Tx {
       }
       //coinswap
       case types.TxType.MsgAddLiquidity: {
-          
+        msg = new types.MsgAddLiquidity(txMsg.value);
           break;
       } 
       case types.TxType.MsgRemoveLiquidity: {
-          
+        msg = new types.MsgRemoveLiquidity(txMsg.value);
           break;
       } 
       case types.TxType.MsgSwapOrder: {
-          
+        msg = new types.MsgSwapOrder(txMsg.value);
           break;
       }
       //nft
