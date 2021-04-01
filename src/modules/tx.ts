@@ -414,6 +414,15 @@ export class Tx {
           msg = new types.MsgDeposit(txMsg.value)
           break;
       }
+      //htlc
+      case types.TxType.MsgCreateHTLC: {
+          msg = new types.MsgCreateHTLC(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgClaimHTLC: {
+          msg = new types.MsgClaimHTLC(txMsg.value)
+          break;
+      }
       default: {
           throw new SdkError("not exist tx type",CODES.InvalidType);
       }

@@ -23,3 +23,4 @@ export * from './coinswap';
 export * from './protoTx';
 export * from './nft';
 export * from './proto';
+export * from './htlc';

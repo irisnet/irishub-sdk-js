@@ -237,6 +237,19 @@ var Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgDeposit.getModelClass();
             break;
           }
+        //htlc
+
+        case types.TxType.MsgCreateHTLC:
+          {
+            messageModelClass = types.MsgCreateHTLC.getModelClass();
+            break;
+          }
+
+        case types.TxType.MsgClaimHTLC:
+          {
+            messageModelClass = types.MsgClaimHTLC.getModelClass();
+            break;
+          }
 
         default:
           {

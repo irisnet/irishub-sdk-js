@@ -75,6 +75,8 @@ var Client = /*#__PURE__*/function () {
 
   /** NFT module */
 
+  /** Htlc module */
+
   /** IRISHub SDK Constructor */
   function Client(config) {
     (0, _classCallCheck2["default"])(this, Client);
@@ -94,6 +96,7 @@ var Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "tendermint", void 0);
     (0, _defineProperty2["default"])(this, "coinswap", void 0);
     (0, _defineProperty2["default"])(this, "nft", void 0);
+    (0, _defineProperty2["default"])(this, "htlc", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
     this.config.bech32Prefix = config.network === consts.Network.Mainnet ? {
@@ -131,7 +134,8 @@ var Client = /*#__PURE__*/function () {
     this.auth = new modules.Auth(this);
     this.tendermint = new modules.Tendermint(this);
     this.coinswap = new modules.Coinswap(this);
-    this.nft = new modules.Nft(this); // Set default encrypt/decrypt methods
+    this.nft = new modules.Nft(this);
+    this.htlc = new modules.Htlc(this); // Set default encrypt/decrypt methods
 
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
       var defaultKeyDAO = new DefaultKeyDAOImpl();
