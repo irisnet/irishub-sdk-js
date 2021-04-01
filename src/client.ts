@@ -71,6 +71,9 @@ export class Client {
   /** NFT module */
   nft: modules.Nft;
 
+  /** Htlc module */
+  htlc: modules.Htlc;
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
@@ -117,6 +120,7 @@ export class Client {
     this.tendermint = new modules.Tendermint(this);
     this.coinswap = new modules.Coinswap(this);
     this.nft = new modules.Nft(this);
+    this.htlc = new modules.Htlc(this);
     
 
     // Set default encrypt/decrypt methods

@@ -599,6 +599,19 @@ var Tx = /*#__PURE__*/function () {
             msg = new types.MsgDeposit(txMsg.value);
             break;
           }
+        //htlc
+
+        case types.TxType.MsgCreateHTLC:
+          {
+            msg = new types.MsgCreateHTLC(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgClaimHTLC:
+          {
+            msg = new types.MsgClaimHTLC(txMsg.value);
+            break;
+          }
 
         default:
           {

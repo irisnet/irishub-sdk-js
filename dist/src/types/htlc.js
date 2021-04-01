@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgMultiSend = exports.MsgSend = void 0;
+exports.MsgClaimHTLC = exports.MsgCreateHTLC = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -36,31 +36,36 @@ function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflec
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /**
- * Msg for sending coins
+ * Msg for Create HTLC
  *
  * @hidden
  */
-var MsgSend = /*#__PURE__*/function (_Msg) {
-  (0, _inherits2["default"])(MsgSend, _Msg);
+var MsgCreateHTLC = /*#__PURE__*/function (_Msg) {
+  (0, _inherits2["default"])(MsgCreateHTLC, _Msg);
 
-  var _super = _createSuper(MsgSend);
+  var _super = _createSuper(MsgCreateHTLC);
 
-  function MsgSend(msg) {
+  function MsgCreateHTLC(msg) {
     var _this;
 
-    (0, _classCallCheck2["default"])(this, MsgSend);
-    _this = _super.call(this, _types.TxType.MsgSend);
+    (0, _classCallCheck2["default"])(this, MsgCreateHTLC);
+    _this = _super.call(this, _types.TxType.MsgCreateHTLC);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
     _this.value = msg;
     return _this;
   }
 
-  (0, _createClass2["default"])(MsgSend, [{
+  (0, _createClass2["default"])(MsgCreateHTLC, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setFromAddress(this.value.from_address);
-      msg.setToAddress(this.value.to_address);
+      msg.setSender(this.value.sender);
+      msg.setTo(this.value.to);
+      msg.setReceiverOnOtherChain(this.value.receiver_on_other_chain);
+      msg.setHashLock(this.value.hash_lock);
+      msg.setTimestamp(this.value.timestamp);
+      msg.setTimeLock(this.value.time_lock);
+      msg.setTransfer(this.value.transfer);
       this.value.amount.forEach(function (item) {
         msg.addAmount(_helper.TxModelCreator.createCoinModel(item.denom, item.amount));
       });
@@ -69,12 +74,36 @@ var MsgSend = /*#__PURE__*/function (_Msg) {
   }, {
     key: "validate",
     value: function validate() {
-      if (!this.value.from_address) {
-        throw new _errors.SdkError("from_address is  empty");
+      if (!this.value.sender) {
+        throw new _errors.SdkError("sender is  empty");
       }
 
-      if (!this.value.to_address) {
-        throw new _errors.SdkError("to_address is  empty");
+      if (!this.value.to) {
+        throw new _errors.SdkError("to is  empty");
+      }
+
+      if (!this.value.receiver_on_other_chain) {
+        throw new _errors.SdkError("receiver_on_other_chain is  empty");
+      }
+
+      if (!this.value.sender_on_other_chain) {
+        throw new _errors.SdkError("sender_on_other_chain is  empty");
+      }
+
+      if (!this.value.hash_lock) {
+        throw new _errors.SdkError("hash_lock is  empty");
+      }
+
+      if (!this.value.timestamp) {
+        throw new _errors.SdkError("timestamp is  empty");
+      }
+
+      if (!this.value.time_lock) {
+        throw new _errors.SdkError("time_lock is  empty");
+      }
+
+      if (typeof this.value.transfer == 'undefined') {
+        throw new _errors.SdkError("transfer is  empty");
       }
 
       if (!(this.value.amount && this.value.amount.length)) {
@@ -84,77 +113,69 @@ var MsgSend = /*#__PURE__*/function (_Msg) {
   }], [{
     key: "getModelClass",
     value: function getModelClass() {
-      return pbs.bank_tx_pb.MsgSend;
+      return pbs.htlc_tx_pb.MsgCreateHTLC;
     }
   }]);
-  return MsgSend;
+  return MsgCreateHTLC;
 }(_types.Msg);
 /**
- * Msg for sending coins
- *
- * @hidden
+ * param struct for Claim HTLC Tx
  */
 
 
-exports.MsgSend = MsgSend;
+exports.MsgCreateHTLC = MsgCreateHTLC;
 
-var MsgMultiSend = /*#__PURE__*/function (_Msg2) {
-  (0, _inherits2["default"])(MsgMultiSend, _Msg2);
+/**
+ * Msg for Claim HTLC
+ *
+ * @hidden
+ */
+var MsgClaimHTLC = /*#__PURE__*/function (_Msg2) {
+  (0, _inherits2["default"])(MsgClaimHTLC, _Msg2);
 
-  var _super2 = _createSuper(MsgMultiSend);
+  var _super2 = _createSuper(MsgClaimHTLC);
 
-  function MsgMultiSend(msg) {
+  function MsgClaimHTLC(msg) {
     var _this2;
 
-    (0, _classCallCheck2["default"])(this, MsgMultiSend);
-    _this2 = _super2.call(this, _types.TxType.MsgMultiSend);
+    (0, _classCallCheck2["default"])(this, MsgClaimHTLC);
+    _this2 = _super2.call(this, _types.TxType.MsgClaimHTLC);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
     _this2.value = msg;
     return _this2;
   }
 
-  (0, _createClass2["default"])(MsgMultiSend, [{
+  (0, _createClass2["default"])(MsgClaimHTLC, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      this.value.inputs.forEach(function (item) {
-        var input = new pbs.bank_tx_pb.Input();
-        input.setAddress(item.address);
-        item.coins.forEach(function (coin) {
-          input.addCoins(_helper.TxModelCreator.createCoinModel(coin.denom, coin.amount));
-        });
-        msg.addInputs(input);
-      });
-      this.value.outputs.forEach(function (item) {
-        var output = new pbs.bank_tx_pb.Output();
-        output.setAddress(item.address);
-        item.coins.forEach(function (coin) {
-          output.addCoins(_helper.TxModelCreator.createCoinModel(coin.denom, coin.amount));
-        });
-        msg.addOutputs(output);
-      });
+      msg.setSender(this.value.sender);
+      msg.setId(this.value.id);
+      msg.setSecret(this.value.secret);
       return msg;
     }
   }, {
     key: "validate",
     value: function validate() {
-      if (!this.value.inputs) {
-        throw new _errors.SdkError("inputs is empty");
+      if (!this.value.sender) {
+        throw new _errors.SdkError("sender is  empty");
       }
 
-      if (!this.value.outputs) {
-        throw new _errors.SdkError("outputs is  empty");
+      if (!this.value.id) {
+        throw new _errors.SdkError("id is  empty");
+      }
+
+      if (!this.value.secret) {
+        throw new _errors.SdkError("secret is  empty");
       }
     }
   }], [{
     key: "getModelClass",
     value: function getModelClass() {
-      return pbs.bank_tx_pb.MsgMultiSend;
+      return pbs.htlc_tx_pb.MsgClaimHTLC;
     }
   }]);
-  return MsgMultiSend;
+  return MsgClaimHTLC;
 }(_types.Msg);
-/** Base input and output struct */
 
-
-exports.MsgMultiSend = MsgMultiSend;
+exports.MsgClaimHTLC = MsgClaimHTLC;

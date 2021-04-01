@@ -42,6 +42,8 @@ export declare class Client {
     coinswap: modules.Coinswap;
     /** NFT module */
     nft: modules.Nft;
+    /** Htlc module */
+    htlc: modules.Htlc;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**
