@@ -19,8 +19,8 @@ describe('Bank Tests', () => {
                 amount:'1003',
                 denom:'htltbcbnb'
               }],
-              hash_lock: "cb8180b22d8d0fb62f59ba4b6015b92c3c72d2bbac249aac9e584c77cec210ee",
-              timestamp: 1617280234,
+              hash_lock: "f2e68d53eca99f02fc791cdb665f7ade28beb2b65c99dd302ead733c1950062a",
+              timestamp: 1617353946,
               time_lock: 250,
               transfer: true
             },

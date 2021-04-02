@@ -62,6 +62,7 @@ var MsgCreateHTLC = /*#__PURE__*/function (_Msg) {
       msg.setSender(this.value.sender);
       msg.setTo(this.value.to);
       msg.setReceiverOnOtherChain(this.value.receiver_on_other_chain);
+      msg.setSenderOnOtherChain(this.value.sender_on_other_chain);
       msg.setHashLock(this.value.hash_lock);
       msg.setTimestamp(this.value.timestamp);
       msg.setTimeLock(this.value.time_lock);
