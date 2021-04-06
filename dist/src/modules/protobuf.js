@@ -85,7 +85,6 @@ var Protobuf = /*#__PURE__*/function () {
 
       var messageModelClass;
       var typeUrl = msg.typeUrl.replace(/^\//, '');
-
       switch (typeUrl) {
         //bank
         case types.TxType.MsgSend:

@@ -26,18 +26,19 @@ export class BaseTest {
     from: Consts.keyName,
     password: Consts.keyPassword,
     mode: iris.types.BroadcastMode.Commit,
-    // pubkeyType:types.PubkeyType.sm2
+    pubkeyType:iris.types.PubkeyType.sm2
   };
 
   static getClient(): Client {
     let config = {
-        node: 'http://192.168.150.31:56657',
+        node: 'https://opbningxia.bsngate.com:18602/api/7b3c53beda5c48c6b07d98804e156389/rpc',
         network: iris.types.Network.Mainnet,
-        chainId: 'bifrost-2',
-        gas: '20000000',
-        fee: { denom: 'ubif', amount: '200' },
+        chainId: 'wenchangchain',
+        gas: '200000', 
+        fee: { denom: 'uirita', amount: '200000' },
     };
     let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
+    let mnemonic = 'tent monster mouse crowd hamster oval maple until flame journey pen post have render goose erupt box blue bridge hope fence caught marble dance';
 
     // let config = {
     //     node: 'http://34.80.22.255:26657',
@@ -51,12 +52,16 @@ export class BaseTest {
     const client = iris
       .newClient(config)
       .withKeyDAO(new TestKeyDAO())
-      .withRpcConfig({ timeout: Consts.timeout });
+      .withRpcConfig({ 
+        timeout: Consts.timeout , 
+        headers: {'x-api-key': '7a3b5660c0ae47e2be4f309050c1d304'}
+      });
 
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'next review tape teach walnut cash crater evidence ketchup sister lyrics defy pioneer wisdom property arch film damage near link avoid panda vacant suggest'
+      mnemonic,
+      iris.types.PubkeyType.sm2
     );
 
     // client.keys.importPrivateKey(
