@@ -60,7 +60,7 @@ export const upgrade_upgrade_pb = require( './proto-types/cosmos/upgrade/v1beta1
 export const slashing_slashing_pb = require('./proto-types/cosmos/slashing/v1beta1/slashing_pb');
 
 //ibc module
-export const lightclients_tendermint_tendermint_pb = require( './proto-types/ibc/lightclients/tendermint/v1/tendermint_pb');
+// export const lightclients_tendermint_tendermint_pb = require( './proto-types/ibc/lightclients/tendermint/v1/tendermint_pb');
 
 //confio module
 export const confio_proofs_pb = require( './proto-types/confio/proofs_pb');

@@ -49,7 +49,6 @@ export declare const distribution_distribution_pb: any;
 export declare const params_params_pb: any;
 export declare const upgrade_upgrade_pb: any;
 export declare const slashing_slashing_pb: any;
-export declare const lightclients_tendermint_tendermint_pb: any;
 export declare const confio_proofs_pb: any;
 export declare const google_protobuf_timestamp_pb: any;
 export declare const google_protobuf_duration_pb: any;
