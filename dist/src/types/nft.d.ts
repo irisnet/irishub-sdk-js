@@ -29,7 +29,7 @@ export interface MintNFTParam {
     name: string;
     uri: string;
     data: string;
-    sender: string;
+    sender?: string;
     recipient: string;
 }
 /**

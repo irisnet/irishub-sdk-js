@@ -33,7 +33,7 @@ export declare class Nft {
      * @returns
      * @since v0.17
      */
-    mintNft(id: string, denom_id: string, name: string, uri: string, data: string, recipient: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    mintNft(params: types.MintNFTParam[], baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * edit NFT
      * @param id string

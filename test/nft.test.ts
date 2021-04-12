@@ -43,12 +43,16 @@ describe('Nft Tests', () => {
 
         await BaseTest.getClient()
         .nft.mintNft(
-          nft_id,
-          denom_id,
-          nft_name,
-          nft_uri,
-          nft_data,
-          '',
+          [
+            {
+              id: nft_id,
+              denom_id,
+              name:nft_name,
+              uri:nft_uri,
+              data:nft_data,
+              recipient: ''
+            }
+          ],
           BaseTest.baseTx
         )
         .then(res => {
@@ -100,12 +104,16 @@ describe('Nft Tests', () => {
         nft_uri = `http://${randomStr(7)}`;
         await BaseTest.getClient()
         .nft.mintNft(
-          nft_id,
-          denom_id,
-          nft_name,
-          nft_uri,
-          nft_data,
-          '',
+          [
+            {
+              id: nft_id,
+              denom_id,
+              name:nft_name,
+              uri:nft_uri,
+              data:nft_data,
+              recipient: ''
+            }
+          ],
           BaseTest.baseTx
         )
         .then(res => {
