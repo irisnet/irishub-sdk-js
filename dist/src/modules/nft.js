@@ -106,38 +106,46 @@ var Nft = /*#__PURE__*/function () {
   }, {
     key: "mintNft",
     value: function () {
-      var _mintNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(id, denom_id, name, uri, data, recipient, baseTx) {
+      var _mintNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(params, baseTx) {
+        var _this = this;
+
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(recipient && !_crypto.Crypto.checkAddress(recipient, this.client.config.bech32Prefix.AccAddr))) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                throw new _errors.SdkError('recipient Invalid bech32 address');
-
-              case 2:
                 sender = this.client.keys.show(baseTx.from);
 
-                if (!recipient) {
-                  recipient = sender;
+                if (params && params.length > 0) {
+                  params.forEach(function (param) {
+                    var recipient = param.recipient;
+
+                    if (recipient && !_crypto.Crypto.checkAddress(recipient, _this.client.config.bech32Prefix.AccAddr)) {
+                      throw new _errors.SdkError('recipient Invalid bech32 address');
+                    }
+
+                    if (!recipient) {
+                      param.recipient = sender;
+                    }
+                  });
                 }
 
-                msgs = [{
-                  type: types.TxType.MsgMintNFT,
-                  value: {
-                    id: id,
-                    denom_id: denom_id,
-                    name: name,
-                    uri: uri,
-                    data: data,
-                    sender: sender,
-                    recipient: recipient
-                  }
-                }];
+                console.log('params', params);
+                msgs = params.map(function (param) {
+                  return {
+                    type: types.TxType.MsgMintNFT,
+                    value: {
+                      id: param.id,
+                      denom_id: param.denom_id,
+                      name: param.name,
+                      uri: param.uri,
+                      data: param.data,
+                      sender: sender,
+                      recipient: param.recipient
+                    }
+                  };
+                });
+                console.log('msgs', msgs);
                 return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
 
               case 6:
@@ -148,7 +156,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee2, this);
       }));
 
-      function mintNft(_x5, _x6, _x7, _x8, _x9, _x10, _x11) {
+      function mintNft(_x5, _x6) {
         return _mintNft.apply(this, arguments);
       }
 
@@ -192,7 +200,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee3, this);
       }));
 
-      function editNft(_x12, _x13, _x14, _x15) {
+      function editNft(_x7, _x8, _x9, _x10) {
         return _editNft.apply(this, arguments);
       }
 
@@ -246,7 +254,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee4, this);
       }));
 
-      function transferNft(_x16, _x17, _x18, _x19, _x20) {
+      function transferNft(_x11, _x12, _x13, _x14, _x15) {
         return _transferNft.apply(this, arguments);
       }
 
@@ -289,7 +297,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee5, this);
       }));
 
-      function burnNft(_x21, _x22, _x23) {
+      function burnNft(_x16, _x17, _x18) {
         return _burnNft.apply(this, arguments);
       }
 
