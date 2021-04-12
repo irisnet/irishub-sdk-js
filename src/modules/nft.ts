@@ -75,7 +75,6 @@ export class Nft {
         }
       }) 
     }
-    console.log('params',params)
     const msgs: any[] = params.map(param => {
       return {
         type:types.TxType.MsgMintNFT,
@@ -90,7 +89,6 @@ export class Nft {
         }
       }
     });
-    console.log('msgs',msgs)
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
