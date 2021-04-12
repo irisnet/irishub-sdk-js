@@ -8,14 +8,10 @@
   "files": [
     "dist",
     "dist/*",
-    "src/**/*.{ts,js}",
-    "types/**/*.ts",
     "index.js",
     "LICENSE",
     "package.json",
-    "README.md",
-    "tsconfig.json",
-    "yarn.lock"
+    "README.md"
   ],
   "license": "Apache-2.0",
   "keywords": [

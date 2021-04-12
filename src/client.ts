@@ -15,113 +15,180 @@ export class Client {
   config: DefaultClientConfig;
 
   /** Axios client for tendermint rpc requests */
-  rpcClient: RpcClient;
-
-  /** WebSocket event listener */
-  // eventListener: EventListener;
+  private _rpcClient?: RpcClient;
+  get rpcClient():RpcClient{
+    if (!this._rpcClient) {this._rpcClient = new RpcClient(this.config.rpcConfig)}
+    return this._rpcClient;
+  }
 
   /** Auth module */
-  auth: modules.Auth;
+  private _auth?: modules.Auth;
+  get auth(): modules.Auth{
+    if (!this._auth) {this._auth = new modules.Auth(this)}
+    return this._auth;
+  }
 
   /** Token module */
-  token: modules.Token;
+  private _token?: modules.Token;
+  get token(): modules.Token{
+    if (!this._token) {this._token = new modules.Token(this)}
+    return this._token;
+  }
 
   /** Bank module */
-  bank: modules.Bank;
+  private _bank?: modules.Bank;
+  get bank():modules.Bank{
+    if (!this._bank) {this._bank = new modules.Bank(this)}
+    return this._bank;
+  }
 
   /** Key management module */
-  keys: modules.Keys;
+  private _keys?: modules.Keys;
+  get keys():modules.Keys{
+    if (!this._keys) {this._keys = new modules.Keys(this)}
+    return this._keys;
+  }
 
   /** Protobuf module */
-  protobuf: modules.Protobuf;
+  private _protobuf?: modules.Protobuf;
+  get protobuf():modules.Protobuf{
+    if (!this._protobuf) {this._protobuf = new modules.Protobuf(this)}
+    return this._protobuf;
+  }
 
   /** Staking module */
-  staking: modules.Staking;
+  private _staking?: modules.Staking;
+  get staking():modules.Staking{
+    if (!this._staking) {this._staking = new modules.Staking(this)}
+    return this._staking;
+  }
 
   /** Tx module */
-  tx: modules.Tx;
+  private _tx?: modules.Tx;
+  get tx():modules.Tx{
+    if (!this._tx) {this._tx = new modules.Tx(this)}
+    return this._tx;
+  }
 
   /** Gov module */
-  gov: modules.Gov;
+  private _gov?: modules.Gov;
+  get gov():modules.Gov{
+    if (!this._gov) {this._gov = new modules.Gov(this)}
+    return this._gov;
+  }
+
 
   /** Slashing module */
-  slashing: modules.Slashing;
+  private _slashing?: modules.Slashing;
+  get slashing(): modules.Slashing{
+    if (!this._slashing) {this._slashing = new modules.Slashing(this)}
+    return this._slashing;
+  }
 
   /** Distribution module */
-  distribution: modules.Distribution;
+  private _distribution?: modules.Distribution;
+  get distribution(): modules.Distribution{
+    if (!this._distribution) {this._distribution = new modules.Distribution(this)}
+    return this._distribution;
+  }
 
   /** Service module */
-  // service: modules.Service;
+  // _service?: modules.Service;
+  // get service(): modules.Service{
+  //   if (!this._service) {this._service = new modules.Service(this)}
+  //   return this._service;
+  // }
 
   /** Oracle module */
-  // oracle: modules.Oracle;
+  // _oracle?: modules.Oracle;
+  // get oracle(): modules.Oracle{
+  //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
+  //   return this._oracle;
+  // }
 
   /** Random module */
-  // random: modules.Random;
+  // _random?: modules.Random;
+  // get random(): modules.Random{
+  //   if (!this._random) {this._random = new modules.Random(this)}
+  //   return this._random;
+  // }
 
   /** Utils module */
-  utils: modules.Utils;
+  private _utils?: modules.Utils;
+  get utils(): modules.Utils{
+    if (!this._utils) {this._utils = new modules.Utils(this)}
+    return this._utils;
+  }
 
   /** Tendermint module */
-  tendermint: modules.Tendermint;
+  private _tendermint?: modules.Tendermint;
+  get tendermint(): modules.Tendermint{
+    if (!this._tendermint) {this._tendermint = new modules.Tendermint(this)}
+    return this._tendermint;
+  }
 
   /** Coinswap module */
-  coinswap: modules.Coinswap;
+  private _coinswap?: modules.Coinswap;
+  get coinswap(): modules.Coinswap{
+    if (!this._coinswap) {this._coinswap = new modules.Coinswap(this)}
+    return this._coinswap;
+  }
 
   /** NFT module */
-  nft: modules.Nft;
+  private _nft?: modules.Nft;
+  get nft(): modules.Nft{
+    if (!this._nft) {this._nft = new modules.Nft(this)}
+    return this._nft;
+  }
 
   /** Htlc module */
-  htlc: modules.Htlc;
+  private _htlc?: modules.Htlc;
+  get htlc():modules.Htlc{
+    if (!this._htlc) {this._htlc = new modules.Htlc(this)}
+    return this._htlc;
+  }
 
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
-
-    this.config.bech32Prefix =
-      config.network === consts.Network.Mainnet
-        ? {
-            AccAddr: 'iaa',
-            AccPub: 'iap',
-            ValAddr: 'iva',
-            ValPub: 'ivp',
-            ConsAddr: 'ica',
-            ConsPub: 'icp',
-          }
-        : {
-            AccAddr: 'faa',
-            AccPub: 'fap',
-            ValAddr: 'fva',
-            ValPub: 'fvp',
-            ConsAddr: 'fca',
-            ConsPub: 'fcp',
-          };
-
-    this.config.rpcConfig.baseURL = this.config.node;
-    this.rpcClient = new RpcClient(this.config.rpcConfig);
-    // this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
-
-    // Modules
-    this.token = new modules.Token(this);
-    this.utils = new modules.Utils(this);
-    this.bank = new modules.Bank(this);
-    this.keys = new modules.Keys(this);
-    this.tx = new modules.Tx(this);
-    this.protobuf = new modules.Protobuf(this);
-    this.staking = new modules.Staking(this);
-    this.gov = new modules.Gov(this);
-    this.slashing = new modules.Slashing(this);
-    this.distribution = new modules.Distribution(this);
-    // this.service = new modules.Service(this);
-    // this.oracle = new modules.Oracle(this);
-    // this.random = new modules.Random(this);
-    this.auth = new modules.Auth(this);
-    this.tendermint = new modules.Tendermint(this);
-    this.coinswap = new modules.Coinswap(this);
-    this.nft = new modules.Nft(this);
-    this.htlc = new modules.Htlc(this);
+    if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
+      switch(this.config.chainNetwork){
+        case consts.ChainNetwork.Cosmos:
+        this.config.bech32Prefix = {
+          AccAddr: 'cosmos',
+          AccPub: 'cosmospub',
+          ValAddr: 'cosmosvaloper',
+          ValPub: 'cosmosvaloperpub',
+          ConsAddr: 'cosmosvalcons',
+          ConsPub: 'cosmosvalconspub',
+        };
+        break;
+        case consts.ChainNetwork.Akash:
+        this.config.bech32Prefix = {
+          AccAddr: 'akash',
+          AccPub: 'akashpub',
+          ValAddr: 'akashvaloper',
+          ValPub: 'akashvaloperpub',
+          ConsAddr: 'akashvalcons',
+          ConsPub: 'akashvalconspub',
+        };
+        break;
+        case consts.ChainNetwork.Iris:
+        default:
+        this.config.bech32Prefix = {
+          AccAddr: 'iaa',
+          AccPub: 'iap',
+          ValAddr: 'iva',
+          ValPub: 'ivp',
+          ConsAddr: 'ica',
+          ConsPub: 'icp',
+        };
+        break
+      }
+    }
     
+    this.config.rpcConfig.baseURL = this.config.node;
 
     // Set default encrypt/decrypt methods
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
@@ -156,6 +223,17 @@ export class Client {
    */
   withNetwork(network: consts.Network) {
     this.config.network = network;
+    return this;
+  }
+
+  /**
+   * Set IRISHub network type
+   *
+   * @param network IRISHub network type, mainnet / testnet
+   * @returns The SDK itself
+   */
+  withChainNetwork(chainNetwork: consts.ChainNetwork) {
+    this.config.chainNetwork = chainNetwork;
     return this;
   }
 
@@ -203,7 +281,7 @@ export class Client {
   withRpcConfig(rpcConfig: AxiosRequestConfig) {
     rpcConfig.baseURL = this.config.node;
     this.config.rpcConfig = rpcConfig;
-    this.rpcClient = new RpcClient(this.config.rpcConfig);
+    this._rpcClient = new RpcClient(this.config.rpcConfig);
     return this;
   }
 }
@@ -238,6 +316,7 @@ export interface ClientConfig {
 /** Default IRISHub Client Config */
 export class DefaultClientConfig implements ClientConfig {
   node: string;
+  chainNetwork: consts.ChainNetwork;
   network: consts.Network;
   chainId: string;
   gas: string;
@@ -249,6 +328,7 @@ export class DefaultClientConfig implements ClientConfig {
   constructor() {
     this.node = '';
     this.network = types.Network.Mainnet;
+    this.chainNetwork = types.ChainNetwork.Iris;
     this.chainId = '';
     this.gas = '100000';
     this.fee = { amount: '', denom: '' };

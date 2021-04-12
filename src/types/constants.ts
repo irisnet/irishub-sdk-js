@@ -4,6 +4,12 @@ export enum Network {
   Testnet = 1,
 }
 
+export enum ChainNetwork {
+  Iris = 0,
+  Cosmos = 1,
+  Akash = 2
+}
+
 export enum RpcMethods {
   BroadcastTxSync = 'broadcast_tx_sync',
   BroadcastTxAsync = 'broadcast_tx_async',

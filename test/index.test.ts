@@ -6,14 +6,14 @@ test('Init Client', () => {
   const client = iris.newClient({ node });
   expect(client.config.chainId).toBe('irishub');
   expect(client.config.fee).toBe('600000000000000000');
-  expect(client.config.gas).toBe('100000');
-  expect(client.config.network).toBe(iris.Network.Mainnet);
+  expect(client.config.gas).toBe('200000');
+  expect(client.config.network).toBe(iris.types.Network.Mainnet);
   expect(client.config.node).toBe(node);
 
   const chainId = 'test';
   const fee = { amount: '0.3', denom: 'iris' };
   const gas = '50000';
-  const network = iris.Network.Testnet;
+  const network = iris.types.Network.Testnet;
 
   client
     .withChainId(chainId)

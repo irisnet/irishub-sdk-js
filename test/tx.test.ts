@@ -75,8 +75,8 @@ describe('Tx Tests', () => {
 
     test('sign tx offline', async () => {
       let baseTx = {...BaseTest.baseTx};
-      baseTx.account_number = '8';
-      baseTx.sequence = '356';
+      baseTx.account_number = 8;
+      baseTx.sequence = 356;
       let unsignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
       
       let offlineSignedTx = await BaseTest.getClient().tx.sign(unsignedTx,baseTx);
