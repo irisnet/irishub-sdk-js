@@ -130,7 +130,6 @@ var Nft = /*#__PURE__*/function () {
                   });
                 }
 
-                console.log('params', params);
                 msgs = params.map(function (param) {
                   return {
                     type: types.TxType.MsgMintNFT,
@@ -145,10 +144,9 @@ var Nft = /*#__PURE__*/function () {
                     }
                   };
                 });
-                console.log('msgs', msgs);
                 return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
 
-              case 6:
+              case 4:
               case "end":
                 return _context2.stop();
             }
