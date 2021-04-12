@@ -3,6 +3,11 @@ export declare enum Network {
     Mainnet = 0,
     Testnet = 1
 }
+export declare enum ChainNetwork {
+    Iris = 0,
+    Cosmos = 1,
+    Akash = 2
+}
 export declare enum RpcMethods {
     BroadcastTxSync = "broadcast_tx_sync",
     BroadcastTxAsync = "broadcast_tx_async",

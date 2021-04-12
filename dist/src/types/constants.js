@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.Network = void 0;
+exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.ChainNetwork = exports.Network = void 0;
 
 /** Network type config */
 var Network;
@@ -13,6 +13,15 @@ exports.Network = Network;
   Network[Network["Mainnet"] = 0] = "Mainnet";
   Network[Network["Testnet"] = 1] = "Testnet";
 })(Network || (exports.Network = Network = {}));
+
+var ChainNetwork;
+exports.ChainNetwork = ChainNetwork;
+
+(function (ChainNetwork) {
+  ChainNetwork[ChainNetwork["Iris"] = 0] = "Iris";
+  ChainNetwork[ChainNetwork["Cosmos"] = 1] = "Cosmos";
+  ChainNetwork[ChainNetwork["Akash"] = 2] = "Akash";
+})(ChainNetwork || (exports.ChainNetwork = ChainNetwork = {}));
 
 var RpcMethods;
 exports.RpcMethods = RpcMethods;

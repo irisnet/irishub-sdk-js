@@ -31,111 +31,68 @@ var ENC = _interopRequireWildcard(require("crypto-js/enc-utf8"));
 
 /** IRISHub Client */
 var Client = /*#__PURE__*/function () {
-  /** IRISHub Client Config */
-
-  /** Axios client for tendermint rpc requests */
-
-  /** WebSocket event listener */
-  // eventListener: EventListener;
-
-  /** Auth module */
-
-  /** Token module */
-
-  /** Bank module */
-
-  /** Key management module */
-
-  /** Protobuf module */
-
-  /** Staking module */
-
-  /** Tx module */
-
-  /** Gov module */
-
-  /** Slashing module */
-
-  /** Distribution module */
-
-  /** Service module */
-  // service: modules.Service;
-
-  /** Oracle module */
-  // oracle: modules.Oracle;
-
-  /** Random module */
-  // random: modules.Random;
-
-  /** Utils module */
-
-  /** Tendermint module */
-
-  /** Coinswap module */
-
-  /** NFT module */
-
-  /** Htlc module */
-
   /** IRISHub SDK Constructor */
   function Client(config) {
     (0, _classCallCheck2["default"])(this, Client);
     (0, _defineProperty2["default"])(this, "config", void 0);
-    (0, _defineProperty2["default"])(this, "rpcClient", void 0);
-    (0, _defineProperty2["default"])(this, "auth", void 0);
-    (0, _defineProperty2["default"])(this, "token", void 0);
-    (0, _defineProperty2["default"])(this, "bank", void 0);
-    (0, _defineProperty2["default"])(this, "keys", void 0);
-    (0, _defineProperty2["default"])(this, "protobuf", void 0);
-    (0, _defineProperty2["default"])(this, "staking", void 0);
-    (0, _defineProperty2["default"])(this, "tx", void 0);
-    (0, _defineProperty2["default"])(this, "gov", void 0);
-    (0, _defineProperty2["default"])(this, "slashing", void 0);
-    (0, _defineProperty2["default"])(this, "distribution", void 0);
-    (0, _defineProperty2["default"])(this, "utils", void 0);
-    (0, _defineProperty2["default"])(this, "tendermint", void 0);
-    (0, _defineProperty2["default"])(this, "coinswap", void 0);
-    (0, _defineProperty2["default"])(this, "nft", void 0);
-    (0, _defineProperty2["default"])(this, "htlc", void 0);
+    (0, _defineProperty2["default"])(this, "_rpcClient", void 0);
+    (0, _defineProperty2["default"])(this, "_auth", void 0);
+    (0, _defineProperty2["default"])(this, "_token", void 0);
+    (0, _defineProperty2["default"])(this, "_bank", void 0);
+    (0, _defineProperty2["default"])(this, "_keys", void 0);
+    (0, _defineProperty2["default"])(this, "_protobuf", void 0);
+    (0, _defineProperty2["default"])(this, "_staking", void 0);
+    (0, _defineProperty2["default"])(this, "_tx", void 0);
+    (0, _defineProperty2["default"])(this, "_gov", void 0);
+    (0, _defineProperty2["default"])(this, "_slashing", void 0);
+    (0, _defineProperty2["default"])(this, "_distribution", void 0);
+    (0, _defineProperty2["default"])(this, "_utils", void 0);
+    (0, _defineProperty2["default"])(this, "_tendermint", void 0);
+    (0, _defineProperty2["default"])(this, "_coinswap", void 0);
+    (0, _defineProperty2["default"])(this, "_nft", void 0);
+    (0, _defineProperty2["default"])(this, "_htlc", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
-    this.config.bech32Prefix = config.network === consts.Network.Mainnet ? {
-      AccAddr: 'iaa',
-      AccPub: 'iap',
-      ValAddr: 'iva',
-      ValPub: 'ivp',
-      ConsAddr: 'ica',
-      ConsPub: 'icp'
-    } : {
-      AccAddr: 'faa',
-      AccPub: 'fap',
-      ValAddr: 'fva',
-      ValPub: 'fvp',
-      ConsAddr: 'fca',
-      ConsPub: 'fcp'
-    };
-    this.config.rpcConfig.baseURL = this.config.node;
-    this.rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig); // this.eventListener = new EventListener(this); //TODO (lvsc) there is an error 'Event... is not a constructor'
-    // Modules
 
-    this.token = new modules.Token(this);
-    this.utils = new modules.Utils(this);
-    this.bank = new modules.Bank(this);
-    this.keys = new modules.Keys(this);
-    this.tx = new modules.Tx(this);
-    this.protobuf = new modules.Protobuf(this);
-    this.staking = new modules.Staking(this);
-    this.gov = new modules.Gov(this);
-    this.slashing = new modules.Slashing(this);
-    this.distribution = new modules.Distribution(this); // this.service = new modules.Service(this);
-    // this.oracle = new modules.Oracle(this);
-    // this.random = new modules.Random(this);
+    if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
+      switch (this.config.chainNetwork) {
+        case consts.ChainNetwork.Cosmos:
+          this.config.bech32Prefix = {
+            AccAddr: 'cosmos',
+            AccPub: 'cosmospub',
+            ValAddr: 'cosmosvaloper',
+            ValPub: 'cosmosvaloperpub',
+            ConsAddr: 'cosmosvalcons',
+            ConsPub: 'cosmosvalconspub'
+          };
+          break;
 
-    this.auth = new modules.Auth(this);
-    this.tendermint = new modules.Tendermint(this);
-    this.coinswap = new modules.Coinswap(this);
-    this.nft = new modules.Nft(this);
-    this.htlc = new modules.Htlc(this); // Set default encrypt/decrypt methods
+        case consts.ChainNetwork.Akash:
+          this.config.bech32Prefix = {
+            AccAddr: 'akash',
+            AccPub: 'akashpub',
+            ValAddr: 'akashvaloper',
+            ValPub: 'akashvaloperpub',
+            ConsAddr: 'akashvalcons',
+            ConsPub: 'akashvalconspub'
+          };
+          break;
+
+        case consts.ChainNetwork.Iris:
+        default:
+          this.config.bech32Prefix = {
+            AccAddr: 'iaa',
+            AccPub: 'iap',
+            ValAddr: 'iva',
+            ValPub: 'ivp',
+            ConsAddr: 'ica',
+            ConsPub: 'icp'
+          };
+          break;
+      }
+    }
+
+    this.config.rpcConfig.baseURL = this.config.node; // Set default encrypt/decrypt methods
 
     if (!this.config.keyDAO.encrypt || !this.config.keyDAO.decrypt) {
       var defaultKeyDAO = new DefaultKeyDAOImpl();
@@ -152,6 +109,205 @@ var Client = /*#__PURE__*/function () {
 
 
   (0, _createClass2["default"])(Client, [{
+    key: "rpcClient",
+    get:
+    /** IRISHub Client Config */
+
+    /** Axios client for tendermint rpc requests */
+    function get() {
+      if (!this._rpcClient) {
+        this._rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig);
+      }
+
+      return this._rpcClient;
+    }
+    /** Auth module */
+
+  }, {
+    key: "auth",
+    get: function get() {
+      if (!this._auth) {
+        this._auth = new modules.Auth(this);
+      }
+
+      return this._auth;
+    }
+    /** Token module */
+
+  }, {
+    key: "token",
+    get: function get() {
+      if (!this._token) {
+        this._token = new modules.Token(this);
+      }
+
+      return this._token;
+    }
+    /** Bank module */
+
+  }, {
+    key: "bank",
+    get: function get() {
+      if (!this._bank) {
+        this._bank = new modules.Bank(this);
+      }
+
+      return this._bank;
+    }
+    /** Key management module */
+
+  }, {
+    key: "keys",
+    get: function get() {
+      if (!this._keys) {
+        this._keys = new modules.Keys(this);
+      }
+
+      return this._keys;
+    }
+    /** Protobuf module */
+
+  }, {
+    key: "protobuf",
+    get: function get() {
+      if (!this._protobuf) {
+        this._protobuf = new modules.Protobuf(this);
+      }
+
+      return this._protobuf;
+    }
+    /** Staking module */
+
+  }, {
+    key: "staking",
+    get: function get() {
+      if (!this._staking) {
+        this._staking = new modules.Staking(this);
+      }
+
+      return this._staking;
+    }
+    /** Tx module */
+
+  }, {
+    key: "tx",
+    get: function get() {
+      if (!this._tx) {
+        this._tx = new modules.Tx(this);
+      }
+
+      return this._tx;
+    }
+    /** Gov module */
+
+  }, {
+    key: "gov",
+    get: function get() {
+      if (!this._gov) {
+        this._gov = new modules.Gov(this);
+      }
+
+      return this._gov;
+    }
+    /** Slashing module */
+
+  }, {
+    key: "slashing",
+    get: function get() {
+      if (!this._slashing) {
+        this._slashing = new modules.Slashing(this);
+      }
+
+      return this._slashing;
+    }
+    /** Distribution module */
+
+  }, {
+    key: "distribution",
+    get: function get() {
+      if (!this._distribution) {
+        this._distribution = new modules.Distribution(this);
+      }
+
+      return this._distribution;
+    }
+    /** Service module */
+    // _service?: modules.Service;
+    // get service(): modules.Service{
+    //   if (!this._service) {this._service = new modules.Service(this)}
+    //   return this._service;
+    // }
+
+    /** Oracle module */
+    // _oracle?: modules.Oracle;
+    // get oracle(): modules.Oracle{
+    //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
+    //   return this._oracle;
+    // }
+
+    /** Random module */
+    // _random?: modules.Random;
+    // get random(): modules.Random{
+    //   if (!this._random) {this._random = new modules.Random(this)}
+    //   return this._random;
+    // }
+
+    /** Utils module */
+
+  }, {
+    key: "utils",
+    get: function get() {
+      if (!this._utils) {
+        this._utils = new modules.Utils(this);
+      }
+
+      return this._utils;
+    }
+    /** Tendermint module */
+
+  }, {
+    key: "tendermint",
+    get: function get() {
+      if (!this._tendermint) {
+        this._tendermint = new modules.Tendermint(this);
+      }
+
+      return this._tendermint;
+    }
+    /** Coinswap module */
+
+  }, {
+    key: "coinswap",
+    get: function get() {
+      if (!this._coinswap) {
+        this._coinswap = new modules.Coinswap(this);
+      }
+
+      return this._coinswap;
+    }
+    /** NFT module */
+
+  }, {
+    key: "nft",
+    get: function get() {
+      if (!this._nft) {
+        this._nft = new modules.Nft(this);
+      }
+
+      return this._nft;
+    }
+    /** Htlc module */
+
+  }, {
+    key: "htlc",
+    get: function get() {
+      if (!this._htlc) {
+        this._htlc = new modules.Htlc(this);
+      }
+
+      return this._htlc;
+    }
+  }, {
     key: "withKeyDAO",
     value: function withKeyDAO(keyDAO) {
       // Set default encrypt/decrypt methods
@@ -175,6 +331,19 @@ var Client = /*#__PURE__*/function () {
     key: "withNetwork",
     value: function withNetwork(network) {
       this.config.network = network;
+      return this;
+    }
+    /**
+     * Set IRISHub network type
+     *
+     * @param network IRISHub network type, mainnet / testnet
+     * @returns The SDK itself
+     */
+
+  }, {
+    key: "withChainNetwork",
+    value: function withChainNetwork(chainNetwork) {
+      this.config.chainNetwork = chainNetwork;
       return this;
     }
     /**
@@ -230,7 +399,7 @@ var Client = /*#__PURE__*/function () {
     value: function withRpcConfig(rpcConfig) {
       rpcConfig.baseURL = this.config.node;
       this.config.rpcConfig = rpcConfig;
-      this.rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig);
+      this._rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig);
       return this;
     }
   }]);
@@ -245,6 +414,7 @@ exports.Client = Client;
 var DefaultClientConfig = function DefaultClientConfig() {
   (0, _classCallCheck2["default"])(this, DefaultClientConfig);
   (0, _defineProperty2["default"])(this, "node", void 0);
+  (0, _defineProperty2["default"])(this, "chainNetwork", void 0);
   (0, _defineProperty2["default"])(this, "network", void 0);
   (0, _defineProperty2["default"])(this, "chainId", void 0);
   (0, _defineProperty2["default"])(this, "gas", void 0);
@@ -254,6 +424,7 @@ var DefaultClientConfig = function DefaultClientConfig() {
   (0, _defineProperty2["default"])(this, "rpcConfig", void 0);
   this.node = '';
   this.network = types.Network.Mainnet;
+  this.chainNetwork = types.ChainNetwork.Iris;
   this.chainId = '';
   this.gas = '100000';
   this.fee = {

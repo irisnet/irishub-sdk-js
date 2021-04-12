@@ -241,7 +241,7 @@ var Tx = /*#__PURE__*/function () {
                 accountNumber = baseTx.account_number;
                 sequence = baseTx.sequence; // Query account info from block chain
 
-                if (!((!baseTx.account_number || !baseTx.sequence) && !offline)) {
+                if (!((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline)) {
                   _context2.next = 21;
                   break;
                 }
