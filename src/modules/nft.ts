@@ -60,36 +60,37 @@ export class Nft {
    * @since v0.17
    */
   async mintNft(
-    id: string,
-    denom_id:string,
-    name: string,
-    uri:string,
-    data:string,
-    recipient: string,
+    params: types.MintNFTParam[],
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
-    if (recipient && !Crypto.checkAddress(recipient, this.client.config.bech32Prefix.AccAddr)) {
-      throw new SdkError('recipient Invalid bech32 address');
-    }
     const sender = this.client.keys.show(baseTx.from);
-    if (!recipient) {
-      recipient = sender;
+    if (params && params.length > 0) {
+      params.forEach(param => {
+        let { recipient } = param;
+        if (recipient && !Crypto.checkAddress(recipient, this.client.config.bech32Prefix.AccAddr)) {
+          throw new SdkError('recipient Invalid bech32 address');
+        }
+        if(!recipient) {
+          param.recipient = sender;
+        }
+      }) 
     }
-
-    const msgs: any[] = [
-      {
+    console.log('params',params)
+    const msgs: any[] = params.map(param => {
+      return {
         type:types.TxType.MsgMintNFT,
         value:{
-          id,
-          denom_id,
-          name,
-          uri,
-          data,
+          id:param.id,
+          denom_id: param.denom_id,
+          name: param.name,
+          uri: param.uri,
+          data: param.data,
           sender,
-          recipient
+          recipient: param.recipient
         }
       }
-    ];
+    });
+    console.log('msgs',msgs)
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
