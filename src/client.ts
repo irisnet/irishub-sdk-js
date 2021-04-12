@@ -31,7 +31,12 @@ export class Client {
   /** Token module */
   private _token?: modules.Token;
   get token(): modules.Token{
-    if (!this._token) {this._token = new modules.Token(this)}
+    if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+      throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    }
+    if (!this._token) {
+      this._token = new modules.Token(this)
+    }
     return this._token;
   }
 
@@ -93,22 +98,31 @@ export class Client {
   }
 
   /** Service module */
-  // _service?: modules.Service;
+  // private _service?: modules.Service;
   // get service(): modules.Service{
+  //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+  //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+  //   }
   //   if (!this._service) {this._service = new modules.Service(this)}
   //   return this._service;
   // }
 
   /** Oracle module */
-  // _oracle?: modules.Oracle;
+  // private _oracle?: modules.Oracle;
   // get oracle(): modules.Oracle{
+  //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+  //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+  //   }
   //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
   //   return this._oracle;
   // }
 
   /** Random module */
-  // _random?: modules.Random;
+  // private _random?: modules.Random;
   // get random(): modules.Random{
+  //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+  //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+  //   }
   //   if (!this._random) {this._random = new modules.Random(this)}
   //   return this._random;
   // }
@@ -130,6 +144,9 @@ export class Client {
   /** Coinswap module */
   private _coinswap?: modules.Coinswap;
   get coinswap(): modules.Coinswap{
+    if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+      throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    }
     if (!this._coinswap) {this._coinswap = new modules.Coinswap(this)}
     return this._coinswap;
   }
@@ -137,6 +154,9 @@ export class Client {
   /** NFT module */
   private _nft?: modules.Nft;
   get nft(): modules.Nft{
+    if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+      throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    }
     if (!this._nft) {this._nft = new modules.Nft(this)}
     return this._nft;
   }
@@ -144,6 +164,9 @@ export class Client {
   /** Htlc module */
   private _htlc?: modules.Htlc;
   get htlc():modules.Htlc{
+    if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+      throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    }
     if (!this._htlc) {this._htlc = new modules.Htlc(this)}
     return this._htlc;
   }
@@ -187,7 +210,7 @@ export class Client {
         break
       }
     }
-    
+
     this.config.rpcConfig.baseURL = this.config.node;
 
     // Set default encrypt/decrypt methods

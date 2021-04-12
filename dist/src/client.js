@@ -137,6 +137,10 @@ var Client = /*#__PURE__*/function () {
   }, {
     key: "token",
     get: function get() {
+      if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+        throw new _errors.SdkError('This module is not supported on the current chain network.', _errors.CODES.Panic);
+      }
+
       if (!this._token) {
         this._token = new modules.Token(this);
       }
@@ -232,22 +236,31 @@ var Client = /*#__PURE__*/function () {
       return this._distribution;
     }
     /** Service module */
-    // _service?: modules.Service;
+    // private _service?: modules.Service;
     // get service(): modules.Service{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
     //   if (!this._service) {this._service = new modules.Service(this)}
     //   return this._service;
     // }
 
     /** Oracle module */
-    // _oracle?: modules.Oracle;
+    // private _oracle?: modules.Oracle;
     // get oracle(): modules.Oracle{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
     //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
     //   return this._oracle;
     // }
 
     /** Random module */
-    // _random?: modules.Random;
+    // private _random?: modules.Random;
     // get random(): modules.Random{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
     //   if (!this._random) {this._random = new modules.Random(this)}
     //   return this._random;
     // }
@@ -279,6 +292,10 @@ var Client = /*#__PURE__*/function () {
   }, {
     key: "coinswap",
     get: function get() {
+      if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+        throw new _errors.SdkError('This module is not supported on the current chain network.', _errors.CODES.Panic);
+      }
+
       if (!this._coinswap) {
         this._coinswap = new modules.Coinswap(this);
       }
@@ -290,6 +307,10 @@ var Client = /*#__PURE__*/function () {
   }, {
     key: "nft",
     get: function get() {
+      if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+        throw new _errors.SdkError('This module is not supported on the current chain network.', _errors.CODES.Panic);
+      }
+
       if (!this._nft) {
         this._nft = new modules.Nft(this);
       }
@@ -301,6 +322,10 @@ var Client = /*#__PURE__*/function () {
   }, {
     key: "htlc",
     get: function get() {
+      if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+        throw new _errors.SdkError('This module is not supported on the current chain network.', _errors.CODES.Panic);
+      }
+
       if (!this._htlc) {
         this._htlc = new modules.Htlc(this);
       }
