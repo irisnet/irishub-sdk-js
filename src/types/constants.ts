@@ -1,3 +1,5 @@
+import { Bech32Prefix } from './types';
+
 /** Network type config */
 export enum Network {
   Mainnet = 0,
@@ -33,3 +35,29 @@ export const STD_DENOM = 'tiris',
   IRIS_ATTO = 'iris-atto',
 	MIN_UNIT_SUFFIX = '-min';
 
+export const Bech32Prefix_Iris:Bech32Prefix = {
+  AccAddr: 'iaa',
+  AccPub: 'iap',
+  ValAddr: 'iva',
+  ValPub: 'ivp',
+  ConsAddr: 'ica',
+  ConsPub: 'icp',
+}
+
+export const Bech32Prefix_Cosmos:Bech32Prefix = {
+  AccAddr: 'cosmos',
+  AccPub: 'cosmospub',
+  ValAddr: 'cosmosvaloper',
+  ValPub: 'cosmosvaloperpub',
+  ConsAddr: 'cosmosvalcons',
+  ConsPub: 'cosmosvalconspub',
+}
+
+export const Bech32Prefix_Akash:Bech32Prefix = {
+  AccAddr: 'akash',
+  AccPub: 'akashpub',
+  ValAddr: 'akashvaloper',
+  ValPub: 'akashvaloperpub',
+  ConsAddr: 'akashvalcons',
+  ConsPub: 'akashvalconspub',
+}

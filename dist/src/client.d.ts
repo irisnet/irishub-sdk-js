@@ -128,7 +128,7 @@ export interface ClientConfig {
     /** Key DAO Implemention */
     keyDAO?: KeyDAO;
     /** Bech32 prefix of the network, will be overwritten by network type */
-    bech32Prefix?: Bech32Prefix;
+    bech32Prefix?: types.Bech32Prefix;
     /** Axios request config for tendermint rpc requests */
     rpcConfig?: AxiosRequestConfig;
 }
@@ -141,7 +141,7 @@ export declare class DefaultClientConfig implements ClientConfig {
     gas: string;
     fee: types.Coin;
     keyDAO: KeyDAO;
-    bech32Prefix: Bech32Prefix;
+    bech32Prefix: types.Bech32Prefix;
     rpcConfig: AxiosRequestConfig;
     constructor();
 }
@@ -186,17 +186,6 @@ export interface KeyDAO {
      * @throws `SdkError` if decrypt failed
      */
     decrypt?(encrptedPrivKey: string, password: string): string;
-}
-/**
- * Bech32 Prefix
- */
-export interface Bech32Prefix {
-    AccAddr: string;
-    AccPub: string;
-    ValAddr: string;
-    ValPub: string;
-    ConsAddr: string;
-    ConsPub: string;
 }
 export declare class DefaultKeyDAOImpl implements KeyDAO {
     write(name: string, key: Wallet): void;

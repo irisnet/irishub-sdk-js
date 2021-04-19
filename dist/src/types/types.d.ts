@@ -105,3 +105,14 @@ export interface Tag {
     key: string;
     value: string;
 }
+/**
+ * Bech32 Prefix
+ */
+export interface Bech32Prefix {
+    AccAddr: string;
+    AccPub: string;
+    ValAddr: string;
+    ValPub: string;
+    ConsAddr: string;
+    ConsPub: string;
+}

@@ -178,35 +178,14 @@ export class Client {
     if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
       switch(this.config.chainNetwork){
         case consts.ChainNetwork.Cosmos:
-        this.config.bech32Prefix = {
-          AccAddr: 'cosmos',
-          AccPub: 'cosmospub',
-          ValAddr: 'cosmosvaloper',
-          ValPub: 'cosmosvaloperpub',
-          ConsAddr: 'cosmosvalcons',
-          ConsPub: 'cosmosvalconspub',
-        };
+        this.config.bech32Prefix = types.Bech32Prefix_Cosmos;
         break;
         case consts.ChainNetwork.Akash:
-        this.config.bech32Prefix = {
-          AccAddr: 'akash',
-          AccPub: 'akashpub',
-          ValAddr: 'akashvaloper',
-          ValPub: 'akashvaloperpub',
-          ConsAddr: 'akashvalcons',
-          ConsPub: 'akashvalconspub',
-        };
+        this.config.bech32Prefix = types.Bech32Prefix_Akash;
         break;
         case consts.ChainNetwork.Iris:
         default:
-        this.config.bech32Prefix = {
-          AccAddr: 'iaa',
-          AccPub: 'iap',
-          ValAddr: 'iva',
-          ValPub: 'ivp',
-          ConsAddr: 'ica',
-          ConsPub: 'icp',
-        };
+        this.config.bech32Prefix = types.Bech32Prefix_Iris;
         break
       }
     }
@@ -330,7 +309,7 @@ export interface ClientConfig {
   keyDAO?: KeyDAO;
 
   /** Bech32 prefix of the network, will be overwritten by network type */
-  bech32Prefix?: Bech32Prefix;
+  bech32Prefix?: types.Bech32Prefix;
 
   /** Axios request config for tendermint rpc requests */
   rpcConfig?: AxiosRequestConfig;
@@ -345,7 +324,7 @@ export class DefaultClientConfig implements ClientConfig {
   gas: string;
   fee: types.Coin;
   keyDAO: KeyDAO;
-  bech32Prefix: Bech32Prefix;
+  bech32Prefix: types.Bech32Prefix;
   rpcConfig: AxiosRequestConfig;
 
   constructor() {
@@ -356,7 +335,7 @@ export class DefaultClientConfig implements ClientConfig {
     this.gas = '100000';
     this.fee = { amount: '', denom: '' };
     this.keyDAO = new DefaultKeyDAOImpl();
-    this.bech32Prefix = {} as Bech32Prefix;
+    this.bech32Prefix = {} as types.Bech32Prefix;
     this.rpcConfig = { timeout: 2000 };
   }
 }
@@ -406,18 +385,6 @@ export interface KeyDAO {
    * @throws `SdkError` if decrypt failed
    */
   decrypt?(encrptedPrivKey: string, password: string): string;
-}
-
-/**
- * Bech32 Prefix
- */
-export interface Bech32Prefix {
-  AccAddr: string;
-  AccPub: string;
-  ValAddr: string;
-  ValPub: string;
-  ConsAddr: string;
-  ConsPub: string;
 }
 
 export class DefaultKeyDAOImpl implements KeyDAO {

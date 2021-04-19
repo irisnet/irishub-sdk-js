@@ -57,37 +57,16 @@ var Client = /*#__PURE__*/function () {
     if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
       switch (this.config.chainNetwork) {
         case consts.ChainNetwork.Cosmos:
-          this.config.bech32Prefix = {
-            AccAddr: 'cosmos',
-            AccPub: 'cosmospub',
-            ValAddr: 'cosmosvaloper',
-            ValPub: 'cosmosvaloperpub',
-            ConsAddr: 'cosmosvalcons',
-            ConsPub: 'cosmosvalconspub'
-          };
+          this.config.bech32Prefix = types.Bech32Prefix_Cosmos;
           break;
 
         case consts.ChainNetwork.Akash:
-          this.config.bech32Prefix = {
-            AccAddr: 'akash',
-            AccPub: 'akashpub',
-            ValAddr: 'akashvaloper',
-            ValPub: 'akashvaloperpub',
-            ConsAddr: 'akashvalcons',
-            ConsPub: 'akashvalconspub'
-          };
+          this.config.bech32Prefix = types.Bech32Prefix_Akash;
           break;
 
         case consts.ChainNetwork.Iris:
         default:
-          this.config.bech32Prefix = {
-            AccAddr: 'iaa',
-            AccPub: 'iap',
-            ValAddr: 'iva',
-            ValPub: 'ivp',
-            ConsAddr: 'ica',
-            ConsPub: 'icp'
-          };
+          this.config.bech32Prefix = types.Bech32Prefix_Iris;
           break;
       }
     }
