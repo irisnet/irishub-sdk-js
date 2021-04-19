@@ -31,7 +31,7 @@ export class BaseTest {
 
   static getClient(): Client {
     let config = {
-        node: 'http://192.168.150.31:56657',
+        node: 'http://192.168.150.40:26657',
         chainNetwork: iris.types.ChainNetwork.Iris,
         chainId: 'bifrost-2',
         gas: '20000000',

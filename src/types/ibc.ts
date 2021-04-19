@@ -51,9 +51,6 @@ export class MsgTransfer extends Msg {
     if (this.value.timeout_timestamp) {
       msg.setTimeoutTimestamp(this.value.timeout_timestamp);
     }
-    console.log('sssssssss:',msg);
-    let b = pbs.ibc_transfer_query_pb.MsgTransfer.deserializeBinary(msg.serializeBinary());
-    console.log('bbbbb:',b,b.toObject());
     return msg;
   }
 
