@@ -51,6 +51,7 @@ var Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "_coinswap", void 0);
     (0, _defineProperty2["default"])(this, "_nft", void 0);
     (0, _defineProperty2["default"])(this, "_htlc", void 0);
+    (0, _defineProperty2["default"])(this, "_ibc", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
 
@@ -310,6 +311,17 @@ var Client = /*#__PURE__*/function () {
       }
 
       return this._htlc;
+    }
+    /** Ibc module */
+
+  }, {
+    key: "ibc",
+    get: function get() {
+      if (!this._ibc) {
+        this._ibc = new modules.Ibc(this);
+      }
+
+      return this._ibc;
     }
   }, {
     key: "withKeyDAO",

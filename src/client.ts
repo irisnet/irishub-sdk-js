@@ -171,6 +171,13 @@ export class Client {
     return this._htlc;
   }
 
+  /** Ibc module */
+  private _ibc?: modules.Ibc;
+  get ibc():modules.Ibc{
+    if (!this._ibc) {this._ibc = new modules.Ibc(this)}
+    return this._ibc;
+  }
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;

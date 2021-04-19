@@ -42,7 +42,8 @@ export declare enum TxType {
     MsgVote = "cosmos.gov.v1beta1.MsgVote",
     MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit",
     MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
-    MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC"
+    MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC",
+    MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer"
 }
 /**
  * Base Tx

@@ -59,6 +59,9 @@ export declare class Client {
     /** Htlc module */
     private _htlc?;
     get htlc(): modules.Htlc;
+    /** Ibc module */
+    private _ibc?;
+    get ibc(): modules.Ibc;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**

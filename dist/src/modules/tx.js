@@ -612,6 +612,13 @@ var Tx = /*#__PURE__*/function () {
             msg = new types.MsgClaimHTLC(txMsg.value);
             break;
           }
+        //ibc
+
+        case types.TxType.MsgTransfer:
+          {
+            msg = new types.MsgTransfer(txMsg.value);
+            break;
+          }
 
         default:
           {

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.any_pb = exports.token_token_pb = exports.google_protobuf_duration_pb = exports.google_protobuf_timestamp_pb = exports.confio_proofs_pb = exports.lightclients_tendermint_tendermint_pb = exports.slashing_slashing_pb = exports.upgrade_upgrade_pb = exports.params_params_pb = exports.distribution_distribution_pb = exports.coinswap_coinswap_pb = exports.gov_gov_pb = exports.signing_signing_pb = exports.base_coin_pb = exports.crypto_sm2_keys_pb = exports.crypto_ed25519_keys_pb = exports.crypto_secp256k1_keys_pb = exports.auth_auth_pb = exports.token_query_pb = exports.service_query_pb = exports.record_query_pb = exports.random_query_pb = exports.oracle_query_pb = exports.nft_query_pb = exports.htlc_query_pb = exports.coinswap_query_pb = exports.upgrade_query_pb = exports.staking_query_pb = exports.slashing_query_pb = exports.params_query_pb = exports.mint_query_pb = exports.gov_query_pb = exports.evidence_query_pb = exports.distribution_query_pb = exports.bank_query_pb = exports.auth_query_pb = exports.base_query_pagination_pb = exports.token_tx_pb = exports.service_tx_pb = exports.record_tx_pb = exports.random_tx_pb = exports.oracle_tx_pb = exports.nft_tx_pb = exports.htlc_tx_pb = exports.coinswap_tx_pb = exports.vesting_tx_pb = exports.tx_tx_pb = exports.staking_tx_pb = exports.slashing_tx_pb = exports.gov_tx_pb = exports.evidence_tx_pb = exports.distribution_tx_pb = exports.crisis_tx_pb = exports.bank_tx_pb = void 0;
+exports.any_pb = exports.token_token_pb = exports.google_protobuf_timestamp_pb = exports.ibc_core_client_pb = exports.slashing_slashing_pb = exports.upgrade_upgrade_pb = exports.params_params_pb = exports.distribution_distribution_pb = exports.coinswap_coinswap_pb = exports.gov_gov_pb = exports.signing_signing_pb = exports.base_coin_pb = exports.crypto_sm2_keys_pb = exports.crypto_ed25519_keys_pb = exports.crypto_secp256k1_keys_pb = exports.auth_auth_pb = exports.ibc_channel_query_pb = exports.ibc_transfer_query_pb = exports.token_query_pb = exports.service_query_pb = exports.record_query_pb = exports.random_query_pb = exports.oracle_query_pb = exports.nft_query_pb = exports.htlc_query_pb = exports.coinswap_query_pb = exports.upgrade_query_pb = exports.staking_query_pb = exports.slashing_query_pb = exports.params_query_pb = exports.mint_query_pb = exports.gov_query_pb = exports.evidence_query_pb = exports.distribution_query_pb = exports.bank_query_pb = exports.auth_query_pb = exports.base_query_pagination_pb = exports.ibc_transfer_tx_pb = exports.token_tx_pb = exports.service_tx_pb = exports.record_tx_pb = exports.random_tx_pb = exports.oracle_tx_pb = exports.nft_tx_pb = exports.htlc_tx_pb = exports.coinswap_tx_pb = exports.vesting_tx_pb = exports.tx_tx_pb = exports.staking_tx_pb = exports.slashing_tx_pb = exports.gov_tx_pb = exports.evidence_tx_pb = exports.distribution_tx_pb = exports.crisis_tx_pb = exports.bank_tx_pb = void 0;
 
 /***************TX*****************/
 //cosmos tx
@@ -72,11 +72,16 @@ var service_tx_pb = require('./proto-types/irismod/service/tx_pb');
 
 exports.service_tx_pb = service_tx_pb;
 
-var token_tx_pb = require('./proto-types/irismod/token/tx_pb');
-/***************QUERY***************/
+var token_tx_pb = require('./proto-types/irismod/token/tx_pb'); //ibc tx
 
 
 exports.token_tx_pb = token_tx_pb;
+
+var ibc_transfer_tx_pb = require('./proto-types/ibc/applications/transfer/v1/tx_pb');
+/***************QUERY***************/
+
+
+exports.ibc_transfer_tx_pb = ibc_transfer_tx_pb;
 
 var base_query_pagination_pb = require('./proto-types/cosmos/base/query/v1beta1/pagination_pb'); //cosmos query
 
@@ -152,12 +157,21 @@ var service_query_pb = require('./proto-types/irismod/service/query_pb');
 
 exports.service_query_pb = service_query_pb;
 
-var token_query_pb = require('./proto-types/irismod/token/query_pb');
+var token_query_pb = require('./proto-types/irismod/token/query_pb'); //ibc query
+
+
+exports.token_query_pb = token_query_pb;
+
+var ibc_transfer_query_pb = require('./proto-types/ibc/applications/transfer/v1/query_pb');
+
+exports.ibc_transfer_query_pb = ibc_transfer_query_pb;
+
+var ibc_channel_query_pb = require('./proto-types/ibc/core/channel/v1/query_pb');
 /***************MODULES***************/
 //cosmos module
 
 
-exports.token_query_pb = token_query_pb;
+exports.ibc_channel_query_pb = ibc_channel_query_pb;
 
 var auth_auth_pb = require('./proto-types/cosmos/auth/v1beta1/auth_pb');
 
@@ -203,29 +217,24 @@ var upgrade_upgrade_pb = require('./proto-types/cosmos/upgrade/v1beta1/upgrade_p
 
 exports.upgrade_upgrade_pb = upgrade_upgrade_pb;
 
-var slashing_slashing_pb = require('./proto-types/cosmos/slashing/v1beta1/slashing_pb'); //ibc module
+var slashing_slashing_pb = require('./proto-types/cosmos/slashing/v1beta1/slashing_pb'); // ibc module
 
 
 exports.slashing_slashing_pb = slashing_slashing_pb;
 
-var lightclients_tendermint_tendermint_pb = require('./proto-types/ibc/lightclients/tendermint/v1/tendermint_pb'); //confio module
+var ibc_core_client_pb = require('./proto-types/ibc/core/client/v1/client_pb'); // export const lightclients_tendermint_tendermint_pb = require( './proto-types/ibc/lightclients/tendermint/v1/tendermint_pb');
+//confio module
+// export const confio_proofs_pb = require( './proto-types/confio/proofs_pb');
+// google module
 
 
-exports.lightclients_tendermint_tendermint_pb = lightclients_tendermint_tendermint_pb;
+exports.ibc_core_client_pb = ibc_core_client_pb;
 
-var confio_proofs_pb = require('./proto-types/confio/proofs_pb'); // google module
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js'); // export const google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
+//irimod module
 
-
-exports.confio_proofs_pb = confio_proofs_pb;
-
-var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
 exports.google_protobuf_timestamp_pb = google_protobuf_timestamp_pb;
-
-var google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js'); //irimod module
-
-
-exports.google_protobuf_duration_pb = google_protobuf_duration_pb;
 
 var token_token_pb = require('./proto-types/irismod/token/token_pb'); //any
 

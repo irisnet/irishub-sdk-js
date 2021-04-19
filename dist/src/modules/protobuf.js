@@ -250,6 +250,13 @@ var Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgClaimHTLC.getModelClass();
             break;
           }
+        //ibc
+
+        case types.TxType.MsgTransfer:
+          {
+            messageModelClass = types.MsgTransfer.getModelClass();
+            break;
+          }
 
         default:
           {

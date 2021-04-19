@@ -77,6 +77,8 @@ export enum TxType {
   //htlc
   MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
   MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC",
+  //ibc
+  MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer"
 }
 
 /** 

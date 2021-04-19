@@ -198,7 +198,11 @@ var Gov = /*#__PURE__*/function () {
     }
     /**
      * Proposals queries all proposals based on given status.
-     * @param proposal_id defines the unique id of the proposal.
+     * @param option {
+        proposal_status?:types.ProposalStatus,
+        voter?:string,
+        depositor?:string
+      }
      */
 
   }, {

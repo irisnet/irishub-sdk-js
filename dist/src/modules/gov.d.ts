@@ -50,7 +50,11 @@ export declare class Gov {
     queryProposal(proposal_id: number): Promise<object>;
     /**
      * Proposals queries all proposals based on given status.
-     * @param proposal_id defines the unique id of the proposal.
+     * @param option {
+        proposal_status?:types.ProposalStatus,
+        voter?:string,
+        depositor?:string
+      }
      */
     queryProposals(option: {
         proposal_status?: types.ProposalStatus;

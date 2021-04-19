@@ -423,6 +423,11 @@ export class Tx {
           msg = new types.MsgClaimHTLC(txMsg.value)
           break;
       }
+      //ibc
+      case types.TxType.MsgTransfer: {
+          msg = new types.MsgTransfer(txMsg.value);
+          break;
+      }
       default: {
           throw new SdkError("not exist tx type",CODES.InvalidType);
       }
