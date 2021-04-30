@@ -110,7 +110,7 @@ export class Bank {
    * AllBalances queries the balance of all coins for a single account.
    * @param address is the address to query balances for.
    */
-  queryAllBalances(address:string): Promise<object> {
+  queryAllBalances(address:string,height?:string): Promise<object> {
     if (!address) {
       throw new SdkError("address can ont be empty");
     }
@@ -120,7 +120,8 @@ export class Bank {
     return this.client.rpcClient.protoQuery(
       '/cosmos.bank.v1beta1.Query/AllBalances',
       request,
-      types.bank_query_pb.QueryAllBalancesResponse
+      types.bank_query_pb.QueryAllBalancesResponse,
+      height
     );
   }
 

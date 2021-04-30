@@ -2,3 +2,5 @@ node_modules
 .vscode
 docs
 .idea/
+/node_modules/
+/.github/
