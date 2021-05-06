@@ -80,7 +80,22 @@ describe('Bank Tests', () => {
       'query All Balances',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query All Balances by Height',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr','4968')
           .then(res => {
             console.log(JSON.stringify(res));
           })

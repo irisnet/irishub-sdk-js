@@ -43,7 +43,7 @@ export declare class Bank {
      * AllBalances queries the balance of all coins for a single account.
      * @param address is the address to query balances for.
      */
-    queryAllBalances(address: string): Promise<object>;
+    queryAllBalances(address: string, height?: string): Promise<object>;
     /**
      * TotalSupply queries the total supply of all coins.
      */

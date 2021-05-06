@@ -182,14 +182,14 @@ var Bank = /*#__PURE__*/function () {
 
   }, {
     key: "queryAllBalances",
-    value: function queryAllBalances(address) {
+    value: function queryAllBalances(address, height) {
       if (!address) {
         throw new _errors.SdkError("address can ont be empty");
       }
 
       var request = new types.bank_query_pb.QueryAllBalancesRequest();
       request.setAddress(address);
-      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/AllBalances', request, types.bank_query_pb.QueryAllBalancesResponse);
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/AllBalances', request, types.bank_query_pb.QueryAllBalancesResponse, height);
     }
     /**
      * TotalSupply queries the total supply of all coins.
