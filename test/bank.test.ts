@@ -61,11 +61,26 @@ describe('Bank Tests', () => {
   });
 
   describe('Queries', () => {
+    // test(
+    //   'query Balance',
+    //   async () => {
+    //     await BaseTest.getClient()
+    //       .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
+    //       .then(res => {
+    //         console.log(JSON.stringify(res));
+    //       })
+    //       .catch(error => {
+    //         console.log(error);
+    //       });
+    //   },
+    //   timeout
+    // );
+
     test(
-      'query Balance',
+      'query All Balances',
       async () => {
         await BaseTest.getClient()
-          .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
+          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -77,10 +92,10 @@ describe('Bank Tests', () => {
     );
 
     test(
-      'query All Balances',
+      'query All Balances by Height',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr','4968')
           .then(res => {
             console.log(JSON.stringify(res));
           })
