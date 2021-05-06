@@ -106,9 +106,10 @@ var RpcClient = /*#__PURE__*/function () {
 
   }, {
     key: "protoQuery",
-    value: function protoQuery(path, protoRequest, protoResponse) {
+    value: function protoQuery(path, protoRequest, protoResponse, height) {
       var params = {
-        path: path
+        path: path,
+        height: height
       };
 
       if (protoRequest && protoRequest.serializeBinary) {
