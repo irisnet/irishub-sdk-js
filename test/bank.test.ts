@@ -61,20 +61,20 @@ describe('Bank Tests', () => {
   });
 
   describe('Queries', () => {
-    // test(
-    //   'query Balance',
-    //   async () => {
-    //     await BaseTest.getClient()
-    //       .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
-    //       .then(res => {
-    //         console.log(JSON.stringify(res));
-    //       })
-    //       .catch(error => {
-    //         console.log(error);
-    //       });
-    //   },
-    //   timeout
-    // );
+    test(
+      'query Balance',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
 
     test(
       'query All Balances',
