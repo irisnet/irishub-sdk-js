@@ -139,7 +139,7 @@ export class Tx {
     let accountNumber = baseTx.account_number;
     let sequence = baseTx.sequence;
     // Query account info from block chain
-    if ((!baseTx.account_number || !baseTx.sequence) && !offline) {
+    if ((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline) {
       const account = await this.client.auth.queryAccount(keyObj.address);
       accountNumber = account.accountNumber??0;
       sequence = account.sequence??0;
@@ -421,6 +421,11 @@ export class Tx {
       }
       case types.TxType.MsgClaimHTLC: {
           msg = new types.MsgClaimHTLC(txMsg.value)
+          break;
+      }
+      //ibc
+      case types.TxType.MsgTransfer: {
+          msg = new types.MsgTransfer(txMsg.value);
           break;
       }
       default: {

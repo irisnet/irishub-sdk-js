@@ -1,7 +1,13 @@
+import { Bech32Prefix } from './types';
 /** Network type config */
 export declare enum Network {
     Mainnet = 0,
     Testnet = 1
+}
+export declare enum ChainNetwork {
+    Iris = 0,
+    Cosmos = 1,
+    Akash = 2
 }
 export declare enum RpcMethods {
     BroadcastTxSync = "broadcast_tx_sync",
@@ -21,3 +27,6 @@ export declare enum RpcMethods {
 }
 export declare const doNotModify = "[do-not-modify]";
 export declare const STD_DENOM = "tiris", IRIS_ATTO = "iris-atto", MIN_UNIT_SUFFIX = "-min";
+export declare const Bech32Prefix_Iris: Bech32Prefix;
+export declare const Bech32Prefix_Cosmos: Bech32Prefix;
+export declare const Bech32Prefix_Akash: Bech32Prefix;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.Network = void 0;
+exports.Bech32Prefix_Akash = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Iris = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.ChainNetwork = exports.Network = void 0;
 
 /** Network type config */
 var Network;
@@ -13,6 +13,15 @@ exports.Network = Network;
   Network[Network["Mainnet"] = 0] = "Mainnet";
   Network[Network["Testnet"] = 1] = "Testnet";
 })(Network || (exports.Network = Network = {}));
+
+var ChainNetwork;
+exports.ChainNetwork = ChainNetwork;
+
+(function (ChainNetwork) {
+  ChainNetwork[ChainNetwork["Iris"] = 0] = "Iris";
+  ChainNetwork[ChainNetwork["Cosmos"] = 1] = "Cosmos";
+  ChainNetwork[ChainNetwork["Akash"] = 2] = "Akash";
+})(ChainNetwork || (exports.ChainNetwork = ChainNetwork = {}));
 
 var RpcMethods;
 exports.RpcMethods = RpcMethods;
@@ -42,3 +51,30 @@ var STD_DENOM = 'tiris',
 exports.MIN_UNIT_SUFFIX = MIN_UNIT_SUFFIX;
 exports.IRIS_ATTO = IRIS_ATTO;
 exports.STD_DENOM = STD_DENOM;
+var Bech32Prefix_Iris = {
+  AccAddr: 'iaa',
+  AccPub: 'iap',
+  ValAddr: 'iva',
+  ValPub: 'ivp',
+  ConsAddr: 'ica',
+  ConsPub: 'icp'
+};
+exports.Bech32Prefix_Iris = Bech32Prefix_Iris;
+var Bech32Prefix_Cosmos = {
+  AccAddr: 'cosmos',
+  AccPub: 'cosmospub',
+  ValAddr: 'cosmosvaloper',
+  ValPub: 'cosmosvaloperpub',
+  ConsAddr: 'cosmosvalcons',
+  ConsPub: 'cosmosvalconspub'
+};
+exports.Bech32Prefix_Cosmos = Bech32Prefix_Cosmos;
+var Bech32Prefix_Akash = {
+  AccAddr: 'akash',
+  AccPub: 'akashpub',
+  ValAddr: 'akashvaloper',
+  ValPub: 'akashvaloperpub',
+  ConsAddr: 'akashvalcons',
+  ConsPub: 'akashvalconspub'
+};
+exports.Bech32Prefix_Akash = Bech32Prefix_Akash;

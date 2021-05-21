@@ -34,7 +34,7 @@ describe('Bank Tests', () => {
 
   describe('multiSend', () => {
     test(
-      'send coins',
+      'multiSend coins',
       async () => {
         const amount: types.Coin[] = [
           {

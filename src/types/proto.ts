@@ -20,6 +20,9 @@ export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
 
+//ibc tx
+export const ibc_transfer_tx_pb= require( './proto-types/ibc/applications/transfer/v1/tx_pb');
+
 /***************QUERY***************/
 export const base_query_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
 //cosmos query
@@ -44,6 +47,10 @@ export const record_query_pb = require( './proto-types/irismod/record/query_pb')
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
 export const token_query_pb = require( './proto-types/irismod/token/query_pb');
 
+//ibc query
+export const ibc_transfer_query_pb= require( './proto-types/ibc/applications/transfer/v1/query_pb');
+export const ibc_channel_query_pb= require( './proto-types/ibc/core/channel/v1/query_pb');
+
 /***************MODULES***************/
 //cosmos module
 export const auth_auth_pb = require( './proto-types/cosmos/auth/v1beta1/auth_pb');
@@ -59,15 +66,16 @@ export const params_params_pb = require( './proto-types/cosmos/params/v1beta1/pa
 export const upgrade_upgrade_pb = require( './proto-types/cosmos/upgrade/v1beta1/upgrade_pb');
 export const slashing_slashing_pb = require('./proto-types/cosmos/slashing/v1beta1/slashing_pb');
 
-//ibc module
-export const lightclients_tendermint_tendermint_pb = require( './proto-types/ibc/lightclients/tendermint/v1/tendermint_pb');
+// ibc module
+export const ibc_core_client_pb= require( './proto-types/ibc/core/client/v1/client_pb');
+// export const lightclients_tendermint_tendermint_pb = require( './proto-types/ibc/lightclients/tendermint/v1/tendermint_pb');
 
 //confio module
-export const confio_proofs_pb = require( './proto-types/confio/proofs_pb');
+// export const confio_proofs_pb = require( './proto-types/confio/proofs_pb');
 
 // google module
 export const google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
-export const google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
+// export const google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
 
 //irimod module
 export const token_token_pb = require( './proto-types/irismod/token/token_pb');

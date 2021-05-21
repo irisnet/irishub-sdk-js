@@ -106,6 +106,7 @@ exports.TxType = TxType;
   TxType["MsgDeposit"] = "cosmos.gov.v1beta1.MsgDeposit";
   TxType["MsgCreateHTLC"] = "irismod.htlc.MsgCreateHTLC";
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
+  TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
 })(TxType || (exports.TxType = TxType = {}));
 
 /** 
