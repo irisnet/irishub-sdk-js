@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
-  "typings": "src/index.ts",
+  "typings": "index.ts",
   "types": "./dist/src",
   "files": [
     "dist",
