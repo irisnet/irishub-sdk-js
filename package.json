@@ -71,7 +71,7 @@
     "is_js": "^0.9.0",
     "isomorphic-ws": "^4.0.1",
     "mathjs": "7.5.1",
-    "ndjson": "^1.5.0",
+    "ndjson": "^2.0.0",
     "pumpify": "^2.0.1",
     "secp256k1": "^3.7.1",
     "secure-random": "^1.1.2",
