@@ -1240,10 +1240,10 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.7.tgz#98a993516c859eb0d5c4c8f098317a9ea68db9ad"
   integrity sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
 
-"@types/mathjs@^6.0.4":
-  version "6.0.11"
-  resolved "https://registry.yarnpkg.com/@types/mathjs/-/mathjs-6.0.11.tgz#bf24c1ed875252274008d2c373bad07e0348adfb"
-  integrity sha512-q9B8ZreO41L38iTY76bCZEtAqzeRs4mNIOZpZ1sLSlcYgvgfFrnf8y8qfmas0tVWrsODjmQbQJFD6RJJJCqJbQ==
+"@types/mathjs@^9.3.2":
+  version "9.3.2"
+  resolved "https://registry.yarnpkg.com/@types/mathjs/-/mathjs-9.3.2.tgz#124604c313e1f154054972743ff3e55539a78c9c"
+  integrity sha512-V48WHFU9hyd+OPuGwgBwdXA1w805/spw3jIIdOe/bQwOxteIwPPc1Sf6qRWrp8jK7GI/7fPflAKve1Ea5YNSQA==
   dependencies:
     decimal.js "^10.0.0"
 
