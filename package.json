@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@types/mathjs": "^6.0.4",
+    "@types/mathjs": "^9.4.2",
     "@types/ws": "^7.2.2",
     "axios": "^0.21.1",
     "bech32": "^1.1.3",
