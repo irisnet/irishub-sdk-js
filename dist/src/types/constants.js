@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Bech32Prefix_Akash = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Iris = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.doNotModify = exports.RpcMethods = exports.ChainNetwork = exports.Network = void 0;
+exports.Bech32Prefix_Akash = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Iris = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.PGPStructure = exports.keystoreStructure = exports.xchacha20NonceLength = exports.keystoreSaltPerfix = exports.doNotModify = exports.RpcMethods = exports.ChainNetwork = exports.Network = void 0;
 
 /** Network type config */
 var Network;
@@ -45,6 +45,20 @@ exports.RpcMethods = RpcMethods;
 
 var doNotModify = '[do-not-modify]';
 exports.doNotModify = doNotModify;
+var keystoreSaltPerfix = '$2a$12$';
+exports.keystoreSaltPerfix = keystoreSaltPerfix;
+var xchacha20NonceLength = 24;
+exports.xchacha20NonceLength = xchacha20NonceLength;
+var keystoreStructure = {
+  prefix: '-----BEGIN TENDERMINT PRIVATE KEY-----',
+  suffix: '-----END TENDERMINT PRIVATE KEY-----'
+};
+exports.keystoreStructure = keystoreStructure;
+var PGPStructure = {
+  prefix: '-----BEGIN PGP PRIVATE KEY BLOCK-----',
+  suffix: '-----END PGP PRIVATE KEY BLOCK-----'
+};
+exports.PGPStructure = PGPStructure;
 var STD_DENOM = 'tiris',
     IRIS_ATTO = 'iris-atto',
     MIN_UNIT_SUFFIX = '-min';

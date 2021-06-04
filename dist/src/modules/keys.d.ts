@@ -44,10 +44,20 @@ export declare class Keys {
      * @param password Password of the keystore
      * @param keystore Keystore json or object
      * @param type Pubkey Type
-     * @returns Bech32 address
+     * @returns types.Wallet
      * @since v0.17
      */
     import(name: string, password: string, keystore: string | types.Keystore, type?: types.PubkeyType): types.Wallet;
+    /**
+     * Import a key from keystore v1.0
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param keystore Keystore v1.0
+     * @returns types.Wallet
+     * @since v0.17
+     */
+    importKeystore(name: string, password: string, keystore: string): Promise<types.Wallet>;
     /**
      * Import a PrivateKey
      *

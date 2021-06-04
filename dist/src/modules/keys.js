@@ -1,13 +1,17 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _typeof = require("@babel/runtime/helpers/typeof");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Keys = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -22,6 +26,10 @@ var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
 
 var types = _interopRequireWildcard(require("../types"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /**
  * This module allows you to manage your local tendermint keystore (wallets) for iris.
@@ -159,7 +167,7 @@ var Keys = /*#__PURE__*/function () {
      * @param password Password of the keystore
      * @param keystore Keystore json or object
      * @param type Pubkey Type
-     * @returns Bech32 address
+     * @returns types.Wallet
      * @since v0.17
      */
 
@@ -204,6 +212,88 @@ var Keys = /*#__PURE__*/function () {
       this.client.config.keyDAO.write(name, wallet);
       return wallet;
     }
+    /**
+     * Import a key from keystore v1.0
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param keystore Keystore v1.0
+     * @returns types.Wallet
+     * @since v0.17
+     */
+
+  }, {
+    key: "importKeystore",
+    value: function () {
+      var _importKeystore = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(name, password, keystore) {
+        var pk, pubKey, address, encryptedPrivKey, wallet;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!is.empty(name)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                throw new _errors.SdkError("Name of the key can not be empty");
+
+              case 2:
+                if (!is.empty(password)) {
+                  _context.next = 4;
+                  break;
+                }
+
+                throw new _errors.SdkError("Password of the key can not be empty");
+
+              case 4:
+                if (!is.empty(keystore)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                throw new _errors.SdkError("Keystore can not be empty");
+
+              case 6:
+                if (this.client.config.keyDAO.encrypt) {
+                  _context.next = 8;
+                  break;
+                }
+
+                throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+
+              case 8:
+                _context.next = 10;
+                return _crypto.Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
+
+              case 10:
+                pk = _context.sent;
+                pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(pk.privKey, pk.type);
+                address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+                encryptedPrivKey = this.client.config.keyDAO.encrypt(pk.privKey, password);
+                wallet = {
+                  address: address,
+                  privateKey: encryptedPrivKey,
+                  publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
+                }; // Save the key to app
+
+                this.client.config.keyDAO.write(name, wallet);
+                return _context.abrupt("return", wallet);
+
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function importKeystore(_x, _x2, _x3) {
+        return _importKeystore.apply(this, arguments);
+      }
+
+      return importKeystore;
+    }()
     /**
      * Import a PrivateKey
      *

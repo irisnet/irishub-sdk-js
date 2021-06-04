@@ -11,6 +11,12 @@ export declare class Utils {
      */
     static str2ab(str: string): Uint8Array;
     /**
+     * parse Keystore Headers
+     * @param string[] KeystoreHeaders string[]
+     * @returns types.KeystoreHeader
+     */
+    static parseKeystoreHeaders(KeystoreHeaders: string[]): types.KeystoreHeader;
+    /**
      * String to Byte Array
      * @param str ASCII string
      * @returns Uint8Array

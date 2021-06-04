@@ -26,6 +26,16 @@ export declare enum RpcMethods {
     NetInfo = "net_info"
 }
 export declare const doNotModify = "[do-not-modify]";
+export declare const keystoreSaltPerfix = "$2a$12$";
+export declare const xchacha20NonceLength = 24;
+export declare const keystoreStructure: {
+    prefix: string;
+    suffix: string;
+};
+export declare const PGPStructure: {
+    prefix: string;
+    suffix: string;
+};
 export declare const STD_DENOM = "tiris", IRIS_ATTO = "iris-atto", MIN_UNIT_SUFFIX = "-min";
 export declare const Bech32Prefix_Iris: Bech32Prefix;
 export declare const Bech32Prefix_Cosmos: Bech32Prefix;

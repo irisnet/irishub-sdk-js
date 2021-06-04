@@ -9,6 +9,15 @@ export interface Keystore {
     crypto: Crypto;
 }
 /**
+ * Keystore header struct
+ * @hidden
+ */
+export interface KeystoreHeader {
+    kdf?: string;
+    salt?: string;
+    type?: string;
+}
+/**
  * Keys struct
  * @hidden
  */
