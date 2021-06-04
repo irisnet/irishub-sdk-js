@@ -1,13 +1,17 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _typeof = require("@babel/runtime/helpers/typeof");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Crypto = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 
@@ -39,11 +43,21 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
 
+var openpgp = _interopRequireWildcard(require("openpgp"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 var Sha256 = require('sha256');
 
 var Secp256k1 = require('secp256k1');
 
 var SM2 = require('sm-crypto').sm2;
+
+var bcrypt = require('bcryptjs');
+
+var nacl = require('tweetnacl');
 /**
  * Crypto Utils
  * @hidden
@@ -486,6 +500,93 @@ var Crypto = /*#__PURE__*/function () {
       var privateKey = Buffer.concat([decipher.update(ciphertext), decipher["final"]()]).toString('hex');
       return privateKey;
     }
+    /**
+     * Gets a private key from a keystore v1.0 given its password.
+     * @param keystore The keystore v1.0
+     * @param password The password.
+     * @returns The private key
+     */
+
+  }, {
+    key: "getPrivateKeyFromKeystoreV1",
+    value: function () {
+      var _getPrivateKeyFromKeystoreV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(keystore, password) {
+        var keystoreTest, keystore_copy, keystore_content, header, salt, key, keystoreData, nonce, privKey_full, privKey;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (is.string(password)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                throw new _errors.SdkError('No password given.', _errors.CODES.InvalidPassword);
+
+              case 2:
+                keystoreTest = new RegExp("^(".concat(types.keystoreStructure.prefix, ")([\\s\\S]*)(").concat(types.keystoreStructure.suffix, ")$"));
+
+                if (!keystoreTest.test(keystore)) {
+                  _context.next = 24;
+                  break;
+                }
+
+                //Convert KeyStore to OpenPGP type
+                keystore_copy = keystore;
+                keystore_copy = keystore_copy.replace(types.keystoreStructure.prefix, types.PGPStructure.prefix);
+                keystore_copy = keystore_copy.replace(types.keystoreStructure.suffix, types.PGPStructure.suffix); // unarmor
+
+                _context.next = 9;
+                return openpgp.unarmor(keystore_copy)["catch"](function (err) {
+                  throw new _errors.SdkError(err.message);
+                });
+
+              case 9:
+                keystore_content = _context.sent;
+                header = _utils.Utils.parseKeystoreHeaders(keystore_content.headers || []);
+
+                if (header.salt) {
+                  _context.next = 13;
+                  break;
+                }
+
+                throw new _errors.SdkError('invalid keystore salt');
+
+              case 13:
+                salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
+                key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
+                key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
+                keystoreData = Buffer.from(keystore_content.data);
+                nonce = keystoreData.slice(0, types.xchacha20NonceLength);
+                privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
+                privKey = Buffer.from(privKey_full).slice(5).toString('hex');
+
+                if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
+                  header.type = types.PubkeyType.secp256k1;
+                }
+
+                return _context.abrupt("return", {
+                  type: header.type,
+                  privKey: privKey
+                });
+
+              case 24:
+                throw new _errors.SdkError('Invalid keystore', _errors.CODES.InvalidType);
+
+              case 25:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function getPrivateKeyFromKeystoreV1(_x, _x2) {
+        return _getPrivateKeyFromKeystoreV.apply(this, arguments);
+      }
+
+      return getPrivateKeyFromKeystoreV1;
+    }()
     /**
      * Generates mnemonic phrase words using random entropy.
      *

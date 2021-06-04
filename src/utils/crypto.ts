@@ -15,6 +15,10 @@ const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
 const SM2 = require('sm-crypto').sm2;
 
+import * as openpgp from 'openpgp';
+const bcrypt = require('bcryptjs');
+const nacl = require('tweetnacl');
+
 /**
  * Crypto Utils
  * @hidden
@@ -432,6 +436,57 @@ export class Crypto {
     ]).toString('hex');
 
     return privateKey;
+  }
+
+  /**
+   * Gets a private key from a keystore v1.0 given its password.
+   * @param keystore The keystore v1.0
+   * @param password The password.
+   * @returns The private key
+   */
+  static async getPrivateKeyFromKeystoreV1(
+    keystore: string,
+    password: string
+  ): Promise<{type:types.PubkeyType, privKey:string}> {
+    if (!is.string(password)) {
+      throw new SdkError('No password given.',CODES.InvalidPassword);
+    }
+
+    let keystoreTest = new RegExp(`^(${types.keystoreStructure.prefix})([\\s\\S]*)(${types.keystoreStructure.suffix})$`);
+    if (keystoreTest.test(keystore)) {
+      //Convert KeyStore to OpenPGP type
+      let keystore_copy:string = keystore;
+      keystore_copy = keystore_copy.replace(types.keystoreStructure.prefix, types.PGPStructure.prefix);
+      keystore_copy = keystore_copy.replace(types.keystoreStructure.suffix, types.PGPStructure.suffix);
+      
+      // unarmor
+      let keystore_content:{headers?:string[], data:any} = await openpgp.unarmor(keystore_copy).catch((err:any)=>{
+        throw new SdkError(err.message);
+      });
+
+      let header: types.KeystoreHeader = Utils.parseKeystoreHeaders(keystore_content.headers || []);
+      if (!header.salt) {
+        throw new SdkError('invalid keystore salt');
+      }
+      let salt:string = bcrypt.encodeBase64(Buffer.from(header.salt,'hex'),16);
+      let key:string = bcrypt.hashSync(password, `${types.keystoreSaltPerfix}${salt}`);
+      key = Utils.sha256(Buffer.from(key).toString('hex'));
+      let keystoreData:Buffer = Buffer.from(keystore_content.data);
+      const nonce:Buffer = keystoreData.slice(0, types.xchacha20NonceLength);
+      let privKey_full:Uint8Array = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key,'hex'));
+      let privKey:string = Buffer.from(privKey_full).slice(5).toString('hex');
+      if (header.type != types.PubkeyType.secp256k1 &&
+          header.type != types.PubkeyType.ed25519 &&
+          header.type != types.PubkeyType.sm2) {
+        header.type = types.PubkeyType.secp256k1;
+      }
+      return {
+        type: header.type as types.PubkeyType,
+        privKey
+      }
+    }else{
+      throw new SdkError('Invalid keystore',CODES.InvalidType);
+    }
   }
 
   /**

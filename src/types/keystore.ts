@@ -12,6 +12,16 @@ export interface Keystore {
 }
 
 /** 
+ * Keystore header struct
+ * @hidden
+ */
+export interface KeystoreHeader {
+  kdf?: string;
+  salt?: string;
+  type?: string; //secp256k1|ed25519|sm2
+}
+
+/** 
  * Keys struct
  * @hidden
  */

@@ -28,6 +28,24 @@ export class Utils {
   }
 
   /**
+   * parse Keystore Headers
+   * @param string[] KeystoreHeaders string[]
+   * @returns types.KeystoreHeader
+   */
+  static parseKeystoreHeaders(KeystoreHeaders: string[]): types.KeystoreHeader {
+    let header: types.KeystoreHeader = {};
+    if (KeystoreHeaders && KeystoreHeaders.length) {
+      KeystoreHeaders.forEach((item:string)=>{
+        let contents:string[] = item.split(':');
+        if (contents.length == 2) {
+          (header as any)[contents[0]] = contents[1].trim();
+        }
+      })
+    }
+    return header;
+  }
+
+  /**
    * String to Byte Array
    * @param str ASCII string
    * @returns Uint8Array
