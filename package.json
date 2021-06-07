@@ -74,6 +74,7 @@
     "sha256": "^0.2.0",
     "sm-crypto": "git+http://github.com/bianjieai/sm-crypto-js.git#main",
     "openpgp": "^5.0.0-3",
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "tweetnacl": "^1.0.3"
   }
 }
