@@ -44,7 +44,7 @@ export class Utils {
       datas = datas.filter((item:string)=>item.trim().length);
       let headers:string[] = datas.filter((item:string)=>item.indexOf(':')!=-1);
       let contents:string[] = datas.filter((item:string)=>item.indexOf(':')==-1);
-      if (contents.length > 2) {
+      if (/^=/.test(contents[contents.length - 1])) {
         delete contents[contents.length - 1];
       }
       let header:types.KeystoreHeader = Utils.parseKeystoreHeaders(headers);

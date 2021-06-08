@@ -93,7 +93,7 @@ var Utils = /*#__PURE__*/function () {
           return item.indexOf(':') == -1;
         });
 
-        if (contents.length > 2) {
+        if (/^=/.test(contents[contents.length - 1])) {
           delete contents[contents.length - 1];
         }
 
