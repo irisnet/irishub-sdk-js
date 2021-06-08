@@ -9,10 +9,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Crypto = void 0;
 
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
@@ -42,8 +38,6 @@ var _utils = require("./utils");
 var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
-
-var openpgp = _interopRequireWildcard(require("openpgp"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -509,84 +503,42 @@ var Crypto = /*#__PURE__*/function () {
 
   }, {
     key: "getPrivateKeyFromKeystoreV1",
-    value: function () {
-      var _getPrivateKeyFromKeystoreV = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(keystore, password) {
-        var keystoreTest, keystore_copy, keystore_content, header, salt, key, keystoreData, nonce, privKey_full, privKey;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (is.string(password)) {
-                  _context.next = 2;
-                  break;
-                }
+    value: function getPrivateKeyFromKeystoreV1(keystore, password) {
+      if (!is.string(password)) {
+        throw new _errors.SdkError('No password given.', _errors.CODES.InvalidPassword);
+      } // unarmor
 
-                throw new _errors.SdkError('No password given.', _errors.CODES.InvalidPassword);
 
-              case 2:
-                keystoreTest = new RegExp("^(".concat(types.keystoreStructure.prefix, ")([\\s\\S]*)(").concat(types.keystoreStructure.suffix, ")$"));
+      var keystore_content = _utils.Utils.unarmor(keystore);
 
-                if (!keystoreTest.test(keystore)) {
-                  _context.next = 24;
-                  break;
-                }
+      var header = keystore_content.header;
 
-                //Convert KeyStore to OpenPGP type
-                keystore_copy = keystore;
-                keystore_copy = keystore_copy.replace(types.keystoreStructure.prefix, types.PGPStructure.prefix);
-                keystore_copy = keystore_copy.replace(types.keystoreStructure.suffix, types.PGPStructure.suffix); // unarmor
-
-                _context.next = 9;
-                return openpgp.unarmor(keystore_copy)["catch"](function (err) {
-                  throw new _errors.SdkError(err.message);
-                });
-
-              case 9:
-                keystore_content = _context.sent;
-                header = _utils.Utils.parseKeystoreHeaders(keystore_content.headers || []);
-
-                if (header.salt) {
-                  _context.next = 13;
-                  break;
-                }
-
-                throw new _errors.SdkError('invalid keystore salt');
-
-              case 13:
-                salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
-                key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
-                key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
-                keystoreData = Buffer.from(keystore_content.data);
-                nonce = keystoreData.slice(0, types.xchacha20NonceLength);
-                privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
-                privKey = Buffer.from(privKey_full).slice(5).toString('hex');
-
-                if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
-                  header.type = types.PubkeyType.secp256k1;
-                }
-
-                return _context.abrupt("return", {
-                  type: header.type,
-                  privKey: privKey
-                });
-
-              case 24:
-                throw new _errors.SdkError('Invalid keystore', _errors.CODES.InvalidType);
-
-              case 25:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      function getPrivateKeyFromKeystoreV1(_x, _x2) {
-        return _getPrivateKeyFromKeystoreV.apply(this, arguments);
+      if (!header.salt) {
+        throw new _errors.SdkError('invalid keystore salt');
       }
 
-      return getPrivateKeyFromKeystoreV1;
-    }()
+      var salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
+      var key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
+      key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
+      var keystoreData = Buffer.from(keystore_content.data, 'base64');
+      var nonce = keystoreData.slice(0, types.xchacha20NonceLength);
+      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
+
+      if (!privKey_full) {
+        throw new _errors.SdkError('KeyStore parsing failed', _errors.CODES.Internal);
+      }
+
+      var privKey = Buffer.from(privKey_full).slice(5).toString('hex');
+
+      if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
+        header.type = types.PubkeyType.secp256k1;
+      }
+
+      return {
+        type: header.type,
+        privKey: privKey
+      };
+    }
     /**
      * Generates mnemonic phrase words using random entropy.
      *

@@ -9,10 +9,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Keys = void 0;
 
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
@@ -224,76 +220,39 @@ var Keys = /*#__PURE__*/function () {
 
   }, {
     key: "importKeystore",
-    value: function () {
-      var _importKeystore = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(name, password, keystore) {
-        var pk, pubKey, address, encryptedPrivKey, wallet;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!is.empty(name)) {
-                  _context.next = 2;
-                  break;
-                }
-
-                throw new _errors.SdkError("Name of the key can not be empty");
-
-              case 2:
-                if (!is.empty(password)) {
-                  _context.next = 4;
-                  break;
-                }
-
-                throw new _errors.SdkError("Password of the key can not be empty");
-
-              case 4:
-                if (!is.empty(keystore)) {
-                  _context.next = 6;
-                  break;
-                }
-
-                throw new _errors.SdkError("Keystore can not be empty");
-
-              case 6:
-                if (this.client.config.keyDAO.encrypt) {
-                  _context.next = 8;
-                  break;
-                }
-
-                throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-
-              case 8:
-                _context.next = 10;
-                return _crypto.Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
-
-              case 10:
-                pk = _context.sent;
-                pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(pk.privKey, pk.type);
-                address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
-                encryptedPrivKey = this.client.config.keyDAO.encrypt(pk.privKey, password);
-                wallet = {
-                  address: address,
-                  privateKey: encryptedPrivKey,
-                  publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-                }; // Save the key to app
-
-                this.client.config.keyDAO.write(name, wallet);
-                return _context.abrupt("return", wallet);
-
-              case 17:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function importKeystore(_x, _x2, _x3) {
-        return _importKeystore.apply(this, arguments);
+    value: function importKeystore(name, password, keystore) {
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
       }
 
-      return importKeystore;
-    }()
+      if (is.empty(password)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+
+      if (is.empty(keystore)) {
+        throw new _errors.SdkError("Keystore can not be empty");
+      }
+
+      if (!this.client.config.keyDAO.encrypt) {
+        throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+      }
+
+      var pk = _crypto.Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
+
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(pk.privKey, pk.type);
+
+      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(pk.privKey, password);
+      var wallet = {
+        address: address,
+        privateKey: encryptedPrivKey,
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
+    }
     /**
      * Import a PrivateKey
      *

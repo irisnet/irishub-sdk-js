@@ -215,11 +215,11 @@ export class Keys {
    * @returns types.Wallet
    * @since v0.17
    */
-  async importKeystore(
+  importKeystore(
     name: string,
     password: string,
     keystore: string
-  ): Promise<types.Wallet> {
+  ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -233,7 +233,7 @@ export class Keys {
       throw new SdkError(`Encrypt method of KeyDAO not implemented`);
     }
 
-    let pk = await Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
+    let pk = Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
 
     const pubKey = Crypto.getPublicKeyFromPrivateKey(pk.privKey, pk.type);
     const address = Crypto.getAddressFromPublicKey(

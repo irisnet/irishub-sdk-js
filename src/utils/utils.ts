@@ -28,6 +28,37 @@ export class Utils {
   }
 
   /**
+   * unarmor Keystore
+   * @param string Keystore v1.0
+   * @returns types.KeystoreV1
+   */
+  static unarmor(keystore: string): types.KeystoreV1 {
+    let keystoreTest = new RegExp(`^(${types.keystoreStructure.prefix})([\\s\\S]*)(${types.keystoreStructure.suffix})$`);
+    if (keystoreTest.test(keystore)) {
+      let clearTest = new RegExp(`^(${types.keystoreStructure.prefix})|(${types.keystoreStructure.suffix})$`,'g');
+      keystore = keystore.replace(clearTest,'');
+      let datas:string[] = keystore.split('\n');
+      if (!datas || !datas.length) {
+        throw new SdkError('Invalid keystore',CODES.InvalidType);
+      }
+      datas = datas.filter((item:string)=>item.trim().length);
+      let headers:string[] = datas.filter((item:string)=>item.indexOf(':')!=-1);
+      let contents:string[] = datas.filter((item:string)=>item.indexOf(':')==-1);
+      if (contents.length > 2) {
+        delete contents[contents.length - 1];
+      }
+      let header:types.KeystoreHeader = Utils.parseKeystoreHeaders(headers);
+      let content:string = contents.join('');
+      return {
+        header,
+        data:content
+      }
+    }else{
+      throw new SdkError('Invalid keystore',CODES.InvalidType);
+    }
+  }
+
+  /**
    * parse Keystore Headers
    * @param string[] KeystoreHeaders string[]
    * @returns types.KeystoreHeader

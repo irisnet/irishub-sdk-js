@@ -37,10 +37,6 @@ export const keystoreStructure = {
   prefix:'-----BEGIN TENDERMINT PRIVATE KEY-----',
   suffix:'-----END TENDERMINT PRIVATE KEY-----'
 };
-export const PGPStructure = {
-  prefix:'-----BEGIN PGP PRIVATE KEY BLOCK-----',
-  suffix:'-----END PGP PRIVATE KEY BLOCK-----'
-};
 
 export const STD_DENOM = 'tiris',
   IRIS_ATTO = 'iris-atto',

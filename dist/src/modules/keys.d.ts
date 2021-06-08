@@ -57,7 +57,7 @@ export declare class Keys {
      * @returns types.Wallet
      * @since v0.17
      */
-    importKeystore(name: string, password: string, keystore: string): Promise<types.Wallet>;
+    importKeystore(name: string, password: string, keystore: string): types.Wallet;
     /**
      * Import a PrivateKey
      *
