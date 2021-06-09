@@ -18,6 +18,16 @@ export interface KeystoreHeader {
     type?: string;
 }
 /**
+ * Keystore struct
+ * @hidden
+ */
+export interface KeystoreV1 {
+    header: KeystoreHeader;
+    data: string;
+    type?: string;
+    text?: string;
+}
+/**
  * Keys struct
  * @hidden
  */

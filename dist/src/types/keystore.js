@@ -17,6 +17,11 @@ exports.StoreType = void 0;
  */
 
 /** 
+ * Keystore struct
+ * @hidden
+ */
+
+/** 
  * Keys struct
  * @hidden
  */

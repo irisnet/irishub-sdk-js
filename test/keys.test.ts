@@ -55,11 +55,8 @@ HbP+c6JmeJy9JXe2rbbF1QtCX1gLqGcDQPBXiCtFvP7/8wTZtVOPj8vREzhZ9ElO
 
     let password = '123456789';
     const client = BaseTest.getClient();
-    client.keys.importKeystore('123', password, keystore).then((data)=>{
-      console.log('wallet:',data);
-    }).catch((e)=>{
-      console.error('Import a keystore V1 error:',e);
-    });
+    let wallet = client.keys.importKeystore('123', password, keystore);
+    console.log('wallet:',wallet);
 });
 
 

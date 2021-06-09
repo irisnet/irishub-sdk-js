@@ -130,10 +130,10 @@ export declare class Crypto {
      * @param password The password.
      * @returns The private key
      */
-    static getPrivateKeyFromKeystoreV1(keystore: string, password: string): Promise<{
+    static getPrivateKeyFromKeystoreV1(keystore: string, password: string): {
         type: types.PubkeyType;
         privKey: string;
-    }>;
+    };
     /**
      * Generates mnemonic phrase words using random entropy.
      *
