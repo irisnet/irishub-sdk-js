@@ -51,7 +51,7 @@
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.0",
-    "typedoc": "^0.16.9",
+    "typedoc": "^0.20.37",
     "typescript": "^3.8.3"
   },
   "dependencies": {
