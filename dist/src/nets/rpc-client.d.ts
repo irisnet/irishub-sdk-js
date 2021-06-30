@@ -34,7 +34,7 @@ export declare class RpcClient {
      * @returns
      * @since v0.17
      */
-    protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any>;
+    protoQuery(path: string, protoRequest?: any, protoResponse?: any, height?: string): Promise<any>;
     /**
      * Tendermint ABCI Query
      *

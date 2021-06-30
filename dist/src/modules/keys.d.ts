@@ -22,10 +22,7 @@ export declare class Keys {
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
-    add(name: string, password: string, type?: types.PubkeyType): {
-        address: string;
-        mnemonic: string;
-    };
+    add(name: string, password: string, type?: types.PubkeyType): types.Wallet;
     /**
      * Recover a key
      *
@@ -39,7 +36,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): string;
+    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): types.Wallet;
     /**
      * Import a key from keystore
      *
@@ -47,10 +44,20 @@ export declare class Keys {
      * @param password Password of the keystore
      * @param keystore Keystore json or object
      * @param type Pubkey Type
-     * @returns Bech32 address
+     * @returns types.Wallet
      * @since v0.17
      */
-    import(name: string, password: string, keystore: string | types.Keystore, type?: types.PubkeyType): string;
+    import(name: string, password: string, keystore: string | types.Keystore, type?: types.PubkeyType): types.Wallet;
+    /**
+     * Import a key from keystore v1.0
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param keystore Keystore v1.0
+     * @returns types.Wallet
+     * @since v0.17
+     */
+    importKeystore(name: string, password: string, keystore: string): types.Wallet;
     /**
      * Import a PrivateKey
      *
@@ -61,7 +68,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    importPrivateKey(name: string, password: string, privateKey: string, type?: types.PubkeyType): string;
+    importPrivateKey(name: string, password: string, privateKey: string, type?: types.PubkeyType): types.Wallet;
     /**
      * Export keystore of a key
      *

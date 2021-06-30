@@ -40,7 +40,10 @@ export declare enum TxType {
     MsgTransferTokenOwner = "irismod.token.MsgTransferTokenOwner",
     MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",
     MsgVote = "cosmos.gov.v1beta1.MsgVote",
-    MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit"
+    MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit",
+    MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
+    MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC",
+    MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer"
 }
 /**
  * Base Tx
@@ -102,4 +105,15 @@ export declare enum PubkeyType {
 export interface Tag {
     key: string;
     value: string;
+}
+/**
+ * Bech32 Prefix
+ */
+export interface Bech32Prefix {
+    AccAddr: string;
+    AccPub: string;
+    ValAddr: string;
+    ValPub: string;
+    ConsAddr: string;
+    ConsPub: string;
 }

@@ -139,7 +139,7 @@ export class Tx {
     let accountNumber = baseTx.account_number;
     let sequence = baseTx.sequence;
     // Query account info from block chain
-    if ((!baseTx.account_number || !baseTx.sequence) && !offline) {
+    if ((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline) {
       const account = await this.client.auth.queryAccount(keyObj.address);
       accountNumber = account.accountNumber??0;
       sequence = account.sequence??0;
@@ -369,15 +369,15 @@ export class Tx {
       }
       //coinswap
       case types.TxType.MsgAddLiquidity: {
-          
+        msg = new types.MsgAddLiquidity(txMsg.value);
           break;
       } 
       case types.TxType.MsgRemoveLiquidity: {
-          
+        msg = new types.MsgRemoveLiquidity(txMsg.value);
           break;
       } 
       case types.TxType.MsgSwapOrder: {
-          
+        msg = new types.MsgSwapOrder(txMsg.value);
           break;
       }
       //nft
@@ -412,6 +412,20 @@ export class Tx {
       }
       case types.TxType.MsgDeposit: {
           msg = new types.MsgDeposit(txMsg.value)
+          break;
+      }
+      //htlc
+      case types.TxType.MsgCreateHTLC: {
+          msg = new types.MsgCreateHTLC(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgClaimHTLC: {
+          msg = new types.MsgClaimHTLC(txMsg.value)
+          break;
+      }
+      //ibc
+      case types.TxType.MsgTransfer: {
+          msg = new types.MsgTransfer(txMsg.value);
           break;
       }
       default: {

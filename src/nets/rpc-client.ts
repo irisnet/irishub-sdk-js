@@ -76,9 +76,10 @@ export class RpcClient {
    * @returns
    * @since v0.17
    */
-  protoQuery(path: string, protoRequest?: any, protoResponse?: any): Promise<any/* object | string | null*/> {
+  protoQuery(path: string, protoRequest?: any, protoResponse?: any,height?:string): Promise<any/* object | string | null*/> {
     const params: types.AbciQueryRequest = {
       path,
+      height
     };
     if (protoRequest && protoRequest.serializeBinary) {
       params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');

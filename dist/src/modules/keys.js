@@ -1,8 +1,8 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _typeof = require("@babel/runtime/helpers/typeof");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -22,6 +22,10 @@ var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
 
 var types = _interopRequireWildcard(require("../types"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /**
  * This module allows you to manage your local tendermint keystore (wallets) for iris.
@@ -81,18 +85,16 @@ var Keys = /*#__PURE__*/function () {
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
       var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
-      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
         mnemonic: encryptedMnemonic
-      });
-      return {
-        address: address,
-        mnemonic: mnemonic
-      };
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Recover a key
@@ -142,14 +144,17 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
-        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
+        mnemonic: encryptedMnemonic
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Import a key from keystore
@@ -158,7 +163,7 @@ var Keys = /*#__PURE__*/function () {
      * @param password Password of the keystore
      * @param keystore Keystore json or object
      * @param type Pubkey Type
-     * @returns Bech32 address
+     * @returns types.Wallet
      * @since v0.17
      */
 
@@ -193,14 +198,60 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
+    }
+    /**
+     * Import a key from keystore v1.0
+     *
+     * @param name Name of the key
+     * @param password Password of the keystore
+     * @param keystore Keystore v1.0
+     * @returns types.Wallet
+     * @since v0.17
+     */
+
+  }, {
+    key: "importKeystore",
+    value: function importKeystore(name, password, keystore) {
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
+      }
+
+      if (is.empty(password)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+
+      if (is.empty(keystore)) {
+        throw new _errors.SdkError("Keystore can not be empty");
+      }
+
+      if (!this.client.config.keyDAO.encrypt) {
+        throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+      }
+
+      var pk = _crypto.Crypto.getPrivateKeyFromKeystoreV1(keystore, password);
+
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(pk.privKey, pk.type);
+
+      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(pk.privKey, password);
+      var wallet = {
+        address: address,
+        privateKey: encryptedPrivKey,
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Import a PrivateKey
@@ -238,14 +289,15 @@ var Keys = /*#__PURE__*/function () {
 
       var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
 
-      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password); // Save the key to app
-
-      this.client.config.keyDAO.write(name, {
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privateKey, password);
+      var wallet = {
         address: address,
         privateKey: encryptedPrivKey,
         publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey)
-      });
-      return address;
+      }; // Save the key to app
+
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
     }
     /**
      * Export keystore of a key

@@ -1,8 +1,8 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _typeof3 = require("@babel/runtime/helpers/typeof");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -26,6 +26,12 @@ var RIPEMD160 = _interopRequireWildcard(require("crypto-js/ripemd160"));
 var is = _interopRequireWildcard(require("is_js"));
 
 var _errors = require("../errors");
+
+var types = _interopRequireWildcard(require("../types"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof3(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /**
  * IRISHub SDK JS Utils
@@ -56,6 +62,73 @@ var Utils = /*#__PURE__*/function () {
       }
 
       return result;
+    }
+    /**
+     * unarmor Keystore
+     * @param string Keystore v1.0
+     * @returns types.KeystoreV1
+     */
+
+  }, {
+    key: "unarmor",
+    value: function unarmor(keystore) {
+      var keystoreTest = new RegExp("^(".concat(types.keystoreStructure.prefix, ")([\\s\\S]*)(").concat(types.keystoreStructure.suffix, ")$"));
+
+      if (keystoreTest.test(keystore)) {
+        var clearTest = new RegExp("^(".concat(types.keystoreStructure.prefix, ")|(").concat(types.keystoreStructure.suffix, ")$"), 'g');
+        keystore = keystore.replace(clearTest, '');
+        var datas = keystore.split('\n');
+
+        if (!datas || !datas.length) {
+          throw new _errors.SdkError('Invalid keystore', _errors.CODES.InvalidType);
+        }
+
+        datas = datas.filter(function (item) {
+          return item.trim().length;
+        });
+        var headers = datas.filter(function (item) {
+          return item.indexOf(':') != -1;
+        });
+        var contents = datas.filter(function (item) {
+          return item.indexOf(':') == -1;
+        });
+
+        if (/^=/.test(contents[contents.length - 1])) {
+          delete contents[contents.length - 1];
+        }
+
+        var header = Utils.parseKeystoreHeaders(headers);
+        var content = contents.join('');
+        return {
+          header: header,
+          data: content
+        };
+      } else {
+        throw new _errors.SdkError('Invalid keystore', _errors.CODES.InvalidType);
+      }
+    }
+    /**
+     * parse Keystore Headers
+     * @param string[] KeystoreHeaders string[]
+     * @returns types.KeystoreHeader
+     */
+
+  }, {
+    key: "parseKeystoreHeaders",
+    value: function parseKeystoreHeaders(KeystoreHeaders) {
+      var header = {};
+
+      if (KeystoreHeaders && KeystoreHeaders.length) {
+        KeystoreHeaders.forEach(function (item) {
+          var contents = item.split(':');
+
+          if (contents.length == 2) {
+            header[contents[0]] = contents[1].trim();
+          }
+        });
+      }
+
+      return header;
     }
     /**
      * String to Byte Array

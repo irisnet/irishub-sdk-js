@@ -1,23 +1,52 @@
 import { Coin, Msg } from './types';
-export interface Liquidity {
-    standard: Coin;
-    token: Coin;
-    liquidity: Coin;
-    fee: string;
-}
-export interface DepositRequest {
+/**
+ * param struct for add liquidity tx
+ */
+export interface AddLiquidityTxParam {
     max_token: Coin;
-    exact_standard_amt: number;
-    min_liquidity: number;
+    exact_standard_amt: string;
+    min_liquidity: string;
     deadline: number;
+    sender: string;
 }
-export interface WithdrawRequest {
-    min_token: number;
+/**
+ * Msg for add liquidity
+ *
+ * @hidden
+ */
+export declare class MsgAddLiquidity extends Msg {
+    value: AddLiquidityTxParam;
+    constructor(msg: AddLiquidityTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
+}
+/**
+ * param struct for add liquidity tx
+ */
+export interface RemoveLiquidityTxParam {
     withdraw_liquidity: Coin;
-    min_standard_amt: number;
+    min_token: string;
+    min_standard_amt: string;
     deadline: number;
+    sender: string;
 }
-export interface SwapOrderRequest {
+/**
+ * Msg for remove liquidity
+ *
+ * @hidden
+ */
+export declare class MsgRemoveLiquidity extends Msg {
+    value: RemoveLiquidityTxParam;
+    constructor(msg: RemoveLiquidityTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
+}
+/**
+ * param struct for add liquidity tx
+ */
+export interface SwapOrderTxParam {
     input: {
         address: string;
         coin: Coin;
@@ -27,19 +56,23 @@ export interface SwapOrderRequest {
         coin: Coin;
     };
     deadline: number;
+    is_buy_order: boolean;
 }
-export declare class MsgAddLiquidity extends Msg {
-    value: object;
-    constructor(request: DepositRequest, sender: string);
-    getSignBytes(): object;
-}
-export declare class MsgRemoveLiquidity extends Msg {
-    value: object;
-    constructor(request: WithdrawRequest, sender: string);
-    getSignBytes(): object;
-}
+/**
+ * Msg for swap order
+ *
+ * @hidden
+ */
 export declare class MsgSwapOrder extends Msg {
-    value: object;
-    constructor(request: SwapOrderRequest, isBuyOrder: boolean);
-    getSignBytes(): object;
+    value: SwapOrderTxParam;
+    constructor(msg: SwapOrderTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
+}
+export interface Liquidity {
+    standard: Coin;
+    token: Coin;
+    liquidity: Coin;
+    fee: string;
 }

@@ -1,8 +1,8 @@
 "use strict";
 
-var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
-
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _typeof = require("@babel/runtime/helpers/typeof");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -39,11 +39,19 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 var Sha256 = require('sha256');
 
 var Secp256k1 = require('secp256k1');
 
 var SM2 = require('sm-crypto').sm2;
+
+var bcrypt = require('bcryptjs');
+
+var nacl = require('tweetnacl');
 /**
  * Crypto Utils
  * @hidden
@@ -485,6 +493,51 @@ var Crypto = /*#__PURE__*/function () {
       var decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 16), Buffer.from(json.crypto.cipherparams.iv, 'hex'));
       var privateKey = Buffer.concat([decipher.update(ciphertext), decipher["final"]()]).toString('hex');
       return privateKey;
+    }
+    /**
+     * Gets a private key from a keystore v1.0 given its password.
+     * @param keystore The keystore v1.0
+     * @param password The password.
+     * @returns The private key
+     */
+
+  }, {
+    key: "getPrivateKeyFromKeystoreV1",
+    value: function getPrivateKeyFromKeystoreV1(keystore, password) {
+      if (!is.string(password)) {
+        throw new _errors.SdkError('No password given.', _errors.CODES.InvalidPassword);
+      } // unarmor
+
+
+      var keystore_content = _utils.Utils.unarmor(keystore);
+
+      var header = keystore_content.header;
+
+      if (!header.salt) {
+        throw new _errors.SdkError('invalid keystore salt');
+      }
+
+      var salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
+      var key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
+      key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
+      var keystoreData = Buffer.from(keystore_content.data, 'base64');
+      var nonce = keystoreData.slice(0, types.xchacha20NonceLength);
+      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
+
+      if (!privKey_full) {
+        throw new _errors.SdkError('KeyStore parsing failed', _errors.CODES.Internal);
+      }
+
+      var privKey = Buffer.from(privKey_full).slice(5).toString('hex');
+
+      if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
+        header.type = types.PubkeyType.secp256k1;
+      }
+
+      return {
+        type: header.type,
+        privKey: privKey
+      };
     }
     /**
      * Generates mnemonic phrase words using random entropy.

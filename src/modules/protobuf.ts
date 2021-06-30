@@ -108,18 +108,17 @@ export class Protobuf {
             messageModelClass = types.MsgTransferTokenOwner.getModelClass();
             break;
         }
-
         //coinswap
         case types.TxType.MsgAddLiquidity: {
-            
+          messageModelClass = types.MsgAddLiquidity.getModelClass();
             break;
         } 
         case types.TxType.MsgRemoveLiquidity: {
-            
+          messageModelClass = types.MsgRemoveLiquidity.getModelClass();
             break;
         } 
         case types.TxType.MsgSwapOrder: {
-            
+          messageModelClass = types.MsgSwapOrder.getModelClass(); 
             break;
         }
         //nft
@@ -154,6 +153,20 @@ export class Protobuf {
         }
         case types.TxType.MsgDeposit: {
             messageModelClass = types.MsgDeposit.getModelClass();
+            break;
+        }
+        //htlc
+        case types.TxType.MsgCreateHTLC: {
+            messageModelClass = types.MsgCreateHTLC.getModelClass();
+            break;
+        }
+        case types.TxType.MsgClaimHTLC: {
+            messageModelClass = types.MsgClaimHTLC.getModelClass();
+            break;
+        }
+        //ibc
+        case types.TxType.MsgTransfer: {
+            messageModelClass = types.MsgTransfer.getModelClass();
             break;
         }
         default: {

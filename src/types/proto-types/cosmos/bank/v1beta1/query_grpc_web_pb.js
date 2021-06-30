@@ -482,5 +482,165 @@ proto.cosmos.bank.v1beta1.QueryPromiseClient.prototype.params =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest,
+ *   !proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse>}
+ */
+const methodDescriptor_Query_DenomMetadata = new grpc.web.MethodDescriptor(
+  '/cosmos.bank.v1beta1.Query/DenomMetadata',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest,
+  proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest,
+ *   !proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse>}
+ */
+const methodInfo_Query_DenomMetadata = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.bank.v1beta1.QueryClient.prototype.denomMetadata =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Query/DenomMetadata',
+      request,
+      metadata || {},
+      methodDescriptor_Query_DenomMetadata,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.QueryDenomMetadataRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.bank.v1beta1.QueryDenomMetadataResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.bank.v1beta1.QueryPromiseClient.prototype.denomMetadata =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Query/DenomMetadata',
+      request,
+      metadata || {},
+      methodDescriptor_Query_DenomMetadata);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest,
+ *   !proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse>}
+ */
+const methodDescriptor_Query_DenomsMetadata = new grpc.web.MethodDescriptor(
+  '/cosmos.bank.v1beta1.Query/DenomsMetadata',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest,
+  proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest,
+ *   !proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse>}
+ */
+const methodInfo_Query_DenomsMetadata = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.bank.v1beta1.QueryClient.prototype.denomsMetadata =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Query/DenomsMetadata',
+      request,
+      metadata || {},
+      methodDescriptor_Query_DenomsMetadata,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.QueryDenomsMetadataRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.bank.v1beta1.QueryDenomsMetadataResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.bank.v1beta1.QueryPromiseClient.prototype.denomsMetadata =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Query/DenomsMetadata',
+      request,
+      metadata || {},
+      methodDescriptor_Query_DenomsMetadata);
+};
+
+
 module.exports = proto.cosmos.bank.v1beta1;
 
