@@ -1,6 +1,6 @@
 {
   "name": "@irisnet/irishub-sdk",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
   "typings": "index.ts",
@@ -33,9 +33,9 @@
   "devDependencies": {
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.14.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.9.0",
-    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-env": "^7.14.7",
     "@babel/preset-typescript": "^7.9.0",
     "@types/jest": "^26.0.22",
     "@types/node": "^10.0.3",
@@ -47,7 +47,7 @@
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.2",
     "tslint": "^6.1.0",
-    "typedoc": "^0.16.9",
+    "typedoc": "^0.20.37",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -60,7 +60,7 @@
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
     "crypto-browserify": "^3.12.0",
-    "crypto-js": "^3.1.9-1",
+    "crypto-js": "^4.0.0",
     "events": "^3.1.0",
     "google-protobuf": "3.13.0",
     "grpc-web": "^1.2.1",
