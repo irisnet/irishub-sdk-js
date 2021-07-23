@@ -42,13 +42,22 @@ describe('protobuf Tests', () => {
   );
 
   test(
-    'deserialize Signing Info',
+    'deserialize  Tx Body',
     async () => {
-      let signingInfo_proto = 'CippY2Exd3JkNWMybjd4Y205N3l5enJrc3pjcWdhMjNzY3RseGc5NHk2dWoYxJ4FIgA';
-      let signingInfo = BaseTest.getClient().protobuf.deserializeSigningInfo(signingInfo_proto);
-      console.log('signingInfo:',signingInfo);
+      let txBody_proto = 'CoUBChwvY29zbW9zLmJhbmsudjFiZXRhMS5Nc2dTZW5kEmUKKmlhYTF0enVhajJ4NW00M2RncWh5MGx4aDl0cnplbnBsdmVkNmh0bHA0YxIqaWFhMXpnam50N2t1bjN1d3lldHo4MmxlMzNtbjl2cTgzNGUzd3czZXM4GgsKBXVpcmlzEgIxMBIBIA==';
+      let txBody = BaseTest.getClient().protobuf.deserializeTxBody(txBody_proto);
+      console.log('txBody:',txBody);
     }
-  );  
+  );
+
+  test(
+    'deserialize Auth Info',
+    async () => {
+      let authInfo_proto = 'ClAKRgofL2Nvc21vcy5jcnlwdG8uc2VjcDI1NmsxLlB1YktleRIjCiEDJYX9wmewxEsenNX/+/FkQVXxsZZMDCnzNoCFPsWvT0ISBAoCCAEYGxIUCg4KBXVpcmlzEgU3NTAwMBCQoQ8=';
+      let authInfo = BaseTest.getClient().protobuf.deserializeAuthInfo(authInfo_proto);
+      console.log('authInfo:',authInfo);
+    }
+  );
 
   test(
     'deserialize Signing Info',
