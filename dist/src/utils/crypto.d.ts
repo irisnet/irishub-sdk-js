@@ -125,6 +125,16 @@ export declare class Crypto {
      */
     static getPrivateKeyFromKeyStore(keystore: string | object, password: string): string;
     /**
+     * Gets a private key from a keystore v1.0 given its password.
+     * @param keystore The keystore v1.0
+     * @param password The password.
+     * @returns The private key
+     */
+    static getPrivateKeyFromKeystoreV1(keystore: string, password: string): {
+        type: types.PubkeyType;
+        privKey: string;
+    };
+    /**
      * Generates mnemonic phrase words using random entropy.
      *
      * @returns Mnemonic

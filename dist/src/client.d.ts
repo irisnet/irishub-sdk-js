@@ -9,41 +9,59 @@ export declare class Client {
     /** IRISHub Client Config */
     config: DefaultClientConfig;
     /** Axios client for tendermint rpc requests */
-    rpcClient: RpcClient;
-    /** WebSocket event listener */
+    private _rpcClient?;
+    get rpcClient(): RpcClient;
     /** Auth module */
-    auth: modules.Auth;
+    private _auth?;
+    get auth(): modules.Auth;
     /** Token module */
-    token: modules.Token;
+    private _token?;
+    get token(): modules.Token;
     /** Bank module */
-    bank: modules.Bank;
+    private _bank?;
+    get bank(): modules.Bank;
     /** Key management module */
-    keys: modules.Keys;
+    private _keys?;
+    get keys(): modules.Keys;
     /** Protobuf module */
-    protobuf: modules.Protobuf;
+    private _protobuf?;
+    get protobuf(): modules.Protobuf;
     /** Staking module */
-    staking: modules.Staking;
+    private _staking?;
+    get staking(): modules.Staking;
     /** Tx module */
-    tx: modules.Tx;
+    private _tx?;
+    get tx(): modules.Tx;
     /** Gov module */
-    gov: modules.Gov;
+    private _gov?;
+    get gov(): modules.Gov;
     /** Slashing module */
-    slashing: modules.Slashing;
+    private _slashing?;
+    get slashing(): modules.Slashing;
     /** Distribution module */
-    distribution: modules.Distribution;
+    private _distribution?;
+    get distribution(): modules.Distribution;
     /** Service module */
     /** Oracle module */
     /** Random module */
     /** Utils module */
-    utils: modules.Utils;
+    private _utils?;
+    get utils(): modules.Utils;
     /** Tendermint module */
-    tendermint: modules.Tendermint;
+    private _tendermint?;
+    get tendermint(): modules.Tendermint;
     /** Coinswap module */
-    coinswap: modules.Coinswap;
+    private _coinswap?;
+    get coinswap(): modules.Coinswap;
     /** NFT module */
-    nft: modules.Nft;
+    private _nft?;
+    get nft(): modules.Nft;
     /** Htlc module */
-    htlc: modules.Htlc;
+    private _htlc?;
+    get htlc(): modules.Htlc;
+    /** Ibc module */
+    private _ibc?;
+    get ibc(): modules.Ibc;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**
@@ -60,6 +78,13 @@ export declare class Client {
      * @returns The SDK itself
      */
     withNetwork(network: consts.Network): this;
+    /**
+     * Set IRISHub network type
+     *
+     * @param network IRISHub network type, mainnet / testnet
+     * @returns The SDK itself
+     */
+    withChainNetwork(chainNetwork: consts.ChainNetwork): this;
     /**
      * Set IRISHub chain-id
      *
@@ -106,19 +131,20 @@ export interface ClientConfig {
     /** Key DAO Implemention */
     keyDAO?: KeyDAO;
     /** Bech32 prefix of the network, will be overwritten by network type */
-    bech32Prefix?: Bech32Prefix;
+    bech32Prefix?: types.Bech32Prefix;
     /** Axios request config for tendermint rpc requests */
     rpcConfig?: AxiosRequestConfig;
 }
 /** Default IRISHub Client Config */
 export declare class DefaultClientConfig implements ClientConfig {
     node: string;
+    chainNetwork: consts.ChainNetwork;
     network: consts.Network;
     chainId: string;
     gas: string;
     fee: types.Coin;
     keyDAO: KeyDAO;
-    bech32Prefix: Bech32Prefix;
+    bech32Prefix: types.Bech32Prefix;
     rpcConfig: AxiosRequestConfig;
     constructor();
 }
@@ -163,17 +189,6 @@ export interface KeyDAO {
      * @throws `SdkError` if decrypt failed
      */
     decrypt?(encrptedPrivKey: string, password: string): string;
-}
-/**
- * Bech32 Prefix
- */
-export interface Bech32Prefix {
-    AccAddr: string;
-    AccPub: string;
-    ValAddr: string;
-    ValPub: string;
-    ConsAddr: string;
-    ConsPub: string;
 }
 export declare class DefaultKeyDAOImpl implements KeyDAO {
     write(name: string, key: Wallet): void;

@@ -43,4 +43,20 @@ test('add', () => {
     console.log(key)
 });
 
+test('Import a keystore V1', () => {
+    let keystore = `-----BEGIN TENDERMINT PRIVATE KEY-----
+salt: A790BB721D1C094260EA84F5E5B72289
+kdf: bcrypt
+
+HbP+c6JmeJy9JXe2rbbF1QtCX1gLqGcDQPBXiCtFvP7/8wTZtVOPj8vREzhZ9ElO
+3P7YnrzPQThG0Q+ZnRSbl9MAS8uFAM4mqm5r/Ys=
+=f3l4
+-----END TENDERMINT PRIVATE KEY-----`;
+
+    let password = '123456789';
+    const client = BaseTest.getClient();
+    let wallet = client.keys.importKeystore('123', password, keystore);
+    console.log('wallet:',wallet);
+});
+
 

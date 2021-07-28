@@ -164,6 +164,11 @@ export class Protobuf {
             messageModelClass = types.MsgClaimHTLC.getModelClass();
             break;
         }
+        //ibc
+        case types.TxType.MsgTransfer: {
+            messageModelClass = types.MsgTransfer.getModelClass();
+            break;
+        }
         default: {
             throw new SdkError("not exist tx type",CODES.InvalidType);
         }
@@ -226,6 +231,40 @@ export class Protobuf {
         return contentObj;
     }else{
       return null;
+    }
+  }
+
+  /**
+   * deserialize TxBody
+   * @param  {[type]} TxBody:string  base64 string
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} txBody object                        
+   */
+  deserializeTxBody(txBody:string, returnProtobufModel?:boolean):object{
+    if (!txBody) {
+      throw new SdkError('txBody can not be empty');
+    }
+    if (returnProtobufModel) {
+      return types.tx_tx_pb.TxBody.deserializeBinary(txBody);
+    }else{
+      return types.tx_tx_pb.TxBody.deserializeBinary(txBody).toObject();
+    }
+  }
+
+  /**
+   * deserialize AuthInfo
+   * @param  {[type]} AuthInfo:string  base64 string
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} authInfo object                        
+   */
+  deserializeAuthInfo(authInfo:string, returnProtobufModel?:boolean):object{
+    if (!authInfo) {
+      throw new SdkError('authInfo can not be empty');
+    }
+    if (returnProtobufModel) {
+      return types.tx_tx_pb.AuthInfo.deserializeBinary(authInfo);
+    }else{
+      return types.tx_tx_pb.AuthInfo.deserializeBinary(authInfo).toObject();
     }
   }
 
