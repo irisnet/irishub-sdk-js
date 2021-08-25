@@ -309,6 +309,7 @@ export class Tx {
    * @return {[type]} message instance of types.Msg
    */
   createMsg(txMsg: { type: string, value: any }) {
+    console.log(txMsg.type,'???????????????')
     let msg: any = {};
     switch (txMsg.type) {
       //bank
@@ -379,6 +380,19 @@ export class Tx {
       case types.TxType.MsgSwapOrder: {
         msg = new types.MsgSwapOrder(txMsg.value);
           break;
+      }
+      // farm
+      case types.TxType.MsgStake: {
+        msg = new types.MsgStake(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgUnstake: {
+        msg = new types.MsgUnstake(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgHarvest: {
+        msg = new types.MsgHarvest(txMsg.value);
+        break;
       }
       //nft
       case types.TxType.MsgIssueDenom: {

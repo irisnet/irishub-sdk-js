@@ -8,13 +8,15 @@ describe('Coinswap Tests', () => {
     test(
       'add liquidity',
       async () => {
+          let deadlineTime = (new Date().getTime()/1000 + 10000).toString()
+
         await BaseTest.getClient()
           .coinswap.addLiquidity(
             {
-              denom: 'kit',
-              amount: '500',
+              denom: 'udog',
+              amount: '1000000',
             }, "1000", "1",
-            1615642486,
+            parseInt(deadlineTime),
             BaseTest.baseTx
           )
           .then(res => {
@@ -84,7 +86,7 @@ describe('Coinswap Tests', () => {
       'query Liquidity',
       async () => {
         await BaseTest.getClient()
-          .coinswap.queryLiquidity('kit')
+          .coinswap.queryLiquidity('lpt-1')
           .then(res => {
             console.log(JSON.stringify(res));
           })

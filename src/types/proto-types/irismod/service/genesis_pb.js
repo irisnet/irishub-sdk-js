@@ -138,7 +138,7 @@ proto.irismod.service.GenesisState.deserializeBinaryFromReader = function(msg, r
     case 4:
       var value = msg.getWithdrawAddressesMap();
       reader.readMessage(value, function(message, reader) {
-        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readBytes, null, "", "");
+        jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readString, jspb.BinaryReader.prototype.readString, null, "", "");
          });
       break;
     case 5:
@@ -202,7 +202,7 @@ proto.irismod.service.GenesisState.serializeBinaryToWriter = function(message, w
   }
   f = message.getWithdrawAddressesMap(true);
   if (f && f.getLength() > 0) {
-    f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeBytes);
+    f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeString);
   }
   f = message.getRequestContextsMap(true);
   if (f && f.getLength() > 0) {
@@ -325,13 +325,13 @@ proto.irismod.service.GenesisState.prototype.clearBindingsList = function() {
 
 
 /**
- * map<string, bytes> withdraw_addresses = 4;
+ * map<string, string> withdraw_addresses = 4;
  * @param {boolean=} opt_noLazyCreate Do not create the map if
  * empty, instead returning `undefined`
- * @return {!jspb.Map<string,!(string|Uint8Array)>}
+ * @return {!jspb.Map<string,string>}
  */
 proto.irismod.service.GenesisState.prototype.getWithdrawAddressesMap = function(opt_noLazyCreate) {
-  return /** @type {!jspb.Map<string,!(string|Uint8Array)>} */ (
+  return /** @type {!jspb.Map<string,string>} */ (
       jspb.Message.getMapField(this, 4, opt_noLazyCreate,
       null));
 };

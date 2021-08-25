@@ -3161,10 +3161,9 @@ proto.irismod.service.MsgCallService.toObject = function(includeInstance, msg) {
     serviceFeeCapList: jspb.Message.toObjectList(msg.getServiceFeeCapList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance),
     timeout: jspb.Message.getFieldWithDefault(msg, 6, 0),
-    superMode: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
-    repeated: jspb.Message.getBooleanFieldWithDefault(msg, 8, false),
-    repeatedFrequency: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    repeatedTotal: jspb.Message.getFieldWithDefault(msg, 10, 0)
+    repeated: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
+    repeatedFrequency: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    repeatedTotal: jspb.Message.getFieldWithDefault(msg, 9, 0)
   };
 
   if (includeInstance) {
@@ -3228,17 +3227,13 @@ proto.irismod.service.MsgCallService.deserializeBinaryFromReader = function(msg,
       break;
     case 7:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setSuperMode(value);
-      break;
-    case 8:
-      var value = /** @type {boolean} */ (reader.readBool());
       msg.setRepeated(value);
       break;
-    case 9:
+    case 8:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setRepeatedFrequency(value);
       break;
-    case 10:
+    case 9:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setRepeatedTotal(value);
       break;
@@ -3314,31 +3309,24 @@ proto.irismod.service.MsgCallService.serializeBinaryToWriter = function(message,
       f
     );
   }
-  f = message.getSuperMode();
+  f = message.getRepeated();
   if (f) {
     writer.writeBool(
       7,
       f
     );
   }
-  f = message.getRepeated();
-  if (f) {
-    writer.writeBool(
-      8,
-      f
-    );
-  }
   f = message.getRepeatedFrequency();
   if (f !== 0) {
     writer.writeUint64(
-      9,
+      8,
       f
     );
   }
   f = message.getRepeatedTotal();
   if (f !== 0) {
     writer.writeInt64(
-      10,
+      9,
       f
     );
   }
@@ -3493,10 +3481,10 @@ proto.irismod.service.MsgCallService.prototype.setTimeout = function(value) {
 
 
 /**
- * optional bool super_mode = 7;
+ * optional bool repeated = 7;
  * @return {boolean}
  */
-proto.irismod.service.MsgCallService.prototype.getSuperMode = function() {
+proto.irismod.service.MsgCallService.prototype.getRepeated = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
 };
 
@@ -3505,35 +3493,17 @@ proto.irismod.service.MsgCallService.prototype.getSuperMode = function() {
  * @param {boolean} value
  * @return {!proto.irismod.service.MsgCallService} returns this
  */
-proto.irismod.service.MsgCallService.prototype.setSuperMode = function(value) {
+proto.irismod.service.MsgCallService.prototype.setRepeated = function(value) {
   return jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
 
 /**
- * optional bool repeated = 8;
- * @return {boolean}
- */
-proto.irismod.service.MsgCallService.prototype.getRepeated = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 8, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.irismod.service.MsgCallService} returns this
- */
-proto.irismod.service.MsgCallService.prototype.setRepeated = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 8, value);
-};
-
-
-/**
- * optional uint64 repeated_frequency = 9;
+ * optional uint64 repeated_frequency = 8;
  * @return {number}
  */
 proto.irismod.service.MsgCallService.prototype.getRepeatedFrequency = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
 
@@ -3542,16 +3512,16 @@ proto.irismod.service.MsgCallService.prototype.getRepeatedFrequency = function()
  * @return {!proto.irismod.service.MsgCallService} returns this
  */
 proto.irismod.service.MsgCallService.prototype.setRepeatedFrequency = function(value) {
-  return jspb.Message.setProto3IntField(this, 9, value);
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
 /**
- * optional int64 repeated_total = 10;
+ * optional int64 repeated_total = 9;
  * @return {number}
  */
 proto.irismod.service.MsgCallService.prototype.getRepeatedTotal = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
@@ -3560,7 +3530,7 @@ proto.irismod.service.MsgCallService.prototype.getRepeatedTotal = function() {
  * @return {!proto.irismod.service.MsgCallService} returns this
  */
 proto.irismod.service.MsgCallService.prototype.setRepeatedTotal = function(value) {
-  return jspb.Message.setProto3IntField(this, 10, value);
+  return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 

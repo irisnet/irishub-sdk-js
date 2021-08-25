@@ -28,7 +28,7 @@ goog.exportSymbol('proto.irismod.coinswap.GenesisState', null, global);
  * @constructor
  */
 proto.irismod.coinswap.GenesisState = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.irismod.coinswap.GenesisState.repeatedFields_, null);
 };
 goog.inherits(proto.irismod.coinswap.GenesisState, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -38,6 +38,13 @@ if (goog.DEBUG && !COMPILED) {
    */
   proto.irismod.coinswap.GenesisState.displayName = 'proto.irismod.coinswap.GenesisState';
 }
+
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.irismod.coinswap.GenesisState.repeatedFields_ = [3];
 
 
 
@@ -70,7 +77,11 @@ proto.irismod.coinswap.GenesisState.prototype.toObject = function(opt_includeIns
  */
 proto.irismod.coinswap.GenesisState.toObject = function(includeInstance, msg) {
   var f, obj = {
-    params: (f = msg.getParams()) && irismod_coinswap_coinswap_pb.Params.toObject(includeInstance, f)
+    params: (f = msg.getParams()) && irismod_coinswap_coinswap_pb.Params.toObject(includeInstance, f),
+    standardDenom: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    poolList: jspb.Message.toObjectList(msg.getPoolList(),
+    irismod_coinswap_coinswap_pb.Pool.toObject, includeInstance),
+    sequence: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -112,6 +123,19 @@ proto.irismod.coinswap.GenesisState.deserializeBinaryFromReader = function(msg, 
       reader.readMessage(value,irismod_coinswap_coinswap_pb.Params.deserializeBinaryFromReader);
       msg.setParams(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setStandardDenom(value);
+      break;
+    case 3:
+      var value = new irismod_coinswap_coinswap_pb.Pool;
+      reader.readMessage(value,irismod_coinswap_coinswap_pb.Pool.deserializeBinaryFromReader);
+      msg.addPool(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setSequence(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -147,6 +171,28 @@ proto.irismod.coinswap.GenesisState.serializeBinaryToWriter = function(message, 
       1,
       f,
       irismod_coinswap_coinswap_pb.Params.serializeBinaryToWriter
+    );
+  }
+  f = message.getStandardDenom();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getPoolList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      3,
+      f,
+      irismod_coinswap_coinswap_pb.Pool.serializeBinaryToWriter
+    );
+  }
+  f = message.getSequence();
+  if (f !== 0) {
+    writer.writeUint64(
+      4,
+      f
     );
   }
 };
@@ -186,6 +232,80 @@ proto.irismod.coinswap.GenesisState.prototype.clearParams = function() {
  */
 proto.irismod.coinswap.GenesisState.prototype.hasParams = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional string standard_denom = 2;
+ * @return {string}
+ */
+proto.irismod.coinswap.GenesisState.prototype.getStandardDenom = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.coinswap.GenesisState} returns this
+ */
+proto.irismod.coinswap.GenesisState.prototype.setStandardDenom = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * repeated Pool pool = 3;
+ * @return {!Array<!proto.irismod.coinswap.Pool>}
+ */
+proto.irismod.coinswap.GenesisState.prototype.getPoolList = function() {
+  return /** @type{!Array<!proto.irismod.coinswap.Pool>} */ (
+    jspb.Message.getRepeatedWrapperField(this, irismod_coinswap_coinswap_pb.Pool, 3));
+};
+
+
+/**
+ * @param {!Array<!proto.irismod.coinswap.Pool>} value
+ * @return {!proto.irismod.coinswap.GenesisState} returns this
+*/
+proto.irismod.coinswap.GenesisState.prototype.setPoolList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 3, value);
+};
+
+
+/**
+ * @param {!proto.irismod.coinswap.Pool=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.irismod.coinswap.Pool}
+ */
+proto.irismod.coinswap.GenesisState.prototype.addPool = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.irismod.coinswap.Pool, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.irismod.coinswap.GenesisState} returns this
+ */
+proto.irismod.coinswap.GenesisState.prototype.clearPoolList = function() {
+  return this.setPoolList([]);
+};
+
+
+/**
+ * optional uint64 sequence = 4;
+ * @return {number}
+ */
+proto.irismod.coinswap.GenesisState.prototype.getSequence = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.irismod.coinswap.GenesisState} returns this
+ */
+proto.irismod.coinswap.GenesisState.prototype.setSequence = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
 };
 
 

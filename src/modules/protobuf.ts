@@ -46,6 +46,7 @@ export class Protobuf {
    * @return {[type]} message object 
    */
   unpackMsg(msg:{typeUrl:string,value:string}, returnProtobufModel?:boolean):object|null{
+      console.log(types,"這個是啥")
     if (!msg) {
       throw new SdkError('message can not be empty');
     }
@@ -119,6 +120,19 @@ export class Protobuf {
         } 
         case types.TxType.MsgSwapOrder: {
           messageModelClass = types.MsgSwapOrder.getModelClass(); 
+            break;
+        }
+        //farm
+        case types.TxType.MsgStake: {
+            messageModelClass = types.MsgStake.getModelClass();
+            break;
+        }
+        case types.TxType.MsgUnstake: {
+            messageModelClass = types.MsgUnstake.getModelClass();
+            break;
+        }
+        case types.TxType.MsgHarvest: {
+            messageModelClass = types.MsgHarvest.getModelClass();
             break;
         }
         //nft
