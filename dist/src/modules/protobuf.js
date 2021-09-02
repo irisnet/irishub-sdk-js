@@ -83,8 +83,6 @@ var Protobuf = /*#__PURE__*/function () {
   }, {
     key: "unpackMsg",
     value: function unpackMsg(msg, returnProtobufModel) {
-      console.log(types, "這個是啥");
-
       if (!msg) {
         throw new _errors.SdkError('message can not be empty');
       }

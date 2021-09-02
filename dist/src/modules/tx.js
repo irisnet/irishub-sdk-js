@@ -450,7 +450,6 @@ var Tx = /*#__PURE__*/function () {
   }, {
     key: "createMsg",
     value: function createMsg(txMsg) {
-      console.log(txMsg.type, '???????????????');
       var msg = {};
 
       switch (txMsg.type) {
