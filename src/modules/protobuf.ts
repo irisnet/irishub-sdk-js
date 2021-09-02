@@ -46,7 +46,6 @@ export class Protobuf {
    * @return {[type]} message object 
    */
   unpackMsg(msg:{typeUrl:string,value:string}, returnProtobufModel?:boolean):object|null{
-      console.log(types,"這個是啥")
     if (!msg) {
       throw new SdkError('message can not be empty');
     }

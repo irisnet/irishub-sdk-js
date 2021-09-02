@@ -309,7 +309,6 @@ export class Tx {
    * @return {[type]} message instance of types.Msg
    */
   createMsg(txMsg: { type: string, value: any }) {
-    console.log(txMsg.type,'???????????????')
     let msg: any = {};
     switch (txMsg.type) {
       //bank
