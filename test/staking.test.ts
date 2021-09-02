@@ -206,7 +206,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.delegate(
           'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
-          { denom: 'ubif', amount: '5' },
+          { denom: 'udev', amount: '5' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -222,7 +222,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.undelegate(
           'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
-              { denom: 'ubif', amount: '1' },
+              { denom: 'udev', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -239,7 +239,7 @@ describe('Staking Tests', () => {
         .staking.redelegate(
           'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           'iva1736ypcrmwvurylfprfgmjwr625c6ycdv8uyjlp',
-              { denom: 'ubif', amount: '1' },
+              { denom: 'udev', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {

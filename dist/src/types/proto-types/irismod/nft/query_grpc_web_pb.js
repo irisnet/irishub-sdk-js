@@ -21,6 +21,8 @@ var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
 var google_api_annotations_pb = require('../../google/api/annotations_pb.js')
 
 var irismod_nft_nft_pb = require('../../irismod/nft/nft_pb.js')
+
+var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.nft = require('./query_pb.js');

@@ -121,6 +121,19 @@ export class Protobuf {
           messageModelClass = types.MsgSwapOrder.getModelClass(); 
             break;
         }
+        //farm
+        case types.TxType.MsgStake: {
+            messageModelClass = types.MsgStake.getModelClass();
+            break;
+        }
+        case types.TxType.MsgUnstake: {
+            messageModelClass = types.MsgUnstake.getModelClass();
+            break;
+        }
+        case types.TxType.MsgHarvest: {
+            messageModelClass = types.MsgHarvest.getModelClass();
+            break;
+        }
         //nft
         case types.TxType.MsgIssueDenom: {
             messageModelClass = types.MsgIssueDenom.getModelClass();

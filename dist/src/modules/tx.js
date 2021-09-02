@@ -553,6 +553,25 @@ var Tx = /*#__PURE__*/function () {
             msg = new types.MsgSwapOrder(txMsg.value);
             break;
           }
+        // farm
+
+        case types.TxType.MsgStake:
+          {
+            msg = new types.MsgStake(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgUnstake:
+          {
+            msg = new types.MsgUnstake(txMsg.value);
+            break;
+          }
+
+        case types.TxType.MsgHarvest:
+          {
+            msg = new types.MsgHarvest(txMsg.value);
+            break;
+          }
         //nft
 
         case types.TxType.MsgIssueDenom:

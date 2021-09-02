@@ -26,6 +26,7 @@
     "check": "gts check",
     "clean": "gts clean",
     "build": "rm -rf dist/* && tsc --emitDeclarationOnly && babel --extensions '.ts' src -d dist/src && cp LICENSE dist/ && cp README.md dist/ && cp package.json dist/ && cp -rf src/types/proto-types dist/src/types/proto-types",
+    "buildForWindows": "rm -rf dist/* && tsc --emitDeclarationOnly && babel --extensions .ts src -d dist/src && cp LICENSE dist/ && cp README.md dist/ && cp package.json dist/ && cp -rf src/types/proto-types dist/src/types/proto-types",
     "fix": "gts fix",
     "docs": "npx typedoc && docker build -t irisnet/docs-irishub-sdk-js .",
     "proto-gen": "sh ./scripts/protocgen.sh"

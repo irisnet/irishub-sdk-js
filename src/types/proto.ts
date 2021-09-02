@@ -19,7 +19,8 @@ export const random_tx_pb= require( './proto-types/irismod/random/tx_pb');
 export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
 export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
-
+//farm tx
+export const farm_tx_pb = require('./proto-types/irismod/farm/tx_pb')
 //ibc tx
 export const ibc_transfer_tx_pb= require( './proto-types/ibc/applications/transfer/v1/tx_pb');
 

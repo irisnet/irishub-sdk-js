@@ -53,6 +53,9 @@ export declare class Client {
     /** Coinswap module */
     private _coinswap?;
     get coinswap(): modules.Coinswap;
+    /** Farm module */
+    private _farm?;
+    get farm(): modules.Farm;
     /** NFT module */
     private _nft?;
     get nft(): modules.Nft;

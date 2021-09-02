@@ -316,6 +316,86 @@ proto.irismod.token.MsgPromiseClient.prototype.mintToken =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.token.MsgBurnToken,
+ *   !proto.irismod.token.MsgBurnTokenResponse>}
+ */
+const methodDescriptor_Msg_BurnToken = new grpc.web.MethodDescriptor(
+  '/irismod.token.Msg/BurnToken',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.token.MsgBurnToken,
+  proto.irismod.token.MsgBurnTokenResponse,
+  /**
+   * @param {!proto.irismod.token.MsgBurnToken} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.MsgBurnTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.token.MsgBurnToken,
+ *   !proto.irismod.token.MsgBurnTokenResponse>}
+ */
+const methodInfo_Msg_BurnToken = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.token.MsgBurnTokenResponse,
+  /**
+   * @param {!proto.irismod.token.MsgBurnToken} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.MsgBurnTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.token.MsgBurnToken} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.token.MsgBurnTokenResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.token.MsgBurnTokenResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.token.MsgClient.prototype.burnToken =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.token.Msg/BurnToken',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_BurnToken,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.token.MsgBurnToken} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.token.MsgBurnTokenResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.token.MsgPromiseClient.prototype.burnToken =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.token.Msg/BurnToken',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_BurnToken);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.irismod.token.MsgTransferTokenOwner,
  *   !proto.irismod.token.MsgTransferTokenOwnerResponse>}
  */

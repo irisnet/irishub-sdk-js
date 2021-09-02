@@ -16,6 +16,7 @@ export declare const random_tx_pb: any;
 export declare const record_tx_pb: any;
 export declare const service_tx_pb: any;
 export declare const token_tx_pb: any;
+export declare const farm_tx_pb: any;
 export declare const ibc_transfer_tx_pb: any;
 /***************QUERY***************/
 export declare const base_query_pagination_pb: any;

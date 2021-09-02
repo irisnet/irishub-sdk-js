@@ -6,7 +6,7 @@ let timeout = 9999;
 describe('Tx Tests', () => {
   const amount: types.Coin[] = [
     {
-      denom: 'ubif',
+      denom: 'udev',
       amount: '100',
     },
   ];

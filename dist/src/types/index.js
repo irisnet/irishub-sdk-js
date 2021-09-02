@@ -290,6 +290,19 @@ Object.keys(_coinswap).forEach(function (key) {
   });
 });
 
+var _farm = require("./farm");
+
+Object.keys(_farm).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _farm[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _farm[key];
+    }
+  });
+});
+
 var _protoTx = require("./protoTx");
 
 Object.keys(_protoTx).forEach(function (key) {

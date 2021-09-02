@@ -201,9 +201,9 @@ var Coinswap = /*#__PURE__*/function () {
         throw new _errors.SdkError("id can ont be empty");
       }
 
-      var request = new types.coinswap_query_pb.QueryLiquidityRequest();
-      request.setId(id);
-      return this.client.rpcClient.protoQuery('/irismod.coinswap.Query/Liquidity', request, types.coinswap_query_pb.QueryLiquidityResponse);
+      var request = new types.coinswap_query_pb.QueryLiquidityPoolRequest();
+      request.setLptDenom(id);
+      return this.client.rpcClient.protoQuery('/irismod.coinswap.Query/LiquidityPool', request, types.coinswap_query_pb.QueryLiquidityPoolResponse);
     }
   }]);
   return Coinswap;

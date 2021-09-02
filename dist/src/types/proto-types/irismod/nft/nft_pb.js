@@ -409,7 +409,10 @@ proto.irismod.nft.Denom.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     schema: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    creator: jspb.Message.getFieldWithDefault(msg, 4, "")
+    creator: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    symbol: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    mintRestricted: jspb.Message.getBooleanFieldWithDefault(msg, 6, false),
+    updateRestricted: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
   };
 
   if (includeInstance) {
@@ -461,6 +464,18 @@ proto.irismod.nft.Denom.deserializeBinaryFromReader = function(msg, reader) {
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setCreator(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSymbol(value);
+      break;
+    case 6:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setMintRestricted(value);
+      break;
+    case 7:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setUpdateRestricted(value);
       break;
     default:
       reader.skipField();
@@ -516,6 +531,27 @@ proto.irismod.nft.Denom.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getSymbol();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getMintRestricted();
+  if (f) {
+    writer.writeBool(
+      6,
+      f
+    );
+  }
+  f = message.getUpdateRestricted();
+  if (f) {
+    writer.writeBool(
+      7,
       f
     );
   }
@@ -591,6 +627,60 @@ proto.irismod.nft.Denom.prototype.getCreator = function() {
  */
 proto.irismod.nft.Denom.prototype.setCreator = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * optional string symbol = 5;
+ * @return {string}
+ */
+proto.irismod.nft.Denom.prototype.getSymbol = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setSymbol = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional bool mint_restricted = 6;
+ * @return {boolean}
+ */
+proto.irismod.nft.Denom.prototype.getMintRestricted = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 6, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setMintRestricted = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 6, value);
+};
+
+
+/**
+ * optional bool update_restricted = 7;
+ * @return {boolean}
+ */
+proto.irismod.nft.Denom.prototype.getUpdateRestricted = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setUpdateRestricted = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 7, value);
 };
 
 
