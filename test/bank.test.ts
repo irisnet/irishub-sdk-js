@@ -10,7 +10,7 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'ubif',
+            denom: 'udev',
             amount: '1',
           },
         ];
@@ -38,7 +38,7 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'ubif',
+            denom: 'udev',
             amount: '1',
           },
         ];
@@ -65,7 +65,7 @@ describe('Bank Tests', () => {
       'query Balance',
       async () => {
         await BaseTest.getClient()
-          .bank.queryBalance('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw','ubif')
+          .bank.queryBalance('iaa174qyl02cupyqq77cqqtdl0frda6dl3rp2h9snu','udev')
           .then(res => {
             console.log(JSON.stringify(res));
           })

@@ -88,7 +88,7 @@ describe('Gov Tests', () => {
 
   const initDeposit: types.Coin[] = [
     {
-      denom: 'ubif',
+      denom: 'udev',
       amount: '100',
     },
   ];
@@ -162,7 +162,7 @@ describe('Gov Tests', () => {
                 title:'1111',
                 description:'1111',
                 recipient: 'iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr',
-                amount: [{denom: 'ubif',amount: '100'}]
+                amount: [{denom: 'udev',amount: '100'}]
               }
             },
             initDeposit, 

@@ -13,7 +13,7 @@ describe('Coinswap Tests', () => {
         await BaseTest.getClient()
           .coinswap.addLiquidity(
             {
-              denom: 'udog',
+              denom: 'htltbcbnb',
               amount: '1000000',
             }, "1000", "1",
             parseInt(deadlineTime),
@@ -37,7 +37,7 @@ describe('Coinswap Tests', () => {
         await BaseTest.getClient()
           .coinswap.removeLiquidity(
             {
-              denom: 'swap/kit',
+              denom: 'lpt-1',
               amount: '10',
             }, "1", "1",
             1615642486,
@@ -61,13 +61,13 @@ describe('Coinswap Tests', () => {
         await BaseTest.getClient()
           .coinswap.swapOrder(
             {
-              denom: 'kit',
-              amount: '10',
+              denom: 'udev',
+              amount: '10000000',
             }, {
-              denom: 'ubif',
-              amount: '10',
+              denom: 'htltbcbnb',
+              amount: '684534',
             }, false,
-            1615642486,
+            1630493041,
             BaseTest.baseTx
           )
           .then(res => {

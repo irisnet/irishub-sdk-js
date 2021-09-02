@@ -31,11 +31,11 @@ export class BaseTest {
 
   static getClient(): Client {
     let config = {
-        node: 'http://localhost:26657',
+        node: 'http://192.168.150.40:26657',
         chainNetwork: iris.types.ChainNetwork.Iris,
-        chainId: 'testing',
-        gas: '2000000',
-        fee: { denom: 'uiris', amount: '200' },
+        chainId: 'iris',
+        gas: '20000000',
+        fee: { denom: 'udev', amount: '200' },
     };
     let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
@@ -44,7 +44,7 @@ export class BaseTest {
     //     network: iris.types.Network.Mainnet,
     //     chainId: 'bifrost-1',
     //     gas: '200000',
-    //     fee: { denom: 'ubif', amount: '5000' },
+    //     fee: { denom: 'udev', amount: '5000' },
     // };
     // let privateKey = '80A69946ADD77EF0C17F43E72E759164F6F0A2A7E9D5D3E0966A3BCA8DE3D177'
 
@@ -56,7 +56,7 @@ export class BaseTest {
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'time veteran bargain sword walk pepper foil weekend test sad allow write agent genre truck frown hidden clay deal angle search casual world vessel'
+      'emerge faculty front embark salute ring broken canyon vibrant arena pair truck joy credit milk tube vast private double exercise change drip lemon time'
     );
 
     // client.keys.importPrivateKey(
