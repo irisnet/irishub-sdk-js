@@ -1277,7 +1277,6 @@ proto.irismod.farm.MsgStake.prototype.getAmount = function() {
  * @return {!proto.irismod.farm.MsgStake} returns this
 */
 proto.irismod.farm.MsgStake.prototype.setAmount = function(value) {
-  console.log(value,"aaaaaaaaaaaaaaaaaaaaaaa")
   return jspb.Message.setWrapperField(this, 2, value);
 };
 
