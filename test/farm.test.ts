@@ -1,7 +1,4 @@
-import * as types from '../src/types';
 import {BaseTest} from './basetest';
-import {Farm} from "../src/modules/farm";
-
 const timeout = 10000;
 
 describe('farm Tests', () => {
@@ -11,7 +8,7 @@ describe('farm Tests', () => {
             async () => {
                 await BaseTest.getClient()
                     .farm.stakeLp(
-                        'apple',
+                        'farm-1',
                         {
                             denom: 'lpt-1',
                             amount: '100'
@@ -30,14 +27,14 @@ describe('farm Tests', () => {
     });
     describe('unstake lp', () => {
         test(
-            'stake lp',
+            'unstake lp',
             async () => {
                 await BaseTest.getClient()
                     .farm.unStakeLp(
-                        'apple',
+                        'farm-1',
                         {
                             denom: 'lpt-1',
-                            amount: '100'
+                            amount: '10'
                         },
                         BaseTest.baseTx
                     )
@@ -57,7 +54,7 @@ describe('farm Tests', () => {
             async () => {
                 await BaseTest.getClient()
                     .farm.harvestReward(
-                        'apple',
+                        'farm-1',
                         BaseTest.baseTx
                     )
                     .then(res => {

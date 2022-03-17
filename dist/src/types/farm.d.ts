@@ -1,6 +1,6 @@
 import { Coin, Msg } from "./types";
 export interface FarmParams {
-    pool_name: string;
+    pool_id: string;
     amount: Coin;
     sender: string;
 }
@@ -29,11 +29,11 @@ export declare class MsgUnstake extends Msg {
     validate(): void;
 }
 export interface HarvestParams {
-    pool_name: string;
+    pool_id: string;
     sender: string;
 }
 /**
- * Msg for Unstake lp
+ * Msg for harvest reward
  *
  * @hidden
  */

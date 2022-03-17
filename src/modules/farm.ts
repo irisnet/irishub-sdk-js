@@ -12,13 +12,13 @@ export class Farm {
     }
     /**
      * stake lpt
-     * @param farmPoolName  farm pool name
+     * @param farmPoolID  farm pool ID
      * @param lpt receive Lp
      * @param baseTx { types.BaseTx }
      * @returns
      */
     async stakeLp(
-        pool_name:string,
+        pool_id:string,
         amount:types.Coin,
         baseTx:BaseTx
     ):Promise<types.TxResult>{
@@ -27,7 +27,7 @@ export class Farm {
             {
                 type:types.TxType.MsgStake,
                 value:{
-                    pool_name,
+                    pool_id,
                     amount,
                     sender
                 }
@@ -43,7 +43,7 @@ export class Farm {
      * @returns
      */
     async unStakeLp(
-        pool_name:string,
+        pool_id:string,
         amount:types.Coin,
         baseTx:BaseTx
     ):Promise<types.TxResult>{
@@ -52,7 +52,7 @@ export class Farm {
             {
                 type:types.TxType.MsgUnstake,
                 value:{
-                    pool_name,
+                    pool_id,
                     amount,
                     sender
                 }
@@ -67,7 +67,7 @@ export class Farm {
      * @returns
      */
     async harvestReward(
-        pool_name:string,
+        pool_id:string,
         baseTx:BaseTx
     ):Promise<types.TxResult>{
         const sender = this.client.keys.show(baseTx.from)
@@ -75,7 +75,7 @@ export class Farm {
             {
                 type:types.TxType.MsgHarvest,
                 value:{
-                    pool_name,
+                    pool_id,
                     sender
                 }
             }

@@ -8,12 +8,12 @@ export declare class Farm {
     constructor(client: Client);
     /**
      * stake lpt
-     * @param farmPoolName  farm pool name
+     * @param farmPoolID  farm pool ID
      * @param lpt receive Lp
      * @param baseTx { types.BaseTx }
      * @returns
      */
-    stakeLp(pool_name: string, amount: types.Coin, baseTx: BaseTx): Promise<types.TxResult>;
+    stakeLp(pool_id: string, amount: types.Coin, baseTx: BaseTx): Promise<types.TxResult>;
     /**
      * unstake lpt
      * @param farmPoolName  farm pool name
@@ -21,12 +21,12 @@ export declare class Farm {
      * @param baseTx { types.BaseTx }
      * @returns
      */
-    unStakeLp(pool_name: string, amount: types.Coin, baseTx: BaseTx): Promise<types.TxResult>;
+    unStakeLp(pool_id: string, amount: types.Coin, baseTx: BaseTx): Promise<types.TxResult>;
     /**
      * harvest lpt
      * @param farmPoolName  farm pool name
      * @param baseTx { types.BaseTx }
      * @returns
      */
-    harvestReward(pool_name: string, baseTx: BaseTx): Promise<types.TxResult>;
+    harvestReward(pool_id: string, baseTx: BaseTx): Promise<types.TxResult>;
 }
