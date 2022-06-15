@@ -10,7 +10,7 @@ option (gogoproto.goproto_getters_all) = false;
 message FarmPool {
   option (gogoproto.equal) = true;
 
-  string name = 1;
+  string id = 1;
   string creator = 2;
   string description = 3;
   int64 start_height = 4;
@@ -49,7 +49,7 @@ message RewardRule {
 message FarmInfo {
   option (gogoproto.equal) = true;
 
-  string pool_name = 1;
+  string pool_id = 1;
   string address = 2;
   string locked = 3 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
@@ -62,9 +62,37 @@ message FarmInfo {
 }
 
 message Params {
-  cosmos.base.v1beta1.Coin create_pool_fee = 1 [
+  cosmos.base.v1beta1.Coin pool_creation_fee = 1 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Coin",
     (gogoproto.nullable) = false
   ];
   uint32 max_reward_categories = 2;
+  string tax_rate = 3 [ 
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false 
+  ];
+}
+
+message EscrowInfo {
+  option (gogoproto.equal) = true;
+
+  string proposer = 1;
+  repeated cosmos.base.v1beta1.Coin fund_applied = 2 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin fund_self_bond = 3 [(gogoproto.nullable) = false];
+  uint64 proposal_id = 4; 
+}
+
+
+// CommunityPoolCreateFarmProposal is a gov Content type for creating a farm pool with community pool
+message CommunityPoolCreateFarmProposal {
+  option (gogoproto.equal)            = true;
+  option (gogoproto.goproto_stringer) = false;
+
+  string title = 1;
+  string description = 2;
+  string pool_description = 3;
+  string lpt_denom = 4;
+  repeated cosmos.base.v1beta1.Coin reward_per_block = 5 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin fund_applied = 6 [(gogoproto.nullable) = false];
+  repeated cosmos.base.v1beta1.Coin fund_self_bond = 7 [(gogoproto.nullable) = false];
 }
