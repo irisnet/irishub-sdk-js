@@ -2626,7 +2626,8 @@ proto.cosmos.base.tendermint.v1beta1.VersionInfo.toObject = function(includeInst
     buildTags: jspb.Message.getFieldWithDefault(msg, 5, ""),
     goVersion: jspb.Message.getFieldWithDefault(msg, 6, ""),
     buildDepsList: jspb.Message.toObjectList(msg.getBuildDepsList(),
-    proto.cosmos.base.tendermint.v1beta1.Module.toObject, includeInstance)
+    proto.cosmos.base.tendermint.v1beta1.Module.toObject, includeInstance),
+    cosmosSdkVersion: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -2691,6 +2692,10 @@ proto.cosmos.base.tendermint.v1beta1.VersionInfo.deserializeBinaryFromReader = f
       var value = new proto.cosmos.base.tendermint.v1beta1.Module;
       reader.readMessage(value,proto.cosmos.base.tendermint.v1beta1.Module.deserializeBinaryFromReader);
       msg.addBuildDeps(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCosmosSdkVersion(value);
       break;
     default:
       reader.skipField();
@@ -2769,6 +2774,13 @@ proto.cosmos.base.tendermint.v1beta1.VersionInfo.serializeBinaryToWriter = funct
       7,
       f,
       proto.cosmos.base.tendermint.v1beta1.Module.serializeBinaryToWriter
+    );
+  }
+  f = message.getCosmosSdkVersion();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
     );
   }
 };
@@ -2917,6 +2929,24 @@ proto.cosmos.base.tendermint.v1beta1.VersionInfo.prototype.addBuildDeps = functi
  */
 proto.cosmos.base.tendermint.v1beta1.VersionInfo.prototype.clearBuildDepsList = function() {
   return this.setBuildDepsList([]);
+};
+
+
+/**
+ * optional string cosmos_sdk_version = 8;
+ * @return {string}
+ */
+proto.cosmos.base.tendermint.v1beta1.VersionInfo.prototype.getCosmosSdkVersion = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.base.tendermint.v1beta1.VersionInfo} returns this
+ */
+proto.cosmos.base.tendermint.v1beta1.VersionInfo.prototype.setCosmosSdkVersion = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 

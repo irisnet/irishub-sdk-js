@@ -432,7 +432,7 @@ proto.irismod.farm.FarmPoolEntry.prototype.toObject = function(opt_includeInstan
  */
 proto.irismod.farm.FarmPoolEntry.toObject = function(includeInstance, msg) {
   var f, obj = {
-    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     creator: jspb.Message.getFieldWithDefault(msg, 2, ""),
     description: jspb.Message.getFieldWithDefault(msg, 3, ""),
     startHeight: jspb.Message.getFieldWithDefault(msg, 4, 0),
@@ -484,7 +484,7 @@ proto.irismod.farm.FarmPoolEntry.deserializeBinaryFromReader = function(msg, rea
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setId(value);
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
@@ -559,7 +559,7 @@ proto.irismod.farm.FarmPoolEntry.prototype.serializeBinary = function() {
  */
 proto.irismod.farm.FarmPoolEntry.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getName();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -644,10 +644,10 @@ proto.irismod.farm.FarmPoolEntry.serializeBinaryToWriter = function(message, wri
 
 
 /**
- * optional string name = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.irismod.farm.FarmPoolEntry.prototype.getName = function() {
+proto.irismod.farm.FarmPoolEntry.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -656,7 +656,7 @@ proto.irismod.farm.FarmPoolEntry.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.irismod.farm.FarmPoolEntry} returns this
  */
-proto.irismod.farm.FarmPoolEntry.prototype.setName = function(value) {
+proto.irismod.farm.FarmPoolEntry.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1163,7 +1163,7 @@ proto.irismod.farm.QueryFarmPoolRequest.prototype.toObject = function(opt_includ
  */
 proto.irismod.farm.QueryFarmPoolRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    name: jspb.Message.getFieldWithDefault(msg, 1, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1202,7 +1202,7 @@ proto.irismod.farm.QueryFarmPoolRequest.deserializeBinaryFromReader = function(m
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setId(value);
       break;
     default:
       reader.skipField();
@@ -1233,7 +1233,7 @@ proto.irismod.farm.QueryFarmPoolRequest.prototype.serializeBinary = function() {
  */
 proto.irismod.farm.QueryFarmPoolRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getName();
+  f = message.getId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -1244,10 +1244,10 @@ proto.irismod.farm.QueryFarmPoolRequest.serializeBinaryToWriter = function(messa
 
 
 /**
- * optional string name = 1;
+ * optional string id = 1;
  * @return {string}
  */
-proto.irismod.farm.QueryFarmPoolRequest.prototype.getName = function() {
+proto.irismod.farm.QueryFarmPoolRequest.prototype.getId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -1256,7 +1256,7 @@ proto.irismod.farm.QueryFarmPoolRequest.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.irismod.farm.QueryFarmPoolRequest} returns this
  */
-proto.irismod.farm.QueryFarmPoolRequest.prototype.setName = function(value) {
+proto.irismod.farm.QueryFarmPoolRequest.prototype.setId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -1445,7 +1445,7 @@ proto.irismod.farm.QueryFarmerRequest.prototype.toObject = function(opt_includeI
 proto.irismod.farm.QueryFarmerRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     farmer: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    poolName: jspb.Message.getFieldWithDefault(msg, 2, "")
+    poolId: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1488,7 +1488,7 @@ proto.irismod.farm.QueryFarmerRequest.deserializeBinaryFromReader = function(msg
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPoolName(value);
+      msg.setPoolId(value);
       break;
     default:
       reader.skipField();
@@ -1526,7 +1526,7 @@ proto.irismod.farm.QueryFarmerRequest.serializeBinaryToWriter = function(message
       f
     );
   }
-  f = message.getPoolName();
+  f = message.getPoolId();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -1555,10 +1555,10 @@ proto.irismod.farm.QueryFarmerRequest.prototype.setFarmer = function(value) {
 
 
 /**
- * optional string pool_name = 2;
+ * optional string pool_id = 2;
  * @return {string}
  */
-proto.irismod.farm.QueryFarmerRequest.prototype.getPoolName = function() {
+proto.irismod.farm.QueryFarmerRequest.prototype.getPoolId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -1567,7 +1567,7 @@ proto.irismod.farm.QueryFarmerRequest.prototype.getPoolName = function() {
  * @param {string} value
  * @return {!proto.irismod.farm.QueryFarmerRequest} returns this
  */
-proto.irismod.farm.QueryFarmerRequest.prototype.setPoolName = function(value) {
+proto.irismod.farm.QueryFarmerRequest.prototype.setPoolId = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
@@ -2053,7 +2053,7 @@ proto.irismod.farm.LockedInfo.prototype.toObject = function(opt_includeInstance)
  */
 proto.irismod.farm.LockedInfo.toObject = function(includeInstance, msg) {
   var f, obj = {
-    poolName: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    poolId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     locked: (f = msg.getLocked()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
     pendingRewardList: jspb.Message.toObjectList(msg.getPendingRewardList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance)
@@ -2095,7 +2095,7 @@ proto.irismod.farm.LockedInfo.deserializeBinaryFromReader = function(msg, reader
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setPoolName(value);
+      msg.setPoolId(value);
       break;
     case 2:
       var value = new cosmos_base_v1beta1_coin_pb.Coin;
@@ -2136,7 +2136,7 @@ proto.irismod.farm.LockedInfo.prototype.serializeBinary = function() {
  */
 proto.irismod.farm.LockedInfo.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getPoolName();
+  f = message.getPoolId();
   if (f.length > 0) {
     writer.writeString(
       1,
@@ -2163,10 +2163,10 @@ proto.irismod.farm.LockedInfo.serializeBinaryToWriter = function(message, writer
 
 
 /**
- * optional string pool_name = 1;
+ * optional string pool_id = 1;
  * @return {string}
  */
-proto.irismod.farm.LockedInfo.prototype.getPoolName = function() {
+proto.irismod.farm.LockedInfo.prototype.getPoolId = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -2175,7 +2175,7 @@ proto.irismod.farm.LockedInfo.prototype.getPoolName = function() {
  * @param {string} value
  * @return {!proto.irismod.farm.LockedInfo} returns this
  */
-proto.irismod.farm.LockedInfo.prototype.setPoolName = function(value) {
+proto.irismod.farm.LockedInfo.prototype.setPoolId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
 };
 

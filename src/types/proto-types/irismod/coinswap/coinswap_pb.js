@@ -748,7 +748,9 @@ proto.irismod.coinswap.Params.prototype.toObject = function(opt_includeInstance)
  */
 proto.irismod.coinswap.Params.toObject = function(includeInstance, msg) {
   var f, obj = {
-    fee: (f = msg.getFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f)
+    fee: (f = msg.getFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
+    poolCreationFee: (f = msg.getPoolCreationFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
+    taxRate: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -790,6 +792,15 @@ proto.irismod.coinswap.Params.deserializeBinaryFromReader = function(msg, reader
       reader.readMessage(value,cosmos_base_v1beta1_coin_pb.Coin.deserializeBinaryFromReader);
       msg.setFee(value);
       break;
+    case 2:
+      var value = new cosmos_base_v1beta1_coin_pb.Coin;
+      reader.readMessage(value,cosmos_base_v1beta1_coin_pb.Coin.deserializeBinaryFromReader);
+      msg.setPoolCreationFee(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTaxRate(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -825,6 +836,21 @@ proto.irismod.coinswap.Params.serializeBinaryToWriter = function(message, writer
       1,
       f,
       cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
+    );
+  }
+  f = message.getPoolCreationFee();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
+    );
+  }
+  f = message.getTaxRate();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
     );
   }
 };
@@ -864,6 +890,61 @@ proto.irismod.coinswap.Params.prototype.clearFee = function() {
  */
 proto.irismod.coinswap.Params.prototype.hasFee = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional cosmos.base.v1beta1.Coin pool_creation_fee = 2;
+ * @return {?proto.cosmos.base.v1beta1.Coin}
+ */
+proto.irismod.coinswap.Params.prototype.getPoolCreationFee = function() {
+  return /** @type{?proto.cosmos.base.v1beta1.Coin} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_v1beta1_coin_pb.Coin, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.v1beta1.Coin|undefined} value
+ * @return {!proto.irismod.coinswap.Params} returns this
+*/
+proto.irismod.coinswap.Params.prototype.setPoolCreationFee = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.coinswap.Params} returns this
+ */
+proto.irismod.coinswap.Params.prototype.clearPoolCreationFee = function() {
+  return this.setPoolCreationFee(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.coinswap.Params.prototype.hasPoolCreationFee = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional string tax_rate = 3;
+ * @return {string}
+ */
+proto.irismod.coinswap.Params.prototype.getTaxRate = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.coinswap.Params} returns this
+ */
+proto.irismod.coinswap.Params.prototype.setTaxRate = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
