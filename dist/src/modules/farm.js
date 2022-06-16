@@ -19,6 +19,10 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
+var _errors = require("../errors");
+
+var _helper = require("../helper");
+
 var types = _interopRequireWildcard(require("../types"));
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -159,6 +163,62 @@ var Farm = /*#__PURE__*/function () {
 
       return harvestReward;
     }()
+    /**
+     * query Farm Pools
+     */
+
+  }, {
+    key: "queryFarmPools",
+    value: function queryFarmPools(pagination) {
+      var request = new types.farm_query_pb.QueryFarmPoolsRequest();
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
+      return this.client.rpcClient.protoQuery('/irismod.farm.Query/FarmPools', request, types.farm_query_pb.QueryFarmPoolsResponse);
+    }
+    /**
+     * query Farm Pool
+     */
+
+  }, {
+    key: "queryFarmPool",
+    value: function queryFarmPool(id) {
+      if (!id) {
+        throw new _errors.SdkError("id can ont be empty");
+      }
+
+      var request = new types.farm_query_pb.QueryFarmPoolRequest();
+      request.setId(id);
+      return this.client.rpcClient.protoQuery('/irismod.farm.Query/FarmPool', request, types.farm_query_pb.QueryFarmPoolResponse);
+    }
+    /**
+     * query Farmer
+     */
+
+  }, {
+    key: "queryFarmer",
+    value: function queryFarmer(farmer, pool_id) {
+      if (!farmer) {
+        throw new _errors.SdkError("farmer can ont be empty");
+      }
+
+      if (!pool_id) {
+        throw new _errors.SdkError("pool_id can ont be empty");
+      }
+
+      var request = new types.farm_query_pb.QueryFarmerRequest();
+      request.setFarmer(farmer);
+      request.setPoolId(pool_id);
+      return this.client.rpcClient.protoQuery('/irismod.farm.Query/Farmer', request, types.farm_query_pb.QueryFarmerResponse);
+    }
+    /**
+     * query Params
+     */
+
+  }, {
+    key: "queryParams",
+    value: function queryParams() {
+      var request = new types.farm_query_pb.QueryParamsRequest();
+      return this.client.rpcClient.protoQuery('/irismod.farm.Query/Params', request, types.farm_query_pb.QueryParamsResponse);
+    }
   }]);
   return Farm;
 }();

@@ -63,7 +63,7 @@ var MsgStake = /*#__PURE__*/function (_Msg) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
       msg.setSender(this.value.sender);
       return msg;
@@ -119,7 +119,7 @@ var MsgUnstake = /*#__PURE__*/function (_Msg2) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
       msg.setSender(this.value.sender);
       return msg;
@@ -174,7 +174,7 @@ var MsgHarvest = /*#__PURE__*/function (_Msg3) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setSender(this.value.sender);
       return msg;
     }

@@ -291,10 +291,6 @@ var MsgDeposit = /*#__PURE__*/function (_Msg3) {
 
 exports.MsgDeposit = MsgDeposit;
 var ProposalType;
-/**
- * param struct for Text Proposal 
- */
-
 exports.ProposalType = ProposalType;
 
 (function (ProposalType) {

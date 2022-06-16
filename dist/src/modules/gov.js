@@ -211,15 +211,11 @@ var Gov = /*#__PURE__*/function () {
 
   }, {
     key: "queryProposals",
-    value: function queryProposals(option) {
+    value: function queryProposals(option, pagination) {
       var _this2 = this;
 
-      var page_number = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var page_size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
       var request = new types.gov_query_pb.QueryProposalsRequest();
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
 
       if (typeof option.proposal_status != 'undefined') {
         request.setProposalStatus(option.proposal_status);
@@ -233,7 +229,6 @@ var Gov = /*#__PURE__*/function () {
         request.setDepositor(option.depositor);
       }
 
-      request.setPagination(pagination);
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/Proposals', request, types.gov_query_pb.QueryProposalsResponse).then(function (res) {
         if (res && res.proposalsList) {
           res.proposalsList = res.proposalsList.map(function (item) {
@@ -277,19 +272,14 @@ var Gov = /*#__PURE__*/function () {
 
   }, {
     key: "queryVotes",
-    value: function queryVotes(proposal_id) {
-      var page_number = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var page_size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-
+    value: function queryVotes(proposal_id, pagination) {
       if (!proposal_id) {
         throw new _errors.SdkError("proposal_id can ont be empty");
       }
 
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
       var request = new types.gov_query_pb.QueryVotesRequest();
       request.setProposalId(proposal_id);
-      request.setPagination(pagination);
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/Votes', request, types.gov_query_pb.QueryVotesResponse);
     }
     /**
@@ -337,19 +327,14 @@ var Gov = /*#__PURE__*/function () {
 
   }, {
     key: "queryDeposits",
-    value: function queryDeposits(proposal_id) {
-      var page_number = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var page_size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-
+    value: function queryDeposits(proposal_id, pagination) {
       if (!proposal_id) {
         throw new _errors.SdkError("proposal_id can ont be empty");
       }
 
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
       var request = new types.gov_query_pb.QueryDepositsRequest();
       request.setProposalId(proposal_id);
-      request.setPagination(pagination);
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/Deposits', request, types.gov_query_pb.QueryDepositsResponse);
     }
     /**

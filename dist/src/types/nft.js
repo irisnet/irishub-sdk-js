@@ -60,11 +60,20 @@ var MsgIssueDenom = /*#__PURE__*/function (_Msg) {
   (0, _createClass2["default"])(MsgIssueDenom, [{
     key: "getModel",
     value: function getModel() {
+      var _this$value, _this$value2, _this$value3, _this$value4, _this$value5, _this$value6, _this$value7;
+
       var msg = new (this.constructor.getModelClass())();
       msg.setId(this.value.id);
       msg.setName(this.value.name);
       msg.setSchema(this.value.schema);
       msg.setSender(this.value.sender);
+      ((_this$value = this.value) === null || _this$value === void 0 ? void 0 : _this$value.symbol) && msg.setSymbol(this.value.symbol);
+      ((_this$value2 = this.value) === null || _this$value2 === void 0 ? void 0 : _this$value2.mint_restricted) && msg.setMintRestricted(this.value.mint_restricted);
+      ((_this$value3 = this.value) === null || _this$value3 === void 0 ? void 0 : _this$value3.update_restricted) && msg.setUpdateRestricted(this.value.update_restricted);
+      ((_this$value4 = this.value) === null || _this$value4 === void 0 ? void 0 : _this$value4.description) && msg.setDescription(this.value.description);
+      ((_this$value5 = this.value) === null || _this$value5 === void 0 ? void 0 : _this$value5.uri) && msg.setUri(this.value.uri);
+      ((_this$value6 = this.value) === null || _this$value6 === void 0 ? void 0 : _this$value6.uri_hash) && msg.setUriHash(this.value.uri_hash);
+      ((_this$value7 = this.value) === null || _this$value7 === void 0 ? void 0 : _this$value7.data) && msg.setData(this.value.data);
       return msg;
     }
   }, {
@@ -132,6 +141,7 @@ var MsgMintNFT = /*#__PURE__*/function (_Msg2) {
       msg.setData(this.value.data);
       msg.setSender(this.value.sender);
       msg.setRecipient(this.value.recipient);
+      msg.setUriHash(this.value.uri_hash);
       return msg;
     }
   }, {
@@ -163,6 +173,10 @@ var MsgMintNFT = /*#__PURE__*/function (_Msg2) {
 
       if (!this.value.recipient) {
         throw new _errors.SdkError("recipient can not be empty");
+      }
+
+      if (!this.value.uri_hash) {
+        throw new _errors.SdkError("uri_hash can not be empty");
       }
     }
   }], [{
@@ -224,6 +238,12 @@ var MsgEditNFT = /*#__PURE__*/function (_Msg3) {
         msg.setData(_index.doNotModify);
       } else {
         msg.setData(this.value.data);
+      }
+
+      if (typeof this.value.uri_hash === 'undefined') {
+        msg.setUriHash(_index.doNotModify);
+      } else {
+        msg.setUriHash(this.value.uri_hash);
       }
 
       return msg;
@@ -303,6 +323,12 @@ var MsgTransferNFT = /*#__PURE__*/function (_Msg4) {
         msg.setData(_index.doNotModify);
       } else {
         msg.setData(this.value.data);
+      }
+
+      if (typeof this.value.uri_hash === 'undefined') {
+        msg.setUriHash(_index.doNotModify);
+      } else {
+        msg.setUriHash(this.value.uri_hash);
       }
 
       return msg;

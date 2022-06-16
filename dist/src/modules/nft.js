@@ -62,7 +62,7 @@ var Nft = /*#__PURE__*/function () {
   (0, _createClass2["default"])(Nft, [{
     key: "issueDenom",
     value: function () {
-      var _issueDenom = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(id, name, schema, baseTx) {
+      var _issueDenom = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(id, name, schema, option, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
@@ -71,12 +71,12 @@ var Nft = /*#__PURE__*/function () {
                 sender = this.client.keys.show(baseTx.from);
                 msgs = [{
                   type: types.TxType.MsgIssueDenom,
-                  value: {
+                  value: _objectSpread({
                     id: id,
                     name: name,
                     schema: schema,
                     sender: sender
-                  }
+                  }, option)
                 }];
                 return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
 
@@ -88,7 +88,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee, this);
       }));
 
-      function issueDenom(_x, _x2, _x3, _x4) {
+      function issueDenom(_x, _x2, _x3, _x4, _x5) {
         return _issueDenom.apply(this, arguments);
       }
 
@@ -110,7 +110,7 @@ var Nft = /*#__PURE__*/function () {
   }, {
     key: "mintNft",
     value: function () {
-      var _mintNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(id, denom_id, name, uri, data, recipient, baseTx) {
+      var _mintNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(id, denom_id, name, uri, uri_hash, data, recipient, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
@@ -137,6 +137,7 @@ var Nft = /*#__PURE__*/function () {
                     denom_id: denom_id,
                     name: name,
                     uri: uri,
+                    uri_hash: uri_hash,
                     data: data,
                     sender: sender,
                     recipient: recipient
@@ -152,7 +153,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee2, this);
       }));
 
-      function mintNft(_x5, _x6, _x7, _x8, _x9, _x10, _x11) {
+      function mintNft(_x6, _x7, _x8, _x9, _x10, _x11, _x12, _x13) {
         return _mintNft.apply(this, arguments);
       }
 
@@ -196,7 +197,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee3, this);
       }));
 
-      function editNft(_x12, _x13, _x14, _x15) {
+      function editNft(_x14, _x15, _x16, _x17) {
         return _editNft.apply(this, arguments);
       }
 
@@ -250,7 +251,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee4, this);
       }));
 
-      function transferNft(_x16, _x17, _x18, _x19, _x20) {
+      function transferNft(_x18, _x19, _x20, _x21, _x22) {
         return _transferNft.apply(this, arguments);
       }
 
@@ -293,7 +294,7 @@ var Nft = /*#__PURE__*/function () {
         }, _callee5, this);
       }));
 
-      function burnNft(_x21, _x22, _x23) {
+      function burnNft(_x23, _x24, _x25) {
         return _burnNft.apply(this, arguments);
       }
 

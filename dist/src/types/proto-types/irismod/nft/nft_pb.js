@@ -160,7 +160,8 @@ proto.irismod.nft.BaseNFT.toObject = function(includeInstance, msg) {
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     uri: jspb.Message.getFieldWithDefault(msg, 3, ""),
     data: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    owner: jspb.Message.getFieldWithDefault(msg, 5, "")
+    owner: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    uriHash: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -216,6 +217,10 @@ proto.irismod.nft.BaseNFT.deserializeBinaryFromReader = function(msg, reader) {
     case 5:
       var value = /** @type {string} */ (reader.readString());
       msg.setOwner(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUriHash(value);
       break;
     default:
       reader.skipField();
@@ -278,6 +283,13 @@ proto.irismod.nft.BaseNFT.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       5,
+      f
+    );
+  }
+  f = message.getUriHash();
+  if (f.length > 0) {
+    writer.writeString(
+      6,
       f
     );
   }
@@ -374,6 +386,24 @@ proto.irismod.nft.BaseNFT.prototype.setOwner = function(value) {
 };
 
 
+/**
+ * optional string uri_hash = 6;
+ * @return {string}
+ */
+proto.irismod.nft.BaseNFT.prototype.getUriHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.BaseNFT} returns this
+ */
+proto.irismod.nft.BaseNFT.prototype.setUriHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
 
 
 
@@ -412,7 +442,11 @@ proto.irismod.nft.Denom.toObject = function(includeInstance, msg) {
     creator: jspb.Message.getFieldWithDefault(msg, 4, ""),
     symbol: jspb.Message.getFieldWithDefault(msg, 5, ""),
     mintRestricted: jspb.Message.getBooleanFieldWithDefault(msg, 6, false),
-    updateRestricted: jspb.Message.getBooleanFieldWithDefault(msg, 7, false)
+    updateRestricted: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
+    description: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    uri: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    uriHash: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 11, "")
   };
 
   if (includeInstance) {
@@ -476,6 +510,22 @@ proto.irismod.nft.Denom.deserializeBinaryFromReader = function(msg, reader) {
     case 7:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setUpdateRestricted(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDescription(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUri(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUriHash(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setData(value);
       break;
     default:
       reader.skipField();
@@ -552,6 +602,34 @@ proto.irismod.nft.Denom.serializeBinaryToWriter = function(message, writer) {
   if (f) {
     writer.writeBool(
       7,
+      f
+    );
+  }
+  f = message.getDescription();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
+  f = message.getUri();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getUriHash();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
+  f = message.getData();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
       f
     );
   }
@@ -681,6 +759,78 @@ proto.irismod.nft.Denom.prototype.getUpdateRestricted = function() {
  */
 proto.irismod.nft.Denom.prototype.setUpdateRestricted = function(value) {
   return jspb.Message.setProto3BooleanField(this, 7, value);
+};
+
+
+/**
+ * optional string description = 8;
+ * @return {string}
+ */
+proto.irismod.nft.Denom.prototype.getDescription = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setDescription = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional string uri = 9;
+ * @return {string}
+ */
+proto.irismod.nft.Denom.prototype.getUri = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setUri = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional string uri_hash = 10;
+ * @return {string}
+ */
+proto.irismod.nft.Denom.prototype.getUriHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setUriHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional string data = 11;
+ * @return {string}
+ */
+proto.irismod.nft.Denom.prototype.getData = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.nft.Denom} returns this
+ */
+proto.irismod.nft.Denom.prototype.setData = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 
