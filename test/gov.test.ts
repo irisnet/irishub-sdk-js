@@ -15,8 +15,10 @@ describe('Gov Tests', () => {
     });
     test('query proposals', async () => {
       await BaseTest.getClient().gov
-        .queryProposals({
-        },1,100)
+        .queryProposals({},{
+          page_number: 1,
+          page_size: 100
+        })
         .then(res => {
           console.log(JSON.stringify(res));
         })

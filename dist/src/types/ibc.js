@@ -86,19 +86,19 @@ var MsgTransfer = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.source_port) {
-        throw new _errors.SdkError("source_port is  empty");
+        throw new _errors.SdkError("source_port is empty");
       }
 
       if (!this.value.source_channel) {
-        throw new _errors.SdkError("source_channel is  empty");
+        throw new _errors.SdkError("source_channel is empty");
       }
 
       if (!this.value.token) {
-        throw new _errors.SdkError("token is  empty");
+        throw new _errors.SdkError("token is empty");
       }
 
       if (!this.value.receiver) {
-        throw new _errors.SdkError("receiver is  empty");
+        throw new _errors.SdkError("receiver is empty");
       }
 
       if (!this.value.timeout_height && !this.value.timeout_timestamp) {

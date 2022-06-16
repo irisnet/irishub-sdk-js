@@ -44,19 +44,19 @@ export class MsgAddLiquidity extends Msg {
 
   validate() {
     if (!this.value.max_token) {
-      throw new SdkError("max_token is  empty");
+      throw new SdkError("max_token is empty");
     }
     if (!this.value.exact_standard_amt) {
-      throw new SdkError("exact_standard_amt is  empty");
+      throw new SdkError("exact_standard_amt is empty");
     }
     if (!this.value.min_liquidity) {
-      throw new SdkError("min_liquidity is  empty");
+      throw new SdkError("min_liquidity is empty");
     }
     if (!this.value.deadline) {
-      throw new SdkError("deadline is  empty");
+      throw new SdkError("deadline is empty");
     }
     if (!this.value.sender) {
-      throw new SdkError("sender is  empty");
+      throw new SdkError("sender is empty");
     }
   }
 }
@@ -102,19 +102,19 @@ export class MsgRemoveLiquidity extends Msg {
 
   validate() {
     if (!this.value.withdraw_liquidity) {
-      throw new SdkError("withdraw_liquidity is  empty");
+      throw new SdkError("withdraw_liquidity is empty");
     }
     if (!this.value.min_token) {
-      throw new SdkError("min_token is  empty");
+      throw new SdkError("min_token is empty");
     }
     if (!this.value.min_standard_amt) {
-      throw new SdkError("min_standard_amt is  empty");
+      throw new SdkError("min_standard_amt is empty");
     }
     if (!this.value.deadline) {
-      throw new SdkError("deadline is  empty");
+      throw new SdkError("deadline is empty");
     }
     if (!this.value.sender) {
-      throw new SdkError("sender is  empty");
+      throw new SdkError("sender is empty");
     }
   }
 }
@@ -170,16 +170,16 @@ export class MsgSwapOrder extends Msg {
 
   validate() {
     if (!this.value.input) {
-      throw new SdkError("input is  empty");
+      throw new SdkError("input is empty");
     }
     if (!this.value.output) {
-      throw new SdkError("output is  empty");
+      throw new SdkError("output is empty");
     }
     if (!this.value.deadline) {
-      throw new SdkError("deadline is  empty");
+      throw new SdkError("deadline is empty");
     }
     if (!this.value.is_buy_order) {
-      throw new SdkError("is_buy_order is  empty");
+      throw new SdkError("is_buy_order is empty");
     }
   }
 }

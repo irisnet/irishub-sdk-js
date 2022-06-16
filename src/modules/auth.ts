@@ -89,13 +89,10 @@ export class Auth {
   /**
    * Accounts returns all the existing accounts
    */
-   queryAccounts(
-    page_number:number = 1,
-    page_size:number = 10): Promise<object[]> {
+   queryAccounts(pagination?: types.Pagination): Promise<object[]> {
     
     const request = new types.auth_query_pb.QueryAccountsRequest();
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true);
-    request.setPagination(pagination);
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
 
     return this.client.rpcClient.protoQuery(
       '/cosmos.auth.v1beta1.Query/Accounts',

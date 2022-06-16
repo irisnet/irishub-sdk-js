@@ -47,6 +47,7 @@ export const random_query_pb = require( './proto-types/irismod/random/query_pb')
 export const record_query_pb = require( './proto-types/irismod/record/query_pb');
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
 export const token_query_pb = require( './proto-types/irismod/token/query_pb');
+export const farm_query_pb = require( './proto-types/irismod/farm/query_pb');
 
 //ibc query
 export const ibc_transfer_query_pb= require( './proto-types/ibc/applications/transfer/v1/query_pb');

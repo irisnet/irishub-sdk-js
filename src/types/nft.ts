@@ -12,6 +12,13 @@ export interface IssueDenomParam {
   name:string;
   schema:string;
   sender:string;
+  symbol?: string;
+  mint_restricted?: boolean;
+  update_restricted?: boolean;
+  description?: string;
+  uri?: string;
+  uri_hash?: string;
+  data?: string;
 }
 /**
  * Msg for issue denom
@@ -36,6 +43,13 @@ export class MsgIssueDenom extends Msg {
     msg.setName(this.value.name);
     msg.setSchema(this.value.schema);
     msg.setSender(this.value.sender);
+    this.value?.symbol && msg.setSymbol(this.value.symbol);
+    this.value?.mint_restricted && msg.setMintRestricted(this.value.mint_restricted);
+    this.value?.update_restricted && msg.setUpdateRestricted(this.value.update_restricted);
+    this.value?.description && msg.setDescription(this.value.description);
+    this.value?.uri && msg.setUri(this.value.uri);
+    this.value?.uri_hash && msg.setUriHash(this.value.uri_hash);
+    this.value?.data && msg.setData(this.value.data);
     return msg;
   }
 
@@ -66,6 +80,7 @@ export interface MintNFTParam {
   data:string;
   sender:string;
   recipient:string;
+  uri_hash: string;
 }
 
 /**
@@ -94,6 +109,7 @@ export class MsgMintNFT extends Msg {
     msg.setData(this.value.data);
     msg.setSender(this.value.sender);
     msg.setRecipient(this.value.recipient);
+    msg.setUriHash(this.value.uri_hash);
     return msg;
   }
 
@@ -119,6 +135,9 @@ export class MsgMintNFT extends Msg {
     if (!this.value.recipient) {
       throw new SdkError("recipient can not be empty");
     }
+    if (!this.value.uri_hash) {
+      throw new SdkError("uri_hash can not be empty");
+    }
   }
 }
 
@@ -131,6 +150,7 @@ export interface EditNFTParam {
   name?:string;
   uri?:string;
   data?:string;
+  uri_hash?: string;
   sender:string;
 }
 /**
@@ -170,6 +190,12 @@ export class MsgEditNFT extends Msg {
     }else{
         msg.setData(this.value.data);
     }
+    if (typeof this.value.uri_hash === 'undefined') {
+      msg.setUriHash(doNotModify);
+    }else{
+        msg.setUriHash(this.value.uri_hash);
+    }
+
     return msg;
   }
 
@@ -195,6 +221,7 @@ export interface TransferNFTParam {
   name?:string;
   uri?:string;
   data?:string;
+  uri_hash?:string;
   sender:string;
   recipient:string;
 }
@@ -235,6 +262,11 @@ export class MsgTransferNFT extends Msg {
         msg.setData(doNotModify);
     }else{
         msg.setData(this.value.data);
+    }
+    if (typeof this.value.uri_hash === 'undefined') {
+      msg.setUriHash(doNotModify);
+    }else{
+        msg.setUriHash(this.value.uri_hash);
     }
     return msg;
   }

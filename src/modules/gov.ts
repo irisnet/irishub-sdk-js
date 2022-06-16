@@ -145,11 +145,10 @@ export class Gov {
       voter?:string,
       depositor?:string
     },
-    page_number:number = 1,
-    page_size:number = 10
+    pagination?:types.Pagination
     ): Promise<object> {
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
     const request = new types.gov_query_pb.QueryProposalsRequest();
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     if (typeof option.proposal_status != 'undefined') {
       request.setProposalStatus(option.proposal_status);
     }
@@ -159,7 +158,6 @@ export class Gov {
     if (option.depositor) {
       request.setDepositor(option.depositor);
     }
-    request.setPagination(pagination);
 
     return this.client.rpcClient.protoQuery(
       '/cosmos.gov.v1beta1.Query/Proposals',
@@ -207,17 +205,14 @@ export class Gov {
    */
   queryVotes(
     proposal_id:number,
-    page_number:number = 1,
-    page_size:number = 10
+    pagination?:types.Pagination
     ): Promise<object> {
     if (!proposal_id) {
       throw new SdkError("proposal_id can ont be empty");
     }
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
     const request = new types.gov_query_pb.QueryVotesRequest();
     request.setProposalId(proposal_id);
-    request.setPagination(pagination);
-
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.gov.v1beta1.Query/Votes',
       request,
@@ -272,16 +267,14 @@ export class Gov {
    */
   queryDeposits(
     proposal_id:number,
-    page_number:number = 1,
-    page_size:number = 10
+    pagination?:types.Pagination
     ): Promise<object> {
     if (!proposal_id) {
       throw new SdkError("proposal_id can ont be empty");
     }
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
     const request = new types.gov_query_pb.QueryDepositsRequest();
     request.setProposalId(proposal_id);
-    request.setPagination(pagination);
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
 
     return this.client.rpcClient.protoQuery(
       '/cosmos.gov.v1beta1.Query/Deposits',

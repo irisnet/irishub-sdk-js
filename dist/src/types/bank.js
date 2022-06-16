@@ -74,15 +74,15 @@ var MsgSend = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.from_address) {
-        throw new _errors.SdkError("from_address is  empty");
+        throw new _errors.SdkError("from_address is empty");
       }
 
       if (!this.value.to_address) {
-        throw new _errors.SdkError("to_address is  empty");
+        throw new _errors.SdkError("to_address is empty");
       }
 
       if (!(this.value.amount && this.value.amount.length)) {
-        throw new _errors.SdkError("amount is  empty");
+        throw new _errors.SdkError("amount is empty");
       }
     }
   }], [{
@@ -147,7 +147,7 @@ var MsgMultiSend = /*#__PURE__*/function (_Msg2) {
       }
 
       if (!this.value.outputs) {
-        throw new _errors.SdkError("outputs is  empty");
+        throw new _errors.SdkError("outputs is empty");
       }
     }
   }], [{

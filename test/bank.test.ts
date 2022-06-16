@@ -1,7 +1,7 @@
 import * as types from '../src/types';
 import { BaseTest } from './basetest';
 
-const timeout = 10000;
+const timeout = 90000;
 
 describe('Bank Tests', () => {
   describe('Send', () => {
@@ -10,7 +10,7 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'udev',
+            denom: 'uiris',
             amount: '1',
           },
         ];
@@ -80,7 +80,7 @@ describe('Bank Tests', () => {
       'query All Balances',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr')
+          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -110,7 +110,10 @@ describe('Bank Tests', () => {
       'query Total Supply',
       async () => {
         await BaseTest.getClient()
-          .bank.queryTotalSupply()
+          .bank.queryTotalSupply({
+            page_number: 2,
+            page_size: 8
+          })
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -141,6 +144,36 @@ describe('Bank Tests', () => {
       async () => {
         await BaseTest.getClient()
           .bank.queryParams()
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query Denom Metadata',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryDenomMetadata('happy')
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+      timeout
+    );
+
+    test(
+      'query Denoms Metadata',
+      async () => {
+        await BaseTest.getClient()
+          .bank.queryDenomsMetadata()
           .then(res => {
             console.log(JSON.stringify(res));
           })
