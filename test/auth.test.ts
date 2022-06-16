@@ -6,10 +6,10 @@ describe('Nft Tests', () => {
 
   describe('query', () => {
     test(
-      'query Account',
+      'query Accounts',
       async () => {
         await BaseTest.getClient()
-        .auth.queryAccount('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp')
+        .auth.queryAccounts(1,100)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -19,7 +19,20 @@ describe('Nft Tests', () => {
       },
       timeout
     );
-
+    test(
+      'query Account',
+      async () => {
+        await BaseTest.getClient()
+        .auth.queryAccount('iaa19a8gpvjlwd0ep5l6spagd7cv6s7wjl6w0ty8hx')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
     test(
       'query Params',
       async () => {

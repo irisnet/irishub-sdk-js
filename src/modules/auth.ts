@@ -2,6 +2,7 @@ import { Client } from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
 import { SdkError, CODES } from '../errors';
+import { ModelCreator } from '../helper';
 
 /**
  * Auth module is only used to build `StdTx`
@@ -66,7 +67,7 @@ export class Auth {
    * Account returns account details based on address.
    * @param address defines the address to query for.
    */
-  queryAccount(address:string): Promise<types.BaseAccount> {
+  queryAccount(address:string): Promise<object> {
     if (!address) {
       throw new SdkError("address can ont be empty");
     }
@@ -77,15 +78,36 @@ export class Auth {
       '/cosmos.auth.v1beta1.Query/Account',
       request,
       types.auth_query_pb.QueryAccountResponse
-    ).then((data)=>{
-      let result:any = {};
-      if (data && data.account && data.account.value) {
-        result = types.auth_auth_pb.BaseAccount.deserializeBinary(data.account.value).toObject();
-        if (result.pubKey && result.pubKey.value) {
-          result.pubKey = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(result.pubKey.value).toObject();
-        }
+    ).then((res)=>{
+      if (res && res.account) {
+        res.account = this.client.protobuf.deserializeAccount(res.account);
       }
-      return result as types.BaseAccount;
+      return res;
+    });
+  }
+
+  /**
+   * Accounts returns all the existing accounts
+   */
+   queryAccounts(
+    page_number:number = 1,
+    page_size:number = 10): Promise<object[]> {
+    
+    const request = new types.auth_query_pb.QueryAccountsRequest();
+    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true);
+    request.setPagination(pagination);
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.auth.v1beta1.Query/Accounts',
+      request,
+      types.auth_query_pb.QueryAccountsResponse
+    ).then((res)=>{
+      if (res && res.accountsList) {
+        res.accountsList = res.accountsList.map(((item:any) => {
+          return this.client.protobuf.deserializeAccount(item);
+        }));
+      }
+      return res;
     });
   }
 

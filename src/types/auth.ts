@@ -66,9 +66,3 @@ export interface StdSignMsg {
   memo: string;
   msgs: object[];
 }
-
-export interface BaseAccount {
-  address:string,
-  pubKey:{key:string},
-  accountNumber:number,
-  sequence:number}
