@@ -88,3 +88,6 @@ export const token_token_pb = require( './proto-types/irismod/token/token_pb');
 
 //any
 export const any_pb = require( './proto-types/google/protobuf/any_pb');
+
+//custom
+export const custom_base_pb = require( './proto-types/custom/base_pb.js');

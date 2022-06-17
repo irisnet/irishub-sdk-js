@@ -395,4 +395,21 @@ export class Protobuf {
     }
     return result;
   }
+
+  /**
+   * deserialize Global Account Number
+   * @param  {[type]} GlobalAccountNumber:string  base64 string
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} Global Account Number object                        
+   */
+   deserializeGlobalAccountNumber(GlobalAccountNumber: string, returnProtobufModel?: boolean): object{
+    if (!GlobalAccountNumber) {
+      throw new SdkError('Global Account Number can not be empty');
+    }
+    if (returnProtobufModel) {
+      return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber);
+    }else{
+      return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber).toObject();
+    }
+  }
 }

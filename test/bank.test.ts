@@ -112,7 +112,8 @@ describe('Bank Tests', () => {
         await BaseTest.getClient()
           .bank.queryTotalSupply({
             page_number: 2,
-            page_size: 8
+            page_size: 8,
+            count_total: false
           })
           .then(res => {
             console.log(JSON.stringify(res));
