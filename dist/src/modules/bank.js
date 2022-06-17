@@ -25,6 +25,8 @@ var types = _interopRequireWildcard(require("../types"));
 
 var _errors = require("../errors");
 
+var _helper = require("../helper");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -201,8 +203,9 @@ var Bank = /*#__PURE__*/function () {
 
   }, {
     key: "queryTotalSupply",
-    value: function queryTotalSupply() {
+    value: function queryTotalSupply(pagination) {
       var request = new types.bank_query_pb.QueryTotalSupplyRequest();
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/TotalSupply', request, types.bank_query_pb.QueryTotalSupplyResponse);
     }
     /**
@@ -230,6 +233,32 @@ var Bank = /*#__PURE__*/function () {
     value: function queryParams() {
       var request = new types.bank_query_pb.QueryParamsRequest();
       return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/Params', request, types.bank_query_pb.QueryParamsResponse);
+    }
+    /**
+     * DenomsMetadata queries the client metadata of a given coin denomination.
+     */
+
+  }, {
+    key: "queryDenomMetadata",
+    value: function queryDenomMetadata(denom) {
+      if (!denom) {
+        throw new _errors.SdkError("denom can ont be empty");
+      }
+
+      var request = new types.bank_query_pb.QueryDenomMetadataRequest();
+      request.setDenom(denom);
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/DenomMetadata', request, types.bank_query_pb.QueryDenomMetadataResponse);
+    }
+    /**
+     * DenomsMetadata queries the client metadata for all registered coin denominations.
+     */
+
+  }, {
+    key: "queryDenomsMetadata",
+    value: function queryDenomsMetadata(pagination) {
+      var request = new types.bank_query_pb.QueryDenomsMetadataRequest();
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
+      return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/DenomsMetadata', request, types.bank_query_pb.QueryDenomsMetadataResponse);
     }
   }]);
   return Bank;

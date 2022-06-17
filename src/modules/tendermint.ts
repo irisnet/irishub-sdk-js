@@ -1,7 +1,7 @@
 import { Client } from '../client';
 import * as types from '../types';
 import { RpcMethods } from '../types';
-import { Utils, Crypto } from '../utils';
+import { Utils, Crypto, StoreKeys } from '../utils';
 import * as hexEncoding from 'crypto-js/enc-hex';
 import * as base64Encoding from 'crypto-js/enc-base64';
 import { SdkError, CODES } from '../errors';
@@ -196,5 +196,21 @@ export class Tendermint {
     peers:any[]
   }> {
     return this.client.rpcClient.request<any>(RpcMethods.NetInfo, {});
+  }
+
+  /**
+   * Query global account number
+   * @param height Block height to query
+   * @returns
+   */
+   queryGlobalAccountNumber(height:number = 0): Promise<object> {
+    return this.client.rpcClient
+      .queryStore<any>(Uint8Array.from(StoreKeys.globalAccountNumberKey), 'acc', height)
+      .then(res => {
+        if (!res || !res.response || !res.response.value) {
+          throw new SdkError('query Global Account Number failed:', res);
+        }
+        return this.client.protobuf.deserializeGlobalAccountNumber(res.response.value);
+      });
   }
 }

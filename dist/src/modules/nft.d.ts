@@ -20,7 +20,15 @@ export declare class Nft {
      * @returns
      * @since v0.17
      */
-    issueDenom(id: string, name: string, schema: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    issueDenom(id: string, name: string, schema: string, option: {
+        symbol?: string;
+        mint_restricted?: boolean;
+        update_restricted?: boolean;
+        description?: string;
+        uri?: string;
+        uri_hash?: string;
+        data?: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * mint NFT
      * @param id string
@@ -33,7 +41,7 @@ export declare class Nft {
      * @returns
      * @since v0.17
      */
-    mintNft(id: string, denom_id: string, name: string, uri: string, data: string, recipient: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    mintNft(id: string, denom_id: string, name: string, uri: string, uri_hash: string, data: string, recipient: string, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * edit NFT
      * @param id string
@@ -47,6 +55,7 @@ export declare class Nft {
         name?: string;
         uri?: string;
         data?: string;
+        uri_hash?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * transfer NFT
@@ -62,6 +71,7 @@ export declare class Nft {
         name?: string;
         uri?: string;
         data?: string;
+        uri_hash?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * burn NFT

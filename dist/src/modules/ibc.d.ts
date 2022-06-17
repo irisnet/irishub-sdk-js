@@ -45,7 +45,7 @@ export declare class Ibc {
     /**
      * DenomTraces queries all denomination traces.
      */
-    queryDenomTraces(page_number?: number, page_size?: number): Promise<object>;
+    queryDenomTraces(pagination?: types.Pagination): Promise<object>;
     /**
      * Params queries all parameters of the ibc-transfer module.
      */
@@ -53,5 +53,5 @@ export declare class Ibc {
     /**
      * Channels queries all the IBC channels of a chain.
      */
-    queryChannels(page_number?: number, page_size?: number): Promise<object>;
+    queryChannels(pagination?: types.Pagination): Promise<object>;
 }

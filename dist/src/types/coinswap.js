@@ -74,23 +74,23 @@ var MsgAddLiquidity = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.max_token) {
-        throw new _errors.SdkError("max_token is  empty");
+        throw new _errors.SdkError("max_token is empty");
       }
 
       if (!this.value.exact_standard_amt) {
-        throw new _errors.SdkError("exact_standard_amt is  empty");
+        throw new _errors.SdkError("exact_standard_amt is empty");
       }
 
       if (!this.value.min_liquidity) {
-        throw new _errors.SdkError("min_liquidity is  empty");
+        throw new _errors.SdkError("min_liquidity is empty");
       }
 
       if (!this.value.deadline) {
-        throw new _errors.SdkError("deadline is  empty");
+        throw new _errors.SdkError("deadline is empty");
       }
 
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
     }
   }], [{
@@ -143,23 +143,23 @@ var MsgRemoveLiquidity = /*#__PURE__*/function (_Msg2) {
     key: "validate",
     value: function validate() {
       if (!this.value.withdraw_liquidity) {
-        throw new _errors.SdkError("withdraw_liquidity is  empty");
+        throw new _errors.SdkError("withdraw_liquidity is empty");
       }
 
       if (!this.value.min_token) {
-        throw new _errors.SdkError("min_token is  empty");
+        throw new _errors.SdkError("min_token is empty");
       }
 
       if (!this.value.min_standard_amt) {
-        throw new _errors.SdkError("min_standard_amt is  empty");
+        throw new _errors.SdkError("min_standard_amt is empty");
       }
 
       if (!this.value.deadline) {
-        throw new _errors.SdkError("deadline is  empty");
+        throw new _errors.SdkError("deadline is empty");
       }
 
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
     }
   }], [{
@@ -217,19 +217,19 @@ var MsgSwapOrder = /*#__PURE__*/function (_Msg3) {
     key: "validate",
     value: function validate() {
       if (!this.value.input) {
-        throw new _errors.SdkError("input is  empty");
+        throw new _errors.SdkError("input is empty");
       }
 
       if (!this.value.output) {
-        throw new _errors.SdkError("output is  empty");
+        throw new _errors.SdkError("output is empty");
       }
 
       if (!this.value.deadline) {
-        throw new _errors.SdkError("deadline is  empty");
+        throw new _errors.SdkError("deadline is empty");
       }
 
       if (!this.value.is_buy_order) {
-        throw new _errors.SdkError("is_buy_order is  empty");
+        throw new _errors.SdkError("is_buy_order is empty");
       }
     }
   }], [{

@@ -181,16 +181,14 @@ export class Distribution {
     validator_address:string,
     starting_height:number = 0,
     ending_height:number = 0,
-    page_number:number = 1,
-    page_size:number = 10
+    pagination?:types.Pagination
     ): Promise<object> {
     if (!validator_address) {
       throw new SdkError("validator_address can ont be empty");
     }
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true);
     const request = new types.distribution_query_pb.QueryValidatorSlashesRequest();
     request.setValidatorAddress(validator_address);
-    request.setPagination(pagination);
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     if (starting_height) {request.setStartingHeight(starting_height);}
     if (ending_height) {request.setEndingHeight(ending_height);}
 

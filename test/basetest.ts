@@ -1,3 +1,4 @@
+// support cosmos-sdk v0.44.x、 irismod 1.5.2、ibc 1.1.0
 import * as iris from '../src';
 import { Client } from '../src/client';
 

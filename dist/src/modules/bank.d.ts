@@ -47,7 +47,7 @@ export declare class Bank {
     /**
      * TotalSupply queries the total supply of all coins.
      */
-    queryTotalSupply(): Promise<object>;
+    queryTotalSupply(pagination?: types.Pagination): Promise<object>;
     /**
      * SupplyOf queries the supply of a single coin.
      * @param denom is the coin denom to query balances for.
@@ -57,4 +57,12 @@ export declare class Bank {
      * Params queries the parameters of x/bank module.
      */
     queryParams(): Promise<object>;
+    /**
+     * DenomsMetadata queries the client metadata of a given coin denomination.
+     */
+    queryDenomMetadata(denom: string): Promise<object>;
+    /**
+     * DenomsMetadata queries the client metadata for all registered coin denominations.
+     */
+    queryDenomsMetadata(pagination?: types.Pagination): Promise<object>;
 }

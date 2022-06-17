@@ -199,17 +199,14 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryDelegations",
     value: function queryDelegations(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           delegator_addr = query.delegator_addr;
 
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryDelegatorDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryDelegatorDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorDelegations', request, types.staking_query_pb.QueryDelegatorDelegationsResponse);
     }
     /**
@@ -247,17 +244,14 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryDelegatorUnbondingDelegations",
     value: function queryDelegatorUnbondingDelegations(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           delegator_addr = query.delegator_addr;
 
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations', request, types.staking_query_pb.QueryDelegatorUnbondingDelegationsResponse);
     }
     /**
@@ -273,10 +267,7 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryRedelegation",
     value: function queryRedelegation(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           delegator_addr = query.delegator_addr,
           src_validator_addr = query.src_validator_addr,
           dst_validator_addr = query.dst_validator_addr;
@@ -285,7 +276,7 @@ var Staking = /*#__PURE__*/function () {
         throw new _errors.SdkError('delegator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryRedelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryRedelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
 
       if (is.not.undefined(src_validator_addr)) {
         request.setSrcValidatorAddr(src_validator_addr);
@@ -309,17 +300,14 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryDelegatorValidators",
     value: function queryDelegatorValidators(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           delegator_addr = query.delegator_addr;
 
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryDelegatorValidatorsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryDelegatorValidatorsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorValidators', request, types.staking_query_pb.QueryDelegatorValidatorsResponse);
     }
     /**
@@ -380,17 +368,14 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryValidatorDelegations",
     value: function queryValidatorDelegations(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           validator_addr = query.validator_addr;
 
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryValidatorDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryValidatorDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/ValidatorDelegations', request, types.staking_query_pb.QueryValidatorDelegationsResponse);
     }
     /**
@@ -405,17 +390,14 @@ var Staking = /*#__PURE__*/function () {
   }, {
     key: "queryValidatorUnbondingDelegations",
     value: function queryValidatorUnbondingDelegations(query) {
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           validator_addr = query.validator_addr;
 
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
 
-      var request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/ValidatorUnbondingDelegations', request, types.staking_query_pb.QueryValidatorUnbondingDelegationsResponse);
     }
     /**
@@ -459,12 +441,9 @@ var Staking = /*#__PURE__*/function () {
     value: function queryValidators(query) {
       var _this2 = this;
 
-      var key = query.key,
-          page = query.page,
-          size = query.size,
-          count_total = query.count_total,
+      var pagination = query.pagination,
           status = query.status;
-      var request = new types.staking_query_pb.QueryValidatorsRequest().setPagination(_helper.ModelCreator.createPaginationModel(page, size, count_total, key));
+      var request = new types.staking_query_pb.QueryValidatorsRequest().setPagination(_helper.ModelCreator.createPaginationModel(pagination));
 
       if (is.not.undefined(status)) {
         request.setStatus(status);

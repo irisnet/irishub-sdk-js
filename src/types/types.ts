@@ -164,3 +164,12 @@ export interface Bech32Prefix {
   ConsAddr: string;
   ConsPub: string;
 }
+
+export interface Pagination {
+  page_number?: number,
+  page_size?: number,
+  count_total?: boolean,
+  reverse?: boolean,
+  key?:string
+}
+

@@ -60,4 +60,10 @@ export declare class Tendermint {
         n_peers: string;
         peers: any[];
     }>;
+    /**
+     * Query global account number
+     * @param height Block height to query
+     * @returns
+     */
+    queryGlobalAccountNumber(height?: number): Promise<object>;
 }

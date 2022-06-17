@@ -338,6 +338,36 @@ export class Protobuf {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} pubKey object                        
    */
+   deserializeAccount(account:{typeUrl:string, value:string}, returnProtobufModel?:boolean):object{
+    if (!account) {
+      throw new SdkError('account can not be empty');
+    }
+    let result:{typeUrl:string, value:any} = {...account};
+    switch(account.typeUrl){
+      case '/cosmos.auth.v1beta1.BaseAccount':
+      result.value = types.auth_auth_pb.BaseAccount.deserializeBinary(account.value);
+      break;
+      case '/cosmos.auth.v1beta1.ModuleAccount':
+      result.value = types.auth_auth_pb.ModuleAccount.deserializeBinary(account.value);
+      break;
+    }
+    if (!returnProtobufModel && result.value && result.value.toObject) {
+      result.value = result.value.toObject();
+      if (result.value?.baseAccount && result.value?.baseAccount?.pubKey) {
+        result.value.baseAccount.pubKey = this.deserializePubkey(result.value?.baseAccount?.pubKey);
+      }else if (result.value?.pubKey) {
+        result.value.pubKey = this.deserializePubkey(result.value?.pubKey);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * deserialize Pubkey
+   * @param  {[type]} pubKey:{typeUrl:string, value:string}
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} pubKey object                        
+   */
   deserializePubkey(pubKey:{typeUrl:string, value:string}, returnProtobufModel?:boolean):object{
     if (!pubKey) {
       throw new SdkError('pubKey can not be empty');
@@ -347,13 +377,39 @@ export class Protobuf {
       case '/cosmos.crypto.ed25519.PubKey':
       result.value = types.crypto_ed25519_keys_pb.PubKey.deserializeBinary(pubKey.value);
       break;
+      case '/cosmos.crypto.multisig.LegacyAminoPubKey':
+      result.value = types.crypto_multisig_keys_pb.LegacyAminoPubKey.deserializeBinary(pubKey.value);
+      break;
       case '/cosmos.crypto.secp256k1.PubKey':
       result.value = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+      break;
+      case '/cosmos.crypto.secp256r1.PubKey':
+      result.value = types.crypto_secp256r1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+      break;
+      case '/cosmos.crypto.sm2.PubKey':
+      result.value = types.crypto_sm2_keys_pb.PubKey.deserializeBinary(pubKey.value);
       break;
     }
     if (!returnProtobufModel && result.value && result.value.toObject) {
       result.value = result.value.toObject();
     }
     return result;
+  }
+
+  /**
+   * deserialize Global Account Number
+   * @param  {[type]} GlobalAccountNumber:string  base64 string
+   * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+   * @return {[type]} Global Account Number object                        
+   */
+   deserializeGlobalAccountNumber(GlobalAccountNumber: string, returnProtobufModel?: boolean): object{
+    if (!GlobalAccountNumber) {
+      throw new SdkError('Global Account Number can not be empty');
+    }
+    if (returnProtobufModel) {
+      return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber);
+    }else{
+      return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber).toObject();
+    }
   }
 }

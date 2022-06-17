@@ -21,6 +21,8 @@ var is = _interopRequireWildcard(require("is_js"));
 
 var _errors = require("../errors");
 
+var _helper = require("../helper");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -97,24 +99,41 @@ var Auth = /*#__PURE__*/function () {
   }, {
     key: "queryAccount",
     value: function queryAccount(address) {
+      var _this = this;
+
       if (!address) {
         throw new _errors.SdkError("address can ont be empty");
       }
 
       var request = new types.auth_query_pb.QueryAccountRequest();
       request.setAddress(address);
-      return this.client.rpcClient.protoQuery('/cosmos.auth.v1beta1.Query/Account', request, types.auth_query_pb.QueryAccountResponse).then(function (data) {
-        var result = {};
-
-        if (data && data.account && data.account.value) {
-          result = types.auth_auth_pb.BaseAccount.deserializeBinary(data.account.value).toObject();
-
-          if (result.pubKey && result.pubKey.value) {
-            result.pubKey = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(result.pubKey.value).toObject();
-          }
+      return this.client.rpcClient.protoQuery('/cosmos.auth.v1beta1.Query/Account', request, types.auth_query_pb.QueryAccountResponse).then(function (res) {
+        if (res && res.account) {
+          res.account = _this.client.protobuf.deserializeAccount(res.account);
         }
 
-        return result;
+        return res;
+      });
+    }
+    /**
+     * Accounts returns all the existing accounts
+     */
+
+  }, {
+    key: "queryAccounts",
+    value: function queryAccounts(pagination) {
+      var _this2 = this;
+
+      var request = new types.auth_query_pb.QueryAccountsRequest();
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
+      return this.client.rpcClient.protoQuery('/cosmos.auth.v1beta1.Query/Accounts', request, types.auth_query_pb.QueryAccountsResponse).then(function (res) {
+        if (res && res.accountsList) {
+          res.accountsList = res.accountsList.map(function (item) {
+            return _this2.client.protobuf.deserializeAccount(item);
+          });
+        }
+
+        return res;
       });
     }
     /**

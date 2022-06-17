@@ -184,9 +184,15 @@ var Tx = /*#__PURE__*/function () {
             privKey,
             accountNumber,
             sequence,
+            _accountData$account,
+            accountData,
+            account,
+            _account$baseAccount$,
+            _account$baseAccount,
+            _account$baseAccount$2,
+            _account$baseAccount2,
             _account$accountNumbe,
             _account$sequence,
-            account,
             _sequence,
             pubKey,
             signature,
@@ -246,7 +252,7 @@ var Tx = /*#__PURE__*/function () {
                 sequence = baseTx.sequence; // Query account info from block chain
 
                 if (!((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline)) {
-                  _context2.next = 21;
+                  _context2.next = 20;
                   break;
                 }
 
@@ -254,11 +260,22 @@ var Tx = /*#__PURE__*/function () {
                 return this.client.auth.queryAccount(keyObj.address);
 
               case 18:
-                account = _context2.sent;
-                accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
-                sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
+                accountData = _context2.sent;
 
-              case 21:
+                if (accountData !== null && accountData !== void 0 && (_accountData$account = accountData.account) !== null && _accountData$account !== void 0 && _accountData$account.value) {
+                  account = accountData.account.value;
+
+                  if (account !== null && account !== void 0 && account.baseAccount) {
+                    // ModuleAccount
+                    accountNumber = (_account$baseAccount$ = account === null || account === void 0 ? void 0 : (_account$baseAccount = account.baseAccount) === null || _account$baseAccount === void 0 ? void 0 : _account$baseAccount.accountNumber) !== null && _account$baseAccount$ !== void 0 ? _account$baseAccount$ : 0;
+                    sequence = (_account$baseAccount$2 = account === null || account === void 0 ? void 0 : (_account$baseAccount2 = account.baseAccount) === null || _account$baseAccount2 === void 0 ? void 0 : _account$baseAccount2.sequence) !== null && _account$baseAccount$2 !== void 0 ? _account$baseAccount$2 : 0;
+                  } else {
+                    accountNumber = (_account$accountNumbe = account.accountNumber) !== null && _account$accountNumbe !== void 0 ? _account$accountNumbe : 0;
+                    sequence = (_account$sequence = account.sequence) !== null && _account$sequence !== void 0 ? _account$sequence : 0;
+                  }
+                }
+
+              case 20:
                 if (!stdTx.hasPubKey()) {
                   pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                   stdTx.setPubKey(pubKey, (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : undefined);
@@ -268,7 +285,7 @@ var Tx = /*#__PURE__*/function () {
                 stdTx.addSignature(signature);
                 return _context2.abrupt("return", stdTx);
 
-              case 25:
+              case 24:
               case "end":
                 return _context2.stop();
             }

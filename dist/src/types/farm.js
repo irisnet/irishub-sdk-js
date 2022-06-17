@@ -63,7 +63,7 @@ var MsgStake = /*#__PURE__*/function (_Msg) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
       msg.setSender(this.value.sender);
       return msg;
@@ -72,15 +72,15 @@ var MsgStake = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.pool_id) {
-        throw new _errors.SdkError("pool_id is  empty");
+        throw new _errors.SdkError("pool_id is empty");
       }
 
       if (!this.value.amount) {
-        throw new _errors.SdkError("amount is  empty");
+        throw new _errors.SdkError("amount is empty");
       }
 
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
     }
   }], [{
@@ -119,7 +119,7 @@ var MsgUnstake = /*#__PURE__*/function (_Msg2) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
       msg.setSender(this.value.sender);
       return msg;
@@ -128,15 +128,15 @@ var MsgUnstake = /*#__PURE__*/function (_Msg2) {
     key: "validate",
     value: function validate() {
       if (!this.value.pool_id) {
-        throw new _errors.SdkError("pool_id is  empty");
+        throw new _errors.SdkError("pool_id is empty");
       }
 
       if (!this.value.amount) {
-        throw new _errors.SdkError("amount is  empty");
+        throw new _errors.SdkError("amount is empty");
       }
 
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
     }
   }], [{
@@ -174,7 +174,7 @@ var MsgHarvest = /*#__PURE__*/function (_Msg3) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setPoolName(this.value.pool_id);
+      msg.setPoolId(this.value.pool_id);
       msg.setSender(this.value.sender);
       return msg;
     }
@@ -182,11 +182,11 @@ var MsgHarvest = /*#__PURE__*/function (_Msg3) {
     key: "validate",
     value: function validate() {
       if (!this.value.pool_id) {
-        throw new _errors.SdkError("pool_id is  empty");
+        throw new _errors.SdkError("pool_id is empty");
       }
 
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
     }
   }], [{

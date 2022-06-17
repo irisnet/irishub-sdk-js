@@ -71,7 +71,7 @@ var ProtoTx = /*#__PURE__*/function () {
      */
     function addSignature(signature) {
       if (!signature || !signature.length) {
-        throw new _errors.SdkError("signature is  empty", _errors.CODES.NoSignatures);
+        throw new _errors.SdkError("signature is empty", _errors.CODES.NoSignatures);
       }
 
       this.signatures.push(signature);
@@ -110,11 +110,11 @@ var ProtoTx = /*#__PURE__*/function () {
       }
 
       if (typeof account_number == 'undefined' && typeof this.txData.account_number == 'undefined') {
-        throw new _errors.SdkError("account_number is  empty", _errors.CODES.IncorrectAccountSequence);
+        throw new _errors.SdkError("account_number is empty", _errors.CODES.IncorrectAccountSequence);
       }
 
       if (!chain_id && !this.txData.chain_id) {
-        throw new _errors.SdkError("chain_id is  empty", _errors.CODES.InvalidChainId);
+        throw new _errors.SdkError("chain_id is empty", _errors.CODES.InvalidChainId);
       }
 
       var signDoc = new types.tx_tx_pb.SignDoc();

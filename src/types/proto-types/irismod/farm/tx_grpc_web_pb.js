@@ -19,6 +19,8 @@ grpc.web = require('grpc-web');
 var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js')
 
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
+
+var irismod_farm_farm_pb = require('../../irismod/farm/farm_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.farm = require('./tx_pb.js');
@@ -152,6 +154,86 @@ proto.irismod.farm.MsgPromiseClient.prototype.createPool =
       request,
       metadata || {},
       methodDescriptor_Msg_CreatePool);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.farm.MsgCreatePoolWithCommunityPool,
+ *   !proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse>}
+ */
+const methodDescriptor_Msg_CreatePoolWithCommunityPool = new grpc.web.MethodDescriptor(
+  '/irismod.farm.Msg/CreatePoolWithCommunityPool',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.farm.MsgCreatePoolWithCommunityPool,
+  proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse,
+  /**
+   * @param {!proto.irismod.farm.MsgCreatePoolWithCommunityPool} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.farm.MsgCreatePoolWithCommunityPool,
+ *   !proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse>}
+ */
+const methodInfo_Msg_CreatePoolWithCommunityPool = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse,
+  /**
+   * @param {!proto.irismod.farm.MsgCreatePoolWithCommunityPool} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.farm.MsgCreatePoolWithCommunityPool} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.farm.MsgClient.prototype.createPoolWithCommunityPool =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.farm.Msg/CreatePoolWithCommunityPool',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_CreatePoolWithCommunityPool,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.farm.MsgCreatePoolWithCommunityPool} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.farm.MsgCreatePoolWithCommunityPoolResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.farm.MsgPromiseClient.prototype.createPoolWithCommunityPool =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.farm.Msg/CreatePoolWithCommunityPool',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_CreatePoolWithCommunityPool);
 };
 
 

@@ -56,16 +56,16 @@ export class MsgTransfer extends Msg {
 
   validate() {
     if (!this.value.source_port) {
-      throw new SdkError("source_port is  empty");
+      throw new SdkError("source_port is empty");
     }
     if (!this.value.source_channel) {
-      throw new SdkError("source_channel is  empty");
+      throw new SdkError("source_channel is empty");
     }
     if (!this.value.token) {
-      throw new SdkError("token is  empty");
+      throw new SdkError("token is empty");
     }
     if (!this.value.receiver) {
-      throw new SdkError("receiver is  empty");
+      throw new SdkError("receiver is empty");
     }
     if (!this.value.timeout_height && !this.value.timeout_timestamp) {
       throw new SdkError("there must be one timeout_height or timeout_timestamp");

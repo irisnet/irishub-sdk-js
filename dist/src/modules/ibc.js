@@ -129,14 +129,9 @@ var Ibc = /*#__PURE__*/function () {
 
   }, {
     key: "queryDenomTraces",
-    value: function queryDenomTraces() {
-      var page_number = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var page_size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
-
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
+    value: function queryDenomTraces(pagination) {
       var request = new types.ibc_transfer_query_pb.QueryDenomTracesRequest();
-      request.setPagination(pagination);
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/ibc.applications.transfer.v1.Query/DenomTraces', request, types.ibc_transfer_query_pb.QueryDenomTracesResponse);
     }
     /**
@@ -155,14 +150,9 @@ var Ibc = /*#__PURE__*/function () {
 
   }, {
     key: "queryChannels",
-    value: function queryChannels() {
-      var page_number = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var page_size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
-
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
+    value: function queryChannels(pagination) {
       var request = new types.ibc_channel_query_pb.QueryChannelsRequest();
-      request.setPagination(pagination);
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/ibc.core.channel.v1.Query/Channels', request, types.ibc_channel_query_pb.QueryChannelsResponse);
     }
   }]);

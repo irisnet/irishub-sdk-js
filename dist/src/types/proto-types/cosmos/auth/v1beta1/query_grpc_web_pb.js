@@ -16,6 +16,8 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
+var cosmos_base_query_v1beta1_pagination_pb = require('../../../cosmos/base/query/v1beta1/pagination_pb.js')
+
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 
 var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js')
@@ -79,6 +81,86 @@ proto.cosmos.auth.v1beta1.QueryPromiseClient =
    */
   this.hostname_ = hostname;
 
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.auth.v1beta1.QueryAccountsRequest,
+ *   !proto.cosmos.auth.v1beta1.QueryAccountsResponse>}
+ */
+const methodDescriptor_Query_Accounts = new grpc.web.MethodDescriptor(
+  '/cosmos.auth.v1beta1.Query/Accounts',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.auth.v1beta1.QueryAccountsRequest,
+  proto.cosmos.auth.v1beta1.QueryAccountsResponse,
+  /**
+   * @param {!proto.cosmos.auth.v1beta1.QueryAccountsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.auth.v1beta1.QueryAccountsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.auth.v1beta1.QueryAccountsRequest,
+ *   !proto.cosmos.auth.v1beta1.QueryAccountsResponse>}
+ */
+const methodInfo_Query_Accounts = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.auth.v1beta1.QueryAccountsResponse,
+  /**
+   * @param {!proto.cosmos.auth.v1beta1.QueryAccountsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.auth.v1beta1.QueryAccountsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.auth.v1beta1.QueryAccountsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.auth.v1beta1.QueryAccountsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.auth.v1beta1.QueryAccountsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.auth.v1beta1.QueryClient.prototype.accounts =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.auth.v1beta1.Query/Accounts',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Accounts,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.auth.v1beta1.QueryAccountsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.auth.v1beta1.QueryAccountsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.auth.v1beta1.QueryPromiseClient.prototype.accounts =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.auth.v1beta1.Query/Accounts',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Accounts);
 };
 
 

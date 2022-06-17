@@ -30,6 +30,15 @@ export class Nft {
     id: string,
     name: string,
     schema: string,
+    option:{
+      symbol?: string,
+      mint_restricted?: boolean,
+      update_restricted?: boolean,
+      description?: string,
+      uri?: string,
+      uri_hash?: string,
+      data?: string,
+    },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const sender = this.client.keys.show(baseTx.from);
@@ -40,7 +49,8 @@ export class Nft {
           id,
           name,
           schema,
-          sender
+          sender,
+          ...option
         }
       }
     ];
@@ -64,6 +74,7 @@ export class Nft {
     denom_id:string,
     name: string,
     uri:string,
+    uri_hash: string,
     data:string,
     recipient: string,
     baseTx: types.BaseTx
@@ -84,6 +95,7 @@ export class Nft {
           denom_id,
           name,
           uri,
+          uri_hash,
           data,
           sender,
           recipient
@@ -105,7 +117,7 @@ export class Nft {
   async editNft(
     id: string,
     denom_id:string,
-    new_property:{name?:string, uri?:string, data?:string},
+    new_property:{name?:string, uri?:string, data?:string, uri_hash?: string},
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     const sender = this.client.keys.show(baseTx.from);
@@ -137,7 +149,7 @@ export class Nft {
     id: string,
     denom_id:string,
     recipient:string,
-    new_property:{name?:string, uri?:string, data?:string},
+    new_property:{name?:string, uri?:string, data?:string, uri_hash?: string,},
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {
     if (recipient && !Crypto.checkAddress(recipient, this.client.config.bech32Prefix.AccAddr)) {

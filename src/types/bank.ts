@@ -35,13 +35,13 @@ export class MsgSend extends Msg {
 
   validate() {
     if (!this.value.from_address) {
-      throw new SdkError("from_address is  empty");
+      throw new SdkError("from_address is empty");
     }
     if (!this.value.to_address) {
-      throw new SdkError("to_address is  empty");
+      throw new SdkError("to_address is empty");
     }
     if (!(this.value.amount && this.value.amount.length)) {
-      throw new SdkError("amount is  empty");
+      throw new SdkError("amount is empty");
     }
   }
 }
@@ -92,7 +92,7 @@ export class MsgMultiSend extends Msg {
       throw new SdkError("inputs is empty");
     }
     if (!this.value.outputs) {
-      throw new SdkError("outputs is  empty");
+      throw new SdkError("outputs is empty");
     }
   }
 }

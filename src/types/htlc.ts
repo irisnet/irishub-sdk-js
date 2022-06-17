@@ -53,31 +53,31 @@ export class MsgCreateHTLC extends Msg {
 
   validate() {
     if (!this.value.sender) {
-      throw new SdkError("sender is  empty");
+      throw new SdkError("sender is empty");
     }
     if (!this.value.to) {
-      throw new SdkError("to is  empty");
+      throw new SdkError("to is empty");
     }
     if (!this.value.receiver_on_other_chain) {
-      throw new SdkError("receiver_on_other_chain is  empty");
+      throw new SdkError("receiver_on_other_chain is empty");
     }
     if (!this.value.sender_on_other_chain) {
-      throw new SdkError("sender_on_other_chain is  empty");
+      throw new SdkError("sender_on_other_chain is empty");
     }
     if (!this.value.hash_lock) {
-      throw new SdkError("hash_lock is  empty");
+      throw new SdkError("hash_lock is empty");
     }
     if (!this.value.timestamp) {
-      throw new SdkError("timestamp is  empty");
+      throw new SdkError("timestamp is empty");
     }
     if (!this.value.time_lock) {
-      throw new SdkError("time_lock is  empty");
+      throw new SdkError("time_lock is empty");
     }
     if (typeof this.value.transfer == 'undefined') {
-      throw new SdkError("transfer is  empty");
+      throw new SdkError("transfer is empty");
     }
     if (!(this.value.amount && this.value.amount.length)) {
-      throw new SdkError("amount is  empty");
+      throw new SdkError("amount is empty");
     }
   }
 }
@@ -118,13 +118,13 @@ export class MsgClaimHTLC extends Msg {
 
   validate() {
     if (!this.value.sender) {
-      throw new SdkError("sender is  empty");
+      throw new SdkError("sender is empty");
     }
     if (!this.value.id) {
-      throw new SdkError("id is  empty");
+      throw new SdkError("id is empty");
     }
     if (!this.value.secret) {
-      throw new SdkError("secret is  empty");
+      throw new SdkError("secret is empty");
     }
   }
 }

@@ -2,6 +2,7 @@ import { Client } from '../client';
 import { Crypto } from '../utils/crypto';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
+import { ModelCreator } from '../helper';
 
 /**
  * This module is mainly used to transfer coins between accounts,
@@ -128,14 +129,16 @@ export class Bank {
   /**
    * TotalSupply queries the total supply of all coins.
    */
-  queryTotalSupply(): Promise<object> {
+  queryTotalSupply(pagination?:types.Pagination): Promise<object> {
     const request = new types.bank_query_pb.QueryTotalSupplyRequest();
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.bank.v1beta1.Query/TotalSupply',
       request,
       types.bank_query_pb.QueryTotalSupplyResponse
     );
   }
+
 
   /**
    * SupplyOf queries the supply of a single coin.
@@ -163,6 +166,36 @@ export class Bank {
       '/cosmos.bank.v1beta1.Query/Params',
       request,
       types.bank_query_pb.QueryParamsResponse
+    );
+  }
+
+  /**
+   * DenomsMetadata queries the client metadata of a given coin denomination.
+   */
+   queryDenomMetadata(denom:string): Promise<object> {
+    if (!denom) {
+      throw new SdkError("denom can ont be empty");
+    }
+    const request = new types.bank_query_pb.QueryDenomMetadataRequest();
+    request.setDenom(denom);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/DenomMetadata',
+      request,
+      types.bank_query_pb.QueryDenomMetadataResponse
+    );
+  }
+
+  /**
+   * DenomsMetadata queries the client metadata for all registered coin denominations.
+   */
+   queryDenomsMetadata(pagination?:types.Pagination): Promise<object> {
+    const request = new types.bank_query_pb.QueryDenomsMetadataRequest();
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
+
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.bank.v1beta1.Query/DenomsMetadata',
+      request,
+      types.bank_query_pb.QueryDenomsMetadataResponse
     );
   }
 }

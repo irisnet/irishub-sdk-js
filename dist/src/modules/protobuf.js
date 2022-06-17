@@ -474,6 +474,50 @@ var Protobuf = /*#__PURE__*/function () {
      */
 
   }, {
+    key: "deserializeAccount",
+    value: function deserializeAccount(account, returnProtobufModel) {
+      if (!account) {
+        throw new _errors.SdkError('account can not be empty');
+      }
+
+      var result = _objectSpread({}, account);
+
+      switch (account.typeUrl) {
+        case '/cosmos.auth.v1beta1.BaseAccount':
+          result.value = types.auth_auth_pb.BaseAccount.deserializeBinary(account.value);
+          break;
+
+        case '/cosmos.auth.v1beta1.ModuleAccount':
+          result.value = types.auth_auth_pb.ModuleAccount.deserializeBinary(account.value);
+          break;
+      }
+
+      if (!returnProtobufModel && result.value && result.value.toObject) {
+        var _result$value, _result$value2, _result$value2$baseAc, _result$value4;
+
+        result.value = result.value.toObject();
+
+        if ((_result$value = result.value) !== null && _result$value !== void 0 && _result$value.baseAccount && (_result$value2 = result.value) !== null && _result$value2 !== void 0 && (_result$value2$baseAc = _result$value2.baseAccount) !== null && _result$value2$baseAc !== void 0 && _result$value2$baseAc.pubKey) {
+          var _result$value3, _result$value3$baseAc;
+
+          result.value.baseAccount.pubKey = this.deserializePubkey((_result$value3 = result.value) === null || _result$value3 === void 0 ? void 0 : (_result$value3$baseAc = _result$value3.baseAccount) === null || _result$value3$baseAc === void 0 ? void 0 : _result$value3$baseAc.pubKey);
+        } else if ((_result$value4 = result.value) !== null && _result$value4 !== void 0 && _result$value4.pubKey) {
+          var _result$value5;
+
+          result.value.pubKey = this.deserializePubkey((_result$value5 = result.value) === null || _result$value5 === void 0 ? void 0 : _result$value5.pubKey);
+        }
+      }
+
+      return result;
+    }
+    /**
+     * deserialize Pubkey
+     * @param  {[type]} pubKey:{typeUrl:string, value:string}
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} pubKey object                        
+     */
+
+  }, {
     key: "deserializePubkey",
     value: function deserializePubkey(pubKey, returnProtobufModel) {
       if (!pubKey) {
@@ -487,8 +531,20 @@ var Protobuf = /*#__PURE__*/function () {
           result.value = types.crypto_ed25519_keys_pb.PubKey.deserializeBinary(pubKey.value);
           break;
 
+        case '/cosmos.crypto.multisig.LegacyAminoPubKey':
+          result.value = types.crypto_multisig_keys_pb.LegacyAminoPubKey.deserializeBinary(pubKey.value);
+          break;
+
         case '/cosmos.crypto.secp256k1.PubKey':
           result.value = types.crypto_secp256k1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+          break;
+
+        case '/cosmos.crypto.secp256r1.PubKey':
+          result.value = types.crypto_secp256r1_keys_pb.PubKey.deserializeBinary(pubKey.value);
+          break;
+
+        case '/cosmos.crypto.sm2.PubKey':
+          result.value = types.crypto_sm2_keys_pb.PubKey.deserializeBinary(pubKey.value);
           break;
       }
 
@@ -497,6 +553,26 @@ var Protobuf = /*#__PURE__*/function () {
       }
 
       return result;
+    }
+    /**
+     * deserialize Global Account Number
+     * @param  {[type]} GlobalAccountNumber:string  base64 string
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} Global Account Number object                        
+     */
+
+  }, {
+    key: "deserializeGlobalAccountNumber",
+    value: function deserializeGlobalAccountNumber(GlobalAccountNumber, returnProtobufModel) {
+      if (!GlobalAccountNumber) {
+        throw new _errors.SdkError('Global Account Number can not be empty');
+      }
+
+      if (returnProtobufModel) {
+        return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber);
+      } else {
+        return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber).toObject();
+      }
     }
   }]);
   return Protobuf;

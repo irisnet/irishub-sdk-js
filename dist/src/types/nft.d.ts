@@ -7,6 +7,13 @@ export interface IssueDenomParam {
     name: string;
     schema: string;
     sender: string;
+    symbol?: string;
+    mint_restricted?: boolean;
+    update_restricted?: boolean;
+    description?: string;
+    uri?: string;
+    uri_hash?: string;
+    data?: string;
 }
 /**
  * Msg for issue denom
@@ -31,6 +38,7 @@ export interface MintNFTParam {
     data: string;
     sender: string;
     recipient: string;
+    uri_hash: string;
 }
 /**
  * Msg for Mint NFT
@@ -53,6 +61,7 @@ export interface EditNFTParam {
     name?: string;
     uri?: string;
     data?: string;
+    uri_hash?: string;
     sender: string;
 }
 /**
@@ -76,6 +85,7 @@ export interface TransferNFTParam {
     name?: string;
     uri?: string;
     data?: string;
+    uri_hash?: string;
     sender: string;
     recipient: string;
 }

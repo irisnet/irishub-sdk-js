@@ -187,9 +187,10 @@ describe('Staking Tests', () => {
     test('query all validators', async () => {
       await BaseTest.getClient()
         .staking.queryValidators({
-          page:1,
-          size:100,
-          count_total:true,
+          pagination:{
+            page_number: 2,
+            page_size: 8
+          },
           //status:'Bonded',
         })
         .then(res => {

@@ -31,7 +31,11 @@ export declare class Auth {
      * Account returns account details based on address.
      * @param address defines the address to query for.
      */
-    queryAccount(address: string): Promise<types.BaseAccount>;
+    queryAccount(address: string): Promise<object>;
+    /**
+     * Accounts returns all the existing accounts
+     */
+    queryAccounts(pagination?: types.Pagination): Promise<object[]>;
     /**
      * Params queries all parameters.
      */

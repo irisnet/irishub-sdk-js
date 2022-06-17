@@ -47,6 +47,7 @@ export const random_query_pb = require( './proto-types/irismod/random/query_pb')
 export const record_query_pb = require( './proto-types/irismod/record/query_pb');
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
 export const token_query_pb = require( './proto-types/irismod/token/query_pb');
+export const farm_query_pb = require( './proto-types/irismod/farm/query_pb');
 
 //ibc query
 export const ibc_transfer_query_pb= require( './proto-types/ibc/applications/transfer/v1/query_pb');
@@ -55,9 +56,13 @@ export const ibc_channel_query_pb= require( './proto-types/ibc/core/channel/v1/q
 /***************MODULES***************/
 //cosmos module
 export const auth_auth_pb = require( './proto-types/cosmos/auth/v1beta1/auth_pb');
-export const crypto_secp256k1_keys_pb = require( './proto-types/cosmos/crypto/secp256k1/keys_pb');
+// ->keys
 export const crypto_ed25519_keys_pb = require( './proto-types/cosmos/crypto/ed25519/keys_pb');
+export const crypto_multisig_keys_pb = require( './proto-types/cosmos/crypto/multisig/keys_pb');
+export const crypto_secp256k1_keys_pb = require( './proto-types/cosmos/crypto/secp256k1/keys_pb');
+export const crypto_secp256r1_keys_pb = require( './proto-types/cosmos/crypto/secp256r1/keys_pb');
 export const crypto_sm2_keys_pb = require( './proto-types/cosmos/crypto/sm2/keys_pb');
+// ->coin
 export const base_coin_pb = require('./proto-types/cosmos/base/v1beta1/coin_pb');
 export const signing_signing_pb = require('./proto-types/cosmos/tx/signing/v1beta1/signing_pb');
 export const gov_gov_pb = require( './proto-types/cosmos/gov/v1beta1/gov_pb');
@@ -83,3 +88,6 @@ export const token_token_pb = require( './proto-types/irismod/token/token_pb');
 
 //any
 export const any_pb = require( './proto-types/google/protobuf/any_pb');
+
+//custom
+export const custom_base_pb = require( './proto-types/custom/base_pb.js');

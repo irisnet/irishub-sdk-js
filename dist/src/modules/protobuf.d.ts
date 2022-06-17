@@ -79,8 +79,25 @@ export declare class Protobuf {
      * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
      * @return {[type]} pubKey object
      */
+    deserializeAccount(account: {
+        typeUrl: string;
+        value: string;
+    }, returnProtobufModel?: boolean): object;
+    /**
+     * deserialize Pubkey
+     * @param  {[type]} pubKey:{typeUrl:string, value:string}
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} pubKey object
+     */
     deserializePubkey(pubKey: {
         typeUrl: string;
         value: string;
     }, returnProtobufModel?: boolean): object;
+    /**
+     * deserialize Global Account Number
+     * @param  {[type]} GlobalAccountNumber:string  base64 string
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} Global Account Number object
+     */
+    deserializeGlobalAccountNumber(GlobalAccountNumber: string, returnProtobufModel?: boolean): object;
 }

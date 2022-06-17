@@ -51,7 +51,7 @@ export class ProtoTx {
      */
     addSignature(signature:string){
         if (!signature || !signature.length) {
-            throw new SdkError("signature is  empty",CODES.NoSignatures);
+            throw new SdkError("signature is empty",CODES.NoSignatures);
         }
         this.signatures.push(signature);
     }
@@ -79,10 +79,10 @@ export class ProtoTx {
             throw new SdkError("please set pubKey",CODES.InvalidPubkey);
         }
         if ( typeof account_number == 'undefined' && typeof this.txData.account_number == 'undefined') {
-            throw new SdkError("account_number is  empty",CODES.IncorrectAccountSequence);
+            throw new SdkError("account_number is empty",CODES.IncorrectAccountSequence);
         }
         if (!chain_id && !this.txData.chain_id) {
-            throw new SdkError("chain_id is  empty",CODES.InvalidChainId);
+            throw new SdkError("chain_id is empty",CODES.InvalidChainId);
         }
         let signDoc = new types.tx_tx_pb.SignDoc();
         signDoc.setBodyBytes(this.body.serializeBinary());

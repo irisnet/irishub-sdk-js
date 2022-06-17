@@ -32,7 +32,7 @@ export class MsgStake extends Msg {
 
     getModel(): any {
         let msg = new ((this.constructor as any).getModelClass())();
-        msg.setPoolName(this.value.pool_id);
+        msg.setPoolId(this.value.pool_id);
         msg.setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         msg.setSender(this.value.sender);
         return msg;
@@ -40,13 +40,13 @@ export class MsgStake extends Msg {
 
     validate() {
         if (!this.value.pool_id) {
-            throw new SdkError("pool_id is  empty");
+            throw new SdkError("pool_id is empty");
         }
         if (!this.value.amount) {
-            throw new SdkError("amount is  empty");
+            throw new SdkError("amount is empty");
         }
         if (!this.value.sender) {
-            throw new SdkError("sender is  empty");
+            throw new SdkError("sender is empty");
         }
     }
 }
@@ -71,7 +71,7 @@ export class MsgUnstake extends Msg {
 
     getModel(): any {
         let msg = new ((this.constructor as any).getModelClass())();
-        msg.setPoolName(this.value.pool_id);
+        msg.setPoolId(this.value.pool_id);
         msg.setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
         msg.setSender(this.value.sender);
         return msg;
@@ -79,13 +79,13 @@ export class MsgUnstake extends Msg {
 
     validate() {
         if (!this.value.pool_id) {
-            throw new SdkError("pool_id is  empty");
+            throw new SdkError("pool_id is empty");
         }
         if (!this.value.amount) {
-            throw new SdkError("amount is  empty");
+            throw new SdkError("amount is empty");
         }
         if (!this.value.sender) {
-            throw new SdkError("sender is  empty");
+            throw new SdkError("sender is empty");
         }
     }
 }
@@ -115,17 +115,17 @@ export class MsgHarvest extends Msg {
 
     getModel(): any {
         let msg = new ((this.constructor as any).getModelClass())();
-        msg.setPoolName(this.value.pool_id);
+        msg.setPoolId(this.value.pool_id);
         msg.setSender(this.value.sender);
         return msg;
     }
 
     validate() {
         if (!this.value.pool_id) {
-            throw new SdkError("pool_id is  empty");
+            throw new SdkError("pool_id is empty");
         }
         if (!this.value.sender) {
-            throw new SdkError("sender is  empty");
+            throw new SdkError("sender is empty");
         }
     }
 }

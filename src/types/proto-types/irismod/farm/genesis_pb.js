@@ -44,7 +44,7 @@ if (goog.DEBUG && !COMPILED) {
  * @private {!Array<number>}
  * @const
  */
-proto.irismod.farm.GenesisState.repeatedFields_ = [2,3];
+proto.irismod.farm.GenesisState.repeatedFields_ = [2,3,5];
 
 
 
@@ -81,7 +81,10 @@ proto.irismod.farm.GenesisState.toObject = function(includeInstance, msg) {
     poolsList: jspb.Message.toObjectList(msg.getPoolsList(),
     irismod_farm_farm_pb.FarmPool.toObject, includeInstance),
     farmInfosList: jspb.Message.toObjectList(msg.getFarmInfosList(),
-    irismod_farm_farm_pb.FarmInfo.toObject, includeInstance)
+    irismod_farm_farm_pb.FarmInfo.toObject, includeInstance),
+    sequence: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    escrowList: jspb.Message.toObjectList(msg.getEscrowList(),
+    irismod_farm_farm_pb.EscrowInfo.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -132,6 +135,15 @@ proto.irismod.farm.GenesisState.deserializeBinaryFromReader = function(msg, read
       var value = new irismod_farm_farm_pb.FarmInfo;
       reader.readMessage(value,irismod_farm_farm_pb.FarmInfo.deserializeBinaryFromReader);
       msg.addFarmInfos(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readUint64());
+      msg.setSequence(value);
+      break;
+    case 5:
+      var value = new irismod_farm_farm_pb.EscrowInfo;
+      reader.readMessage(value,irismod_farm_farm_pb.EscrowInfo.deserializeBinaryFromReader);
+      msg.addEscrow(value);
       break;
     default:
       reader.skipField();
@@ -184,6 +196,21 @@ proto.irismod.farm.GenesisState.serializeBinaryToWriter = function(message, writ
       3,
       f,
       irismod_farm_farm_pb.FarmInfo.serializeBinaryToWriter
+    );
+  }
+  f = message.getSequence();
+  if (f !== 0) {
+    writer.writeUint64(
+      4,
+      f
+    );
+  }
+  f = message.getEscrowList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      5,
+      f,
+      irismod_farm_farm_pb.EscrowInfo.serializeBinaryToWriter
     );
   }
 };
@@ -299,6 +326,62 @@ proto.irismod.farm.GenesisState.prototype.addFarmInfos = function(opt_value, opt
  */
 proto.irismod.farm.GenesisState.prototype.clearFarmInfosList = function() {
   return this.setFarmInfosList([]);
+};
+
+
+/**
+ * optional uint64 sequence = 4;
+ * @return {number}
+ */
+proto.irismod.farm.GenesisState.prototype.getSequence = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.irismod.farm.GenesisState} returns this
+ */
+proto.irismod.farm.GenesisState.prototype.setSequence = function(value) {
+  return jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+/**
+ * repeated EscrowInfo escrow = 5;
+ * @return {!Array<!proto.irismod.farm.EscrowInfo>}
+ */
+proto.irismod.farm.GenesisState.prototype.getEscrowList = function() {
+  return /** @type{!Array<!proto.irismod.farm.EscrowInfo>} */ (
+    jspb.Message.getRepeatedWrapperField(this, irismod_farm_farm_pb.EscrowInfo, 5));
+};
+
+
+/**
+ * @param {!Array<!proto.irismod.farm.EscrowInfo>} value
+ * @return {!proto.irismod.farm.GenesisState} returns this
+*/
+proto.irismod.farm.GenesisState.prototype.setEscrowList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 5, value);
+};
+
+
+/**
+ * @param {!proto.irismod.farm.EscrowInfo=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.irismod.farm.EscrowInfo}
+ */
+proto.irismod.farm.GenesisState.prototype.addEscrow = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 5, opt_value, proto.irismod.farm.EscrowInfo, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.irismod.farm.GenesisState} returns this
+ */
+proto.irismod.farm.GenesisState.prototype.clearEscrowList = function() {
+  return this.setEscrowList([]);
 };
 
 
