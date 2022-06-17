@@ -306,6 +306,7 @@ const res = await client.bank.send({
 - queryValidators
 - searchTxs
 - queryNetInfo
+- queryGlobalAccountNumber
 ### token `src/modules/token.ts`
 - issueToken
 - editToken
