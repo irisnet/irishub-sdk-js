@@ -60,3 +60,4 @@ export declare const ibc_core_client_pb: any;
 export declare const google_protobuf_timestamp_pb: any;
 export declare const token_token_pb: any;
 export declare const any_pb: any;
+export declare const custom_base_pb: any;

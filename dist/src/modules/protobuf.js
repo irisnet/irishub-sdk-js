@@ -554,6 +554,26 @@ var Protobuf = /*#__PURE__*/function () {
 
       return result;
     }
+    /**
+     * deserialize Global Account Number
+     * @param  {[type]} GlobalAccountNumber:string  base64 string
+     * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
+     * @return {[type]} Global Account Number object                        
+     */
+
+  }, {
+    key: "deserializeGlobalAccountNumber",
+    value: function deserializeGlobalAccountNumber(GlobalAccountNumber, returnProtobufModel) {
+      if (!GlobalAccountNumber) {
+        throw new _errors.SdkError('Global Account Number can not be empty');
+      }
+
+      if (returnProtobufModel) {
+        return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber);
+      } else {
+        return types.custom_base_pb.MsgGlobalAccountNumber.deserializeBinary(GlobalAccountNumber).toObject();
+      }
+    }
   }]);
   return Protobuf;
 }();

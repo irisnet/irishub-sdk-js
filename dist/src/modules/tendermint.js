@@ -23,6 +23,8 @@ var hexEncoding = _interopRequireWildcard(require("crypto-js/enc-hex"));
 
 var base64Encoding = _interopRequireWildcard(require("crypto-js/enc-base64"));
 
+var _errors = require("../errors");
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -230,6 +232,26 @@ var Tendermint = /*#__PURE__*/function () {
     key: "queryNetInfo",
     value: function queryNetInfo() {
       return this.client.rpcClient.request(_types.RpcMethods.NetInfo, {});
+    }
+    /**
+     * Query global account number
+     * @param height Block height to query
+     * @returns
+     */
+
+  }, {
+    key: "queryGlobalAccountNumber",
+    value: function queryGlobalAccountNumber() {
+      var _this5 = this;
+
+      var height = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      return this.client.rpcClient.queryStore(Uint8Array.from(_utils.StoreKeys.globalAccountNumberKey), 'acc', height).then(function (res) {
+        if (!res || !res.response || !res.response.value) {
+          throw new _errors.SdkError('query Global Account Number failed:', res);
+        }
+
+        return _this5.client.protobuf.deserializeGlobalAccountNumber(res.response.value);
+      });
     }
   }]);
   return Tendermint;
