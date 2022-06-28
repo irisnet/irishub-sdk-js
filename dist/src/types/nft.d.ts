@@ -1,4 +1,4 @@
-import { Msg } from './index';
+import { Msg } from './types';
 /**
  * param struct for issue denom tx
  */
