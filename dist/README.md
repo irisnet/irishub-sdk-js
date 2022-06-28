@@ -145,6 +145,11 @@ const res = await client.bank.send({
     }
 })
 ```
+### auth `src/modules/auth.ts`
+- newStdTx
+- queryAccount
+- queryAccounts
+- queryParams
 ### bank `src/modules/bank.ts`
 - send 
 - multiSend
@@ -152,11 +157,15 @@ const res = await client.bank.send({
 - queryAllBalances
 - queryTotalSupply
 - querySupplyOf
+- queryDenomMetadata
+- queryDenomsMetadata
 - queryParams
-### auth `src/modules/auth.ts`
-- newStdTx
-- queryAccount
-- queryParams
+### bank `src/modules/coinswap.ts`
+- addLiquidity
+- removeLiquidity
+- swapOrder
+- queryLiquidity
+
 ### distribution `src/modules/distribution.ts`
 - setWithdrawAddr
 - withdrawRewards
@@ -171,6 +180,14 @@ const res = await client.bank.send({
 - queryDelegatorValidators
 - queryDelegatorWithdrawAddress
 - queryCommunityPool
+### keys `src/modules/farm.ts`
+- stakeLp
+- unStakeLp
+- harvestReward
+- queryFarmPools
+- queryFarmPool
+- queryFarmer
+- queryParams
 ### gov `src/modules/gov.ts`
 - queryProposal
 - queryProposals
@@ -184,6 +201,20 @@ const res = await client.bank.send({
 - submitCommunityTaxUsageProposal
 - deposit
 - vote
+
+### bank `src/modules/htlc.ts`
+- createHTLC
+- claimHTLC
+- queryHTLC
+- queryAssetSupply
+- queryAssetSupplies
+- queryParams
+### bank `src/modules/ibc.ts`
+- transfer
+- queryDenomTrace
+- queryDenomTraces
+- queryParams
+- queryChannels
 ### keys `src/modules/keys.ts`
 - add
 - recover
@@ -204,6 +235,46 @@ const res = await client.bank.send({
 - queryDenom
 - queryDenoms
 - queryNFT
+### slashing `src/modules/oracle.ts`
+- queryFeed
+- queryFeeds
+- queryFeedValue
+### protobuf `src/modules/protobuf.ts`
+- deserializeTx
+- unpackMsg
+- deserializeSignDoc
+- deserializeTxRaw
+- deserializeSigningInfo
+- deserializePubkey
+### slashing `src/modules/random.ts`
+- queryRandom
+- queryRequest
+- request
+### slashing `src/modules/service.ts`
+- queryDefinition
+- queryBinding
+- queryBindings
+- queryRequest
+- queryRequests
+- queryRequestsByReqCtx
+- queryRequestContext
+- queryResponse
+- queryResponses
+- queryFees
+- defineService
+- bindService
+- updateServiceBinding
+- disableServiceBinding
+- enableServiceBinding
+- invokeService
+- setWithdrawAddress
+- refundServiceDeposit
+- startRequestContext
+- pauseRequestContext
+- killRequestContext
+- updateRequestContext
+- withdrawEarnedFees
+- withdrawTax
 ### slashing `src/modules/slashing.ts`
 - queryParams
 - querySigningInfo
@@ -235,6 +306,7 @@ const res = await client.bank.send({
 - queryValidators
 - searchTxs
 - queryNetInfo
+- queryGlobalAccountNumber
 ### token `src/modules/token.ts`
 - issueToken
 - editToken
@@ -257,11 +329,4 @@ const res = await client.bank.send({
 - broadcastTx
 - newTxResult
 - createMsg
-### protobuf `src/modules/protobuf.ts`
-- deserializeTx
-- unpackMsg
-- deserializeSignDoc
-- deserializeTxRaw
-- deserializeSigningInfo
-- deserializePubkey
 

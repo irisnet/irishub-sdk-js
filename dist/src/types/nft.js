@@ -23,7 +23,9 @@ var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/ge
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
-var _index = require("./index");
+var _types = require("./types");
+
+var _constants = require("./constants");
 
 var pbs = _interopRequireWildcard(require("./proto"));
 
@@ -51,7 +53,7 @@ var MsgIssueDenom = /*#__PURE__*/function (_Msg) {
     var _this;
 
     (0, _classCallCheck2["default"])(this, MsgIssueDenom);
-    _this = _super.call(this, _index.TxType.MsgIssueDenom);
+    _this = _super.call(this, _types.TxType.MsgIssueDenom);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
     _this.value = msg;
     return _this;
@@ -102,7 +104,7 @@ var MsgIssueDenom = /*#__PURE__*/function (_Msg) {
     }
   }]);
   return MsgIssueDenom;
-}(_index.Msg);
+}(_types.Msg);
 /**
  * param struct for Mint NFT
  */
@@ -124,7 +126,7 @@ var MsgMintNFT = /*#__PURE__*/function (_Msg2) {
     var _this2;
 
     (0, _classCallCheck2["default"])(this, MsgMintNFT);
-    _this2 = _super2.call(this, _index.TxType.MsgMintNFT);
+    _this2 = _super2.call(this, _types.TxType.MsgMintNFT);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
     _this2.value = msg;
     return _this2;
@@ -186,7 +188,7 @@ var MsgMintNFT = /*#__PURE__*/function (_Msg2) {
     }
   }]);
   return MsgMintNFT;
-}(_index.Msg);
+}(_types.Msg);
 /**
  * param struct for Edit NFT tx
  */
@@ -208,7 +210,7 @@ var MsgEditNFT = /*#__PURE__*/function (_Msg3) {
     var _this3;
 
     (0, _classCallCheck2["default"])(this, MsgEditNFT);
-    _this3 = _super3.call(this, _index.TxType.MsgEditNFT);
+    _this3 = _super3.call(this, _types.TxType.MsgEditNFT);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
     _this3.value = msg;
     return _this3;
@@ -223,25 +225,25 @@ var MsgEditNFT = /*#__PURE__*/function (_Msg3) {
       msg.setSender(this.value.sender);
 
       if (typeof this.value.name === 'undefined') {
-        msg.setName(_index.doNotModify);
+        msg.setName(_constants.doNotModify);
       } else {
         msg.setName(this.value.name);
       }
 
       if (typeof this.value.uri === 'undefined') {
-        msg.setUri(_index.doNotModify);
+        msg.setUri(_constants.doNotModify);
       } else {
         msg.setUri(this.value.uri);
       }
 
       if (typeof this.value.data === 'undefined') {
-        msg.setData(_index.doNotModify);
+        msg.setData(_constants.doNotModify);
       } else {
         msg.setData(this.value.data);
       }
 
       if (typeof this.value.uri_hash === 'undefined') {
-        msg.setUriHash(_index.doNotModify);
+        msg.setUriHash(_constants.doNotModify);
       } else {
         msg.setUriHash(this.value.uri_hash);
       }
@@ -270,7 +272,7 @@ var MsgEditNFT = /*#__PURE__*/function (_Msg3) {
     }
   }]);
   return MsgEditNFT;
-}(_index.Msg);
+}(_types.Msg);
 /**
  * param struct for Transfer NFT tx
  */
@@ -292,7 +294,7 @@ var MsgTransferNFT = /*#__PURE__*/function (_Msg4) {
     var _this4;
 
     (0, _classCallCheck2["default"])(this, MsgTransferNFT);
-    _this4 = _super4.call(this, _index.TxType.MsgTransferNFT);
+    _this4 = _super4.call(this, _types.TxType.MsgTransferNFT);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
     _this4.value = msg;
     return _this4;
@@ -308,25 +310,25 @@ var MsgTransferNFT = /*#__PURE__*/function (_Msg4) {
       msg.setRecipient(this.value.recipient);
 
       if (typeof this.value.name === 'undefined') {
-        msg.setName(_index.doNotModify);
+        msg.setName(_constants.doNotModify);
       } else {
         msg.setName(this.value.name);
       }
 
       if (typeof this.value.uri === 'undefined') {
-        msg.setUri(_index.doNotModify);
+        msg.setUri(_constants.doNotModify);
       } else {
         msg.setUri(this.value.uri);
       }
 
       if (typeof this.value.data === 'undefined') {
-        msg.setData(_index.doNotModify);
+        msg.setData(_constants.doNotModify);
       } else {
         msg.setData(this.value.data);
       }
 
       if (typeof this.value.uri_hash === 'undefined') {
-        msg.setUriHash(_index.doNotModify);
+        msg.setUriHash(_constants.doNotModify);
       } else {
         msg.setUriHash(this.value.uri_hash);
       }
@@ -359,7 +361,7 @@ var MsgTransferNFT = /*#__PURE__*/function (_Msg4) {
     }
   }]);
   return MsgTransferNFT;
-}(_index.Msg);
+}(_types.Msg);
 /**
  * param struct for Burn NFT tx
  */
@@ -381,7 +383,7 @@ var MsgBurnNFT = /*#__PURE__*/function (_Msg5) {
     var _this5;
 
     (0, _classCallCheck2["default"])(this, MsgBurnNFT);
-    _this5 = _super5.call(this, _index.TxType.MsgBurnNFT);
+    _this5 = _super5.call(this, _types.TxType.MsgBurnNFT);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this5), "value", void 0);
     _this5.value = msg;
     return _this5;
@@ -418,6 +420,6 @@ var MsgBurnNFT = /*#__PURE__*/function (_Msg5) {
     }
   }]);
   return MsgBurnNFT;
-}(_index.Msg);
+}(_types.Msg);
 
 exports.MsgBurnNFT = MsgBurnNFT;
