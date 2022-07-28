@@ -84,7 +84,10 @@ describe('ibc Tests', () => {
       'queries all the IBC channels of a chain',
       async () => {
         await BaseTest.getClient()
-          .ibc.queryChannels(1,100)
+          .ibc.queryChannels({
+            page_number: 1,
+            page_size: 100
+          })
           .then(res => {
             console.log(JSON.stringify(res));
           })

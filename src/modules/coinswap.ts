@@ -127,13 +127,13 @@ export class Coinswap {
     if (!id) {
       throw new SdkError("id can ont be empty");
     }
-    const request = new types.coinswap_query_pb.QueryLiquidityRequest();
-    request.setId(id);
+    const request = new types.coinswap_query_pb.QueryLiquidityPoolRequest();
+    request.setLptDenom(id);
 
     return this.client.rpcClient.protoQuery(
-      '/irismod.coinswap.Query/Liquidity',
+      '/irismod.coinswap.Query/LiquidityPool',
       request,
-      types.coinswap_query_pb.QueryLiquidityResponse
+      types.coinswap_query_pb.QueryLiquidityPoolResponse
     );
   }
 

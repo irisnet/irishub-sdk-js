@@ -80,39 +80,39 @@ var MsgCreateHTLC = /*#__PURE__*/function (_Msg) {
     key: "validate",
     value: function validate() {
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
 
       if (!this.value.to) {
-        throw new _errors.SdkError("to is  empty");
+        throw new _errors.SdkError("to is empty");
       }
 
       if (!this.value.receiver_on_other_chain) {
-        throw new _errors.SdkError("receiver_on_other_chain is  empty");
+        throw new _errors.SdkError("receiver_on_other_chain is empty");
       }
 
       if (!this.value.sender_on_other_chain) {
-        throw new _errors.SdkError("sender_on_other_chain is  empty");
+        throw new _errors.SdkError("sender_on_other_chain is empty");
       }
 
       if (!this.value.hash_lock) {
-        throw new _errors.SdkError("hash_lock is  empty");
+        throw new _errors.SdkError("hash_lock is empty");
       }
 
       if (!this.value.timestamp) {
-        throw new _errors.SdkError("timestamp is  empty");
+        throw new _errors.SdkError("timestamp is empty");
       }
 
       if (!this.value.time_lock) {
-        throw new _errors.SdkError("time_lock is  empty");
+        throw new _errors.SdkError("time_lock is empty");
       }
 
       if (typeof this.value.transfer == 'undefined') {
-        throw new _errors.SdkError("transfer is  empty");
+        throw new _errors.SdkError("transfer is empty");
       }
 
       if (!(this.value.amount && this.value.amount.length)) {
-        throw new _errors.SdkError("amount is  empty");
+        throw new _errors.SdkError("amount is empty");
       }
     }
   }], [{
@@ -163,15 +163,15 @@ var MsgClaimHTLC = /*#__PURE__*/function (_Msg2) {
     key: "validate",
     value: function validate() {
       if (!this.value.sender) {
-        throw new _errors.SdkError("sender is  empty");
+        throw new _errors.SdkError("sender is empty");
       }
 
       if (!this.value.id) {
-        throw new _errors.SdkError("id is  empty");
+        throw new _errors.SdkError("id is empty");
       }
 
       if (!this.value.secret) {
-        throw new _errors.SdkError("secret is  empty");
+        throw new _errors.SdkError("secret is empty");
       }
     }
   }], [{

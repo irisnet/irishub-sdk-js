@@ -1,3 +1,4 @@
+// support cosmos-sdk v0.44.x、 irismod 1.5.2、ibc 1.1.0
 import * as iris from '../src';
 import { Client } from '../src/client';
 
@@ -31,20 +32,20 @@ export class BaseTest {
 
   static getClient(): Client {
     let config = {
-        node: 'http://192.168.150.40:26657',
+        node: 'http://192.168.150.33:26657',
         chainNetwork: iris.types.ChainNetwork.Iris,
-        chainId: 'bifrost-2',
+        chainId: 'iris',
         gas: '20000000',
-        fee: { denom: 'ubif', amount: '200' },
+        fee: { denom: 'uiris', amount: '200' },
     };
-    let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
+    // let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
     // let config = {
     //     node: 'http://34.80.22.255:26657',
     //     network: iris.types.Network.Mainnet,
     //     chainId: 'bifrost-1',
     //     gas: '200000',
-    //     fee: { denom: 'ubif', amount: '5000' },
+    //     fee: { denom: 'udev', amount: '5000' },
     // };
     // let privateKey = '80A69946ADD77EF0C17F43E72E759164F6F0A2A7E9D5D3E0966A3BCA8DE3D177'
 
@@ -56,7 +57,7 @@ export class BaseTest {
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'next review tape teach walnut cash crater evidence ketchup sister lyrics defy pioneer wisdom property arch film damage near link avoid panda vacant suggest'
+      'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'
     );
 
     // client.keys.importPrivateKey(

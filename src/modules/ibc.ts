@@ -86,13 +86,9 @@ export class Ibc {
   /**
    * DenomTraces queries all denomination traces.
    */
-  queryDenomTraces(
-    page_number:number = 1,
-    page_size:number = 10
-  ): Promise<object> {
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
+  queryDenomTraces(pagination?:types.Pagination): Promise<object> {
     const request = new types.ibc_transfer_query_pb.QueryDenomTracesRequest();
-    request.setPagination(pagination);
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/ibc.applications.transfer.v1.Query/DenomTraces',
       request,
@@ -115,13 +111,9 @@ export class Ibc {
   /**
    * Channels queries all the IBC channels of a chain.
    */
-  queryChannels(
-    page_number:number = 1,
-    page_size:number = 10
-  ): Promise<object> {
-    const pagination = ModelCreator.createPaginationModel(page_number, page_size, true)
+  queryChannels(pagination?:types.Pagination): Promise<object> {
     const request = new types.ibc_channel_query_pb.QueryChannelsRequest();
-    request.setPagination(pagination);
+    request.setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/ibc.core.channel.v1.Query/Channels',
       request,

@@ -1,0 +1,8 @@
+//部分 rpc 返回结构没有对应的 protobuf message, 此处自定义 protobuf message 结构
+
+syntax = "proto3";
+package custom;
+
+message MsgGlobalAccountNumber {
+  uint64 global_account_number = 1;
+}

@@ -53,6 +53,7 @@ var Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "_utils", void 0);
     (0, _defineProperty2["default"])(this, "_tendermint", void 0);
     (0, _defineProperty2["default"])(this, "_coinswap", void 0);
+    (0, _defineProperty2["default"])(this, "_farm", void 0);
     (0, _defineProperty2["default"])(this, "_nft", void 0);
     (0, _defineProperty2["default"])(this, "_htlc", void 0);
     (0, _defineProperty2["default"])(this, "_ibc", void 0);
@@ -285,6 +286,21 @@ var Client = /*#__PURE__*/function () {
       }
 
       return this._coinswap;
+    }
+    /** Farm module */
+
+  }, {
+    key: "farm",
+    get: function get() {
+      if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+        throw new _errors.SdkError('This module is not supported on the current chain network.', _errors.CODES.Panic);
+      }
+
+      if (!this._farm) {
+        this._farm = new modules.Farm(this);
+      }
+
+      return this._farm;
     }
     /** NFT module */
 

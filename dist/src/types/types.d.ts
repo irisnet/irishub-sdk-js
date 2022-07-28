@@ -29,6 +29,9 @@ export declare enum TxType {
     MsgAddLiquidity = "irismod.coinswap.MsgAddLiquidity",
     MsgRemoveLiquidity = "irismod.coinswap.MsgRemoveLiquidity",
     MsgSwapOrder = "irismod.coinswap.MsgSwapOrder",
+    MsgStake = "irismod.farm.MsgStake",
+    MsgUnstake = "irismod.farm.MsgUnstake",
+    MsgHarvest = "irismod.farm.MsgHarvest",
     MsgIssueDenom = "irismod.nft.MsgIssueDenom",
     MsgTransferNFT = "irismod.nft.MsgTransferNFT",
     MsgEditNFT = "irismod.nft.MsgEditNFT",
@@ -116,4 +119,11 @@ export interface Bech32Prefix {
     ValPub: string;
     ConsAddr: string;
     ConsPub: string;
+}
+export interface Pagination {
+    page_number?: number;
+    page_size?: number;
+    count_total?: boolean;
+    reverse?: boolean;
+    key?: string;
 }

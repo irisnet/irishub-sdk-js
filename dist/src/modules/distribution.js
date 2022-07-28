@@ -277,18 +277,15 @@ var Distribution = /*#__PURE__*/function () {
     value: function queryValidatorSlashes(validator_address) {
       var starting_height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var ending_height = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      var page_number = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-      var page_size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 10;
+      var pagination = arguments.length > 3 ? arguments[3] : undefined;
 
       if (!validator_address) {
         throw new _errors.SdkError("validator_address can ont be empty");
       }
 
-      var pagination = _helper.ModelCreator.createPaginationModel(page_number, page_size, true);
-
       var request = new types.distribution_query_pb.QueryValidatorSlashesRequest();
       request.setValidatorAddress(validator_address);
-      request.setPagination(pagination);
+      request.setPagination(_helper.ModelCreator.createPaginationModel(pagination));
 
       if (starting_height) {
         request.setStartingHeight(starting_height);

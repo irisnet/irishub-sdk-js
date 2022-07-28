@@ -147,20 +147,17 @@ export class Staking {
    */
   queryDelegations(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       delegator_addr: string;
     }
   ): Promise<types.Delegation[]> {
-    const {key, page, size, count_total, delegator_addr} = query;
+    const {pagination, delegator_addr} = query;
     if (is.undefined(delegator_addr)) {
       throw new SdkError('delegator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryDelegatorDelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorDelegations',
       request,
@@ -208,20 +205,18 @@ export class Staking {
    */
   queryDelegatorUnbondingDelegations(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       delegator_addr: string;
     }
   ): Promise<types.UnbondingDelegation[]> {
-    const {key, page, size, count_total, delegator_addr} = query;
+    const {pagination, delegator_addr} = query;
     if (is.undefined(delegator_addr)) {
       throw new SdkError('delegator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
+
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations',
       request,
@@ -240,22 +235,19 @@ export class Staking {
    */
   queryRedelegation(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       delegator_addr: string;
       src_validator_addr?: string;
       dst_validator_addr?:string;
     }
   ): Promise<types.Redelegation[]> {
-    const {key, page, size, count_total, delegator_addr,src_validator_addr, dst_validator_addr} = query;
+    const {pagination, delegator_addr,src_validator_addr, dst_validator_addr} = query;
     if (is.undefined(delegator_addr)) {
       throw new SdkError('delegator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryRedelegationsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     if (is.not.undefined(src_validator_addr)) {
       request.setSrcValidatorAddr(src_validator_addr)
     }
@@ -279,20 +271,17 @@ export class Staking {
    */
   queryDelegatorValidators(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
-      delegator_addr: string;
+      pagination?:types.Pagination,
+      delegator_addr: string
     }
   ): Promise<object> {
-    const {key, page, size, count_total, delegator_addr} = query;
+    const {pagination, delegator_addr} = query;
     if (is.undefined(delegator_addr)) {
       throw new SdkError('delegator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryDelegatorValidatorsRequest()
       .setDelegatorAddr(delegator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/DelegatorValidators',
       request,
@@ -367,20 +356,17 @@ export class Staking {
    */
   queryValidatorDelegations(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       validator_addr: string;
     }
   ): Promise<types.Delegation[]> {
-    const {key, page, size, count_total, validator_addr} = query;
+    const {pagination, validator_addr} = query;
     if (is.undefined(validator_addr)) {
       throw new SdkError('validator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryValidatorDelegationsRequest()
       .setValidatorAddr(validator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/ValidatorDelegations',
       request,
@@ -398,20 +384,17 @@ export class Staking {
    */
   queryValidatorUnbondingDelegations(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       validator_addr: string;
     }
   ): Promise<types.UnbondingDelegation[]> {
-    const {key, page, size, count_total, validator_addr} = query;
+    const {pagination, validator_addr} = query;
     if (is.undefined(validator_addr)) {
       throw new SdkError('validator address can not be empty');
     }
     const request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest()
       .setValidatorAddr(validator_addr)
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/ValidatorUnbondingDelegations',
       request,
@@ -453,16 +436,13 @@ export class Staking {
    */
   queryValidators(
     query: {
-      key?: string,
-      page?: number;
-      size?: number;
-      count_total?: boolean;
+      pagination?:types.Pagination,
       status?: string;
     }
   ): Promise<types.Validator[]> {
-    const {key, page, size, count_total, status} = query;
+    const {pagination, status} = query;
     const request = new types.staking_query_pb.QueryValidatorsRequest()
-      .setPagination(ModelCreator.createPaginationModel(page, size, count_total, key));
+      .setPagination(ModelCreator.createPaginationModel(pagination));
     if (is.not.undefined(status)) {
       request.setStatus(status);
     }

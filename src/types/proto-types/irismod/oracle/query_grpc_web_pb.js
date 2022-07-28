@@ -25,6 +25,8 @@ var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
 var google_api_annotations_pb = require('../../google/api/annotations_pb.js')
 
 var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js')
+
+var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.oracle = require('./query_pb.js');

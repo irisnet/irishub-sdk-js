@@ -140,9 +140,17 @@ export class Tx {
     let sequence = baseTx.sequence;
     // Query account info from block chain
     if ((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline) {
-      const account = await this.client.auth.queryAccount(keyObj.address);
-      accountNumber = account.accountNumber??0;
-      sequence = account.sequence??0;
+      const accountData:any = await this.client.auth.queryAccount(keyObj.address);
+      if(accountData?.account?.value){
+        const account:any = accountData.account.value;
+        if (account?.baseAccount) {// ModuleAccount
+          accountNumber = account?.baseAccount?.accountNumber ?? 0;
+          sequence = account?.baseAccount?.sequence ?? 0;
+        }else{
+          accountNumber = account.accountNumber ?? 0;
+          sequence = account.sequence ?? 0;
+        }
+      }
     }
 
     if (!stdTx.hasPubKey()) {
@@ -379,6 +387,19 @@ export class Tx {
       case types.TxType.MsgSwapOrder: {
         msg = new types.MsgSwapOrder(txMsg.value);
           break;
+      }
+      // farm
+      case types.TxType.MsgStake: {
+        msg = new types.MsgStake(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgUnstake: {
+        msg = new types.MsgUnstake(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgHarvest: {
+        msg = new types.MsgHarvest(txMsg.value);
+        break;
       }
       //nft
       case types.TxType.MsgIssueDenom: {

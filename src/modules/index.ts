@@ -18,3 +18,4 @@ export * from './protobuf';
 export * from './nft';
 export * from './htlc';
 export * from './ibc';
+export * from './farm'

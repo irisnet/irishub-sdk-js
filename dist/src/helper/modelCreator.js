@@ -28,22 +28,23 @@ var ModelCreator = /*#__PURE__*/function () {
 
   (0, _createClass2["default"])(ModelCreator, null, [{
     key: "createPaginationModel",
-    value: function createPaginationModel() {
-      var page_number = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      var page_size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
-      var count_total = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var key = arguments.length > 3 ? arguments[3] : undefined;
+    value: function createPaginationModel(pageInfo) {
+      var _pageInfo$count_total, _pageInfo$reverse;
+
       var pagination = new types.base_query_pagination_pb.PageRequest();
 
-      if (is.not.undefined(key)) {
+      if (is.not.undefined(pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.key)) {
         //only one of offset or key should be set.
-        pagination.setKey(key);
+        pagination.setKey(pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.key);
       } else {
+        var page_number = (pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.page_number) || 1;
+        var page_size = (pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.page_size) || 10;
         pagination.setOffset((page_number - 1) * page_size > 0 ? (page_number - 1) * page_size : 0);
-        pagination.setLimit(page_size > 0 ? page_size : 10);
+        pagination.setLimit(page_size);
       }
 
-      pagination.setCountTotal(count_total);
+      pagination.setCountTotal((_pageInfo$count_total = pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.count_total) !== null && _pageInfo$count_total !== void 0 ? _pageInfo$count_total : true);
+      pagination.setReverse((_pageInfo$reverse = pageInfo === null || pageInfo === void 0 ? void 0 : pageInfo.reverse) !== null && _pageInfo$reverse !== void 0 ? _pageInfo$reverse : false);
       return pagination;
     }
   }]);

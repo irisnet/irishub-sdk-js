@@ -60,7 +60,7 @@ export declare class Gov {
         proposal_status?: types.ProposalStatus;
         voter?: string;
         depositor?: string;
-    }, page_number?: number, page_size?: number): Promise<object>;
+    }, pagination?: types.Pagination): Promise<object>;
     /**
      * Vote queries voted information based on proposalID, voterAddr.
      * @param proposal_id defines the unique id of the proposal.
@@ -71,7 +71,7 @@ export declare class Gov {
      * Votes queries votes of a given proposal.
      * @param proposal_id defines the unique id of the proposal.
      */
-    queryVotes(proposal_id: number, page_number?: number, page_size?: number): Promise<object>;
+    queryVotes(proposal_id: number, pagination?: types.Pagination): Promise<object>;
     /**
      * Params queries all parameters of the gov module.
      * @param params_type defines which parameters to query for, can be one of "voting", "tallying" or "deposit".
@@ -87,7 +87,7 @@ export declare class Gov {
      * Deposits queries all deposits of a single proposal.
      * @param proposal_id defines the unique id of the proposal.
      */
-    queryDeposits(proposal_id: number, page_number?: number, page_size?: number): Promise<object>;
+    queryDeposits(proposal_id: number, pagination?: types.Pagination): Promise<object>;
     /**
      * TallyResult queries the tally of a proposal vote.
      * @param proposal_id defines the unique id of the proposal.

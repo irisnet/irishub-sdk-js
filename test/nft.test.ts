@@ -27,6 +27,15 @@ describe('Nft Tests', () => {
             denom_id,
             denom_name,
             denom_schema,
+            {
+              symbol: '1',
+              mint_restricted: false,
+              update_restricted: false,
+              description: '2',
+              uri: '3',
+              uri_hash: '',
+              data: '5',
+            },
             BaseTest.baseTx
           )
           .then(res => {
@@ -46,6 +55,7 @@ describe('Nft Tests', () => {
           denom_id,
           nft_name,
           nft_uri,
+          '',
           nft_data,
           '',
           BaseTest.baseTx
@@ -57,17 +67,19 @@ describe('Nft Tests', () => {
           console.log(error);
         });
 
-        let nft_name_e = randomStr(7);;
-        let nft_data_e = randomStr(7);;
+        let nft_name_e = randomStr(7);
+        let nft_data_e = randomStr(7);
         let nft_uri_e = `http://${randomStr(7)}`;
+        let nft_uri_hash_e = randomStr(7);
         await BaseTest.getClient()
         .nft.editNft(
-          nft_id,
+          nft_id, 
           denom_id,
           {
               name:nft_name_e,
               data:nft_data_e,
-              uri:nft_uri_e
+              uri:nft_uri_e,
+              uri_hash: nft_uri_hash_e
           },
           BaseTest.baseTx
         )
@@ -103,6 +115,7 @@ describe('Nft Tests', () => {
           denom_id,
           nft_name,
           nft_uri,
+          '',
           nft_data,
           '',
           BaseTest.baseTx
@@ -166,7 +179,7 @@ describe('Nft Tests', () => {
       'query Collection',
       async () => {
         await BaseTest.getClient()
-        .nft.queryCollection('rzfj')
+        .nft.queryCollection('wwid11111')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -181,7 +194,7 @@ describe('Nft Tests', () => {
       'query Denom',
       async () => {
         await BaseTest.getClient()
-        .nft.queryDenom('rzfj')
+        .nft.queryDenom('wwid11111')
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -211,7 +224,7 @@ describe('Nft Tests', () => {
       'query NFT',
       async () => {
         await BaseTest.getClient()
-        .nft.queryNFT('rzfj','bbzrsib')
+        .nft.queryNFT('wwid11111','wwntest01')
         .then(res => {
           console.log(JSON.stringify(res));
         })

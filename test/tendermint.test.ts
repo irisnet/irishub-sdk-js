@@ -143,4 +143,20 @@ describe('Tendermint Tests', () => {
     },
     timeout
   );
+
+  test(
+    'query Global Account Number',
+    async () => {
+      await BaseTest.getClient()
+        .tendermint.queryGlobalAccountNumber()
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  
 });

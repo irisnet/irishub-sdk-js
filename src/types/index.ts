@@ -20,6 +20,7 @@ export * from './block-result';
 export * from './validator';
 export * from './query-builder';
 export * from './coinswap';
+export * from "./farm"
 export * from './protoTx';
 export * from './nft';
 export * from './proto';

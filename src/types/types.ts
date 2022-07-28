@@ -60,6 +60,10 @@ export enum TxType {
   MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
   MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
   MsgSwapOrder ="irismod.coinswap.MsgSwapOrder",
+  //farm
+  MsgStake = 'irismod.farm.MsgStake',
+  MsgUnstake= 'irismod.farm.MsgUnstake',
+  MsgHarvest = 'irismod.farm.MsgHarvest',
   //nft
   MsgIssueDenom ="irismod.nft.MsgIssueDenom",
   MsgTransferNFT ="irismod.nft.MsgTransferNFT",
@@ -78,7 +82,7 @@ export enum TxType {
   MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
   MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC",
   //ibc
-  MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer"
+  MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer",
 }
 
 /** 
@@ -160,3 +164,12 @@ export interface Bech32Prefix {
   ConsAddr: string;
   ConsPub: string;
 }
+
+export interface Pagination {
+  page_number?: number,
+  page_size?: number,
+  count_total?: boolean,
+  reverse?: boolean,
+  key?:string
+}
+

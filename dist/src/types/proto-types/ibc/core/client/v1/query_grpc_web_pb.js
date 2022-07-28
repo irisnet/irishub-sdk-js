@@ -406,6 +406,86 @@ proto.ibc.core.client.v1.QueryPromiseClient.prototype.consensusStates =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.client.v1.QueryClientStatusRequest,
+ *   !proto.ibc.core.client.v1.QueryClientStatusResponse>}
+ */
+const methodDescriptor_Query_ClientStatus = new grpc.web.MethodDescriptor(
+  '/ibc.core.client.v1.Query/ClientStatus',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.client.v1.QueryClientStatusRequest,
+  proto.ibc.core.client.v1.QueryClientStatusResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryClientStatusRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryClientStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.client.v1.QueryClientStatusRequest,
+ *   !proto.ibc.core.client.v1.QueryClientStatusResponse>}
+ */
+const methodInfo_Query_ClientStatus = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.client.v1.QueryClientStatusResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryClientStatusRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryClientStatusResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryClientStatusRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.client.v1.QueryClientStatusResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.client.v1.QueryClientStatusResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.client.v1.QueryClient.prototype.clientStatus =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/ClientStatus',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ClientStatus,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryClientStatusRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.client.v1.QueryClientStatusResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.client.v1.QueryPromiseClient.prototype.clientStatus =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/ClientStatus',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ClientStatus);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.ibc.core.client.v1.QueryClientParamsRequest,
  *   !proto.ibc.core.client.v1.QueryClientParamsResponse>}
  */
@@ -480,6 +560,166 @@ proto.ibc.core.client.v1.QueryPromiseClient.prototype.clientParams =
       request,
       metadata || {},
       methodDescriptor_Query_ClientParams);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.client.v1.QueryUpgradedClientStateRequest,
+ *   !proto.ibc.core.client.v1.QueryUpgradedClientStateResponse>}
+ */
+const methodDescriptor_Query_UpgradedClientState = new grpc.web.MethodDescriptor(
+  '/ibc.core.client.v1.Query/UpgradedClientState',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.client.v1.QueryUpgradedClientStateRequest,
+  proto.ibc.core.client.v1.QueryUpgradedClientStateResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryUpgradedClientStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryUpgradedClientStateResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.client.v1.QueryUpgradedClientStateRequest,
+ *   !proto.ibc.core.client.v1.QueryUpgradedClientStateResponse>}
+ */
+const methodInfo_Query_UpgradedClientState = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.client.v1.QueryUpgradedClientStateResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryUpgradedClientStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryUpgradedClientStateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryUpgradedClientStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.client.v1.QueryUpgradedClientStateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.client.v1.QueryUpgradedClientStateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.client.v1.QueryClient.prototype.upgradedClientState =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/UpgradedClientState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedClientState,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryUpgradedClientStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.client.v1.QueryUpgradedClientStateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.client.v1.QueryPromiseClient.prototype.upgradedClientState =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/UpgradedClientState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedClientState);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest,
+ *   !proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse>}
+ */
+const methodDescriptor_Query_UpgradedConsensusState = new grpc.web.MethodDescriptor(
+  '/ibc.core.client.v1.Query/UpgradedConsensusState',
+  grpc.web.MethodType.UNARY,
+  proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest,
+  proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest,
+ *   !proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse>}
+ */
+const methodInfo_Query_UpgradedConsensusState = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse,
+  /**
+   * @param {!proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.ibc.core.client.v1.QueryClient.prototype.upgradedConsensusState =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/UpgradedConsensusState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedConsensusState,
+      callback);
+};
+
+
+/**
+ * @param {!proto.ibc.core.client.v1.QueryUpgradedConsensusStateRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.ibc.core.client.v1.QueryUpgradedConsensusStateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.ibc.core.client.v1.QueryPromiseClient.prototype.upgradedConsensusState =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/ibc.core.client.v1.Query/UpgradedConsensusState',
+      request,
+      metadata || {},
+      methodDescriptor_Query_UpgradedConsensusState);
 };
 
 

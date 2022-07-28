@@ -1219,7 +1219,8 @@ proto.irismod.service.QueryBindingsRequest.prototype.toObject = function(opt_inc
 proto.irismod.service.QueryBindingsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     serviceName: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    owner: jspb.Message.getFieldWithDefault(msg, 2, "")
+    owner: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1264,6 +1265,11 @@ proto.irismod.service.QueryBindingsRequest.deserializeBinaryFromReader = functio
       var value = /** @type {string} */ (reader.readString());
       msg.setOwner(value);
       break;
+    case 3:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1307,6 +1313,14 @@ proto.irismod.service.QueryBindingsRequest.serializeBinaryToWriter = function(me
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -1343,6 +1357,43 @@ proto.irismod.service.QueryBindingsRequest.prototype.getOwner = function() {
  */
 proto.irismod.service.QueryBindingsRequest.prototype.setOwner = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 3;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.service.QueryBindingsRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 3));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.service.QueryBindingsRequest} returns this
+*/
+proto.irismod.service.QueryBindingsRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryBindingsRequest} returns this
+ */
+proto.irismod.service.QueryBindingsRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryBindingsRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1386,7 +1437,8 @@ proto.irismod.service.QueryBindingsResponse.prototype.toObject = function(opt_in
 proto.irismod.service.QueryBindingsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     serviceBindingsList: jspb.Message.toObjectList(msg.getServiceBindingsList(),
-    irismod_service_service_pb.ServiceBinding.toObject, includeInstance)
+    irismod_service_service_pb.ServiceBinding.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1428,6 +1480,11 @@ proto.irismod.service.QueryBindingsResponse.deserializeBinaryFromReader = functi
       reader.readMessage(value,irismod_service_service_pb.ServiceBinding.deserializeBinaryFromReader);
       msg.addServiceBindings(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1463,6 +1520,14 @@ proto.irismod.service.QueryBindingsResponse.serializeBinaryToWriter = function(m
       1,
       f,
       irismod_service_service_pb.ServiceBinding.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -1503,6 +1568,43 @@ proto.irismod.service.QueryBindingsResponse.prototype.addServiceBindings = funct
  */
 proto.irismod.service.QueryBindingsResponse.prototype.clearServiceBindingsList = function() {
   return this.setServiceBindingsList([]);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.service.QueryBindingsResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.service.QueryBindingsResponse} returns this
+*/
+proto.irismod.service.QueryBindingsResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryBindingsResponse} returns this
+ */
+proto.irismod.service.QueryBindingsResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryBindingsResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -2361,7 +2463,8 @@ proto.irismod.service.QueryRequestsRequest.prototype.toObject = function(opt_inc
 proto.irismod.service.QueryRequestsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     serviceName: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    provider: jspb.Message.getFieldWithDefault(msg, 2, "")
+    provider: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2406,6 +2509,11 @@ proto.irismod.service.QueryRequestsRequest.deserializeBinaryFromReader = functio
       var value = /** @type {string} */ (reader.readString());
       msg.setProvider(value);
       break;
+    case 3:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2449,6 +2557,14 @@ proto.irismod.service.QueryRequestsRequest.serializeBinaryToWriter = function(me
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -2485,6 +2601,43 @@ proto.irismod.service.QueryRequestsRequest.prototype.getProvider = function() {
  */
 proto.irismod.service.QueryRequestsRequest.prototype.setProvider = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 3;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.service.QueryRequestsRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 3));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.service.QueryRequestsRequest} returns this
+*/
+proto.irismod.service.QueryRequestsRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryRequestsRequest} returns this
+ */
+proto.irismod.service.QueryRequestsRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryRequestsRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -2528,7 +2681,8 @@ proto.irismod.service.QueryRequestsResponse.prototype.toObject = function(opt_in
 proto.irismod.service.QueryRequestsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     requestsList: jspb.Message.toObjectList(msg.getRequestsList(),
-    irismod_service_service_pb.Request.toObject, includeInstance)
+    irismod_service_service_pb.Request.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2570,6 +2724,11 @@ proto.irismod.service.QueryRequestsResponse.deserializeBinaryFromReader = functi
       reader.readMessage(value,irismod_service_service_pb.Request.deserializeBinaryFromReader);
       msg.addRequests(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2605,6 +2764,14 @@ proto.irismod.service.QueryRequestsResponse.serializeBinaryToWriter = function(m
       1,
       f,
       irismod_service_service_pb.Request.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -2648,6 +2815,43 @@ proto.irismod.service.QueryRequestsResponse.prototype.clearRequestsList = functi
 };
 
 
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.service.QueryRequestsResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.service.QueryRequestsResponse} returns this
+*/
+proto.irismod.service.QueryRequestsResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryRequestsResponse} returns this
+ */
+proto.irismod.service.QueryRequestsResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryRequestsResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
 
 
 
@@ -2681,7 +2885,8 @@ proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.toObject = function
 proto.irismod.service.QueryRequestsByReqCtxRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     requestContextId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    batchCounter: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    batchCounter: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2726,6 +2931,11 @@ proto.irismod.service.QueryRequestsByReqCtxRequest.deserializeBinaryFromReader =
       var value = /** @type {number} */ (reader.readUint64());
       msg.setBatchCounter(value);
       break;
+    case 3:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2769,6 +2979,14 @@ proto.irismod.service.QueryRequestsByReqCtxRequest.serializeBinaryToWriter = fun
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -2805,6 +3023,43 @@ proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.getBatchCounter = f
  */
 proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.setBatchCounter = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 3;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 3));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.service.QueryRequestsByReqCtxRequest} returns this
+*/
+proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryRequestsByReqCtxRequest} returns this
+ */
+proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryRequestsByReqCtxRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -2848,7 +3103,8 @@ proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.toObject = functio
 proto.irismod.service.QueryRequestsByReqCtxResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     requestsList: jspb.Message.toObjectList(msg.getRequestsList(),
-    irismod_service_service_pb.Request.toObject, includeInstance)
+    irismod_service_service_pb.Request.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2890,6 +3146,11 @@ proto.irismod.service.QueryRequestsByReqCtxResponse.deserializeBinaryFromReader 
       reader.readMessage(value,irismod_service_service_pb.Request.deserializeBinaryFromReader);
       msg.addRequests(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2925,6 +3186,14 @@ proto.irismod.service.QueryRequestsByReqCtxResponse.serializeBinaryToWriter = fu
       1,
       f,
       irismod_service_service_pb.Request.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -2965,6 +3234,43 @@ proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.addRequests = func
  */
 proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.clearRequestsList = function() {
   return this.setRequestsList([]);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.service.QueryRequestsByReqCtxResponse} returns this
+*/
+proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryRequestsByReqCtxResponse} returns this
+ */
+proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryRequestsByReqCtxResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -3282,7 +3588,8 @@ proto.irismod.service.QueryResponsesRequest.prototype.toObject = function(opt_in
 proto.irismod.service.QueryResponsesRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     requestContextId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    batchCounter: jspb.Message.getFieldWithDefault(msg, 2, 0)
+    batchCounter: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3327,6 +3634,11 @@ proto.irismod.service.QueryResponsesRequest.deserializeBinaryFromReader = functi
       var value = /** @type {number} */ (reader.readUint64());
       msg.setBatchCounter(value);
       break;
+    case 3:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -3370,6 +3682,14 @@ proto.irismod.service.QueryResponsesRequest.serializeBinaryToWriter = function(m
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -3406,6 +3726,43 @@ proto.irismod.service.QueryResponsesRequest.prototype.getBatchCounter = function
  */
 proto.irismod.service.QueryResponsesRequest.prototype.setBatchCounter = function(value) {
   return jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 3;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.service.QueryResponsesRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 3));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.service.QueryResponsesRequest} returns this
+*/
+proto.irismod.service.QueryResponsesRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryResponsesRequest} returns this
+ */
+proto.irismod.service.QueryResponsesRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryResponsesRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -3449,7 +3806,8 @@ proto.irismod.service.QueryResponsesResponse.prototype.toObject = function(opt_i
 proto.irismod.service.QueryResponsesResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     responsesList: jspb.Message.toObjectList(msg.getResponsesList(),
-    irismod_service_service_pb.Response.toObject, includeInstance)
+    irismod_service_service_pb.Response.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -3491,6 +3849,11 @@ proto.irismod.service.QueryResponsesResponse.deserializeBinaryFromReader = funct
       reader.readMessage(value,irismod_service_service_pb.Response.deserializeBinaryFromReader);
       msg.addResponses(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -3526,6 +3889,14 @@ proto.irismod.service.QueryResponsesResponse.serializeBinaryToWriter = function(
       1,
       f,
       irismod_service_service_pb.Response.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -3566,6 +3937,43 @@ proto.irismod.service.QueryResponsesResponse.prototype.addResponses = function(o
  */
 proto.irismod.service.QueryResponsesResponse.prototype.clearResponsesList = function() {
   return this.setResponsesList([]);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.service.QueryResponsesResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.service.QueryResponsesResponse} returns this
+*/
+proto.irismod.service.QueryResponsesResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.service.QueryResponsesResponse} returns this
+ */
+proto.irismod.service.QueryResponsesResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.service.QueryResponsesResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

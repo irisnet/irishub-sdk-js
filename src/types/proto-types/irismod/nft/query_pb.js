@@ -18,6 +18,8 @@ var google_api_annotations_pb = require('../../google/api/annotations_pb.js');
 goog.object.extend(proto, google_api_annotations_pb);
 var irismod_nft_nft_pb = require('../../irismod/nft/nft_pb.js');
 goog.object.extend(proto, irismod_nft_nft_pb);
+var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js');
+goog.object.extend(proto, cosmos_base_query_v1beta1_pagination_pb);
 goog.exportSymbol('proto.irismod.nft.QueryCollectionRequest', null, global);
 goog.exportSymbol('proto.irismod.nft.QueryCollectionResponse', null, global);
 goog.exportSymbol('proto.irismod.nft.QueryDenomRequest', null, global);
@@ -605,7 +607,8 @@ proto.irismod.nft.QueryOwnerRequest.prototype.toObject = function(opt_includeIns
 proto.irismod.nft.QueryOwnerRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     denomId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    owner: jspb.Message.getFieldWithDefault(msg, 2, "")
+    owner: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -650,6 +653,11 @@ proto.irismod.nft.QueryOwnerRequest.deserializeBinaryFromReader = function(msg, 
       var value = /** @type {string} */ (reader.readString());
       msg.setOwner(value);
       break;
+    case 3:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -693,6 +701,14 @@ proto.irismod.nft.QueryOwnerRequest.serializeBinaryToWriter = function(message, 
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -732,6 +748,43 @@ proto.irismod.nft.QueryOwnerRequest.prototype.setOwner = function(value) {
 };
 
 
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 3;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.nft.QueryOwnerRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 3));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.nft.QueryOwnerRequest} returns this
+*/
+proto.irismod.nft.QueryOwnerRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryOwnerRequest} returns this
+ */
+proto.irismod.nft.QueryOwnerRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryOwnerRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 3) != null;
+};
+
+
 
 
 
@@ -764,7 +817,8 @@ proto.irismod.nft.QueryOwnerResponse.prototype.toObject = function(opt_includeIn
  */
 proto.irismod.nft.QueryOwnerResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    owner: (f = msg.getOwner()) && irismod_nft_nft_pb.Owner.toObject(includeInstance, f)
+    owner: (f = msg.getOwner()) && irismod_nft_nft_pb.Owner.toObject(includeInstance, f),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -806,6 +860,11 @@ proto.irismod.nft.QueryOwnerResponse.deserializeBinaryFromReader = function(msg,
       reader.readMessage(value,irismod_nft_nft_pb.Owner.deserializeBinaryFromReader);
       msg.setOwner(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -841,6 +900,14 @@ proto.irismod.nft.QueryOwnerResponse.serializeBinaryToWriter = function(message,
       1,
       f,
       irismod_nft_nft_pb.Owner.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -883,6 +950,43 @@ proto.irismod.nft.QueryOwnerResponse.prototype.hasOwner = function() {
 };
 
 
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.nft.QueryOwnerResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.nft.QueryOwnerResponse} returns this
+*/
+proto.irismod.nft.QueryOwnerResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryOwnerResponse} returns this
+ */
+proto.irismod.nft.QueryOwnerResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryOwnerResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
 
 
 
@@ -915,7 +1019,8 @@ proto.irismod.nft.QueryCollectionRequest.prototype.toObject = function(opt_inclu
  */
 proto.irismod.nft.QueryCollectionRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    denomId: jspb.Message.getFieldWithDefault(msg, 1, "")
+    denomId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -956,6 +1061,11 @@ proto.irismod.nft.QueryCollectionRequest.deserializeBinaryFromReader = function(
       var value = /** @type {string} */ (reader.readString());
       msg.setDenomId(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -992,6 +1102,14 @@ proto.irismod.nft.QueryCollectionRequest.serializeBinaryToWriter = function(mess
       f
     );
   }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
 };
 
 
@@ -1010,6 +1128,43 @@ proto.irismod.nft.QueryCollectionRequest.prototype.getDenomId = function() {
  */
 proto.irismod.nft.QueryCollectionRequest.prototype.setDenomId = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.nft.QueryCollectionRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.nft.QueryCollectionRequest} returns this
+*/
+proto.irismod.nft.QueryCollectionRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryCollectionRequest} returns this
+ */
+proto.irismod.nft.QueryCollectionRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryCollectionRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -1045,7 +1200,8 @@ proto.irismod.nft.QueryCollectionResponse.prototype.toObject = function(opt_incl
  */
 proto.irismod.nft.QueryCollectionResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    collection: (f = msg.getCollection()) && irismod_nft_nft_pb.Collection.toObject(includeInstance, f)
+    collection: (f = msg.getCollection()) && irismod_nft_nft_pb.Collection.toObject(includeInstance, f),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1087,6 +1243,11 @@ proto.irismod.nft.QueryCollectionResponse.deserializeBinaryFromReader = function
       reader.readMessage(value,irismod_nft_nft_pb.Collection.deserializeBinaryFromReader);
       msg.setCollection(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1122,6 +1283,14 @@ proto.irismod.nft.QueryCollectionResponse.serializeBinaryToWriter = function(mes
       1,
       f,
       irismod_nft_nft_pb.Collection.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -1161,6 +1330,43 @@ proto.irismod.nft.QueryCollectionResponse.prototype.clearCollection = function()
  */
 proto.irismod.nft.QueryCollectionResponse.prototype.hasCollection = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.nft.QueryCollectionResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.nft.QueryCollectionResponse} returns this
+*/
+proto.irismod.nft.QueryCollectionResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryCollectionResponse} returns this
+ */
+proto.irismod.nft.QueryCollectionResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryCollectionResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 
@@ -1477,7 +1683,7 @@ proto.irismod.nft.QueryDenomsRequest.prototype.toObject = function(opt_includeIn
  */
 proto.irismod.nft.QueryDenomsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1514,6 +1720,11 @@ proto.irismod.nft.QueryDenomsRequest.deserializeBinaryFromReader = function(msg,
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageRequest;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageRequest.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1543,6 +1754,51 @@ proto.irismod.nft.QueryDenomsRequest.prototype.serializeBinary = function() {
  */
 proto.irismod.nft.QueryDenomsRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageRequest.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageRequest pagination = 1;
+ * @return {?proto.cosmos.base.query.v1beta1.PageRequest}
+ */
+proto.irismod.nft.QueryDenomsRequest.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageRequest} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageRequest, 1));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageRequest|undefined} value
+ * @return {!proto.irismod.nft.QueryDenomsRequest} returns this
+*/
+proto.irismod.nft.QueryDenomsRequest.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryDenomsRequest} returns this
+ */
+proto.irismod.nft.QueryDenomsRequest.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryDenomsRequest.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 
@@ -1586,7 +1842,8 @@ proto.irismod.nft.QueryDenomsResponse.prototype.toObject = function(opt_includeI
 proto.irismod.nft.QueryDenomsResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     denomsList: jspb.Message.toObjectList(msg.getDenomsList(),
-    irismod_nft_nft_pb.Denom.toObject, includeInstance)
+    irismod_nft_nft_pb.Denom.toObject, includeInstance),
+    pagination: (f = msg.getPagination()) && cosmos_base_query_v1beta1_pagination_pb.PageResponse.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1628,6 +1885,11 @@ proto.irismod.nft.QueryDenomsResponse.deserializeBinaryFromReader = function(msg
       reader.readMessage(value,irismod_nft_nft_pb.Denom.deserializeBinaryFromReader);
       msg.addDenoms(value);
       break;
+    case 2:
+      var value = new cosmos_base_query_v1beta1_pagination_pb.PageResponse;
+      reader.readMessage(value,cosmos_base_query_v1beta1_pagination_pb.PageResponse.deserializeBinaryFromReader);
+      msg.setPagination(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -1663,6 +1925,14 @@ proto.irismod.nft.QueryDenomsResponse.serializeBinaryToWriter = function(message
       1,
       f,
       irismod_nft_nft_pb.Denom.serializeBinaryToWriter
+    );
+  }
+  f = message.getPagination();
+  if (f != null) {
+    writer.writeMessage(
+      2,
+      f,
+      cosmos_base_query_v1beta1_pagination_pb.PageResponse.serializeBinaryToWriter
     );
   }
 };
@@ -1703,6 +1973,43 @@ proto.irismod.nft.QueryDenomsResponse.prototype.addDenoms = function(opt_value, 
  */
 proto.irismod.nft.QueryDenomsResponse.prototype.clearDenomsList = function() {
   return this.setDenomsList([]);
+};
+
+
+/**
+ * optional cosmos.base.query.v1beta1.PageResponse pagination = 2;
+ * @return {?proto.cosmos.base.query.v1beta1.PageResponse}
+ */
+proto.irismod.nft.QueryDenomsResponse.prototype.getPagination = function() {
+  return /** @type{?proto.cosmos.base.query.v1beta1.PageResponse} */ (
+    jspb.Message.getWrapperField(this, cosmos_base_query_v1beta1_pagination_pb.PageResponse, 2));
+};
+
+
+/**
+ * @param {?proto.cosmos.base.query.v1beta1.PageResponse|undefined} value
+ * @return {!proto.irismod.nft.QueryDenomsResponse} returns this
+*/
+proto.irismod.nft.QueryDenomsResponse.prototype.setPagination = function(value) {
+  return jspb.Message.setWrapperField(this, 2, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.irismod.nft.QueryDenomsResponse} returns this
+ */
+proto.irismod.nft.QueryDenomsResponse.prototype.clearPagination = function() {
+  return this.setPagination(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.irismod.nft.QueryDenomsResponse.prototype.hasPagination = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

@@ -150,6 +150,15 @@ export class Client {
     if (!this._coinswap) {this._coinswap = new modules.Coinswap(this)}
     return this._coinswap;
   }
+  /** Farm module */
+  private _farm?: modules.Farm;
+  get farm(): modules.Farm{
+    if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+      throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    }
+    if (!this._farm) {this._farm = new modules.Farm(this)}
+    return this._farm;
+  }
 
   /** NFT module */
   private _nft?: modules.Nft;

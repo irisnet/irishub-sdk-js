@@ -59,10 +59,7 @@ export declare class Staking {
      * @since
      */
     queryDelegations(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         delegator_addr: string;
     }): Promise<types.Delegation[]>;
     /**
@@ -83,10 +80,7 @@ export declare class Staking {
      * @since
      */
     queryDelegatorUnbondingDelegations(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         delegator_addr: string;
     }): Promise<types.UnbondingDelegation[]>;
     /**
@@ -99,10 +93,7 @@ export declare class Staking {
      * @since
      */
     queryRedelegation(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         delegator_addr: string;
         src_validator_addr?: string;
         dst_validator_addr?: string;
@@ -116,10 +107,7 @@ export declare class Staking {
      * @since
      */
     queryDelegatorValidators(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         delegator_addr: string;
     }): Promise<object>;
     /**
@@ -153,10 +141,7 @@ export declare class Staking {
      * @since
      */
     queryValidatorDelegations(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         validator_addr: string;
     }): Promise<types.Delegation[]>;
     /**
@@ -168,10 +153,7 @@ export declare class Staking {
      * @since
      */
     queryValidatorUnbondingDelegations(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         validator_addr: string;
     }): Promise<types.UnbondingDelegation[]>;
     /**
@@ -190,10 +172,7 @@ export declare class Staking {
      * @since
      */
     queryValidators(query: {
-        key?: string;
-        page?: number;
-        size?: number;
-        count_total?: boolean;
+        pagination?: types.Pagination;
         status?: string;
     }): Promise<types.Validator[]>;
     /**

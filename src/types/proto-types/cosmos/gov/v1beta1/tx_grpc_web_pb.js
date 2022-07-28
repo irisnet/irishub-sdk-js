@@ -245,6 +245,86 @@ proto.cosmos.gov.v1beta1.MsgPromiseClient.prototype.vote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.gov.v1beta1.MsgVoteWeighted,
+ *   !proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse>}
+ */
+const methodDescriptor_Msg_VoteWeighted = new grpc.web.MethodDescriptor(
+  '/cosmos.gov.v1beta1.Msg/VoteWeighted',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.gov.v1beta1.MsgVoteWeighted,
+  proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse,
+  /**
+   * @param {!proto.cosmos.gov.v1beta1.MsgVoteWeighted} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.gov.v1beta1.MsgVoteWeighted,
+ *   !proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse>}
+ */
+const methodInfo_Msg_VoteWeighted = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse,
+  /**
+   * @param {!proto.cosmos.gov.v1beta1.MsgVoteWeighted} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.gov.v1beta1.MsgVoteWeighted} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.gov.v1beta1.MsgClient.prototype.voteWeighted =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.gov.v1beta1.Msg/VoteWeighted',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_VoteWeighted,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.gov.v1beta1.MsgVoteWeighted} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.gov.v1beta1.MsgVoteWeightedResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.gov.v1beta1.MsgPromiseClient.prototype.voteWeighted =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.gov.v1beta1.Msg/VoteWeighted',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_VoteWeighted);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.cosmos.gov.v1beta1.MsgDeposit,
  *   !proto.cosmos.gov.v1beta1.MsgDepositResponse>}
  */

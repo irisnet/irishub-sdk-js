@@ -69,7 +69,7 @@ export declare class Distribution {
      * @param page_number
      * @param page_size
      */
-    queryValidatorSlashes(validator_address: string, starting_height?: number, ending_height?: number, page_number?: number, page_size?: number): Promise<object>;
+    queryValidatorSlashes(validator_address: string, starting_height?: number, ending_height?: number, pagination?: types.Pagination): Promise<object>;
     /**
      * DelegationRewards queries the total rewards accrued by a delegation.
      * @param validator_address defines the validator address to query for

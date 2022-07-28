@@ -1016,17 +1016,16 @@ proto.irismod.service.RequestContext.toObject = function(includeInstance, msg) {
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance),
     moduleName: jspb.Message.getFieldWithDefault(msg, 6, ""),
     timeout: jspb.Message.getFieldWithDefault(msg, 7, 0),
-    superMode: jspb.Message.getBooleanFieldWithDefault(msg, 8, false),
-    repeated: jspb.Message.getBooleanFieldWithDefault(msg, 9, false),
-    repeatedFrequency: jspb.Message.getFieldWithDefault(msg, 10, 0),
-    repeatedTotal: jspb.Message.getFieldWithDefault(msg, 11, 0),
-    batchCounter: jspb.Message.getFieldWithDefault(msg, 12, 0),
-    batchRequestCount: jspb.Message.getFieldWithDefault(msg, 13, 0),
-    batchResponseCount: jspb.Message.getFieldWithDefault(msg, 14, 0),
-    batchResponseThreshold: jspb.Message.getFieldWithDefault(msg, 15, 0),
-    responseThreshold: jspb.Message.getFieldWithDefault(msg, 16, 0),
-    batchState: jspb.Message.getFieldWithDefault(msg, 17, 0),
-    state: jspb.Message.getFieldWithDefault(msg, 18, 0)
+    repeated: jspb.Message.getBooleanFieldWithDefault(msg, 8, false),
+    repeatedFrequency: jspb.Message.getFieldWithDefault(msg, 9, 0),
+    repeatedTotal: jspb.Message.getFieldWithDefault(msg, 10, 0),
+    batchCounter: jspb.Message.getFieldWithDefault(msg, 11, 0),
+    batchRequestCount: jspb.Message.getFieldWithDefault(msg, 12, 0),
+    batchResponseCount: jspb.Message.getFieldWithDefault(msg, 13, 0),
+    batchResponseThreshold: jspb.Message.getFieldWithDefault(msg, 14, 0),
+    responseThreshold: jspb.Message.getFieldWithDefault(msg, 15, 0),
+    batchState: jspb.Message.getFieldWithDefault(msg, 16, 0),
+    state: jspb.Message.getFieldWithDefault(msg, 17, 0)
   };
 
   if (includeInstance) {
@@ -1094,45 +1093,41 @@ proto.irismod.service.RequestContext.deserializeBinaryFromReader = function(msg,
       break;
     case 8:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setSuperMode(value);
-      break;
-    case 9:
-      var value = /** @type {boolean} */ (reader.readBool());
       msg.setRepeated(value);
       break;
-    case 10:
+    case 9:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setRepeatedFrequency(value);
       break;
-    case 11:
+    case 10:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setRepeatedTotal(value);
       break;
-    case 12:
+    case 11:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setBatchCounter(value);
       break;
-    case 13:
+    case 12:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setBatchRequestCount(value);
       break;
-    case 14:
+    case 13:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setBatchResponseCount(value);
       break;
-    case 15:
+    case 14:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setBatchResponseThreshold(value);
       break;
-    case 16:
+    case 15:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setResponseThreshold(value);
       break;
-    case 17:
+    case 16:
       var value = /** @type {!proto.irismod.service.RequestContextBatchState} */ (reader.readEnum());
       msg.setBatchState(value);
       break;
-    case 18:
+    case 17:
       var value = /** @type {!proto.irismod.service.RequestContextState} */ (reader.readEnum());
       msg.setState(value);
       break;
@@ -1215,80 +1210,73 @@ proto.irismod.service.RequestContext.serializeBinaryToWriter = function(message,
       f
     );
   }
-  f = message.getSuperMode();
+  f = message.getRepeated();
   if (f) {
     writer.writeBool(
       8,
       f
     );
   }
-  f = message.getRepeated();
-  if (f) {
-    writer.writeBool(
-      9,
-      f
-    );
-  }
   f = message.getRepeatedFrequency();
   if (f !== 0) {
     writer.writeUint64(
-      10,
+      9,
       f
     );
   }
   f = message.getRepeatedTotal();
   if (f !== 0) {
     writer.writeInt64(
-      11,
+      10,
       f
     );
   }
   f = message.getBatchCounter();
   if (f !== 0) {
     writer.writeUint64(
-      12,
+      11,
       f
     );
   }
   f = message.getBatchRequestCount();
   if (f !== 0) {
     writer.writeUint32(
-      13,
+      12,
       f
     );
   }
   f = message.getBatchResponseCount();
   if (f !== 0) {
     writer.writeUint32(
-      14,
+      13,
       f
     );
   }
   f = message.getBatchResponseThreshold();
   if (f !== 0) {
     writer.writeUint32(
-      15,
+      14,
       f
     );
   }
   f = message.getResponseThreshold();
   if (f !== 0) {
     writer.writeUint32(
-      16,
+      15,
       f
     );
   }
   f = message.getBatchState();
   if (f !== 0.0) {
     writer.writeEnum(
-      17,
+      16,
       f
     );
   }
   f = message.getState();
   if (f !== 0.0) {
     writer.writeEnum(
-      18,
+      17,
       f
     );
   }
@@ -1461,10 +1449,10 @@ proto.irismod.service.RequestContext.prototype.setTimeout = function(value) {
 
 
 /**
- * optional bool super_mode = 8;
+ * optional bool repeated = 8;
  * @return {boolean}
  */
-proto.irismod.service.RequestContext.prototype.getSuperMode = function() {
+proto.irismod.service.RequestContext.prototype.getRepeated = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 8, false));
 };
 
@@ -1473,35 +1461,17 @@ proto.irismod.service.RequestContext.prototype.getSuperMode = function() {
  * @param {boolean} value
  * @return {!proto.irismod.service.RequestContext} returns this
  */
-proto.irismod.service.RequestContext.prototype.setSuperMode = function(value) {
+proto.irismod.service.RequestContext.prototype.setRepeated = function(value) {
   return jspb.Message.setProto3BooleanField(this, 8, value);
 };
 
 
 /**
- * optional bool repeated = 9;
- * @return {boolean}
- */
-proto.irismod.service.RequestContext.prototype.getRepeated = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 9, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.irismod.service.RequestContext} returns this
- */
-proto.irismod.service.RequestContext.prototype.setRepeated = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 9, value);
-};
-
-
-/**
- * optional uint64 repeated_frequency = 10;
+ * optional uint64 repeated_frequency = 9;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getRepeatedFrequency = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
 };
 
 
@@ -1510,16 +1480,16 @@ proto.irismod.service.RequestContext.prototype.getRepeatedFrequency = function()
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setRepeatedFrequency = function(value) {
-  return jspb.Message.setProto3IntField(this, 10, value);
+  return jspb.Message.setProto3IntField(this, 9, value);
 };
 
 
 /**
- * optional int64 repeated_total = 11;
+ * optional int64 repeated_total = 10;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getRepeatedTotal = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
 
@@ -1528,16 +1498,16 @@ proto.irismod.service.RequestContext.prototype.getRepeatedTotal = function() {
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setRepeatedTotal = function(value) {
-  return jspb.Message.setProto3IntField(this, 11, value);
+  return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
 /**
- * optional uint64 batch_counter = 12;
+ * optional uint64 batch_counter = 11;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getBatchCounter = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
 };
 
 
@@ -1546,16 +1516,16 @@ proto.irismod.service.RequestContext.prototype.getBatchCounter = function() {
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setBatchCounter = function(value) {
-  return jspb.Message.setProto3IntField(this, 12, value);
+  return jspb.Message.setProto3IntField(this, 11, value);
 };
 
 
 /**
- * optional uint32 batch_request_count = 13;
+ * optional uint32 batch_request_count = 12;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getBatchRequestCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 12, 0));
 };
 
 
@@ -1564,16 +1534,16 @@ proto.irismod.service.RequestContext.prototype.getBatchRequestCount = function()
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setBatchRequestCount = function(value) {
-  return jspb.Message.setProto3IntField(this, 13, value);
+  return jspb.Message.setProto3IntField(this, 12, value);
 };
 
 
 /**
- * optional uint32 batch_response_count = 14;
+ * optional uint32 batch_response_count = 13;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getBatchResponseCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 13, 0));
 };
 
 
@@ -1582,16 +1552,16 @@ proto.irismod.service.RequestContext.prototype.getBatchResponseCount = function(
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setBatchResponseCount = function(value) {
-  return jspb.Message.setProto3IntField(this, 14, value);
+  return jspb.Message.setProto3IntField(this, 13, value);
 };
 
 
 /**
- * optional uint32 batch_response_threshold = 15;
+ * optional uint32 batch_response_threshold = 14;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getBatchResponseThreshold = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 15, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 14, 0));
 };
 
 
@@ -1600,16 +1570,16 @@ proto.irismod.service.RequestContext.prototype.getBatchResponseThreshold = funct
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setBatchResponseThreshold = function(value) {
-  return jspb.Message.setProto3IntField(this, 15, value);
+  return jspb.Message.setProto3IntField(this, 14, value);
 };
 
 
 /**
- * optional uint32 response_threshold = 16;
+ * optional uint32 response_threshold = 15;
  * @return {number}
  */
 proto.irismod.service.RequestContext.prototype.getResponseThreshold = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 15, 0));
 };
 
 
@@ -1618,16 +1588,16 @@ proto.irismod.service.RequestContext.prototype.getResponseThreshold = function()
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setResponseThreshold = function(value) {
-  return jspb.Message.setProto3IntField(this, 16, value);
+  return jspb.Message.setProto3IntField(this, 15, value);
 };
 
 
 /**
- * optional RequestContextBatchState batch_state = 17;
+ * optional RequestContextBatchState batch_state = 16;
  * @return {!proto.irismod.service.RequestContextBatchState}
  */
 proto.irismod.service.RequestContext.prototype.getBatchState = function() {
-  return /** @type {!proto.irismod.service.RequestContextBatchState} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
+  return /** @type {!proto.irismod.service.RequestContextBatchState} */ (jspb.Message.getFieldWithDefault(this, 16, 0));
 };
 
 
@@ -1636,16 +1606,16 @@ proto.irismod.service.RequestContext.prototype.getBatchState = function() {
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setBatchState = function(value) {
-  return jspb.Message.setProto3EnumField(this, 17, value);
+  return jspb.Message.setProto3EnumField(this, 16, value);
 };
 
 
 /**
- * optional RequestContextState state = 18;
+ * optional RequestContextState state = 17;
  * @return {!proto.irismod.service.RequestContextState}
  */
 proto.irismod.service.RequestContext.prototype.getState = function() {
-  return /** @type {!proto.irismod.service.RequestContextState} */ (jspb.Message.getFieldWithDefault(this, 18, 0));
+  return /** @type {!proto.irismod.service.RequestContextState} */ (jspb.Message.getFieldWithDefault(this, 17, 0));
 };
 
 
@@ -1654,7 +1624,7 @@ proto.irismod.service.RequestContext.prototype.getState = function() {
  * @return {!proto.irismod.service.RequestContext} returns this
  */
 proto.irismod.service.RequestContext.prototype.setState = function(value) {
-  return jspb.Message.setProto3EnumField(this, 18, value);
+  return jspb.Message.setProto3EnumField(this, 17, value);
 };
 
 
@@ -1704,11 +1674,10 @@ proto.irismod.service.Request.toObject = function(includeInstance, msg) {
     input: jspb.Message.getFieldWithDefault(msg, 5, ""),
     serviceFeeList: jspb.Message.toObjectList(msg.getServiceFeeList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance),
-    superMode: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
-    requestHeight: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    expirationHeight: jspb.Message.getFieldWithDefault(msg, 9, 0),
-    requestContextId: jspb.Message.getFieldWithDefault(msg, 10, ""),
-    requestContextBatchCounter: jspb.Message.getFieldWithDefault(msg, 11, 0)
+    requestHeight: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    expirationHeight: jspb.Message.getFieldWithDefault(msg, 8, 0),
+    requestContextId: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    requestContextBatchCounter: jspb.Message.getFieldWithDefault(msg, 10, 0)
   };
 
   if (includeInstance) {
@@ -1771,22 +1740,18 @@ proto.irismod.service.Request.deserializeBinaryFromReader = function(msg, reader
       msg.addServiceFee(value);
       break;
     case 7:
-      var value = /** @type {boolean} */ (reader.readBool());
-      msg.setSuperMode(value);
-      break;
-    case 8:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setRequestHeight(value);
       break;
-    case 9:
+    case 8:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setExpirationHeight(value);
       break;
-    case 10:
+    case 9:
       var value = /** @type {string} */ (reader.readString());
       msg.setRequestContextId(value);
       break;
-    case 11:
+    case 10:
       var value = /** @type {number} */ (reader.readUint64());
       msg.setRequestContextBatchCounter(value);
       break;
@@ -1862,38 +1827,31 @@ proto.irismod.service.Request.serializeBinaryToWriter = function(message, writer
       cosmos_base_v1beta1_coin_pb.Coin.serializeBinaryToWriter
     );
   }
-  f = message.getSuperMode();
-  if (f) {
-    writer.writeBool(
-      7,
-      f
-    );
-  }
   f = message.getRequestHeight();
   if (f !== 0) {
     writer.writeInt64(
-      8,
+      7,
       f
     );
   }
   f = message.getExpirationHeight();
   if (f !== 0) {
     writer.writeInt64(
-      9,
+      8,
       f
     );
   }
   f = message.getRequestContextId();
   if (f.length > 0) {
     writer.writeString(
-      10,
+      9,
       f
     );
   }
   f = message.getRequestContextBatchCounter();
   if (f !== 0) {
     writer.writeUint64(
-      11,
+      10,
       f
     );
   }
@@ -2029,29 +1987,11 @@ proto.irismod.service.Request.prototype.clearServiceFeeList = function() {
 
 
 /**
- * optional bool super_mode = 7;
- * @return {boolean}
- */
-proto.irismod.service.Request.prototype.getSuperMode = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 7, false));
-};
-
-
-/**
- * @param {boolean} value
- * @return {!proto.irismod.service.Request} returns this
- */
-proto.irismod.service.Request.prototype.setSuperMode = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 7, value);
-};
-
-
-/**
- * optional int64 request_height = 8;
+ * optional int64 request_height = 7;
  * @return {number}
  */
 proto.irismod.service.Request.prototype.getRequestHeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 7, 0));
 };
 
 
@@ -2060,16 +2000,16 @@ proto.irismod.service.Request.prototype.getRequestHeight = function() {
  * @return {!proto.irismod.service.Request} returns this
  */
 proto.irismod.service.Request.prototype.setRequestHeight = function(value) {
-  return jspb.Message.setProto3IntField(this, 8, value);
+  return jspb.Message.setProto3IntField(this, 7, value);
 };
 
 
 /**
- * optional int64 expiration_height = 9;
+ * optional int64 expiration_height = 8;
  * @return {number}
  */
 proto.irismod.service.Request.prototype.getExpirationHeight = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 9, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 8, 0));
 };
 
 
@@ -2078,16 +2018,16 @@ proto.irismod.service.Request.prototype.getExpirationHeight = function() {
  * @return {!proto.irismod.service.Request} returns this
  */
 proto.irismod.service.Request.prototype.setExpirationHeight = function(value) {
-  return jspb.Message.setProto3IntField(this, 9, value);
+  return jspb.Message.setProto3IntField(this, 8, value);
 };
 
 
 /**
- * optional string request_context_id = 10;
+ * optional string request_context_id = 9;
  * @return {string}
  */
 proto.irismod.service.Request.prototype.getRequestContextId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
 };
 
 
@@ -2096,16 +2036,16 @@ proto.irismod.service.Request.prototype.getRequestContextId = function() {
  * @return {!proto.irismod.service.Request} returns this
  */
 proto.irismod.service.Request.prototype.setRequestContextId = function(value) {
-  return jspb.Message.setProto3StringField(this, 10, value);
+  return jspb.Message.setProto3StringField(this, 9, value);
 };
 
 
 /**
- * optional uint64 request_context_batch_counter = 11;
+ * optional uint64 request_context_batch_counter = 10;
  * @return {number}
  */
 proto.irismod.service.Request.prototype.getRequestContextBatchCounter = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 11, 0));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 10, 0));
 };
 
 
@@ -2114,7 +2054,7 @@ proto.irismod.service.Request.prototype.getRequestContextBatchCounter = function
  * @return {!proto.irismod.service.Request} returns this
  */
 proto.irismod.service.Request.prototype.setRequestContextBatchCounter = function(value) {
-  return jspb.Message.setProto3IntField(this, 11, value);
+  return jspb.Message.setProto3IntField(this, 10, value);
 };
 
 
@@ -3414,7 +3354,8 @@ proto.irismod.service.Params.toObject = function(includeInstance, msg) {
     complaintRetrospect: (f = msg.getComplaintRetrospect()) && google_protobuf_duration_pb.Duration.toObject(includeInstance, f),
     arbitrationTimeLimit: (f = msg.getArbitrationTimeLimit()) && google_protobuf_duration_pb.Duration.toObject(includeInstance, f),
     txSizeLimit: jspb.Message.getFieldWithDefault(msg, 8, 0),
-    baseDenom: jspb.Message.getFieldWithDefault(msg, 9, "")
+    baseDenom: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    restrictedServiceFeeDenom: jspb.Message.getBooleanFieldWithDefault(msg, 10, false)
   };
 
   if (includeInstance) {
@@ -3489,6 +3430,10 @@ proto.irismod.service.Params.deserializeBinaryFromReader = function(msg, reader)
     case 9:
       var value = /** @type {string} */ (reader.readString());
       msg.setBaseDenom(value);
+      break;
+    case 10:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setRestrictedServiceFeeDenom(value);
       break;
     default:
       reader.skipField();
@@ -3582,6 +3527,13 @@ proto.irismod.service.Params.serializeBinaryToWriter = function(message, writer)
   if (f.length > 0) {
     writer.writeString(
       9,
+      f
+    );
+  }
+  f = message.getRestrictedServiceFeeDenom();
+  if (f) {
+    writer.writeBool(
+      10,
       f
     );
   }
@@ -3805,6 +3757,24 @@ proto.irismod.service.Params.prototype.getBaseDenom = function() {
  */
 proto.irismod.service.Params.prototype.setBaseDenom = function(value) {
   return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional bool restricted_service_fee_denom = 10;
+ * @return {boolean}
+ */
+proto.irismod.service.Params.prototype.getRestrictedServiceFeeDenom = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 10, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.irismod.service.Params} returns this
+ */
+proto.irismod.service.Params.prototype.setRestrictedServiceFeeDenom = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 10, value);
 };
 
 

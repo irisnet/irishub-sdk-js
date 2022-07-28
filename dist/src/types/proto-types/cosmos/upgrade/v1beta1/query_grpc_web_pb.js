@@ -318,5 +318,85 @@ proto.cosmos.upgrade.v1beta1.QueryPromiseClient.prototype.upgradedConsensusState
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest,
+ *   !proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse>}
+ */
+const methodDescriptor_Query_ModuleVersions = new grpc.web.MethodDescriptor(
+  '/cosmos.upgrade.v1beta1.Query/ModuleVersions',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest,
+  proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse,
+  /**
+   * @param {!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest,
+ *   !proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse>}
+ */
+const methodInfo_Query_ModuleVersions = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse,
+  /**
+   * @param {!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.upgrade.v1beta1.QueryClient.prototype.moduleVersions =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.upgrade.v1beta1.Query/ModuleVersions',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ModuleVersions,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.upgrade.v1beta1.QueryModuleVersionsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.upgrade.v1beta1.QueryPromiseClient.prototype.moduleVersions =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.upgrade.v1beta1.Query/ModuleVersions',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ModuleVersions);
+};
+
+
 module.exports = proto.cosmos.upgrade.v1beta1;
 

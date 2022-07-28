@@ -405,5 +405,85 @@ proto.irismod.token.QueryPromiseClient.prototype.params =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.token.QueryTotalBurnRequest,
+ *   !proto.irismod.token.QueryTotalBurnResponse>}
+ */
+const methodDescriptor_Query_TotalBurn = new grpc.web.MethodDescriptor(
+  '/irismod.token.Query/TotalBurn',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.token.QueryTotalBurnRequest,
+  proto.irismod.token.QueryTotalBurnResponse,
+  /**
+   * @param {!proto.irismod.token.QueryTotalBurnRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.QueryTotalBurnResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.token.QueryTotalBurnRequest,
+ *   !proto.irismod.token.QueryTotalBurnResponse>}
+ */
+const methodInfo_Query_TotalBurn = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.token.QueryTotalBurnResponse,
+  /**
+   * @param {!proto.irismod.token.QueryTotalBurnRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.QueryTotalBurnResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.token.QueryTotalBurnRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.token.QueryTotalBurnResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.token.QueryTotalBurnResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.token.QueryClient.prototype.totalBurn =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.token.Query/TotalBurn',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalBurn,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.token.QueryTotalBurnRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.token.QueryTotalBurnResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.token.QueryPromiseClient.prototype.totalBurn =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.token.Query/TotalBurn',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalBurn);
+};
+
+
 module.exports = proto.irismod.token;
 

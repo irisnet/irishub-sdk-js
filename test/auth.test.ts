@@ -1,15 +1,20 @@
 import { BaseTest } from './basetest';
 
-const timeout = 10000;
+const timeout = 99999;
 
 describe('Nft Tests', () => {
 
   describe('query', () => {
     test(
-      'query Account',
+      'query Accounts',
       async () => {
         await BaseTest.getClient()
-        .auth.queryAccount('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp')
+        .auth.queryAccounts({
+          page_number: 1,
+          page_size: 2,
+          reverse:true,
+          count_total: false
+        })
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -19,7 +24,20 @@ describe('Nft Tests', () => {
       },
       timeout
     );
-
+    test(
+      'query Account',
+      async () => {
+        await BaseTest.getClient()
+        .auth.queryAccount('iaa1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3qef7mx')
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      timeout
+    );
     test(
       'query Params',
       async () => {
