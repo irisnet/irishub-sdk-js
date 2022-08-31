@@ -17,7 +17,7 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var _helper = require("../helper");
 
-var types = _interopRequireWildcard(require("../types"));
+var types = _interopRequireWildcard(require("../types")).default;
 
 var _errors = require("../errors");
 
