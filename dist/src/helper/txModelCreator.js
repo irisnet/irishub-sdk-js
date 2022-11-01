@@ -14,6 +14,7 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var types = _interopRequireWildcard(require("../types"));
+types = types.default ? types.default : types;
 
 var _txHelper = require("./txHelper");
 
