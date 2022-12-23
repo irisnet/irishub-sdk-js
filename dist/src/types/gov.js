@@ -7,7 +7,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LengthOp = exports.HashOp = exports.ProposalStatus = exports.VoteOption = exports.ProposalType = exports.MsgDeposit = exports.MsgVote = exports.MsgSubmitProposal = void 0;
+exports.LengthOp = exports.HashOp = exports.ProposalStatus = exports.VoteOption = exports.ProposalType = exports.MsgDeposit = exports.MsgVoteWeighted = exports.MsgVote = exports.MsgSubmitProposal = void 0;
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -173,8 +173,6 @@ exports.MsgSubmitProposal = MsgSubmitProposal;
 
 /**
  * Msg for Vote
- *
- * @hidden
  */
 var MsgVote = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgVote, _Msg2);
@@ -212,7 +210,7 @@ var MsgVote = /*#__PURE__*/function (_Msg2) {
       }
 
       if (typeof this.value.option == 'undefined') {
-        throw new _errors.SdkError("proposer is empty");
+        throw new _errors.SdkError("option is empty");
       }
     }
   }], [{
@@ -224,30 +222,93 @@ var MsgVote = /*#__PURE__*/function (_Msg2) {
   return MsgVote;
 }(_types.Msg);
 /**
- * param struct for Deposit tx
+ * param struct for VoteWeighted tx
  */
 
 
 exports.MsgVote = MsgVote;
 
 /**
+ * Msg for MsgVoteWeighted
+ */
+var MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
+  (0, _inherits2["default"])(MsgVoteWeighted, _Msg3);
+
+  var _super3 = _createSuper(MsgVoteWeighted);
+
+  function MsgVoteWeighted(msg) {
+    var _this3;
+
+    (0, _classCallCheck2["default"])(this, MsgVoteWeighted);
+    _this3 = _super3.call(this, _types.TxType.MsgVoteWeighted);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
+    _this3.value = msg;
+    return _this3;
+  }
+
+  (0, _createClass2["default"])(MsgVoteWeighted, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setProposalId(this.value.proposal_id);
+      msg.setVoter(this.value.voter);
+      this.value.options.forEach(function (option) {
+        var weightedVoteOption = new pbs.gov_gov_pb.WeightedVoteOption();
+        weightedVoteOption.setOption(option.option);
+        weightedVoteOption.setWeight(option.weight);
+        msg.addOptions(weightedVoteOption);
+      });
+      console.log('gggggg:', JSON.stringify(msg), msg.toObject());
+      return msg;
+    }
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (!this.value.proposal_id) {
+        throw new _errors.SdkError("proposal_id is empty");
+      }
+
+      if (!this.value.voter) {
+        throw new _errors.SdkError("proposer is empty");
+      }
+
+      if (!this.value.options || !this.value.options.length) {
+        throw new _errors.SdkError("options is empty");
+      }
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.gov_tx_pb.MsgVoteWeighted;
+    }
+  }]);
+  return MsgVoteWeighted;
+}(_types.Msg);
+/**
+ * param struct for Deposit tx
+ */
+
+
+exports.MsgVoteWeighted = MsgVoteWeighted;
+
+/**
  * Msg for Deposit
  *
  * @hidden
  */
-var MsgDeposit = /*#__PURE__*/function (_Msg3) {
-  (0, _inherits2["default"])(MsgDeposit, _Msg3);
+var MsgDeposit = /*#__PURE__*/function (_Msg4) {
+  (0, _inherits2["default"])(MsgDeposit, _Msg4);
 
-  var _super3 = _createSuper(MsgDeposit);
+  var _super4 = _createSuper(MsgDeposit);
 
   function MsgDeposit(msg) {
-    var _this3;
+    var _this4;
 
     (0, _classCallCheck2["default"])(this, MsgDeposit);
-    _this3 = _super3.call(this, _types.TxType.MsgDeposit);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
-    _this3.value = msg;
-    return _this3;
+    _this4 = _super4.call(this, _types.TxType.MsgDeposit);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
+    _this4.value = msg;
+    return _this4;
   }
 
   (0, _createClass2["default"])(MsgDeposit, [{

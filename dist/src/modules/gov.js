@@ -134,18 +134,18 @@ var Gov = /*#__PURE__*/function () {
       return vote;
     }()
     /**
-     * deposit
+     * voteWeighted 
      * @param proposal_id 
-     * @param amount
+     * @param options Note: Due to Chain precision issues, option.weight needs to be multiplied by 10^18, such as 0.3 => 0.3 * 10**18 = 3000000000000000000
      * @param baseTx { types.BaseTx }
      * @returns
-     * @since v0.17
+     * @since v3.0.1
      */
 
   }, {
-    key: "deposit",
+    key: "voteWeighted",
     value: function () {
-      var _deposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(proposal_id, amount, baseTx) {
+      var _voteWeighted = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(proposal_id, options, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
@@ -153,11 +153,11 @@ var Gov = /*#__PURE__*/function () {
               case 0:
                 from = this.client.keys.show(baseTx.from);
                 msgs = [{
-                  type: types.TxType.MsgDeposit,
+                  type: types.TxType.MsgVoteWeighted,
                   value: {
                     proposal_id: proposal_id,
-                    depositor: from,
-                    amount: amount
+                    voter: from,
+                    options: options
                   }
                 }];
                 return _context3.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
@@ -170,7 +170,50 @@ var Gov = /*#__PURE__*/function () {
         }, _callee3, this);
       }));
 
-      function deposit(_x7, _x8, _x9) {
+      function voteWeighted(_x7, _x8, _x9) {
+        return _voteWeighted.apply(this, arguments);
+      }
+
+      return voteWeighted;
+    }()
+    /**
+     * deposit
+     * @param proposal_id 
+     * @param amount
+     * @param baseTx { types.BaseTx }
+     * @returns
+     * @since v0.17
+     */
+
+  }, {
+    key: "deposit",
+    value: function () {
+      var _deposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(proposal_id, amount, baseTx) {
+        var from, msgs;
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                from = this.client.keys.show(baseTx.from);
+                msgs = [{
+                  type: types.TxType.MsgDeposit,
+                  value: {
+                    proposal_id: proposal_id,
+                    depositor: from,
+                    amount: amount
+                  }
+                }];
+                return _context4.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function deposit(_x10, _x11, _x12) {
         return _deposit.apply(this, arguments);
       }
 
