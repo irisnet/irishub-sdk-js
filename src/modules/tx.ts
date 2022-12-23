@@ -431,6 +431,10 @@ export class Tx {
           msg = new types.MsgVote(txMsg.value)
           break;
       }
+      case types.TxType.MsgVoteWeighted: {
+          msg = new types.MsgVoteWeighted(txMsg.value)
+          break;
+      }
       case types.TxType.MsgDeposit: {
           msg = new types.MsgDeposit(txMsg.value)
           break;

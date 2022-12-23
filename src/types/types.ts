@@ -77,6 +77,7 @@ export enum TxType {
   //gov
   MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",
   MsgVote = "cosmos.gov.v1beta1.MsgVote",
+  MsgVoteWeighted = "cosmos.gov.v1beta1.MsgVoteWeighted",
   MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit",
   //htlc
   MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
