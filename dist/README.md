@@ -201,6 +201,7 @@ const res = await client.bank.send({
 - submitCommunityTaxUsageProposal
 - deposit
 - vote
+- voteWeighted
 
 ### bank `src/modules/htlc.ts`
 - createHTLC

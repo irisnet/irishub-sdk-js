@@ -2109,10 +2109,15 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.6, bn.js@^4.11.8, bn.js@^4.11.9:
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.8, bn.js@^4.11.9:
   version "4.11.9"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
   integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
+
+bn.js@^4.11.6:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.12.0.tgz#775b3f278efbb9718eec7361f483fb36fbbfea88"
+  integrity sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==
 
 bn.js@^5.0.0, bn.js@^5.1.1:
   version "5.1.3"
@@ -4740,7 +4745,7 @@ js-yaml@^3.13.1:
 jsbn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-1.1.0.tgz#b01307cb29b618a1ed26ec79e911f803c4da0040"
-  integrity sha1-sBMHyym2GKHtJux56RH4A8TaAEA=
+  integrity sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==
 
 jsbn@~0.1.0:
   version "0.1.1"
@@ -6401,9 +6406,10 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
-"sm-crypto@git+http://github.com/bianjieai/sm-crypto-js.git#main":
-  version "0.2.1"
-  resolved "git+http://github.com/bianjieai/sm-crypto-js.git#def39a846c0b87fc27f6e63ee90d2149c2590a57"
+sm-crypto-bj@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/sm-crypto-bj/-/sm-crypto-bj-0.2.2.tgz#477bf9a661e8a7b67ebeac0f6dd0dd89b17c252d"
+  integrity sha512-nZ5iMDtxntHniBIZ/EY4s+PNb9nMaM2cAvcJ4tuVMpapPGb7iLHdlWyrDYDtEuSDMs2+i2oK/uUCjd7vFooJuQ==
   dependencies:
     bn.js "^4.11.6"
     jsbn "^1.1.0"
