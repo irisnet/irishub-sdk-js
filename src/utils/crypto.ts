@@ -13,7 +13,7 @@ import { SdkError, CODES } from '../errors';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
-const SM2 = require('sm-crypto').sm2;
+const SM2 = require('sm-crypto-bj').sm2;
 
 const bcrypt = require('bcryptjs');
 const nacl = require('tweetnacl');

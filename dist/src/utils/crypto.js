@@ -47,7 +47,7 @@ var Sha256 = require('sha256');
 
 var Secp256k1 = require('secp256k1');
 
-var SM2 = require('sm-crypto').sm2;
+var SM2 = require('sm-crypto-bj').sm2;
 
 var bcrypt = require('bcryptjs');
 

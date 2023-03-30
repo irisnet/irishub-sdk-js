@@ -106,6 +106,7 @@ exports.TxType = TxType;
   TxType["MsgTransferTokenOwner"] = "irismod.token.MsgTransferTokenOwner";
   TxType["MsgSubmitProposal"] = "cosmos.gov.v1beta1.MsgSubmitProposal";
   TxType["MsgVote"] = "cosmos.gov.v1beta1.MsgVote";
+  TxType["MsgVoteWeighted"] = "cosmos.gov.v1beta1.MsgVoteWeighted";
   TxType["MsgDeposit"] = "cosmos.gov.v1beta1.MsgDeposit";
   TxType["MsgCreateHTLC"] = "irismod.htlc.MsgCreateHTLC";
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";

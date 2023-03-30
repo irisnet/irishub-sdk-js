@@ -255,6 +255,12 @@ var Protobuf = /*#__PURE__*/function () {
             break;
           }
 
+        case types.TxType.MsgVoteWeighted:
+          {
+            messageModelClass = types.MsgVoteWeighted.getModelClass();
+            break;
+          }
+
         case types.TxType.MsgDeposit:
           {
             messageModelClass = types.MsgDeposit.getModelClass();

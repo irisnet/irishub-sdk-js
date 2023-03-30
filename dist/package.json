@@ -1,6 +1,6 @@
 {
   "name": "@irisnet/irishub-sdk",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
   "typings": "index.ts",
@@ -73,7 +73,7 @@
     "secp256k1": "^3.8.0",
     "secure-random": "^1.1.2",
     "sha256": "^0.2.0",
-    "sm-crypto": "git+http://github.com/bianjieai/sm-crypto-js.git#main",
+    "sm-crypto-bj": "0.2.2",
     "tweetnacl": "^1.0.3",
     "uuid": "^8.3.2"
   }

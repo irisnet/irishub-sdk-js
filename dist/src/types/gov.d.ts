@@ -32,12 +32,28 @@ export interface VoteTxParam {
 }
 /**
  * Msg for Vote
- *
- * @hidden
  */
 export declare class MsgVote extends Msg {
     value: VoteTxParam;
     constructor(msg: VoteTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    validate(): void;
+}
+/**
+ * param struct for VoteWeighted tx
+ */
+export interface VoteWeightedTxParam {
+    proposal_id: number;
+    voter: string;
+    options: WeightedVoteOption[];
+}
+/**
+ * Msg for MsgVoteWeighted
+ */
+export declare class MsgVoteWeighted extends Msg {
+    value: VoteWeightedTxParam;
+    constructor(msg: VoteWeightedTxParam);
     static getModelClass(): any;
     getModel(): any;
     validate(): void;
@@ -119,6 +135,10 @@ export interface SoftwareUpgradePlan {
  */
 export interface SoftwareUpgradeProposal extends TextProposal {
     plan: SoftwareUpgradePlan;
+}
+export interface WeightedVoteOption {
+    option: VoteOption;
+    weight: string;
 }
 /**
  * Vote options

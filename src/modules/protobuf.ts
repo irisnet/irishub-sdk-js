@@ -164,6 +164,10 @@ export class Protobuf {
             messageModelClass = types.MsgVote.getModelClass();
             break;
         }
+        case types.TxType.MsgVoteWeighted: {
+            messageModelClass = types.MsgVoteWeighted.getModelClass();
+            break;
+        }
         case types.TxType.MsgDeposit: {
             messageModelClass = types.MsgDeposit.getModelClass();
             break;
