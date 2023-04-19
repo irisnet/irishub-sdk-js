@@ -200,7 +200,6 @@ export class MsgVoteWeighted extends Msg {
       weightedVoteOption.setWeight(option.weight);
       msg.addOptions(weightedVoteOption);
     });
-    console.log('gggggg:', JSON.stringify(msg), msg.toObject(), );
     return msg;
   }
 
