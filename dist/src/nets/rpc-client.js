@@ -1,43 +1,26 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 var _typeof = require("@babel/runtime/helpers/typeof");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RpcClient = void 0;
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
-
 var _axios = _interopRequireDefault(require("axios"));
-
 var _utils = require("../utils");
-
 var _errors = require("../errors");
-
 var is = _interopRequireWildcard(require("is_js"));
-
 var types = _interopRequireWildcard(require("../types"));
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 /**
  * Tendermint JSON RPC Client
  * @since v0.17
  */
 var RpcClient = /*#__PURE__*/function () {
-  /** @hidden */
-
-  /** @hidden */
-
   /**
    * Initialize Tendermint JSON RPC Client
    * @param url Rpc address of irishub node
@@ -47,17 +30,16 @@ var RpcClient = /*#__PURE__*/function () {
    */
   function RpcClient(config) {
     (0, _classCallCheck2["default"])(this, RpcClient);
+    /** @hidden */
     (0, _defineProperty2["default"])(this, "instance", void 0);
+    /** @hidden */
     (0, _defineProperty2["default"])(this, "config", void 0);
-
     if (is.empty(config)) {
       throw new _errors.SdkError('RpcClient Config not initialized');
     }
-
     if (is.empty(config.baseURL)) {
       throw new _errors.SdkError('baseURL of RpcClient cannot be empty');
     }
-
     if (is.empty(config.timeout)) {
       config.timeout = 2000; // Set default timeout
     }
@@ -67,6 +49,7 @@ var RpcClient = /*#__PURE__*/function () {
     this.config = config;
     this.instance = _axios["default"].create(config);
   }
+
   /**
    * Post Tendermint JSON RPC Request
    *
@@ -75,8 +58,6 @@ var RpcClient = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-
-
   (0, _createClass2["default"])(RpcClient, [{
     key: "request",
     value: function request(method) {
@@ -88,16 +69,16 @@ var RpcClient = /*#__PURE__*/function () {
         params: params
       };
       return this.instance.post(this.config.baseURL, data).then(function (response) {
-        var res = response.data; // Internal error
-
+        var res = response.data;
+        // Internal error
         if (res.error) {
           console.error(res.error);
           throw new _errors.SdkError(res.error.message, res.error.code, "rpc_".concat(method));
         }
-
         return res.result;
       });
     }
+
     /**
      * Tendermint ABCI protobuf Query
      *
@@ -107,7 +88,6 @@ var RpcClient = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
-
   }, {
     key: "protoQuery",
     value: function protoQuery(path, protoRequest, protoResponse, height) {
@@ -115,11 +95,9 @@ var RpcClient = /*#__PURE__*/function () {
         path: path,
         height: height
       };
-
       if (protoRequest && protoRequest.serializeBinary) {
         params.data = Buffer.from(protoRequest.serializeBinary()).toString('hex');
       }
-
       return this.request(types.RpcMethods.AbciQuery, params).then(function (response) {
         if (response && response.response) {
           if (response.response.value) {
@@ -139,10 +117,10 @@ var RpcClient = /*#__PURE__*/function () {
             return null;
           }
         }
-
         throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log), response.response.code, response.response.codespace);
       });
     }
+
     /**
      * Tendermint ABCI Query
      *
@@ -152,46 +130,41 @@ var RpcClient = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
-
   }, {
     key: "abciQuery",
     value: function abciQuery(path, data, height) {
       var params = {
         path: path
       };
-
       if (data) {
         params.data = _utils.Utils.obj2hexstring(data);
       }
-
       if (height) {
         params.height = String(height);
       }
-
       return this.request(types.RpcMethods.AbciQuery, params).then(function (response) {
         if (response && response.response) {
           if (response.response.value) {
             var value = Buffer.from(response.response.value, 'base64').toString();
-
             try {
               return JSON.parse(value).value;
             } catch (err) {
               return value;
-            } // const res = JSON.parse(value);
+            }
+            // const res = JSON.parse(value);
             // if (!res) return {};
             // if (res.type && res.value) return res.value;
             // return res;
-
           } else if (response.response.code) {
             throw new _errors.SdkError(response.response.log, response.response.code, response.response.codespace);
           } else {
             return null;
           }
         }
-
         throw new _errors.SdkError("Internal Error from ".concat(path, ":").concat(response.response.log), response.response.code, response.response.codespace);
       });
     }
+
     /**
      *
      * @param key The store key
@@ -200,7 +173,6 @@ var RpcClient = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
-
   }, {
     key: "queryStore",
     value: function queryStore(key, storeName, height) {
@@ -215,5 +187,4 @@ var RpcClient = /*#__PURE__*/function () {
   }]);
   return RpcClient;
 }();
-
 exports.RpcClient = RpcClient;
