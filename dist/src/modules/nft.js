@@ -280,12 +280,12 @@ var Nft = /*#__PURE__*/function () {
       if (!owner) {
         throw new _errors.SdkError("owner can ont be empty");
       }
-      var request = new types.nft_query_pb.QueryOwnerRequest();
+      var request = new types.nft_query_pb.QueryNFTsOfOwnerRequest();
       request.setOwner(owner);
       if (denom_id) {
         request.setDenomId(denom_id);
       }
-      return this.client.rpcClient.protoQuery('/irismod.nft.Query/Owner', request, types.nft_query_pb.QueryOwnerResponse);
+      return this.client.rpcClient.protoQuery('/irismod.nft.Query/NFTsOfOwner', request, types.nft_query_pb.QueryNFTsOfOwnerResponse);
     }
 
     /**

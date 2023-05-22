@@ -227,14 +227,14 @@ export class Nft {
     if (!owner) {
       throw new SdkError("owner can ont be empty");
     }
-    const request = new types.nft_query_pb.QueryOwnerRequest();
+    const request = new types.nft_query_pb.QueryNFTsOfOwnerRequest();
     request.setOwner(owner);
     if (denom_id) {request.setDenomId(denom_id)}
 
     return this.client.rpcClient.protoQuery(
-      '/irismod.nft.Query/Owner',
+      '/irismod.nft.Query/NFTsOfOwner',
       request,
-      types.nft_query_pb.QueryOwnerResponse
+      types.nft_query_pb.QueryNFTsOfOwnerResponse
     );
   }
 

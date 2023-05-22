@@ -135,9 +135,19 @@ var Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgMintToken.getModelClass();
             break;
           }
+        case types.TxType.MsgBurnToken:
+          {
+            messageModelClass = types.MsgBurnToken.getModelClass();
+            break;
+          }
         case types.TxType.MsgTransferTokenOwner:
           {
             messageModelClass = types.MsgTransferTokenOwner.getModelClass();
+            break;
+          }
+        case types.TxType.MsgSwapFeeToken:
+          {
+            messageModelClass = types.MsgSwapFeeToken.getModelClass();
             break;
           }
         //coinswap

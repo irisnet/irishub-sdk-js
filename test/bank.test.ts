@@ -10,7 +10,7 @@ describe('Bank Tests', () => {
       async () => {
         const amount: types.Coin[] = [
           {
-            denom: 'uiris',
+            denom: 'unyan',
             amount: '1',
           },
         ];
@@ -65,7 +65,7 @@ describe('Bank Tests', () => {
       'query Balance',
       async () => {
         await BaseTest.getClient()
-          .bank.queryBalance('iaa174qyl02cupyqq77cqqtdl0frda6dl3rp2h9snu','udev')
+          .bank.queryBalance('iaa1kaw9vuusxhc4gvx02enhzf88jmd4eg487mfdyc','udev')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -80,7 +80,7 @@ describe('Bank Tests', () => {
       'query All Balances',
       async () => {
         await BaseTest.getClient()
-          .bank.queryAllBalances('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw')
+          .bank.queryAllBalances('iaa1c7y370svmmu9yhwg7f30cfm70gdquht3l7y2wg')
           .then(res => {
             console.log(JSON.stringify(res));
           })

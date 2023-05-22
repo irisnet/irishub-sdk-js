@@ -16,7 +16,7 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
-var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
+var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.token = require('./tx_pb.js');

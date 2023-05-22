@@ -162,80 +162,80 @@ proto.irismod.nft.QueryPromiseClient.prototype.supply =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.irismod.nft.QueryOwnerRequest,
- *   !proto.irismod.nft.QueryOwnerResponse>}
+ *   !proto.irismod.nft.QueryNFTsOfOwnerRequest,
+ *   !proto.irismod.nft.QueryNFTsOfOwnerResponse>}
  */
-const methodDescriptor_Query_Owner = new grpc.web.MethodDescriptor(
-  '/irismod.nft.Query/Owner',
+const methodDescriptor_Query_NFTsOfOwner = new grpc.web.MethodDescriptor(
+  '/irismod.nft.Query/NFTsOfOwner',
   grpc.web.MethodType.UNARY,
-  proto.irismod.nft.QueryOwnerRequest,
-  proto.irismod.nft.QueryOwnerResponse,
+  proto.irismod.nft.QueryNFTsOfOwnerRequest,
+  proto.irismod.nft.QueryNFTsOfOwnerResponse,
   /**
-   * @param {!proto.irismod.nft.QueryOwnerRequest} request
+   * @param {!proto.irismod.nft.QueryNFTsOfOwnerRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.irismod.nft.QueryOwnerResponse.deserializeBinary
+  proto.irismod.nft.QueryNFTsOfOwnerResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.irismod.nft.QueryOwnerRequest,
- *   !proto.irismod.nft.QueryOwnerResponse>}
+ *   !proto.irismod.nft.QueryNFTsOfOwnerRequest,
+ *   !proto.irismod.nft.QueryNFTsOfOwnerResponse>}
  */
-const methodInfo_Query_Owner = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.irismod.nft.QueryOwnerResponse,
+const methodInfo_Query_NFTsOfOwner = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.nft.QueryNFTsOfOwnerResponse,
   /**
-   * @param {!proto.irismod.nft.QueryOwnerRequest} request
+   * @param {!proto.irismod.nft.QueryNFTsOfOwnerRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.irismod.nft.QueryOwnerResponse.deserializeBinary
+  proto.irismod.nft.QueryNFTsOfOwnerResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.irismod.nft.QueryOwnerRequest} request The
+ * @param {!proto.irismod.nft.QueryNFTsOfOwnerRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.irismod.nft.QueryOwnerResponse)}
+ * @param {function(?grpc.web.Error, ?proto.irismod.nft.QueryNFTsOfOwnerResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.irismod.nft.QueryOwnerResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.nft.QueryNFTsOfOwnerResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.irismod.nft.QueryClient.prototype.owner =
+proto.irismod.nft.QueryClient.prototype.nFTsOfOwner =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/irismod.nft.Query/Owner',
+      '/irismod.nft.Query/NFTsOfOwner',
       request,
       metadata || {},
-      methodDescriptor_Query_Owner,
+      methodDescriptor_Query_NFTsOfOwner,
       callback);
 };
 
 
 /**
- * @param {!proto.irismod.nft.QueryOwnerRequest} request The
+ * @param {!proto.irismod.nft.QueryNFTsOfOwnerRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.irismod.nft.QueryOwnerResponse>}
+ * @return {!Promise<!proto.irismod.nft.QueryNFTsOfOwnerResponse>}
  *     Promise that resolves to the response
  */
-proto.irismod.nft.QueryPromiseClient.prototype.owner =
+proto.irismod.nft.QueryPromiseClient.prototype.nFTsOfOwner =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/irismod.nft.Query/Owner',
+      '/irismod.nft.Query/NFTsOfOwner',
       request,
       metadata || {},
-      methodDescriptor_Query_Owner);
+      methodDescriptor_Query_NFTsOfOwner);
 };
 
 

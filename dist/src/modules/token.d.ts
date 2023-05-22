@@ -50,6 +50,12 @@ export declare class Token {
         to?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
+     * burn some amount of token
+     * @param BurnTokenTxParam
+     * @returns
+     */
+    burnToken(coin: types.Coin, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
      * transfer owner of token
      * @param TransferTokenOwnerTxParam
      * @returns
@@ -57,6 +63,15 @@ export declare class Token {
     transferTokenOwner(token: {
         symbol: string;
         dst_owner: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * Swap Fee Token
+     * @param SwapFeeTokenTxParam
+     * @returns
+     */
+    swapFeeToken(msg: {
+        fee_paid: types.Coin;
+        recipient?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Query all tokens

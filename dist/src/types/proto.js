@@ -40,7 +40,7 @@ var record_tx_pb = require('./proto-types/irismod/record/tx_pb');
 exports.record_tx_pb = record_tx_pb;
 var service_tx_pb = require('./proto-types/irismod/service/tx_pb');
 exports.service_tx_pb = service_tx_pb;
-var token_tx_pb = require('./proto-types/irismod/token/tx_pb');
+var token_tx_pb = require('./proto-types/irismod/token/v1/tx_pb');
 //farm tx
 exports.token_tx_pb = token_tx_pb;
 var farm_tx_pb = require('./proto-types/irismod/farm/tx_pb');
@@ -89,7 +89,7 @@ var record_query_pb = require('./proto-types/irismod/record/query_pb');
 exports.record_query_pb = record_query_pb;
 var service_query_pb = require('./proto-types/irismod/service/query_pb');
 exports.service_query_pb = service_query_pb;
-var token_query_pb = require('./proto-types/irismod/token/query_pb');
+var token_query_pb = require('./proto-types/irismod/token/v1/query_pb');
 exports.token_query_pb = token_query_pb;
 var farm_query_pb = require('./proto-types/irismod/farm/query_pb');
 
@@ -147,7 +147,7 @@ var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/time
 
 //irimod module
 exports.google_protobuf_timestamp_pb = google_protobuf_timestamp_pb;
-var token_token_pb = require('./proto-types/irismod/token/token_pb');
+var token_token_pb = require('./proto-types/irismod/token/v1/token_pb');
 
 //any
 exports.token_token_pb = token_token_pb;

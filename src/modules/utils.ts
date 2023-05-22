@@ -1,6 +1,8 @@
 import { Client } from '../client';
 import * as types from '../types';
 import * as mathjs from 'mathjs';
+import { ConfigOptions } from 'mathjs';
+
 import { SdkError, CODES } from '../errors';
 
 /**
@@ -14,7 +16,7 @@ export class Utils {
   /** @hidden */
   private tokenMap: Map<string, types.Token>;
   /** @hidden */
-  private mathConfig = {
+  private mathConfig: ConfigOptions = {
     number: 'BigNumber', // Choose 'number' (default), 'BigNumber', or 'Fraction'
     precision: 64, // 64 by default, only applicable for BigNumbers
   };
