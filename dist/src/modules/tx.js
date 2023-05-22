@@ -457,9 +457,19 @@ var Tx = /*#__PURE__*/function () {
             msg = new types.MsgMintToken(txMsg.value);
             break;
           }
+        case types.TxType.MsgBurnToken:
+          {
+            msg = new types.MsgBurnToken(txMsg.value);
+            break;
+          }
         case types.TxType.MsgTransferTokenOwner:
           {
             msg = new types.MsgTransferTokenOwner(txMsg.value);
+            break;
+          }
+        case types.TxType.MsgSwapFeeToken:
+          {
+            msg = new types.MsgSwapFeeToken(txMsg.value);
             break;
           }
         //coinswap

@@ -96,6 +96,28 @@ export class Token {
   }
 
   /**
+   * burn some amount of token
+   * @param BurnTokenTxParam
+   * @returns
+   */
+  async burnToken(
+    coin: types.Coin,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const sender = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgBurnToken,
+        value: {
+          coin,
+          sender
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
    * transfer owner of token
    * @param TransferTokenOwnerTxParam
    * @returns
@@ -117,6 +139,30 @@ export class Token {
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 
+  /**
+   * Swap Fee Token
+   * @param SwapFeeTokenTxParam
+   * @returns
+   */
+  async swapFeeToken(
+    msg: {
+      fee_paid: types.Coin,
+      recipient?: string
+    },
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const sender = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgSwapFeeToken,
+        value: {
+          ...msg,
+          sender
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
 
   /**
    * Query all tokens

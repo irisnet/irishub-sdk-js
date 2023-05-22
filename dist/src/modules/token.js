@@ -16,6 +16,8 @@ var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 /**
  * IRISHub allows individuals and companies to create and issue their own tokens.
  *
@@ -130,24 +132,25 @@ var Token = /*#__PURE__*/function () {
       return mintToken;
     }()
     /**
-     * transfer owner of token
-     * @param TransferTokenOwnerTxParam
+     * burn some amount of token
+     * @param BurnTokenTxParam
      * @returns
      */
   }, {
-    key: "transferTokenOwner",
+    key: "burnToken",
     value: function () {
-      var _transferTokenOwner = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(token, baseTx) {
-        var owner, msgs;
+      var _burnToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(coin, baseTx) {
+        var sender, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              owner = this.client.keys.show(baseTx.from);
+              sender = this.client.keys.show(baseTx.from);
               msgs = [{
-                type: types.TxType.MsgTransferTokenOwner,
-                value: Object.assign({
-                  src_owner: owner
-                }, token)
+                type: types.TxType.MsgBurnToken,
+                value: {
+                  coin: coin,
+                  sender: sender
+                }
               }];
               return _context4.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
             case 3:
@@ -156,10 +159,74 @@ var Token = /*#__PURE__*/function () {
           }
         }, _callee4, this);
       }));
-      function transferTokenOwner(_x7, _x8) {
+      function burnToken(_x7, _x8) {
+        return _burnToken.apply(this, arguments);
+      }
+      return burnToken;
+    }()
+    /**
+     * transfer owner of token
+     * @param TransferTokenOwnerTxParam
+     * @returns
+     */
+  }, {
+    key: "transferTokenOwner",
+    value: function () {
+      var _transferTokenOwner = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(token, baseTx) {
+        var owner, msgs;
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              owner = this.client.keys.show(baseTx.from);
+              msgs = [{
+                type: types.TxType.MsgTransferTokenOwner,
+                value: Object.assign({
+                  src_owner: owner
+                }, token)
+              }];
+              return _context5.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+            case 3:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5, this);
+      }));
+      function transferTokenOwner(_x9, _x10) {
         return _transferTokenOwner.apply(this, arguments);
       }
       return transferTokenOwner;
+    }()
+    /**
+     * Swap Fee Token
+     * @param SwapFeeTokenTxParam
+     * @returns
+     */
+  }, {
+    key: "swapFeeToken",
+    value: function () {
+      var _swapFeeToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(msg, baseTx) {
+        var sender, msgs;
+        return _regenerator["default"].wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              sender = this.client.keys.show(baseTx.from);
+              msgs = [{
+                type: types.TxType.MsgSwapFeeToken,
+                value: _objectSpread(_objectSpread({}, msg), {}, {
+                  sender: sender
+                })
+              }];
+              return _context6.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+            case 3:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6, this);
+      }));
+      function swapFeeToken(_x11, _x12) {
+        return _swapFeeToken.apply(this, arguments);
+      }
+      return swapFeeToken;
     }()
     /**
      * Query all tokens
@@ -175,15 +242,15 @@ var Token = /*#__PURE__*/function () {
         request.setOwner(owner);
       }
       return new Promise( /*#__PURE__*/function () {
-        var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(resolve) {
+        var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(resolve) {
           var res, deserializedData;
-          return _regenerator["default"].wrap(function _callee5$(_context5) {
-            while (1) switch (_context5.prev = _context5.next) {
+          return _regenerator["default"].wrap(function _callee7$(_context7) {
+            while (1) switch (_context7.prev = _context7.next) {
               case 0:
-                _context5.next = 2;
+                _context7.next = 2;
                 return _this.client.rpcClient.protoQuery('/irismod.token.Query/Tokens', request, types.token_query_pb.QueryTokensResponse);
               case 2:
-                res = _context5.sent;
+                res = _context7.sent;
                 deserializedData = [];
                 if (res && res.tokensList && is.array(res.tokensList)) {
                   deserializedData = res.tokensList.map(function (item) {
@@ -193,11 +260,11 @@ var Token = /*#__PURE__*/function () {
                 resolve(deserializedData);
               case 6:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
-          }, _callee5);
+          }, _callee7);
         }));
-        return function (_x9) {
+        return function (_x13) {
           return _ref.apply(this, arguments);
         };
       }());
@@ -219,15 +286,15 @@ var Token = /*#__PURE__*/function () {
       var request = new types.token_query_pb.QueryTokenRequest();
       request.setDenom(denom);
       return new Promise( /*#__PURE__*/function () {
-        var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(resolve) {
+        var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(resolve) {
           var res, deserializedData;
-          return _regenerator["default"].wrap(function _callee6$(_context6) {
-            while (1) switch (_context6.prev = _context6.next) {
+          return _regenerator["default"].wrap(function _callee8$(_context8) {
+            while (1) switch (_context8.prev = _context8.next) {
               case 0:
-                _context6.next = 2;
+                _context8.next = 2;
                 return _this2.client.rpcClient.protoQuery('/irismod.token.Query/Token', request, types.token_query_pb.QueryTokenResponse);
               case 2:
-                res = _context6.sent;
+                res = _context8.sent;
                 deserializedData = null;
                 if (res && res.token && res.token.value) {
                   deserializedData = types.token_token_pb.Token.deserializeBinary(res.token.value).toObject();
@@ -235,11 +302,11 @@ var Token = /*#__PURE__*/function () {
                 resolve(deserializedData);
               case 6:
               case "end":
-                return _context6.stop();
+                return _context8.stop();
             }
-          }, _callee6);
+          }, _callee8);
         }));
-        return function (_x10) {
+        return function (_x14) {
           return _ref2.apply(this, arguments);
         };
       }());

@@ -1,4 +1,5 @@
 import {Coin, Msg, TxType} from './types';
+import { TxModelCreator } from '../helper';
 import * as is from "is_js";
 import * as pbs from "./proto";
 import { SdkError, CODES } from "../errors";
@@ -46,6 +47,15 @@ export interface MintTokenTxParam {
 }
 
 /**
+ * param struct for burn token tx
+ */
+export interface BurnTokenTxParam {
+  coin: Coin;
+  sender: number;
+}
+
+
+/**
  * param struct for edit token tx
  */
 export interface EditTokenTxParam {
@@ -63,6 +73,15 @@ export interface TransferTokenOwnerTxParam {
   symbol: string;
   src_owner: string;
   dst_owner: string;
+}
+
+/**
+ * param struct for Swap Fee Token tx
+ */
+export interface SwapFeeTokenTxParam {
+  fee_paid: Coin;
+  recipient?: string;
+  sender: string;
 }
 
 /**
@@ -231,6 +250,46 @@ export class MsgMintToken extends Msg {
 }
 
 /**
+ * Msg struct for mint token
+ * @hidden
+ */
+export class MsgBurnToken extends Msg {
+  value: BurnTokenTxParam;
+
+  constructor(msg: BurnTokenTxParam) {
+    super(TxType.MsgBurnToken);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgBurnToken;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setCoin(TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount))
+      .setSender(this.value.sender);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.coin)) {
+      throw new SdkError(`coin can not be empty`);
+    }
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    return true;
+  }
+}
+
+/**
  * Msg struct for transfer token owner
  * @hidden
  */
@@ -271,10 +330,50 @@ export class MsgTransferTokenOwner extends Msg {
     if (is.undefined(this.value.dst_owner)) {
       throw new SdkError(`destination owner can not be empty`);
     }
-
     return true;
   }
 }
 
+/**
+ * Msg struct for Swap Fee Token
+ * @hidden
+ */
+export class MsgSwapFeeToken extends Msg {
+  value: SwapFeeTokenTxParam;
 
+  constructor(msg: SwapFeeTokenTxParam) {
+    super(TxType.MsgSwapFeeToken);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgSwapFeeToken;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setFeePaid(TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount))
+      .setSender(this.value.sender);
+    if (this.value.recipient) {
+      msg.setRecipient(this.value.recipient);
+    }
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.fee_paid)) {
+      throw new SdkError(`coin can not be empty`);
+    }
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    return true;
+  }
+}
 

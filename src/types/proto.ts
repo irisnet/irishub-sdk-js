@@ -18,7 +18,7 @@ export const oracle_tx_pb= require( './proto-types/irismod/oracle/tx_pb');
 export const random_tx_pb= require( './proto-types/irismod/random/tx_pb');
 export const record_tx_pb= require( './proto-types/irismod/record/tx_pb');
 export const service_tx_pb= require( './proto-types/irismod/service/tx_pb');
-export const token_tx_pb= require( './proto-types/irismod/token/tx_pb');
+export const token_tx_pb= require( './proto-types/irismod/token/v1/tx_pb');
 //farm tx
 export const farm_tx_pb = require('./proto-types/irismod/farm/tx_pb')
 //ibc tx
@@ -46,7 +46,7 @@ export const oracle_query_pb = require( './proto-types/irismod/oracle/query_pb')
 export const random_query_pb = require( './proto-types/irismod/random/query_pb');
 export const record_query_pb = require( './proto-types/irismod/record/query_pb');
 export const service_query_pb = require( './proto-types/irismod/service/query_pb');
-export const token_query_pb = require( './proto-types/irismod/token/query_pb');
+export const token_query_pb = require( './proto-types/irismod/token/v1/query_pb');
 export const farm_query_pb = require( './proto-types/irismod/farm/query_pb');
 
 //ibc query
@@ -84,7 +84,7 @@ export const google_protobuf_timestamp_pb = require('google-protobuf/google/prot
 // export const google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');
 
 //irimod module
-export const token_token_pb = require( './proto-types/irismod/token/token_pb');
+export const token_token_pb = require( './proto-types/irismod/token/v1/token_pb');
 
 //any
 export const any_pb = require( './proto-types/google/protobuf/any_pb');

@@ -160,6 +160,86 @@ proto.irismod.coinswap.MsgPromiseClient.prototype.addLiquidity =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.coinswap.MsgAddUnilateralLiquidity,
+ *   !proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse>}
+ */
+const methodDescriptor_Msg_AddUnilateralLiquidity = new grpc.web.MethodDescriptor(
+  '/irismod.coinswap.Msg/AddUnilateralLiquidity',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.coinswap.MsgAddUnilateralLiquidity,
+  proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse,
+  /**
+   * @param {!proto.irismod.coinswap.MsgAddUnilateralLiquidity} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.coinswap.MsgAddUnilateralLiquidity,
+ *   !proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse>}
+ */
+const methodInfo_Msg_AddUnilateralLiquidity = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse,
+  /**
+   * @param {!proto.irismod.coinswap.MsgAddUnilateralLiquidity} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.coinswap.MsgAddUnilateralLiquidity} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.coinswap.MsgClient.prototype.addUnilateralLiquidity =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.coinswap.Msg/AddUnilateralLiquidity',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_AddUnilateralLiquidity,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.coinswap.MsgAddUnilateralLiquidity} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.coinswap.MsgAddUnilateralLiquidityResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.coinswap.MsgPromiseClient.prototype.addUnilateralLiquidity =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.coinswap.Msg/AddUnilateralLiquidity',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_AddUnilateralLiquidity);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.irismod.coinswap.MsgRemoveLiquidity,
  *   !proto.irismod.coinswap.MsgRemoveLiquidityResponse>}
  */
@@ -234,6 +314,86 @@ proto.irismod.coinswap.MsgPromiseClient.prototype.removeLiquidity =
       request,
       metadata || {},
       methodDescriptor_Msg_RemoveLiquidity);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.coinswap.MsgRemoveUnilateralLiquidity,
+ *   !proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse>}
+ */
+const methodDescriptor_Msg_RemoveUnilateralLiquidity = new grpc.web.MethodDescriptor(
+  '/irismod.coinswap.Msg/RemoveUnilateralLiquidity',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.coinswap.MsgRemoveUnilateralLiquidity,
+  proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse,
+  /**
+   * @param {!proto.irismod.coinswap.MsgRemoveUnilateralLiquidity} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.coinswap.MsgRemoveUnilateralLiquidity,
+ *   !proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse>}
+ */
+const methodInfo_Msg_RemoveUnilateralLiquidity = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse,
+  /**
+   * @param {!proto.irismod.coinswap.MsgRemoveUnilateralLiquidity} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.coinswap.MsgRemoveUnilateralLiquidity} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.coinswap.MsgClient.prototype.removeUnilateralLiquidity =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.coinswap.Msg/RemoveUnilateralLiquidity',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_RemoveUnilateralLiquidity,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.coinswap.MsgRemoveUnilateralLiquidity} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.coinswap.MsgRemoveUnilateralLiquidityResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.coinswap.MsgPromiseClient.prototype.removeUnilateralLiquidity =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.coinswap.Msg/RemoveUnilateralLiquidity',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_RemoveUnilateralLiquidity);
 };
 
 

@@ -116,6 +116,44 @@ describe('Token Tests', () => {
     timeout
   );
   test(
+    'burn token',
+    async () => {
+      await BaseTest.getClient()
+        .token.burnToken({
+          amount: '1',
+          denom: 'uiris'
+        } , BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'swap fee token token',
+    async () => {
+      await BaseTest.getClient()
+        .token.swapFeeToken(
+          {
+            fee_paid:{
+              amount: '2',
+              denom: 'uiris'
+            }
+          }, 
+          BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
     'transfer token owner',
     async () => {
       await BaseTest.getClient()

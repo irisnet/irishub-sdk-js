@@ -5,7 +5,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgTransferTokenOwner = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = void 0;
+exports.MsgTransferTokenOwner = exports.MsgSwapFeeToken = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = exports.MsgBurnToken = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
@@ -14,6 +14,7 @@ var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _types = require("./types");
+var _helper = require("../helper");
 var is = _interopRequireWildcard(require("is_js"));
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
@@ -29,10 +30,16 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * param struct for mint token tx
  */
 /**
+ * param struct for burn token tx
+ */
+/**
  * param struct for edit token tx
  */
 /**
  * param struct for transfer token owner tx
+ */
+/**
+ * param struct for Swap Fee Token tx
  */
 /**
  * Msg struct for issue token
@@ -213,20 +220,68 @@ var MsgMintToken = /*#__PURE__*/function (_Msg3) {
   return MsgMintToken;
 }(_types.Msg);
 /**
- * Msg struct for transfer token owner
+ * Msg struct for mint token
  * @hidden
  */
 exports.MsgMintToken = MsgMintToken;
-var MsgTransferTokenOwner = /*#__PURE__*/function (_Msg4) {
-  (0, _inherits2["default"])(MsgTransferTokenOwner, _Msg4);
-  var _super4 = _createSuper(MsgTransferTokenOwner);
-  function MsgTransferTokenOwner(msg) {
+var MsgBurnToken = /*#__PURE__*/function (_Msg4) {
+  (0, _inherits2["default"])(MsgBurnToken, _Msg4);
+  var _super4 = _createSuper(MsgBurnToken);
+  function MsgBurnToken(msg) {
     var _this4;
-    (0, _classCallCheck2["default"])(this, MsgTransferTokenOwner);
-    _this4 = _super4.call(this, _types.TxType.MsgTransferTokenOwner);
+    (0, _classCallCheck2["default"])(this, MsgBurnToken);
+    _this4 = _super4.call(this, _types.TxType.MsgBurnToken);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
     _this4.value = msg;
     return _this4;
+  }
+  (0, _createClass2["default"])(MsgBurnToken, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setCoin(_helper.TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount)).setSender(this.value.sender);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.coin)) {
+        throw new _errors.SdkError("coin can not be empty");
+      }
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgBurnToken;
+    }
+  }]);
+  return MsgBurnToken;
+}(_types.Msg);
+/**
+ * Msg struct for transfer token owner
+ * @hidden
+ */
+exports.MsgBurnToken = MsgBurnToken;
+var MsgTransferTokenOwner = /*#__PURE__*/function (_Msg5) {
+  (0, _inherits2["default"])(MsgTransferTokenOwner, _Msg5);
+  var _super5 = _createSuper(MsgTransferTokenOwner);
+  function MsgTransferTokenOwner(msg) {
+    var _this5;
+    (0, _classCallCheck2["default"])(this, MsgTransferTokenOwner);
+    _this5 = _super5.call(this, _types.TxType.MsgTransferTokenOwner);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this5), "value", void 0);
+    _this5.value = msg;
+    return _this5;
   }
   (0, _createClass2["default"])(MsgTransferTokenOwner, [{
     key: "getModel",
@@ -263,4 +318,55 @@ var MsgTransferTokenOwner = /*#__PURE__*/function (_Msg4) {
   }]);
   return MsgTransferTokenOwner;
 }(_types.Msg);
+/**
+ * Msg struct for Swap Fee Token
+ * @hidden
+ */
 exports.MsgTransferTokenOwner = MsgTransferTokenOwner;
+var MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
+  (0, _inherits2["default"])(MsgSwapFeeToken, _Msg6);
+  var _super6 = _createSuper(MsgSwapFeeToken);
+  function MsgSwapFeeToken(msg) {
+    var _this6;
+    (0, _classCallCheck2["default"])(this, MsgSwapFeeToken);
+    _this6 = _super6.call(this, _types.TxType.MsgSwapFeeToken);
+    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this6), "value", void 0);
+    _this6.value = msg;
+    return _this6;
+  }
+  (0, _createClass2["default"])(MsgSwapFeeToken, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setFeePaid(_helper.TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount)).setSender(this.value.sender);
+      if (this.value.recipient) {
+        msg.setRecipient(this.value.recipient);
+      }
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.fee_paid)) {
+        throw new _errors.SdkError("coin can not be empty");
+      }
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgSwapFeeToken;
+    }
+  }]);
+  return MsgSwapFeeToken;
+}(_types.Msg);
+exports.MsgSwapFeeToken = MsgSwapFeeToken;

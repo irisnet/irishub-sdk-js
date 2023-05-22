@@ -16,19 +16,19 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
-var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js')
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js')
 
-var cosmos_proto_cosmos_pb = require('../../cosmos_proto/cosmos_pb.js')
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
 
-var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js')
+var cosmos_base_query_v1beta1_pagination_pb = require('../../../cosmos/base/query/v1beta1/pagination_pb.js')
 
-var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
+var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 
-var google_api_annotations_pb = require('../../google/api/annotations_pb.js')
+var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js')
 
-var irismod_token_token_pb = require('../../irismod/token/token_pb.js')
+var irismod_token_v1beta1_token_pb = require('../../../irismod/token/v1beta1/token_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.token = require('./query_pb.js');
