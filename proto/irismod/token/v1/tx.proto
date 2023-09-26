@@ -96,4 +96,4 @@ message MsgSwapFeeToken {
 // MsgSwapFeeTokenResponse defines the Msg/SwapFeeToken response type
 message MsgSwapFeeTokenResponse {
   cosmos.base.v1beta1.Coin fee_got = 1 [ (gogoproto.nullable) = false ];
-}
+}  

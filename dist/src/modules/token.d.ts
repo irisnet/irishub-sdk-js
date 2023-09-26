@@ -44,8 +44,7 @@ export declare class Token {
      * @returns
      */
     mintToken(token: {
-        symbol: string;
-        amount: number;
+        coin: types.Coin;
         owner?: string;
         to?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;

@@ -184,7 +184,7 @@ var MsgMintToken = /*#__PURE__*/function (_Msg3) {
   (0, _createClass2["default"])(MsgMintToken, [{
     key: "getModel",
     value: function getModel() {
-      var msg = new (this.constructor.getModelClass())().setSymbol(this.value.symbol).setAmount(this.value.amount).setOwner(this.value.owner);
+      var msg = new (this.constructor.getModelClass())().setCoin(_helper.TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount)).setOwner(this.value.owner);
       if (is.not.undefined(this.value.to)) {
         msg.setTo(this.value.to);
       }
@@ -200,11 +200,8 @@ var MsgMintToken = /*#__PURE__*/function (_Msg3) {
   }, {
     key: "validate",
     value: function validate() {
-      if (is.undefined(this.value.symbol)) {
-        throw new _errors.SdkError("token symbol can not be empty");
-      }
-      if (is.undefined(this.value.amount)) {
-        throw new _errors.SdkError("amount of token minted can not be empty");
+      if (is.undefined(this.value.coin)) {
+        throw new _errors.SdkError("coin can not be empty");
       }
       if (is.undefined(this.value.owner)) {
         throw new _errors.SdkError("owner can not be empty");

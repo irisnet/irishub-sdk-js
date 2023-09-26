@@ -31,8 +31,7 @@ export interface IssueTokenTxParam {
  * param struct for mint token tx
  */
 export interface MintTokenTxParam {
-    symbol: string;
-    amount: number;
+    coin: Coin;
     owner: string;
     to?: string;
 }
