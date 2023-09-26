@@ -102,8 +102,10 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.mintToken({
-          symbol: 'coinzz',
-          amount: 99,
+          coin:{
+            denom: 'coinzz',
+            amount: '99',
+          },
           to: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
         }, BaseTest.baseTx)
         .then(res => {

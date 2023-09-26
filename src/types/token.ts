@@ -40,8 +40,7 @@ export interface IssueTokenTxParam {
  * param struct for mint token tx
  */
 export interface MintTokenTxParam {
-  symbol: string;
-  amount: number;
+  coin: Coin;
   owner: string;
   to?: string;
 }
@@ -195,7 +194,6 @@ export class MsgEditToken extends Msg {
     if (is.undefined(this.value.owner)) {
       throw new SdkError(`owner can not be empty`);
     }
-
     return true;
   }
 }
@@ -218,8 +216,7 @@ export class MsgMintToken extends Msg {
 
   getModel(): any {
     const msg = new ((this.constructor as any).getModelClass())()
-      .setSymbol(this.value.symbol)
-      .setAmount(this.value.amount)
+      .setCoin(TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount))
       .setOwner(this.value.owner);
     if (is.not.undefined(this.value.to)) {
       msg.setTo(this.value.to)
@@ -234,11 +231,8 @@ export class MsgMintToken extends Msg {
    * @throws `SdkError` if validate failed.
    */
   validate(): boolean {
-    if (is.undefined(this.value.symbol)) {
-      throw new SdkError(`token symbol can not be empty`);
-    }
-    if (is.undefined(this.value.amount)) {
-      throw new SdkError(`amount of token minted can not be empty`);
+    if (is.undefined(this.value.coin)) {
+      throw new SdkError(`coin can not be empty`);
     }
 
     if (is.undefined(this.value.owner)) {

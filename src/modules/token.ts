@@ -78,8 +78,7 @@ export class Token {
    */
   async mintToken(
     token: {
-      symbol: string;
-      amount: number;
+      coin: types.Coin;
       owner?: string;
       to?: string;
     },
