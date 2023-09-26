@@ -750,7 +750,8 @@ proto.irismod.coinswap.Params.toObject = function(includeInstance, msg) {
   var f, obj = {
     fee: (f = msg.getFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
     poolCreationFee: (f = msg.getPoolCreationFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
-    taxRate: jspb.Message.getFieldWithDefault(msg, 3, "")
+    taxRate: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    unilateralLiquidityFee: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -801,6 +802,10 @@ proto.irismod.coinswap.Params.deserializeBinaryFromReader = function(msg, reader
       var value = /** @type {string} */ (reader.readString());
       msg.setTaxRate(value);
       break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUnilateralLiquidityFee(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -850,6 +855,13 @@ proto.irismod.coinswap.Params.serializeBinaryToWriter = function(message, writer
   if (f.length > 0) {
     writer.writeString(
       3,
+      f
+    );
+  }
+  f = message.getUnilateralLiquidityFee();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -945,6 +957,24 @@ proto.irismod.coinswap.Params.prototype.getTaxRate = function() {
  */
 proto.irismod.coinswap.Params.prototype.setTaxRate = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string unilateral_liquidity_fee = 4;
+ * @return {string}
+ */
+proto.irismod.coinswap.Params.prototype.getUnilateralLiquidityFee = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.coinswap.Params} returns this
+ */
+proto.irismod.coinswap.Params.prototype.setUnilateralLiquidityFee = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

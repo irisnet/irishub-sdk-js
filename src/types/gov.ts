@@ -132,8 +132,6 @@ export interface VoteTxParam {
 
 /**
  * Msg for Vote
- *
- * @hidden
  */
 export class MsgVote extends Msg {
   value: VoteTxParam;
@@ -163,7 +161,57 @@ export class MsgVote extends Msg {
       throw new SdkError("proposer is empty");
     }
     if (typeof this.value.option == 'undefined') {
+      throw new SdkError("option is empty");
+    }
+  }
+}
+
+/**
+ * param struct for VoteWeighted tx
+ */
+export interface VoteWeightedTxParam {
+  proposal_id:number;
+  voter:string;
+  options: WeightedVoteOption[]
+}
+
+/**
+ * Msg for MsgVoteWeighted
+ */
+export class MsgVoteWeighted extends Msg {
+  value: VoteWeightedTxParam;
+
+  constructor(msg:VoteWeightedTxParam) {
+    super(TxType.MsgVoteWeighted);
+    this.value = msg;
+  }
+
+  static getModelClass():any{
+    return pbs.gov_tx_pb.MsgVoteWeighted;
+  }
+
+  getModel():any{
+    let msg = new ((this.constructor as any).getModelClass())();
+    msg.setProposalId(this.value.proposal_id);
+    msg.setVoter(this.value.voter);
+    this.value.options.forEach((option)=>{
+      let weightedVoteOption = new pbs.gov_gov_pb.WeightedVoteOption();
+      weightedVoteOption.setOption(option.option);
+      weightedVoteOption.setWeight(option.weight);
+      msg.addOptions(weightedVoteOption);
+    });
+    return msg;
+  }
+
+  validate() {
+    if (!this.value.proposal_id) {
+      throw new SdkError("proposal_id is empty");
+    }
+    if (!this.value.voter) {
       throw new SdkError("proposer is empty");
+    }
+    if (!this.value.options || !this.value.options.length) {
+      throw new SdkError("options is empty");
     }
   }
 }
@@ -284,6 +332,11 @@ export interface SoftwareUpgradePlan {
  */
 export interface SoftwareUpgradeProposal extends TextProposal{
   plan:SoftwareUpgradePlan;
+}
+
+export interface WeightedVoteOption {
+  option: VoteOption,
+  weight: string
 }
 
 /**

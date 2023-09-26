@@ -104,9 +104,17 @@ export class Protobuf {
             messageModelClass = types.MsgMintToken.getModelClass();
             break;
         }
+        case types.TxType.MsgBurnToken: {
+          messageModelClass = types.MsgBurnToken.getModelClass();
+          break;
+        }
         case types.TxType.MsgTransferTokenOwner: {
             messageModelClass = types.MsgTransferTokenOwner.getModelClass();
             break;
+        }
+        case types.TxType.MsgSwapFeeToken: {
+          messageModelClass = types.MsgSwapFeeToken.getModelClass();
+          break;
         }
         //coinswap
         case types.TxType.MsgAddLiquidity: {
@@ -162,6 +170,10 @@ export class Protobuf {
         }
         case types.TxType.MsgVote: {
             messageModelClass = types.MsgVote.getModelClass();
+            break;
+        }
+        case types.TxType.MsgVoteWeighted: {
+            messageModelClass = types.MsgVoteWeighted.getModelClass();
             break;
         }
         case types.TxType.MsgDeposit: {

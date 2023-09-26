@@ -1,33 +1,23 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SdkError = exports.CODES = void 0;
-
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
-
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
-
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
 var _wrapNativeSuper2 = _interopRequireDefault(require("@babel/runtime/helpers/wrapNativeSuper"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
-
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
 var CODESPACE_ROOT = 'sdk';
-/** Error codes in irishub v1.0 */
 
+/** Error codes in irishub v1.0 */
 var CODES = {
   OK: 0,
   Internal: 1,
@@ -72,40 +62,32 @@ var CODES = {
   InvalidMnemonic: 801,
   DerivePrivateKeyError: 802
 };
+
 /** IRISHub SDK Error */
-
 exports.CODES = CODES;
-
 var SdkError = /*#__PURE__*/function (_Error) {
   (0, _inherits2["default"])(SdkError, _Error);
-
   var _super = _createSuper(SdkError);
-
-  // /** Error code space, reserved field */
-  // codespace = CODESPACE_ROOT;
-
-  /** Error code */
-
   /**
    * Initialize SdkError with irishub error msg
    * @param msg irishub error msg
    */
   function SdkError(msg) {
     var _this;
-
     var code = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : CODES.InvalidRequest;
     var space = arguments.length > 2 ? arguments[2] : undefined;
     (0, _classCallCheck2["default"])(this, SdkError);
-    _this = _super.call(this, msg); // const mappedCode = errorMap.get(this.codespace + code);
-
+    _this = _super.call(this, msg);
+    // const mappedCode = errorMap.get(this.codespace + code);
+    // /** Error code space, reserved field */
+    // codespace = CODESPACE_ROOT;
+    /** Error code */
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "code", CODES.InvalidRequest);
     (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "codespace", 'sdk-js');
     _this.code = code;
     _this.codespace = space !== null && space !== void 0 ? space : _this.codespace;
     return _this;
   }
-
-  return SdkError;
+  return (0, _createClass2["default"])(SdkError);
 }( /*#__PURE__*/(0, _wrapNativeSuper2["default"])(Error));
-
 exports.SdkError = SdkError;

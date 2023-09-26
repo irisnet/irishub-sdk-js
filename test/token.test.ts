@@ -102,10 +102,50 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.mintToken({
-          symbol: 'coinzz',
-          amount: 99,
+          coin:{
+            denom: 'coinzz',
+            amount: '99',
+          },
           to: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
         }, BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'burn token',
+    async () => {
+      await BaseTest.getClient()
+        .token.burnToken({
+          amount: '1',
+          denom: 'uiris'
+        } , BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout
+  );
+  test(
+    'swap fee token token',
+    async () => {
+      await BaseTest.getClient()
+        .token.swapFeeToken(
+          {
+            fee_paid:{
+              amount: '2',
+              denom: 'uiris'
+            }
+          }, 
+          BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
         })

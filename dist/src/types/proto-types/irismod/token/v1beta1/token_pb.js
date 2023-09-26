@@ -1,4 +1,4 @@
-// source: irismod/token/token.proto
+// source: irismod/token/v1beta1/token.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -12,9 +12,9 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js');
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
-var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
+var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 goog.exportSymbol('proto.irismod.token.Params', null, global);
 goog.exportSymbol('proto.irismod.token.Token', null, global);

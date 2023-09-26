@@ -77,6 +77,33 @@ export class Gov {
   }
 
   /**
+   * voteWeighted 
+   * @param proposal_id 
+   * @param options Note: Due to Chain precision issues, option.weight needs to be multiplied by 10^18, such as 0.3 => 0.3 * 10**18 = 3000000000000000000
+   * @param baseTx { types.BaseTx }
+   * @returns
+   * @since v3.0.1
+   */
+  async voteWeighted(
+    proposal_id: number,
+    options: types.WeightedVoteOption[],
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const from = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type:types.TxType.MsgVoteWeighted,
+        value:{
+          proposal_id: proposal_id,
+          voter: from,
+          options: options,
+        }
+      }
+    ];
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+  
+  /**
    * deposit
    * @param proposal_id 
    * @param amount

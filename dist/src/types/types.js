@@ -1,22 +1,15 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PubkeyType = exports.TxType = exports.Msg = void 0;
-
+exports.TxType = exports.PubkeyType = exports.Msg = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
-
 var _helper = require("../helper");
-
 var _errors = require("../errors");
-
 /** 
  * Base Msg
  * @hidden
@@ -28,7 +21,6 @@ var Msg = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "value", void 0);
     this.type = type;
   }
-
   (0, _createClass2["default"])(Msg, [{
     key: "getModel",
     value: function getModel() {
@@ -40,21 +32,19 @@ var Msg = /*#__PURE__*/function () {
       var msg = this.getModel();
       return _helper.TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
     }
+
     /**
      * unpack protobuf tx message
      * @type {[type]}
      * returns protobuf message instance
      */
-
   }, {
     key: "unpack",
     value: function unpack(msgValue) {
       if (!msgValue) {
         throw new _errors.SdkError("msgValue can not be empty", _errors.CODES.Internal);
       }
-
       var msg = this.constructor.getModelClass().deserializeBinary(Buffer.from(msgValue, 'base64'));
-
       if (msg) {
         return msg;
       } else {
@@ -69,17 +59,8 @@ var Msg = /*#__PURE__*/function () {
   }]);
   return Msg;
 }();
-
 exports.Msg = Msg;
-var TxType;
-/** 
- * Base Tx
- * @hidden
- */
-
-exports.TxType = TxType;
-
-(function (TxType) {
+var TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgSend"] = "cosmos.bank.v1beta1.MsgSend";
   TxType["MsgMultiSend"] = "cosmos.bank.v1beta1.MsgMultiSend";
   TxType["MsgDelegate"] = "cosmos.staking.v1beta1.MsgDelegate";
@@ -100,29 +81,54 @@ exports.TxType = TxType;
   TxType["MsgEditNFT"] = "irismod.nft.MsgEditNFT";
   TxType["MsgMintNFT"] = "irismod.nft.MsgMintNFT";
   TxType["MsgBurnNFT"] = "irismod.nft.MsgBurnNFT";
-  TxType["MsgIssueToken"] = "irismod.token.MsgIssueToken";
-  TxType["MsgEditToken"] = "irismod.token.MsgEditToken";
-  TxType["MsgMintToken"] = "irismod.token.MsgMintToken";
-  TxType["MsgTransferTokenOwner"] = "irismod.token.MsgTransferTokenOwner";
+  TxType["MsgIssueToken"] = "irismod.token.v1.MsgIssueToken";
+  TxType["MsgEditToken"] = "irismod.token.v1.MsgEditToken";
+  TxType["MsgMintToken"] = "irismod.token.v1.MsgMintToken";
+  TxType["MsgBurnToken"] = "irismod.token.v1.MsgBurnToken";
+  TxType["MsgTransferTokenOwner"] = "irismod.token.v1.MsgTransferTokenOwner";
+  TxType["MsgSwapFeeToken"] = "irismod.token.v1.MsgSwapFeeToken";
   TxType["MsgSubmitProposal"] = "cosmos.gov.v1beta1.MsgSubmitProposal";
   TxType["MsgVote"] = "cosmos.gov.v1beta1.MsgVote";
+  TxType["MsgVoteWeighted"] = "cosmos.gov.v1beta1.MsgVoteWeighted";
   TxType["MsgDeposit"] = "cosmos.gov.v1beta1.MsgDeposit";
   TxType["MsgCreateHTLC"] = "irismod.htlc.MsgCreateHTLC";
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
   TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
-})(TxType || (exports.TxType = TxType = {}));
-
+  return TxType;
+}({});
+/** 
+ * Base Tx
+ * @hidden
+ */
+/** Abstract Tx Value */
+/** 
+ * Base Coin
+ * @hidden
+ */
+/** 
+ * Base JSONRPCResponse
+ * @hidden
+ */
+/** 
+ * JsonRpc Error
+ */
+/** 
+ * Base Pubkey
+ * @hidden
+ */
+exports.TxType = TxType;
 /** 
  * Base Pubkey Type
  * @hidden
  */
-var PubkeyType;
-/** Tag struct */
-
-exports.PubkeyType = PubkeyType;
-
-(function (PubkeyType) {
+var PubkeyType = /*#__PURE__*/function (PubkeyType) {
   PubkeyType["secp256k1"] = "secp256k1";
   PubkeyType["ed25519"] = "ed25519";
   PubkeyType["sm2"] = "sm2";
-})(PubkeyType || (exports.PubkeyType = PubkeyType = {}));
+  return PubkeyType;
+}({});
+/** Tag struct */
+/**
+ * Bech32 Prefix
+ */
+exports.PubkeyType = PubkeyType;

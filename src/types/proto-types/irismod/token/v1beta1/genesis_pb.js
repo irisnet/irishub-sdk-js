@@ -1,4 +1,4 @@
-// source: irismod/token/genesis.proto
+// source: irismod/token/v1beta1/genesis.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -12,11 +12,11 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
+var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
-var irismod_token_token_pb = require('../../irismod/token/token_pb.js');
-goog.object.extend(proto, irismod_token_token_pb);
-var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js');
+var irismod_token_v1beta1_token_pb = require('../../../irismod/token/v1beta1/token_pb.js');
+goog.object.extend(proto, irismod_token_v1beta1_token_pb);
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 goog.exportSymbol('proto.irismod.token.GenesisState', null, global);
 /**
@@ -79,9 +79,9 @@ proto.irismod.token.GenesisState.prototype.toObject = function(opt_includeInstan
  */
 proto.irismod.token.GenesisState.toObject = function(includeInstance, msg) {
   var f, obj = {
-    params: (f = msg.getParams()) && irismod_token_token_pb.Params.toObject(includeInstance, f),
+    params: (f = msg.getParams()) && irismod_token_v1beta1_token_pb.Params.toObject(includeInstance, f),
     tokensList: jspb.Message.toObjectList(msg.getTokensList(),
-    irismod_token_token_pb.Token.toObject, includeInstance),
+    irismod_token_v1beta1_token_pb.Token.toObject, includeInstance),
     burnedCoinsList: jspb.Message.toObjectList(msg.getBurnedCoinsList(),
     cosmos_base_v1beta1_coin_pb.Coin.toObject, includeInstance)
   };
@@ -121,13 +121,13 @@ proto.irismod.token.GenesisState.deserializeBinaryFromReader = function(msg, rea
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new irismod_token_token_pb.Params;
-      reader.readMessage(value,irismod_token_token_pb.Params.deserializeBinaryFromReader);
+      var value = new irismod_token_v1beta1_token_pb.Params;
+      reader.readMessage(value,irismod_token_v1beta1_token_pb.Params.deserializeBinaryFromReader);
       msg.setParams(value);
       break;
     case 2:
-      var value = new irismod_token_token_pb.Token;
-      reader.readMessage(value,irismod_token_token_pb.Token.deserializeBinaryFromReader);
+      var value = new irismod_token_v1beta1_token_pb.Token;
+      reader.readMessage(value,irismod_token_v1beta1_token_pb.Token.deserializeBinaryFromReader);
       msg.addTokens(value);
       break;
     case 3:
@@ -169,7 +169,7 @@ proto.irismod.token.GenesisState.serializeBinaryToWriter = function(message, wri
     writer.writeMessage(
       1,
       f,
-      irismod_token_token_pb.Params.serializeBinaryToWriter
+      irismod_token_v1beta1_token_pb.Params.serializeBinaryToWriter
     );
   }
   f = message.getTokensList();
@@ -177,7 +177,7 @@ proto.irismod.token.GenesisState.serializeBinaryToWriter = function(message, wri
     writer.writeRepeatedMessage(
       2,
       f,
-      irismod_token_token_pb.Token.serializeBinaryToWriter
+      irismod_token_v1beta1_token_pb.Token.serializeBinaryToWriter
     );
   }
   f = message.getBurnedCoinsList();
@@ -197,7 +197,7 @@ proto.irismod.token.GenesisState.serializeBinaryToWriter = function(message, wri
  */
 proto.irismod.token.GenesisState.prototype.getParams = function() {
   return /** @type{?proto.irismod.token.Params} */ (
-    jspb.Message.getWrapperField(this, irismod_token_token_pb.Params, 1));
+    jspb.Message.getWrapperField(this, irismod_token_v1beta1_token_pb.Params, 1));
 };
 
 
@@ -234,7 +234,7 @@ proto.irismod.token.GenesisState.prototype.hasParams = function() {
  */
 proto.irismod.token.GenesisState.prototype.getTokensList = function() {
   return /** @type{!Array<!proto.irismod.token.Token>} */ (
-    jspb.Message.getRepeatedWrapperField(this, irismod_token_token_pb.Token, 2));
+    jspb.Message.getRepeatedWrapperField(this, irismod_token_v1beta1_token_pb.Token, 2));
 };
 
 

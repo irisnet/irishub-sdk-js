@@ -47,7 +47,7 @@ describe('Nft Tests', () => {
 
         let nft_id = randomStr(7);
         let nft_name = randomStr(7);
-        let nft_data = randomStr(7);
+        let nft_data = ``;
         let nft_uri = `http://${randomStr(7)}`;
         await BaseTest.getClient()
         .nft.mintNft(
@@ -68,7 +68,7 @@ describe('Nft Tests', () => {
         });
 
         let nft_name_e = randomStr(7);
-        let nft_data_e = randomStr(7);
+        let nft_data_e = ``;
         let nft_uri_e = `http://${randomStr(7)}`;
         let nft_uri_hash_e = randomStr(7);
         await BaseTest.getClient()
@@ -107,7 +107,7 @@ describe('Nft Tests', () => {
 
         nft_id = randomStr(7);
         nft_name = randomStr(7);
-        nft_data = randomStr(7);
+        nft_data = '';
         nft_uri = `http://${randomStr(7)}`;
         await BaseTest.getClient()
         .nft.mintNft(

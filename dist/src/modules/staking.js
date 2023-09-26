@@ -1,40 +1,24 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 var _typeof = require("@babel/runtime/helpers/typeof");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Staking = void 0;
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
-
 var types = _interopRequireWildcard(require("../types"));
-
 var _errors = require("../errors");
-
 var is = _interopRequireWildcard(require("is_js"));
-
 var _helper = require("../helper");
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 /**
  * This module provides staking functionalities for validators and delegators
  *
@@ -45,13 +29,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  */
 var Staking = /*#__PURE__*/function () {
   /** @hidden */
-
-  /** @hidden */
   function Staking(client) {
     (0, _classCallCheck2["default"])(this, Staking);
+    /** @hidden */
     (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
+
   /**
    * Delegate liquid tokens to an validator
    *
@@ -61,8 +45,6 @@ var Staking = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-
-
   (0, _createClass2["default"])(Staking, [{
     key: "delegate",
     value: function delegate(validatorAddr, amount, baseTx) {
@@ -77,6 +59,7 @@ var Staking = /*#__PURE__*/function () {
       }];
       return this.client.tx.buildAndSend(msgs, baseTx);
     }
+
     /**
      * Undelegate from a validator
      * @param validatorAddr Bech32 validator address
@@ -85,39 +68,33 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
-
   }, {
     key: "undelegate",
     value: function () {
       var _undelegate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(validatorAddr, amount, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                delegatorAddr = this.client.keys.show(baseTx.from);
-                msgs = [{
-                  type: types.TxType.MsgUndelegate,
-                  value: {
-                    delegator_address: delegatorAddr,
-                    validator_address: validatorAddr,
-                    amount: amount
-                  }
-                }];
-                return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              delegatorAddr = this.client.keys.show(baseTx.from);
+              msgs = [{
+                type: types.TxType.MsgUndelegate,
+                value: {
+                  delegator_address: delegatorAddr,
+                  validator_address: validatorAddr,
+                  amount: amount
+                }
+              }];
+              return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+            case 3:
+            case "end":
+              return _context.stop();
           }
         }, _callee, this);
       }));
-
       function undelegate(_x, _x2, _x3) {
         return _undelegate.apply(this, arguments);
       }
-
       return undelegate;
     }()
     /**
@@ -128,40 +105,34 @@ var Staking = /*#__PURE__*/function () {
      * @param baseTx
      * @since v0.17
      */
-
   }, {
     key: "redelegate",
     value: function () {
       var _redelegate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorSrcAddr, validatorDstAddr, amount, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                delegatorAddr = this.client.keys.show(baseTx.from);
-                msgs = [{
-                  type: types.TxType.MsgBeginRedelegate,
-                  value: {
-                    delegator_address: delegatorAddr,
-                    validator_src_address: validatorSrcAddr,
-                    validator_dst_address: validatorDstAddr,
-                    amount: amount
-                  }
-                }];
-                return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
-
-              case 3:
-              case "end":
-                return _context2.stop();
-            }
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              delegatorAddr = this.client.keys.show(baseTx.from);
+              msgs = [{
+                type: types.TxType.MsgBeginRedelegate,
+                value: {
+                  delegator_address: delegatorAddr,
+                  validator_src_address: validatorSrcAddr,
+                  validator_dst_address: validatorDstAddr,
+                  amount: amount
+                }
+              }];
+              return _context2.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
+            case 3:
+            case "end":
+              return _context2.stop();
           }
         }, _callee2, this);
       }));
-
       function redelegate(_x4, _x5, _x6, _x7) {
         return _redelegate.apply(this, arguments);
       }
-
       return redelegate;
     }()
     /**
@@ -172,21 +143,19 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryDelegation",
     value: function queryDelegation(delegator_addr, validator_addr) {
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryDelegationRequest().setValidatorAddr(validator_addr).setDelegatorAddr(delegator_addr);
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Delegation', request, types.staking_query_pb.QueryDelegationResponse);
     }
+
     /**
      * Query all delegations made from one delegator
      *
@@ -195,20 +164,18 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryDelegations",
     value: function queryDelegations(query) {
       var pagination = query.pagination,
-          delegator_addr = query.delegator_addr;
-
+        delegator_addr = query.delegator_addr;
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryDelegatorDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorDelegations', request, types.staking_query_pb.QueryDelegatorDelegationsResponse);
     }
+
     /**
      * Query an unbonding-delegation record based on delegator and validator address
      *
@@ -217,21 +184,19 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryUnbondingDelegation",
     value: function queryUnbondingDelegation(delegator_addr, validator_addr) {
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryUnbondingDelegationRequest().setValidatorAddr(validator_addr).setDelegatorAddr(delegator_addr);
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/UnbondingDelegation', request, types.staking_query_pb.QueryUnbondingDelegationResponse);
     }
+
     /**
      * Query all unbonding-delegations records for one delegator
      *
@@ -240,20 +205,18 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryDelegatorUnbondingDelegations",
     value: function queryDelegatorUnbondingDelegations(query) {
       var pagination = query.pagination,
-          delegator_addr = query.delegator_addr;
-
+        delegator_addr = query.delegator_addr;
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryDelegatorUnbondingDelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorUnbondingDelegations', request, types.staking_query_pb.QueryDelegatorUnbondingDelegationsResponse);
     }
+
     /**
      * Query a redelegation record based on delegator and a source and destination validator address
      *
@@ -263,31 +226,26 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryRedelegation",
     value: function queryRedelegation(query) {
       var pagination = query.pagination,
-          delegator_addr = query.delegator_addr,
-          src_validator_addr = query.src_validator_addr,
-          dst_validator_addr = query.dst_validator_addr;
-
+        delegator_addr = query.delegator_addr,
+        src_validator_addr = query.src_validator_addr,
+        dst_validator_addr = query.dst_validator_addr;
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryRedelegationsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
-
       if (is.not.undefined(src_validator_addr)) {
         request.setSrcValidatorAddr(src_validator_addr);
       }
-
       if (is.not.undefined(dst_validator_addr)) {
         request.setDstValidatorAddr(dst_validator_addr);
       }
-
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Redelegations', request, types.staking_query_pb.QueryRedelegationsResponse);
     }
+
     /**
      * Query all validators info for given delegator
      *
@@ -296,20 +254,18 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryDelegatorValidators",
     value: function queryDelegatorValidators(query) {
       var pagination = query.pagination,
-          delegator_addr = query.delegator_addr;
-
+        delegator_addr = query.delegator_addr;
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryDelegatorValidatorsRequest().setDelegatorAddr(delegator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorValidators', request, types.staking_query_pb.QueryDelegatorValidatorsResponse);
     }
+
     /**
      * Query validator info for given delegator validator
      *
@@ -318,24 +274,21 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryDelegatorValidator",
     value: function queryDelegatorValidator(query) {
       var delegator_addr = query.delegator_addr,
-          validator_addr = query.validator_addr;
-
+        validator_addr = query.validator_addr;
       if (is.undefined(delegator_addr)) {
         throw new _errors.SdkError('delegator address can not be empty');
       }
-
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryDelegatorValidatorRequest().setDelegatorAddr(delegator_addr).setValidatorAddr(validator_addr);
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/DelegatorValidator', request, types.staking_query_pb.QueryDelegatorValidatorResponse);
     }
+
     /**
      * Query the historical info for given height.
      *
@@ -343,19 +296,17 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryHistoricalInfo",
     value: function queryHistoricalInfo(query) {
       var height = query.height;
-
       if (is.undefined(height)) {
         throw new _errors.SdkError('block height can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryHistoricalInfoRequest().setHeight(height);
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/HistoricalInfo', request, types.staking_query_pb.QueryHistoricalInfoResponse);
     }
+
     /**
      * Query all delegations to one validator
      *
@@ -364,20 +315,18 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryValidatorDelegations",
     value: function queryValidatorDelegations(query) {
       var pagination = query.pagination,
-          validator_addr = query.validator_addr;
-
+        validator_addr = query.validator_addr;
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryValidatorDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/ValidatorDelegations', request, types.staking_query_pb.QueryValidatorDelegationsResponse);
     }
+
     /**
      * Query all unbonding delegatations from a validator
      *
@@ -386,20 +335,18 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryValidatorUnbondingDelegations",
     value: function queryValidatorUnbondingDelegations(query) {
       var pagination = query.pagination,
-          validator_addr = query.validator_addr;
-
+        validator_addr = query.validator_addr;
       if (is.undefined(validator_addr)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryValidatorUnbondingDelegationsRequest().setValidatorAddr(validator_addr).setPagination(_helper.ModelCreator.createPaginationModel(pagination));
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/ValidatorUnbondingDelegations', request, types.staking_query_pb.QueryValidatorUnbondingDelegationsResponse);
     }
+
     /**
      * Query a validator
      *
@@ -407,27 +354,23 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryValidator",
     value: function queryValidator(address) {
       var _this = this;
-
       if (is.undefined(address)) {
         throw new _errors.SdkError('validator address can not be empty');
       }
-
       var request = new types.staking_query_pb.QueryValidatorRequest().setValidatorAddr(address);
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Validator', request, types.staking_query_pb.QueryValidatorResponse).then(function (res) {
         var result = _objectSpread({}, res);
-
         if (res.validator && res.validator.consensusPubkey && res.validator.consensusPubkey.value) {
           result.validator.consensusPubkey = _this.client.protobuf.deserializePubkey(res.validator.consensusPubkey);
         }
-
         return result;
       });
     }
+
     /**
      * Query for all validators
      * @param pagination page info
@@ -435,60 +378,54 @@ var Staking = /*#__PURE__*/function () {
      * @returns
      * @since
      */
-
   }, {
     key: "queryValidators",
     value: function queryValidators(query) {
       var _this2 = this;
-
       var pagination = query.pagination,
-          status = query.status;
+        status = query.status;
       var request = new types.staking_query_pb.QueryValidatorsRequest().setPagination(_helper.ModelCreator.createPaginationModel(pagination));
-
       if (is.not.undefined(status)) {
         request.setStatus(status);
       }
-
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Validators', request, types.staking_query_pb.QueryValidatorsResponse).then(function (res) {
         var result = _objectSpread({}, res);
-
         if (res.validatorsList && res.validatorsList.length) {
           result.validatorsList = res.validatorsList.map(function (val) {
             if (val.consensusPubkey && val.consensusPubkey.value) {
               val.consensusPubkey = _this2.client.protobuf.deserializePubkey(val.consensusPubkey);
             }
-
             return val;
           });
         }
-
         return result;
       });
     }
+
     /**
      * Query the current staking pool values
      * @returns
      * @since
      */
-
   }, {
     key: "queryPool",
     value: function queryPool() {
       var request = new types.staking_query_pb.QueryPoolRequest();
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Pool', request, types.staking_query_pb.QueryPoolResponse);
     }
+
     /**
      * Query the current staking parameters information
      * @returns
      * @since
      */
-
   }, {
     key: "queryParams",
     value: function queryParams() {
       var request = new types.staking_query_pb.QueryParamsRequest();
       return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/Params', request, types.staking_query_pb.QueryParamsResponse);
     }
+
     /**
      * TODO: Historical issue, irishub only accepts 10 decimal places due to `sdk.Dec`
      *
@@ -496,29 +433,25 @@ var Staking = /*#__PURE__*/function () {
      * @deprecated
      * @hidden
      */
-
   }, {
     key: "appendZero",
     value: function appendZero(num, count) {
       var length = num.length;
       var dotIndex = num.lastIndexOf('.');
-
       if (dotIndex <= 0) {
         return this.appendZero(num + '.0', count);
       }
-
       if (length - (dotIndex + 1) < count) {
         return this.appendZero(num + '0', count);
       }
-
       return num;
     }
+
     /**
      * Create new validator initialized with a self-delegation to it
      *
      * ** Not Supported **
      */
-
   }, {
     key: "createValidator",
     value: function createValidator() {
@@ -527,5 +460,4 @@ var Staking = /*#__PURE__*/function () {
   }]);
   return Staking;
 }();
-
 exports.Staking = Staking;

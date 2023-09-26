@@ -70,13 +70,18 @@ export enum TxType {
   MsgEditNFT ="irismod.nft.MsgEditNFT",
   MsgMintNFT ="irismod.nft.MsgMintNFT",
   MsgBurnNFT ="irismod.nft.MsgBurnNFT",
-  MsgIssueToken = 'irismod.token.MsgIssueToken',
-  MsgEditToken = 'irismod.token.MsgEditToken',
-  MsgMintToken = 'irismod.token.MsgMintToken',
-  MsgTransferTokenOwner = 'irismod.token.MsgTransferTokenOwner',
+  //token
+  MsgIssueToken = 'irismod.token.v1.MsgIssueToken',
+  MsgEditToken = 'irismod.token.v1.MsgEditToken',
+  MsgMintToken = 'irismod.token.v1.MsgMintToken',
+  MsgBurnToken = 'irismod.token.v1.MsgBurnToken', 
+  MsgTransferTokenOwner = 'irismod.token.v1.MsgTransferTokenOwner',
+  MsgSwapFeeToken = 'irismod.token.v1.MsgSwapFeeToken', 
+
   //gov
   MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",
   MsgVote = "cosmos.gov.v1beta1.MsgVote",
+  MsgVoteWeighted = "cosmos.gov.v1beta1.MsgVoteWeighted",
   MsgDeposit = "cosmos.gov.v1beta1.MsgDeposit",
   //htlc
   MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",

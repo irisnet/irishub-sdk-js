@@ -31,10 +31,16 @@ export interface IssueTokenTxParam {
  * param struct for mint token tx
  */
 export interface MintTokenTxParam {
-    symbol: string;
-    amount: number;
+    coin: Coin;
     owner: string;
     to?: string;
+}
+/**
+ * param struct for burn token tx
+ */
+export interface BurnTokenTxParam {
+    coin: Coin;
+    sender: number;
 }
 /**
  * param struct for edit token tx
@@ -53,6 +59,14 @@ export interface TransferTokenOwnerTxParam {
     symbol: string;
     src_owner: string;
     dst_owner: string;
+}
+/**
+ * param struct for Swap Fee Token tx
+ */
+export interface SwapFeeTokenTxParam {
+    fee_paid: Coin;
+    recipient?: string;
+    sender: string;
 }
 /**
  * Msg struct for issue token
@@ -106,12 +120,46 @@ export declare class MsgMintToken extends Msg {
     validate(): boolean;
 }
 /**
+ * Msg struct for mint token
+ * @hidden
+ */
+export declare class MsgBurnToken extends Msg {
+    value: BurnTokenTxParam;
+    constructor(msg: BurnTokenTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}
+/**
  * Msg struct for transfer token owner
  * @hidden
  */
 export declare class MsgTransferTokenOwner extends Msg {
     value: TransferTokenOwnerTxParam;
     constructor(msg: TransferTokenOwnerTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}
+/**
+ * Msg struct for Swap Fee Token
+ * @hidden
+ */
+export declare class MsgSwapFeeToken extends Msg {
+    value: SwapFeeTokenTxParam;
+    constructor(msg: SwapFeeTokenTxParam);
     static getModelClass(): any;
     getModel(): any;
     /**

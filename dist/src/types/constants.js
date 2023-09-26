@@ -3,30 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Bech32Prefix_Akash = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Iris = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.STD_DENOM = exports.keystoreStructure = exports.xchacha20NonceLength = exports.keystoreSaltPerfix = exports.doNotModify = exports.RpcMethods = exports.ChainNetwork = exports.Network = void 0;
-
+exports.xchacha20NonceLength = exports.keystoreStructure = exports.keystoreSaltPerfix = exports.doNotModify = exports.STD_DENOM = exports.RpcMethods = exports.Network = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.ChainNetwork = exports.Bech32Prefix_Iris = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Akash = void 0;
 /** Network type config */
-var Network;
-exports.Network = Network;
-
-(function (Network) {
+var Network = /*#__PURE__*/function (Network) {
   Network[Network["Mainnet"] = 0] = "Mainnet";
   Network[Network["Testnet"] = 1] = "Testnet";
-})(Network || (exports.Network = Network = {}));
-
-var ChainNetwork;
-exports.ChainNetwork = ChainNetwork;
-
-(function (ChainNetwork) {
+  return Network;
+}({});
+exports.Network = Network;
+var ChainNetwork = /*#__PURE__*/function (ChainNetwork) {
   ChainNetwork[ChainNetwork["Iris"] = 0] = "Iris";
   ChainNetwork[ChainNetwork["Cosmos"] = 1] = "Cosmos";
   ChainNetwork[ChainNetwork["Akash"] = 2] = "Akash";
-})(ChainNetwork || (exports.ChainNetwork = ChainNetwork = {}));
-
-var RpcMethods;
-exports.RpcMethods = RpcMethods;
-
-(function (RpcMethods) {
+  return ChainNetwork;
+}({});
+exports.ChainNetwork = ChainNetwork;
+var RpcMethods = /*#__PURE__*/function (RpcMethods) {
   RpcMethods["BroadcastTxSync"] = "broadcast_tx_sync";
   RpcMethods["BroadcastTxAsync"] = "broadcast_tx_async";
   RpcMethods["BroadcastTxCommit"] = "broadcast_tx_commit";
@@ -41,8 +33,9 @@ exports.RpcMethods = RpcMethods;
   RpcMethods["TxSearch"] = "tx_search";
   RpcMethods["Validators"] = "validators";
   RpcMethods["NetInfo"] = "net_info";
-})(RpcMethods || (exports.RpcMethods = RpcMethods = {}));
-
+  return RpcMethods;
+}({});
+exports.RpcMethods = RpcMethods;
 var doNotModify = '[do-not-modify]';
 exports.doNotModify = doNotModify;
 var keystoreSaltPerfix = '$2a$12$';
@@ -55,8 +48,8 @@ var keystoreStructure = {
 };
 exports.keystoreStructure = keystoreStructure;
 var STD_DENOM = 'tiris',
-    IRIS_ATTO = 'iris-atto',
-    MIN_UNIT_SUFFIX = '-min';
+  IRIS_ATTO = 'iris-atto',
+  MIN_UNIT_SUFFIX = '-min';
 exports.MIN_UNIT_SUFFIX = MIN_UNIT_SUFFIX;
 exports.IRIS_ATTO = IRIS_ATTO;
 exports.STD_DENOM = STD_DENOM;

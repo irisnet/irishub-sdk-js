@@ -104,8 +104,8 @@ describe('Gov Tests', () => {
             {
               type:types.ProposalType.Text_Proposal,
               value:{ 
-                title:'1111',
-                description:'1111'
+                title:'test3',
+                description:'test3'
               }
             },
             initDeposit, 
@@ -243,7 +243,7 @@ describe('Gov Tests', () => {
       async () => {
         await BaseTest.getClient()
           .gov.deposit(
-            29,
+            55,
             initDeposit,
             BaseTest.baseTx
           )
@@ -262,7 +262,40 @@ describe('Gov Tests', () => {
       'vote',
       async () => {
         await BaseTest.getClient().gov
-          .vote(29, types.VoteOption.VOTE_OPTION_YES, BaseTest.baseTx)
+          .vote(55, types.VoteOption.VOTE_OPTION_YES, BaseTest.baseTx)
+          .then(res => {
+            console.log(JSON.stringify(res));
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    );
+  });
+
+  describe('VoteWeighted', () => {
+    test(
+      'VoteWeighted',
+      async () => {
+        await BaseTest.getClient().gov
+          .voteWeighted(57, [
+            {
+              option: types.VoteOption.VOTE_OPTION_NO,
+              weight: "300000000000000000",
+            },
+            {
+              option: types.VoteOption.VOTE_OPTION_YES,
+              weight: "400000000000000000",
+            },
+            {
+              option: types.VoteOption.VOTE_OPTION_ABSTAIN,
+              weight: "300000000000000000",
+            },
+            // {
+            //   option: types.VoteOption.VOTE_OPTION_YES,
+            //   weight: "2",
+            // },
+          ], BaseTest.baseTx)
           .then(res => {
             console.log(JSON.stringify(res));
           })

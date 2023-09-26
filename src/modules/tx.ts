@@ -69,7 +69,6 @@ export class Tx {
   ) {
     // Build Unsigned Tx
     const unsignedTx: types.ProtoTx = this.buildTx(msgs, baseTx);
-
     // Sign Tx
     const signedTx = await this.sign(unsignedTx, baseTx);
     // Broadcast Tx
@@ -371,8 +370,16 @@ export class Tx {
         msg = new types.MsgMintToken(txMsg.value);
         break;
       }
+      case types.TxType.MsgBurnToken: {
+        msg = new types.MsgBurnToken(txMsg.value);
+        break;
+      }
       case types.TxType.MsgTransferTokenOwner: {
         msg = new types.MsgTransferTokenOwner(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapFeeToken: {
+        msg = new types.MsgSwapFeeToken(txMsg.value);
         break;
       }
       //coinswap
@@ -429,6 +436,10 @@ export class Tx {
       }
       case types.TxType.MsgVote: {
           msg = new types.MsgVote(txMsg.value)
+          break;
+      }
+      case types.TxType.MsgVoteWeighted: {
+          msg = new types.MsgVoteWeighted(txMsg.value)
           break;
       }
       case types.TxType.MsgDeposit: {

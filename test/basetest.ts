@@ -27,7 +27,7 @@ export class BaseTest {
     from: Consts.keyName,
     password: Consts.keyPassword,
     mode: iris.types.BroadcastMode.Commit,
-    // pubkeyType:types.PubkeyType.sm2
+    // pubkeyType: iris.types.PubkeyType.sm2
   };
 
   static getClient(): Client {
@@ -38,6 +38,7 @@ export class BaseTest {
         gas: '20000000',
         fee: { denom: 'uiris', amount: '200' },
     };
+
     // let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
     // let config = {
