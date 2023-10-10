@@ -173,12 +173,12 @@ export class Token {
     if(is.not.undefined(owner)){
       request.setOwner(owner);
     }
-    return new Promise(async (resolve)=>{
+    return new Promise(async (resolve,reject)=>{
       const res = await this.client.rpcClient.protoQuery(
         '/irismod.token.Query/Tokens',
         request,
         types.token_query_pb.QueryTokensResponse
-      );
+      ).catch(error => reject(error));;
       let deserializedData: types.Token[] = [];
       if(res && res.tokensList && is.array(res.tokensList)){
         deserializedData = res.tokensList.map((item: {typeUrl: string, value: string})=>{
@@ -203,12 +203,12 @@ export class Token {
     }
     const request = new types.token_query_pb.QueryTokenRequest();
     request.setDenom(denom);
-    return new Promise(async (resolve)=>{
+    return new Promise(async (resolve,reject)=>{
       const res = await this.client.rpcClient.protoQuery(
         '/irismod.token.Query/Token',
         request,
         types.token_query_pb.QueryTokenResponse
-      );
+      ).catch(error => reject(error));
       let deserializedData: types.Token | null = null;
       if(res && res.token && res.token.value){
         deserializedData = types.token_token_pb.Token.deserializeBinary(res.token.value).toObject()
