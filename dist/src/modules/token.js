@@ -242,15 +242,18 @@ var Token = /*#__PURE__*/function () {
         request.setOwner(owner);
       }
       return new Promise( /*#__PURE__*/function () {
-        var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(resolve) {
+        var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(resolve, reject) {
           var res, deserializedData;
           return _regenerator["default"].wrap(function _callee7$(_context7) {
             while (1) switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return _this.client.rpcClient.protoQuery('/irismod.token.Query/Tokens', request, types.token_query_pb.QueryTokensResponse);
+                return _this.client.rpcClient.protoQuery('/irismod.token.Query/Tokens', request, types.token_query_pb.QueryTokensResponse)["catch"](function (error) {
+                  return reject(error);
+                });
               case 2:
                 res = _context7.sent;
+                ;
                 deserializedData = [];
                 if (res && res.tokensList && is.array(res.tokensList)) {
                   deserializedData = res.tokensList.map(function (item) {
@@ -258,13 +261,13 @@ var Token = /*#__PURE__*/function () {
                   });
                 }
                 resolve(deserializedData);
-              case 6:
+              case 7:
               case "end":
                 return _context7.stop();
             }
           }, _callee7);
         }));
-        return function (_x13) {
+        return function (_x13, _x14) {
           return _ref.apply(this, arguments);
         };
       }());
@@ -286,13 +289,15 @@ var Token = /*#__PURE__*/function () {
       var request = new types.token_query_pb.QueryTokenRequest();
       request.setDenom(denom);
       return new Promise( /*#__PURE__*/function () {
-        var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(resolve) {
+        var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(resolve, reject) {
           var res, deserializedData;
           return _regenerator["default"].wrap(function _callee8$(_context8) {
             while (1) switch (_context8.prev = _context8.next) {
               case 0:
                 _context8.next = 2;
-                return _this2.client.rpcClient.protoQuery('/irismod.token.Query/Token', request, types.token_query_pb.QueryTokenResponse);
+                return _this2.client.rpcClient.protoQuery('/irismod.token.Query/Token', request, types.token_query_pb.QueryTokenResponse)["catch"](function (error) {
+                  return reject(error);
+                });
               case 2:
                 res = _context8.sent;
                 deserializedData = null;
@@ -306,7 +311,7 @@ var Token = /*#__PURE__*/function () {
             }
           }, _callee8);
         }));
-        return function (_x14) {
+        return function (_x15, _x16) {
           return _ref2.apply(this, arguments);
         };
       }());
