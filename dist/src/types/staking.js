@@ -18,8 +18,8 @@ var _helper = require("../helper");
 var pbs = _interopRequireWildcard(require("./proto"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 /** Validator details */
@@ -47,7 +47,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * Msg struct for delegating to a validator
  * @hidden
  */
-var MsgDelegate = /*#__PURE__*/function (_Msg) {
+var MsgDelegate = exports.MsgDelegate = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgDelegate, _Msg);
   var _super = _createSuper(MsgDelegate);
   function MsgDelegate(msg) {
@@ -95,8 +95,7 @@ var MsgDelegate = /*#__PURE__*/function (_Msg) {
  * Msg struct for undelegating from a validator
  * @hidden
  */
-exports.MsgDelegate = MsgDelegate;
-var MsgUndelegate = /*#__PURE__*/function (_Msg2) {
+var MsgUndelegate = exports.MsgUndelegate = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgUndelegate, _Msg2);
   var _super2 = _createSuper(MsgUndelegate);
   function MsgUndelegate(msg) {
@@ -144,8 +143,7 @@ var MsgUndelegate = /*#__PURE__*/function (_Msg2) {
  * Msg struct for redelegating illiquid tokens from one validator to another
  * @hidden
  */
-exports.MsgUndelegate = MsgUndelegate;
-var MsgRedelegate = /*#__PURE__*/function (_Msg3) {
+var MsgRedelegate = exports.MsgRedelegate = /*#__PURE__*/function (_Msg3) {
   (0, _inherits2["default"])(MsgRedelegate, _Msg3);
   var _super3 = _createSuper(MsgRedelegate);
   function MsgRedelegate(msg) {
@@ -196,8 +194,7 @@ var MsgRedelegate = /*#__PURE__*/function (_Msg3) {
  * Msg struct for updating validator informations
  * @hidden
  */
-exports.MsgRedelegate = MsgRedelegate;
-var MsgEditValidator = /*#__PURE__*/function (_Msg4) {
+var MsgEditValidator = exports.MsgEditValidator = /*#__PURE__*/function (_Msg4) {
   (0, _inherits2["default"])(MsgEditValidator, _Msg4);
   var _super4 = _createSuper(MsgEditValidator);
   function MsgEditValidator(description, address, commissionRate) {
@@ -220,4 +217,3 @@ var MsgEditValidator = /*#__PURE__*/function (_Msg4) {
   }]);
   return MsgEditValidator;
 }(_types.Msg);
-exports.MsgEditValidator = MsgEditValidator;

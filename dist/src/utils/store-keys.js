@@ -13,7 +13,7 @@ var _crypto = require("./crypto");
 /**
  * @hidden
  */
-var StoreKeys = /*#__PURE__*/function () {
+var StoreKeys = exports.StoreKeys = /*#__PURE__*/function () {
   function StoreKeys() {
     (0, _classCallCheck2["default"])(this, StoreKeys);
   }
@@ -38,7 +38,6 @@ var StoreKeys = /*#__PURE__*/function () {
   }]);
   return StoreKeys;
 }();
-exports.StoreKeys = StoreKeys;
 (0, _defineProperty2["default"])(StoreKeys, "addressStoreKeyPrefix", _utils.Utils.str2ba('account:'));
 (0, _defineProperty2["default"])(StoreKeys, "globalAccountNumberKey", _utils.Utils.str2ba('globalAccountNumber'));
 (0, _defineProperty2["default"])(StoreKeys, "totalLoosenTokenKey", _utils.Utils.str2ba('totalLoosenToken'));

@@ -45,9 +45,8 @@ exports.StoreType = void 0;
  * - Keystore: save the key as an encrypted keystore
  * - Key: save the key as a plaintext private key
  */
-var StoreType = /*#__PURE__*/function (StoreType) {
+var StoreType = exports.StoreType = /*#__PURE__*/function (StoreType) {
   StoreType[StoreType["Keystore"] = 0] = "Keystore";
   StoreType[StoreType["Key"] = 1] = "Key";
   return StoreType;
 }({});
-exports.StoreType = StoreType;

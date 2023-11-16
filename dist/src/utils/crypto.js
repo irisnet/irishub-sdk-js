@@ -21,8 +21,8 @@ var _elliptic = require("elliptic");
 var _utils = require("./utils");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var Sha256 = require('sha256');
 var Secp256k1 = require('secp256k1');
 var SM2 = require('sm-crypto-bj').sm2;
@@ -33,7 +33,7 @@ var nacl = require('tweetnacl');
  * Crypto Utils
  * @hidden
  */
-var Crypto = /*#__PURE__*/function () {
+var Crypto = exports.Crypto = /*#__PURE__*/function () {
   function Crypto() {
     (0, _classCallCheck2["default"])(this, Crypto);
   }
@@ -569,7 +569,6 @@ var Crypto = /*#__PURE__*/function () {
   }]);
   return Crypto;
 }();
-exports.Crypto = Crypto;
 // secp256k1 privkey is 32 bytes
 (0, _defineProperty2["default"])(Crypto, "PRIVKEY_LEN", 32);
 (0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 256);

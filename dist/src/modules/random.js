@@ -15,7 +15,7 @@ var _random = require("../types/random");
  * @category Modules
  * @since v0.17
  */
-var Random = /*#__PURE__*/function () {
+var Random = exports.Random = /*#__PURE__*/function () {
   /** @hidden */
   function Random(client) {
     (0, _classCallCheck2["default"])(this, Random);
@@ -92,4 +92,3 @@ var Random = /*#__PURE__*/function () {
   }]);
   return Random;
 }();
-exports.Random = Random;

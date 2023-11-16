@@ -12,12 +12,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _errors = require("../errors");
-var types = _interopRequireWildcard(require("../types"));
+var _types = _interopRequireWildcard(require("../types"));
+var types = _types;
 var _utils = require("../utils");
 var is = _interopRequireWildcard(require("is_js"));
 var _wsClient = require("./ws-client");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 /** Internal subscription interface */
 /** Internal event dao for caching the events */
 var EventDAO = /*#__PURE__*/function () {
@@ -52,7 +53,7 @@ var EventDAO = /*#__PURE__*/function () {
  * IRISHub Event Listener
  * @since v0.17
  */
-var EventListener = /*#__PURE__*/function () {
+var EventListener = exports.EventListener = /*#__PURE__*/function () {
   /** @hidden */
   function EventListener(client) {
     var _this = this;
@@ -183,8 +184,8 @@ var EventListener = /*#__PURE__*/function () {
       // Build and send subscription
       var eventType = types.EventTypes.NewBlock;
       var id = eventType + Math.random().toString(16);
-      var queryBuilder = conditions ? conditions : new types.EventQueryBuilder();
-      var query = queryBuilder.addCondition(new types.Condition(types.EventKey.Type).eq(eventType)).build();
+      var queryBuilder = conditions ? conditions : new _types.EventQueryBuilder();
+      var query = queryBuilder.addCondition(new types.Condition(_types.EventKey.Type).eq(eventType)).build();
       if (this.wsClient.isReady()) {
         this.wsClient.send(types.RpcMethods.Subscribe, id, query);
         // Listen for new blocks, decode and callback
@@ -219,7 +220,7 @@ var EventListener = /*#__PURE__*/function () {
       // Build and send subscription
       var eventType = types.EventTypes.NewBlockHeader;
       var id = eventType + Math.random().toString(16);
-      var query = new types.EventQueryBuilder().addCondition(new types.Condition(types.EventKey.Type).eq(eventType)).build();
+      var query = new _types.EventQueryBuilder().addCondition(new types.Condition(_types.EventKey.Type).eq(eventType)).build();
       if (this.wsClient.isReady()) {
         this.wsClient.send(types.RpcMethods.Subscribe, id, query);
         // Listen for new block headers, decode and callback
@@ -254,7 +255,7 @@ var EventListener = /*#__PURE__*/function () {
       // Build and send subscription
       var eventType = types.EventTypes.ValidatorSetUpdates;
       var id = eventType + Math.random().toString(16);
-      var query = new types.EventQueryBuilder().addCondition(new types.Condition(types.EventKey.Type).eq(eventType)).build();
+      var query = new _types.EventQueryBuilder().addCondition(new types.Condition(_types.EventKey.Type).eq(eventType)).build();
       if (this.wsClient.isReady()) {
         this.wsClient.send(types.RpcMethods.Subscribe, id, query);
         // Listen for validator set updates, decode and callback
@@ -289,8 +290,8 @@ var EventListener = /*#__PURE__*/function () {
       // Build and send subscription
       var eventType = types.EventTypes.Tx;
       var id = eventType + Math.random().toString(16);
-      var queryBuilder = conditions ? conditions : new types.EventQueryBuilder();
-      var query = queryBuilder.addCondition(new types.Condition(types.EventKey.Type).eq(eventType)).build();
+      var queryBuilder = conditions ? conditions : new _types.EventQueryBuilder();
+      var query = queryBuilder.addCondition(new types.Condition(_types.EventKey.Type).eq(eventType)).build();
       if (this.wsClient.isReady()) {
         this.wsClient.send(types.RpcMethods.Subscribe, id, query);
         // Listen for txs, decode and callback
@@ -487,4 +488,3 @@ var EventListener = /*#__PURE__*/function () {
   }]);
   return EventListener;
 }();
-exports.EventListener = EventListener;
