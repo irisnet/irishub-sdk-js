@@ -46,7 +46,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * Msg struct for unjailing jailed validator
  * @hidden
  */
-var MsgUnjail = /*#__PURE__*/function (_Msg) {
+var MsgUnjail = exports.MsgUnjail = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgUnjail, _Msg);
   var _super = _createSuper(MsgUnjail);
   function MsgUnjail(address) {
@@ -68,4 +68,3 @@ var MsgUnjail = /*#__PURE__*/function (_Msg) {
   return MsgUnjail;
 }(_types.Msg);
 /** Defines the signing info for a validator */
-exports.MsgUnjail = MsgUnjail;

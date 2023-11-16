@@ -18,7 +18,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 var CODESPACE_ROOT = 'sdk';
 
 /** Error codes in irishub v1.0 */
-var CODES = {
+var CODES = exports.CODES = {
   OK: 0,
   Internal: 1,
   TxParseError: 2,
@@ -64,8 +64,7 @@ var CODES = {
 };
 
 /** IRISHub SDK Error */
-exports.CODES = CODES;
-var SdkError = /*#__PURE__*/function (_Error) {
+var SdkError = exports.SdkError = /*#__PURE__*/function (_Error) {
   (0, _inherits2["default"])(SdkError, _Error);
   var _super = _createSuper(SdkError);
   /**
@@ -90,4 +89,3 @@ var SdkError = /*#__PURE__*/function (_Error) {
   }
   return (0, _createClass2["default"])(SdkError);
 }( /*#__PURE__*/(0, _wrapNativeSuper2["default"])(Error));
-exports.SdkError = SdkError;

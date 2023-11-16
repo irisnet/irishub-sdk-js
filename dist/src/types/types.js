@@ -14,7 +14,7 @@ var _errors = require("../errors");
  * Base Msg
  * @hidden
  */
-var Msg = /*#__PURE__*/function () {
+var Msg = exports.Msg = /*#__PURE__*/function () {
   function Msg(type) {
     (0, _classCallCheck2["default"])(this, Msg);
     (0, _defineProperty2["default"])(this, "type", void 0);
@@ -59,8 +59,7 @@ var Msg = /*#__PURE__*/function () {
   }]);
   return Msg;
 }();
-exports.Msg = Msg;
-var TxType = /*#__PURE__*/function (TxType) {
+var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgSend"] = "cosmos.bank.v1beta1.MsgSend";
   TxType["MsgMultiSend"] = "cosmos.bank.v1beta1.MsgMultiSend";
   TxType["MsgDelegate"] = "cosmos.staking.v1beta1.MsgDelegate";
@@ -116,12 +115,11 @@ var TxType = /*#__PURE__*/function (TxType) {
  * Base Pubkey
  * @hidden
  */
-exports.TxType = TxType;
 /** 
  * Base Pubkey Type
  * @hidden
  */
-var PubkeyType = /*#__PURE__*/function (PubkeyType) {
+var PubkeyType = exports.PubkeyType = /*#__PURE__*/function (PubkeyType) {
   PubkeyType["secp256k1"] = "secp256k1";
   PubkeyType["ed25519"] = "ed25519";
   PubkeyType["sm2"] = "sm2";
@@ -131,4 +129,3 @@ var PubkeyType = /*#__PURE__*/function (PubkeyType) {
 /**
  * Bech32 Prefix
  */
-exports.PubkeyType = PubkeyType;
