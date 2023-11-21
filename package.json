@@ -53,7 +53,7 @@
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@types/mathjs": "6.0.11",
-    "@types/ws": "^7.4.5",
+    "@types/ws": "^8.5.10",
     "axios": "^1.6.2",
     "bcryptjs": "^2.4.3",
     "bech32": "^1.1.3",
