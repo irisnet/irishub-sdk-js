@@ -12,7 +12,7 @@ var _crypto = require("./crypto");
 /**
  * Utilities for address operations
  */
-var AddressUtils = /*#__PURE__*/function () {
+var AddressUtils = exports.AddressUtils = /*#__PURE__*/function () {
   function AddressUtils() {
     (0, _classCallCheck2["default"])(this, AddressUtils);
   }
@@ -30,4 +30,3 @@ var AddressUtils = /*#__PURE__*/function () {
   }]);
   return AddressUtils;
 }();
-exports.AddressUtils = AddressUtils;

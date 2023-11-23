@@ -17,8 +17,8 @@ var _types = require("./types");
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
 var _helper = require("../helper");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 /**
@@ -26,7 +26,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  *
  * @hidden
  */
-var MsgStake = /*#__PURE__*/function (_Msg) {
+var MsgStake = exports.MsgStake = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgStake, _Msg);
   var _super = _createSuper(MsgStake);
   function MsgStake(msg) {
@@ -72,8 +72,7 @@ var MsgStake = /*#__PURE__*/function (_Msg) {
  *
  * @hidden
  */
-exports.MsgStake = MsgStake;
-var MsgUnstake = /*#__PURE__*/function (_Msg2) {
+var MsgUnstake = exports.MsgUnstake = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgUnstake, _Msg2);
   var _super2 = _createSuper(MsgUnstake);
   function MsgUnstake(msg) {
@@ -114,13 +113,12 @@ var MsgUnstake = /*#__PURE__*/function (_Msg2) {
   }]);
   return MsgUnstake;
 }(_types.Msg);
-exports.MsgUnstake = MsgUnstake;
 /**
  * Msg for harvest reward
  *
  * @hidden
  */
-var MsgHarvest = /*#__PURE__*/function (_Msg3) {
+var MsgHarvest = exports.MsgHarvest = /*#__PURE__*/function (_Msg3) {
   (0, _inherits2["default"])(MsgHarvest, _Msg3);
   var _super3 = _createSuper(MsgHarvest);
   function MsgHarvest(msg) {
@@ -157,4 +155,3 @@ var MsgHarvest = /*#__PURE__*/function (_Msg3) {
   }]);
   return MsgHarvest;
 }(_types.Msg);
-exports.MsgHarvest = MsgHarvest;

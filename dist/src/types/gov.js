@@ -17,8 +17,8 @@ var _types = require("./types");
 var _helper = require("../helper");
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 /**
@@ -29,7 +29,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  *
  * @hidden
  */
-var MsgSubmitProposal = /*#__PURE__*/function (_Msg) {
+var MsgSubmitProposal = exports.MsgSubmitProposal = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgSubmitProposal, _Msg);
   var _super = _createSuper(MsgSubmitProposal);
   function MsgSubmitProposal(msg) {
@@ -136,11 +136,10 @@ var MsgSubmitProposal = /*#__PURE__*/function (_Msg) {
 /**
  * param struct for Vote tx
  */
-exports.MsgSubmitProposal = MsgSubmitProposal;
 /**
  * Msg for Vote
  */
-var MsgVote = /*#__PURE__*/function (_Msg2) {
+var MsgVote = exports.MsgVote = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgVote, _Msg2);
   var _super2 = _createSuper(MsgVote);
   function MsgVote(msg) {
@@ -184,11 +183,10 @@ var MsgVote = /*#__PURE__*/function (_Msg2) {
 /**
  * param struct for VoteWeighted tx
  */
-exports.MsgVote = MsgVote;
 /**
  * Msg for MsgVoteWeighted
  */
-var MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
+var MsgVoteWeighted = exports.MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
   (0, _inherits2["default"])(MsgVoteWeighted, _Msg3);
   var _super3 = _createSuper(MsgVoteWeighted);
   function MsgVoteWeighted(msg) {
@@ -237,13 +235,12 @@ var MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
 /**
  * param struct for Deposit tx
  */
-exports.MsgVoteWeighted = MsgVoteWeighted;
 /**
  * Msg for Deposit
  *
  * @hidden
  */
-var MsgDeposit = /*#__PURE__*/function (_Msg4) {
+var MsgDeposit = exports.MsgDeposit = /*#__PURE__*/function (_Msg4) {
   (0, _inherits2["default"])(MsgDeposit, _Msg4);
   var _super4 = _createSuper(MsgDeposit);
   function MsgDeposit(msg) {
@@ -289,8 +286,7 @@ var MsgDeposit = /*#__PURE__*/function (_Msg4) {
 /**
  * ProposalStatus enumerates the valid statuses of a proposal.
  */
-exports.MsgDeposit = MsgDeposit;
-var ProposalType = /*#__PURE__*/function (ProposalType) {
+var ProposalType = exports.ProposalType = /*#__PURE__*/function (ProposalType) {
   ProposalType["Text_Proposal"] = "cosmos.gov.v1beta1.TextProposal";
   ProposalType["Community_Pool_Spend_Proposal"] = "cosmos.distribution.v1beta1.CommunityPoolSpendProposal";
   ProposalType["Parameter_Change_Proposal"] = "cosmos.params.v1beta1.ParameterChangeProposal";
@@ -319,11 +315,10 @@ var ProposalType = /*#__PURE__*/function (ProposalType) {
 /**
  * param struct for Software Upgrade Proposal
  */
-exports.ProposalType = ProposalType;
 /**
  * Vote options
  */
-var VoteOption = /*#__PURE__*/function (VoteOption) {
+var VoteOption = exports.VoteOption = /*#__PURE__*/function (VoteOption) {
   VoteOption[VoteOption["VOTE_OPTION_UNSPECIFIED"] = 0] = "VOTE_OPTION_UNSPECIFIED";
   VoteOption[VoteOption["VOTE_OPTION_YES"] = 1] = "VOTE_OPTION_YES";
   VoteOption[VoteOption["VOTE_OPTION_ABSTAIN"] = 2] = "VOTE_OPTION_ABSTAIN";
@@ -334,8 +329,7 @@ var VoteOption = /*#__PURE__*/function (VoteOption) {
 /**
  * ProposalStatus enumerates the valid statuses of a proposal.
  */
-exports.VoteOption = VoteOption;
-var ProposalStatus = /*#__PURE__*/function (ProposalStatus) {
+var ProposalStatus = exports.ProposalStatus = /*#__PURE__*/function (ProposalStatus) {
   ProposalStatus[ProposalStatus["PROPOSAL_STATUS_UNSPECIFIED"] = 0] = "PROPOSAL_STATUS_UNSPECIFIED";
   ProposalStatus[ProposalStatus["PROPOSAL_STATUS_DEPOSIT_PERIOD"] = 1] = "PROPOSAL_STATUS_DEPOSIT_PERIOD";
   ProposalStatus[ProposalStatus["PROPOSAL_STATUS_VOTING_PERIOD"] = 2] = "PROPOSAL_STATUS_VOTING_PERIOD";
@@ -344,9 +338,8 @@ var ProposalStatus = /*#__PURE__*/function (ProposalStatus) {
   ProposalStatus[ProposalStatus["PROPOSAL_STATUS_FAILED"] = 5] = "PROPOSAL_STATUS_FAILED";
   return ProposalStatus;
 }({});
-exports.ProposalStatus = ProposalStatus;
 /************************** ClientState **************************/
-var HashOp = /*#__PURE__*/function (HashOp) {
+var HashOp = exports.HashOp = /*#__PURE__*/function (HashOp) {
   HashOp[HashOp["NO_HASH"] = 0] = "NO_HASH";
   HashOp[HashOp["SHA256"] = 1] = "SHA256";
   HashOp[HashOp["SHA512"] = 2] = "SHA512";
@@ -361,8 +354,7 @@ to include length information. After encoding the length with the given
 algorithm, the length will be prepended to the key and value bytes.
 (Each one with it's own encoded length)
 */
-exports.HashOp = HashOp;
-var LengthOp = /*#__PURE__*/function (LengthOp) {
+var LengthOp = exports.LengthOp = /*#__PURE__*/function (LengthOp) {
   LengthOp[LengthOp["NO_PREFIX"] = 0] = "NO_PREFIX";
   LengthOp[LengthOp["VAR_PROTO"] = 1] = "VAR_PROTO";
   LengthOp[LengthOp["VAR_RLP"] = 2] = "VAR_RLP";
@@ -415,4 +407,3 @@ tree format server uses. But not in code, rather a configuration object.
 /**
  * ClientState from Tendermint tracks the current validator set, latest height, and a possible frozen height.
  */
-exports.LengthOp = LengthOp;

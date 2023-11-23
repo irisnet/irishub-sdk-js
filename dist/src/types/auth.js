@@ -14,11 +14,10 @@ exports.BroadcastMode = void 0;
  * - Async: Broadcast transactions asynchronously and returns immediately
  * - Commit: Broadcast transactions and wait until the transactions are included by a block
  */
-var BroadcastMode = /*#__PURE__*/function (BroadcastMode) {
+var BroadcastMode = exports.BroadcastMode = /*#__PURE__*/function (BroadcastMode) {
   BroadcastMode[BroadcastMode["Sync"] = 0] = "Sync";
   BroadcastMode[BroadcastMode["Async"] = 1] = "Async";
   BroadcastMode[BroadcastMode["Commit"] = 2] = "Commit";
   return BroadcastMode;
 }({});
 /** Standard Msg to sign */
-exports.BroadcastMode = BroadcastMode;

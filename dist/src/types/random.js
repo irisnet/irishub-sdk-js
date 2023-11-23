@@ -19,7 +19,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * Msg struct for requesting a random number
  * @hidden
  */
-var MsgRequestRand = /*#__PURE__*/function (_Msg) {
+var MsgRequestRand = exports.MsgRequestRand = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgRequestRand, _Msg);
   var _super = _createSuper(MsgRequestRand);
   function MsgRequestRand(consumer, blockInterval) {
@@ -41,4 +41,3 @@ var MsgRequestRand = /*#__PURE__*/function (_Msg) {
   }]);
   return MsgRequestRand;
 }(_types.Msg);
-exports.MsgRequestRand = MsgRequestRand;
