@@ -19,7 +19,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * Msg struct for creating a new service definition
  * @hidden
  */
-var MsgDefineService = /*#__PURE__*/function (_Msg) {
+var MsgDefineService = exports.MsgDefineService = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgDefineService, _Msg);
   var _super = _createSuper(MsgDefineService);
   function MsgDefineService(definition) {
@@ -42,8 +42,7 @@ var MsgDefineService = /*#__PURE__*/function (_Msg) {
  * Msg struct for binding a service definition
  * @hidden
  */
-exports.MsgDefineService = MsgDefineService;
-var MsgBindService = /*#__PURE__*/function (_Msg2) {
+var MsgBindService = exports.MsgBindService = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgBindService, _Msg2);
   var _super2 = _createSuper(MsgBindService);
   function MsgBindService(binding) {
@@ -66,8 +65,7 @@ var MsgBindService = /*#__PURE__*/function (_Msg2) {
  * Msg struct for updating a service binding
  * @hidden
  */
-exports.MsgBindService = MsgBindService;
-var MsgUpdateServiceBinding = /*#__PURE__*/function (_Msg3) {
+var MsgUpdateServiceBinding = exports.MsgUpdateServiceBinding = /*#__PURE__*/function (_Msg3) {
   (0, _inherits2["default"])(MsgUpdateServiceBinding, _Msg3);
   var _super3 = _createSuper(MsgUpdateServiceBinding);
   function MsgUpdateServiceBinding(binding) {
@@ -90,8 +88,7 @@ var MsgUpdateServiceBinding = /*#__PURE__*/function (_Msg3) {
  * Msg struct for disabling a service binding
  * @hidden
  */
-exports.MsgUpdateServiceBinding = MsgUpdateServiceBinding;
-var MsgDisableServiceBinding = /*#__PURE__*/function (_Msg4) {
+var MsgDisableServiceBinding = exports.MsgDisableServiceBinding = /*#__PURE__*/function (_Msg4) {
   (0, _inherits2["default"])(MsgDisableServiceBinding, _Msg4);
   var _super4 = _createSuper(MsgDisableServiceBinding);
   function MsgDisableServiceBinding(serviceName, provider) {
@@ -117,8 +114,7 @@ var MsgDisableServiceBinding = /*#__PURE__*/function (_Msg4) {
  * Msg struct for enabling a service binding
  * @hidden
  */
-exports.MsgDisableServiceBinding = MsgDisableServiceBinding;
-var MsgEnableServiceBinding = /*#__PURE__*/function (_Msg5) {
+var MsgEnableServiceBinding = exports.MsgEnableServiceBinding = /*#__PURE__*/function (_Msg5) {
   (0, _inherits2["default"])(MsgEnableServiceBinding, _Msg5);
   var _super5 = _createSuper(MsgEnableServiceBinding);
   function MsgEnableServiceBinding(serviceName, provider) {
@@ -144,8 +140,7 @@ var MsgEnableServiceBinding = /*#__PURE__*/function (_Msg5) {
  * Msg struct for invoking a service
  * @hidden
  */
-exports.MsgEnableServiceBinding = MsgEnableServiceBinding;
-var MsgRequestService = /*#__PURE__*/function (_Msg6) {
+var MsgRequestService = exports.MsgRequestService = /*#__PURE__*/function (_Msg6) {
   (0, _inherits2["default"])(MsgRequestService, _Msg6);
   var _super6 = _createSuper(MsgRequestService);
   function MsgRequestService(request) {
@@ -167,8 +162,7 @@ var MsgRequestService = /*#__PURE__*/function (_Msg6) {
 /**
  * @hidden
  */
-exports.MsgRequestService = MsgRequestService;
-var MsgSetServiceWithdrawAddress = /*#__PURE__*/function (_Msg7) {
+var MsgSetServiceWithdrawAddress = exports.MsgSetServiceWithdrawAddress = /*#__PURE__*/function (_Msg7) {
   (0, _inherits2["default"])(MsgSetServiceWithdrawAddress, _Msg7);
   var _super7 = _createSuper(MsgSetServiceWithdrawAddress);
   function MsgSetServiceWithdrawAddress(provider, withdrawAddress) {
@@ -194,8 +188,7 @@ var MsgSetServiceWithdrawAddress = /*#__PURE__*/function (_Msg7) {
  * Msg struct for refunding deposit from a service binding
  * @hidden
  */
-exports.MsgSetServiceWithdrawAddress = MsgSetServiceWithdrawAddress;
-var MsgRefundServiceDeposit = /*#__PURE__*/function (_Msg8) {
+var MsgRefundServiceDeposit = exports.MsgRefundServiceDeposit = /*#__PURE__*/function (_Msg8) {
   (0, _inherits2["default"])(MsgRefundServiceDeposit, _Msg8);
   var _super8 = _createSuper(MsgRefundServiceDeposit);
   function MsgRefundServiceDeposit(serviceName, provider) {
@@ -221,8 +214,7 @@ var MsgRefundServiceDeposit = /*#__PURE__*/function (_Msg8) {
  * Msg struct for resuming a request context
  * @hidden
  */
-exports.MsgRefundServiceDeposit = MsgRefundServiceDeposit;
-var MsgStartRequestContext = /*#__PURE__*/function (_Msg9) {
+var MsgStartRequestContext = exports.MsgStartRequestContext = /*#__PURE__*/function (_Msg9) {
   (0, _inherits2["default"])(MsgStartRequestContext, _Msg9);
   var _super9 = _createSuper(MsgStartRequestContext);
   function MsgStartRequestContext(requestContextID, consumer) {
@@ -248,8 +240,7 @@ var MsgStartRequestContext = /*#__PURE__*/function (_Msg9) {
  * Msg struct for pausing a request context
  * @hidden
  */
-exports.MsgStartRequestContext = MsgStartRequestContext;
-var MsgPauseRequestContext = /*#__PURE__*/function (_Msg10) {
+var MsgPauseRequestContext = exports.MsgPauseRequestContext = /*#__PURE__*/function (_Msg10) {
   (0, _inherits2["default"])(MsgPauseRequestContext, _Msg10);
   var _super10 = _createSuper(MsgPauseRequestContext);
   function MsgPauseRequestContext(requestContextID, consumer) {
@@ -275,8 +266,7 @@ var MsgPauseRequestContext = /*#__PURE__*/function (_Msg10) {
  * Msg struct for killing a request context
  * @hidden
  */
-exports.MsgPauseRequestContext = MsgPauseRequestContext;
-var MsgKillRequestContext = /*#__PURE__*/function (_Msg11) {
+var MsgKillRequestContext = exports.MsgKillRequestContext = /*#__PURE__*/function (_Msg11) {
   (0, _inherits2["default"])(MsgKillRequestContext, _Msg11);
   var _super11 = _createSuper(MsgKillRequestContext);
   function MsgKillRequestContext(requestContextID, consumer) {
@@ -302,8 +292,7 @@ var MsgKillRequestContext = /*#__PURE__*/function (_Msg11) {
  * Msg struct for invoking a service
  * @hidden
  */
-exports.MsgKillRequestContext = MsgKillRequestContext;
-var MsgUpdateRequestContext = /*#__PURE__*/function (_Msg12) {
+var MsgUpdateRequestContext = exports.MsgUpdateRequestContext = /*#__PURE__*/function (_Msg12) {
   (0, _inherits2["default"])(MsgUpdateRequestContext, _Msg12);
   var _super12 = _createSuper(MsgUpdateRequestContext);
   function MsgUpdateRequestContext(request) {
@@ -326,8 +315,7 @@ var MsgUpdateRequestContext = /*#__PURE__*/function (_Msg12) {
  * Msg struct for withdrawing the fees earned by the provider
  * @hidden
  */
-exports.MsgUpdateRequestContext = MsgUpdateRequestContext;
-var MsgWithdrawEarnedFees = /*#__PURE__*/function (_Msg13) {
+var MsgWithdrawEarnedFees = exports.MsgWithdrawEarnedFees = /*#__PURE__*/function (_Msg13) {
   (0, _inherits2["default"])(MsgWithdrawEarnedFees, _Msg13);
   var _super13 = _createSuper(MsgWithdrawEarnedFees);
   function MsgWithdrawEarnedFees(provider) {
@@ -352,8 +340,7 @@ var MsgWithdrawEarnedFees = /*#__PURE__*/function (_Msg13) {
  * Msg struct for withdrawing the service tax
  * @hidden
  */
-exports.MsgWithdrawEarnedFees = MsgWithdrawEarnedFees;
-var MsgWithdrawTax = /*#__PURE__*/function (_Msg14) {
+var MsgWithdrawTax = exports.MsgWithdrawTax = /*#__PURE__*/function (_Msg14) {
   (0, _inherits2["default"])(MsgWithdrawTax, _Msg14);
   var _super14 = _createSuper(MsgWithdrawTax);
   function MsgWithdrawTax(trustee, destAddress, amount) {
@@ -376,4 +363,3 @@ var MsgWithdrawTax = /*#__PURE__*/function (_Msg14) {
   }]);
   return MsgWithdrawTax;
 }(_types.Msg);
-exports.MsgWithdrawTax = MsgWithdrawTax;

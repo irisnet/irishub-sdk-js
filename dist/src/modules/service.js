@@ -18,7 +18,7 @@ var _utils = require("../utils");
  * @category Modules
  * @since v0.17
  */
-var Service = /*#__PURE__*/function () {
+var Service = exports.Service = /*#__PURE__*/function () {
   /** @hidden */
   function Service(client) {
     (0, _classCallCheck2["default"])(this, Service);
@@ -657,4 +657,3 @@ var Service = /*#__PURE__*/function () {
   }]);
   return Service;
 }();
-exports.Service = Service;

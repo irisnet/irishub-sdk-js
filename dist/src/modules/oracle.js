@@ -13,7 +13,7 @@ var _errors = require("../errors");
  * @category Modules
  * @since v0.17
  */
-var Oracle = /*#__PURE__*/function () {
+var Oracle = exports.Oracle = /*#__PURE__*/function () {
   /** @hidden */
   function Oracle(client) {
     (0, _classCallCheck2["default"])(this, Oracle);
@@ -113,4 +113,3 @@ var Oracle = /*#__PURE__*/function () {
   }]);
   return Oracle;
 }();
-exports.Oracle = Oracle;

@@ -19,8 +19,8 @@ var is = _interopRequireWildcard(require("is_js"));
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
 var _constants = require("./constants");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 /**
@@ -45,7 +45,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
  * Msg struct for issue token
  * @hidden
  */
-var MsgIssueToken = /*#__PURE__*/function (_Msg) {
+var MsgIssueToken = exports.MsgIssueToken = /*#__PURE__*/function (_Msg) {
   (0, _inherits2["default"])(MsgIssueToken, _Msg);
   var _super = _createSuper(MsgIssueToken);
   function MsgIssueToken(msg) {
@@ -110,8 +110,7 @@ var MsgIssueToken = /*#__PURE__*/function (_Msg) {
  * Msg struct for edit token
  * @hidden
  */
-exports.MsgIssueToken = MsgIssueToken;
-var MsgEditToken = /*#__PURE__*/function (_Msg2) {
+var MsgEditToken = exports.MsgEditToken = /*#__PURE__*/function (_Msg2) {
   (0, _inherits2["default"])(MsgEditToken, _Msg2);
   var _super2 = _createSuper(MsgEditToken);
   function MsgEditToken(msg) {
@@ -169,8 +168,7 @@ var MsgEditToken = /*#__PURE__*/function (_Msg2) {
  * Msg struct for mint token
  * @hidden
  */
-exports.MsgEditToken = MsgEditToken;
-var MsgMintToken = /*#__PURE__*/function (_Msg3) {
+var MsgMintToken = exports.MsgMintToken = /*#__PURE__*/function (_Msg3) {
   (0, _inherits2["default"])(MsgMintToken, _Msg3);
   var _super3 = _createSuper(MsgMintToken);
   function MsgMintToken(msg) {
@@ -220,8 +218,7 @@ var MsgMintToken = /*#__PURE__*/function (_Msg3) {
  * Msg struct for mint token
  * @hidden
  */
-exports.MsgMintToken = MsgMintToken;
-var MsgBurnToken = /*#__PURE__*/function (_Msg4) {
+var MsgBurnToken = exports.MsgBurnToken = /*#__PURE__*/function (_Msg4) {
   (0, _inherits2["default"])(MsgBurnToken, _Msg4);
   var _super4 = _createSuper(MsgBurnToken);
   function MsgBurnToken(msg) {
@@ -268,8 +265,7 @@ var MsgBurnToken = /*#__PURE__*/function (_Msg4) {
  * Msg struct for transfer token owner
  * @hidden
  */
-exports.MsgBurnToken = MsgBurnToken;
-var MsgTransferTokenOwner = /*#__PURE__*/function (_Msg5) {
+var MsgTransferTokenOwner = exports.MsgTransferTokenOwner = /*#__PURE__*/function (_Msg5) {
   (0, _inherits2["default"])(MsgTransferTokenOwner, _Msg5);
   var _super5 = _createSuper(MsgTransferTokenOwner);
   function MsgTransferTokenOwner(msg) {
@@ -319,8 +315,7 @@ var MsgTransferTokenOwner = /*#__PURE__*/function (_Msg5) {
  * Msg struct for Swap Fee Token
  * @hidden
  */
-exports.MsgTransferTokenOwner = MsgTransferTokenOwner;
-var MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
+var MsgSwapFeeToken = exports.MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
   (0, _inherits2["default"])(MsgSwapFeeToken, _Msg6);
   var _super6 = _createSuper(MsgSwapFeeToken);
   function MsgSwapFeeToken(msg) {
@@ -366,4 +361,3 @@ var MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
   }]);
   return MsgSwapFeeToken;
 }(_types.Msg);
-exports.MsgSwapFeeToken = MsgSwapFeeToken;
