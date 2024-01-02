@@ -568,6 +568,11 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
             msg = new types.MsgTransfer(txMsg.value);
             break;
           }
+        case types.TxType.MsgIbcNftTransfer:
+          {
+            msg = new types.MsgIbcNftTransfer(txMsg.value);
+            break;
+          }
         default:
           {
             throw new _errors.SdkError("not exist tx type", _errors.CODES.InvalidType);

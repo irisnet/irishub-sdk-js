@@ -246,6 +246,11 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgTransfer.getModelClass();
             break;
           }
+        case types.TxType.MsgIbcNftTransfer:
+          {
+            messageModelClass = types.MsgIbcNftTransfer.getModelClass();
+            break;
+          }
         default:
           {
             throw new _errors.SdkError("not exist tx type", _errors.CODES.InvalidType);

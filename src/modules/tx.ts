@@ -460,6 +460,10 @@ export class Tx {
           msg = new types.MsgTransfer(txMsg.value);
           break;
       }
+      case types.TxType.MsgIbcNftTransfer: {
+          msg = new types.MsgIbcNftTransfer(txMsg.value);
+          break;
+      }
       default: {
           throw new SdkError("not exist tx type",CODES.InvalidType);
       }

@@ -65,6 +65,9 @@ export declare class Client {
     /** Ibc module */
     private _ibc?;
     get ibc(): modules.Ibc;
+    /** Ibc nft transfer module */
+    private _ibcNftTransfer?;
+    get ibcNftTransfer(): modules.IbcNftTransfer;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**

@@ -23,6 +23,7 @@ export const token_tx_pb= require( './proto-types/irismod/token/v1/tx_pb');
 export const farm_tx_pb = require('./proto-types/irismod/farm/tx_pb')
 //ibc tx
 export const ibc_transfer_tx_pb= require( './proto-types/ibc/applications/transfer/v1/tx_pb');
+export const ibc_nft_transfer_tx_pb= require( './proto-types/ibc/applications/nft_transfer/v1/tx_pb');
 
 /***************QUERY***************/
 export const base_query_pagination_pb = require( './proto-types/cosmos/base/query/v1beta1/pagination_pb');
@@ -52,6 +53,7 @@ export const farm_query_pb = require( './proto-types/irismod/farm/query_pb');
 //ibc query
 export const ibc_transfer_query_pb= require( './proto-types/ibc/applications/transfer/v1/query_pb');
 export const ibc_channel_query_pb= require( './proto-types/ibc/core/channel/v1/query_pb');
+export const ibc_nft_transfer_query_pb= require( './proto-types/ibc/applications/nft_transfer/v1/query_pb');
 
 /***************MODULES***************/
 //cosmos module
