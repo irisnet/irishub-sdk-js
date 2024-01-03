@@ -25,13 +25,13 @@ npm install https://github.com/irisnet/irishub-sdk-js.git
 ```typescript
 interface ClientConfig {
     node: string,//address of a rpc node on IRISnet
-    network: number, //[Number] 0: Mainnet, 1: Testnet
+    chainNetwork: consts.ChainNetwork; // IRISHUB = 0, Cosmos = 1, Akash = 2
     chainId: string,
     gas?: string,
     fee?: {
         denom: string;
         amount: string;
-    },//default fee for transactions
+    }, //default fee for transactions
     keyDAO: KeyDAO,//key manager for wallet, which must be implemented
     bech32Prefix?: {
         AccAddr: string,
@@ -116,15 +116,15 @@ The following selected examples demonstrate basic client usage.
 
 - create account
 ```typescript
-const account: { address: string, mnemonic: string } = client.keys.add(`iris_wallet`, 'S8js8Ka82lqAc');
+const account: { address: string, mnemonic: string } = client.keys.add(`wallet name`, 'wallet password');
 ```
 - recover account by mnemonic
 ```typescript
-const account: string = client.keys.recover(`iris_wallet`, 'S8js8Ka82lqAc', `fatigue panther innocent dress person fluid animal raven material embark target spread kiss smile cycle begin rocket pull couple mass story analyst guilt network`);
+const account: string = client.keys.recover(`wallet name`, 'wallet password', `mnemonic`);
 ```
 - recover account by keystore
 ```typescript
-const account: string = client.keys.recover(`iris_wallet`, 'S8js8Ka82lqAc', `{"version":"1","id":"1d295464-aaa8-418e-b374-3052a91dc26a","address":"faa1eqvkfthtrr93g4p9qspp54w6dtjtrn279vcmpn","crypto":{"ciphertext":"a6ee40e3b38a7b24a373ec006bcc039ccbae45dc3b1f314405ab51ee975d6b1f","cipherparams":{"iv":"453b83b1331d334b70d160616fe43ace"},"cipher":"aes-128-ctr","kdf":"pbkdf2","kdfparams":{"dklen":32,"salt":"e702e41edf7277a39f7f5cc641c19e1b492cc29bf737aec9b53b496c9f217b37","c":10000,"prf":"hmac-sha256"},"mac":"6e8ed2619f0b30f00c20f9f01858368efbd0feae5811792d8b41a60c2d71d310"}}`);
+const account: string = client.keys.recover(`wallet name`, 'wallet password', `keystore`);
 ```
 - transfer example
 ```typescript
@@ -135,8 +135,8 @@ const res = await client.bank.send({
         amount:`1000000`
     }],
     baseTx:{
-        from:`iris_wallet`,
-        password:`S8js8Ka82lqAc`,
+        from:`wallet name`,
+        password:`wallet password`,
         gas:50000,
         fee:{
             denom:`uiris`,
@@ -160,7 +160,7 @@ const res = await client.bank.send({
 - queryDenomMetadata
 - queryDenomsMetadata
 - queryParams
-### bank `src/modules/coinswap.ts`
+### coinswap `src/modules/coinswap.ts`
 - addLiquidity
 - removeLiquidity
 - swapOrder
@@ -180,7 +180,7 @@ const res = await client.bank.send({
 - queryDelegatorValidators
 - queryDelegatorWithdrawAddress
 - queryCommunityPool
-### keys `src/modules/farm.ts`
+### farm `src/modules/farm.ts`
 - stakeLp
 - unStakeLp
 - harvestReward
@@ -203,19 +203,26 @@ const res = await client.bank.send({
 - vote
 - voteWeighted
 
-### bank `src/modules/htlc.ts`
+### htlc `src/modules/htlc.ts`
 - createHTLC
 - claimHTLC
 - queryHTLC
 - queryAssetSupply
 - queryAssetSupplies
 - queryParams
-### bank `src/modules/ibc.ts`
+### ibc `src/modules/ibc/ibc.ts`
 - transfer
 - queryDenomTrace
 - queryDenomTraces
 - queryParams
 - queryChannels
+### ibc-nft-transfer `src/modules/ibc/ibc-nft-transfer.ts`
+- transfer
+- queryClassTrace
+- queryClassTraces
+- queryClassHash
+- queryEscrowAddress
+- queryParams
 ### keys `src/modules/keys.ts`
 - add
 - recover
@@ -236,7 +243,7 @@ const res = await client.bank.send({
 - queryDenom
 - queryDenoms
 - queryNFT
-### slashing `src/modules/oracle.ts`
+### oracle `src/modules/oracle.ts`
 - queryFeed
 - queryFeeds
 - queryFeedValue
@@ -247,11 +254,11 @@ const res = await client.bank.send({
 - deserializeTxRaw
 - deserializeSigningInfo
 - deserializePubkey
-### slashing `src/modules/random.ts`
+### random `src/modules/random.ts`
 - queryRandom
 - queryRequest
 - request
-### slashing `src/modules/service.ts`
+### service `src/modules/service.ts`
 - queryDefinition
 - queryBinding
 - queryBindings
@@ -330,4 +337,3 @@ const res = await client.bank.send({
 - broadcastTx
 - newTxResult
 - createMsg
-

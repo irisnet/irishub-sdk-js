@@ -309,19 +309,6 @@ var Client = exports.Client = /*#__PURE__*/function () {
      * @returns The SDK itself
      */
   }, {
-    key: "withNetwork",
-    value: function withNetwork(network) {
-      this.config.network = network;
-      return this;
-    }
-
-    /**
-     * Set IRISHub network type
-     *
-     * @param network IRISHub network type, mainnet / testnet
-     * @returns The SDK itself
-     */
-  }, {
     key: "withChainNetwork",
     value: function withChainNetwork(chainNetwork) {
       this.config.chainNetwork = chainNetwork;
@@ -392,7 +379,6 @@ var DefaultClientConfig = exports.DefaultClientConfig = /*#__PURE__*/(0, _create
   (0, _classCallCheck2["default"])(this, DefaultClientConfig);
   (0, _defineProperty2["default"])(this, "node", void 0);
   (0, _defineProperty2["default"])(this, "chainNetwork", void 0);
-  (0, _defineProperty2["default"])(this, "network", void 0);
   (0, _defineProperty2["default"])(this, "chainId", void 0);
   (0, _defineProperty2["default"])(this, "gas", void 0);
   (0, _defineProperty2["default"])(this, "fee", void 0);
@@ -400,7 +386,6 @@ var DefaultClientConfig = exports.DefaultClientConfig = /*#__PURE__*/(0, _create
   (0, _defineProperty2["default"])(this, "bech32Prefix", void 0);
   (0, _defineProperty2["default"])(this, "rpcConfig", void 0);
   this.node = '';
-  this.network = types.Network.Mainnet;
   this.chainNetwork = types.ChainNetwork.Iris;
   this.chainId = '';
   this.gas = '100000';

@@ -83,13 +83,6 @@ export declare class Client {
      * @param network IRISHub network type, mainnet / testnet
      * @returns The SDK itself
      */
-    withNetwork(network: consts.Network): this;
-    /**
-     * Set IRISHub network type
-     *
-     * @param network IRISHub network type, mainnet / testnet
-     * @returns The SDK itself
-     */
     withChainNetwork(chainNetwork: consts.ChainNetwork): this;
     /**
      * Set IRISHub chain-id
@@ -126,8 +119,8 @@ export declare class Client {
 export interface ClientConfig {
     /** IRISHub node rpc address */
     node: string;
-    /** IRISHub network type, mainnet / testnet */
-    network?: consts.Network;
+    /**  IRISHUB = 0, Cosmos = 1, Akash = 2 */
+    chainNetwork?: consts.ChainNetwork;
     /** IRISHub chain-id */
     chainId?: string;
     /** Default gas limit */
@@ -145,7 +138,6 @@ export interface ClientConfig {
 export declare class DefaultClientConfig implements ClientConfig {
     node: string;
     chainNetwork: consts.ChainNetwork;
-    network: consts.Network;
     chainId: string;
     gas: string;
     fee: types.Coin;
