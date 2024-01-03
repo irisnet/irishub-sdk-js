@@ -30,7 +30,7 @@ export declare class Crypto {
      * @param type The output type (default: hex)
      * @returns Bech32 address
      */
-    static encodeAddress(pubkeyHash: string, hrp?: string, type?: string): any;
+    static encodeAddress(pubkeyHash: string, hrp?: string, type?: BufferEncoding): any;
     /**
      * ConvertAndEncode converts from a base64 encoded byte array to bach32 encoded byte string and then to bech32
      * @param hrp The address prefix
