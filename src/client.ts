@@ -246,17 +246,6 @@ export class Client {
    * @param network IRISHub network type, mainnet / testnet
    * @returns The SDK itself
    */
-  withNetwork(network: consts.Network) {
-    this.config.network = network;
-    return this;
-  }
-
-  /**
-   * Set IRISHub network type
-   *
-   * @param network IRISHub network type, mainnet / testnet
-   * @returns The SDK itself
-   */
   withChainNetwork(chainNetwork: consts.ChainNetwork) {
     this.config.chainNetwork = chainNetwork;
     return this;
@@ -315,9 +304,9 @@ export class Client {
 export interface ClientConfig {
   /** IRISHub node rpc address */
   node: string;
-
-  /** IRISHub network type, mainnet / testnet */
-  network?: consts.Network;
+  
+  /**  IRISHUB = 0, Cosmos = 1, Akash = 2 */
+  chainNetwork?: consts.ChainNetwork;
 
   /** IRISHub chain-id */
   chainId?: string;
@@ -342,7 +331,6 @@ export interface ClientConfig {
 export class DefaultClientConfig implements ClientConfig {
   node: string;
   chainNetwork: consts.ChainNetwork;
-  network: consts.Network;
   chainId: string;
   gas: string;
   fee: types.Coin;
@@ -352,7 +340,6 @@ export class DefaultClientConfig implements ClientConfig {
 
   constructor() {
     this.node = '';
-    this.network = types.Network.Mainnet;
     this.chainNetwork = types.ChainNetwork.Iris;
     this.chainId = '';
     this.gas = '100000';

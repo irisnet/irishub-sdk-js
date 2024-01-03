@@ -1,9 +1,4 @@
 import { Bech32Prefix } from './types';
-/** Network type config */
-export declare enum Network {
-    Mainnet = 0,
-    Testnet = 1
-}
 export declare enum ChainNetwork {
     Iris = 0,
     Cosmos = 1,

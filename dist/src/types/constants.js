@@ -3,13 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.xchacha20NonceLength = exports.keystoreStructure = exports.keystoreSaltPerfix = exports.doNotModify = exports.STD_DENOM = exports.RpcMethods = exports.Network = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.ChainNetwork = exports.Bech32Prefix_Iris = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Akash = void 0;
-/** Network type config */
-var Network = exports.Network = /*#__PURE__*/function (Network) {
-  Network[Network["Mainnet"] = 0] = "Mainnet";
-  Network[Network["Testnet"] = 1] = "Testnet";
-  return Network;
-}({});
+exports.xchacha20NonceLength = exports.keystoreStructure = exports.keystoreSaltPerfix = exports.doNotModify = exports.STD_DENOM = exports.RpcMethods = exports.MIN_UNIT_SUFFIX = exports.IRIS_ATTO = exports.ChainNetwork = exports.Bech32Prefix_Iris = exports.Bech32Prefix_Cosmos = exports.Bech32Prefix_Akash = void 0;
 var ChainNetwork = exports.ChainNetwork = /*#__PURE__*/function (ChainNetwork) {
   ChainNetwork[ChainNetwork["Iris"] = 0] = "Iris";
   ChainNetwork[ChainNetwork["Cosmos"] = 1] = "Cosmos";
