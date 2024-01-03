@@ -88,6 +88,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "_htlc", void 0);
     /** Ibc module */
     (0, _defineProperty2["default"])(this, "_ibc", void 0);
+    /** Ibc nft transfer module */
+    (0, _defineProperty2["default"])(this, "_ibcNftTransfer", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
     if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
@@ -278,6 +280,14 @@ var Client = exports.Client = /*#__PURE__*/function () {
         this._ibc = new modules.Ibc(this);
       }
       return this._ibc;
+    }
+  }, {
+    key: "ibcNftTransfer",
+    get: function get() {
+      if (!this._ibcNftTransfer) {
+        this._ibcNftTransfer = new modules.IbcNftTransfer(this);
+      }
+      return this._ibcNftTransfer;
     }
   }, {
     key: "withKeyDAO",

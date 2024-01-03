@@ -17,5 +17,6 @@ export * from './coinswap';
 export * from './protobuf';
 export * from './nft';
 export * from './htlc';
-export * from './ibc';
+export * from './ibc/ibc';
+export * from './ibc/ibc-nft-transfer';
 export * from './farm'

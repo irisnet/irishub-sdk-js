@@ -187,6 +187,13 @@ export class Client {
     return this._ibc;
   }
 
+  /** Ibc nft transfer module */
+  private _ibcNftTransfer?: modules.IbcNftTransfer;
+  get ibcNftTransfer():modules.IbcNftTransfer{
+    if (!this._ibcNftTransfer) {this._ibcNftTransfer = new modules.IbcNftTransfer(this)}
+    return this._ibcNftTransfer;
+  }
+
   /** IRISHub SDK Constructor */
   constructor(config: DefaultClientConfig) {
     this.config = config;

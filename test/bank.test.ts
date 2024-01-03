@@ -1,5 +1,5 @@
 import * as types from '../src/types';
-import { BaseTest } from './basetest';
+import { BaseTest, Consts } from './basetest';
 
 const timeout = 90000;
 
@@ -64,8 +64,9 @@ describe('Bank Tests', () => {
     test(
       'query Balance',
       async () => {
-        await BaseTest.getClient()
-          .bank.queryBalance('iaa1kaw9vuusxhc4gvx02enhzf88jmd4eg487mfdyc','udev')
+        const client = BaseTest.getClient();
+        await client
+          .bank.queryBalance(client.keys.show(Consts.keyName) ,'udev')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -79,8 +80,9 @@ describe('Bank Tests', () => {
     test(
       'query All Balances',
       async () => {
-        await BaseTest.getClient()
-          .bank.queryAllBalances('iaa1c7y370svmmu9yhwg7f30cfm70gdquht3l7y2wg')
+        const client = BaseTest.getClient();
+        await client
+          .bank.queryAllBalances(client.keys.show(Consts.keyName))
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -94,8 +96,9 @@ describe('Bank Tests', () => {
     test(
       'query All Balances by Height',
       async () => {
-        await BaseTest.getClient()
-          .bank.queryAllBalances('iaa176dd0tgn38grpc8hpxfmwl6sl8jfmkneg8mkxr','4968')
+        const client = BaseTest.getClient();
+        await client
+          .bank.queryAllBalances(client.keys.show(Consts.keyName),'4968')
           .then(res => {
             console.log(JSON.stringify(res));
           })
@@ -109,7 +112,8 @@ describe('Bank Tests', () => {
     test(
       'query Total Supply',
       async () => {
-        await BaseTest.getClient()
+        const client = BaseTest.getClient();
+        await client
           .bank.queryTotalSupply({
             page_number: 2,
             page_size: 8,
@@ -141,7 +145,7 @@ describe('Bank Tests', () => {
     );
 
     test(
-      'query All Balances',
+      'query Params',
       async () => {
         await BaseTest.getClient()
           .bank.queryParams()

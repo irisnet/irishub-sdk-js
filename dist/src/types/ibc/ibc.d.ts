@@ -1,4 +1,4 @@
-import { Coin, Msg } from './types';
+import { Coin, Msg } from '../types';
 /**
  * param struct for Create ibc transfer Tx
  */
