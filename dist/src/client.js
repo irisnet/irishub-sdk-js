@@ -88,6 +88,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
     (0, _defineProperty2["default"])(this, "_htlc", void 0);
     /** Ibc module */
     (0, _defineProperty2["default"])(this, "_ibc", void 0);
+    /** Ibc nft transfer module */
+    (0, _defineProperty2["default"])(this, "_ibcNftTransfer", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
     if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
@@ -280,6 +282,14 @@ var Client = exports.Client = /*#__PURE__*/function () {
       return this._ibc;
     }
   }, {
+    key: "ibcNftTransfer",
+    get: function get() {
+      if (!this._ibcNftTransfer) {
+        this._ibcNftTransfer = new modules.IbcNftTransfer(this);
+      }
+      return this._ibcNftTransfer;
+    }
+  }, {
     key: "withKeyDAO",
     value: function withKeyDAO(keyDAO) {
       // Set default encrypt/decrypt methods
@@ -289,19 +299,6 @@ var Client = exports.Client = /*#__PURE__*/function () {
         keyDAO.decrypt = defaultKeyDAO.decrypt;
       }
       this.config.keyDAO = keyDAO;
-      return this;
-    }
-
-    /**
-     * Set IRISHub network type
-     *
-     * @param network IRISHub network type, mainnet / testnet
-     * @returns The SDK itself
-     */
-  }, {
-    key: "withNetwork",
-    value: function withNetwork(network) {
-      this.config.network = network;
       return this;
     }
 
@@ -382,7 +379,6 @@ var DefaultClientConfig = exports.DefaultClientConfig = /*#__PURE__*/(0, _create
   (0, _classCallCheck2["default"])(this, DefaultClientConfig);
   (0, _defineProperty2["default"])(this, "node", void 0);
   (0, _defineProperty2["default"])(this, "chainNetwork", void 0);
-  (0, _defineProperty2["default"])(this, "network", void 0);
   (0, _defineProperty2["default"])(this, "chainId", void 0);
   (0, _defineProperty2["default"])(this, "gas", void 0);
   (0, _defineProperty2["default"])(this, "fee", void 0);
@@ -390,7 +386,6 @@ var DefaultClientConfig = exports.DefaultClientConfig = /*#__PURE__*/(0, _create
   (0, _defineProperty2["default"])(this, "bech32Prefix", void 0);
   (0, _defineProperty2["default"])(this, "rpcConfig", void 0);
   this.node = '';
-  this.network = types.Network.Mainnet;
   this.chainNetwork = types.ChainNetwork.Iris;
   this.chainId = '';
   this.gas = '100000';

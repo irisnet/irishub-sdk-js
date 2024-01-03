@@ -65,6 +65,9 @@ export declare class Client {
     /** Ibc module */
     private _ibc?;
     get ibc(): modules.Ibc;
+    /** Ibc nft transfer module */
+    private _ibcNftTransfer?;
+    get ibcNftTransfer(): modules.IbcNftTransfer;
     /** IRISHub SDK Constructor */
     constructor(config: DefaultClientConfig);
     /**
@@ -74,13 +77,6 @@ export declare class Client {
      * @returns The SDK itself
      */
     withKeyDAO(keyDAO: KeyDAO): this;
-    /**
-     * Set IRISHub network type
-     *
-     * @param network IRISHub network type, mainnet / testnet
-     * @returns The SDK itself
-     */
-    withNetwork(network: consts.Network): this;
     /**
      * Set IRISHub network type
      *
@@ -123,8 +119,8 @@ export declare class Client {
 export interface ClientConfig {
     /** IRISHub node rpc address */
     node: string;
-    /** IRISHub network type, mainnet / testnet */
-    network?: consts.Network;
+    /**  IRISHUB = 0, Cosmos = 1, Akash = 2 */
+    chainNetwork?: consts.ChainNetwork;
     /** IRISHub chain-id */
     chainId?: string;
     /** Default gas limit */
@@ -142,7 +138,6 @@ export interface ClientConfig {
 export declare class DefaultClientConfig implements ClientConfig {
     node: string;
     chainNetwork: consts.ChainNetwork;
-    network: consts.Network;
     chainId: string;
     gas: string;
     fee: types.Coin;

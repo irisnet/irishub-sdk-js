@@ -1,5 +1,5 @@
-import { Client } from '../client';
-import * as types from '../types';
+import { Client } from '../../client';
+import * as types from '../../types';
 /**
  * This module implements IBC related functions
  *

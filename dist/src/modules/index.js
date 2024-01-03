@@ -212,7 +212,7 @@ Object.keys(_htlc).forEach(function (key) {
     }
   });
 });
-var _ibc = require("./ibc");
+var _ibc = require("./ibc/ibc");
 Object.keys(_ibc).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _ibc[key]) return;
@@ -220,6 +220,17 @@ Object.keys(_ibc).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _ibc[key];
+    }
+  });
+});
+var _ibcNftTransfer = require("./ibc/ibc-nft-transfer");
+Object.keys(_ibcNftTransfer).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _ibcNftTransfer[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _ibcNftTransfer[key];
     }
   });
 });

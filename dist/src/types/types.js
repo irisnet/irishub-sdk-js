@@ -93,6 +93,7 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgCreateHTLC"] = "irismod.htlc.MsgCreateHTLC";
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
   TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
+  TxType["MsgIbcNftTransfer"] = "ibc.applications.nft_transfer.v1.MsgTransfer";
   return TxType;
 }({});
 /** 

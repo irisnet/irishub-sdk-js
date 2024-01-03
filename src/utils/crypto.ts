@@ -75,7 +75,7 @@ export class Crypto {
    * @param type The output type (default: hex)
    * @returns Bech32 address
    */
-  static encodeAddress(pubkeyHash: string, hrp = 'iaa', type = 'hex') {
+  static encodeAddress(pubkeyHash: string, hrp: string = 'iaa', type: BufferEncoding = 'hex') {
     const words = bech32.toWords(Buffer.from(pubkeyHash, type));
     return bech32.encode(hrp, words);
   }

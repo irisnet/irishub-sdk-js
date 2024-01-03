@@ -1,8 +1,7 @@
-import { Client } from '../client';
-import { Crypto } from '../utils/crypto';
-import * as types from '../types';
-import { ModelCreator } from '../helper';
-import { SdkError, CODES } from '../errors';
+import { Client } from '../../client';
+import * as types from '../../types';
+import { ModelCreator } from '../../helper';
+import { SdkError } from '../../errors';
 
 /**
  * This module implements IBC related functions

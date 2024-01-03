@@ -18,6 +18,7 @@ export declare const service_tx_pb: any;
 export declare const token_tx_pb: any;
 export declare const farm_tx_pb: any;
 export declare const ibc_transfer_tx_pb: any;
+export declare const ibc_nft_transfer_tx_pb: any;
 /***************QUERY***************/
 export declare const base_query_pagination_pb: any;
 export declare const auth_query_pb: any;
@@ -41,6 +42,7 @@ export declare const token_query_pb: any;
 export declare const farm_query_pb: any;
 export declare const ibc_transfer_query_pb: any;
 export declare const ibc_channel_query_pb: any;
+export declare const ibc_nft_transfer_query_pb: any;
 /***************MODULES***************/
 export declare const auth_auth_pb: any;
 export declare const crypto_ed25519_keys_pb: any;
