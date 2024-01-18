@@ -44,7 +44,7 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Nft, [{
     key: "issueDenom",
-    value: function () {
+    value: (function () {
       var _issueDenom = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(id, name, schema, option, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -84,9 +84,10 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "mintNft",
-    value: function () {
+    value: (function () {
       var _mintNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(id, denom_id, name, uri, uri_hash, data, recipient, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -136,9 +137,10 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "editNft",
-    value: function () {
+    value: (function () {
       var _editNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(id, denom_id, new_property, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -175,9 +177,10 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "transferNft",
-    value: function () {
+    value: (function () {
       var _transferNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(id, denom_id, recipient, new_property, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -219,9 +222,10 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "burnNft",
-    value: function () {
+    value: (function () {
       var _burnNft = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(id, denom_id, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
@@ -253,6 +257,7 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
      * @param denom_id
      * @param owner
      */
+    )
   }, {
     key: "querySupply",
     value: function querySupply(denom_id, owner) {

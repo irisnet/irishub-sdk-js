@@ -45,7 +45,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Distribution, [{
     key: "setWithdrawAddr",
-    value: function () {
+    value: (function () {
       var _setWithdrawAddr = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(withdrawAddress, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -78,9 +78,10 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
      * @returns { Promise<types.TxResult> }
      * @since v0.17
      */
+    )
   }, {
     key: "withdrawRewards",
-    value: function () {
+    value: (function () {
       var _withdrawRewards = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorAddr, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -113,9 +114,10 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
      * @returns { Promise<types.TxResult> }
      * @since v0.17
      */
+    )
   }, {
     key: "withdrawValidatorCommission",
-    value: function () {
+    value: (function () {
       var _withdrawValidatorCommission = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(validator_address, baseTx) {
         var msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -152,9 +154,10 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
      * @returns { Promise<types.TxResult> }
      * @since v0.17
      */
+    )
   }, {
     key: "fundCommunityPool",
-    value: function () {
+    value: (function () {
       var _fundCommunityPool = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(amount, baseTx) {
         var depositor, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -183,6 +186,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
     /**
      * Params queries params of the distribution module.
      */
+    )
   }, {
     key: "queryParams",
     value: function queryParams() {

@@ -46,7 +46,6 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
       if (!this.ws) {
         throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
       }
-
       this.ws.onopen = function () {
         console.log('Websocket connected');
         _this.eventEmitter.emit('open');
@@ -75,7 +74,7 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
      */
   }, {
     key: "disconnect",
-    value: function () {
+    value: (function () {
       var _disconnect = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
         var _this2 = this;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -115,6 +114,7 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
      * Check if the ws client is connected or not
      * @since v0.17
      */
+    )
   }, {
     key: "isReady",
     value: function isReady() {
@@ -135,7 +135,6 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
       if (!this.ws) {
         throw new _errors.SdkError('Websocket client not initialized', _errors.CODES.Internal); // Should not happen
       }
-
       this.ws.send(JSON.stringify({
         jsonrpc: '2.0',
         method: method,
