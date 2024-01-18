@@ -79,7 +79,7 @@ var Slashing = exports.Slashing = /*#__PURE__*/function () {
      */
   }, {
     key: "unjail",
-    value: function () {
+    value: (function () {
       var _unjail = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(baseTx) {
         var val, words, validatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -100,7 +100,7 @@ var Slashing = exports.Slashing = /*#__PURE__*/function () {
         return _unjail.apply(this, arguments);
       }
       return unjail;
-    }()
+    }())
   }]);
   return Slashing;
 }();

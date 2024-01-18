@@ -128,7 +128,6 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
         _this.connect();
       }, 5000); // try reconnecting every 5s
     });
-
     this.wsClient.eventEmitter.on('error', function (err) {
       // TODO
     });
@@ -150,7 +149,7 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
      */
   }, {
     key: "disconnect",
-    value: function () {
+    value: (function () {
       var _disconnect = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
         var _this2 = this;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -177,6 +176,7 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "subscribeNewBlock",
     value: function subscribeNewBlock(callback, conditions) {

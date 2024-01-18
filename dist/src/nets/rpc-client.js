@@ -43,7 +43,6 @@ var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
     if (is.empty(config.timeout)) {
       config.timeout = 2000; // Set default timeout
     }
-
     config.url = '/'; // Fixed url
 
     this.config = config;

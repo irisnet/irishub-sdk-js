@@ -46,7 +46,7 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Bank, [{
     key: "send",
-    value: function () {
+    value: (function () {
       var _send = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -87,9 +87,10 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "multiSend",
-    value: function () {
+    value: (function () {
       var _multiSend = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(to, amount, baseTx) {
         var from, coins, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -133,6 +134,7 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
      * @param address is the address to query balances for.
      * @param denom is the coin denom to query balances for.
      */
+    )
   }, {
     key: "queryBalance",
     value: function queryBalance(address, denom) {

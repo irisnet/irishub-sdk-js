@@ -48,7 +48,7 @@ var Ibc = exports.Ibc = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Ibc, [{
     key: "transfer",
-    value: function () {
+    value: (function () {
       var _transfer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(param, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -89,6 +89,7 @@ var Ibc = exports.Ibc = /*#__PURE__*/function () {
      * DenomTrace queries a denomination trace information.
      * @param hash (in hex format) of the denomination trace information.
      */
+    )
   }, {
     key: "queryDenomTrace",
     value: function queryDenomTrace(hash) {
