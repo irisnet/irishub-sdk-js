@@ -49,7 +49,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Utils, [{
     key: "toMinCoin",
-    value: function () {
+    value: (function () {
       var _toMinCoin = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(coin) {
         var _this = this;
         var amt, token;
@@ -96,9 +96,10 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "toMinCoins",
-    value: function () {
+    value: (function () {
       var _toMinCoins = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(coins) {
         var _this2 = this;
         var promises;
@@ -130,9 +131,10 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "toMainCoin",
-    value: function () {
+    value: (function () {
       var _toMainCoin = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(coin) {
         var _this3 = this;
         var amt, token;
@@ -179,9 +181,10 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "toMainCoins",
-    value: function () {
+    value: (function () {
       var _toMainCoins = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(coins) {
         var _this4 = this;
         var promises;
@@ -206,7 +209,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
         return _toMainCoins.apply(this, arguments);
       }
       return toMainCoins;
-    }()
+    }())
   }]);
   return Utils;
 }();

@@ -48,7 +48,7 @@ var IbcNftTransfer = exports.IbcNftTransfer = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(IbcNftTransfer, [{
     key: "transfer",
-    value: function () {
+    value: (function () {
       var _transfer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(param, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -91,6 +91,7 @@ var IbcNftTransfer = exports.IbcNftTransfer = /*#__PURE__*/function () {
      * ClassTrace queries a class trace information.
      * @param hash (in hex format) of the denomination trace information.
      */
+    )
   }, {
     key: "queryClassTrace",
     value: function queryClassTrace(hash) {

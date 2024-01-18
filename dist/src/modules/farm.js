@@ -33,7 +33,7 @@ var Farm = exports.Farm = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Farm, [{
     key: "stakeLp",
-    value: function () {
+    value: (function () {
       var _stakeLp = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(pool_id, amount, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -59,10 +59,10 @@ var Farm = exports.Farm = /*#__PURE__*/function () {
         return _stakeLp.apply(this, arguments);
       }
       return stakeLp;
-    }()
+    }())
   }, {
     key: "unStakeLp",
-    value:
+    value: (
     /**
      * unstake lpt
      * @param farmPoolName  farm pool name
@@ -103,9 +103,10 @@ var Farm = exports.Farm = /*#__PURE__*/function () {
      * @param baseTx { types.BaseTx }
      * @returns
      */
+    )
   }, {
     key: "harvestReward",
-    value: function () {
+    value: (function () {
       var _harvestReward = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(pool_id, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -134,6 +135,7 @@ var Farm = exports.Farm = /*#__PURE__*/function () {
     /**
      * query Farm Pools
      */
+    )
   }, {
     key: "queryFarmPools",
     value: function queryFarmPools(pagination) {

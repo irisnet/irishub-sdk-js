@@ -43,7 +43,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Gov, [{
     key: "submitProposal",
-    value: function () {
+    value: (function () {
       var _submitProposal = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(content, initial_deposit, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -78,9 +78,10 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "vote",
-    value: function () {
+    value: (function () {
       var _vote = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(proposal_id, option, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -115,9 +116,10 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
      * @returns
      * @since v3.0.1
      */
+    )
   }, {
     key: "voteWeighted",
-    value: function () {
+    value: (function () {
       var _voteWeighted = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(proposal_id, options, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -152,9 +154,10 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "deposit",
-    value: function () {
+    value: (function () {
       var _deposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(proposal_id, amount, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -185,6 +188,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
      * Proposal queries proposal details based on ProposalID.
      * @param proposal_id defines the unique id of the proposal.
      */
+    )
   }, {
     key: "queryProposal",
     value: function queryProposal(proposal_id) {

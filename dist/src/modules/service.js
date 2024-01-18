@@ -195,7 +195,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
      */
   }, {
     key: "defineService",
-    value: function () {
+    value: (function () {
       var _defineService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(definition, baseTx) {
         var author, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -230,9 +230,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "bindService",
-    value: function () {
+    value: (function () {
       var _bindService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(binding, baseTx) {
         var provider, deposit, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -269,9 +270,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "updateServiceBinding",
-    value: function () {
+    value: (function () {
       var _updateServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(binding, baseTx) {
         var provider, deposit, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -308,9 +310,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "disableServiceBinding",
-    value: function () {
+    value: (function () {
       var _disableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -339,9 +342,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "enableServiceBinding",
-    value: function () {
+    value: (function () {
       var _enableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
@@ -370,9 +374,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "invokeService",
-    value: function () {
+    value: (function () {
       var _invokeService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(request, baseTx) {
         return _regenerator["default"].wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
@@ -397,9 +402,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "setWithdrawAddress",
-    value: function () {
+    value: (function () {
       var _setWithdrawAddress = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(withdrawAddress, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee7$(_context7) {
@@ -427,9 +433,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "refundServiceDeposit",
-    value: function () {
+    value: (function () {
       var _refundServiceDeposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee8$(_context8) {
@@ -457,9 +464,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "startRequestContext",
-    value: function () {
+    value: (function () {
       var _startRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee9$(_context9) {
@@ -487,9 +495,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "pauseRequestContext",
-    value: function () {
+    value: (function () {
       var _pauseRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee10$(_context10) {
@@ -517,9 +526,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "killRequestContext",
-    value: function () {
+    value: (function () {
       var _killRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee11$(_context11) {
@@ -547,9 +557,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "updateRequestContext",
-    value: function () {
+    value: (function () {
       var _updateRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(request, baseTx) {
         var consumer, serviceFeeCap, msgs;
         return _regenerator["default"].wrap(function _callee12$(_context12) {
@@ -598,9 +609,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "withdrawEarnedFees",
-    value: function () {
+    value: (function () {
       var _withdrawEarnedFees = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee13$(_context13) {
@@ -628,9 +640,10 @@ var Service = exports.Service = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "withdrawTax",
-    value: function () {
+    value: (function () {
       var _withdrawTax = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(destAddress, amount, baseTx) {
         var trustee, coins, msgs;
         return _regenerator["default"].wrap(function _callee14$(_context14) {
@@ -654,6 +667,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
       }
       return withdrawTax;
     }() // Service listeners not supported in browser
+    )
   }]);
   return Service;
 }();

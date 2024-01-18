@@ -84,7 +84,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
      */
   }, {
     key: "buildAndSend",
-    value: function () {
+    value: (function () {
       var _buildAndSend = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(msgs, baseTx) {
         var unsignedTx, signedTx;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -115,6 +115,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
      * @returns
      * @since v0.17
      */
+    )
   }, {
     key: "broadcast",
     value: function broadcast(signedTx, mode) {
@@ -144,7 +145,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
      */
   }, {
     key: "sign",
-    value: function () {
+    value: (function () {
       var _sign = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
         var _accountNumber;
         var offline,
@@ -251,6 +252,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
      * @returns signature
      * @since v0.17
      */
+    )
   }, {
     key: "sign_signDoc",
     value: function sign_signDoc(signDoc, name, password) {

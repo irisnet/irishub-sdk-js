@@ -42,7 +42,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Coinswap, [{
     key: "addLiquidity",
-    value: function () {
+    value: (function () {
       var _addLiquidity = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(max_token, exact_standard_amt, min_liquidity, deadline, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -80,9 +80,10 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
      * @param baseTx { types.BaseTx }
      * @returns
     */
+    )
   }, {
     key: "removeLiquidity",
-    value: function () {
+    value: (function () {
       var _removeLiquidity = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(withdraw_liquidity, min_token, min_standard_amt, deadline, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -120,9 +121,10 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
      * @param baseTx { types.BaseTx }
      * @returns
     */
+    )
   }, {
     key: "swapOrder",
-    value: function () {
+    value: (function () {
       var _swapOrder = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(input, output, is_buy_order, deadline, baseTx) {
         var address, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -162,6 +164,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
      * @param id The liquidity id
      * @returns
     */
+    )
   }, {
     key: "queryLiquidity",
     value: function queryLiquidity(id) {

@@ -42,7 +42,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
    */
   (0, _createClass2["default"])(Token, [{
     key: "issueToken",
-    value: function () {
+    value: (function () {
       var _issueToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -72,9 +72,10 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param EditTokenTxParam
      * @returns
      */
+    )
   }, {
     key: "editToken",
-    value: function () {
+    value: (function () {
       var _editToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -104,9 +105,10 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param MintTokenTxParam
      * @returns
      */
+    )
   }, {
     key: "mintToken",
-    value: function () {
+    value: (function () {
       var _mintToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -136,9 +138,10 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param BurnTokenTxParam
      * @returns
      */
+    )
   }, {
     key: "burnToken",
-    value: function () {
+    value: (function () {
       var _burnToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(coin, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -169,9 +172,10 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param TransferTokenOwnerTxParam
      * @returns
      */
+    )
   }, {
     key: "transferTokenOwner",
-    value: function () {
+    value: (function () {
       var _transferTokenOwner = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
@@ -201,9 +205,10 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param SwapFeeTokenTxParam
      * @returns
      */
+    )
   }, {
     key: "swapFeeToken",
-    value: function () {
+    value: (function () {
       var _swapFeeToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(msg, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee6$(_context6) {
@@ -233,6 +238,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
      * @param owner The optional token owner address
      * @returns Token[]
      */
+    )
   }, {
     key: "queryTokens",
     value: function queryTokens(owner) {
