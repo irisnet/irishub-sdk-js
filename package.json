@@ -65,7 +65,7 @@
     "google-protobuf": "3.13.0",
     "grpc-web": "^1.2.1",
     "is_js": "^0.9.0",
-    "isomorphic-ws": "^4.0.1",
+    "isomorphic-ws": "^5.0.0",
     "mathjs": "12.3.0",
     "ndjson": "^2.0.0",
     "pumpify": "^2.0.1",
