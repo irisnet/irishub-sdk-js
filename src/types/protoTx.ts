@@ -3,6 +3,7 @@ import { TxModelCreator } from '../helper';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
 import { Protobuf } from '../modules/protobuf';
+import { Buffer } from 'buffer';
 
 const Sha256 = require('sha256');
 

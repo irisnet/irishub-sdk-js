@@ -1,15 +1,16 @@
 import * as csprng from 'secure-random';
 import * as bech32 from 'bech32';
-import * as cryp from 'crypto-browserify';
+import * as cryp from 'crypto';
 import * as uuid from 'uuid';
 import * as is from 'is_js';
-import * as bip32 from 'bip32';
+import {Slip10, Slip10Curve, Slip10RawIndex} from '@cosmjs/crypto';
 import * as bip39 from 'bip39';
 import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
 
 const Sha256 = require('sha256');
 const Secp256k1 = require('secp256k1');
@@ -513,15 +514,23 @@ export class Crypto {
     }
     const seed = bip39.mnemonicToSeedSync(mnemonic, password);
     if (derive) {
-      const master = bip32.fromSeed(seed);
-      const child = master.derivePath(Crypto.HDPATH + index);
-      if (
-        typeof child === 'undefined' ||
-        typeof child.privateKey === 'undefined'
-      ) {
-        throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
-      }
-      return child.privateKey.toString('hex');
+      // const master = bip32.fromSeed(seed);
+      // const child = master.derivePath(Crypto.HDPATH + index);
+      // if (
+      //   typeof child === 'undefined' ||
+      //   typeof child.privateKey === 'undefined'
+      // ) {
+      //   throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
+      // }
+      // return child.privateKey.toString('hex');
+      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, [
+        Slip10RawIndex.hardened(44),
+        Slip10RawIndex.hardened(118),
+        Slip10RawIndex.hardened(0),
+        Slip10RawIndex.normal(0),
+        Slip10RawIndex.normal(0),
+      ]);
+      return Buffer.from(privkey).toString('hex');
     }
     return seed.toString('hex');
   }

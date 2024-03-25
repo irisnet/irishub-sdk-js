@@ -2,6 +2,7 @@
 import * as types from '../types';
 import { TxHelper } from './txHelper';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
 
 export class TxModelCreator {
     static createBodyModel(msgs:types.Msg[], memo:string, timeoutHeight:number):any{

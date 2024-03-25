@@ -5,6 +5,7 @@ import * as RIPEMD160 from 'crypto-js/ripemd160';
 import * as is from 'is_js';
 import { SdkError, CODES } from '../errors';
 import * as types from '../types';
+import { Buffer } from 'buffer';
 
 /**
  * IRISHub SDK JS Utils

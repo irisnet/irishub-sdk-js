@@ -1,5 +1,7 @@
 import { TxHelper, TxModelCreator } from '../helper';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
+
 /** 
  * Base Msg
  * @hidden
