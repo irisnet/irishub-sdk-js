@@ -7,7 +7,8 @@ describe('Distribution Tests', () => {
         test(
             'query Params',
             async () => {
-                await BaseTest.getClient().distribution
+                console.log('=sssawait (await BaseTest.getClient()).distribution', await (await BaseTest.getClient()).distribution)
+                await (await BaseTest.getClient()).distribution
                     .queryParams()
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -21,7 +22,7 @@ describe('Distribution Tests', () => {
         test(
             'query Validator Outstanding Rewards',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryValidatorOutstandingRewards('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -35,7 +36,7 @@ describe('Distribution Tests', () => {
         test(
             'query Validator Commission',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -49,7 +50,7 @@ describe('Distribution Tests', () => {
         test(
             'query Validator Slashes',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryValidatorSlashes(
                         'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
 
@@ -66,7 +67,7 @@ describe('Distribution Tests', () => {
         test(
             'query Delegation Rewards',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryDelegationRewards(
                         'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
                         'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
@@ -83,7 +84,7 @@ describe('Distribution Tests', () => {
         test(
             'query Delegation Total Rewards',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryDelegationTotalRewards(
                         'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
                     )
@@ -99,7 +100,7 @@ describe('Distribution Tests', () => {
         test(
             'query Delegator Validators',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryDelegatorValidators(
                         'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
                     )
@@ -115,7 +116,7 @@ describe('Distribution Tests', () => {
         test(
             'query Delegator Withdraw Address',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryDelegatorWithdrawAddress(
                         'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp'
                     )
@@ -131,7 +132,7 @@ describe('Distribution Tests', () => {
         test(
             'query Community Pool',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .queryCommunityPool()
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -148,7 +149,7 @@ describe('Distribution Tests', () => {
         test(
             'withdraw Validator Commission',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .withdrawValidatorCommission('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4', BaseTest.baseTx)
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -170,7 +171,7 @@ describe('Distribution Tests', () => {
                         amount: '1',
                     },
                 ];
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .fundCommunityPool(amount, BaseTest.baseTx)
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -186,7 +187,7 @@ describe('Distribution Tests', () => {
         test(
             'set withdraw address',
             async () => {
-                await BaseTest.getClient().distribution
+                await (await BaseTest.getClient()).distribution
                     .setWithdrawAddr('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp', BaseTest.baseTx)
                     .then(res => {
                         console.log(JSON.stringify(res));
@@ -204,7 +205,7 @@ describe('Distribution Tests', () => {
             'withdraw delegation rewards from a specified validator',
             async () => {
 
-                await BaseTest.getClient()
+                await (await BaseTest.getClient())
                     .distribution.withdrawRewards(
                         'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
                         BaseTest.baseTx,

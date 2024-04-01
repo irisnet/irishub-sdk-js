@@ -3,7 +3,7 @@ import { BaseTest } from './basetest';
 describe('Staking Tests', () => {
   describe('Query', () => {
     test('query delegation', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryDelegation(
           'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
@@ -17,7 +17,7 @@ describe('Staking Tests', () => {
     });
     
     test('query unbonding delegation', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryUnbondingDelegation(
           'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
@@ -31,7 +31,7 @@ describe('Staking Tests', () => {
     });
 
     test('query delegations of a delegator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryDelegations({
           delegator_addr:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
         })
@@ -44,7 +44,7 @@ describe('Staking Tests', () => {
     });
 
     test('query unbonding delegations of a delegator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryDelegatorUnbondingDelegations(
           {
             delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
@@ -59,7 +59,7 @@ describe('Staking Tests', () => {
     });
 
     test('query redelegation', async () => {//TODO(lsc) there is only one node in current blockchain net, redelegate tx can not work properly
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryRedelegation(
           {
             delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
@@ -76,7 +76,7 @@ describe('Staking Tests', () => {
     });
 
     test('query all validators info for given delegator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryDelegatorValidators(
           {
             delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
@@ -91,7 +91,7 @@ describe('Staking Tests', () => {
     });
 
     test('queries validator info for given delegator validator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryDelegatorValidator(
           {
             delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
@@ -107,7 +107,7 @@ describe('Staking Tests', () => {
     });
 
     test('queries the historical info for given height', async () => {//TODO(lsc) what can this api do?
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryHistoricalInfo(
           {
             height:1000,
@@ -122,7 +122,7 @@ describe('Staking Tests', () => {
     });
 
     test('query pool', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryPool()
         .then(res => {
           console.log(res);
@@ -133,7 +133,7 @@ describe('Staking Tests', () => {
     });
 
     test('query params', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryParams()
         .then(res => {
           console.log(res);
@@ -144,7 +144,7 @@ describe('Staking Tests', () => {
     });
 
     test('query delegations to a validator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryValidatorDelegations(
           {
             validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
@@ -159,7 +159,7 @@ describe('Staking Tests', () => {
     });
 
     test('query undelegating delegations from a validator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryValidatorUnbondingDelegations(
           {
             validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
@@ -174,7 +174,7 @@ describe('Staking Tests', () => {
     });
 
     test('query a validator', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryValidator('iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4')
         .then(res => {
           console.log(res);
@@ -185,7 +185,7 @@ describe('Staking Tests', () => {
     });
 
     test('query all validators', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.queryValidators({
           pagination:{
             page_number: 2,
@@ -204,7 +204,7 @@ describe('Staking Tests', () => {
 
   describe('Delegate', () => {
     test('delegate', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.delegate(
           'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           { denom: 'udev', amount: '5' },
@@ -220,7 +220,7 @@ describe('Staking Tests', () => {
   });
   describe('Unbond', () => {
     test('unbond', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.undelegate(
           'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
               { denom: 'udev', amount: '1' },
@@ -236,7 +236,7 @@ describe('Staking Tests', () => {
   });
   describe('Redelegate', () => {
     test('redelegate', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .staking.redelegate(
           'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           'iva1736ypcrmwvurylfprfgmjwr625c6ycdv8uyjlp',

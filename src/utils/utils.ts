@@ -6,6 +6,7 @@ import * as is from 'is_js';
 import { SdkError, CODES } from '../errors';
 import * as types from '../types';
 import { Buffer } from 'buffer';
+import * as cryptoJs from 'crypto-js';
 
 /**
  * IRISHub SDK JS Utils
@@ -352,5 +353,24 @@ export class Utils {
     }
     b = b.slice(0, 4);
     return b;
+  }
+
+  static wordArrayToArrayBuffer(wordArray: any) {
+    var arrayBuffer = new ArrayBuffer(wordArray.sigBytes);
+    var uint8View = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < wordArray.sigBytes; i++) {
+      uint8View[i] = (wordArray.words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+    }
+    return arrayBuffer;
+  }
+
+  static bufferToWordArray(buffer: Buffer) {
+    const arrayBuffer = new ArrayBuffer(buffer.length)
+    const res = new Uint8Array(arrayBuffer)
+    for (let i = 0; i < buffer.length; ++i) {
+      res[i] = buffer[i]
+    }
+    const wordArray = cryptoJs.lib.WordArray.create(arrayBuffer)
+    return wordArray
   }
 }

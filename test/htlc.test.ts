@@ -8,7 +8,7 @@ describe('Bank Tests', () => {
     test(
       'create HTLC',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.createHTLC(
             {
               sender: 'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
@@ -60,8 +60,8 @@ describe('Bank Tests', () => {
             }
           }
         ];
-        let unSignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
-        let SignedTx = await BaseTest.getClient().tx.sign(unSignedTx, BaseTest.baseTx);
+        let unSignedTx = (await BaseTest.getClient()).tx.buildTx(msgs, BaseTest.baseTx);
+        let SignedTx = await (await BaseTest.getClient()).tx.sign(unSignedTx, BaseTest.baseTx);
       },
       timeout
     );
@@ -71,7 +71,7 @@ describe('Bank Tests', () => {
     test(
       'claim HTLC',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.claimHTLC(
             'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
             '812F174782597314097E0F7662B1678301894CFAD143907FEFB73463B6F97408',
@@ -93,7 +93,7 @@ describe('Bank Tests', () => {
     test(
       'query HTLC',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.queryHTLC(
             '3A90BDF3E9896F3B3FF88179446F046661C3D2E4380274E3C26881799F8400F4'
           )
@@ -110,7 +110,7 @@ describe('Bank Tests', () => {
     test(
       'query Asset Supply',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.queryAssetSupply(
             'htltbcbnb'
           )
@@ -127,7 +127,7 @@ describe('Bank Tests', () => {
     test(
       'query Asset Supplies',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.queryAssetSupplies()
           .then(res => {
             console.log(JSON.stringify(res));
@@ -142,7 +142,7 @@ describe('Bank Tests', () => {
     test(
       'query Params',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .htlc.queryParams()
           .then(res => {
             console.log(JSON.stringify(res));

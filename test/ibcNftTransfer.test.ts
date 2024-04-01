@@ -7,7 +7,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'ibc nft transfer',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.transfer(
             {
               source_port: 'nft-transfer',
@@ -35,7 +35,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'query Class Trace',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.queryClassTrace('EEB2AAF7E39CEEE41A53D8AE7A8B3746963F96261A2F73309C56B2622A259F36')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -50,7 +50,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'query Class Traces',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.queryClassTraces()
           .then(res => {
             console.log(JSON.stringify(res));
@@ -65,7 +65,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'query Class Hash',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.queryClassHash('nft-transfer/channel-101/class1')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -80,7 +80,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'query Escrow Address',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.queryEscrowAddress('nft-transfer', 'channel-99')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -95,7 +95,7 @@ describe('Ibc Nft Transfer Tests', () => {
     test(
       'queries all parameters of the ibc-nft-transfer module',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .ibcNftTransfer.queryParams()
           .then(res => {
             console.log(JSON.stringify(res));

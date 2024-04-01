@@ -46,17 +46,17 @@ describe('Tx Tests', () => {
       let baseTx = {...BaseTest.baseTx};
       baseTx.account_number = 2;
       baseTx.sequence = 40;
-      baseTx.chainId = BaseTest.getClient().config.chainId;
+      baseTx.chainId = (await BaseTest.getClient()).config.chainId;
       // watch wallet
-      let unsignedStdTx =  BaseTest.getClient().tx.buildTx(msgs, baseTx);
+      let unsignedStdTx =  (await BaseTest.getClient()).tx.buildTx(msgs, baseTx);
       let unsignedTxStr = Buffer.from(unsignedStdTx.getData()).toString('base64');
       // cold wallet
-      let recover_unsigned_std_tx = BaseTest.getClient().tx.newStdTxFromTxData(unsignedTxStr);
-      let recover_signed_std_tx = await BaseTest.getClient().tx.sign(recover_unsigned_std_tx, baseTx, true);
+      let recover_unsigned_std_tx = (await BaseTest.getClient()).tx.newStdTxFromTxData(unsignedTxStr);
+      let recover_signed_std_tx = await (await BaseTest.getClient()).tx.sign(recover_unsigned_std_tx, baseTx, true);
       let recover_signed_std_tx_str = Buffer.from(recover_signed_std_tx.getData()).toString('base64'); 
       // watch wallet
-      let signed_std_tx = BaseTest.getClient().tx.newStdTxFromTxData(recover_signed_std_tx_str);
-      await BaseTest.getClient().tx.broadcast(signed_std_tx, baseTx.mode).then(res=>{
+      let signed_std_tx = (await BaseTest.getClient()).tx.newStdTxFromTxData(recover_signed_std_tx_str);
+      await (await BaseTest.getClient()).tx.broadcast(signed_std_tx, baseTx.mode).then(res=>{
         console.log(res);
       }).catch(error => {
         console.log(error);
@@ -68,8 +68,8 @@ describe('Tx Tests', () => {
 
   describe('Signing', () => {
     test('sign tx online', async () => {
-      let unsignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
-      signedTx =  await BaseTest.getClient().tx.sign(unsignedTx, BaseTest.baseTx);
+      let unsignedTx = (await BaseTest.getClient()).tx.buildTx(msgs, BaseTest.baseTx);
+      signedTx =  await (await BaseTest.getClient()).tx.sign(unsignedTx, BaseTest.baseTx);
       console.log(signedTx);
     });
 
@@ -77,16 +77,16 @@ describe('Tx Tests', () => {
       let baseTx = {...BaseTest.baseTx};
       baseTx.account_number = 8;
       baseTx.sequence = 356;
-      let unsignedTx = BaseTest.getClient().tx.buildTx(msgs, BaseTest.baseTx);
+      let unsignedTx = (await BaseTest.getClient()).tx.buildTx(msgs, BaseTest.baseTx);
       
-      let offlineSignedTx = await BaseTest.getClient().tx.sign(unsignedTx,baseTx);
+      let offlineSignedTx = await (await BaseTest.getClient()).tx.sign(unsignedTx,baseTx);
       console.log(offlineSignedTx);
     });
   });
 
   describe('Broadcast', () => {
     test('broadcast tx', async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .tx.broadcast(signedTx, types.BroadcastMode.Commit)
           .then(res => {
             console.log(JSON.stringify(res));
@@ -99,7 +99,7 @@ describe('Tx Tests', () => {
     );
 
     test('more messages', async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .tx.buildAndSend(moreMessages,BaseTest.baseTx)
         .then(res => {
             console.log(JSON.stringify(res));

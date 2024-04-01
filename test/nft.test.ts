@@ -22,7 +22,7 @@ describe('Nft Tests', () => {
         let denom_name = randomStr(4);
         let denom_schema = randomStr(10);
 
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
           .nft.issueDenom(
             denom_id,
             denom_name,
@@ -49,7 +49,7 @@ describe('Nft Tests', () => {
         let nft_name = randomStr(7);
         let nft_data = ``;
         let nft_uri = `http://${randomStr(7)}`;
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.mintNft(
           nft_id,
           denom_id,
@@ -71,7 +71,7 @@ describe('Nft Tests', () => {
         let nft_data_e = ``;
         let nft_uri_e = `http://${randomStr(7)}`;
         let nft_uri_hash_e = randomStr(7);
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.editNft(
           nft_id, 
           denom_id,
@@ -90,7 +90,7 @@ describe('Nft Tests', () => {
           console.log(error);
         });
 
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.transferNft(
           nft_id,
           denom_id,
@@ -109,7 +109,7 @@ describe('Nft Tests', () => {
         nft_name = randomStr(7);
         nft_data = '';
         nft_uri = `http://${randomStr(7)}`;
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.mintNft(
           nft_id,
           denom_id,
@@ -127,7 +127,7 @@ describe('Nft Tests', () => {
           console.log(error);
         });
 
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.burnNft(
           nft_id,
           denom_id,
@@ -148,7 +148,7 @@ describe('Nft Tests', () => {
     test(
       'query Supply',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.querySupply('bczd','iaa1gytgufwqkz9tmhjgljfxd3qcwpdzymj6022q3w')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -163,7 +163,7 @@ describe('Nft Tests', () => {
     test(
       'query Owner',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.queryOwner('iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp','rzfj')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -178,7 +178,7 @@ describe('Nft Tests', () => {
     test(
       'query Collection',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.queryCollection('wwid11111')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -193,7 +193,7 @@ describe('Nft Tests', () => {
     test(
       'query Denom',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.queryDenom('wwid11111')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -208,7 +208,7 @@ describe('Nft Tests', () => {
     test(
       'query Denoms',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.queryDenoms()
         .then(res => {
           console.log(JSON.stringify(res));
@@ -223,7 +223,7 @@ describe('Nft Tests', () => {
     test(
       'query NFT',
       async () => {
-        await BaseTest.getClient()
+        await (await BaseTest.getClient())
         .nft.queryNFT('wwid11111','wwntest01')
         .then(res => {
           console.log(JSON.stringify(res));

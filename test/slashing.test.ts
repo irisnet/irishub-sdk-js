@@ -20,7 +20,7 @@ describe('Slashing Tests', () => {
 
   describe('Query Signing Info', () => {
     test('query signing info', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .slashing.querySigningInfo('ica12x4wemz4qtwr5rql4awp0r6rx0pxws35t4wkdp')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -32,7 +32,7 @@ describe('Slashing Tests', () => {
   });
   describe('Unjail', () => {
     test('unjail', async () => {
-      await BaseTest.getClient()
+      await (await BaseTest.getClient())
         .slashing.unjail(
           BaseTest.baseTx
         )
