@@ -7,7 +7,6 @@ describe('Distribution Tests', () => {
         test(
             'query Params',
             async () => {
-                console.log('=sssawait (await BaseTest.getClient()).distribution', await (await BaseTest.getClient()).distribution)
                 await (await BaseTest.getClient()).distribution
                     .queryParams()
                     .then(res => {

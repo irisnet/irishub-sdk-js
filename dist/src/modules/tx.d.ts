@@ -66,7 +66,7 @@ export declare class Tx {
      * @returns signature
      * @since v0.17
      */
-    sign_signDoc(signDoc: Uint8Array, name: string, password: string, type?: types.PubkeyType): string;
+    sign_signDoc(signDoc: Uint8Array, name: string, password: string, type?: types.PubkeyType): Promise<string>;
     /**
      * Broadcast tx async
      * @param txBytes The tx bytes with signatures

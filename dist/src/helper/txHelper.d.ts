@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { Buffer } from 'buffer';
 export declare class TxHelper {
     static getHexPubkey(pubkey: string): string;
     static isSignDoc(signDoc: any): boolean;

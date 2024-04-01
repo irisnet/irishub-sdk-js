@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import * as bip39 from 'bip39';
 import * as types from '../types';
+import { Buffer } from 'buffer';
 /**
  * Crypto Utils
  * @hidden
@@ -107,7 +107,7 @@ export declare class Crypto {
      * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): string;
+    static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): Promise<string>;
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -145,7 +145,7 @@ export declare class Crypto {
      * @param mnemonic The mnemonic phrase words
      * @returns Validation result
      */
-    static validateMnemonic: typeof bip39.validateMnemonic;
+    static validateMnemonic(mnemonic: string): boolean;
     /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words
@@ -154,7 +154,7 @@ export declare class Crypto {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    static getPrivateKeyFromMnemonic(mnemonic: string, index?: number, derive?: boolean, password?: string): string;
+    static getPrivateKeyFromMnemonic(mnemonic: string, index?: number, derive?: boolean, password?: string): Promise<string>;
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string

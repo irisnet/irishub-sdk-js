@@ -6,25 +6,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Crypto = void 0;
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var csprng = _interopRequireWildcard(require("secure-random"));
 var bech32 = _interopRequireWildcard(require("bech32"));
-var cryp = _interopRequireWildcard(require("crypto-browserify"));
+var cryptoJs = _interopRequireWildcard(require("crypto-js"));
+var AES = _interopRequireWildcard(require("crypto-js/aes"));
 var uuid = _interopRequireWildcard(require("uuid"));
 var is = _interopRequireWildcard(require("is_js"));
-var bip32 = _interopRequireWildcard(require("bip32"));
-var bip39 = _interopRequireWildcard(require("bip39"));
+var _crypto = require("@cosmjs/crypto");
 var _elliptic = require("elliptic");
 var _utils = require("./utils");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
+var _buffer = require("buffer");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var Sha256 = require('sha256');
-var Secp256k1 = require('secp256k1');
 var SM2 = require('sm-crypto-bj').sm2;
 var bcrypt = require('bcryptjs');
 var nacl = require('tweetnacl');
@@ -47,7 +49,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      */
     function decodeAddress(address) {
       var decodeAddress = bech32.decode(address);
-      return Buffer.from(bech32.fromWords(decodeAddress.words));
+      return _buffer.Buffer.from(bech32.fromWords(decodeAddress.words));
     }
 
     /**
@@ -86,7 +88,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
     value: function encodeAddress(pubkeyHash) {
       var hrp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'iaa';
       var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'hex';
-      var words = bech32.toWords(Buffer.from(pubkeyHash, type));
+      var words = bech32.toWords(_buffer.Buffer.from(pubkeyHash, type));
       return bech32.encode(hrp, words);
     }
 
@@ -193,7 +195,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
         case types.PubkeyType.secp256k1:
         default:
           var secp256k1pubkey = new _elliptic.ec('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
-          pubKey = Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
+          pubKey = _buffer.Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
           break;
       }
       return {
@@ -229,12 +231,12 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
           break;
       }
       var pk = _utils.Utils.getAminoPrefix(pubKeyType);
-      pk = pk.concat(Buffer.from(value, 'base64').length);
-      pk = pk.concat(Array.from(Buffer.from(value, 'base64')));
+      pk = pk.concat(_buffer.Buffer.from(value, 'base64').length);
+      pk = pk.concat(Array.from(_buffer.Buffer.from(value, 'base64')));
       if (lengthPrefixed) {
         pk = [pk.length].concat((0, _toConsumableArray2["default"])(pk));
       }
-      return Buffer.from(pk).toString('hex');
+      return _buffer.Buffer.from(pk).toString('hex');
     }
 
     /**
@@ -314,34 +316,63 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      */
   }, {
     key: "generateSignature",
-    value: function generateSignature(signDocSerialize, private_key) {
-      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : types.PubkeyType.secp256k1;
-      var signature = '';
-      switch (type) {
-        case types.PubkeyType.ed25519:
-          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
-        case types.PubkeyType.sm2:
-          var sm2Sig = SM2.doSignature(Buffer.from(signDocSerialize), private_key, {
-            hash: true
-          });
-          signature = Buffer.from(sm2Sig, 'hex').toString('base64');
-          break;
-        case types.PubkeyType.secp256k1:
-        default:
-          var msghash = Buffer.from(Sha256(signDocSerialize, {
-            asBytes: true
-          }));
-          var prikeyArr = Buffer.from(private_key, 'hex');
-          var Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
-          signature = Secp256k1Sig.signature.toString('base64');
-          break;
+    value: (function () {
+      var _generateSignature = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(signDocSerialize, private_key) {
+        var type,
+          signature,
+          sm2Sig,
+          msghash,
+          prikeyArr,
+          secp256k1Signature,
+          signatureBytes,
+          _args = arguments;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              type = _args.length > 2 && _args[2] !== undefined ? _args[2] : types.PubkeyType.secp256k1;
+              signature = '';
+              _context.t0 = type;
+              _context.next = _context.t0 === types.PubkeyType.ed25519 ? 5 : _context.t0 === types.PubkeyType.sm2 ? 6 : _context.t0 === types.PubkeyType.secp256k1 ? 9 : 9;
+              break;
+            case 5:
+              throw new _errors.SdkError("not implement", _errors.CODES.Panic);
+            case 6:
+              sm2Sig = SM2.doSignature(_buffer.Buffer.from(signDocSerialize), private_key, {
+                hash: true
+              });
+              signature = _buffer.Buffer.from(sm2Sig, 'hex').toString('base64');
+              return _context.abrupt("break", 17);
+            case 9:
+              msghash = Sha256(signDocSerialize, {
+                asBytes: true
+              });
+              prikeyArr = _buffer.Buffer.from(private_key, 'hex');
+              _context.next = 13;
+              return _crypto.Secp256k1.createSignature(msghash, Uint8Array.from(prikeyArr));
+            case 13:
+              secp256k1Signature = _context.sent;
+              signatureBytes = new Uint8Array([].concat((0, _toConsumableArray2["default"])(secp256k1Signature.r(32)), (0, _toConsumableArray2["default"])(secp256k1Signature.s(32))));
+              signature = _buffer.Buffer.from(signatureBytes).toString('base64');
+              return _context.abrupt("break", 17);
+            case 17:
+              if (signature) {
+                _context.next = 19;
+                break;
+              }
+              throw Error(' generate Signature error ');
+            case 19:
+              return _context.abrupt("return", signature);
+            case 20:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }));
+      function generateSignature(_x, _x2) {
+        return _generateSignature.apply(this, arguments);
       }
-      if (!signature) {
-        throw Error(' generate Signature error ');
-      }
-      return signature;
-    }
-
+      return generateSignature;
+    }()
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -350,12 +381,13 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @param iterations Number of iterations. Defaults to 262144
      * @returns The keystore object.
      */
+    )
   }, {
     key: "generateKeyStore",
     value: function generateKeyStore(privateKeyHex, password, prefix) {
       var iterations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 262144;
-      var salt = cryp.randomBytes(32);
-      var iv = cryp.randomBytes(16);
+      var salt = _buffer.Buffer.from(_crypto.Random.getBytes(32));
+      var iv = _buffer.Buffer.from(_crypto.Random.getBytes(16));
       var cipherAlg = 'aes-128-ctr';
       var kdf = 'pbkdf2';
       var kdfparams = {
@@ -364,17 +396,25 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
         c: iterations,
         prf: 'hmac-sha256'
       };
-      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), salt, kdfparams.c, kdfparams.dklen, 'sha256');
-      var cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
-      if (!cipher) {
-        throw new _errors.SdkError('Unsupported cipher', _errors.CODES.Internal);
+      var derivedKey = cryptoJs.PBKDF2(password, _utils.Utils.bufferToWordArray(salt), {
+        keySize: 8,
+        iterations: kdfparams.c,
+        hasher: cryptoJs.algo.SHA256
+      });
+      var encrypted = AES.encrypt(cryptoJs.enc.Hex.parse(privateKeyHex), cryptoJs.enc.Hex.parse(_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), {
+        iv: cryptoJs.enc.Hex.parse(iv.toString('hex')),
+        mode: cryptoJs.mode.CTR,
+        padding: cryptoJs.pad.NoPadding
+      });
+      if (!encrypted) {
+        throw new _errors.SdkError('Unsupported encrypted', _errors.CODES.Internal);
       }
-      var ciphertext = Buffer.concat([cipher.update(Buffer.from(privateKeyHex, 'hex')), cipher["final"]()]);
-      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+      var ciphertext = _buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(encrypted.ciphertext));
+      var bufferValue = _buffer.Buffer.concat([_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), ciphertext]);
       return {
         version: 1,
         id: uuid.v4({
-          random: cryp.randomBytes(16)
+          random: _buffer.Buffer.from(_crypto.Random.getBytes(16))
         }),
         address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
         crypto: {
@@ -408,9 +448,13 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       if (kdfparams.prf !== 'hmac-sha256') {
         throw new _errors.SdkError('Unsupported parameters to PBKDF2', _errors.CODES.Internal);
       }
-      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, 'hex'), kdfparams.c, kdfparams.dklen, 'sha256');
-      var ciphertext = Buffer.from(json.crypto.ciphertext, 'hex');
-      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+      var derivedKey = cryptoJs.PBKDF2(password, _utils.Utils.bufferToWordArray(_buffer.Buffer.from(kdfparams.salt, 'hex')), {
+        keySize: 8,
+        iterations: kdfparams.c,
+        hasher: cryptoJs.algo.SHA256
+      });
+      var ciphertext = _buffer.Buffer.from(json.crypto.ciphertext, 'hex');
+      var bufferValue = _buffer.Buffer.concat([_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), ciphertext]);
 
       // try sha3 (new / ethereum keystore) mac first
       var mac = _utils.Utils.sha3(bufferValue.toString('hex'));
@@ -422,8 +466,11 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
           throw new _errors.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?', _errors.CODES.Internal);
         }
       }
-      var decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 16), Buffer.from(json.crypto.cipherparams.iv, 'hex'));
-      var privateKey = Buffer.concat([decipher.update(ciphertext), decipher["final"]()]).toString('hex');
+      var privateKey = AES.decrypt(cryptoJs.enc.Base64.stringify(cryptoJs.enc.Hex.parse(json.crypto.ciphertext)), cryptoJs.enc.Hex.parse(_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), {
+        iv: cryptoJs.enc.Hex.parse(json.crypto.cipherparams.iv),
+        mode: cryptoJs.mode.CTR,
+        padding: cryptoJs.pad.NoPadding
+      }).toString();
       return privateKey;
     }
 
@@ -446,16 +493,16 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       if (!header.salt) {
         throw new _errors.SdkError('invalid keystore salt');
       }
-      var salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
+      var salt = bcrypt.encodeBase64(_buffer.Buffer.from(header.salt, 'hex'), 16);
       var key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
-      key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
-      var keystoreData = Buffer.from(keystore_content.data, 'base64');
+      key = _utils.Utils.sha256(_buffer.Buffer.from(key).toString('hex'));
+      var keystoreData = _buffer.Buffer.from(keystore_content.data, 'base64');
       var nonce = keystoreData.slice(0, types.xchacha20NonceLength);
-      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
+      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, _buffer.Buffer.from(key, 'hex'));
       if (!privKey_full) {
         throw new _errors.SdkError('KeyStore parsing failed', _errors.CODES.Internal);
       }
-      var privKey = Buffer.from(privKey_full).slice(5).toString('hex');
+      var privKey = _buffer.Buffer.from(privKey_full).slice(5).toString('hex');
       if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
         header.type = types.PubkeyType.secp256k1;
       }
@@ -473,7 +520,10 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
   }, {
     key: "generateMnemonic",
     value: function generateMnemonic() {
-      return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
+      var entropyLength = 4 * Math.floor(11 * Crypto.MNEMONIC_LEN / 33);
+      var entropy = _crypto.Random.getBytes(entropyLength);
+      var mnemonic = _crypto.Bip39.encode(entropy);
+      return mnemonic.toString();
     }
 
     /**
@@ -482,8 +532,18 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @returns Validation result
      */
   }, {
+    key: "validateMnemonic",
+    value: function validateMnemonic(mnemonic) {
+      try {
+        _crypto.Bip39.decode(new _crypto.EnglishMnemonic(mnemonic));
+      } catch (e) {
+        return false;
+      }
+      return true;
+    }
+  }, {
     key: "getPrivateKeyFromMnemonic",
-    value:
+    value: (
     /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words
@@ -492,30 +552,62 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    function getPrivateKeyFromMnemonic(mnemonic) {
-      var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var derive = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-      var password = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-      if (!bip39.validateMnemonic(mnemonic)) {
-        throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
+    function () {
+      var _getPrivateKeyFromMnemonic = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(mnemonic) {
+        var index,
+          derive,
+          password,
+          seed,
+          _Slip10$derivePath,
+          privkey,
+          _args2 = arguments;
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              index = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : 0;
+              derive = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : true;
+              password = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : '';
+              if (Crypto.validateMnemonic(mnemonic)) {
+                _context2.next = 5;
+                break;
+              }
+              throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
+            case 5:
+              _context2.next = 7;
+              return _crypto.Bip39.mnemonicToSeed(new _crypto.EnglishMnemonic(mnemonic), password);
+            case 7:
+              seed = _context2.sent;
+              if (!derive) {
+                _context2.next = 13;
+                break;
+              }
+              _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, [_crypto.Slip10RawIndex.hardened(44), _crypto.Slip10RawIndex.hardened(118), _crypto.Slip10RawIndex.hardened(0), _crypto.Slip10RawIndex.normal(0), _crypto.Slip10RawIndex.normal(index)]), privkey = _Slip10$derivePath.privkey;
+              if (!(typeof privkey === 'undefined')) {
+                _context2.next = 12;
+                break;
+              }
+              throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
+            case 12:
+              return _context2.abrupt("return", _buffer.Buffer.from(privkey).toString('hex'));
+            case 13:
+              return _context2.abrupt("return", _buffer.Buffer.from(seed).toString('hex'));
+            case 14:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }));
+      function getPrivateKeyFromMnemonic(_x3) {
+        return _getPrivateKeyFromMnemonic.apply(this, arguments);
       }
-      var seed = bip39.mnemonicToSeedSync(mnemonic, password);
-      if (derive) {
-        var master = bip32.fromSeed(seed);
-        var child = master.derivePath(Crypto.HDPATH + index);
-        if (typeof child === 'undefined' || typeof child.privateKey === 'undefined') {
-          throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
-        }
-        return child.privateKey.toString('hex');
-      }
-      return seed.toString('hex');
-    }
-
+      return getPrivateKeyFromMnemonic;
+    }()
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string
      * @throws tx hash
      */
+    )
   }, {
     key: "generateTxHash",
     value: function generateTxHash(tx) {
@@ -571,8 +663,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
 }();
 // secp256k1 privkey is 32 bytes
 (0, _defineProperty2["default"])(Crypto, "PRIVKEY_LEN", 32);
-(0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 256);
+(0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 24);
 (0, _defineProperty2["default"])(Crypto, "DECODED_ADDRESS_LEN", 20);
 //hdpath
 (0, _defineProperty2["default"])(Crypto, "HDPATH", "44'/118'/0'/0/");
-(0, _defineProperty2["default"])(Crypto, "validateMnemonic", bip39.validateMnemonic);

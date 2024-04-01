@@ -10,6 +10,7 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _helper = require("../helper");
 var _errors = require("../errors");
+var _buffer = require("buffer");
 /** 
  * Base Msg
  * @hidden
@@ -44,7 +45,7 @@ var Msg = exports.Msg = /*#__PURE__*/function () {
       if (!msgValue) {
         throw new _errors.SdkError("msgValue can not be empty", _errors.CODES.Internal);
       }
-      var msg = this.constructor.getModelClass().deserializeBinary(Buffer.from(msgValue, 'base64'));
+      var msg = this.constructor.getModelClass().deserializeBinary(_buffer.Buffer.from(msgValue, 'base64'));
       if (msg) {
         return msg;
       } else {
