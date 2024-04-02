@@ -29,7 +29,7 @@ export class Keys {
    * @returns Bech32 address and mnemonic
    * @since v0.17
    */
-   add(
+  add(
     name: string, 
     password: string, 
     type:types.PubkeyType = types.PubkeyType.secp256k1

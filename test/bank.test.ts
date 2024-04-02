@@ -80,7 +80,7 @@ describe('Bank Tests', () => {
     test(
       'query All Balances',
       async () => {
-        const client = await BaseTest.getClient();
+        const client = BaseTest.getClient();
         await client
           .bank.queryAllBalances(client.keys.show(Consts.keyName))
           .then(res => {

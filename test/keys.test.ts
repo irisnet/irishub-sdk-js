@@ -1,11 +1,11 @@
 import { BaseTest, Consts } from './basetest';
 
-test('Keys', async () => {
+test('Keys', () => {
   const password = Consts.keyPassword;
   const client = BaseTest.getClient();
   
   // Create a new key
-  const addedKey = await client.keys.add('name1', password);
+  const addedKey = client.keys.add('name1', password);
   expect(addedKey.address.substring(0, 3)).toBe('iaa');
   let mnemonic = client.config.keyDAO.decrypt!(addedKey.mnemonic!,password);
   expect(mnemonic.split(' ').length).toBe(24);
