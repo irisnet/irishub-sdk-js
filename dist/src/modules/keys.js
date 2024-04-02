@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _crypto = require("../utils/crypto");
 var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
@@ -27,10 +26,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Keys = exports.Keys = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Keys(client) {
     (0, _classCallCheck2["default"])(this, Keys);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -43,7 +42,7 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
    * @returns Bech32 address and mnemonic
    * @since v0.17
    */
-  (0, _createClass2["default"])(Keys, [{
+  return (0, _createClass2["default"])(Keys, [{
     key: "add",
     value: (function () {
       var _add = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(name, password) {
@@ -407,5 +406,4 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
 
     // TODO: Ledger support
   }]);
-  return Keys;
 }();

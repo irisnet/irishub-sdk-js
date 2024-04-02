@@ -18,7 +18,7 @@ var TxHelper = exports.TxHelper = /*#__PURE__*/function () {
   function TxHelper() {
     (0, _classCallCheck2["default"])(this, TxHelper);
   }
-  (0, _createClass2["default"])(TxHelper, null, [{
+  return (0, _createClass2["default"])(TxHelper, null, [{
     key: "getHexPubkey",
     value: function getHexPubkey(pubkey) {
       try {
@@ -47,5 +47,4 @@ var TxHelper = exports.TxHelper = /*#__PURE__*/function () {
       return _buffer.Buffer.from(Bech32.fromWords(words));
     }
   }]);
-  return TxHelper;
 }();

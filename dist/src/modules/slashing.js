@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _slashing = require("../types/slashing");
 var _errors = require("../errors");
 var _utils = require("../utils");
@@ -29,10 +28,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Slashing = exports.Slashing = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Slashing(client) {
     (0, _classCallCheck2["default"])(this, Slashing);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -41,7 +40,7 @@ var Slashing = exports.Slashing = /*#__PURE__*/function () {
    * @returns
    * @since v1.0
    */
-  (0, _createClass2["default"])(Slashing, [{
+  return (0, _createClass2["default"])(Slashing, [{
     key: "queryParams",
     value: function queryParams() {
       // return this.client.rpcClient.abciQuery<types.SlashingParams>(
@@ -102,5 +101,4 @@ var Slashing = exports.Slashing = /*#__PURE__*/function () {
       return unjail;
     }())
   }]);
-  return Slashing;
 }();

@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Nft = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _crypto = require("../utils/crypto");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
@@ -26,10 +26,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Nft = exports.Nft = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Nft(client) {
     (0, _classCallCheck2["default"])(this, Nft);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -42,7 +42,7 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Nft, [{
+  return (0, _createClass2["default"])(Nft, [{
     key: "issueDenom",
     value: (function () {
       var _issueDenom = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(id, name, schema, option, baseTx) {
@@ -353,5 +353,4 @@ var Nft = exports.Nft = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/irismod.nft.Query/NFT', request, types.nft_query_pb.QueryNFTResponse);
     }
   }]);
-  return Nft;
 }();

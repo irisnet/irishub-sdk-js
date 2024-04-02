@@ -8,18 +8,16 @@ Object.defineProperty(exports, "__esModule", {
 exports.VoteOption = exports.ProposalType = exports.ProposalStatus = exports.MsgVoteWeighted = exports.MsgVote = exports.MsgSubmitProposal = exports.MsgDeposit = exports.LengthOp = exports.HashOp = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _types = require("./types");
 var _helper = require("../helper");
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 /**
  * param struct for Submit Proposal tx
@@ -30,17 +28,15 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
  * @hidden
  */
 var MsgSubmitProposal = exports.MsgSubmitProposal = /*#__PURE__*/function (_Msg) {
-  (0, _inherits2["default"])(MsgSubmitProposal, _Msg);
-  var _super = _createSuper(MsgSubmitProposal);
   function MsgSubmitProposal(msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgSubmitProposal);
-    _this = _super.call(this, _types.TxType.MsgSubmitProposal);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
+    _this = _callSuper(this, MsgSubmitProposal, [_types.TxType.MsgSubmitProposal]);
     _this.value = msg;
     return _this;
   }
-  (0, _createClass2["default"])(MsgSubmitProposal, [{
+  (0, _inherits2["default"])(MsgSubmitProposal, _Msg);
+  return (0, _createClass2["default"])(MsgSubmitProposal, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -131,7 +127,6 @@ var MsgSubmitProposal = exports.MsgSubmitProposal = /*#__PURE__*/function (_Msg)
       return pbs.gov_tx_pb.MsgSubmitProposal;
     }
   }]);
-  return MsgSubmitProposal;
 }(_types.Msg);
 /**
  * param struct for Vote tx
@@ -140,17 +135,15 @@ var MsgSubmitProposal = exports.MsgSubmitProposal = /*#__PURE__*/function (_Msg)
  * Msg for Vote
  */
 var MsgVote = exports.MsgVote = /*#__PURE__*/function (_Msg2) {
-  (0, _inherits2["default"])(MsgVote, _Msg2);
-  var _super2 = _createSuper(MsgVote);
   function MsgVote(msg) {
     var _this2;
     (0, _classCallCheck2["default"])(this, MsgVote);
-    _this2 = _super2.call(this, _types.TxType.MsgVote);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
+    _this2 = _callSuper(this, MsgVote, [_types.TxType.MsgVote]);
     _this2.value = msg;
     return _this2;
   }
-  (0, _createClass2["default"])(MsgVote, [{
+  (0, _inherits2["default"])(MsgVote, _Msg2);
+  return (0, _createClass2["default"])(MsgVote, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -178,7 +171,6 @@ var MsgVote = exports.MsgVote = /*#__PURE__*/function (_Msg2) {
       return pbs.gov_tx_pb.MsgVote;
     }
   }]);
-  return MsgVote;
 }(_types.Msg);
 /**
  * param struct for VoteWeighted tx
@@ -187,17 +179,15 @@ var MsgVote = exports.MsgVote = /*#__PURE__*/function (_Msg2) {
  * Msg for MsgVoteWeighted
  */
 var MsgVoteWeighted = exports.MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
-  (0, _inherits2["default"])(MsgVoteWeighted, _Msg3);
-  var _super3 = _createSuper(MsgVoteWeighted);
   function MsgVoteWeighted(msg) {
     var _this3;
     (0, _classCallCheck2["default"])(this, MsgVoteWeighted);
-    _this3 = _super3.call(this, _types.TxType.MsgVoteWeighted);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
+    _this3 = _callSuper(this, MsgVoteWeighted, [_types.TxType.MsgVoteWeighted]);
     _this3.value = msg;
     return _this3;
   }
-  (0, _createClass2["default"])(MsgVoteWeighted, [{
+  (0, _inherits2["default"])(MsgVoteWeighted, _Msg3);
+  return (0, _createClass2["default"])(MsgVoteWeighted, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -230,7 +220,6 @@ var MsgVoteWeighted = exports.MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
       return pbs.gov_tx_pb.MsgVoteWeighted;
     }
   }]);
-  return MsgVoteWeighted;
 }(_types.Msg);
 /**
  * param struct for Deposit tx
@@ -241,17 +230,15 @@ var MsgVoteWeighted = exports.MsgVoteWeighted = /*#__PURE__*/function (_Msg3) {
  * @hidden
  */
 var MsgDeposit = exports.MsgDeposit = /*#__PURE__*/function (_Msg4) {
-  (0, _inherits2["default"])(MsgDeposit, _Msg4);
-  var _super4 = _createSuper(MsgDeposit);
   function MsgDeposit(msg) {
     var _this4;
     (0, _classCallCheck2["default"])(this, MsgDeposit);
-    _this4 = _super4.call(this, _types.TxType.MsgDeposit);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
+    _this4 = _callSuper(this, MsgDeposit, [_types.TxType.MsgDeposit]);
     _this4.value = msg;
     return _this4;
   }
-  (0, _createClass2["default"])(MsgDeposit, [{
+  (0, _inherits2["default"])(MsgDeposit, _Msg4);
+  return (0, _createClass2["default"])(MsgDeposit, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -281,7 +268,6 @@ var MsgDeposit = exports.MsgDeposit = /*#__PURE__*/function (_Msg4) {
       return pbs.gov_tx_pb.MsgDeposit;
     }
   }]);
-  return MsgDeposit;
 }(_types.Msg);
 /**
  * ProposalStatus enumerates the valid statuses of a proposal.

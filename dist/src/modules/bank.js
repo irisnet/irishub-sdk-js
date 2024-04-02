@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _crypto = require("../utils/crypto");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
@@ -29,10 +28,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Bank = exports.Bank = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Bank(client) {
     (0, _classCallCheck2["default"])(this, Bank);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -44,7 +43,7 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Bank, [{
+  return (0, _createClass2["default"])(Bank, [{
     key: "send",
     value: (function () {
       var _send = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
@@ -226,5 +225,4 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/cosmos.bank.v1beta1.Query/DenomsMetadata', request, types.bank_query_pb.QueryDenomsMetadataResponse);
     }
   }]);
-  return Bank;
 }();

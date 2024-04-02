@@ -18,7 +18,7 @@ var TxModelCreator = exports.TxModelCreator = /*#__PURE__*/function () {
   function TxModelCreator() {
     (0, _classCallCheck2["default"])(this, TxModelCreator);
   }
-  (0, _createClass2["default"])(TxModelCreator, null, [{
+  return (0, _createClass2["default"])(TxModelCreator, null, [{
     key: "createBodyModel",
     value: function createBodyModel(msgs, memo, timeoutHeight) {
       var body = new types.tx_tx_pb.TxBody();
@@ -125,5 +125,4 @@ var TxModelCreator = exports.TxModelCreator = /*#__PURE__*/function () {
       return msg_any;
     }
   }]);
-  return TxModelCreator;
 }();

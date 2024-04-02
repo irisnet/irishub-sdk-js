@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Token = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
@@ -28,10 +28,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Token = exports.Token = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Token(client) {
     (0, _classCallCheck2["default"])(this, Token);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -40,7 +40,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
    * @param IssueTokenTxParam
    * @returns
    */
-  (0, _createClass2["default"])(Token, [{
+  return (0, _createClass2["default"])(Token, [{
     key: "issueToken",
     value: (function () {
       var _issueToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(token, baseTx) {
@@ -353,5 +353,4 @@ var Token = exports.Token = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/irismod.token.Query/Params', request, types.token_query_pb.QueryParamsResponse);
     }
   }]);
-  return Token;
 }();

@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Tx = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var is = _interopRequireWildcard(require("is_js"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
@@ -27,10 +27,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Tx = exports.Tx = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Tx(client) {
     (0, _classCallCheck2["default"])(this, Tx);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -41,7 +41,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
    * @returns unsignedTx
    * @since v0.17
    */
-  (0, _createClass2["default"])(Tx, [{
+  return (0, _createClass2["default"])(Tx, [{
     key: "buildTx",
     value: function buildTx(msgs, baseTx) {
       var _this = this;
@@ -620,5 +620,4 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
       return msg;
     }
   }]);
-  return Tx;
 }();

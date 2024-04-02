@@ -21,20 +21,18 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Utils = exports.Utils = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Utils(client) {
     (0, _classCallCheck2["default"])(this, Utils);
     /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     /** @hidden */
-    (0, _defineProperty2["default"])(this, "tokenMap", void 0);
     /** @hidden */
     (0, _defineProperty2["default"])(this, "mathConfig", {
       number: 'BigNumber',
       // Choose 'number' (default), 'BigNumber', or 'Fraction'
       precision: 64 // 64 by default, only applicable for BigNumbers
     });
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "math", void 0);
     this.client = client;
     this.tokenMap = new Map();
     this.math = mathjs.create(mathjs.all, this.mathConfig);
@@ -47,7 +45,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Utils, [{
+  return (0, _createClass2["default"])(Utils, [{
     key: "toMinCoin",
     value: (function () {
       var _toMinCoin = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(coin) {
@@ -211,5 +209,4 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
       return toMainCoins;
     }())
   }]);
-  return Utils;
 }();

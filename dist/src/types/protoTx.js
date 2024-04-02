@@ -20,9 +20,6 @@ var Sha256 = require('sha256');
 var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
   function ProtoTx(properties, protoTxModel) {
     (0, _classCallCheck2["default"])(this, ProtoTx);
-    (0, _defineProperty2["default"])(this, "txData", void 0);
-    (0, _defineProperty2["default"])(this, "body", void 0);
-    (0, _defineProperty2["default"])(this, "authInfo", void 0);
     (0, _defineProperty2["default"])(this, "signatures", []);
     if (!properties && !protoTxModel) {
       throw new _errors.SdkError("there must be one properties or protoTxModel", _errors.CODES.Internal);
@@ -47,7 +44,7 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
       }
     }
   }
-  (0, _createClass2["default"])(ProtoTx, [{
+  return (0, _createClass2["default"])(ProtoTx, [{
     key: "addSignature",
     value:
     /**
@@ -196,5 +193,4 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
       return new ProtoTx(undefined, protoTxModel);
     }
   }]);
-  return ProtoTx;
 }();

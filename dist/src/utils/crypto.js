@@ -39,7 +39,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
   function Crypto() {
     (0, _classCallCheck2["default"])(this, Crypto);
   }
-  (0, _createClass2["default"])(Crypto, null, [{
+  return (0, _createClass2["default"])(Crypto, null, [{
     key: "decodeAddress",
     value:
     /**
@@ -659,7 +659,6 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       return ret;
     }
   }]);
-  return Crypto;
 }();
 // secp256k1 privkey is 32 bytes
 (0, _defineProperty2["default"])(Crypto, "PRIVKEY_LEN", 32);

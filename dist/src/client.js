@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.DefaultKeyDAOImpl = exports.DefaultClientConfig = exports.Client = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var consts = _interopRequireWildcard(require("./types/constants"));
 var modules = _interopRequireWildcard(require("./modules"));
 var _rpcClient = require("./nets/rpc-client");
@@ -23,73 +22,6 @@ var Client = exports.Client = /*#__PURE__*/function () {
   /** IRISHub SDK Constructor */
   function Client(config) {
     (0, _classCallCheck2["default"])(this, Client);
-    /** IRISHub Client Config */
-    (0, _defineProperty2["default"])(this, "config", void 0);
-    /** Axios client for tendermint rpc requests */
-    (0, _defineProperty2["default"])(this, "_rpcClient", void 0);
-    /** Auth module */
-    (0, _defineProperty2["default"])(this, "_auth", void 0);
-    /** Token module */
-    (0, _defineProperty2["default"])(this, "_token", void 0);
-    /** Bank module */
-    (0, _defineProperty2["default"])(this, "_bank", void 0);
-    /** Key management module */
-    (0, _defineProperty2["default"])(this, "_keys", void 0);
-    /** Protobuf module */
-    (0, _defineProperty2["default"])(this, "_protobuf", void 0);
-    /** Staking module */
-    (0, _defineProperty2["default"])(this, "_staking", void 0);
-    /** Tx module */
-    (0, _defineProperty2["default"])(this, "_tx", void 0);
-    /** Gov module */
-    (0, _defineProperty2["default"])(this, "_gov", void 0);
-    /** Slashing module */
-    (0, _defineProperty2["default"])(this, "_slashing", void 0);
-    /** Distribution module */
-    (0, _defineProperty2["default"])(this, "_distribution", void 0);
-    /** Service module */
-    // private _service?: modules.Service;
-    // get service(): modules.Service{
-    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
-    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
-    //   }
-    //   if (!this._service) {this._service = new modules.Service(this)}
-    //   return this._service;
-    // }
-    /** Oracle module */
-    // private _oracle?: modules.Oracle;
-    // get oracle(): modules.Oracle{
-    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
-    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
-    //   }
-    //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
-    //   return this._oracle;
-    // }
-    /** Random module */
-    // private _random?: modules.Random;
-    // get random(): modules.Random{
-    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
-    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
-    //   }
-    //   if (!this._random) {this._random = new modules.Random(this)}
-    //   return this._random;
-    // }
-    /** Utils module */
-    (0, _defineProperty2["default"])(this, "_utils", void 0);
-    /** Tendermint module */
-    (0, _defineProperty2["default"])(this, "_tendermint", void 0);
-    /** Coinswap module */
-    (0, _defineProperty2["default"])(this, "_coinswap", void 0);
-    /** Farm module */
-    (0, _defineProperty2["default"])(this, "_farm", void 0);
-    /** NFT module */
-    (0, _defineProperty2["default"])(this, "_nft", void 0);
-    /** Htlc module */
-    (0, _defineProperty2["default"])(this, "_htlc", void 0);
-    /** Ibc module */
-    (0, _defineProperty2["default"])(this, "_ibc", void 0);
-    /** Ibc nft transfer module */
-    (0, _defineProperty2["default"])(this, "_ibcNftTransfer", void 0);
     this.config = config;
     if (!this.config.rpcConfig) this.config.rpcConfig = {};
     if (!this.config.bech32Prefix || !this.config.bech32Prefix.AccAddr) {
@@ -122,14 +54,20 @@ var Client = exports.Client = /*#__PURE__*/function () {
    * @param keyDAO Key DAO Implemention
    * @returns The SDK itself
    */
-  (0, _createClass2["default"])(Client, [{
+  return (0, _createClass2["default"])(Client, [{
     key: "rpcClient",
-    get: function get() {
+    get: /** IRISHub Client Config */
+
+    /** Axios client for tendermint rpc requests */
+
+    function get() {
       if (!this._rpcClient) {
         this._rpcClient = new _rpcClient.RpcClient(this.config.rpcConfig);
       }
       return this._rpcClient;
     }
+
+    /** Auth module */
   }, {
     key: "auth",
     get: function get() {
@@ -138,6 +76,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._auth;
     }
+
+    /** Token module */
   }, {
     key: "token",
     get: function get() {
@@ -149,6 +89,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._token;
     }
+
+    /** Bank module */
   }, {
     key: "bank",
     get: function get() {
@@ -157,6 +99,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._bank;
     }
+
+    /** Key management module */
   }, {
     key: "keys",
     get: function get() {
@@ -165,6 +109,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._keys;
     }
+
+    /** Protobuf module */
   }, {
     key: "protobuf",
     get: function get() {
@@ -173,6 +119,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._protobuf;
     }
+
+    /** Staking module */
   }, {
     key: "staking",
     get: function get() {
@@ -181,6 +129,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._staking;
     }
+
+    /** Tx module */
   }, {
     key: "tx",
     get: function get() {
@@ -189,6 +139,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._tx;
     }
+
+    /** Gov module */
   }, {
     key: "gov",
     get: function get() {
@@ -197,6 +149,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._gov;
     }
+
+    /** Slashing module */
   }, {
     key: "slashing",
     get: function get() {
@@ -205,6 +159,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._slashing;
     }
+
+    /** Distribution module */
   }, {
     key: "distribution",
     get: function get() {
@@ -213,6 +169,38 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._distribution;
     }
+
+    /** Service module */
+    // private _service?: modules.Service;
+    // get service(): modules.Service{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
+    //   if (!this._service) {this._service = new modules.Service(this)}
+    //   return this._service;
+    // }
+
+    /** Oracle module */
+    // private _oracle?: modules.Oracle;
+    // get oracle(): modules.Oracle{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
+    //   if (!this._oracle) {this._oracle = new modules.Oracle(this)}
+    //   return this._oracle;
+    // }
+
+    /** Random module */
+    // private _random?: modules.Random;
+    // get random(): modules.Random{
+    //   if (this.config.chainNetwork != consts.ChainNetwork.Iris) {
+    //     throw new SdkError('This module is not supported on the current chain network.',CODES.Panic);
+    //   }
+    //   if (!this._random) {this._random = new modules.Random(this)}
+    //   return this._random;
+    // }
+
+    /** Utils module */
   }, {
     key: "utils",
     get: function get() {
@@ -221,6 +209,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._utils;
     }
+
+    /** Tendermint module */
   }, {
     key: "tendermint",
     get: function get() {
@@ -229,6 +219,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._tendermint;
     }
+
+    /** Coinswap module */
   }, {
     key: "coinswap",
     get: function get() {
@@ -240,6 +232,7 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._coinswap;
     }
+    /** Farm module */
   }, {
     key: "farm",
     get: function get() {
@@ -251,6 +244,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._farm;
     }
+
+    /** NFT module */
   }, {
     key: "nft",
     get: function get() {
@@ -262,6 +257,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._nft;
     }
+
+    /** Htlc module */
   }, {
     key: "htlc",
     get: function get() {
@@ -273,6 +270,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._htlc;
     }
+
+    /** Ibc module */
   }, {
     key: "ibc",
     get: function get() {
@@ -281,6 +280,8 @@ var Client = exports.Client = /*#__PURE__*/function () {
       }
       return this._ibc;
     }
+
+    /** Ibc nft transfer module */
   }, {
     key: "ibcNftTransfer",
     get: function get() {
@@ -371,20 +372,11 @@ var Client = exports.Client = /*#__PURE__*/function () {
       return this;
     }
   }]);
-  return Client;
 }();
 /** IRISHub SDK Config */
 /** Default IRISHub Client Config */
 var DefaultClientConfig = exports.DefaultClientConfig = /*#__PURE__*/(0, _createClass2["default"])(function DefaultClientConfig() {
   (0, _classCallCheck2["default"])(this, DefaultClientConfig);
-  (0, _defineProperty2["default"])(this, "node", void 0);
-  (0, _defineProperty2["default"])(this, "chainNetwork", void 0);
-  (0, _defineProperty2["default"])(this, "chainId", void 0);
-  (0, _defineProperty2["default"])(this, "gas", void 0);
-  (0, _defineProperty2["default"])(this, "fee", void 0);
-  (0, _defineProperty2["default"])(this, "keyDAO", void 0);
-  (0, _defineProperty2["default"])(this, "bech32Prefix", void 0);
-  (0, _defineProperty2["default"])(this, "rpcConfig", void 0);
   this.node = '';
   this.chainNetwork = types.ChainNetwork.Iris;
   this.chainId = '';
@@ -406,7 +398,7 @@ var DefaultKeyDAOImpl = exports.DefaultKeyDAOImpl = /*#__PURE__*/function () {
   function DefaultKeyDAOImpl() {
     (0, _classCallCheck2["default"])(this, DefaultKeyDAOImpl);
   }
-  (0, _createClass2["default"])(DefaultKeyDAOImpl, [{
+  return (0, _createClass2["default"])(DefaultKeyDAOImpl, [{
     key: "write",
     value: function write(name, key) {
       throw new _errors.SdkError('Method not implemented. Please implement KeyDAO first.', _errors.CODES.Panic);
@@ -445,5 +437,4 @@ var DefaultKeyDAOImpl = exports.DefaultKeyDAOImpl = /*#__PURE__*/function () {
       return decrypted;
     }
   }]);
-  return DefaultKeyDAOImpl;
 }();

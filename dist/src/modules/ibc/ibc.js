@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../../types"));
 var _helper = require("../../helper");
 var _errors = require("../../errors");
@@ -25,10 +24,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Ibc = exports.Ibc = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Ibc(client) {
     (0, _classCallCheck2["default"])(this, Ibc);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -46,7 +45,7 @@ var Ibc = exports.Ibc = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Ibc, [{
+  return (0, _createClass2["default"])(Ibc, [{
     key: "transfer",
     value: (function () {
       var _transfer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(param, baseTx) {
@@ -133,5 +132,4 @@ var Ibc = exports.Ibc = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/ibc.core.channel.v1.Query/Channels', request, types.ibc_channel_query_pb.QueryChannelsResponse);
     }
   }]);
-  return Ibc;
 }();

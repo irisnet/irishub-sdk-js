@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -24,10 +23,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Coinswap(client) {
     (0, _classCallCheck2["default"])(this, Coinswap);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -40,7 +39,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
    * @param baseTx { types.BaseTx }
    * @returns
    */
-  (0, _createClass2["default"])(Coinswap, [{
+  return (0, _createClass2["default"])(Coinswap, [{
     key: "addLiquidity",
     value: (function () {
       var _addLiquidity = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(max_token, exact_standard_amt, min_liquidity, deadline, baseTx) {
@@ -176,5 +175,4 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/irismod.coinswap.Query/LiquidityPool', request, types.coinswap_query_pb.QueryLiquidityPoolResponse);
     }
   }]);
-  return Coinswap;
 }();
