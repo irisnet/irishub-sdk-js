@@ -13,7 +13,7 @@ describe('Nft Tests', () => {
           page_number: 1,
           page_size: 2,
           reverse:true,
-          count_total: true
+          count_total: false
         })
         .then(res => {
           console.log(JSON.stringify(res));
