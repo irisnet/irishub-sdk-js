@@ -101,13 +101,20 @@ export declare class Crypto {
      * @returns Signature. Does not include tx.
      */
     /**
+     *
+     * @param messageHash
+     * @param privkey The private key
+     * @returns
+     */
+    private static createSignature;
+    /**
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
      * @param type Pubkey Type.
      * @returns Signature. Does not include tx.
      */
-    static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): Promise<string>;
+    static generateSignature(signDocSerialize: Uint8Array, private_key: string, type?: types.PubkeyType): string;
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -147,6 +154,13 @@ export declare class Crypto {
      */
     static validateMnemonic(mnemonic: string): boolean;
     /**
+     *
+     * @param mnemonic The mnemonic phrase words
+     * @param password
+     * @returns
+     */
+    private static mnemonicToSeed;
+    /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words
      * @param derive Derive a private key using the default HD path (default: true)
@@ -154,7 +168,7 @@ export declare class Crypto {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    static getPrivateKeyFromMnemonic(mnemonic: string, index?: number, derive?: boolean, password?: string): Promise<string>;
+    static getPrivateKeyFromMnemonic(mnemonic: string, index?: number, derive?: boolean, password?: string): string;
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string

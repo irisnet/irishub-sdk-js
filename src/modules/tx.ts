@@ -156,7 +156,7 @@ export class Tx {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
       stdTx.setPubKey(pubKey, sequence??undefined);
     }
-    const signature = await Crypto.generateSignature(stdTx.getSignDoc(accountNumber??undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
+    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber??undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
     stdTx.addSignature(signature);
     return stdTx;
   }
@@ -171,12 +171,12 @@ export class Tx {
    * @returns signature
    * @since v0.17
    */
-  async sign_signDoc(
+  sign_signDoc(
     signDoc: Uint8Array,
     name: string,
     password: string,
     type:types.PubkeyType = types.PubkeyType.secp256k1
-  ): Promise<string> {
+  ): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -193,7 +193,7 @@ export class Tx {
     }
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
-    const signature = await Crypto.generateSignature(signDoc, privKey, type);
+    const signature = Crypto.generateSignature(signDoc, privKey, type);
     return signature;
   }
 

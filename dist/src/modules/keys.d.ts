@@ -22,7 +22,7 @@ export declare class Keys {
      * @returns Bech32 address and mnemonic
      * @since v0.17
      */
-    add(name: string, password: string, type?: types.PubkeyType): Promise<types.Wallet>;
+    add(name: string, password: string, type?: types.PubkeyType): types.Wallet;
     /**
      * Recover a key
      *
@@ -36,7 +36,7 @@ export declare class Keys {
      * @returns Bech32 address
      * @since v0.17
      */
-    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): Promise<types.Wallet>;
+    recover(name: string, password: string, mnemonic: string, type?: types.PubkeyType, index?: number, derive?: boolean, saltPassword?: string): types.Wallet;
     /**
      * Import a key from keystore
      *

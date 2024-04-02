@@ -15,7 +15,7 @@ describe('Bank Tests', () => {
           },
         ];
 
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.send(
             'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
             amount,
@@ -43,7 +43,7 @@ describe('Bank Tests', () => {
           },
         ];
 
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.multiSend(
             'iaa1gytgufwqkz9tmhjgljfxd3qcwpdzymj6022q3w',
             amount,
@@ -64,7 +64,7 @@ describe('Bank Tests', () => {
     test(
       'query Balance',
       async () => {
-        const client = await BaseTest.getClient();
+        const client = BaseTest.getClient();
         await client
           .bank.queryBalance(client.keys.show(Consts.keyName) ,'udev')
           .then(res => {
@@ -96,7 +96,7 @@ describe('Bank Tests', () => {
     test(
       'query All Balances by Height',
       async () => {
-        const client = await BaseTest.getClient();
+        const client = BaseTest.getClient();
         await client
           .bank.queryAllBalances(client.keys.show(Consts.keyName),'4968')
           .then(res => {
@@ -112,7 +112,7 @@ describe('Bank Tests', () => {
     test(
       'query Total Supply',
       async () => {
-        const client = await BaseTest.getClient();
+        const client = BaseTest.getClient();
         await client
           .bank.queryTotalSupply({
             page_number: 2,
@@ -132,7 +132,7 @@ describe('Bank Tests', () => {
     test(
       'query Supply Of',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.querySupplyOf('btc')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -147,7 +147,7 @@ describe('Bank Tests', () => {
     test(
       'query Params',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.queryParams()
           .then(res => {
             console.log(JSON.stringify(res));
@@ -162,7 +162,7 @@ describe('Bank Tests', () => {
     test(
       'query Denom Metadata',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.queryDenomMetadata('happy')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -177,7 +177,7 @@ describe('Bank Tests', () => {
     test(
       'query Denoms Metadata',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .bank.queryDenomsMetadata()
           .then(res => {
             console.log(JSON.stringify(res));

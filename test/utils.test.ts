@@ -6,7 +6,7 @@ describe('Utils Tests', () => {
   test(
     'to min coin',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .utils.toMinCoin({
           denom: 'iris',
           amount: '1',
@@ -23,7 +23,7 @@ describe('Utils Tests', () => {
   test(
     'to main coin',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .utils.toMainCoin({
           denom: 'iris-atto',
           amount: '1111111111111111111',

@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Crypto = void 0;
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
@@ -306,6 +304,33 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
     //   const msgHashHex = Buffer.from(msgHash, 'hex');
     //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
     // }
+    /**
+     * 
+     * @param messageHash 
+     * @param privkey The private key
+     * @returns 
+     */
+  }, {
+    key: "createSignature",
+    value: function createSignature(messageHash, privkey) {
+      if (messageHash.length === 0) {
+        throw new _errors.SdkError("Message hash must not be empty");
+      }
+      if (messageHash.length > 32) {
+        throw new _errors.SdkError("Message hash length must not exceed 32 bytes");
+      }
+      var secp256k1 = new _elliptic.ec("secp256k1");
+      var keypair = secp256k1.keyFromPrivate(privkey);
+      // the `canonical` option ensures creation of lowS signature representations
+      var _keypair$sign = keypair.sign(messageHash, {
+          canonical: true
+        }),
+        r = _keypair$sign.r,
+        s = _keypair$sign.s,
+        recoveryParam = _keypair$sign.recoveryParam;
+      if (typeof recoveryParam !== "number") throw new _errors.SdkError("Recovery param missing");
+      return new _crypto.ExtendedSecp256k1Signature(Uint8Array.from(r.toArray()), Uint8Array.from(s.toArray()), recoveryParam);
+    }
 
     /**
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
@@ -316,63 +341,35 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      */
   }, {
     key: "generateSignature",
-    value: (function () {
-      var _generateSignature = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(signDocSerialize, private_key) {
-        var type,
-          signature,
-          sm2Sig,
-          msghash,
-          prikeyArr,
-          secp256k1Signature,
-          signatureBytes,
-          _args = arguments;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              type = _args.length > 2 && _args[2] !== undefined ? _args[2] : types.PubkeyType.secp256k1;
-              signature = '';
-              _context.t0 = type;
-              _context.next = _context.t0 === types.PubkeyType.ed25519 ? 5 : _context.t0 === types.PubkeyType.sm2 ? 6 : _context.t0 === types.PubkeyType.secp256k1 ? 9 : 9;
-              break;
-            case 5:
-              throw new _errors.SdkError("not implement", _errors.CODES.Panic);
-            case 6:
-              sm2Sig = SM2.doSignature(_buffer.Buffer.from(signDocSerialize), private_key, {
-                hash: true
-              });
-              signature = _buffer.Buffer.from(sm2Sig, 'hex').toString('base64');
-              return _context.abrupt("break", 17);
-            case 9:
-              msghash = Sha256(signDocSerialize, {
-                asBytes: true
-              });
-              prikeyArr = _buffer.Buffer.from(private_key, 'hex');
-              _context.next = 13;
-              return _crypto.Secp256k1.createSignature(msghash, Uint8Array.from(prikeyArr));
-            case 13:
-              secp256k1Signature = _context.sent;
-              signatureBytes = new Uint8Array([].concat((0, _toConsumableArray2["default"])(secp256k1Signature.r(32)), (0, _toConsumableArray2["default"])(secp256k1Signature.s(32))));
-              signature = _buffer.Buffer.from(signatureBytes).toString('base64');
-              return _context.abrupt("break", 17);
-            case 17:
-              if (signature) {
-                _context.next = 19;
-                break;
-              }
-              throw Error(' generate Signature error ');
-            case 19:
-              return _context.abrupt("return", signature);
-            case 20:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }));
-      function generateSignature(_x, _x2) {
-        return _generateSignature.apply(this, arguments);
+    value: function generateSignature(signDocSerialize, private_key) {
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : types.PubkeyType.secp256k1;
+      var signature = '';
+      switch (type) {
+        case types.PubkeyType.ed25519:
+          throw new _errors.SdkError("not implement", _errors.CODES.Panic);
+        case types.PubkeyType.sm2:
+          var sm2Sig = SM2.doSignature(_buffer.Buffer.from(signDocSerialize), private_key, {
+            hash: true
+          });
+          signature = _buffer.Buffer.from(sm2Sig, 'hex').toString('base64');
+          break;
+        case types.PubkeyType.secp256k1:
+        default:
+          var msghash = Sha256(signDocSerialize, {
+            asBytes: true
+          });
+          var prikeyArr = _buffer.Buffer.from(private_key, 'hex');
+          var secp256k1Signature = Crypto.createSignature(msghash, Uint8Array.from(prikeyArr));
+          var signatureBytes = new Uint8Array([].concat((0, _toConsumableArray2["default"])(secp256k1Signature.r(32)), (0, _toConsumableArray2["default"])(secp256k1Signature.s(32))));
+          signature = _buffer.Buffer.from(signatureBytes).toString('base64');
+          break;
       }
-      return generateSignature;
-    }()
+      if (!signature) {
+        throw Error(' generate Signature error ');
+      }
+      return signature;
+    }
+
     /**
      * Generates a keystore object (web3 secret storage format) given a private key to store and a password.
      * @param privateKeyHex The private key hexstring.
@@ -381,7 +378,6 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @param iterations Number of iterations. Defaults to 262144
      * @returns The keystore object.
      */
-    )
   }, {
     key: "generateKeyStore",
     value: function generateKeyStore(privateKeyHex, password, prefix) {
@@ -542,8 +538,27 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       return true;
     }
   }, {
+    key: "mnemonicToSeed",
+    value:
+    /**
+     * 
+     * @param mnemonic The mnemonic phrase words
+     * @param password 
+     * @returns 
+     */
+    function mnemonicToSeed(mnemonic, password) {
+      var mnemonicBuffer = _buffer.Buffer.from(mnemonic).toString('utf8');
+      var saltBuffer = _buffer.Buffer.from('mnemonic' + password).toString('utf8');
+      var res = cryptoJs.PBKDF2(mnemonicBuffer, saltBuffer, {
+        keySize: 16,
+        iterations: 2048,
+        hasher: cryptoJs.algo.SHA512
+      });
+      return _buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(res));
+    }
+  }, {
     key: "getPrivateKeyFromMnemonic",
-    value: (
+    value:
     /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words
@@ -552,62 +567,30 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @param password A passphrase for generating the salt, according to bip39
      * @returns hexstring
      */
-    function () {
-      var _getPrivateKeyFromMnemonic = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(mnemonic) {
-        var index,
-          derive,
-          password,
-          seed,
-          _Slip10$derivePath,
-          privkey,
-          _args2 = arguments;
-        return _regenerator["default"].wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              index = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : 0;
-              derive = _args2.length > 2 && _args2[2] !== undefined ? _args2[2] : true;
-              password = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : '';
-              if (Crypto.validateMnemonic(mnemonic)) {
-                _context2.next = 5;
-                break;
-              }
-              throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
-            case 5:
-              _context2.next = 7;
-              return _crypto.Bip39.mnemonicToSeed(new _crypto.EnglishMnemonic(mnemonic), password);
-            case 7:
-              seed = _context2.sent;
-              if (!derive) {
-                _context2.next = 13;
-                break;
-              }
-              _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, [_crypto.Slip10RawIndex.hardened(44), _crypto.Slip10RawIndex.hardened(118), _crypto.Slip10RawIndex.hardened(0), _crypto.Slip10RawIndex.normal(0), _crypto.Slip10RawIndex.normal(index)]), privkey = _Slip10$derivePath.privkey;
-              if (!(typeof privkey === 'undefined')) {
-                _context2.next = 12;
-                break;
-              }
-              throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
-            case 12:
-              return _context2.abrupt("return", _buffer.Buffer.from(privkey).toString('hex'));
-            case 13:
-              return _context2.abrupt("return", _buffer.Buffer.from(seed).toString('hex'));
-            case 14:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }));
-      function getPrivateKeyFromMnemonic(_x3) {
-        return _getPrivateKeyFromMnemonic.apply(this, arguments);
+    function getPrivateKeyFromMnemonic(mnemonic) {
+      var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var derive = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var password = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+      if (!Crypto.validateMnemonic(mnemonic)) {
+        throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
       }
-      return getPrivateKeyFromMnemonic;
-    }()
+      var seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
+      if (derive) {
+        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, [_crypto.Slip10RawIndex.hardened(44), _crypto.Slip10RawIndex.hardened(118), _crypto.Slip10RawIndex.hardened(0), _crypto.Slip10RawIndex.normal(0), _crypto.Slip10RawIndex.normal(index)]),
+          privkey = _Slip10$derivePath.privkey;
+        if (typeof privkey === 'undefined') {
+          throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
+        }
+        return _buffer.Buffer.from(privkey).toString('hex');
+      }
+      return _buffer.Buffer.from(seed).toString('hex');
+    }
+
     /**
      * Generate Tx hash from stdTx
      * @param  protobuf tx :base64 string
      * @throws tx hash
      */
-    )
   }, {
     key: "generateTxHash",
     value: function generateTxHash(tx) {

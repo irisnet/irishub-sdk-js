@@ -2,7 +2,7 @@ import { BaseTest, Consts } from './basetest';
 
 test('Keys', async () => {
   const password = Consts.keyPassword;
-  const client = await BaseTest.getClient();
+  const client = BaseTest.getClient();
   
   // Create a new key
   const addedKey = await client.keys.add('name1', password);
@@ -30,20 +30,20 @@ test('Keys', async () => {
   }).toThrow("Key with name 'name1' not found");
 });
 
-test('recover', async () => {
-    const client = await BaseTest.getClient();
+test('recover', () => {
+    const client = BaseTest.getClient();
     const nmemonic = 'fatigue panther innocent dress person fluid animal raven material embark target spread kiss smile cycle begin rocket pull couple story mass analyst guilt network'
-    const key = await client.keys.recover('1', 'test',nmemonic);
+    const key = client.keys.recover('1', 'test',nmemonic);
     console.log(key)
 });
 
-test('add', async () => {
-    const client = await BaseTest.getClient();
-    const key = await client.keys.add('1', 'test');
+test('add', () => {
+    const client = BaseTest.getClient();
+    const key = client.keys.add('1', 'test');
     console.log(key)
 });
 
-test('Import a keystore V1', async () => {
+test('Import a keystore V1', () => {
     let keystore = `-----BEGIN TENDERMINT PRIVATE KEY-----
 salt: A790BB721D1C094260EA84F5E5B72289
 kdf: bcrypt
@@ -54,7 +54,7 @@ HbP+c6JmeJy9JXe2rbbF1QtCX1gLqGcDQPBXiCtFvP7/8wTZtVOPj8vREzhZ9ElO
 -----END TENDERMINT PRIVATE KEY-----`;
 
     let password = '123456789';
-    const client = await BaseTest.getClient();
+    const client = BaseTest.getClient();
     let wallet = client.keys.importKeystore('123', password, keystore);
     console.log('wallet:',wallet);
 });

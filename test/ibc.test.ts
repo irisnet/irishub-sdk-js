@@ -12,7 +12,7 @@ describe('ibc Tests', () => {
           denom: 'uiris',
           amount: '1',
         };
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .ibc.transfer(
             {
               source_port: 'transfer',
@@ -38,7 +38,7 @@ describe('ibc Tests', () => {
     test(
       'query denom trace',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .ibc.queryDenomTrace('BE92679ADBCA225EA3C8CB3AB22FAAFE5A43F7B08747C29A540A4CB88CE7670F')
           .then(res => {
             console.log(JSON.stringify(res));
@@ -53,7 +53,7 @@ describe('ibc Tests', () => {
     test(
       'queries all denomination traces',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .ibc.queryDenomTraces()
           .then(res => {
             console.log(JSON.stringify(res));
@@ -68,7 +68,7 @@ describe('ibc Tests', () => {
     test(
       'queries all parameters of the ibc-transfer module',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .ibc.queryParams()
           .then(res => {
             console.log(JSON.stringify(res));
@@ -83,7 +83,7 @@ describe('ibc Tests', () => {
     test(
       'queries all the IBC channels of a chain',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
           .ibc.queryChannels({
             page_number: 1,
             page_size: 100

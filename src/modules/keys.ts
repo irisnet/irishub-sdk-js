@@ -29,11 +29,11 @@ export class Keys {
    * @returns Bech32 address and mnemonic
    * @since v0.17
    */
-  async add(
+   add(
     name: string, 
     password: string, 
     type:types.PubkeyType = types.PubkeyType.secp256k1
-    ): Promise<types.Wallet> {
+    ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -48,7 +48,7 @@ export class Keys {
     //   throw new SdkError(`Key with name '${name}' already exists`);
     // }
     const mnemonic = Crypto.generateMnemonic();
-    const privKey = await Crypto.getPrivateKeyFromMnemonic(mnemonic);
+    const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
     const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, type);
     const address = Crypto.getAddressFromPublicKey(
       pubKey,
@@ -90,7 +90,7 @@ export class Keys {
    * @returns Bech32 address
    * @since v0.17
    */
-  async recover(
+  recover(
     name: string,
     password: string,
     mnemonic: string,
@@ -98,7 +98,7 @@ export class Keys {
     index = 0,
     derive = true,
     saltPassword = '',
-  ): Promise<types.Wallet> {
+  ): types.Wallet {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
     }
@@ -116,7 +116,7 @@ export class Keys {
     //   throw new SdkError(`Key with name '${name}' exists`);
     // }
 
-    const privKey = await Crypto.getPrivateKeyFromMnemonic(
+    const privKey = Crypto.getPrivateKeyFromMnemonic(
       mnemonic,
       index,
       derive,

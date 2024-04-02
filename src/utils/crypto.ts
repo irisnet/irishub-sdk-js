@@ -4,7 +4,7 @@ import * as cryptoJs from 'crypto-js';
 import * as AES from 'crypto-js/aes';
 import * as uuid from 'uuid';
 import * as is from 'is_js';
-import {Slip10, Slip10Curve, Slip10RawIndex, Bip39, Random, EnglishMnemonic, Secp256k1 } from '@cosmjs/crypto';
+import {Slip10, Slip10Curve, Slip10RawIndex, Bip39, Random, EnglishMnemonic, ExtendedSecp256k1Signature } from '@cosmjs/crypto';
 import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
@@ -276,6 +276,31 @@ export class Crypto {
   //   const msgHashHex = Buffer.from(msgHash, 'hex');
   //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
   // }
+  /**
+   * 
+   * @param messageHash 
+   * @param privkey The private key
+   * @returns 
+   */
+
+  private static createSignature(messageHash: Uint8Array, privkey: Uint8Array):ExtendedSecp256k1Signature {
+    if (messageHash.length === 0) {
+      throw new SdkError("Message hash must not be empty");
+    }
+    if (messageHash.length > 32) {
+      throw new SdkError("Message hash length must not exceed 32 bytes");
+    }
+    const secp256k1 = new EC("secp256k1")
+    const keypair = secp256k1.keyFromPrivate(privkey);
+    // the `canonical` option ensures creation of lowS signature representations
+    const { r, s, recoveryParam } = keypair.sign(messageHash, { canonical: true });
+    if (typeof recoveryParam !== "number") throw new SdkError("Recovery param missing");
+    return new ExtendedSecp256k1Signature(
+      Uint8Array.from(r.toArray()),
+      Uint8Array.from(s.toArray()),
+      recoveryParam,
+    );
+  }
 
   /**
    * Generates a signature (base64 string) for a signDocSerialize based on given private key.
@@ -284,11 +309,11 @@ export class Crypto {
    * @param type Pubkey Type.
    * @returns Signature. Does not include tx.
    */
- static async generateSignature(
+ static generateSignature(
   signDocSerialize:Uint8Array, 
   private_key:string, 
   type:types.PubkeyType = types.PubkeyType.secp256k1
-  ):Promise<string> {
+  ):string {
       let signature:string = '';
       switch(type){
         case types.PubkeyType.ed25519:
@@ -305,7 +330,7 @@ export class Crypto {
         default:
         const msghash = Sha256(signDocSerialize,{ asBytes: true });
         let prikeyArr:Buffer = Buffer.from(private_key,'hex');
-        const secp256k1Signature = await Secp256k1.createSignature(msghash, Uint8Array.from(prikeyArr))
+        const secp256k1Signature = Crypto.createSignature(msghash, Uint8Array.from(prikeyArr))
         const signatureBytes = new Uint8Array([...secp256k1Signature.r(32), ...secp256k1Signature.s(32)]);
         signature = Buffer.from(signatureBytes).toString('base64');
         break;
@@ -508,6 +533,23 @@ export class Crypto {
   };
 
   /**
+   * 
+   * @param mnemonic The mnemonic phrase words
+   * @param password 
+   * @returns 
+   */
+  private static mnemonicToSeed(mnemonic: string, password?: string): Buffer {
+    const mnemonicBuffer = Buffer.from(mnemonic).toString('utf8');
+    const saltBuffer = Buffer.from('mnemonic' + password).toString('utf8');
+    const res = cryptoJs.PBKDF2(mnemonicBuffer, saltBuffer, {
+        keySize: 16,
+        iterations: 2048,
+        hasher: cryptoJs.algo.SHA512
+    });
+    return Buffer.from(Utils.wordArrayToArrayBuffer(res));
+  };
+
+  /**
    * Gets a private key from mnemonic words.
    * @param mnemonic The mnemonic phrase words
    * @param derive Derive a private key using the default HD path (default: true)
@@ -515,16 +557,16 @@ export class Crypto {
    * @param password A passphrase for generating the salt, according to bip39
    * @returns hexstring
    */
-  static async getPrivateKeyFromMnemonic(
+  static getPrivateKeyFromMnemonic(
     mnemonic: string,
     index = 0,
     derive = true,
     password = ''
-  ): Promise<string> {
+  ): string {
     if (!Crypto.validateMnemonic(mnemonic)) {
       throw new SdkError('wrong mnemonic format',CODES.InvalidMnemonic);
     }
-    const seed = await Bip39.mnemonicToSeed(new EnglishMnemonic(mnemonic), password);
+    const seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
 
     if (derive) {
       const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, [

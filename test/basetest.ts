@@ -30,7 +30,7 @@ export class BaseTest {
     // pubkeyType: iris.types.PubkeyType.sm2
   };
 
-  static async getClient(): Promise<Client> {
+  static getClient(): Client {
     let config = {
         node: 'http://192.168.150.33:26657',
         chainNetwork: iris.types.ChainNetwork.Iris,
@@ -55,7 +55,7 @@ export class BaseTest {
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
-    await client.keys.recover(
+    client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
       'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'

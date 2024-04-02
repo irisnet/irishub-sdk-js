@@ -7,7 +7,7 @@ test('Crypto', async () => {
   expect(mnemonic.split(' ').length).toBe(24);
 
   // Gets a private key from mnemonic words.
-  const privKey = await Crypto.getPrivateKeyFromMnemonic(mnemonic);
+  const privKey = Crypto.getPrivateKeyFromMnemonic(mnemonic);
 
   // Calculates the public key from a given private key.
   const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey);

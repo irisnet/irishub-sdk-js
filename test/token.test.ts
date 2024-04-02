@@ -6,7 +6,7 @@ describe('Token Tests', () => {
   test(
     'query tokens',
     async () => {
-      await (await BaseTest.getClient()).token.queryTokens('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw').then((res) => {
+      await BaseTest.getClient().token.queryTokens('iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw').then((res) => {
         console.log(res);
       }).catch(error => {
         console.log(error);
@@ -17,7 +17,7 @@ describe('Token Tests', () => {
   test(
     'query token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.queryToken('coin')
         .then(res => {
           console.log(res);
@@ -31,7 +31,7 @@ describe('Token Tests', () => {
   test(
     'query fees',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.queryFees('coin')
         .then(res => {
           console.log(res);
@@ -45,7 +45,7 @@ describe('Token Tests', () => {
   test(
     'query parameters',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.queryParameters()
         .then(res => {
           console.log(res);
@@ -59,7 +59,7 @@ describe('Token Tests', () => {
   test(
     'issue token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.issueToken({
           symbol: 'kittt',
           name: 'test',
@@ -81,7 +81,7 @@ describe('Token Tests', () => {
   test(
     'edit token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.editToken({
           symbol: 'coinzz',
           name: 'abc',
@@ -100,7 +100,7 @@ describe('Token Tests', () => {
   test(
     'mint token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.mintToken({
           coin:{
             denom: 'coinzz',
@@ -120,7 +120,7 @@ describe('Token Tests', () => {
   test(
     'burn token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.burnToken({
           amount: '1',
           denom: 'uiris'
@@ -137,7 +137,7 @@ describe('Token Tests', () => {
   test(
     'swap fee token token',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.swapFeeToken(
           {
             fee_paid:{
@@ -158,7 +158,7 @@ describe('Token Tests', () => {
   test(
     'transfer token owner',
     async () => {
-      await (await BaseTest.getClient())
+      await BaseTest.getClient()
         .token.transferTokenOwner({
           symbol: 'coin',
           dst_owner: 'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'

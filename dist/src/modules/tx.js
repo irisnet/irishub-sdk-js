@@ -228,13 +228,10 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
                 pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
                 stdTx.setPubKey(pubKey, (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : undefined);
               }
-              _context2.next = 23;
-              return _utils.Crypto.generateSignature(stdTx.getSignDoc((_accountNumber = accountNumber) !== null && _accountNumber !== void 0 ? _accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
-            case 23:
-              signature = _context2.sent;
+              signature = _utils.Crypto.generateSignature(stdTx.getSignDoc((_accountNumber = accountNumber) !== null && _accountNumber !== void 0 ? _accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
               stdTx.addSignature(signature);
               return _context2.abrupt("return", stdTx);
-            case 26:
+            case 24:
             case "end":
               return _context2.stop();
           }
@@ -258,65 +255,31 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
     )
   }, {
     key: "sign_signDoc",
-    value: (function () {
-      var _sign_signDoc = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(signDoc, name, password) {
-        var type,
-          keyObj,
-          privKey,
-          signature,
-          _args3 = arguments;
-        return _regenerator["default"].wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              type = _args3.length > 3 && _args3[3] !== undefined ? _args3[3] : types.PubkeyType.secp256k1;
-              if (!is.empty(name)) {
-                _context3.next = 3;
-                break;
-              }
-              throw new _errors.SdkError("Name of the key can not be empty");
-            case 3:
-              if (!is.empty(password)) {
-                _context3.next = 5;
-                break;
-              }
-              throw new _errors.SdkError("Password of the key can not be empty");
-            case 5:
-              if (this.client.config.keyDAO.decrypt) {
-                _context3.next = 7;
-                break;
-              }
-              throw new _errors.SdkError("Decrypt method of KeyDAO not implemented");
-            case 7:
-              keyObj = this.client.config.keyDAO.read(name);
-              if (keyObj) {
-                _context3.next = 10;
-                break;
-              }
-              throw new _errors.SdkError("Key with name '".concat(name, "' not found"), _errors.CODES.KeyNotFound);
-            case 10:
-              privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
-              _context3.next = 13;
-              return _utils.Crypto.generateSignature(signDoc, privKey, type);
-            case 13:
-              signature = _context3.sent;
-              return _context3.abrupt("return", signature);
-            case 15:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3, this);
-      }));
-      function sign_signDoc(_x5, _x6, _x7) {
-        return _sign_signDoc.apply(this, arguments);
+    value: function sign_signDoc(signDoc, name, password) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
       }
-      return sign_signDoc;
-    }()
+      if (is.empty(password)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+      if (!this.client.config.keyDAO.decrypt) {
+        throw new _errors.SdkError("Decrypt method of KeyDAO not implemented");
+      }
+      var keyObj = this.client.config.keyDAO.read(name);
+      if (!keyObj) {
+        throw new _errors.SdkError("Key with name '".concat(name, "' not found"), _errors.CODES.KeyNotFound);
+      }
+      var privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
+      var signature = _utils.Crypto.generateSignature(signDoc, privKey, type);
+      return signature;
+    }
+
     /**
      * Broadcast tx async
      * @param txBytes The tx bytes with signatures
      * @returns
      */
-    )
   }, {
     key: "broadcastTxAsync",
     value: function broadcastTxAsync(txBytes) {

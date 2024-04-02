@@ -8,7 +8,7 @@ describe('Nft Tests', () => {
     test(
       'query Accounts',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
         .auth.queryAccounts({
           page_number: 1,
           page_size: 2,
@@ -27,7 +27,7 @@ describe('Nft Tests', () => {
     test(
       'query Account',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
         .auth.queryAccount('iaa1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3qef7mx')
         .then(res => {
           console.log(JSON.stringify(res));
@@ -41,7 +41,7 @@ describe('Nft Tests', () => {
     test(
       'query Params',
       async () => {
-        await (await BaseTest.getClient())
+        await BaseTest.getClient()
         .auth.queryParams()
         .then(res => {
           console.log(JSON.stringify(res));

@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Keys = void 0;
-var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _crypto = require("../utils/crypto");
@@ -44,71 +42,38 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
    */
   return (0, _createClass2["default"])(Keys, [{
     key: "add",
-    value: (function () {
-      var _add = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(name, password) {
-        var type,
-          mnemonic,
-          privKey,
-          pubKey,
-          address,
-          encryptedPrivKey,
-          encryptedMnemonic,
-          wallet,
-          _args = arguments;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              type = _args.length > 2 && _args[2] !== undefined ? _args[2] : types.PubkeyType.secp256k1;
-              if (!is.empty(name)) {
-                _context.next = 3;
-                break;
-              }
-              throw new _errors.SdkError("Name of the key can not be empty");
-            case 3:
-              if (!is.empty(password)) {
-                _context.next = 5;
-                break;
-              }
-              throw new _errors.SdkError("Password of the key can not be empty");
-            case 5:
-              if (this.client.config.keyDAO.encrypt) {
-                _context.next = 7;
-                break;
-              }
-              throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-            case 7:
-              // const exists = this.client.config.keyDAO.read(name);
-              // if (exists) {
-              //   throw new SdkError(`Key with name '${name}' already exists`);
-              // }
-              mnemonic = _crypto.Crypto.generateMnemonic();
-              _context.next = 10;
-              return _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic);
-            case 10:
-              privKey = _context.sent;
-              pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
-              address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
-              encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
-              encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
-              wallet = {
-                address: address,
-                privateKey: encryptedPrivKey,
-                publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
-                mnemonic: encryptedMnemonic
-              }; // Save the key to app
-              this.client.config.keyDAO.write(name, wallet);
-              return _context.abrupt("return", wallet);
-            case 18:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, this);
-      }));
-      function add(_x, _x2) {
-        return _add.apply(this, arguments);
+    value: function add(name, password) {
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : types.PubkeyType.secp256k1;
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
       }
-      return add;
-    }()
+      if (is.empty(password)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+      if (!this.client.config.keyDAO.encrypt) {
+        throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+      }
+      // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' already exists`);
+      // }
+      var mnemonic = _crypto.Crypto.generateMnemonic();
+      var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic);
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
+      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
+      var wallet = {
+        address: address,
+        privateKey: encryptedPrivKey,
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
+        mnemonic: encryptedMnemonic
+      };
+      // Save the key to app
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
+    }
+
     /**
      * Recover a key
      *
@@ -122,80 +87,46 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
      * @returns Bech32 address
      * @since v0.17
      */
-    )
   }, {
     key: "recover",
-    value: (function () {
-      var _recover = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(name, password, mnemonic) {
-        var type,
-          index,
-          derive,
-          saltPassword,
-          privKey,
-          pubKey,
-          address,
-          encryptedPrivKey,
-          encryptedMnemonic,
-          wallet,
-          _args2 = arguments;
-        return _regenerator["default"].wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              type = _args2.length > 3 && _args2[3] !== undefined ? _args2[3] : types.PubkeyType.secp256k1;
-              index = _args2.length > 4 && _args2[4] !== undefined ? _args2[4] : 0;
-              derive = _args2.length > 5 && _args2[5] !== undefined ? _args2[5] : true;
-              saltPassword = _args2.length > 6 && _args2[6] !== undefined ? _args2[6] : '';
-              if (!is.empty(name)) {
-                _context2.next = 6;
-                break;
-              }
-              throw new _errors.SdkError("Name of the key can not be empty");
-            case 6:
-              if (!is.empty(password)) {
-                _context2.next = 8;
-                break;
-              }
-              throw new _errors.SdkError("Password of the key can not be empty");
-            case 8:
-              if (!is.empty(mnemonic)) {
-                _context2.next = 10;
-                break;
-              }
-              throw new _errors.SdkError("Mnemonic of the key can not be empty");
-            case 10:
-              if (this.client.config.keyDAO.encrypt) {
-                _context2.next = 12;
-                break;
-              }
-              throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
-            case 12:
-              _context2.next = 14;
-              return _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, index, derive, saltPassword);
-            case 14:
-              privKey = _context2.sent;
-              pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
-              address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
-              encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
-              encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
-              wallet = {
-                address: address,
-                privateKey: encryptedPrivKey,
-                publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
-                mnemonic: encryptedMnemonic
-              }; // Save the key to app
-              this.client.config.keyDAO.write(name, wallet);
-              return _context2.abrupt("return", wallet);
-            case 22:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, this);
-      }));
-      function recover(_x3, _x4, _x5) {
-        return _recover.apply(this, arguments);
+    value: function recover(name, password, mnemonic) {
+      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : types.PubkeyType.secp256k1;
+      var index = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+      var derive = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+      var saltPassword = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : '';
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
       }
-      return recover;
-    }()
+      if (is.empty(password)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+      if (is.empty(mnemonic)) {
+        throw new _errors.SdkError("Mnemonic of the key can not be empty");
+      }
+      if (!this.client.config.keyDAO.encrypt) {
+        throw new _errors.SdkError("Encrypt method of KeyDAO not implemented");
+      }
+      // const exists = this.client.config.keyDAO.read(name);
+      // if (exists) {
+      //   throw new SdkError(`Key with name '${name}' exists`);
+      // }
+
+      var privKey = _crypto.Crypto.getPrivateKeyFromMnemonic(mnemonic, index, derive, saltPassword);
+      var pubKey = _crypto.Crypto.getPublicKeyFromPrivateKey(privKey, type);
+      var address = _crypto.Crypto.getAddressFromPublicKey(pubKey, this.client.config.bech32Prefix.AccAddr);
+      var encryptedPrivKey = this.client.config.keyDAO.encrypt(privKey, password);
+      var encryptedMnemonic = this.client.config.keyDAO.encrypt(mnemonic, password);
+      var wallet = {
+        address: address,
+        privateKey: encryptedPrivKey,
+        publicKey: _crypto.Crypto.aminoMarshalPubKey(pubKey),
+        mnemonic: encryptedMnemonic
+      };
+      // Save the key to app
+      this.client.config.keyDAO.write(name, wallet);
+      return wallet;
+    }
+
     /**
      * Import a key from keystore
      *
@@ -206,7 +137,6 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
      * @returns types.Wallet
      * @since v0.17
      */
-    )
   }, {
     key: "import",
     value: function _import(name, password, keystore) {
