@@ -4,7 +4,7 @@ import * as cryptoJs from 'crypto-js';
 import * as AES from 'crypto-js/aes';
 import * as uuid from 'uuid';
 import * as is from 'is_js';
-import {Slip10, Slip10Curve, Slip10RawIndex, Bip39, Random, EnglishMnemonic, ExtendedSecp256k1Signature } from '@cosmjs/crypto';
+import {Slip10, Slip10Curve, Bip39, Random, EnglishMnemonic, ExtendedSecp256k1Signature, stringToPath } from '@cosmjs/crypto';
 import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
@@ -29,7 +29,7 @@ export class Crypto {
   static DECODED_ADDRESS_LEN = 20;
 
   //hdpath
-  static HDPATH = "44'/118'/0'/0/";
+  static HDPATH = "m/44'/118'/0'/0/";
 
   /**
    * Decodes an address in bech32 format.
@@ -569,13 +569,7 @@ export class Crypto {
     const seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
 
     if (derive) {
-      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, [
-        Slip10RawIndex.hardened(44),
-        Slip10RawIndex.hardened(118),
-        Slip10RawIndex.hardened(0),
-        Slip10RawIndex.normal(0),
-        Slip10RawIndex.normal(index),
-      ]);
+      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, stringToPath(Crypto.HDPATH + index));
       if ( typeof privkey === 'undefined') {
         throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
       }

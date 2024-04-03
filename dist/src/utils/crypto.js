@@ -576,7 +576,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       }
       var seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
       if (derive) {
-        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, [_crypto.Slip10RawIndex.hardened(44), _crypto.Slip10RawIndex.hardened(118), _crypto.Slip10RawIndex.hardened(0), _crypto.Slip10RawIndex.normal(0), _crypto.Slip10RawIndex.normal(index)]),
+        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, (0, _crypto.stringToPath)(Crypto.HDPATH + index)),
           privkey = _Slip10$derivePath.privkey;
         if (typeof privkey === 'undefined') {
           throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
@@ -648,4 +648,4 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
 (0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 24);
 (0, _defineProperty2["default"])(Crypto, "DECODED_ADDRESS_LEN", 20);
 //hdpath
-(0, _defineProperty2["default"])(Crypto, "HDPATH", "44'/118'/0'/0/");
+(0, _defineProperty2["default"])(Crypto, "HDPATH", "m/44'/118'/0'/0/");
