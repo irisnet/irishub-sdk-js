@@ -29,7 +29,8 @@ export class Crypto {
   static DECODED_ADDRESS_LEN = 20;
 
   //hdpath
-  static HDPATH = "m/44'/118'/0'/0/";
+  static HDPATH = "44'/118'/0'/0/";
+  static HDPATH_MASTER = "m/"
 
   /**
    * Decodes an address in bech32 format.
@@ -569,7 +570,7 @@ export class Crypto {
     const seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
 
     if (derive) {
-      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, stringToPath(Crypto.HDPATH + index));
+      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, stringToPath(Crypto.HDPATH_MASTER + Crypto.HDPATH + index));
       if ( typeof privkey === 'undefined') {
         throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
       }
