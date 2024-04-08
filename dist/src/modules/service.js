@@ -9,7 +9,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _service = require("../types/service");
 var _errors = require("../errors");
 var _utils = require("../utils");
@@ -20,10 +19,10 @@ var _utils = require("../utils");
  */
 var Service = exports.Service = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Service(client) {
     (0, _classCallCheck2["default"])(this, Service);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -34,7 +33,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Service, [{
+  return (0, _createClass2["default"])(Service, [{
     key: "queryDefinition",
     value: function queryDefinition(serviceName) {
       return this.client.rpcClient.abciQuery('custom/service/definition', {
@@ -669,5 +668,4 @@ var Service = exports.Service = /*#__PURE__*/function () {
     }() // Service listeners not supported in browser
     )
   }]);
-  return Service;
 }();

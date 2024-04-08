@@ -16,7 +16,7 @@ var ModelCreator = exports.ModelCreator = /*#__PURE__*/function () {
   function ModelCreator() {
     (0, _classCallCheck2["default"])(this, ModelCreator);
   }
-  (0, _createClass2["default"])(ModelCreator, null, [{
+  return (0, _createClass2["default"])(ModelCreator, null, [{
     key: "createPaginationModel",
     value: function createPaginationModel(pageInfo) {
       var _pageInfo$count_total, _pageInfo$reverse;
@@ -35,5 +35,4 @@ var ModelCreator = exports.ModelCreator = /*#__PURE__*/function () {
       return pagination;
     }
   }]);
-  return ModelCreator;
 }();

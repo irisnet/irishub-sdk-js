@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.TxType = exports.PubkeyType = exports.Msg = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _helper = require("../helper");
 var _errors = require("../errors");
+var _buffer = require("buffer");
 /** 
  * Base Msg
  * @hidden
@@ -17,11 +17,9 @@ var _errors = require("../errors");
 var Msg = exports.Msg = /*#__PURE__*/function () {
   function Msg(type) {
     (0, _classCallCheck2["default"])(this, Msg);
-    (0, _defineProperty2["default"])(this, "type", void 0);
-    (0, _defineProperty2["default"])(this, "value", void 0);
     this.type = type;
   }
-  (0, _createClass2["default"])(Msg, [{
+  return (0, _createClass2["default"])(Msg, [{
     key: "getModel",
     value: function getModel() {
       throw new _errors.SdkError("not implement", _errors.CODES.Internal);
@@ -44,7 +42,7 @@ var Msg = exports.Msg = /*#__PURE__*/function () {
       if (!msgValue) {
         throw new _errors.SdkError("msgValue can not be empty", _errors.CODES.Internal);
       }
-      var msg = this.constructor.getModelClass().deserializeBinary(Buffer.from(msgValue, 'base64'));
+      var msg = this.constructor.getModelClass().deserializeBinary(_buffer.Buffer.from(msgValue, 'base64'));
       if (msg) {
         return msg;
       } else {
@@ -57,7 +55,6 @@ var Msg = exports.Msg = /*#__PURE__*/function () {
       throw new _errors.SdkError("not implement", _errors.CODES.Internal);
     }
   }]);
-  return Msg;
 }();
 var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgSend"] = "cosmos.bank.v1beta1.MsgSend";

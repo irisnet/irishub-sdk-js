@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import * as bip39 from 'bip39';
 import * as types from '../types';
+import { Buffer } from 'buffer';
 /**
  * Crypto Utils
  * @hidden
@@ -101,6 +101,13 @@ export declare class Crypto {
      * @returns Signature. Does not include tx.
      */
     /**
+     *
+     * @param messageHash
+     * @param privkey The private key
+     * @returns
+     */
+    private static createSignature;
+    /**
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
      * @param signDocSerialize from protobuf and tx.
      * @param privateKey The private key.
@@ -145,7 +152,14 @@ export declare class Crypto {
      * @param mnemonic The mnemonic phrase words
      * @returns Validation result
      */
-    static validateMnemonic: typeof bip39.validateMnemonic;
+    static validateMnemonic(mnemonic: string): boolean;
+    /**
+     *
+     * @param mnemonic The mnemonic phrase words
+     * @param password
+     * @returns
+     */
+    private static mnemonicToSeed;
     /**
      * Gets a private key from mnemonic words.
      * @param mnemonic The mnemonic phrase words

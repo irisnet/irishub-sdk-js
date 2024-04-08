@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.Keys = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _crypto = require("../utils/crypto");
 var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
@@ -25,10 +24,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Keys = exports.Keys = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Keys(client) {
     (0, _classCallCheck2["default"])(this, Keys);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -41,7 +40,7 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
    * @returns Bech32 address and mnemonic
    * @since v0.17
    */
-  (0, _createClass2["default"])(Keys, [{
+  return (0, _createClass2["default"])(Keys, [{
     key: "add",
     value: function add(name, password) {
       var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : types.PubkeyType.secp256k1;
@@ -337,5 +336,4 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
 
     // TODO: Ledger support
   }]);
-  return Keys;
 }();

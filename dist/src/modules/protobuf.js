@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Protobuf = void 0;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -23,10 +23,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Protobuf(client) {
     (0, _classCallCheck2["default"])(this, Protobuf);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -36,7 +36,7 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} Tx object                        
    */
-  (0, _createClass2["default"])(Protobuf, [{
+  return (0, _createClass2["default"])(Protobuf, [{
     key: "deserializeTx",
     value: function deserializeTx(tx, returnProtobufModel) {
       var _this = this;
@@ -509,5 +509,4 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
       }
     }
   }]);
-  return Protobuf;
 }();

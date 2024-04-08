@@ -12,19 +12,19 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var csprng = _interopRequireWildcard(require("secure-random"));
 var bech32 = _interopRequireWildcard(require("bech32"));
-var cryp = _interopRequireWildcard(require("crypto-browserify"));
+var cryptoJs = _interopRequireWildcard(require("crypto-js"));
+var AES = _interopRequireWildcard(require("crypto-js/aes"));
 var uuid = _interopRequireWildcard(require("uuid"));
 var is = _interopRequireWildcard(require("is_js"));
-var bip32 = _interopRequireWildcard(require("bip32"));
-var bip39 = _interopRequireWildcard(require("bip39"));
+var _crypto = require("@cosmjs/crypto");
 var _elliptic = require("elliptic");
 var _utils = require("./utils");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
+var _buffer = require("buffer");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var Sha256 = require('sha256');
-var Secp256k1 = require('secp256k1');
 var SM2 = require('sm-crypto-bj').sm2;
 var bcrypt = require('bcryptjs');
 var nacl = require('tweetnacl');
@@ -37,7 +37,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
   function Crypto() {
     (0, _classCallCheck2["default"])(this, Crypto);
   }
-  (0, _createClass2["default"])(Crypto, null, [{
+  return (0, _createClass2["default"])(Crypto, null, [{
     key: "decodeAddress",
     value:
     /**
@@ -47,7 +47,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      */
     function decodeAddress(address) {
       var decodeAddress = bech32.decode(address);
-      return Buffer.from(bech32.fromWords(decodeAddress.words));
+      return _buffer.Buffer.from(bech32.fromWords(decodeAddress.words));
     }
 
     /**
@@ -86,7 +86,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
     value: function encodeAddress(pubkeyHash) {
       var hrp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'iaa';
       var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'hex';
-      var words = bech32.toWords(Buffer.from(pubkeyHash, type));
+      var words = bech32.toWords(_buffer.Buffer.from(pubkeyHash, type));
       return bech32.encode(hrp, words);
     }
 
@@ -193,7 +193,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
         case types.PubkeyType.secp256k1:
         default:
           var secp256k1pubkey = new _elliptic.ec('secp256k1').keyFromPrivate(privateKeyHex, 'hex').getPublic();
-          pubKey = Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
+          pubKey = _buffer.Buffer.from(secp256k1pubkey.encodeCompressed()).toString('hex');
           break;
       }
       return {
@@ -229,12 +229,12 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
           break;
       }
       var pk = _utils.Utils.getAminoPrefix(pubKeyType);
-      pk = pk.concat(Buffer.from(value, 'base64').length);
-      pk = pk.concat(Array.from(Buffer.from(value, 'base64')));
+      pk = pk.concat(_buffer.Buffer.from(value, 'base64').length);
+      pk = pk.concat(Array.from(_buffer.Buffer.from(value, 'base64')));
       if (lengthPrefixed) {
         pk = [pk.length].concat((0, _toConsumableArray2["default"])(pk));
       }
-      return Buffer.from(pk).toString('hex');
+      return _buffer.Buffer.from(pk).toString('hex');
     }
 
     /**
@@ -304,6 +304,33 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
     //   const msgHashHex = Buffer.from(msgHash, 'hex');
     //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
     // }
+    /**
+     * 
+     * @param messageHash 
+     * @param privkey The private key
+     * @returns 
+     */
+  }, {
+    key: "createSignature",
+    value: function createSignature(messageHash, privkey) {
+      if (messageHash.length === 0) {
+        throw new _errors.SdkError("Message hash must not be empty");
+      }
+      if (messageHash.length > 32) {
+        throw new _errors.SdkError("Message hash length must not exceed 32 bytes");
+      }
+      var secp256k1 = new _elliptic.ec("secp256k1");
+      var keypair = secp256k1.keyFromPrivate(privkey);
+      // the `canonical` option ensures creation of lowS signature representations
+      var _keypair$sign = keypair.sign(messageHash, {
+          canonical: true
+        }),
+        r = _keypair$sign.r,
+        s = _keypair$sign.s,
+        recoveryParam = _keypair$sign.recoveryParam;
+      if (typeof recoveryParam !== "number") throw new _errors.SdkError("Recovery param missing");
+      return new _crypto.ExtendedSecp256k1Signature(Uint8Array.from(r.toArray()), Uint8Array.from(s.toArray()), recoveryParam);
+    }
 
     /**
      * Generates a signature (base64 string) for a signDocSerialize based on given private key.
@@ -321,19 +348,20 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
         case types.PubkeyType.ed25519:
           throw new _errors.SdkError("not implement", _errors.CODES.Panic);
         case types.PubkeyType.sm2:
-          var sm2Sig = SM2.doSignature(Buffer.from(signDocSerialize), private_key, {
+          var sm2Sig = SM2.doSignature(_buffer.Buffer.from(signDocSerialize), private_key, {
             hash: true
           });
-          signature = Buffer.from(sm2Sig, 'hex').toString('base64');
+          signature = _buffer.Buffer.from(sm2Sig, 'hex').toString('base64');
           break;
         case types.PubkeyType.secp256k1:
         default:
-          var msghash = Buffer.from(Sha256(signDocSerialize, {
+          var msghash = Sha256(signDocSerialize, {
             asBytes: true
-          }));
-          var prikeyArr = Buffer.from(private_key, 'hex');
-          var Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
-          signature = Secp256k1Sig.signature.toString('base64');
+          });
+          var prikeyArr = _buffer.Buffer.from(private_key, 'hex');
+          var secp256k1Signature = Crypto.createSignature(msghash, Uint8Array.from(prikeyArr));
+          var signatureBytes = new Uint8Array([].concat((0, _toConsumableArray2["default"])(secp256k1Signature.r(32)), (0, _toConsumableArray2["default"])(secp256k1Signature.s(32))));
+          signature = _buffer.Buffer.from(signatureBytes).toString('base64');
           break;
       }
       if (!signature) {
@@ -354,8 +382,8 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
     key: "generateKeyStore",
     value: function generateKeyStore(privateKeyHex, password, prefix) {
       var iterations = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 262144;
-      var salt = cryp.randomBytes(32);
-      var iv = cryp.randomBytes(16);
+      var salt = _buffer.Buffer.from(_crypto.Random.getBytes(32));
+      var iv = _buffer.Buffer.from(_crypto.Random.getBytes(16));
       var cipherAlg = 'aes-128-ctr';
       var kdf = 'pbkdf2';
       var kdfparams = {
@@ -364,17 +392,25 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
         c: iterations,
         prf: 'hmac-sha256'
       };
-      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), salt, kdfparams.c, kdfparams.dklen, 'sha256');
-      var cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
-      if (!cipher) {
-        throw new _errors.SdkError('Unsupported cipher', _errors.CODES.Internal);
+      var derivedKey = cryptoJs.PBKDF2(password, _utils.Utils.bufferToWordArray(salt), {
+        keySize: 8,
+        iterations: kdfparams.c,
+        hasher: cryptoJs.algo.SHA256
+      });
+      var encrypted = AES.encrypt(cryptoJs.enc.Hex.parse(privateKeyHex), cryptoJs.enc.Hex.parse(_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), {
+        iv: cryptoJs.enc.Hex.parse(iv.toString('hex')),
+        mode: cryptoJs.mode.CTR,
+        padding: cryptoJs.pad.NoPadding
+      });
+      if (!encrypted) {
+        throw new _errors.SdkError('Unsupported encrypted', _errors.CODES.Internal);
       }
-      var ciphertext = Buffer.concat([cipher.update(Buffer.from(privateKeyHex, 'hex')), cipher["final"]()]);
-      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+      var ciphertext = _buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(encrypted.ciphertext));
+      var bufferValue = _buffer.Buffer.concat([_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), ciphertext]);
       return {
         version: 1,
         id: uuid.v4({
-          random: cryp.randomBytes(16)
+          random: _buffer.Buffer.from(_crypto.Random.getBytes(16))
         }),
         address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
         crypto: {
@@ -408,9 +444,13 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       if (kdfparams.prf !== 'hmac-sha256') {
         throw new _errors.SdkError('Unsupported parameters to PBKDF2', _errors.CODES.Internal);
       }
-      var derivedKey = cryp.pbkdf2Sync(Buffer.from(password), Buffer.from(kdfparams.salt, 'hex'), kdfparams.c, kdfparams.dklen, 'sha256');
-      var ciphertext = Buffer.from(json.crypto.ciphertext, 'hex');
-      var bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+      var derivedKey = cryptoJs.PBKDF2(password, _utils.Utils.bufferToWordArray(_buffer.Buffer.from(kdfparams.salt, 'hex')), {
+        keySize: 8,
+        iterations: kdfparams.c,
+        hasher: cryptoJs.algo.SHA256
+      });
+      var ciphertext = _buffer.Buffer.from(json.crypto.ciphertext, 'hex');
+      var bufferValue = _buffer.Buffer.concat([_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), ciphertext]);
 
       // try sha3 (new / ethereum keystore) mac first
       var mac = _utils.Utils.sha3(bufferValue.toString('hex'));
@@ -422,8 +462,11 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
           throw new _errors.SdkError('Keystore mac check failed (sha3 & sha256) wrong password?', _errors.CODES.Internal);
         }
       }
-      var decipher = cryp.createDecipheriv(json.crypto.cipher, derivedKey.slice(0, 16), Buffer.from(json.crypto.cipherparams.iv, 'hex'));
-      var privateKey = Buffer.concat([decipher.update(ciphertext), decipher["final"]()]).toString('hex');
+      var privateKey = AES.decrypt(cryptoJs.enc.Base64.stringify(cryptoJs.enc.Hex.parse(json.crypto.ciphertext)), cryptoJs.enc.Hex.parse(_buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), {
+        iv: cryptoJs.enc.Hex.parse(json.crypto.cipherparams.iv),
+        mode: cryptoJs.mode.CTR,
+        padding: cryptoJs.pad.NoPadding
+      }).toString();
       return privateKey;
     }
 
@@ -446,16 +489,16 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       if (!header.salt) {
         throw new _errors.SdkError('invalid keystore salt');
       }
-      var salt = bcrypt.encodeBase64(Buffer.from(header.salt, 'hex'), 16);
+      var salt = bcrypt.encodeBase64(_buffer.Buffer.from(header.salt, 'hex'), 16);
       var key = bcrypt.hashSync(password, "".concat(types.keystoreSaltPerfix).concat(salt));
-      key = _utils.Utils.sha256(Buffer.from(key).toString('hex'));
-      var keystoreData = Buffer.from(keystore_content.data, 'base64');
+      key = _utils.Utils.sha256(_buffer.Buffer.from(key).toString('hex'));
+      var keystoreData = _buffer.Buffer.from(keystore_content.data, 'base64');
       var nonce = keystoreData.slice(0, types.xchacha20NonceLength);
-      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, Buffer.from(key, 'hex'));
+      var privKey_full = nacl.secretbox.open(keystoreData.slice(types.xchacha20NonceLength), nonce, _buffer.Buffer.from(key, 'hex'));
       if (!privKey_full) {
         throw new _errors.SdkError('KeyStore parsing failed', _errors.CODES.Internal);
       }
-      var privKey = Buffer.from(privKey_full).slice(5).toString('hex');
+      var privKey = _buffer.Buffer.from(privKey_full).slice(5).toString('hex');
       if (header.type != types.PubkeyType.secp256k1 && header.type != types.PubkeyType.ed25519 && header.type != types.PubkeyType.sm2) {
         header.type = types.PubkeyType.secp256k1;
       }
@@ -473,7 +516,10 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
   }, {
     key: "generateMnemonic",
     value: function generateMnemonic() {
-      return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
+      var entropyLength = 4 * Math.floor(11 * Crypto.MNEMONIC_LEN / 33);
+      var entropy = _crypto.Random.getBytes(entropyLength);
+      var mnemonic = _crypto.Bip39.encode(entropy);
+      return mnemonic.toString();
     }
 
     /**
@@ -481,6 +527,35 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
      * @param mnemonic The mnemonic phrase words
      * @returns Validation result
      */
+  }, {
+    key: "validateMnemonic",
+    value: function validateMnemonic(mnemonic) {
+      try {
+        _crypto.Bip39.decode(new _crypto.EnglishMnemonic(mnemonic));
+      } catch (e) {
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: "mnemonicToSeed",
+    value:
+    /**
+     * 
+     * @param mnemonic The mnemonic phrase words
+     * @param password 
+     * @returns 
+     */
+    function mnemonicToSeed(mnemonic, password) {
+      var mnemonicBuffer = _buffer.Buffer.from(mnemonic).toString('utf8');
+      var saltBuffer = _buffer.Buffer.from('mnemonic' + password).toString('utf8');
+      var res = cryptoJs.PBKDF2(mnemonicBuffer, saltBuffer, {
+        keySize: 16,
+        iterations: 2048,
+        hasher: cryptoJs.algo.SHA512
+      });
+      return _buffer.Buffer.from(_utils.Utils.wordArrayToArrayBuffer(res));
+    }
   }, {
     key: "getPrivateKeyFromMnemonic",
     value:
@@ -496,19 +571,19 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var derive = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       var password = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-      if (!bip39.validateMnemonic(mnemonic)) {
+      if (!Crypto.validateMnemonic(mnemonic)) {
         throw new _errors.SdkError('wrong mnemonic format', _errors.CODES.InvalidMnemonic);
       }
-      var seed = bip39.mnemonicToSeedSync(mnemonic, password);
+      var seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
       if (derive) {
-        var master = bip32.fromSeed(seed);
-        var child = master.derivePath(Crypto.HDPATH + index);
-        if (typeof child === 'undefined' || typeof child.privateKey === 'undefined') {
+        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, (0, _crypto.stringToPath)(Crypto.HDPATH + index)),
+          privkey = _Slip10$derivePath.privkey;
+        if (typeof privkey === 'undefined') {
           throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
         }
-        return child.privateKey.toString('hex');
+        return _buffer.Buffer.from(privkey).toString('hex');
       }
-      return seed.toString('hex');
+      return _buffer.Buffer.from(seed).toString('hex');
     }
 
     /**
@@ -567,12 +642,10 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       return ret;
     }
   }]);
-  return Crypto;
 }();
 // secp256k1 privkey is 32 bytes
 (0, _defineProperty2["default"])(Crypto, "PRIVKEY_LEN", 32);
-(0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 256);
+(0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 24);
 (0, _defineProperty2["default"])(Crypto, "DECODED_ADDRESS_LEN", 20);
 //hdpath
-(0, _defineProperty2["default"])(Crypto, "HDPATH", "44'/118'/0'/0/");
-(0, _defineProperty2["default"])(Crypto, "validateMnemonic", bip39.validateMnemonic);
+(0, _defineProperty2["default"])(Crypto, "HDPATH", "m/44'/118'/0'/0/");
