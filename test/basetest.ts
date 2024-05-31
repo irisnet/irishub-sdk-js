@@ -1,6 +1,7 @@
 // support cosmos-sdk v0.44.x、 irismod 1.5.2、ibc 1.1.0
 import * as iris from '../src';
 import { Client } from '../src/client';
+import { Crypto } from '../src';
 
 export class Consts {
   static timeout = 10000;
@@ -31,24 +32,24 @@ export class BaseTest {
   };
 
   static getClient(): Client {
+
     let config = {
-        node: 'http://192.168.150.33:26657',
-        chainNetwork: iris.types.ChainNetwork.Iris,
-        chainId: 'iris',
-        gas: '20000000',
-        fee: { denom: 'uiris', amount: '200' },
+      node: 'http://34.80.202.172:26657',
+      chainNetwork: iris.types.ChainNetwork.Iris,
+      chainId: 'nyancat-9',
+      gas: '200000',
+      fee: { denom: 'unyan', amount: '400000' },
     };
 
     // let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
 
     // let config = {
     //     node: 'http://34.80.22.255:26657',
-    //     network: iris.types.Network.Mainnet,
     //     chainId: 'bifrost-1',
     //     gas: '200000',
     //     fee: { denom: 'udev', amount: '5000' },
     // };
-    // let privateKey = '80A69946ADD77EF0C17F43E72E759164F6F0A2A7E9D5D3E0966A3BCA8DE3D177'
+    // let privateKey = '06deecd6aeafa4a140470ff3c2a1258263162fb281c09871a337b7198c21d34a'
 
     const client = iris
       .newClient(config)
@@ -58,15 +59,16 @@ export class BaseTest {
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'
+      'fatigue panther innocent dress person fluid animal raven material embark target spread kiss smile cycle begin rocket pull couple story mass analyst guilt network'
     );
 
-    // client.keys.importPrivateKey(
+    // let a =  client.keys.importPrivateKey(
     //   Consts.keyName,
     //   Consts.keyPassword,
     //   privateKey,
-    //   types.PubkeyType.sm2
+    //   iris.types.PubkeyType.secp256k1
     // );
+    // console.log('aaaaa:', a);
     return client;
   }
 }

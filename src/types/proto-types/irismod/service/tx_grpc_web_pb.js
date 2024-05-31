@@ -18,7 +18,13 @@ grpc.web = require('grpc-web');
 
 var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js')
 
+var cosmos_msg_v1_msg_pb = require('../../cosmos/msg/v1/msg_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../cosmos_proto/cosmos_pb.js')
+
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
+
+var irismod_service_service_pb = require('../../irismod/service/service_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.service = require('./tx_pb.js');
@@ -1192,6 +1198,86 @@ proto.irismod.service.MsgPromiseClient.prototype.withdrawEarnedFees =
       request,
       metadata || {},
       methodDescriptor_Msg_WithdrawEarnedFees);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.service.MsgUpdateParams,
+ *   !proto.irismod.service.MsgUpdateParamsResponse>}
+ */
+const methodDescriptor_Msg_UpdateParams = new grpc.web.MethodDescriptor(
+  '/irismod.service.Msg/UpdateParams',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.service.MsgUpdateParams,
+  proto.irismod.service.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.irismod.service.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.service.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.service.MsgUpdateParams,
+ *   !proto.irismod.service.MsgUpdateParamsResponse>}
+ */
+const methodInfo_Msg_UpdateParams = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.service.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.irismod.service.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.service.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.service.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.service.MsgUpdateParamsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.service.MsgUpdateParamsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.service.MsgClient.prototype.updateParams =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.service.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.service.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.service.MsgUpdateParamsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.service.MsgPromiseClient.prototype.updateParams =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.service.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams);
 };
 
 
