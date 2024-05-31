@@ -617,6 +617,154 @@ export class Staking {
   }
 
   /**
+   * Query for individual tokenize share record information by share by id
+   * 
+   * @param id record id
+   * @returns 
+   * @since v3.3.1
+   */
+  queryTokenizeShareRecordById(id: number): Promise<types.TokenizeShareRecord> {
+    if (is.undefined(id)) {
+      throw new SdkError('record id can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryTokenizeShareRecordByIdRequest()
+      .setId(id);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordById',
+      request,
+      types.staking_query_pb.QueryTokenizeShareRecordByIdResponse
+    );
+  }
+
+  /**
+   * Query for individual tokenize share record information by share denom
+   * 
+   * @param denom denom string
+   * @returns 
+   * @since v3.3.1
+   */
+  queryTokenizeShareRecordByDenom(denom: string): Promise<types.TokenizeShareRecord> {
+    if (is.undefined(denom)) {
+      throw new SdkError('denom can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryTokenizeShareRecordByDenomRequest()
+      .setDenom(denom);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordByDenom',
+      request,
+      types.staking_query_pb.QueryTokenizeShareRecordByDenomResponse
+    );
+  }
+
+  /**
+   * Query tokenize share records by address
+   * 
+   * @param owner Bech32 owner address
+   * @returns
+   * @since v3.3.1
+   */
+  queryTokenizeShareRecordsOwned(owner: string): Promise<types.TokenizeShareRecord[]> {
+    if (is.undefined(owner)) {
+      throw new SdkError('owner can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryTokenizeShareRecordsOwnedRequest()
+      .setOwner(owner);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordsOwned',
+      request,
+      types.staking_query_pb.QueryTokenizeShareRecordsOwnedResponse
+    );
+  }
+
+  /**
+   * Query for all tokenize share records
+   * 
+   * @param pagination page info
+   * @returns
+   * @since v3.3.1
+   */
+  queryAllTokenizeShareRecords(pagination: types.Pagination): Promise<{
+    records: types.TokenizeShareRecord[],
+    pagination: types.Pagination,
+  }> {
+    const request = new types.staking_query_pb.QueryAllTokenizeShareRecordsRequest()
+      .setPagination(ModelCreator.createPaginationModel(pagination));
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/AllTokenizeShareRecords',
+      request,
+      types.staking_query_pb.QueryAllTokenizeShareRecordsResponse
+    );
+  }
+
+  /**
+   * Query for last tokenize share record id
+   * 
+   * @returns
+   * @since v3.3.1
+   */
+  queryLastTokenizeShareRecordId(): Promise<{id: number}> {
+    const request = new types.staking_query_pb.QueryLastTokenizeShareRecordIdRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/LastTokenizeShareRecordId',
+      request,
+      types.staking_query_pb.QueryLastTokenizeShareRecordIdResponse
+    );
+  }
+
+  /**
+   * Query for total tokenized staked assets
+   * 
+   * @returns
+   * @since v3.3.1
+   */
+  queryTotalTokenizeSharedAssets(): Promise<{value: types.Coin}> {
+    const request = new types.staking_query_pb.QueryTotalTokenizeSharedAssetsRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TotalTokenizeSharedAssets',
+      request,
+      types.staking_query_pb.QueryTotalTokenizeSharedAssetsResponse
+    );
+  }
+
+  /**
+   * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider)
+   * 
+   * @returns
+   * @since v3.3.1
+   */
+  queryTotalLiquidStaked(): Promise<{tokens: string}> {
+    const request = new types.staking_query_pb.QueryTotalLiquidStakedRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TotalLiquidStaked',
+      request,
+      types.staking_query_pb.QueryTotalLiquidStakedResponse
+    );
+  }
+
+  /**
+   * Query tokenize share locks
+   * 
+   * @param address Bech32 address 
+   * @returns 
+   * @since v3.3.1
+   */
+  queryTokenizeShareLockInfo(address: string): Promise<{
+    status: string
+    expiration_time: string
+  }> {
+    if (is.undefined(address)) {
+      throw new SdkError('address can not be empty');
+    }
+    const request = new types.staking_query_pb.QueryTokenizeShareLockInfoRequest()
+      .setAddress(address);
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo',
+      request,
+      types.staking_query_pb.QueryTokenizeShareLockInfoResponse
+    );
+  }
+
+  /**
    * Query the current staking pool values
    * @returns
    * @since

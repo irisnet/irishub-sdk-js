@@ -4,7 +4,6 @@ import {TxType} from "./types";
 import * as pbs from './proto';
 import * as is from "is_js";
 import { SdkError, CODES } from "../errors";
-import { string } from 'mathjs';
 
 /** Validator details */
 export interface Validator {
@@ -43,6 +42,22 @@ export interface StakingPool {
   loose_tokens: string;
   /** Bonded tokens */
   bonded_tokens: string;
+}
+
+/**
+ * TokenizeShareRecord represents a tokenized delegation
+ */
+export interface TokenizeShareRecord {
+  id: number
+  owner: string
+  /**
+   * module account take the role of delegator
+   */
+  module_account: string
+  /**
+   * validator delegated to for tokenize share record creation
+   */
+  validator: string
 }
 
 /**
