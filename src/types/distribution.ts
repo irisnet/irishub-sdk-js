@@ -194,3 +194,80 @@ export interface DelegationRewards {
   /** Delegation rewards */
   reward: Coin[];
 }
+
+export interface EventDataMsgWithdrawTokenizeShareRecordReward {
+  owner_address: string
+  record_id: number
+}
+
+export class MsgWithdrawTokenizeShareRecordReward extends Msg {
+  value: EventDataMsgWithdrawTokenizeShareRecordReward
+
+  constructor(value: EventDataMsgWithdrawTokenizeShareRecordReward) {
+    super(TxType.MsgWithdrawTokenizeShareRecordReward);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.distribution_tx_pb.MsgWithdrawTokenizeShareRecordReward;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setOwnerAddress(this.value.owner_address)
+      .setRecordId(this.value.record_id);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.owner_address)) {
+      throw new SdkError(`owner address can not be empty`);
+    }
+    if (is.undefined(this.value.record_id)) {
+      throw new SdkError(`record id can not be empty`);
+    }
+    return true;
+  }
+}
+
+export interface MsgWithdrawAllTokenizeShareRecordReward {
+  owner_address: string
+}
+
+export class MsgWithdrawAllTokenizeShareRecordReward extends Msg {
+  value: MsgWithdrawAllTokenizeShareRecordReward
+
+  constructor(value: MsgWithdrawAllTokenizeShareRecordReward) {
+    super(TxType.MsgWithdrawAllTokenizeShareRecordReward);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.distribution_tx_pb.MsgWithdrawAllTokenizeShareRecordReward;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setOwnerAddress(this.value.owner_address);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.owner_address)) {
+      throw new SdkError(`owner address can not be empty`);
+    }
+    return true;
+  }
+}

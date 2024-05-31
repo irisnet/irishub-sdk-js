@@ -24,6 +24,158 @@ export class Staking {
   }
 
   /**
+   * MsgTokenizeShares tokenizes a delegation
+   * 
+   * @param validatorAddr Bech32 validator address
+   * @param amount Amount to be tokenized to the validator
+   * @param tokenizedShareOwner tokenized share owner
+   * @param baseTx 
+   * @returns
+   * @since v3.3.1
+   */
+  tokenizeShares(
+    validatorAddr: string,
+    amount: types.Coin,
+    tokenizedShareOwner: string,
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount,
+          tokenized_share_owner: tokenizedShareOwner,
+        }
+      },
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * MsgRedeemTokensForShares redeems a tokenized share back into a native delegation
+   * 
+   * @param amount amount to redeemes tokenized share
+   * @param baseTx 
+   * @returns 
+   * @since v3.3.1
+   */
+  redeemTokensForShares(
+    amount: types.Coin,
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const dlegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgRedeemTokensForShares,
+        value: {
+          delegator_address: dlegatorAddr,
+          amount,
+        }
+      },
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * transfer a tokenize share record
+   * 
+   * @param tokenizeShareRecordId tokenize share record id
+   * @param newOwner Bech32 new owner address
+   * @param baseTx
+   * @returns
+   * @since v3.3.1
+   */
+  transferTokenizeShareRecord(
+    tokenizeShareRecordId: number,
+    newOwner: string,
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const sender = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgTransferTokenizeShareRecord,
+        value: {
+          tokenize_share_record_id: tokenizeShareRecordId,
+          sender,
+          new_owner: newOwner,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * prevents the tokenization of shares for a given address
+   * 
+   * @param baseTx 
+   * @returns
+   * @since v3.3.1
+   */
+  disableTokenizeShares(
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgDisableTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * re-enables tokenization of shares for a given address
+   * 
+   * @param baseTx 
+   * @returns
+   * @since v3.3.1
+   */
+  enableTokenizeShares(
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgEnableTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * performing validator self-bond of delegated coins from a delegator to a validator
+   * 
+   * @param validatorAddr Bech32 validator address
+   * @param baseTx 
+   * @returns 
+   */
+  validatorBond(
+    validatorAddr: string,
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const delegatorAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgValidatorBond,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
    * Delegate liquid tokens to an validator
    *
    * @param validatorAddr Bech32 validator address

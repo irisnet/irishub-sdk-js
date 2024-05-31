@@ -340,6 +340,10 @@ export class Tx {
         msg = new types.MsgRedelegate(txMsg.value);
         break;
       }
+      case types.TxType.MsgTokenizeShares: {
+        msg = new types.MsgTokenizeShares(txMsg.value);
+        break;
+      }
       //distribution
       case types.TxType.MsgWithdrawDelegatorReward: {
         msg = new types.MsgWithdrawDelegatorReward(txMsg.value);

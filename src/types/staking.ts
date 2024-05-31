@@ -4,6 +4,7 @@ import {TxType} from "./types";
 import * as pbs from './proto';
 import * as is from "is_js";
 import { SdkError, CODES } from "../errors";
+import { string } from 'mathjs';
 
 /** Validator details */
 export interface Validator {
@@ -291,4 +292,269 @@ export interface EventDataValidatorSet {
   pub_key: string;
   voting_power: string;
   proposer_priority: string;
+}
+
+export interface EventDataMsgTokenShares {
+  delegator_address: string
+  validator_address: string
+  amount: Coin
+  tokenized_share_owner: string
+}
+
+/**
+ * Msg struct for tokenizeing a delegation
+ */
+export class MsgTokenizeShares extends Msg {
+  value: EventDataMsgTokenShares;
+
+  constructor(value: EventDataMsgTokenShares) {
+    super(TxType.MsgTokenizeShares);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgTokenizeShares;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
+      .setTokenizedShareOwner(this.value.tokenized_share_owner)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    if (is.undefined(this.value.tokenized_share_owner)) {
+      throw new SdkError(`tokenized share owner can not be empty`);
+    }
+
+    return true;
+  }
+}
+
+export interface EventDataMsgRedeemTokensForShares {
+  delegator_address: string
+  amount: Coin
+}
+
+/**
+ * Msg struct for redeeming a tokenized share back into a native delegation
+ */
+export class MsgRedeemTokensForShares extends Msg {
+  value: EventDataMsgRedeemTokensForShares;
+
+  constructor(value: EventDataMsgRedeemTokensForShares) {
+    super(TxType.MsgRedeemTokensForShares);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgRedeemTokensForShares;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+
+    return true;
+  }
+}
+
+export interface EventDataMsgTransferTokenizeShareRecord {
+  tokenize_share_record_id: number
+  sender: string
+  new_owner: string
+}
+
+/**
+ * Msg struct for transfering a tokenize share record
+ */
+export class MsgTransferTokenizeShareRecord extends Msg {
+  value: EventDataMsgTransferTokenizeShareRecord
+
+  constructor(value: EventDataMsgTransferTokenizeShareRecord) {
+    super(TxType.MsgTransferTokenizeShareRecord);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgTransferTokenizeShareRecord;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setTokenizedShareRecordId(this.value.tokenize_share_record_id)
+      .setSender(this.value.sender)
+      .setNewOwner(this.value.new_owner)
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.tokenize_share_record_id)) {
+      throw new SdkError(`tokenize share record id can not be empty`);
+    }
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError('sender address can not be empty')
+    }
+    if (is.undefined(this.value.new_owner)) {
+      throw new SdkError('new owner address can not be empty')
+    }
+
+    return true;
+  }
+}
+
+export interface EventDataMsgDisableTokenizeShares {
+  delegator_address: string
+}
+
+/**
+ * Msg struct for preventing the tokenization of shares
+ */
+export class MsgDisableTokenizeShares extends Msg {
+  value: EventDataMsgDisableTokenizeShares
+  constructor(value: EventDataMsgDisableTokenizeShares) {
+    super(TxType.MsgDisableTokenizeShares);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgDisableTokenizeShares;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+
+    return true;
+  }
+}
+
+/**
+ * Msg struct for re-enabling tokenization of shares for a given address
+ */
+export interface EventDataMsgEnableTokenizeShares {
+  delegator_address: string
+}
+
+export class MsgEnableTokenizeShares extends Msg {
+  value: EventDataMsgEnableTokenizeShares
+
+  constructor(value: EventDataMsgEnableTokenizeShares) {
+    super(TxType.MsgEnableTokenizeShares);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgEnableTokenizeShares;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+
+    return true;
+  }
+}
+
+export interface EventDataMsgValidatorBond {
+  delegator_address: string
+  validator_address: string
+}
+
+export class MsgValidatorBond extends Msg {
+  value: EventDataMsgValidatorBond
+
+  constructor(value: EventDataMsgValidatorBond) {
+    super(TxType.MsgValidatorBond);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgValidatorBond;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setDelegatorAddress(this.value.delegator_address)
+      .setValidatorAddress(this.value.validator_address)
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.delegator_address)) {
+      throw new SdkError(`delegator address can not be empty`);
+    }
+    if (is.undefined(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+
+    return true;
+  }
 }
