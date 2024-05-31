@@ -344,6 +344,26 @@ export class Tx {
         msg = new types.MsgTokenizeShares(txMsg.value);
         break;
       }
+      case types.TxType.MsgTransferTokenizeShareRecord: {
+        msg = new types.MsgTransferTokenizeShareRecord(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgRedeemTokensForShares: {
+        msg = new types.MsgRedeemTokensForShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgDisableTokenizeShares: {
+        msg = new types.MsgDisableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgEnableTokenizeShares: {
+        msg = new types.MsgEnableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgValidatorBond: {
+        msg = new types.MsgValidatorBond(txMsg.value);
+        break;
+      }
       //distribution
       case types.TxType.MsgWithdrawDelegatorReward: {
         msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
@@ -359,6 +379,14 @@ export class Tx {
       }
       case types.TxType.MsgFundCommunityPool: {
         msg = new types.MsgFundCommunityPool(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawTokenizeShareRecordReward(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawAllTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawAllTokenizeShareRecordReward(txMsg.value);
         break;
       }
       //token
