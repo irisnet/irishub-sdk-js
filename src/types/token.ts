@@ -1,9 +1,9 @@
-import {Coin, Msg, TxType} from './types';
+import { Coin, Msg, TxType } from './types';
 import { TxModelCreator } from '../helper';
 import * as is from "is_js";
 import * as pbs from "./proto";
 import { SdkError, CODES } from "../errors";
-import {doNotModify} from "./constants";
+import { doNotModify } from "./constants";
 
 export interface Token {
   symbol: string;
@@ -105,16 +105,16 @@ export class MsgIssueToken extends Msg {
       .setName(this.value.name)
       .setMinUnit(this.value.min_unit)
       .setOwner(this.value.owner);
-    if(is.not.undefined(this.value.scale)){
+    if (is.not.undefined(this.value.scale)) {
       msg.setScale(this.value.scale);
     }
-    if(is.not.undefined(this.value.initial_supply)){
+    if (is.not.undefined(this.value.initial_supply)) {
       msg.setInitialSupply(this.value.initial_supply);
     }
-    if(is.not.undefined(this.value.max_supply)){
+    if (is.not.undefined(this.value.max_supply)) {
       msg.setMaxSupply(this.value.max_supply);
     }
-    if(is.not.undefined(this.value.mintable)){
+    if (is.not.undefined(this.value.mintable)) {
       msg.setMintable(this.value.mintable);
     }
 
@@ -219,7 +219,7 @@ export class MsgMintToken extends Msg {
       .setCoin(TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount))
       .setOwner(this.value.owner);
     if (is.not.undefined(this.value.to)) {
-      msg.setTo(this.value.to)
+      msg.setReceiver(this.value.to)
     }
     return msg;
   }
