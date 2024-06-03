@@ -750,7 +750,7 @@ export class Staking {
    * @since v3.4.0
    */
   queryTotalLiquidStaked(): Promise<{tokens: string}> {
-    const request = new types.staking_query_pb.QueryTotalLiquidStakedRequest();
+    const request = new types.staking_query_pb.QueryTotalLiquidStaked();
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/TotalLiquidStaked',
       request,
@@ -772,7 +772,7 @@ export class Staking {
     if (is.undefined(address)) {
       throw new SdkError('address can not be empty');
     }
-    const request = new types.staking_query_pb.QueryTokenizeShareLockInfoRequest()
+    const request = new types.staking_query_pb.QueryTokenizeShareLockInfo()
       .setAddress(address);
     return this.client.rpcClient.protoQuery(
       '/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo',
