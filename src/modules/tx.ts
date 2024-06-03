@@ -364,6 +364,10 @@ export class Tx {
         msg = new types.MsgValidatorBond(txMsg.value);
         break;
       }
+      case types.TxType.MsgUnbondValidator: {
+        msg = new types.MsgUnbondValidator(txMsg.value);
+        break;
+      }
       //distribution
       case types.TxType.MsgWithdrawDelegatorReward: {
         msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
@@ -412,6 +416,14 @@ export class Tx {
       }
       case types.TxType.MsgSwapFeeToken: {
         msg = new types.MsgSwapFeeToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapToERC20: {
+        msg = new types.MsgSwapToERC20(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapFromERC20: {
+        msg = new types.MsgSwapFromERC20(txMsg.value);
         break;
       }
       //coinswap

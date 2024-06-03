@@ -98,6 +98,10 @@ export class Protobuf {
             messageModelClass = types.MsgValidatorBond.getModelClass();
             break;
         }
+        case types.TxType.MsgUnbondValidator: {
+            messageModelClass = types.MsgUnbondValidator.getModelClass();
+            break;
+        }
         //distribution
         case types.TxType.MsgWithdrawDelegatorReward: {
             messageModelClass = types.MsgWithdrawDelegatorReward.getModelClass();
@@ -146,6 +150,14 @@ export class Protobuf {
         }
         case types.TxType.MsgSwapFeeToken: {
           messageModelClass = types.MsgSwapFeeToken.getModelClass();
+          break;
+        }
+        case types.TxType.MsgSwapToERC20: {
+          messageModelClass = types.MsgSwapToERC20.getModelClass();
+          break;
+        }
+        case types.TxType.MsgSwapFromERC20: {
+          messageModelClass = types.MsgSwapFromERC20.getModelClass();
           break;
         }
         //coinswap

@@ -31,7 +31,7 @@ export class Distribution {
    * @param recordId 
    * @param baseTx 
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   withdrawTokenizeShareRecordReward(
     recordId: number,
@@ -55,7 +55,7 @@ export class Distribution {
    * 
    * @param baseTx 
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   withdrawAllTokenizeShareRecordReward(
     baseTx: types.BaseTx
@@ -336,7 +336,7 @@ export class Distribution {
    * 
    * @param owner_address 
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTokenizeShareRecordReward(owner_address: string): Promise<object> {
     if (!owner_address) {

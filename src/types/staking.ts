@@ -573,3 +573,39 @@ export class MsgValidatorBond extends Msg {
     return true;
   }
 }
+
+export interface EventDataMsgUnbondValidator {
+  validator_address: string
+}
+
+export class MsgUnbondValidator extends Msg {
+  value: EventDataMsgUnbondValidator
+
+  constructor(value: EventDataMsgUnbondValidator) {
+    super(TxType.MsgUnbondValidator);
+    this.value = value;
+  }
+
+  static getModelClass() {
+    return pbs.staking_tx_pb.MsgUnbondValidator;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())();
+    msg.setValidatorAddress(this.value.validator_address)
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   *
+   * @return whether is is validated
+   * @throws `SdkError` if validate failed.
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.validator_address)) {
+      throw new SdkError(`validator address can not be empty`);
+    }
+    return true;
+  }
+}

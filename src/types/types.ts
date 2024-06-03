@@ -59,6 +59,7 @@ export enum TxType {
   MsgDisableTokenizeShares = "cosmos.staking.v1beta1.MsgDisableTokenizeShares",
   MsgEnableTokenizeShares = "cosmos.staking.v1beta1.MsgEnableTokenizeShares",
   MsgValidatorBond = "cosmos.staking.v1beta1.MsgValidatorBond",
+  MsgUnbondValidator = "cosmos.staking.v1beta1.MsgUnbondValidator",
   //distribution
   MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
   MsgSetWithdrawAddress ="cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
@@ -87,6 +88,8 @@ export enum TxType {
   MsgBurnToken = 'irismod.token.v1.MsgBurnToken', 
   MsgTransferTokenOwner = 'irismod.token.v1.MsgTransferTokenOwner',
   MsgSwapFeeToken = 'irismod.token.v1.MsgSwapFeeToken', 
+  MsgSwapToERC20 = 'irismod.token.v1.MsgSwapToERC20',
+  MsgSwapFromERC20 = 'irismod.token.v1.MsgSwapFromERC20',
 
   //gov
   MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",

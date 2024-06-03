@@ -24,6 +24,23 @@ export class Staking {
   }
 
   /**
+   * performing the status transition for a validator from bonded to unbonding
+   * @param baseTx 
+   */
+  unbondValidator(baseTx: types.BaseTx): Promise<{}> {
+    const validator_address = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgUnbondValidator,
+        value: {
+          validator_address
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
    * MsgTokenizeShares tokenizes a delegation
    * 
    * @param validatorAddr Bech32 validator address
@@ -31,7 +48,7 @@ export class Staking {
    * @param tokenizedShareOwner tokenized share owner
    * @param baseTx 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   tokenizeShares(
     validatorAddr: string,
@@ -60,7 +77,7 @@ export class Staking {
    * @param amount amount to redeemes tokenized share
    * @param baseTx 
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   redeemTokensForShares(
     amount: types.Coin,
@@ -86,7 +103,7 @@ export class Staking {
    * @param newOwner Bech32 new owner address
    * @param baseTx
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   transferTokenizeShareRecord(
     tokenizeShareRecordId: number,
@@ -112,7 +129,7 @@ export class Staking {
    * 
    * @param baseTx 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   disableTokenizeShares(
     baseTx: types.BaseTx
@@ -134,7 +151,7 @@ export class Staking {
    * 
    * @param baseTx 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   enableTokenizeShares(
     baseTx: types.BaseTx,
@@ -621,7 +638,7 @@ export class Staking {
    * 
    * @param id record id
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTokenizeShareRecordById(id: number): Promise<types.TokenizeShareRecord> {
     if (is.undefined(id)) {
@@ -641,7 +658,7 @@ export class Staking {
    * 
    * @param denom denom string
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTokenizeShareRecordByDenom(denom: string): Promise<types.TokenizeShareRecord> {
     if (is.undefined(denom)) {
@@ -661,7 +678,7 @@ export class Staking {
    * 
    * @param owner Bech32 owner address
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTokenizeShareRecordsOwned(owner: string): Promise<types.TokenizeShareRecord[]> {
     if (is.undefined(owner)) {
@@ -681,7 +698,7 @@ export class Staking {
    * 
    * @param pagination page info
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryAllTokenizeShareRecords(pagination: types.Pagination): Promise<{
     records: types.TokenizeShareRecord[],
@@ -700,7 +717,7 @@ export class Staking {
    * Query for last tokenize share record id
    * 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryLastTokenizeShareRecordId(): Promise<{id: number}> {
     const request = new types.staking_query_pb.QueryLastTokenizeShareRecordIdRequest();
@@ -715,7 +732,7 @@ export class Staking {
    * Query for total tokenized staked assets
    * 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTotalTokenizeSharedAssets(): Promise<{value: types.Coin}> {
     const request = new types.staking_query_pb.QueryTotalTokenizeSharedAssetsRequest();
@@ -730,7 +747,7 @@ export class Staking {
    * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider)
    * 
    * @returns
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTotalLiquidStaked(): Promise<{tokens: string}> {
     const request = new types.staking_query_pb.QueryTotalLiquidStakedRequest();
@@ -746,7 +763,7 @@ export class Staking {
    * 
    * @param address Bech32 address 
    * @returns 
-   * @since v3.3.1
+   * @since v3.4.0
    */
   queryTokenizeShareLockInfo(address: string): Promise<{
     status: string
