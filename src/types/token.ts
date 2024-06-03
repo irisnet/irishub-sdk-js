@@ -92,6 +92,9 @@ export interface SwapToERC20TxParam {
   receiver: string;
 }
 
+/**
+ * param struct for Swap From ERC20 tx
+ */
 export interface SwapFromERC20TxParam {
   wanted_amount: Coin;
   sender: string;

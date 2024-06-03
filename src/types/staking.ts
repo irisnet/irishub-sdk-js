@@ -309,7 +309,7 @@ export interface EventDataValidatorSet {
   proposer_priority: string;
 }
 
-export interface EventDataMsgTokenShares {
+export interface TokenSharesTxParam {
   delegator_address: string
   validator_address: string
   amount: Coin
@@ -320,9 +320,9 @@ export interface EventDataMsgTokenShares {
  * Msg struct for tokenizeing a delegation
  */
 export class MsgTokenizeShares extends Msg {
-  value: EventDataMsgTokenShares;
+  value: TokenSharesTxParam;
 
-  constructor(value: EventDataMsgTokenShares) {
+  constructor(value: TokenSharesTxParam) {
     super(TxType.MsgTokenizeShares);
     this.value = value;
   }
@@ -361,7 +361,7 @@ export class MsgTokenizeShares extends Msg {
   }
 }
 
-export interface EventDataMsgRedeemTokensForShares {
+export interface RedeemTokensForSharesTxParam {
   delegator_address: string
   amount: Coin
 }
@@ -370,9 +370,9 @@ export interface EventDataMsgRedeemTokensForShares {
  * Msg struct for redeeming a tokenized share back into a native delegation
  */
 export class MsgRedeemTokensForShares extends Msg {
-  value: EventDataMsgRedeemTokensForShares;
+  value: RedeemTokensForSharesTxParam;
 
-  constructor(value: EventDataMsgRedeemTokensForShares) {
+  constructor(value: RedeemTokensForSharesTxParam) {
     super(TxType.MsgRedeemTokensForShares);
     this.value = value;
   }
@@ -403,7 +403,7 @@ export class MsgRedeemTokensForShares extends Msg {
   }
 }
 
-export interface EventDataMsgTransferTokenizeShareRecord {
+export interface TransferTokenizeShareRecordTxParam {
   tokenize_share_record_id: number
   sender: string
   new_owner: string
@@ -413,9 +413,9 @@ export interface EventDataMsgTransferTokenizeShareRecord {
  * Msg struct for transfering a tokenize share record
  */
 export class MsgTransferTokenizeShareRecord extends Msg {
-  value: EventDataMsgTransferTokenizeShareRecord
+  value: TransferTokenizeShareRecordTxParam
 
-  constructor(value: EventDataMsgTransferTokenizeShareRecord) {
+  constructor(value: TransferTokenizeShareRecordTxParam) {
     super(TxType.MsgTransferTokenizeShareRecord);
     this.value = value;
   }
@@ -453,7 +453,7 @@ export class MsgTransferTokenizeShareRecord extends Msg {
   }
 }
 
-export interface EventDataMsgDisableTokenizeShares {
+export interface DisableTokenizeSharesTxParam {
   delegator_address: string
 }
 
@@ -461,8 +461,8 @@ export interface EventDataMsgDisableTokenizeShares {
  * Msg struct for preventing the tokenization of shares
  */
 export class MsgDisableTokenizeShares extends Msg {
-  value: EventDataMsgDisableTokenizeShares
-  constructor(value: EventDataMsgDisableTokenizeShares) {
+  value: DisableTokenizeSharesTxParam
+  constructor(value: DisableTokenizeSharesTxParam) {
     super(TxType.MsgDisableTokenizeShares);
     this.value = value;
   }
@@ -495,14 +495,14 @@ export class MsgDisableTokenizeShares extends Msg {
 /**
  * Msg struct for re-enabling tokenization of shares for a given address
  */
-export interface EventDataMsgEnableTokenizeShares {
+export interface EnableTokenizeSharesTxParam {
   delegator_address: string
 }
 
 export class MsgEnableTokenizeShares extends Msg {
-  value: EventDataMsgEnableTokenizeShares
+  value: EnableTokenizeSharesTxParam
 
-  constructor(value: EventDataMsgEnableTokenizeShares) {
+  constructor(value: EnableTokenizeSharesTxParam) {
     super(TxType.MsgEnableTokenizeShares);
     this.value = value;
   }
@@ -532,15 +532,15 @@ export class MsgEnableTokenizeShares extends Msg {
   }
 }
 
-export interface EventDataMsgValidatorBond {
+export interface ValidatorBondTxParam {
   delegator_address: string
   validator_address: string
 }
 
 export class MsgValidatorBond extends Msg {
-  value: EventDataMsgValidatorBond
+  value: ValidatorBondTxParam
 
-  constructor(value: EventDataMsgValidatorBond) {
+  constructor(value: ValidatorBondTxParam) {
     super(TxType.MsgValidatorBond);
     this.value = value;
   }
@@ -574,14 +574,14 @@ export class MsgValidatorBond extends Msg {
   }
 }
 
-export interface EventDataMsgUnbondValidator {
+export interface UnbondValidatorTxParam {
   validator_address: string
 }
 
 export class MsgUnbondValidator extends Msg {
-  value: EventDataMsgUnbondValidator
+  value: UnbondValidatorTxParam
 
-  constructor(value: EventDataMsgUnbondValidator) {
+  constructor(value: UnbondValidatorTxParam) {
     super(TxType.MsgUnbondValidator);
     this.value = value;
   }

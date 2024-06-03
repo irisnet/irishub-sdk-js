@@ -195,15 +195,15 @@ export interface DelegationRewards {
   reward: Coin[];
 }
 
-export interface EventDataMsgWithdrawTokenizeShareRecordReward {
+export interface WithdrawTokenizeShareRecordRewardTxParam {
   owner_address: string
   record_id: number
 }
 
 export class MsgWithdrawTokenizeShareRecordReward extends Msg {
-  value: EventDataMsgWithdrawTokenizeShareRecordReward
+  value: WithdrawTokenizeShareRecordRewardTxParam
 
-  constructor(value: EventDataMsgWithdrawTokenizeShareRecordReward) {
+  constructor(value: WithdrawTokenizeShareRecordRewardTxParam) {
     super(TxType.MsgWithdrawTokenizeShareRecordReward);
     this.value = value;
   }
@@ -236,14 +236,14 @@ export class MsgWithdrawTokenizeShareRecordReward extends Msg {
   }
 }
 
-export interface MsgWithdrawAllTokenizeShareRecordReward {
+export interface WithdrawAllTokenizeShareRecordRewardTxParam {
   owner_address: string
 }
 
 export class MsgWithdrawAllTokenizeShareRecordReward extends Msg {
-  value: MsgWithdrawAllTokenizeShareRecordReward
+  value: WithdrawAllTokenizeShareRecordRewardTxParam
 
-  constructor(value: MsgWithdrawAllTokenizeShareRecordReward) {
+  constructor(value: WithdrawAllTokenizeShareRecordRewardTxParam) {
     super(TxType.MsgWithdrawAllTokenizeShareRecordReward);
     this.value = value;
   }
