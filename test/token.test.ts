@@ -57,6 +57,30 @@ describe('Token Tests', () => {
     timeout
   );
   test(
+    'query total burn',
+    async () => {
+      await BaseTest.getClient()
+        .token.queryTotalBurn()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    timeout,
+  )
+  test(
+    'query balances',
+    async () => {
+      await BaseTest.getClient()
+        .token.queryBalances(
+          'unyan',
+          'iaa1kmfftqp7k49n4jec87sf5t7pz9mysde07ms9qm',
+        )
+    }
+  )
+  test(
     'issue token',
     async () => {
       await BaseTest.getClient()
@@ -172,4 +196,36 @@ describe('Token Tests', () => {
     },
     timeout
   );
+  test(
+    'swap to ERC20',
+    async () => {
+      await BaseTest.getClient()
+        .token.SwapToERC20({
+          amount: { denom: 'unyan', amount: '500' },
+          receiver: '0x6D451e38e01060A097c7D0ABCAa9A1a55210f01A',
+        }, BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  )
+  test(
+    'swap from ERC20',
+    async () => {
+      await BaseTest.getClient()
+        .token.SwapFromERC20({
+          wanted_amount: { denom: 'unyan', amount: '300' },
+          receiver: '0x6D451e38e01060A097c7D0ABCAa9A1a55210f01A',
+        }, BaseTest.baseTx)
+        .then(res => {
+          console.log(JSON.stringify(res));
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  )
 });
