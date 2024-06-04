@@ -351,23 +351,21 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.tokenizeShares(
           'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
-          { denom: 'udev', amount: '1' },
+          { denom: 'unyan', amount: '100' },
           'iaa1sf69k6n6m7rq0a49cp8u07gagy8jahx7h5pztk',
           BaseTest.baseTx
         )
         .then(res => {
           console.log(res);
+          return res;
         })
         .catch(error => {
           console.log(error);
         });
-    });
-  });
-  describe('RedeemTokensForShares', () => {
-    test('redeemTokensForShares', async () => {
+
       await BaseTest.getClient()
         .staking.redeemTokensForShares(
-          { denom: 'udev', amount: '1' },
+          { denom: 'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw/5', amount: '1000' },
           BaseTest.baseTx,
         )
         .then(res => {
@@ -376,10 +374,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
-  });
-  describe('TransferTokenizeShareRecord', () => {
-    test('transferTokenizeShareRecord', async () => {
+
       await BaseTest.getClient()
         .staking.transferTokenizeShareRecord(
           1,
