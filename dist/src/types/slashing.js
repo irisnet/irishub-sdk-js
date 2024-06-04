@@ -10,6 +10,7 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _types = require("./types");
 function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -49,6 +50,7 @@ var MsgUnjail = exports.MsgUnjail = /*#__PURE__*/function (_Msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgUnjail);
     _this = _callSuper(this, MsgUnjail, ['irishub/slashing/MsgUnjail']);
+    (0, _defineProperty2["default"])(_this, "value", void 0);
     _this.value = {
       address: address
     };

@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Protobuf = void 0;
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 /**
@@ -23,10 +23,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
   /** @hidden */
-
-  /** @hidden */
   function Protobuf(client) {
     (0, _classCallCheck2["default"])(this, Protobuf);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -98,6 +98,41 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgRedelegate.getModelClass();
             break;
           }
+        case types.TxType.MsgTokenizeShares:
+          {
+            messageModelClass = types.MsgTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgRedeemTokensForShares:
+          {
+            messageModelClass = types.MsgRedeemTokensForShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgTransferTokenizeShareRecord:
+          {
+            messageModelClass = types.MsgTransferTokenizeShareRecord.getModelClass();
+            break;
+          }
+        case types.TxType.MsgDisableTokenizeShares:
+          {
+            messageModelClass = types.MsgDisableTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgEnableTokenizeShares:
+          {
+            messageModelClass = types.MsgEnableTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgValidatorBond:
+          {
+            messageModelClass = types.MsgValidatorBond.getModelClass();
+            break;
+          }
+        case types.TxType.MsgUnbondValidator:
+          {
+            messageModelClass = types.MsgUnbondValidator.getModelClass();
+            break;
+          }
         //distribution
         case types.TxType.MsgWithdrawDelegatorReward:
           {
@@ -117,6 +152,16 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
         case types.TxType.MsgFundCommunityPool:
           {
             messageModelClass = types.MsgFundCommunityPool.getModelClass();
+            break;
+          }
+        case types.TxType.MsgWithdrawTokenizeShareRecordReward:
+          {
+            messageModelClass = types.MsgWithdrawTokenizeShareRecordReward.getModelClass();
+            break;
+          }
+        case types.TxType.MsgWithdrawAllTokenizeShareRecordReward:
+          {
+            messageModelClass = types.MsgWithdrawAllTokenizeShareRecordReward.getModelClass();
             break;
           }
         //token
@@ -148,6 +193,16 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
         case types.TxType.MsgSwapFeeToken:
           {
             messageModelClass = types.MsgSwapFeeToken.getModelClass();
+            break;
+          }
+        case types.TxType.MsgSwapToERC20:
+          {
+            messageModelClass = types.MsgSwapToERC20.getModelClass();
+            break;
+          }
+        case types.TxType.MsgSwapFromERC20:
+          {
+            messageModelClass = types.MsgSwapFromERC20.getModelClass();
             break;
           }
         //coinswap

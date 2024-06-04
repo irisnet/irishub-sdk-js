@@ -18,6 +18,10 @@ var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 var cosmos_distribution_v1beta1_distribution_pb = require('../../../cosmos/distribution/v1beta1/distribution_pb.js');
 goog.object.extend(proto, cosmos_distribution_v1beta1_distribution_pb);
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
+goog.object.extend(proto, cosmos_proto_cosmos_pb);
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 goog.exportSymbol('proto.cosmos.distribution.v1beta1.DelegatorStartingInfoRecord', null, global);
 goog.exportSymbol('proto.cosmos.distribution.v1beta1.DelegatorWithdrawInfo', null, global);
 goog.exportSymbol('proto.cosmos.distribution.v1beta1.GenesisState', null, global);

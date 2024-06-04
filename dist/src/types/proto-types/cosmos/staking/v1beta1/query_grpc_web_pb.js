@@ -23,6 +23,14 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var cosmos_staking_v1beta1_staking_pb = require('../../../cosmos/staking/v1beta1/staking_pb.js')
+
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var cosmos_query_v1_query_pb = require('../../../cosmos/query/v1/query_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.staking = {};
@@ -957,6 +965,646 @@ proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.delegatorValidator =
       request,
       metadata || {},
       methodDescriptor_Query_DelegatorValidator);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse>}
+ */
+const methodDescriptor_Query_TokenizeShareRecordById = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TokenizeShareRecordById',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse>}
+ */
+const methodInfo_Query_TokenizeShareRecordById = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.tokenizeShareRecordById =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordById',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordById,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByIdResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.tokenizeShareRecordById =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordById',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordById);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse>}
+ */
+const methodDescriptor_Query_TokenizeShareRecordByDenom = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TokenizeShareRecordByDenom',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse>}
+ */
+const methodInfo_Query_TokenizeShareRecordByDenom = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.tokenizeShareRecordByDenom =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordByDenom',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordByDenom,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordByDenomResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.tokenizeShareRecordByDenom =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordByDenom',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordByDenom);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse>}
+ */
+const methodDescriptor_Query_TokenizeShareRecordsOwned = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TokenizeShareRecordsOwned',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse>}
+ */
+const methodInfo_Query_TokenizeShareRecordsOwned = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.tokenizeShareRecordsOwned =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordsOwned',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordsOwned,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTokenizeShareRecordsOwnedResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.tokenizeShareRecordsOwned =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareRecordsOwned',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordsOwned);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse>}
+ */
+const methodDescriptor_Query_AllTokenizeShareRecords = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/AllTokenizeShareRecords',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest,
+  proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse>}
+ */
+const methodInfo_Query_AllTokenizeShareRecords = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.allTokenizeShareRecords =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/AllTokenizeShareRecords',
+      request,
+      metadata || {},
+      methodDescriptor_Query_AllTokenizeShareRecords,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryAllTokenizeShareRecordsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.allTokenizeShareRecords =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/AllTokenizeShareRecords',
+      request,
+      metadata || {},
+      methodDescriptor_Query_AllTokenizeShareRecords);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse>}
+ */
+const methodDescriptor_Query_LastTokenizeShareRecordId = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/LastTokenizeShareRecordId',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest,
+  proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse>}
+ */
+const methodInfo_Query_LastTokenizeShareRecordId = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.lastTokenizeShareRecordId =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/LastTokenizeShareRecordId',
+      request,
+      metadata || {},
+      methodDescriptor_Query_LastTokenizeShareRecordId,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryLastTokenizeShareRecordIdResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.lastTokenizeShareRecordId =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/LastTokenizeShareRecordId',
+      request,
+      metadata || {},
+      methodDescriptor_Query_LastTokenizeShareRecordId);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse>}
+ */
+const methodDescriptor_Query_TotalTokenizeSharedAssets = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TotalTokenizeSharedAssets',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest,
+  proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest,
+ *   !proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse>}
+ */
+const methodInfo_Query_TotalTokenizeSharedAssets = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.totalTokenizeSharedAssets =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TotalTokenizeSharedAssets',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalTokenizeSharedAssets,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTotalTokenizeSharedAssetsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.totalTokenizeSharedAssets =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TotalTokenizeSharedAssets',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalTokenizeSharedAssets);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked,
+ *   !proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse>}
+ */
+const methodDescriptor_Query_TotalLiquidStaked = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TotalLiquidStaked',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked,
+  proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked,
+ *   !proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse>}
+ */
+const methodInfo_Query_TotalLiquidStaked = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.totalLiquidStaked =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TotalLiquidStaked',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalLiquidStaked,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTotalLiquidStaked} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTotalLiquidStakedResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.totalLiquidStaked =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TotalLiquidStaked',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TotalLiquidStaked);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse>}
+ */
+const methodDescriptor_Query_TokenizeShareLockInfo = new grpc.web.MethodDescriptor(
+  '/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo,
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo,
+ *   !proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse>}
+ */
+const methodInfo_Query_TokenizeShareLockInfo = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse,
+  /**
+   * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.staking.v1beta1.QueryClient.prototype.tokenizeShareLockInfo =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareLockInfo,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfo} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.staking.v1beta1.QueryTokenizeShareLockInfoResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.staking.v1beta1.QueryPromiseClient.prototype.tokenizeShareLockInfo =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareLockInfo);
 };
 
 

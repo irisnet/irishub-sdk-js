@@ -7,16 +7,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Staking = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
 var _helper = require("../helper");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0, _defineProperty2["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 /**
@@ -29,23 +29,173 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Staking = exports.Staking = /*#__PURE__*/function () {
   /** @hidden */
-
-  /** @hidden */
   function Staking(client) {
     (0, _classCallCheck2["default"])(this, Staking);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
   /**
-   * Delegate liquid tokens to an validator
-   *
-   * @param validatorAddr Bech32 validator address
-   * @param amount Amount to be delegated to the validator
-   * @param baseTx
-   * @returns
-   * @since v0.17
+   * performing the status transition for a validator from bonded to unbonding
+   * @param baseTx 
    */
   return (0, _createClass2["default"])(Staking, [{
+    key: "unbondValidator",
+    value: function unbondValidator(baseTx) {
+      var validator_address = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgUnbondValidator,
+        value: {
+          validator_address: validator_address
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * MsgTokenizeShares tokenizes a delegation
+     * 
+     * @param validatorAddr Bech32 validator address
+     * @param amount Amount to be tokenized to the validator
+     * @param tokenizedShareOwner tokenized share owner
+     * @param baseTx 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "tokenizeShares",
+    value: function tokenizeShares(validatorAddr, amount, tokenizedShareOwner, baseTx) {
+      var delegatorAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr,
+          amount: amount,
+          tokenized_share_owner: tokenizedShareOwner
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * MsgRedeemTokensForShares redeems a tokenized share back into a native delegation
+     * 
+     * @param amount amount to redeemes tokenized share
+     * @param baseTx 
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "redeemTokensForShares",
+    value: function redeemTokensForShares(amount, baseTx) {
+      var dlegatorAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgRedeemTokensForShares,
+        value: {
+          delegator_address: dlegatorAddr,
+          amount: amount
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * transfer a tokenize share record
+     * 
+     * @param tokenizeShareRecordId tokenize share record id
+     * @param newOwner Bech32 new owner address
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "transferTokenizeShareRecord",
+    value: function transferTokenizeShareRecord(tokenizeShareRecordId, newOwner, baseTx) {
+      var sender = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgTransferTokenizeShareRecord,
+        value: {
+          tokenize_share_record_id: tokenizeShareRecordId,
+          sender: sender,
+          new_owner: newOwner
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * prevents the tokenization of shares for a given address
+     * 
+     * @param baseTx 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "disableTokenizeShares",
+    value: function disableTokenizeShares(baseTx) {
+      var delegatorAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgDisableTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * re-enables tokenization of shares for a given address
+     * 
+     * @param baseTx 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "enableTokenizeShares",
+    value: function enableTokenizeShares(baseTx) {
+      var delegatorAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgEnableTokenizeShares,
+        value: {
+          delegator_address: delegatorAddr
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * performing validator self-bond of delegated coins from a delegator to a validator
+     * 
+     * @param validatorAddr Bech32 validator address
+     * @param baseTx 
+     * @returns 
+     */
+  }, {
+    key: "validatorBond",
+    value: function validatorBond(validatorAddr, baseTx) {
+      var delegatorAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgValidatorBond,
+        value: {
+          delegator_address: delegatorAddr,
+          validator_address: validatorAddr
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * Delegate liquid tokens to an validator
+     *
+     * @param validatorAddr Bech32 validator address
+     * @param amount Amount to be delegated to the validator
+     * @param baseTx
+     * @returns
+     * @since v0.17
+     */
+  }, {
     key: "delegate",
     value: function delegate(validatorAddr, amount, baseTx) {
       var delegatorAddr = this.client.keys.show(baseTx.from);
@@ -402,6 +552,127 @@ var Staking = exports.Staking = /*#__PURE__*/function () {
         }
         return result;
       });
+    }
+
+    /**
+     * Query for individual tokenize share record information by share by id
+     * 
+     * @param id record id
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTokenizeShareRecordById",
+    value: function queryTokenizeShareRecordById(id) {
+      if (is.undefined(id)) {
+        throw new _errors.SdkError('record id can not be empty');
+      }
+      var request = new types.staking_query_pb.QueryTokenizeShareRecordByIdRequest().setId(id);
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TokenizeShareRecordById', request, types.staking_query_pb.QueryTokenizeShareRecordByIdResponse);
+    }
+
+    /**
+     * Query for individual tokenize share record information by share denom
+     * 
+     * @param denom denom string
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTokenizeShareRecordByDenom",
+    value: function queryTokenizeShareRecordByDenom(denom) {
+      if (is.undefined(denom)) {
+        throw new _errors.SdkError('denom can not be empty');
+      }
+      var request = new types.staking_query_pb.QueryTokenizeShareRecordByDenomRequest().setDenom(denom);
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TokenizeShareRecordByDenom', request, types.staking_query_pb.QueryTokenizeShareRecordByDenomResponse);
+    }
+
+    /**
+     * Query tokenize share records by address
+     * 
+     * @param owner Bech32 owner address
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTokenizeShareRecordsOwned",
+    value: function queryTokenizeShareRecordsOwned(owner) {
+      if (is.undefined(owner)) {
+        throw new _errors.SdkError('owner can not be empty');
+      }
+      var request = new types.staking_query_pb.QueryTokenizeShareRecordsOwnedRequest().setOwner(owner);
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TokenizeShareRecordsOwned', request, types.staking_query_pb.QueryTokenizeShareRecordsOwnedResponse);
+    }
+
+    /**
+     * Query for all tokenize share records
+     * 
+     * @param pagination page info
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryAllTokenizeShareRecords",
+    value: function queryAllTokenizeShareRecords(pagination) {
+      var request = new types.staking_query_pb.QueryAllTokenizeShareRecordsRequest().setPagination(_helper.ModelCreator.createPaginationModel(pagination));
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/AllTokenizeShareRecords', request, types.staking_query_pb.QueryAllTokenizeShareRecordsResponse);
+    }
+
+    /**
+     * Query for last tokenize share record id
+     * 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryLastTokenizeShareRecordId",
+    value: function queryLastTokenizeShareRecordId() {
+      var request = new types.staking_query_pb.QueryLastTokenizeShareRecordIdRequest();
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/LastTokenizeShareRecordId', request, types.staking_query_pb.QueryLastTokenizeShareRecordIdResponse);
+    }
+
+    /**
+     * Query for total tokenized staked assets
+     * 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTotalTokenizeSharedAssets",
+    value: function queryTotalTokenizeSharedAssets() {
+      var request = new types.staking_query_pb.QueryTotalTokenizeSharedAssetsRequest();
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TotalTokenizeSharedAssets', request, types.staking_query_pb.QueryTotalTokenizeSharedAssetsResponse);
+    }
+
+    /**
+     * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider)
+     * 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTotalLiquidStaked",
+    value: function queryTotalLiquidStaked() {
+      var request = new types.staking_query_pb.QueryTotalLiquidStaked();
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TotalLiquidStaked', request, types.staking_query_pb.QueryTotalLiquidStakedResponse);
+    }
+
+    /**
+     * Query tokenize share locks
+     * 
+     * @param address Bech32 address 
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTokenizeShareLockInfo",
+    value: function queryTokenizeShareLockInfo(address) {
+      if (is.undefined(address)) {
+        throw new _errors.SdkError('address can not be empty');
+      }
+      var request = new types.staking_query_pb.QueryTokenizeShareLockInfo().setAddress(address);
+      return this.client.rpcClient.protoQuery('/cosmos.staking.v1beta1.Query/TokenizeShareLockInfo', request, types.staking_query_pb.QueryTokenizeShareLockInfoResponse);
     }
 
     /**

@@ -171,6 +171,8 @@ const res = await client.bank.send({
 - withdrawRewards
 - withdrawValidatorCommission
 - fundCommunityPool
+- withdrawTokenizeShareRecordReward
+- withdrawAllTokenizeShareRecordReward
 - queryParams
 - queryValidatorOutstandingRewards
 - queryValidatorCommission
@@ -180,6 +182,7 @@ const res = await client.bank.send({
 - queryDelegatorValidators
 - queryDelegatorWithdrawAddress
 - queryCommunityPool
+- queryTokenizeShareRecordReward
 ### farm `src/modules/farm.ts`
 - stakeLp
 - unStakeLp
@@ -291,6 +294,13 @@ const res = await client.bank.send({
 - delegate
 - undelegate
 - redelegate
+- tokenizeShares
+- redeemTokensForShares
+- transferTokenizeShareRecord
+- disableTokenizeShares
+- enableTokenizeShares
+- validatorBond
+- UnbondValidator
 - queryDelegation
 - queryDelegations
 - queryUnbondingDelegation
@@ -305,6 +315,14 @@ const res = await client.bank.send({
 - queryValidators
 - queryPool
 - queryParams
+- queryTokenizeShareRecordById
+- queryTokenizeShareRecordByDenom
+- queryTokenizeShareRecordsOwned
+- queryAllTokenizeShareRecords
+- queryLastTokenizeShareRecordId
+- queryTotalTokenizeSharedAssets
+- queryTotalLiquidStaked
+- queryTokenizeShareLockInfo
 - appendZero
 - createValidator
 ### tendermint `src/modules/tendermint.ts`
@@ -320,10 +338,15 @@ const res = await client.bank.send({
 - editToken
 - mintToken
 - transferTokenOwner
+- swapFeeToken
+- SwapToERC20
+- SwapFromERC20
 - queryTokens
 - queryToken
 - queryFees
 - queryParameters
+- queryTotalBurn
+- queryBalances
 ### tx `src/modules/tx.ts`
 - buildTx
 - newStdTxFromProtoTxModel

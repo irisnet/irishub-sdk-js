@@ -200,6 +200,101 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
+
+    test('query tokenize share record by id', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordById(2)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share record by denom', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordByDenom('udev')
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share recored owned', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordsOwned('iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2')
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query all tokenize share records', async () => {
+      await BaseTest.getClient()
+        .staking.queryAllTokenizeShareRecords(
+          {
+            page_number: 2,
+            page_size: 5,
+          }
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query last tokenize share recordId', async () => {
+      await BaseTest.getClient()
+        .staking.queryLastTokenizeShareRecordId()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query total tokenize shared assets', async () => {
+      await BaseTest.getClient()
+        .staking.queryTotalTokenizeSharedAssets()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query total liquid staked', async () => {
+      await BaseTest.getClient()
+        .staking.queryTotalLiquidStaked()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share lock info', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareLockInfo(
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2'
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   });
 
   describe('Delegate', () => {
@@ -251,4 +346,104 @@ describe('Staking Tests', () => {
         });
     });
   });
+  describe('TokenizeShares', () => {
+    test('tokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.tokenizeShares(
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          { denom: 'unyan', amount: '100' },
+          'iaa1sf69k6n6m7rq0a49cp8u07gagy8jahx7h5pztk',
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+          return res;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      await BaseTest.getClient()
+        .staking.redeemTokensForShares(
+          { denom: 'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw/5', amount: '1000' },
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      await BaseTest.getClient()
+        .staking.transferTokenizeShareRecord(
+          1,
+          'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('DisableTokenizeShares', () => {
+    test('disableTokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.disableTokenizeShares(
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('EnableTokenizeShares', () => {
+    test('enableTokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.enableTokenizeShares(
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('ValidatorBond', () => {
+    test('validatorBond', async () => {
+      await BaseTest.getClient()
+        .staking.validatorBond(
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('UnbondValidator', () => {
+    test('unbondValidator', async () => {
+      await BaseTest.getClient()
+        .staking.unbondValidator(
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          
+        })
+    })
+  })
 });

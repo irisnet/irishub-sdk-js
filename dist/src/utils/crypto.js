@@ -23,7 +23,7 @@ var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 var _buffer = require("buffer");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var Sha256 = require('sha256');
 var SM2 = require('sm-crypto-bj').sm2;
 var bcrypt = require('bcryptjs');
@@ -576,7 +576,7 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
       }
       var seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
       if (derive) {
-        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, (0, _crypto.stringToPath)(Crypto.HDPATH + index)),
+        var _Slip10$derivePath = _crypto.Slip10.derivePath(_crypto.Slip10Curve.Secp256k1, seed, (0, _crypto.stringToPath)(Crypto.HDPATH_MASTER + Crypto.HDPATH + index)),
           privkey = _Slip10$derivePath.privkey;
         if (typeof privkey === 'undefined') {
           throw new _errors.SdkError('error getting private key from mnemonic', _errors.CODES.DerivePrivateKeyError);
@@ -648,4 +648,5 @@ var Crypto = exports.Crypto = /*#__PURE__*/function () {
 (0, _defineProperty2["default"])(Crypto, "MNEMONIC_LEN", 24);
 (0, _defineProperty2["default"])(Crypto, "DECODED_ADDRESS_LEN", 20);
 //hdpath
-(0, _defineProperty2["default"])(Crypto, "HDPATH", "m/44'/118'/0'/0/");
+(0, _defineProperty2["default"])(Crypto, "HDPATH", "44'/118'/0'/0/");
+(0, _defineProperty2["default"])(Crypto, "HDPATH_MASTER", "m/");

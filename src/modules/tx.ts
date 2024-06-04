@@ -340,6 +340,34 @@ export class Tx {
         msg = new types.MsgRedelegate(txMsg.value);
         break;
       }
+      case types.TxType.MsgTokenizeShares: {
+        msg = new types.MsgTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgTransferTokenizeShareRecord: {
+        msg = new types.MsgTransferTokenizeShareRecord(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgRedeemTokensForShares: {
+        msg = new types.MsgRedeemTokensForShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgDisableTokenizeShares: {
+        msg = new types.MsgDisableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgEnableTokenizeShares: {
+        msg = new types.MsgEnableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgValidatorBond: {
+        msg = new types.MsgValidatorBond(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgUnbondValidator: {
+        msg = new types.MsgUnbondValidator(txMsg.value);
+        break;
+      }
       //distribution
       case types.TxType.MsgWithdrawDelegatorReward: {
         msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
@@ -355,6 +383,14 @@ export class Tx {
       }
       case types.TxType.MsgFundCommunityPool: {
         msg = new types.MsgFundCommunityPool(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawTokenizeShareRecordReward(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawAllTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawAllTokenizeShareRecordReward(txMsg.value);
         break;
       }
       //token
@@ -380,6 +416,14 @@ export class Tx {
       }
       case types.TxType.MsgSwapFeeToken: {
         msg = new types.MsgSwapFeeToken(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapToERC20: {
+        msg = new types.MsgSwapToERC20(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapFromERC20: {
+        msg = new types.MsgSwapFromERC20(txMsg.value);
         break;
       }
       //coinswap

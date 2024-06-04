@@ -69,6 +69,22 @@ export interface SwapFeeTokenTxParam {
     sender: string;
 }
 /**
+ * param struct for Swap To ERC20 tx
+ */
+export interface SwapToERC20TxParam {
+    amount: Coin;
+    sender: string;
+    receiver: string;
+}
+/**
+ * param struct for Swap From ERC20 tx
+ */
+export interface SwapFromERC20TxParam {
+    wanted_amount: Coin;
+    sender: string;
+    receiver: string;
+}
+/**
  * Msg struct for issue token
  * @hidden
  */
@@ -167,6 +183,29 @@ export declare class MsgSwapFeeToken extends Msg {
      *
      * @return whether is is validated
      * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}
+/**
+ * Msg struct for Swap To ERC20
+ */
+export declare class MsgSwapToERC20 extends Msg {
+    value: SwapToERC20TxParam;
+    constructor(msg: SwapToERC20TxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     */
+    validate(): boolean;
+}
+export declare class MsgSwapFromERC20 extends Msg {
+    value: SwapFromERC20TxParam;
+    constructor(msg: SwapFromERC20TxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
      */
     validate(): boolean;
 }

@@ -164,6 +164,58 @@ export class Token {
   }
 
   /**
+   * @wapping some native token to its ERC20
+   * @param receiver 
+   * @param baseTx 
+   * @returns 
+   */
+  SwapToERC20(
+    msg: {
+      amount: types.Coin,
+      receiver: string,
+    },
+    baseTx: types.BaseTx
+  ): Promise<{}> {
+    const sender = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgSwapToERC20,
+        value: {
+          sender,
+          ...msg,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * Swapping some ERC20 token to its native
+   * @param receiver 
+   * @param baseTx 
+   * @returns 
+   */
+  SwapFromERC20(
+    msg: {
+      wanted_amount: types.Coin,
+      receiver: string,
+    },
+    baseTx: types.BaseTx
+  ): Promise<{}> {
+    const sender = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgSwapFromERC20,
+        value: {
+          sender,
+          ...msg,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
    * Query all tokens
    * @param owner The optional token owner address
    * @returns Token[]
@@ -248,6 +300,39 @@ export class Token {
       '/irismod.token.Query/Params',
       request,
       types.token_query_pb.QueryParamsResponse
+    );
+  }
+
+  /**
+   * TotalBurn queries all the burnt coins
+   * @param null
+   * @returns
+   * @since v3.4.0
+   */
+  queryTotalBurn(): Promise<{burned_coins: types.Coin[]}> {
+    const request = new types.token_query_pb.QueryTotalBurnRequest();
+    return this.client.rpcClient.protoQuery(
+      '/irismod.token.Query/TotalBurn',
+      request,
+      types.token_query_pb.QueryTotalBurnResponse
+    );
+  }
+
+  /**
+   * Balances queries the balance of the specified token (including erc20 balance)
+   * @param denom 
+   * @param address 
+   * @returns
+   * @since v3.4.0
+   */
+  queryBalances(denom: string, address: string): Promise<{balances: types.Coin[]}> {
+    const request = new types.token_query_pb.QueryBalancesRequest();
+    request.setDenom(denom);
+    request.setAddress(address);
+    return this.client.rpcClient.protoQuery(
+      '/irismod.token.Query/Balances',
+      request,
+      types.token_query_pb.QueryBalancesResponse
     );
   }
 }

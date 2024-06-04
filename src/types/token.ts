@@ -84,6 +84,24 @@ export interface SwapFeeTokenTxParam {
 }
 
 /**
+ * param struct for Swap To ERC20 tx
+ */
+export interface SwapToERC20TxParam {
+  amount: Coin;
+  sender: string;
+  receiver: string;
+}
+
+/**
+ * param struct for Swap From ERC20 tx
+ */
+export interface SwapFromERC20TxParam {
+  wanted_amount: Coin;
+  sender: string;
+  receiver: string;
+}
+
+/**
  * Msg struct for issue token
  * @hidden
  */
@@ -371,3 +389,79 @@ export class MsgSwapFeeToken extends Msg {
   }
 }
 
+/**
+ * Msg struct for Swap To ERC20
+ */
+export class MsgSwapToERC20 extends Msg {
+  value: SwapToERC20TxParam;
+
+  constructor(msg: SwapToERC20TxParam) {
+    super(TxType.MsgSwapToERC20);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgSwapToERC20;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setSender(this.value.sender)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount))
+      .setReceiver(this.value.receiver);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    if (is.undefined(this.value.amount)) {
+      throw new SdkError("amount can not be empty");
+    }
+    if (is.undefined(this.value.receiver)) {
+      throw new SdkError("receiver can not be empty");
+    }
+    return true;
+  }
+}
+
+export class MsgSwapFromERC20 extends Msg {
+  value: SwapFromERC20TxParam;
+
+  constructor(msg: SwapFromERC20TxParam) {
+    super(TxType.MsgSwapFromERC20);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgSwapFromERC20;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setSender(this.value.sender)
+      .setWantedAmount(TxModelCreator.createCoinModel(this.value.wanted_amount.denom, this.value.wanted_amount.amount))
+      .setReceiver(this.value.receiver);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    if (is.undefined(this.value.wanted_amount)) {
+      throw new SdkError("wanted amount can not be empty");
+    }
+    if (is.undefined(this.value.receiver)) {
+      throw new SdkError("receiver can not be empty");
+    }
+    return true;
+  }
+}

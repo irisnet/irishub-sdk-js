@@ -140,7 +140,8 @@ proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.prototype.toObject = function
  */
 proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    evidenceHash: msg.getEvidenceHash_asB64()
+    evidenceHash: msg.getEvidenceHash_asB64(),
+    hash: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -181,6 +182,10 @@ proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.deserializeBinaryFromReader =
       var value = /** @type {!Uint8Array} */ (reader.readBytes());
       msg.setEvidenceHash(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setHash(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -214,6 +219,13 @@ proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.serializeBinaryToWriter = fun
   if (f.length > 0) {
     writer.writeBytes(
       1,
+      f
+    );
+  }
+  f = message.getHash();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
       f
     );
   }
@@ -259,6 +271,24 @@ proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.prototype.getEvidenceHash_asU
  */
 proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.prototype.setEvidenceHash = function(value) {
   return jspb.Message.setProto3BytesField(this, 1, value);
+};
+
+
+/**
+ * optional string hash = 2;
+ * @return {string}
+ */
+proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.prototype.getHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.evidence.v1beta1.QueryEvidenceRequest} returns this
+ */
+proto.cosmos.evidence.v1beta1.QueryEvidenceRequest.prototype.setHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

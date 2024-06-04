@@ -99,7 +99,8 @@ proto.irismod.token.v1.Token.toObject = function(includeInstance, msg) {
     initialSupply: jspb.Message.getFieldWithDefault(msg, 5, 0),
     maxSupply: jspb.Message.getFieldWithDefault(msg, 6, 0),
     mintable: jspb.Message.getBooleanFieldWithDefault(msg, 7, false),
-    owner: jspb.Message.getFieldWithDefault(msg, 8, "")
+    owner: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    contract: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -167,6 +168,10 @@ proto.irismod.token.v1.Token.deserializeBinaryFromReader = function(msg, reader)
     case 8:
       var value = /** @type {string} */ (reader.readString());
       msg.setOwner(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setContract(value);
       break;
     default:
       reader.skipField();
@@ -250,6 +255,13 @@ proto.irismod.token.v1.Token.serializeBinaryToWriter = function(message, writer)
   if (f.length > 0) {
     writer.writeString(
       8,
+      f
+    );
+  }
+  f = message.getContract();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
       f
     );
   }
@@ -400,6 +412,24 @@ proto.irismod.token.v1.Token.prototype.setOwner = function(value) {
 };
 
 
+/**
+ * optional string contract = 9;
+ * @return {string}
+ */
+proto.irismod.token.v1.Token.prototype.getContract = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.token.v1.Token} returns this
+ */
+proto.irismod.token.v1.Token.prototype.setContract = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
 
 
 
@@ -434,7 +464,9 @@ proto.irismod.token.v1.Params.toObject = function(includeInstance, msg) {
   var f, obj = {
     tokenTaxRate: jspb.Message.getFieldWithDefault(msg, 1, ""),
     issueTokenBaseFee: (f = msg.getIssueTokenBaseFee()) && cosmos_base_v1beta1_coin_pb.Coin.toObject(includeInstance, f),
-    mintTokenFeeRatio: jspb.Message.getFieldWithDefault(msg, 3, "")
+    mintTokenFeeRatio: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    enableErc20: jspb.Message.getBooleanFieldWithDefault(msg, 4, false),
+    beacon: jspb.Message.getFieldWithDefault(msg, 5, "")
   };
 
   if (includeInstance) {
@@ -484,6 +516,14 @@ proto.irismod.token.v1.Params.deserializeBinaryFromReader = function(msg, reader
       var value = /** @type {string} */ (reader.readString());
       msg.setMintTokenFeeRatio(value);
       break;
+    case 4:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setEnableErc20(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setBeacon(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -532,6 +572,20 @@ proto.irismod.token.v1.Params.serializeBinaryToWriter = function(message, writer
   if (f.length > 0) {
     writer.writeString(
       3,
+      f
+    );
+  }
+  f = message.getEnableErc20();
+  if (f) {
+    writer.writeBool(
+      4,
+      f
+    );
+  }
+  f = message.getBeacon();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
       f
     );
   }
@@ -608,6 +662,42 @@ proto.irismod.token.v1.Params.prototype.getMintTokenFeeRatio = function() {
  */
 proto.irismod.token.v1.Params.prototype.setMintTokenFeeRatio = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional bool enable_erc20 = 4;
+ * @return {boolean}
+ */
+proto.irismod.token.v1.Params.prototype.getEnableErc20 = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.irismod.token.v1.Params} returns this
+ */
+proto.irismod.token.v1.Params.prototype.setEnableErc20 = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 4, value);
+};
+
+
+/**
+ * optional string beacon = 5;
+ * @return {string}
+ */
+proto.irismod.token.v1.Params.prototype.getBeacon = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.irismod.token.v1.Params} returns this
+ */
+proto.irismod.token.v1.Params.prototype.setBeacon = function(value) {
+  return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
