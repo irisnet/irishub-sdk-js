@@ -14,6 +14,10 @@ var global = Function('return this')();
 
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
+goog.object.extend(proto, cosmos_proto_cosmos_pb);
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 goog.exportSymbol('proto.cosmos.mint.v1beta1.Minter', null, global);
 goog.exportSymbol('proto.cosmos.mint.v1beta1.Params', null, global);
 /**

@@ -17,6 +17,14 @@ grpc.web = require('grpc-web');
 
 
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var cosmos_msg_v1_msg_pb = require('../../../cosmos/msg/v1/msg_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
+
+var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.crisis = {};
@@ -151,6 +159,86 @@ proto.cosmos.crisis.v1beta1.MsgPromiseClient.prototype.verifyInvariant =
       request,
       metadata || {},
       methodDescriptor_Msg_VerifyInvariant);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.crisis.v1beta1.MsgUpdateParams,
+ *   !proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse>}
+ */
+const methodDescriptor_Msg_UpdateParams = new grpc.web.MethodDescriptor(
+  '/cosmos.crisis.v1beta1.Msg/UpdateParams',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.crisis.v1beta1.MsgUpdateParams,
+  proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.cosmos.crisis.v1beta1.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.crisis.v1beta1.MsgUpdateParams,
+ *   !proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse>}
+ */
+const methodInfo_Msg_UpdateParams = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.cosmos.crisis.v1beta1.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.crisis.v1beta1.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.crisis.v1beta1.MsgClient.prototype.updateParams =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.crisis.v1beta1.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.crisis.v1beta1.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.crisis.v1beta1.MsgUpdateParamsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.crisis.v1beta1.MsgPromiseClient.prototype.updateParams =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.crisis.v1beta1.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams);
 };
 
 

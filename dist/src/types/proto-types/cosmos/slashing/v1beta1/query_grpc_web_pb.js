@@ -23,6 +23,10 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var cosmos_slashing_v1beta1_slashing_pb = require('../../../cosmos/slashing/v1beta1/slashing_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.slashing = {};

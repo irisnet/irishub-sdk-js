@@ -24,11 +24,17 @@ var google_api_annotations_pb = require('../../../../google/api/annotations_pb.j
 
 var tendermint_p2p_types_pb = require('../../../../tendermint/p2p/types_pb.js')
 
-var tendermint_types_block_pb = require('../../../../tendermint/types/block_pb.js')
-
 var tendermint_types_types_pb = require('../../../../tendermint/types/types_pb.js')
 
 var cosmos_base_query_v1beta1_pagination_pb = require('../../../../cosmos/base/query/v1beta1/pagination_pb.js')
+
+var cosmos_base_tendermint_v1beta1_types_pb = require('../../../../cosmos/base/tendermint/v1beta1/types_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../../cosmos_proto/cosmos_pb.js')
+
+var tendermint_types_block_pb = require('../../../../tendermint/types/block_pb.js')
+
+var amino_amino_pb = require('../../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.base = {};
@@ -564,6 +570,86 @@ proto.cosmos.base.tendermint.v1beta1.ServicePromiseClient.prototype.getValidator
       request,
       metadata || {},
       methodDescriptor_Service_GetValidatorSetByHeight);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest,
+ *   !proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse>}
+ */
+const methodDescriptor_Service_ABCIQuery = new grpc.web.MethodDescriptor(
+  '/cosmos.base.tendermint.v1beta1.Service/ABCIQuery',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest,
+  proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse,
+  /**
+   * @param {!proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest,
+ *   !proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse>}
+ */
+const methodInfo_Service_ABCIQuery = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse,
+  /**
+   * @param {!proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.base.tendermint.v1beta1.ServiceClient.prototype.aBCIQuery =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.base.tendermint.v1beta1.Service/ABCIQuery',
+      request,
+      metadata || {},
+      methodDescriptor_Service_ABCIQuery,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.base.tendermint.v1beta1.ABCIQueryRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.base.tendermint.v1beta1.ABCIQueryResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.base.tendermint.v1beta1.ServicePromiseClient.prototype.aBCIQuery =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.base.tendermint.v1beta1.Service/ABCIQuery',
+      request,
+      metadata || {},
+      methodDescriptor_Service_ABCIQuery);
 };
 
 

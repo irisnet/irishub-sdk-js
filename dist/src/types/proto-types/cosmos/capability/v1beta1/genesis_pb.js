@@ -16,6 +16,8 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 var cosmos_capability_v1beta1_capability_pb = require('../../../cosmos/capability/v1beta1/capability_pb.js');
 goog.object.extend(proto, cosmos_capability_v1beta1_capability_pb);
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 goog.exportSymbol('proto.cosmos.capability.v1beta1.GenesisOwners', null, global);
 goog.exportSymbol('proto.cosmos.capability.v1beta1.GenesisState', null, global);
 /**

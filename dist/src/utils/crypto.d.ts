@@ -10,6 +10,7 @@ export declare class Crypto {
     static MNEMONIC_LEN: number;
     static DECODED_ADDRESS_LEN: number;
     static HDPATH: string;
+    static HDPATH_MASTER: string;
     /**
      * Decodes an address in bech32 format.
      * @param address The bech32 address to decode
