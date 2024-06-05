@@ -1,6 +1,6 @@
-import {Coin, Msg, Pubkey} from './types';
-import {TxModelCreator} from "../helper";
-import {TxType} from "./types";
+import { Coin, Msg, Pubkey } from './types';
+import { TxModelCreator } from "../helper";
+import { TxType } from "./types";
 import * as pbs from './proto';
 import * as is from "is_js";
 import { SdkError, CODES } from "../errors";
@@ -145,7 +145,7 @@ export class MsgDelegate extends Msg {
     this.value = msg;
   }
 
-  static getModelClass(): any{
+  static getModelClass(): any {
     return pbs.staking_tx_pb.MsgDelegate;
   }
 
@@ -188,7 +188,7 @@ export class MsgUndelegate extends Msg {
     this.value = msg;
   }
 
-  static getModelClass(): any{
+  static getModelClass(): any {
     return pbs.staking_tx_pb.MsgUndelegate;
   }
 
@@ -231,7 +231,7 @@ export class MsgRedelegate extends Msg {
     this.value = msg;
   }
 
-  static getModelClass(): any{
+  static getModelClass(): any {
     return pbs.staking_tx_pb.MsgBeginRedelegate;
   }
 
@@ -426,7 +426,7 @@ export class MsgTransferTokenizeShareRecord extends Msg {
 
   getModel(): any {
     const msg = new ((this.constructor as any).getModelClass())();
-    msg.setTokenizedShareRecordId(this.value.tokenize_share_record_id)
+    msg.setTokenizeShareRecordId(this.value.tokenize_share_record_id)
       .setSender(this.value.sender)
       .setNewOwner(this.value.new_owner)
     return msg;

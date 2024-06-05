@@ -27,23 +27,22 @@ test('Crypto', async () => {
   console.log(Crypto.encodeAddress('2F36E18CF00DA1568F72AAFD98D94C8D472022C7', 'fca'));
 
   console.log(Buffer.from('bXbzqbOidvLADyfR/cLVm2o6L9vcpPh+PF6O8m2sOQ4=', 'hex'));
-  // TODO
 });
 
-test('Marshal PubKey', async ()=>{
-  let pk =  Crypto.aminoMarshalPubKey({
-    type:types.PubkeyType.ed25519,
-    value:'FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c=='
+test('Marshal PubKey', async () => {
+  let pk = Crypto.aminoMarshalPubKey({
+    type: types.PubkeyType.ed25519,
+    value: 'FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c=='
   });
-  let pk_bech32 = Crypto.encodeAddress(pk,'icp');
-  console.log('pk_bech32:',pk_bech32);
+  let pk_bech32 = Crypto.encodeAddress(pk, 'icp');
+  console.log('pk_bech32:', pk_bech32);
 });
 
-test('get Address From PublicKey', async ()=>{
-  let pk =  Crypto.getAddressFromPublicKey({
-    type:types.PubkeyType.ed25519,
-    value:Buffer.from('FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c==','base64').toString('hex')
-  },'ica');
-  console.log('pk_bech32:',pk);
+test('get Address From PublicKey', async () => {
+  let pk = Crypto.getAddressFromPublicKey({
+    type: types.PubkeyType.ed25519,
+    value: Buffer.from('FT782NmKqtZYi6UyNzprh44u7defkzD18IePql6Uj3c==', 'base64').toString('hex')
+  }, 'ica');
+  console.log('pk_bech32:', pk);
 });
 

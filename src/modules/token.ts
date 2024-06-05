@@ -1,4 +1,4 @@
-import {Client} from '../client';
+import { Client } from '../client';
 import * as types from '../types';
 import * as is from 'is_js';
 import { SdkError, CODES } from '../errors';
@@ -41,7 +41,7 @@ export class Token {
     const msgs: any[] = [
       {
         type: types.TxType.MsgIssueToken,
-        value: Object.assign({owner}, token)
+        value: Object.assign({ owner }, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -65,7 +65,7 @@ export class Token {
     const msgs: any[] = [
       {
         type: types.TxType.MsgEditToken,
-        value: Object.assign({owner}, token)
+        value: Object.assign({ owner }, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -88,7 +88,7 @@ export class Token {
     const msgs: any[] = [
       {
         type: types.TxType.MsgMintToken,
-        value: Object.assign({owner}, token)
+        value: Object.assign({ owner }, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -132,7 +132,7 @@ export class Token {
     const msgs: any[] = [
       {
         type: types.TxType.MsgTransferTokenOwner,
-        value: Object.assign({src_owner: owner}, token)
+        value: Object.assign({ src_owner: owner }, token)
       }
     ];
     return this.client.tx.buildAndSend(msgs, baseTx);
@@ -175,7 +175,7 @@ export class Token {
       receiver: string,
     },
     baseTx: types.BaseTx
-  ): Promise<{}> {
+  ): Promise<types.TxResult> {
     const sender = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
@@ -201,7 +201,7 @@ export class Token {
       receiver: string,
     },
     baseTx: types.BaseTx
-  ): Promise<{}> {
+  ): Promise<types.TxResult> {
     const sender = this.client.keys.show(baseTx.from);
     const msgs: any[] = [
       {
@@ -222,18 +222,18 @@ export class Token {
    */
   queryTokens(owner?: string): Promise<types.Token[]> {
     const request = new types.token_query_pb.QueryTokensRequest();
-    if(is.not.undefined(owner)){
+    if (is.not.undefined(owner)) {
       request.setOwner(owner);
     }
-    return new Promise(async (resolve,reject)=>{
+    return new Promise(async (resolve, reject) => {
       const res = await this.client.rpcClient.protoQuery(
         '/irismod.token.Query/Tokens',
         request,
         types.token_query_pb.QueryTokensResponse
       ).catch(error => reject(error));;
       let deserializedData: types.Token[] = [];
-      if(res && res.tokensList && is.array(res.tokensList)){
-        deserializedData = res.tokensList.map((item: {typeUrl: string, value: string})=>{
+      if (res && res.tokensList && is.array(res.tokensList)) {
+        deserializedData = res.tokensList.map((item: { typeUrl: string, value: string }) => {
           return types.token_token_pb.Token.deserializeBinary(item.value).toObject()
         })
       }
@@ -250,19 +250,19 @@ export class Token {
    */
 
   queryToken(denom: string): Promise<types.Token | null> {
-    if(is.undefined(denom)){
+    if (is.undefined(denom)) {
       throw new SdkError('denom can not be empty')
     }
     const request = new types.token_query_pb.QueryTokenRequest();
     request.setDenom(denom);
-    return new Promise(async (resolve,reject)=>{
+    return new Promise(async (resolve, reject) => {
       const res = await this.client.rpcClient.protoQuery(
         '/irismod.token.Query/Token',
         request,
         types.token_query_pb.QueryTokenResponse
       ).catch(error => reject(error));
       let deserializedData: types.Token | null = null;
-      if(res && res.token && res.token.value){
+      if (res && res.token && res.token.value) {
         deserializedData = types.token_token_pb.Token.deserializeBinary(res.token.value).toObject()
       }
       resolve(deserializedData);
@@ -309,7 +309,7 @@ export class Token {
    * @returns
    * @since v3.4.0
    */
-  queryTotalBurn(): Promise<{burned_coins: types.Coin[]}> {
+  queryTotalBurn(): Promise<{ burned_coins: types.Coin[] }> {
     const request = new types.token_query_pb.QueryTotalBurnRequest();
     return this.client.rpcClient.protoQuery(
       '/irismod.token.Query/TotalBurn',
@@ -325,7 +325,7 @@ export class Token {
    * @returns
    * @since v3.4.0
    */
-  queryBalances(denom: string, address: string): Promise<{balances: types.Coin[]}> {
+  queryBalances(denom: string, address: string): Promise<{ balances: types.Coin[] }> {
     const request = new types.token_query_pb.QueryBalancesRequest();
     request.setDenom(denom);
     request.setAddress(address);
