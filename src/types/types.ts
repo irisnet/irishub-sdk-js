@@ -10,19 +10,19 @@ export class Msg {
   type: string;
   value: any;
 
-  constructor(type:string){
+  constructor(type: string) {
     this.type = type;
-  } 
-
-  static getModelClass():any{
-    throw new SdkError("not implement",CODES.Internal);
   }
 
-  getModel():any{
-    throw new SdkError("not implement",CODES.Internal);
+  static getModelClass(): any {
+    throw new SdkError("not implement", CODES.Internal);
   }
 
-  pack(): any{
+  getModel(): any {
+    throw new SdkError("not implement", CODES.Internal);
+  }
+
+  pack(): any {
     let msg: any = this.getModel();
     return TxModelCreator.createAnyModel(this.type, msg.serializeBinary());
   }
@@ -32,53 +32,64 @@ export class Msg {
    * @type {[type]}
    * returns protobuf message instance
    */
-  unpack(msgValue:string):any{
+  unpack(msgValue: string): any {
     if (!msgValue) {
-      throw new SdkError("msgValue can not be empty",CODES.Internal);
+      throw new SdkError("msgValue can not be empty", CODES.Internal);
     }
-    let msg = (this.constructor as any).getModelClass().deserializeBinary(Buffer.from(msgValue,'base64'));
+    let msg = (this.constructor as any).getModelClass().deserializeBinary(Buffer.from(msgValue, 'base64'));
     if (msg) {
       return msg;
-    }else{
-      throw new SdkError("unpack message fail",CODES.FailedUnpackingProtobufMessagFromAny);
+    } else {
+      throw new SdkError("unpack message fail", CODES.FailedUnpackingProtobufMessagFromAny);
     }
   }
 }
 
 export enum TxType {
   //bank
-  MsgSend ="cosmos.bank.v1beta1.MsgSend",
-  MsgMultiSend ="cosmos.bank.v1beta1.MsgMultiSend",
+  MsgSend = "cosmos.bank.v1beta1.MsgSend",
+  MsgMultiSend = "cosmos.bank.v1beta1.MsgMultiSend",
   //staking
-  MsgDelegate ="cosmos.staking.v1beta1.MsgDelegate",
-  MsgUndelegate ="cosmos.staking.v1beta1.MsgUndelegate",
-  MsgBeginRedelegate ="cosmos.staking.v1beta1.MsgBeginRedelegate",
+  MsgDelegate = "cosmos.staking.v1beta1.MsgDelegate",
+  MsgUndelegate = "cosmos.staking.v1beta1.MsgUndelegate",
+  MsgBeginRedelegate = "cosmos.staking.v1beta1.MsgBeginRedelegate",
+  MsgTokenizeShares = "cosmos.staking.v1beta1.MsgTokenizeShares",
+  MsgRedeemTokensForShares = "cosmos.staking.v1beta1.MsgRedeemTokensForShares",
+  MsgTransferTokenizeShareRecord = "cosmos.staking.v1beta1.MsgTransferTokenizeShareRecord",
+  MsgDisableTokenizeShares = "cosmos.staking.v1beta1.MsgDisableTokenizeShares",
+  MsgEnableTokenizeShares = "cosmos.staking.v1beta1.MsgEnableTokenizeShares",
+  MsgValidatorBond = "cosmos.staking.v1beta1.MsgValidatorBond",
+  MsgUnbondValidator = "cosmos.staking.v1beta1.MsgUnbondValidator",
   //distribution
-  MsgWithdrawDelegatorReward ="cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
-  MsgSetWithdrawAddress ="cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
+  MsgWithdrawDelegatorReward = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  MsgSetWithdrawAddress = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress",
   MsgWithdrawValidatorCommission = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
   MsgFundCommunityPool = "cosmos.distribution.v1beta1.MsgFundCommunityPool",
+  MsgWithdrawTokenizeShareRecordReward = "cosmos.distribution.v1beta1.MsgWithdrawTokenizeShareRecordReward",
+  MsgWithdrawAllTokenizeShareRecordReward = "cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward",
   //coinswap
-  MsgAddLiquidity ="irismod.coinswap.MsgAddLiquidity",
-  MsgRemoveLiquidity ="irismod.coinswap.MsgRemoveLiquidity",
-  MsgSwapOrder ="irismod.coinswap.MsgSwapOrder",
+  MsgAddLiquidity = "irismod.coinswap.MsgAddLiquidity",
+  MsgRemoveLiquidity = "irismod.coinswap.MsgRemoveLiquidity",
+  MsgSwapOrder = "irismod.coinswap.MsgSwapOrder",
   //farm
   MsgStake = 'irismod.farm.MsgStake',
-  MsgUnstake= 'irismod.farm.MsgUnstake',
+  MsgUnstake = 'irismod.farm.MsgUnstake',
   MsgHarvest = 'irismod.farm.MsgHarvest',
   //nft
-  MsgIssueDenom ="irismod.nft.MsgIssueDenom",
-  MsgTransferNFT ="irismod.nft.MsgTransferNFT",
-  MsgEditNFT ="irismod.nft.MsgEditNFT",
-  MsgMintNFT ="irismod.nft.MsgMintNFT",
-  MsgBurnNFT ="irismod.nft.MsgBurnNFT",
+  MsgIssueDenom = "irismod.nft.MsgIssueDenom",
+  MsgTransferNFT = "irismod.nft.MsgTransferNFT",
+  MsgEditNFT = "irismod.nft.MsgEditNFT",
+  MsgMintNFT = "irismod.nft.MsgMintNFT",
+  MsgBurnNFT = "irismod.nft.MsgBurnNFT",
   //token
   MsgIssueToken = 'irismod.token.v1.MsgIssueToken',
   MsgEditToken = 'irismod.token.v1.MsgEditToken',
   MsgMintToken = 'irismod.token.v1.MsgMintToken',
-  MsgBurnToken = 'irismod.token.v1.MsgBurnToken', 
+  MsgBurnToken = 'irismod.token.v1.MsgBurnToken',
   MsgTransferTokenOwner = 'irismod.token.v1.MsgTransferTokenOwner',
-  MsgSwapFeeToken = 'irismod.token.v1.MsgSwapFeeToken', 
+  MsgSwapFeeToken = 'irismod.token.v1.MsgSwapFeeToken',
+  MsgSwapToERC20 = 'irismod.token.v1.MsgSwapToERC20',
+  MsgSwapFromERC20 = 'irismod.token.v1.MsgSwapFromERC20',
 
   //gov
   MsgSubmitProposal = "cosmos.gov.v1beta1.MsgSubmitProposal",
@@ -91,6 +102,8 @@ export enum TxType {
   //ibc
   MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer",
   MsgIbcNftTransfer = "ibc.applications.nft_transfer.v1.MsgTransfer",
+  //slashing
+  MsgUnjail = "cosmos.slashing.v1beta1.MsgUnjail"
 }
 
 /** 
@@ -103,7 +116,7 @@ export interface Tx<T extends TxValue> {
 }
 
 /** Abstract Tx Value */
-export interface TxValue {}
+export interface TxValue { }
 
 /** 
  * Base Coin
@@ -120,10 +133,10 @@ export interface Coin {
  */
 export interface JSONRPCResponse<T> {
   jsonrpc: string;
-  id:      string;
-  error:   JsonRpcError;
-  result:  T;
-  codespace?:string;
+  id: string;
+  error: JsonRpcError;
+  result: T;
+  codespace?: string;
 }
 
 /** 
@@ -133,7 +146,7 @@ export interface JsonRpcError {
   code: number;
   message: string;
   data: string;
-  codespace?:string;
+  codespace?: string;
 }
 
 /** 
@@ -178,6 +191,6 @@ export interface Pagination {
   page_size?: number,
   count_total?: boolean,
   reverse?: boolean,
-  key?:string
+  key?: string
 }
 

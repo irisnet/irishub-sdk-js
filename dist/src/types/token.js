@@ -5,7 +5,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgTransferTokenOwner = exports.MsgSwapFeeToken = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = exports.MsgBurnToken = void 0;
+exports.MsgTransferTokenOwner = exports.MsgSwapToERC20 = exports.MsgSwapFromERC20 = exports.MsgSwapFeeToken = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = exports.MsgBurnToken = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
@@ -38,6 +38,12 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
  */
 /**
  * param struct for Swap Fee Token tx
+ */
+/**
+ * param struct for Swap To ERC20 tx
+ */
+/**
+ * param struct for Swap From ERC20 tx
  */
 /**
  * Msg struct for issue token
@@ -174,7 +180,7 @@ var MsgMintToken = exports.MsgMintToken = /*#__PURE__*/function (_Msg3) {
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setCoin(_helper.TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount)).setOwner(this.value.owner);
       if (is.not.undefined(this.value.to)) {
-        msg.setTo(this.value.to);
+        msg.setReceiver(this.value.to);
       }
       return msg;
     }
@@ -338,6 +344,89 @@ var MsgSwapFeeToken = exports.MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
     key: "getModelClass",
     value: function getModelClass() {
       return pbs.token_tx_pb.MsgSwapFeeToken;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for Swap To ERC20
+ */
+var MsgSwapToERC20 = exports.MsgSwapToERC20 = /*#__PURE__*/function (_Msg7) {
+  function MsgSwapToERC20(msg) {
+    var _this7;
+    (0, _classCallCheck2["default"])(this, MsgSwapToERC20);
+    _this7 = _callSuper(this, MsgSwapToERC20, [_types.TxType.MsgSwapToERC20]);
+    _this7.value = msg;
+    return _this7;
+  }
+  (0, _inherits2["default"])(MsgSwapToERC20, _Msg7);
+  return (0, _createClass2["default"])(MsgSwapToERC20, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setSender(this.value.sender).setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount)).setReceiver(this.value.receiver);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      if (is.undefined(this.value.amount)) {
+        throw new _errors.SdkError("amount can not be empty");
+      }
+      if (is.undefined(this.value.receiver)) {
+        throw new _errors.SdkError("receiver can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgSwapToERC20;
+    }
+  }]);
+}(_types.Msg);
+var MsgSwapFromERC20 = exports.MsgSwapFromERC20 = /*#__PURE__*/function (_Msg8) {
+  function MsgSwapFromERC20(msg) {
+    var _this8;
+    (0, _classCallCheck2["default"])(this, MsgSwapFromERC20);
+    _this8 = _callSuper(this, MsgSwapFromERC20, [_types.TxType.MsgSwapFromERC20]);
+    _this8.value = msg;
+    return _this8;
+  }
+  (0, _inherits2["default"])(MsgSwapFromERC20, _Msg8);
+  return (0, _createClass2["default"])(MsgSwapFromERC20, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setSender(this.value.sender).setWantedAmount(_helper.TxModelCreator.createCoinModel(this.value.wanted_amount.denom, this.value.wanted_amount.amount)).setReceiver(this.value.receiver);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      if (is.undefined(this.value.wanted_amount)) {
+        throw new _errors.SdkError("wanted amount can not be empty");
+      }
+      if (is.undefined(this.value.receiver)) {
+        throw new _errors.SdkError("receiver can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgSwapFromERC20;
     }
   }]);
 }(_types.Msg);

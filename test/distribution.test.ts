@@ -142,6 +142,19 @@ describe('Distribution Tests', () => {
             }
         );
         
+        test(
+            'query tokenize share record reward',
+            async () => {
+                await BaseTest.getClient().distribution
+                    .queryTokenizeShareRecordReward('iaa1yfy7vsvc4r0ae23rk5vllks9q393gfsnrgdexy')
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
     });
 
     describe('withdraw Validator Commission', () => {
@@ -217,6 +230,40 @@ describe('Distribution Tests', () => {
                     });
             },
             timeOut
+        );
+    });
+
+    describe('Withdraw Tokenize Share Record Reward', () => {
+        test('Withdraw Tokenize Share Record Reward',
+            async () => {
+                await BaseTest.getClient()
+                    .distribution.withdrawTokenizeShareRecordReward(
+                        2,
+                        BaseTest.baseTx,
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        );
+
+        test(
+            'withdraww all tokenize share record reward',
+            async () => {
+                await BaseTest.getClient()
+                    .distribution.withdrawAllTokenizeShareRecordReward(
+                        BaseTest.baseTx,
+                    )
+                    .then(res => {
+                        console.log(JSON.stringify(res));
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
         );
     });
 });

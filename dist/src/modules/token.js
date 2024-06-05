@@ -234,11 +234,49 @@ var Token = exports.Token = /*#__PURE__*/function () {
       return swapFeeToken;
     }()
     /**
+     * @wapping some native token to its ERC20
+     * @param receiver 
+     * @param baseTx 
+     * @returns 
+     */
+    )
+  }, {
+    key: "SwapToERC20",
+    value: function SwapToERC20(msg, baseTx) {
+      var sender = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgSwapToERC20,
+        value: _objectSpread({
+          sender: sender
+        }, msg)
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * Swapping some ERC20 token to its native
+     * @param receiver 
+     * @param baseTx 
+     * @returns 
+     */
+  }, {
+    key: "SwapFromERC20",
+    value: function SwapFromERC20(msg, baseTx) {
+      var sender = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgSwapFromERC20,
+        value: _objectSpread({
+          sender: sender
+        }, msg)
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
      * Query all tokens
      * @param owner The optional token owner address
      * @returns Token[]
      */
-    )
   }, {
     key: "queryTokens",
     value: function queryTokens(owner) {
@@ -351,6 +389,35 @@ var Token = exports.Token = /*#__PURE__*/function () {
     value: function queryParameters() {
       var request = new types.token_query_pb.QueryParamsRequest();
       return this.client.rpcClient.protoQuery('/irismod.token.Query/Params', request, types.token_query_pb.QueryParamsResponse);
+    }
+
+    /**
+     * TotalBurn queries all the burnt coins
+     * @param null
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTotalBurn",
+    value: function queryTotalBurn() {
+      var request = new types.token_query_pb.QueryTotalBurnRequest();
+      return this.client.rpcClient.protoQuery('/irismod.token.Query/TotalBurn', request, types.token_query_pb.QueryTotalBurnResponse);
+    }
+
+    /**
+     * Balances queries the balance of the specified token (including erc20 balance)
+     * @param denom 
+     * @param address 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryBalances",
+    value: function queryBalances(denom, address) {
+      var request = new types.token_query_pb.QueryBalancesRequest();
+      request.setDenom(denom);
+      request.setAddress(address);
+      return this.client.rpcClient.protoQuery('/irismod.token.Query/Balances', request, types.token_query_pb.QueryBalancesResponse);
     }
   }]);
 }();

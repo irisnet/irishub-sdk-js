@@ -73,6 +73,26 @@ export declare class Token {
         recipient?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
+     * @wapping some native token to its ERC20
+     * @param receiver
+     * @param baseTx
+     * @returns
+     */
+    SwapToERC20(msg: {
+        amount: types.Coin;
+        receiver: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * Swapping some ERC20 token to its native
+     * @param receiver
+     * @param baseTx
+     * @returns
+     */
+    SwapFromERC20(msg: {
+        wanted_amount: types.Coin;
+        receiver: string;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
      * Query all tokens
      * @param owner The optional token owner address
      * @returns Token[]
@@ -99,4 +119,23 @@ export declare class Token {
      * @since
      */
     queryParameters(): Promise<object>;
+    /**
+     * TotalBurn queries all the burnt coins
+     * @param null
+     * @returns
+     * @since v3.4.0
+     */
+    queryTotalBurn(): Promise<{
+        burned_coins: types.Coin[];
+    }>;
+    /**
+     * Balances queries the balance of the specified token (including erc20 balance)
+     * @param denom
+     * @param address
+     * @returns
+     * @since v3.4.0
+     */
+    queryBalances(denom: string, address: string): Promise<{
+        balances: types.Coin[];
+    }>;
 }

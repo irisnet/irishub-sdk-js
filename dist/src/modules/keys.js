@@ -333,7 +333,5 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
       }
       return keyObj.address;
     }
-
-    // TODO: Ledger support
   }]);
 }();

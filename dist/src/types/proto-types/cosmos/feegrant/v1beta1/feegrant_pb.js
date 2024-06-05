@@ -20,6 +20,8 @@ var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
 goog.object.extend(proto, cosmos_proto_cosmos_pb);
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 var google_protobuf_duration_pb = require('google-protobuf/google/protobuf/duration_pb.js');

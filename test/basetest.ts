@@ -32,35 +32,26 @@ export class BaseTest {
 
   static getClient(): Client {
     let config = {
-        node: 'http://192.168.150.33:26657',
-        chainNetwork: iris.types.ChainNetwork.Iris,
-        chainId: 'iris',
-        gas: '20000000',
-        fee: { denom: 'uiris', amount: '200' },
+      node: '{NODE RPC}',
+      chainNetwork: iris.types.ChainNetwork.Iris,
+      chainId: '{Chain ID}',
+      gas: '20000000',
+      fee: { denom: '{Denom}', amount: '200' },
     };
-
-    // let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
-
-    // let config = {
-    //     node: 'http://34.80.22.255:26657',
-    //     network: iris.types.Network.Mainnet,
-    //     chainId: 'bifrost-1',
-    //     gas: '200000',
-    //     fee: { denom: 'udev', amount: '5000' },
-    // };
-    // let privateKey = '80A69946ADD77EF0C17F43E72E759164F6F0A2A7E9D5D3E0966A3BCA8DE3D177'
 
     const client = iris
       .newClient(config)
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
+    const mnemonic = '{Your Mnemonic}';
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'razor educate ostrich pave permit comic collect square believe decade scan day frozen language make winter lyrics spice dawn deliver jaguar arrest decline success'
+      mnemonic
     );
 
+    // const privateKey = '{privateKey}'
     // client.keys.importPrivateKey(
     //   Consts.keyName,
     //   Consts.keyPassword,

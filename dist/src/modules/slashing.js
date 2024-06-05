@@ -10,7 +10,7 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _slashing = require("../types/slashing");
+var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 var _utils = require("../utils");
 var Bech32 = _interopRequireWildcard(require("bech32"));
@@ -80,14 +80,19 @@ var Slashing = exports.Slashing = /*#__PURE__*/function () {
     key: "unjail",
     value: (function () {
       var _unjail = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(baseTx) {
-        var val, words, validatorAddr, msgs;
+        var val, words, validator_addr, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               val = this.client.keys.show(baseTx.from);
               words = Bech32.decode(val).words;
-              validatorAddr = Bech32.encode(this.client.config.bech32Prefix.ValAddr, words);
-              msgs = [new _slashing.MsgUnjail(validatorAddr)];
+              validator_addr = Bech32.encode(this.client.config.bech32Prefix.ValAddr, words);
+              msgs = [{
+                type: types.TxType.MsgUnjail,
+                value: {
+                  validator_addr: validator_addr
+                }
+              }];
               return _context.abrupt("return", this.client.tx.buildAndSend(msgs, baseTx));
             case 5:
             case "end":

@@ -62,10 +62,19 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgDelegate"] = "cosmos.staking.v1beta1.MsgDelegate";
   TxType["MsgUndelegate"] = "cosmos.staking.v1beta1.MsgUndelegate";
   TxType["MsgBeginRedelegate"] = "cosmos.staking.v1beta1.MsgBeginRedelegate";
+  TxType["MsgTokenizeShares"] = "cosmos.staking.v1beta1.MsgTokenizeShares";
+  TxType["MsgRedeemTokensForShares"] = "cosmos.staking.v1beta1.MsgRedeemTokensForShares";
+  TxType["MsgTransferTokenizeShareRecord"] = "cosmos.staking.v1beta1.MsgTransferTokenizeShareRecord";
+  TxType["MsgDisableTokenizeShares"] = "cosmos.staking.v1beta1.MsgDisableTokenizeShares";
+  TxType["MsgEnableTokenizeShares"] = "cosmos.staking.v1beta1.MsgEnableTokenizeShares";
+  TxType["MsgValidatorBond"] = "cosmos.staking.v1beta1.MsgValidatorBond";
+  TxType["MsgUnbondValidator"] = "cosmos.staking.v1beta1.MsgUnbondValidator";
   TxType["MsgWithdrawDelegatorReward"] = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
   TxType["MsgSetWithdrawAddress"] = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress";
   TxType["MsgWithdrawValidatorCommission"] = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission";
   TxType["MsgFundCommunityPool"] = "cosmos.distribution.v1beta1.MsgFundCommunityPool";
+  TxType["MsgWithdrawTokenizeShareRecordReward"] = "cosmos.distribution.v1beta1.MsgWithdrawTokenizeShareRecordReward";
+  TxType["MsgWithdrawAllTokenizeShareRecordReward"] = "cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward";
   TxType["MsgAddLiquidity"] = "irismod.coinswap.MsgAddLiquidity";
   TxType["MsgRemoveLiquidity"] = "irismod.coinswap.MsgRemoveLiquidity";
   TxType["MsgSwapOrder"] = "irismod.coinswap.MsgSwapOrder";
@@ -83,6 +92,8 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgBurnToken"] = "irismod.token.v1.MsgBurnToken";
   TxType["MsgTransferTokenOwner"] = "irismod.token.v1.MsgTransferTokenOwner";
   TxType["MsgSwapFeeToken"] = "irismod.token.v1.MsgSwapFeeToken";
+  TxType["MsgSwapToERC20"] = "irismod.token.v1.MsgSwapToERC20";
+  TxType["MsgSwapFromERC20"] = "irismod.token.v1.MsgSwapFromERC20";
   TxType["MsgSubmitProposal"] = "cosmos.gov.v1beta1.MsgSubmitProposal";
   TxType["MsgVote"] = "cosmos.gov.v1beta1.MsgVote";
   TxType["MsgVoteWeighted"] = "cosmos.gov.v1beta1.MsgVoteWeighted";
@@ -91,6 +102,7 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
   TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
   TxType["MsgIbcNftTransfer"] = "ibc.applications.nft_transfer.v1.MsgTransfer";
+  TxType["MsgUnjail"] = "cosmos.slashing.v1beta1.MsgUnjail";
   return TxType;
 }({});
 /** 

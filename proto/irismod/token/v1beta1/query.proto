@@ -40,7 +40,7 @@ message QueryTokenRequest { string denom = 1; }
 
 // QueryTokenResponse is response type for the Query/Token RPC method
 message QueryTokenResponse {
-  google.protobuf.Any Token = 1
+  google.protobuf.Any token = 1
       [ (cosmos_proto.accepts_interface) = "ContentI" ];
 }
 
@@ -53,7 +53,7 @@ message QueryTokensRequest {
 
 // QueryTokensResponse is response type for the Query/Tokens RPC method
 message QueryTokensResponse {
-  repeated google.protobuf.Any Tokens = 1
+  repeated google.protobuf.Any tokens = 1
       [ (cosmos_proto.accepts_interface) = "ContentI" ];
 
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
@@ -67,12 +67,10 @@ message QueryFeesResponse {
   bool exist = 1;
   cosmos.base.v1beta1.Coin issue_fee = 2 [
     (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"issue_fee\"",
     (gogoproto.casttype) = "github.com/cosmos/cosmos-sdk/types.Coin"
   ];
   cosmos.base.v1beta1.Coin mint_fee = 3 [
     (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"mint_fee\"",
     (gogoproto.casttype) = "github.com/cosmos/cosmos-sdk/types.Coin"
   ];
 }

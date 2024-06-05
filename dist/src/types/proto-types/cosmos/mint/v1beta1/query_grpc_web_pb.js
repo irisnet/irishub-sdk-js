@@ -21,6 +21,8 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var cosmos_mint_v1beta1_mint_pb = require('../../../cosmos/mint/v1beta1/mint_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.mint = {};

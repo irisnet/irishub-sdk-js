@@ -16,6 +16,8 @@ var google_api_annotations_pb = require('../../google/api/annotations_pb.js');
 goog.object.extend(proto, google_api_annotations_pb);
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
+var cosmos_query_v1_query_pb = require('../../cosmos/query/v1/query_pb.js');
+goog.object.extend(proto, cosmos_query_v1_query_pb);
 var irismod_htlc_htlc_pb = require('../../irismod/htlc/htlc_pb.js');
 goog.object.extend(proto, irismod_htlc_htlc_pb);
 goog.exportSymbol('proto.irismod.htlc.QueryAssetSuppliesRequest', null, global);

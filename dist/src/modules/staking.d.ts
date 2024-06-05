@@ -14,6 +14,65 @@ export declare class Staking {
     /** @hidden */
     constructor(client: Client);
     /**
+     * performing the status transition for a validator from bonded to unbonding
+     * @param baseTx
+     */
+    unbondValidator(baseTx: types.BaseTx): Promise<{}>;
+    /**
+     * MsgTokenizeShares tokenizes a delegation
+     *
+     * @param validatorAddr Bech32 validator address
+     * @param amount Amount to be tokenized to the validator
+     * @param tokenizedShareOwner tokenized share owner
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    tokenizeShares(validatorAddr: string, amount: types.Coin, tokenizedShareOwner: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * MsgRedeemTokensForShares redeems a tokenized share back into a native delegation
+     *
+     * @param amount amount to redeemes tokenized share
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    redeemTokensForShares(amount: types.Coin, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * transfer a tokenize share record
+     *
+     * @param tokenizeShareRecordId tokenize share record id
+     * @param newOwner Bech32 new owner address
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    transferTokenizeShareRecord(tokenizeShareRecordId: number, newOwner: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * prevents the tokenization of shares for a given address
+     *
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    disableTokenizeShares(baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * re-enables tokenization of shares for a given address
+     *
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    enableTokenizeShares(baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * performing validator self-bond of delegated coins from a delegator to a validator
+     *
+     * @param validatorAddr Bech32 validator address
+     * @param baseTx
+     * @returns
+     */
+    validatorBond(validatorAddr: string, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
      * Delegate liquid tokens to an validator
      *
      * @param validatorAddr Bech32 validator address
@@ -175,6 +234,79 @@ export declare class Staking {
         pagination?: types.Pagination;
         status?: string;
     }): Promise<types.Validator[]>;
+    /**
+     * Query for individual tokenize share record information by share by id
+     *
+     * @param id record id
+     * @returns
+     * @since v3.4.0
+     */
+    queryTokenizeShareRecordById(id: number): Promise<types.TokenizeShareRecord>;
+    /**
+     * Query for individual tokenize share record information by share denom
+     *
+     * @param denom denom string
+     * @returns
+     * @since v3.4.0
+     */
+    queryTokenizeShareRecordByDenom(denom: string): Promise<types.TokenizeShareRecord>;
+    /**
+     * Query tokenize share records by address
+     *
+     * @param owner Bech32 owner address
+     * @returns
+     * @since v3.4.0
+     */
+    queryTokenizeShareRecordsOwned(owner: string): Promise<types.TokenizeShareRecord[]>;
+    /**
+     * Query for all tokenize share records
+     *
+     * @param pagination page info
+     * @returns
+     * @since v3.4.0
+     */
+    queryAllTokenizeShareRecords(pagination: types.Pagination): Promise<{
+        records: types.TokenizeShareRecord[];
+        pagination: types.Pagination;
+    }>;
+    /**
+     * Query for last tokenize share record id
+     *
+     * @returns
+     * @since v3.4.0
+     */
+    queryLastTokenizeShareRecordId(): Promise<{
+        id: number;
+    }>;
+    /**
+     * Query for total tokenized staked assets
+     *
+     * @returns
+     * @since v3.4.0
+     */
+    queryTotalTokenizeSharedAssets(): Promise<{
+        value: types.Coin;
+    }>;
+    /**
+     * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider)
+     *
+     * @returns
+     * @since v3.4.0
+     */
+    queryTotalLiquidStaked(): Promise<{
+        tokens: string;
+    }>;
+    /**
+     * Query tokenize share locks
+     *
+     * @param address Bech32 address
+     * @returns
+     * @since v3.4.0
+     */
+    queryTokenizeShareLockInfo(address: string): Promise<{
+        status: string;
+        expiration_time: string;
+    }>;
     /**
      * Query the current staking pool values
      * @returns

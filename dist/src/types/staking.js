@@ -5,7 +5,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgUndelegate = exports.MsgRedelegate = exports.MsgEditValidator = exports.MsgDelegate = void 0;
+exports.MsgValidatorBond = exports.MsgUndelegate = exports.MsgUnbondValidator = exports.MsgTransferTokenizeShareRecord = exports.MsgTokenizeShares = exports.MsgRedelegate = exports.MsgRedeemTokensForShares = exports.MsgEnableTokenizeShares = exports.MsgEditValidator = exports.MsgDisableTokenizeShares = exports.MsgDelegate = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
@@ -24,6 +24,9 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
 /** Validator commission */
 /** Validator basic information */
 /** Staking statistics */
+/**
+ * TokenizeShareRecord represents a tokenized delegation
+ */
 /**
  * Gov params for Staking module
  *
@@ -200,6 +203,302 @@ var MsgEditValidator = exports.MsgEditValidator = /*#__PURE__*/function (_Msg4) 
     key: "getSignBytes",
     value: function getSignBytes() {
       return this.value;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for tokenizeing a delegation
+ */
+var MsgTokenizeShares = exports.MsgTokenizeShares = /*#__PURE__*/function (_Msg5) {
+  function MsgTokenizeShares(value) {
+    var _this5;
+    (0, _classCallCheck2["default"])(this, MsgTokenizeShares);
+    _this5 = _callSuper(this, MsgTokenizeShares, [_types.TxType.MsgTokenizeShares]);
+    _this5.value = value;
+    return _this5;
+  }
+  (0, _inherits2["default"])(MsgTokenizeShares, _Msg5);
+  return (0, _createClass2["default"])(MsgTokenizeShares, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setDelegatorAddress(this.value.delegator_address).setValidatorAddress(this.value.validator_address).setTokenizedShareOwner(this.value.tokenized_share_owner).setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.delegator_address)) {
+        throw new _errors.SdkError("delegator address can not be empty");
+      }
+      if (is.undefined(this.value.validator_address)) {
+        throw new _errors.SdkError("validator address can not be empty");
+      }
+      if (is.undefined(this.value.tokenized_share_owner)) {
+        throw new _errors.SdkError("tokenized share owner can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgTokenizeShares;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for redeeming a tokenized share back into a native delegation
+ */
+var MsgRedeemTokensForShares = exports.MsgRedeemTokensForShares = /*#__PURE__*/function (_Msg6) {
+  function MsgRedeemTokensForShares(value) {
+    var _this6;
+    (0, _classCallCheck2["default"])(this, MsgRedeemTokensForShares);
+    _this6 = _callSuper(this, MsgRedeemTokensForShares, [_types.TxType.MsgRedeemTokensForShares]);
+    _this6.value = value;
+    return _this6;
+  }
+  (0, _inherits2["default"])(MsgRedeemTokensForShares, _Msg6);
+  return (0, _createClass2["default"])(MsgRedeemTokensForShares, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setDelegatorAddress(this.value.delegator_address).setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount));
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.delegator_address)) {
+        throw new _errors.SdkError("delegator address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgRedeemTokensForShares;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for transfering a tokenize share record
+ */
+var MsgTransferTokenizeShareRecord = exports.MsgTransferTokenizeShareRecord = /*#__PURE__*/function (_Msg7) {
+  function MsgTransferTokenizeShareRecord(value) {
+    var _this7;
+    (0, _classCallCheck2["default"])(this, MsgTransferTokenizeShareRecord);
+    _this7 = _callSuper(this, MsgTransferTokenizeShareRecord, [_types.TxType.MsgTransferTokenizeShareRecord]);
+    _this7.value = value;
+    return _this7;
+  }
+  (0, _inherits2["default"])(MsgTransferTokenizeShareRecord, _Msg7);
+  return (0, _createClass2["default"])(MsgTransferTokenizeShareRecord, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setTokenizeShareRecordId(this.value.tokenize_share_record_id).setSender(this.value.sender).setNewOwner(this.value.new_owner);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.tokenize_share_record_id)) {
+        throw new _errors.SdkError("tokenize share record id can not be empty");
+      }
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError('sender address can not be empty');
+      }
+      if (is.undefined(this.value.new_owner)) {
+        throw new _errors.SdkError('new owner address can not be empty');
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgTransferTokenizeShareRecord;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for preventing the tokenization of shares
+ */
+var MsgDisableTokenizeShares = exports.MsgDisableTokenizeShares = /*#__PURE__*/function (_Msg8) {
+  function MsgDisableTokenizeShares(value) {
+    var _this8;
+    (0, _classCallCheck2["default"])(this, MsgDisableTokenizeShares);
+    _this8 = _callSuper(this, MsgDisableTokenizeShares, [_types.TxType.MsgDisableTokenizeShares]);
+    _this8.value = value;
+    return _this8;
+  }
+  (0, _inherits2["default"])(MsgDisableTokenizeShares, _Msg8);
+  return (0, _createClass2["default"])(MsgDisableTokenizeShares, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setDelegatorAddress(this.value.delegator_address);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.delegator_address)) {
+        throw new _errors.SdkError("delegator address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgDisableTokenizeShares;
+    }
+  }]);
+}(_types.Msg);
+/**
+ * Msg struct for re-enabling tokenization of shares for a given address
+ */
+var MsgEnableTokenizeShares = exports.MsgEnableTokenizeShares = /*#__PURE__*/function (_Msg9) {
+  function MsgEnableTokenizeShares(value) {
+    var _this9;
+    (0, _classCallCheck2["default"])(this, MsgEnableTokenizeShares);
+    _this9 = _callSuper(this, MsgEnableTokenizeShares, [_types.TxType.MsgEnableTokenizeShares]);
+    _this9.value = value;
+    return _this9;
+  }
+  (0, _inherits2["default"])(MsgEnableTokenizeShares, _Msg9);
+  return (0, _createClass2["default"])(MsgEnableTokenizeShares, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setDelegatorAddress(this.value.delegator_address);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.delegator_address)) {
+        throw new _errors.SdkError("delegator address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgEnableTokenizeShares;
+    }
+  }]);
+}(_types.Msg);
+var MsgValidatorBond = exports.MsgValidatorBond = /*#__PURE__*/function (_Msg10) {
+  function MsgValidatorBond(value) {
+    var _this10;
+    (0, _classCallCheck2["default"])(this, MsgValidatorBond);
+    _this10 = _callSuper(this, MsgValidatorBond, [_types.TxType.MsgValidatorBond]);
+    _this10.value = value;
+    return _this10;
+  }
+  (0, _inherits2["default"])(MsgValidatorBond, _Msg10);
+  return (0, _createClass2["default"])(MsgValidatorBond, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setDelegatorAddress(this.value.delegator_address).setValidatorAddress(this.value.validator_address);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.delegator_address)) {
+        throw new _errors.SdkError("delegator address can not be empty");
+      }
+      if (is.undefined(this.value.validator_address)) {
+        throw new _errors.SdkError("validator address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgValidatorBond;
+    }
+  }]);
+}(_types.Msg);
+var MsgUnbondValidator = exports.MsgUnbondValidator = /*#__PURE__*/function (_Msg11) {
+  function MsgUnbondValidator(value) {
+    var _this11;
+    (0, _classCallCheck2["default"])(this, MsgUnbondValidator);
+    _this11 = _callSuper(this, MsgUnbondValidator, [_types.TxType.MsgUnbondValidator]);
+    _this11.value = value;
+    return _this11;
+  }
+  (0, _inherits2["default"])(MsgUnbondValidator, _Msg11);
+  return (0, _createClass2["default"])(MsgUnbondValidator, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setValidatorAddress(this.value.validator_address);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.validator_address)) {
+        throw new _errors.SdkError("validator address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.staking_tx_pb.MsgUnbondValidator;
     }
   }]);
 }(_types.Msg);

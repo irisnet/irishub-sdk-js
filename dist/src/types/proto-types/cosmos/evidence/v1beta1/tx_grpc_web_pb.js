@@ -21,6 +21,10 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js')
 
 var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var cosmos_msg_v1_msg_pb = require('../../../cosmos/msg/v1/msg_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.evidence = {};

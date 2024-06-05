@@ -18,6 +18,10 @@ var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js');
 goog.object.extend(proto, cosmos_proto_cosmos_pb);
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
+var cosmos_msg_v1_msg_pb = require('../../../cosmos/msg/v1/msg_pb.js');
+goog.object.extend(proto, cosmos_msg_v1_msg_pb);
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 goog.exportSymbol('proto.cosmos.bank.v1beta1.DenomUnit', null, global);
 goog.exportSymbol('proto.cosmos.bank.v1beta1.Input', null, global);
 goog.exportSymbol('proto.cosmos.bank.v1beta1.Metadata', null, global);
@@ -1323,7 +1327,9 @@ proto.cosmos.bank.v1beta1.Metadata.toObject = function(includeInstance, msg) {
     base: jspb.Message.getFieldWithDefault(msg, 3, ""),
     display: jspb.Message.getFieldWithDefault(msg, 4, ""),
     name: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    symbol: jspb.Message.getFieldWithDefault(msg, 6, "")
+    symbol: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    uri: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    uriHash: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1384,6 +1390,14 @@ proto.cosmos.bank.v1beta1.Metadata.deserializeBinaryFromReader = function(msg, r
     case 6:
       var value = /** @type {string} */ (reader.readString());
       msg.setSymbol(value);
+      break;
+    case 7:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUri(value);
+      break;
+    case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUriHash(value);
       break;
     default:
       reader.skipField();
@@ -1454,6 +1468,20 @@ proto.cosmos.bank.v1beta1.Metadata.serializeBinaryToWriter = function(message, w
   if (f.length > 0) {
     writer.writeString(
       6,
+      f
+    );
+  }
+  f = message.getUri();
+  if (f.length > 0) {
+    writer.writeString(
+      7,
+      f
+    );
+  }
+  f = message.getUriHash();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
       f
     );
   }
@@ -1585,6 +1613,42 @@ proto.cosmos.bank.v1beta1.Metadata.prototype.getSymbol = function() {
  */
 proto.cosmos.bank.v1beta1.Metadata.prototype.setSymbol = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
+};
+
+
+/**
+ * optional string uri = 7;
+ * @return {string}
+ */
+proto.cosmos.bank.v1beta1.Metadata.prototype.getUri = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.bank.v1beta1.Metadata} returns this
+ */
+proto.cosmos.bank.v1beta1.Metadata.prototype.setUri = function(value) {
+  return jspb.Message.setProto3StringField(this, 7, value);
+};
+
+
+/**
+ * optional string uri_hash = 8;
+ * @return {string}
+ */
+proto.cosmos.bank.v1beta1.Metadata.prototype.getUriHash = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.cosmos.bank.v1beta1.Metadata} returns this
+ */
+proto.cosmos.bank.v1beta1.Metadata.prototype.setUriHash = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
 };
 
 

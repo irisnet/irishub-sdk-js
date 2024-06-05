@@ -5,7 +5,7 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgWithdrawValidatorCommission = exports.MsgWithdrawDelegatorReward = exports.MsgSetWithdrawAddress = exports.MsgFundCommunityPool = void 0;
+exports.MsgWithdrawValidatorCommission = exports.MsgWithdrawTokenizeShareRecordReward = exports.MsgWithdrawDelegatorReward = exports.MsgWithdrawAllTokenizeShareRecordReward = exports.MsgSetWithdrawAddress = exports.MsgFundCommunityPool = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
@@ -202,3 +202,82 @@ var MsgFundCommunityPool = exports.MsgFundCommunityPool = /*#__PURE__*/function 
 }(_types.Msg);
 /** Common rewards struct */
 /** Delegaion rewards */
+var MsgWithdrawTokenizeShareRecordReward = exports.MsgWithdrawTokenizeShareRecordReward = /*#__PURE__*/function (_Msg5) {
+  function MsgWithdrawTokenizeShareRecordReward(value) {
+    var _this5;
+    (0, _classCallCheck2["default"])(this, MsgWithdrawTokenizeShareRecordReward);
+    _this5 = _callSuper(this, MsgWithdrawTokenizeShareRecordReward, [_types.TxType.MsgWithdrawTokenizeShareRecordReward]);
+    _this5.value = value;
+    return _this5;
+  }
+  (0, _inherits2["default"])(MsgWithdrawTokenizeShareRecordReward, _Msg5);
+  return (0, _createClass2["default"])(MsgWithdrawTokenizeShareRecordReward, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setOwnerAddress(this.value.owner_address).setRecordId(this.value.record_id);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.owner_address)) {
+        throw new _errors.SdkError("owner address can not be empty");
+      }
+      if (is.undefined(this.value.record_id)) {
+        throw new _errors.SdkError("record id can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.distribution_tx_pb.MsgWithdrawTokenizeShareRecordReward;
+    }
+  }]);
+}(_types.Msg);
+var MsgWithdrawAllTokenizeShareRecordReward = exports.MsgWithdrawAllTokenizeShareRecordReward = /*#__PURE__*/function (_Msg6) {
+  function MsgWithdrawAllTokenizeShareRecordReward(value) {
+    var _this6;
+    (0, _classCallCheck2["default"])(this, MsgWithdrawAllTokenizeShareRecordReward);
+    _this6 = _callSuper(this, MsgWithdrawAllTokenizeShareRecordReward, [_types.TxType.MsgWithdrawAllTokenizeShareRecordReward]);
+    _this6.value = value;
+    return _this6;
+  }
+  (0, _inherits2["default"])(MsgWithdrawAllTokenizeShareRecordReward, _Msg6);
+  return (0, _createClass2["default"])(MsgWithdrawAllTokenizeShareRecordReward, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())();
+      msg.setOwnerAddress(this.value.owner_address);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.owner_address)) {
+        throw new _errors.SdkError("owner address can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.distribution_tx_pb.MsgWithdrawAllTokenizeShareRecordReward;
+    }
+  }]);
+}(_types.Msg);
