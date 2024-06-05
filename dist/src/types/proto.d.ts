@@ -39,7 +39,6 @@ export declare const random_query_pb: any;
 export declare const record_query_pb: any;
 export declare const service_query_pb: any;
 export declare const token_query_pb: any;
-export declare const token_query_pb1: any;
 export declare const farm_query_pb: any;
 export declare const ibc_transfer_query_pb: any;
 export declare const ibc_channel_query_pb: any;
