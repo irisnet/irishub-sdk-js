@@ -68,8 +68,8 @@ export class MsgUnjail extends Msg {
   }
 
   Validate() {
-    if (!this.value.address) {
-      throw new SdkError("address can not be empty");
+    if (!this.value.validator_addr) {
+      throw new SdkError("validator_addr can not be empty");
     }
   }
 }
