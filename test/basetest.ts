@@ -1,7 +1,6 @@
 // support cosmos-sdk v0.44.x、 irismod 1.5.2、ibc 1.1.0
 import * as iris from '../src';
 import { Client } from '../src/client';
-import { Crypto } from '../src';
 
 export class Consts {
   static timeout = 10000;
@@ -32,43 +31,33 @@ export class BaseTest {
   };
 
   static getClient(): Client {
-
     let config = {
-      node: 'http://34.80.202.172:26657',
+      node: '{NODE RPC}',
       chainNetwork: iris.types.ChainNetwork.Iris,
-      chainId: 'nyancat-9',
-      gas: '200000',
-      fee: { denom: 'unyan', amount: '400000' },
+      chainId: '{Chain ID}',
+      gas: '20000000',
+      fee: { denom: '{Denom}', amount: '200' },
     };
-
-    // let privateKey = '1E120611404C4B1B98FC899A8026A6A9823C35985DA3C5ED3FF57C170C822F60'
-
-    // let config = {
-    //     node: 'http://34.80.22.255:26657',
-    //     chainId: 'bifrost-1',
-    //     gas: '200000',
-    //     fee: { denom: 'udev', amount: '5000' },
-    // };
-    // let privateKey = '06deecd6aeafa4a140470ff3c2a1258263162fb281c09871a337b7198c21d34a'
 
     const client = iris
       .newClient(config)
       .withKeyDAO(new TestKeyDAO())
       .withRpcConfig({ timeout: Consts.timeout });
 
+    const mnemonic = '{Your Mnemonic}';
     client.keys.recover(
       Consts.keyName,
       Consts.keyPassword,
-      'fatigue panther innocent dress person fluid animal raven material embark target spread kiss smile cycle begin rocket pull couple story mass analyst guilt network'
+      mnemonic
     );
 
-    // let a =  client.keys.importPrivateKey(
+    // const privateKey = '{privateKey}'
+    // client.keys.importPrivateKey(
     //   Consts.keyName,
     //   Consts.keyPassword,
     //   privateKey,
-    //   iris.types.PubkeyType.secp256k1
+    //   types.PubkeyType.sm2
     // );
-    // console.log('aaaaa:', a);
     return client;
   }
 }

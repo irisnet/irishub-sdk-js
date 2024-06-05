@@ -1,4 +1,4 @@
-import {BaseTest} from './basetest';
+import { BaseTest } from './basetest';
 
 const timeout = 10000;
 
@@ -77,7 +77,12 @@ describe('Token Tests', () => {
         .token.queryBalances(
           'unyan',
           'iaa1kmfftqp7k49n4jec87sf5t7pz9mysde07ms9qm',
-        )
+        ).then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   )
   test(
@@ -126,7 +131,7 @@ describe('Token Tests', () => {
     async () => {
       await BaseTest.getClient()
         .token.mintToken({
-          coin:{
+          coin: {
             denom: 'coinzz',
             amount: '99',
           },
@@ -148,7 +153,7 @@ describe('Token Tests', () => {
         .token.burnToken({
           amount: '1',
           denom: 'uiris'
-        } , BaseTest.baseTx)
+        }, BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
         })
@@ -164,11 +169,11 @@ describe('Token Tests', () => {
       await BaseTest.getClient()
         .token.swapFeeToken(
           {
-            fee_paid:{
+            fee_paid: {
               amount: '2',
               denom: 'uiris'
             }
-          }, 
+          },
           BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));
@@ -202,7 +207,7 @@ describe('Token Tests', () => {
       await BaseTest.getClient()
         .token.SwapToERC20({
           amount: { denom: 'unyan', amount: '500' },
-          receiver: '0x6D451e38e01060A097c7D0ABCAa9A1a55210f01A',
+          receiver: '0x6d451e38e01060a097c7d0abcaa9a1a55210f01a',
         }, BaseTest.baseTx)
         .then(res => {
           console.log(JSON.stringify(res));

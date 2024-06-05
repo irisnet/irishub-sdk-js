@@ -81,7 +81,7 @@ export declare class Token {
     SwapToERC20(msg: {
         amount: types.Coin;
         receiver: string;
-    }, baseTx: types.BaseTx): Promise<{}>;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Swapping some ERC20 token to its native
      * @param receiver
@@ -91,7 +91,7 @@ export declare class Token {
     SwapFromERC20(msg: {
         wanted_amount: types.Coin;
         receiver: string;
-    }, baseTx: types.BaseTx): Promise<{}>;
+    }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * Query all tokens
      * @param owner The optional token owner address

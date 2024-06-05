@@ -1,4 +1,6 @@
-import { Coin, Msg } from './types';
+import { Coin, Msg, TxType } from './types';
+import * as pbs from "./proto";
+import { SdkError, CODES } from '../errors';
 
 /**
  * ***Gov params for Slashing module***
@@ -45,18 +47,30 @@ export interface SlashingParams {
  */
 export class MsgUnjail extends Msg {
   value: {
-    address: string;
+    validator_addr: string;
   };
 
-  constructor(address: string) {
-    super('irishub/slashing/MsgUnjail');
+  constructor(validator_addr: string) {
+    super(TxType.MsgUnjail);
     this.value = {
-      address,
+      validator_addr,
     };
   }
 
-  getSignBytes(): object {
-    return this.value;
+  static getModelClass(): any {
+    return pbs.slashing_tx_pb.MsgUnjail;
+  }
+
+  getModel(): any {
+    let msg = new ((this.constructor as any).getModelClass())();
+    msg.setValidatorAddr(this.value.validator_addr);
+    return msg;
+  }
+
+  Validate() {
+    if (!this.value.validator_addr) {
+      throw new SdkError("validator_addr can not be empty");
+    }
   }
 }
 

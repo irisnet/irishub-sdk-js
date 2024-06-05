@@ -10,7 +10,6 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _types = require("./types");
 function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
@@ -23,7 +22,6 @@ var MsgDefineService = exports.MsgDefineService = /*#__PURE__*/function (_Msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgDefineService);
     _this = _callSuper(this, MsgDefineService, ['irishub/service/MsgDefineService']);
-    (0, _defineProperty2["default"])(_this, "value", void 0);
     _this.value = definition;
     return _this;
   }
@@ -44,7 +42,6 @@ var MsgBindService = exports.MsgBindService = /*#__PURE__*/function (_Msg2) {
     var _this2;
     (0, _classCallCheck2["default"])(this, MsgBindService);
     _this2 = _callSuper(this, MsgBindService, ['irishub/service/MsgBindService']);
-    (0, _defineProperty2["default"])(_this2, "value", void 0);
     _this2.value = binding;
     return _this2;
   }
@@ -65,7 +62,6 @@ var MsgUpdateServiceBinding = exports.MsgUpdateServiceBinding = /*#__PURE__*/fun
     var _this3;
     (0, _classCallCheck2["default"])(this, MsgUpdateServiceBinding);
     _this3 = _callSuper(this, MsgUpdateServiceBinding, ['irishub/service/MsgUpdateServiceBinding']);
-    (0, _defineProperty2["default"])(_this3, "value", void 0);
     _this3.value = binding;
     return _this3;
   }
@@ -86,7 +82,6 @@ var MsgDisableServiceBinding = exports.MsgDisableServiceBinding = /*#__PURE__*/f
     var _this4;
     (0, _classCallCheck2["default"])(this, MsgDisableServiceBinding);
     _this4 = _callSuper(this, MsgDisableServiceBinding, ['irishub/service/MsgDisableService']);
-    (0, _defineProperty2["default"])(_this4, "value", void 0);
     _this4.value = {
       service_name: serviceName,
       provider: provider
@@ -110,7 +105,6 @@ var MsgEnableServiceBinding = exports.MsgEnableServiceBinding = /*#__PURE__*/fun
     var _this5;
     (0, _classCallCheck2["default"])(this, MsgEnableServiceBinding);
     _this5 = _callSuper(this, MsgEnableServiceBinding, ['irishub/service/MsgEnableService']);
-    (0, _defineProperty2["default"])(_this5, "value", void 0);
     _this5.value = {
       service_name: serviceName,
       provider: provider
@@ -134,7 +128,6 @@ var MsgRequestService = exports.MsgRequestService = /*#__PURE__*/function (_Msg6
     var _this6;
     (0, _classCallCheck2["default"])(this, MsgRequestService);
     _this6 = _callSuper(this, MsgRequestService, ['irishub/service/MsgRequestService']);
-    (0, _defineProperty2["default"])(_this6, "value", void 0);
     _this6.value = request;
     return _this6;
   }
@@ -154,7 +147,6 @@ var MsgSetServiceWithdrawAddress = exports.MsgSetServiceWithdrawAddress = /*#__P
     var _this7;
     (0, _classCallCheck2["default"])(this, MsgSetServiceWithdrawAddress);
     _this7 = _callSuper(this, MsgSetServiceWithdrawAddress, ['irishub/service/MsgSetWithdrawAddress']);
-    (0, _defineProperty2["default"])(_this7, "value", void 0);
     _this7.value = {
       provider: provider,
       withdraw_address: withdrawAddress
@@ -178,7 +170,6 @@ var MsgRefundServiceDeposit = exports.MsgRefundServiceDeposit = /*#__PURE__*/fun
     var _this8;
     (0, _classCallCheck2["default"])(this, MsgRefundServiceDeposit);
     _this8 = _callSuper(this, MsgRefundServiceDeposit, ['irishub/service/MsgRefundServiceDeposit']);
-    (0, _defineProperty2["default"])(_this8, "value", void 0);
     _this8.value = {
       service_name: serviceName,
       provider: provider
@@ -202,7 +193,6 @@ var MsgStartRequestContext = exports.MsgStartRequestContext = /*#__PURE__*/funct
     var _this9;
     (0, _classCallCheck2["default"])(this, MsgStartRequestContext);
     _this9 = _callSuper(this, MsgStartRequestContext, ['irishub/service/MsgStartRequestContext']);
-    (0, _defineProperty2["default"])(_this9, "value", void 0);
     _this9.value = {
       request_context_id: requestContextID,
       consumer: consumer
@@ -226,7 +216,6 @@ var MsgPauseRequestContext = exports.MsgPauseRequestContext = /*#__PURE__*/funct
     var _this10;
     (0, _classCallCheck2["default"])(this, MsgPauseRequestContext);
     _this10 = _callSuper(this, MsgPauseRequestContext, ['irishub/service/MsgPauseRequestContext']);
-    (0, _defineProperty2["default"])(_this10, "value", void 0);
     _this10.value = {
       request_context_id: requestContextID,
       consumer: consumer
@@ -250,7 +239,6 @@ var MsgKillRequestContext = exports.MsgKillRequestContext = /*#__PURE__*/functio
     var _this11;
     (0, _classCallCheck2["default"])(this, MsgKillRequestContext);
     _this11 = _callSuper(this, MsgKillRequestContext, ['irishub/service/MsgKillRequestContext']);
-    (0, _defineProperty2["default"])(_this11, "value", void 0);
     _this11.value = {
       request_context_id: requestContextID,
       consumer: consumer
@@ -274,7 +262,6 @@ var MsgUpdateRequestContext = exports.MsgUpdateRequestContext = /*#__PURE__*/fun
     var _this12;
     (0, _classCallCheck2["default"])(this, MsgUpdateRequestContext);
     _this12 = _callSuper(this, MsgUpdateRequestContext, ['irishub/service/MsgUpdateRequestContext']);
-    (0, _defineProperty2["default"])(_this12, "value", void 0);
     _this12.value = request;
     return _this12;
   }
@@ -295,7 +282,6 @@ var MsgWithdrawEarnedFees = exports.MsgWithdrawEarnedFees = /*#__PURE__*/functio
     var _this13;
     (0, _classCallCheck2["default"])(this, MsgWithdrawEarnedFees);
     _this13 = _callSuper(this, MsgWithdrawEarnedFees, ['irishub/service/MsgWithdrawEarnedFees']);
-    (0, _defineProperty2["default"])(_this13, "value", void 0);
     _this13.value = {
       provider: provider
     };
@@ -318,7 +304,6 @@ var MsgWithdrawTax = exports.MsgWithdrawTax = /*#__PURE__*/function (_Msg14) {
     var _this14;
     (0, _classCallCheck2["default"])(this, MsgWithdrawTax);
     _this14 = _callSuper(this, MsgWithdrawTax, ['irishub/service/MsgWithdrawTax']);
-    (0, _defineProperty2["default"])(_this14, "value", void 0);
     _this14.value = {
       trustee: trustee,
       dest_address: destAddress,

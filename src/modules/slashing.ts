@@ -33,7 +33,7 @@ export class Slashing {
     //   'custom/slashing/parameters'
     // );
 
-    throw new SdkError('Not supported',CODES.Internal);
+    throw new SdkError('Not supported', CODES.Internal);
   }
 
   /**
@@ -66,13 +66,19 @@ export class Slashing {
    */
   async unjail(baseTx: types.BaseTx): Promise<types.TxResult> {
     const val = this.client.keys.show(baseTx.from);
-    const words = Bech32.decode(val).words;    
-    const validatorAddr = Bech32.encode(
+    const words = Bech32.decode(val).words;
+    const validator_addr = Bech32.encode(
       this.client.config.bech32Prefix.ValAddr,
       words
     );
-    const msgs: types.Msg[] = [new MsgUnjail(validatorAddr)];
-
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgUnjail,
+        value: {
+          validator_addr
+        }
+      }
+    ];
     return this.client.tx.buildAndSend(msgs, baseTx);
   }
 }
