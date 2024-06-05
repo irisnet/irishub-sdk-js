@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.TxType = exports.PubkeyType = exports.Msg = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _helper = require("../helper");
 var _errors = require("../errors");
 var _buffer = require("buffer");
@@ -18,8 +17,6 @@ var _buffer = require("buffer");
 var Msg = exports.Msg = /*#__PURE__*/function () {
   function Msg(type) {
     (0, _classCallCheck2["default"])(this, Msg);
-    (0, _defineProperty2["default"])(this, "type", void 0);
-    (0, _defineProperty2["default"])(this, "value", void 0);
     this.type = type;
   }
   return (0, _createClass2["default"])(Msg, [{
@@ -105,6 +102,7 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
   TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
   TxType["MsgIbcNftTransfer"] = "ibc.applications.nft_transfer.v1.MsgTransfer";
+  TxType["MsgUnjail"] = "cosmos.slashing.v1beta1.MsgUnjail";
   return TxType;
 }({});
 /** 

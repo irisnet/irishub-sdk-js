@@ -13,7 +13,7 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var mathjs = _interopRequireWildcard(require("mathjs"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 /**
  * Utils for the IRISHub SDK
  * @category Modules
@@ -21,20 +21,18 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Utils = exports.Utils = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Utils(client) {
     (0, _classCallCheck2["default"])(this, Utils);
     /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     /** @hidden */
-    (0, _defineProperty2["default"])(this, "tokenMap", void 0);
     /** @hidden */
     (0, _defineProperty2["default"])(this, "mathConfig", {
       number: 'BigNumber',
       // Choose 'number' (default), 'BigNumber', or 'Fraction'
       precision: 64 // 64 by default, only applicable for BigNumbers
     });
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "math", void 0);
     this.client = client;
     this.tokenMap = new Map();
     this.math = mathjs.create(mathjs.all, this.mathConfig);

@@ -11,14 +11,13 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
 var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _types = require("./types");
 var _helper = require("../helper");
 var pbs = _interopRequireWildcard(require("./proto"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 /** Validator details */
@@ -54,7 +53,6 @@ var MsgDelegate = exports.MsgDelegate = /*#__PURE__*/function (_Msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgDelegate);
     _this = _callSuper(this, MsgDelegate, [_types.TxType.MsgDelegate]);
-    (0, _defineProperty2["default"])(_this, "value", void 0);
     _this.value = msg;
     return _this;
   }
@@ -100,7 +98,6 @@ var MsgUndelegate = exports.MsgUndelegate = /*#__PURE__*/function (_Msg2) {
     var _this2;
     (0, _classCallCheck2["default"])(this, MsgUndelegate);
     _this2 = _callSuper(this, MsgUndelegate, [_types.TxType.MsgUndelegate]);
-    (0, _defineProperty2["default"])(_this2, "value", void 0);
     _this2.value = msg;
     return _this2;
   }
@@ -146,7 +143,6 @@ var MsgRedelegate = exports.MsgRedelegate = /*#__PURE__*/function (_Msg3) {
     var _this3;
     (0, _classCallCheck2["default"])(this, MsgRedelegate);
     _this3 = _callSuper(this, MsgRedelegate, [_types.TxType.MsgBeginRedelegate]);
-    (0, _defineProperty2["default"])(_this3, "value", void 0);
     _this3.value = msg;
     return _this3;
   }
@@ -195,7 +191,6 @@ var MsgEditValidator = exports.MsgEditValidator = /*#__PURE__*/function (_Msg4) 
     var _this4;
     (0, _classCallCheck2["default"])(this, MsgEditValidator);
     _this4 = _callSuper(this, MsgEditValidator, ['irishub/stake/MsgEditValidator']);
-    (0, _defineProperty2["default"])(_this4, "value", void 0);
     _this4.value = {
       Description: description,
       address: address,
@@ -219,7 +214,6 @@ var MsgTokenizeShares = exports.MsgTokenizeShares = /*#__PURE__*/function (_Msg5
     var _this5;
     (0, _classCallCheck2["default"])(this, MsgTokenizeShares);
     _this5 = _callSuper(this, MsgTokenizeShares, [_types.TxType.MsgTokenizeShares]);
-    (0, _defineProperty2["default"])(_this5, "value", void 0);
     _this5.value = value;
     return _this5;
   }
@@ -267,7 +261,6 @@ var MsgRedeemTokensForShares = exports.MsgRedeemTokensForShares = /*#__PURE__*/f
     var _this6;
     (0, _classCallCheck2["default"])(this, MsgRedeemTokensForShares);
     _this6 = _callSuper(this, MsgRedeemTokensForShares, [_types.TxType.MsgRedeemTokensForShares]);
-    (0, _defineProperty2["default"])(_this6, "value", void 0);
     _this6.value = value;
     return _this6;
   }
@@ -309,7 +302,6 @@ var MsgTransferTokenizeShareRecord = exports.MsgTransferTokenizeShareRecord = /*
     var _this7;
     (0, _classCallCheck2["default"])(this, MsgTransferTokenizeShareRecord);
     _this7 = _callSuper(this, MsgTransferTokenizeShareRecord, [_types.TxType.MsgTransferTokenizeShareRecord]);
-    (0, _defineProperty2["default"])(_this7, "value", void 0);
     _this7.value = value;
     return _this7;
   }
@@ -318,7 +310,7 @@ var MsgTransferTokenizeShareRecord = exports.MsgTransferTokenizeShareRecord = /*
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
-      msg.setTokenizedShareRecordId(this.value.tokenize_share_record_id).setSender(this.value.sender).setNewOwner(this.value.new_owner);
+      msg.setTokenizeShareRecordId(this.value.tokenize_share_record_id).setSender(this.value.sender).setNewOwner(this.value.new_owner);
       return msg;
     }
 
@@ -357,7 +349,6 @@ var MsgDisableTokenizeShares = exports.MsgDisableTokenizeShares = /*#__PURE__*/f
     var _this8;
     (0, _classCallCheck2["default"])(this, MsgDisableTokenizeShares);
     _this8 = _callSuper(this, MsgDisableTokenizeShares, [_types.TxType.MsgDisableTokenizeShares]);
-    (0, _defineProperty2["default"])(_this8, "value", void 0);
     _this8.value = value;
     return _this8;
   }
@@ -399,7 +390,6 @@ var MsgEnableTokenizeShares = exports.MsgEnableTokenizeShares = /*#__PURE__*/fun
     var _this9;
     (0, _classCallCheck2["default"])(this, MsgEnableTokenizeShares);
     _this9 = _callSuper(this, MsgEnableTokenizeShares, [_types.TxType.MsgEnableTokenizeShares]);
-    (0, _defineProperty2["default"])(_this9, "value", void 0);
     _this9.value = value;
     return _this9;
   }
@@ -438,7 +428,6 @@ var MsgValidatorBond = exports.MsgValidatorBond = /*#__PURE__*/function (_Msg10)
     var _this10;
     (0, _classCallCheck2["default"])(this, MsgValidatorBond);
     _this10 = _callSuper(this, MsgValidatorBond, [_types.TxType.MsgValidatorBond]);
-    (0, _defineProperty2["default"])(_this10, "value", void 0);
     _this10.value = value;
     return _this10;
   }
@@ -480,7 +469,6 @@ var MsgUnbondValidator = exports.MsgUnbondValidator = /*#__PURE__*/function (_Ms
     var _this11;
     (0, _classCallCheck2["default"])(this, MsgUnbondValidator);
     _this11 = _callSuper(this, MsgUnbondValidator, [_types.TxType.MsgUnbondValidator]);
-    (0, _defineProperty2["default"])(_this11, "value", void 0);
     _this11.value = value;
     return _this11;
   }

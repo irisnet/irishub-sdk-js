@@ -61,7 +61,8 @@ export declare enum TxType {
     MsgCreateHTLC = "irismod.htlc.MsgCreateHTLC",
     MsgClaimHTLC = "irismod.htlc.MsgClaimHTLC",
     MsgTransfer = "ibc.applications.transfer.v1.MsgTransfer",
-    MsgIbcNftTransfer = "ibc.applications.nft_transfer.v1.MsgTransfer"
+    MsgIbcNftTransfer = "ibc.applications.nft_transfer.v1.MsgTransfer",
+    MsgUnjail = "cosmos.slashing.v1beta1.MsgUnjail"
 }
 /**
  * Base Tx

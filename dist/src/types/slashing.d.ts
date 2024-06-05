@@ -43,10 +43,12 @@ export interface SlashingParams {
  */
 export declare class MsgUnjail extends Msg {
     value: {
-        address: string;
+        validator_addr: string;
     };
-    constructor(address: string);
-    getSignBytes(): object;
+    constructor(validator_addr: string);
+    static getModelClass(): any;
+    getModel(): any;
+    Validate(): void;
 }
 /** Defines the signing info for a validator */
 export interface ValidatorSigningInfo {
