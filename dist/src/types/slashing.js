@@ -7,13 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.MsgUnjail = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _types = require("./types");
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 /**
  * ***Gov params for Slashing module***
@@ -47,24 +45,21 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
  * @hidden
  */
 var MsgUnjail = exports.MsgUnjail = /*#__PURE__*/function (_Msg) {
-  (0, _inherits2["default"])(MsgUnjail, _Msg);
-  var _super = _createSuper(MsgUnjail);
   function MsgUnjail(address) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgUnjail);
-    _this = _super.call(this, 'irishub/slashing/MsgUnjail');
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
+    _this = _callSuper(this, MsgUnjail, ['irishub/slashing/MsgUnjail']);
     _this.value = {
       address: address
     };
     return _this;
   }
-  (0, _createClass2["default"])(MsgUnjail, [{
+  (0, _inherits2["default"])(MsgUnjail, _Msg);
+  return (0, _createClass2["default"])(MsgUnjail, [{
     key: "getSignBytes",
     value: function getSignBytes() {
       return this.value;
     }
   }]);
-  return MsgUnjail;
 }(_types.Msg);
 /** Defines the signing info for a validator */

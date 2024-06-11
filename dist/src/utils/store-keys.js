@@ -17,7 +17,7 @@ var StoreKeys = exports.StoreKeys = /*#__PURE__*/function () {
   function StoreKeys() {
     (0, _classCallCheck2["default"])(this, StoreKeys);
   }
-  (0, _createClass2["default"])(StoreKeys, null, [{
+  return (0, _createClass2["default"])(StoreKeys, null, [{
     key: "getAccountStoreKey",
     value:
     /**
@@ -36,7 +36,6 @@ var StoreKeys = exports.StoreKeys = /*#__PURE__*/function () {
       return Uint8Array.from(StoreKeys.validatorSigninginfoKey.concat(bytes));
     }
   }]);
-  return StoreKeys;
 }();
 (0, _defineProperty2["default"])(StoreKeys, "addressStoreKeyPrefix", _utils.Utils.str2ba('account:'));
 (0, _defineProperty2["default"])(StoreKeys, "globalAccountNumberKey", _utils.Utils.str2ba('globalAccountNumber'));

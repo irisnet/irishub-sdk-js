@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.Auth = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
@@ -23,12 +22,12 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Auth = exports.Auth = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
+
+  /** @hidden */
   function Auth(client) {
     (0, _classCallCheck2["default"])(this, Auth);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "defaultStdFee", void 0);
     this.client = client;
     this.defaultStdFee = {
       amount: [this.client.config.fee],
@@ -49,7 +48,7 @@ var Auth = exports.Auth = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Auth, [{
+  return (0, _createClass2["default"])(Auth, [{
     key: "newStdTx",
     value: function newStdTx(msgs, baseTx) {
       var stdFee = {
@@ -125,5 +124,4 @@ var Auth = exports.Auth = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/cosmos.auth.v1beta1.Query/Params', request, types.auth_query_pb.QueryParamsResponse);
     }
   }]);
-  return Auth;
 }();

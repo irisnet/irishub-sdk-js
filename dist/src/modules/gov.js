@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _helper = require("../helper");
 var _errors = require("../errors");
@@ -26,10 +25,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Gov = exports.Gov = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Gov(client) {
     (0, _classCallCheck2["default"])(this, Gov);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -41,7 +40,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Gov, [{
+  return (0, _createClass2["default"])(Gov, [{
     key: "submitProposal",
     value: (function () {
       var _submitProposal = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(content, initial_deposit, baseTx) {
@@ -344,5 +343,4 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/cosmos.gov.v1beta1.Query/TallyResult', request, types.gov_query_pb.QueryTallyResultResponse);
     }
   }]);
-  return Gov;
 }();

@@ -26,7 +26,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   function Utils() {
     (0, _classCallCheck2["default"])(this, Utils);
   }
-  (0, _createClass2["default"])(Utils, null, [{
+  return (0, _createClass2["default"])(Utils, null, [{
     key: "str2ab",
     value:
     /**
@@ -412,5 +412,4 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
       return b;
     }
   }]);
-  return Utils;
 }();

@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Htlc = void 0;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _crypto = require("../utils/crypto");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
@@ -25,10 +25,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Htlc = exports.Htlc = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Htlc(client) {
     (0, _classCallCheck2["default"])(this, Htlc);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -47,7 +47,7 @@ var Htlc = exports.Htlc = /*#__PURE__*/function () {
    *  }
    *  @param baseTx { types.BaseTx }
    */
-  (0, _createClass2["default"])(Htlc, [{
+  return (0, _createClass2["default"])(Htlc, [{
     key: "createHTLC",
     value: function createHTLC(param, baseTx) {
       if (!_crypto.Crypto.checkAddress(param.to, this.client.config.bech32Prefix.AccAddr)) {
@@ -132,5 +132,4 @@ var Htlc = exports.Htlc = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/irismod.htlc.Query/Params', request, types.htlc_query_pb.QueryParamsResponse);
     }
   }]);
-  return Htlc;
 }();

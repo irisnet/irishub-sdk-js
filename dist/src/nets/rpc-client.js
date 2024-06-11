@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.RpcClient = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _axios = _interopRequireDefault(require("axios"));
 var _utils = require("../utils");
 var _errors = require("../errors");
@@ -21,6 +20,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @since v0.17
  */
 var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+
   /**
    * Initialize Tendermint JSON RPC Client
    * @param url Rpc address of irishub node
@@ -30,10 +33,6 @@ var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
    */
   function RpcClient(config) {
     (0, _classCallCheck2["default"])(this, RpcClient);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "instance", void 0);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "config", void 0);
     if (is.empty(config)) {
       throw new _errors.SdkError('RpcClient Config not initialized');
     }
@@ -57,7 +56,7 @@ var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(RpcClient, [{
+  return (0, _createClass2["default"])(RpcClient, [{
     key: "request",
     value: function request(method) {
       var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -184,5 +183,4 @@ var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
       return this.request(types.RpcMethods.AbciQuery, params);
     }
   }]);
-  return RpcClient;
 }();
