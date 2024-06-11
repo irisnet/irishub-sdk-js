@@ -284,6 +284,33 @@ var Keys = exports.Keys = /*#__PURE__*/function () {
     }
 
     /**
+     * Export private key
+     *
+     * @param name Name of the key
+     * @param keyPassword Password of the key
+     * @returns Private key string
+     * @since v3.4.0
+     */
+  }, {
+    key: "exportPrivateKey",
+    value: function exportPrivateKey(name, keyPassword) {
+      if (is.empty(name)) {
+        throw new _errors.SdkError("Name of the key can not be empty");
+      }
+      if (is.empty(keyPassword)) {
+        throw new _errors.SdkError("Password of the key can not be empty");
+      }
+      if (!this.client.config.keyDAO.decrypt) {
+        throw new _errors.SdkError("Decrypt method of KeyDAO not implemented");
+      }
+      var keyObj = this.client.config.keyDAO.read(name);
+      if (!keyObj) {
+        throw new _errors.SdkError("Key with name '".concat(name, "' not found"));
+      }
+      return this.client.config.keyDAO.decrypt(keyObj.privateKey, keyPassword);
+    }
+
+    /**
      * Delete a key
      *
      * @param name Name of the key

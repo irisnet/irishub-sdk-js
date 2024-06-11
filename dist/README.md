@@ -232,6 +232,7 @@ const res = await client.bank.send({
 - import
 - importPrivateKey
 - export
+- exportPrivateKey
 - delete
 - show
 ### nft `src/modules/nft.ts`
