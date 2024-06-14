@@ -322,86 +322,6 @@ proto.irismod.nft.QueryPromiseClient.prototype.collection =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.irismod.nft.QueryDenomRequest,
- *   !proto.irismod.nft.QueryDenomResponse>}
- */
-const methodDescriptor_Query_Denom = new grpc.web.MethodDescriptor(
-  '/irismod.nft.Query/Denom',
-  grpc.web.MethodType.UNARY,
-  proto.irismod.nft.QueryDenomRequest,
-  proto.irismod.nft.QueryDenomResponse,
-  /**
-   * @param {!proto.irismod.nft.QueryDenomRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.irismod.nft.QueryDenomResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.irismod.nft.QueryDenomRequest,
- *   !proto.irismod.nft.QueryDenomResponse>}
- */
-const methodInfo_Query_Denom = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.irismod.nft.QueryDenomResponse,
-  /**
-   * @param {!proto.irismod.nft.QueryDenomRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.irismod.nft.QueryDenomResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.irismod.nft.QueryDenomRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.irismod.nft.QueryDenomResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.irismod.nft.QueryDenomResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.irismod.nft.QueryClient.prototype.denom =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/irismod.nft.Query/Denom',
-      request,
-      metadata || {},
-      methodDescriptor_Query_Denom,
-      callback);
-};
-
-
-/**
- * @param {!proto.irismod.nft.QueryDenomRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.irismod.nft.QueryDenomResponse>}
- *     Promise that resolves to the response
- */
-proto.irismod.nft.QueryPromiseClient.prototype.denom =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/irismod.nft.Query/Denom',
-      request,
-      metadata || {},
-      methodDescriptor_Query_Denom);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
  *   !proto.irismod.nft.QueryDenomsRequest,
  *   !proto.irismod.nft.QueryDenomsResponse>}
  */
@@ -476,6 +396,86 @@ proto.irismod.nft.QueryPromiseClient.prototype.denoms =
       request,
       metadata || {},
       methodDescriptor_Query_Denoms);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.nft.QueryDenomRequest,
+ *   !proto.irismod.nft.QueryDenomResponse>}
+ */
+const methodDescriptor_Query_Denom = new grpc.web.MethodDescriptor(
+  '/irismod.nft.Query/Denom',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.nft.QueryDenomRequest,
+  proto.irismod.nft.QueryDenomResponse,
+  /**
+   * @param {!proto.irismod.nft.QueryDenomRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.nft.QueryDenomResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.nft.QueryDenomRequest,
+ *   !proto.irismod.nft.QueryDenomResponse>}
+ */
+const methodInfo_Query_Denom = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.nft.QueryDenomResponse,
+  /**
+   * @param {!proto.irismod.nft.QueryDenomRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.nft.QueryDenomResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.nft.QueryDenomRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.nft.QueryDenomResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.nft.QueryDenomResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.nft.QueryClient.prototype.denom =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.nft.Query/Denom',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Denom,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.nft.QueryDenomRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.nft.QueryDenomResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.nft.QueryPromiseClient.prototype.denom =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.nft.Query/Denom',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Denom);
 };
 
 

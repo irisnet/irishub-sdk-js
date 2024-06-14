@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _events = _interopRequireDefault(require("events"));
 var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
@@ -22,14 +21,14 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  * @since v0.17
  */
 var WsClient = exports.WsClient = /*#__PURE__*/function () {
+  /** @hidden */
+
+  /** @hidden */
+
+  /** Event emitter */
+
   function WsClient(url) {
     (0, _classCallCheck2["default"])(this, WsClient);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "url", void 0);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "ws", void 0);
-    /** Event emitter */
-    (0, _defineProperty2["default"])(this, "eventEmitter", void 0);
     this.url = url;
     this.eventEmitter = new _events["default"]();
   }
@@ -38,7 +37,7 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
    * Initialize ws client
    * @since v0.17
    */
-  (0, _createClass2["default"])(WsClient, [{
+  return (0, _createClass2["default"])(WsClient, [{
     key: "connect",
     value: function connect() {
       var _this = this;
@@ -145,5 +144,4 @@ var WsClient = exports.WsClient = /*#__PURE__*/function () {
       }));
     }
   }]);
-  return WsClient;
 }();

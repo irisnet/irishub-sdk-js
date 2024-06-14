@@ -21,6 +21,12 @@ var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js')
 
 var cosmos_bank_v1beta1_bank_pb = require('../../../cosmos/bank/v1beta1/bank_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var cosmos_msg_v1_msg_pb = require('../../../cosmos/msg/v1/msg_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.bank = {};
@@ -235,6 +241,166 @@ proto.cosmos.bank.v1beta1.MsgPromiseClient.prototype.multiSend =
       request,
       metadata || {},
       methodDescriptor_Msg_MultiSend);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.bank.v1beta1.MsgUpdateParams,
+ *   !proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse>}
+ */
+const methodDescriptor_Msg_UpdateParams = new grpc.web.MethodDescriptor(
+  '/cosmos.bank.v1beta1.Msg/UpdateParams',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.bank.v1beta1.MsgUpdateParams,
+  proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.bank.v1beta1.MsgUpdateParams,
+ *   !proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse>}
+ */
+const methodInfo_Msg_UpdateParams = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.MsgUpdateParams} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.bank.v1beta1.MsgClient.prototype.updateParams =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.MsgUpdateParams} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.bank.v1beta1.MsgUpdateParamsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.bank.v1beta1.MsgPromiseClient.prototype.updateParams =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Msg/UpdateParams',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_UpdateParams);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.bank.v1beta1.MsgSetSendEnabled,
+ *   !proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse>}
+ */
+const methodDescriptor_Msg_SetSendEnabled = new grpc.web.MethodDescriptor(
+  '/cosmos.bank.v1beta1.Msg/SetSendEnabled',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.bank.v1beta1.MsgSetSendEnabled,
+  proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.MsgSetSendEnabled} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.bank.v1beta1.MsgSetSendEnabled,
+ *   !proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse>}
+ */
+const methodInfo_Msg_SetSendEnabled = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse,
+  /**
+   * @param {!proto.cosmos.bank.v1beta1.MsgSetSendEnabled} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.MsgSetSendEnabled} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.bank.v1beta1.MsgClient.prototype.setSendEnabled =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Msg/SetSendEnabled',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_SetSendEnabled,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.bank.v1beta1.MsgSetSendEnabled} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.bank.v1beta1.MsgSetSendEnabledResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.bank.v1beta1.MsgPromiseClient.prototype.setSendEnabled =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.bank.v1beta1.Msg/SetSendEnabled',
+      request,
+      metadata || {},
+      methodDescriptor_Msg_SetSendEnabled);
 };
 
 

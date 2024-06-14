@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Token = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
@@ -28,10 +28,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Token = exports.Token = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Token(client) {
     (0, _classCallCheck2["default"])(this, Token);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -40,7 +40,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
    * @param IssueTokenTxParam
    * @returns
    */
-  (0, _createClass2["default"])(Token, [{
+  return (0, _createClass2["default"])(Token, [{
     key: "issueToken",
     value: (function () {
       var _issueToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(token, baseTx) {
@@ -234,11 +234,49 @@ var Token = exports.Token = /*#__PURE__*/function () {
       return swapFeeToken;
     }()
     /**
+     * @wapping some native token to its ERC20
+     * @param receiver 
+     * @param baseTx 
+     * @returns 
+     */
+    )
+  }, {
+    key: "SwapToERC20",
+    value: function SwapToERC20(msg, baseTx) {
+      var sender = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgSwapToERC20,
+        value: _objectSpread({
+          sender: sender
+        }, msg)
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * Swapping some ERC20 token to its native
+     * @param receiver 
+     * @param baseTx 
+     * @returns 
+     */
+  }, {
+    key: "SwapFromERC20",
+    value: function SwapFromERC20(msg, baseTx) {
+      var sender = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgSwapFromERC20,
+        value: _objectSpread({
+          sender: sender
+        }, msg)
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
      * Query all tokens
      * @param owner The optional token owner address
      * @returns Token[]
      */
-    )
   }, {
     key: "queryTokens",
     value: function queryTokens(owner) {
@@ -352,6 +390,34 @@ var Token = exports.Token = /*#__PURE__*/function () {
       var request = new types.token_query_pb.QueryParamsRequest();
       return this.client.rpcClient.protoQuery('/irismod.token.Query/Params', request, types.token_query_pb.QueryParamsResponse);
     }
+
+    /**
+     * TotalBurn queries all the burnt coins
+     * @param null
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTotalBurn",
+    value: function queryTotalBurn() {
+      var request = new types.token_query_pb.QueryTotalBurnRequest();
+      return this.client.rpcClient.protoQuery('/irismod.token.Query/TotalBurn', request, types.token_query_pb.QueryTotalBurnResponse);
+    }
+
+    /**
+     * Balances queries the balance of the specified token (including erc20 balance)
+     * @param denom 
+     * @param address 
+     * @returns
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryBalances",
+    value: function queryBalances(denom, address) {
+      var request = new types.token_query_pb.QueryBalancesRequest();
+      request.setDenom(denom);
+      request.setAddress(address);
+      return this.client.rpcClient.protoQuery('/irismod.token.Query/Balances', request, types.token_query_pb.QueryBalancesResponse);
+    }
   }]);
-  return Token;
 }();

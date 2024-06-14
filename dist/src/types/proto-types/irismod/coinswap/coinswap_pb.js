@@ -14,6 +14,8 @@ var global = Function('return this')();
 
 var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js');
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
+var cosmos_msg_v1_msg_pb = require('../../cosmos/msg/v1/msg_pb.js');
+goog.object.extend(proto, cosmos_msg_v1_msg_pb);
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 goog.exportSymbol('proto.irismod.coinswap.Input', null, global);

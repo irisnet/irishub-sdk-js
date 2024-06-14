@@ -22,7 +22,11 @@ var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
 
 var google_api_annotations_pb = require('../../google/api/annotations_pb.js')
 
+var cosmos_query_v1_query_pb = require('../../cosmos/query/v1/query_pb.js')
+
 var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js')
+
+var irismod_coinswap_coinswap_pb = require('../../irismod/coinswap/coinswap_pb.js')
 const proto = {};
 proto.irismod = {};
 proto.irismod.coinswap = require('./query_pb.js');
@@ -236,6 +240,86 @@ proto.irismod.coinswap.QueryPromiseClient.prototype.liquidityPools =
       request,
       metadata || {},
       methodDescriptor_Query_LiquidityPools);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.coinswap.QueryParamsRequest,
+ *   !proto.irismod.coinswap.QueryParamsResponse>}
+ */
+const methodDescriptor_Query_Params = new grpc.web.MethodDescriptor(
+  '/irismod.coinswap.Query/Params',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.coinswap.QueryParamsRequest,
+  proto.irismod.coinswap.QueryParamsResponse,
+  /**
+   * @param {!proto.irismod.coinswap.QueryParamsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.QueryParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.coinswap.QueryParamsRequest,
+ *   !proto.irismod.coinswap.QueryParamsResponse>}
+ */
+const methodInfo_Query_Params = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.coinswap.QueryParamsResponse,
+  /**
+   * @param {!proto.irismod.coinswap.QueryParamsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.coinswap.QueryParamsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.coinswap.QueryParamsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.coinswap.QueryParamsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.coinswap.QueryParamsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.coinswap.QueryClient.prototype.params =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.coinswap.Query/Params',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Params,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.coinswap.QueryParamsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.coinswap.QueryParamsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.coinswap.QueryPromiseClient.prototype.params =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.coinswap.Query/Params',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Params);
 };
 
 

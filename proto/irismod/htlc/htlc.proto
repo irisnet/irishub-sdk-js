@@ -15,21 +15,18 @@ message HTLC {
   string id = 1;
   string sender = 2;
   string to = 3;
-  string receiver_on_other_chain = 4
-      [ (gogoproto.moretags) = "yaml:\"receiver_on_other_chain\"" ];
-  string sender_on_other_chain = 5
-      [ (gogoproto.moretags) = "yaml:\"sender_on_other_chain\"" ];
+  string receiver_on_other_chain = 4;
+  string sender_on_other_chain = 5;
   repeated cosmos.base.v1beta1.Coin amount = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
   ];
-  string hash_lock = 7 [ (gogoproto.moretags) = "yaml:\"hash_lock\"" ];
+  string hash_lock = 7;
   string secret = 8;
   uint64 timestamp = 9;
-  uint64 expiration_height = 10
-      [ (gogoproto.moretags) = "yaml:\"expiration_height\"" ];
+  uint64 expiration_height = 10;
   HTLCState state = 11;
-  uint64 closed_block = 12 [ (gogoproto.moretags) = "yaml:\"closed_block\"" ];
+  uint64 closed_block = 12;
   bool transfer = 13;
   SwapDirection direction = 14;
 }
@@ -58,28 +55,15 @@ enum SwapDirection {
   OUTGOING = 2 [ (gogoproto.enumvalue_customname) = "Outgoing" ];
 }
 
+// AssetSupply defines the struct of an AssetSupply
 message AssetSupply {
-  cosmos.base.v1beta1.Coin incoming_supply = 1 [
-    (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"incoming_supply\""
-  ];
-  cosmos.base.v1beta1.Coin outgoing_supply = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"assetoutgoing_supply_params\""
-  ];
-  cosmos.base.v1beta1.Coin current_supply = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"current_supply\""
-  ];
-  cosmos.base.v1beta1.Coin time_limited_current_supply = 4 [
-    (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"time_limited_current_supply\""
-  ];
-  google.protobuf.Duration time_elapsed = 5 [
-    (gogoproto.nullable) = false,
-    (gogoproto.stdduration) = true,
-    (gogoproto.moretags) = "yaml:\"time_elapsed\""
-  ];
+  cosmos.base.v1beta1.Coin incoming_supply = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.v1beta1.Coin outgoing_supply = 2 [ (gogoproto.nullable) = false ];
+  cosmos.base.v1beta1.Coin current_supply = 3 [ (gogoproto.nullable) = false ];
+  cosmos.base.v1beta1.Coin time_limited_current_supply = 4
+      [ (gogoproto.nullable) = false ];
+  google.protobuf.Duration time_elapsed = 5
+      [ (gogoproto.nullable) = false, (gogoproto.stdduration) = true ];
 }
 
 // Params defines token module's parameters
@@ -93,19 +77,16 @@ message Params {
   ];
 }
 
+// AssetParam defines the struct of an AssetParam
 message AssetParam {
   option (gogoproto.equal) = true;
   option (gogoproto.goproto_stringer) = false;
 
   string denom = 1; // name of the asset
-  SupplyLimit supply_limit = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.moretags) = "yaml:\"supply_limit\""
-  ];               // asset supply limit
-  bool active = 3; // denotes if asset is available or paused
-  string deputy_address = 4
-      [ (gogoproto.moretags) =
-            "yaml:\"deputy_address\"" ]; // the address of the relayer process
+  SupplyLimit supply_limit = 2
+      [ (gogoproto.nullable) = false ]; // asset supply limit
+  bool active = 3;           // denotes if asset is available or paused
+  string deputy_address = 4; // the address of the relayer process
   string fixed_fee = 5 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable) = false
@@ -117,15 +98,12 @@ message AssetParam {
   string max_swap_amount = 7 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable) = false
-  ]; // Maximum swap amount
-  uint64 min_block_lock = 8
-      [ (gogoproto.moretags) =
-            "yaml:\"min_block_lock\"" ]; // Minimum swap block lock
-  uint64 max_block_lock = 9
-      [ (gogoproto.moretags) =
-            "yaml:\"max_block_lock\"" ]; // Maximum swap block lock
+  ];                         // Maximum swap amount
+  uint64 min_block_lock = 8; // Minimum swap block lock
+  uint64 max_block_lock = 9; // Maximum swap block lock
 }
 
+// SupplyLimit defines the struct of an SupplyLimit
 message SupplyLimit {
   option (gogoproto.equal) = true;
   option (gogoproto.goproto_stringer) = false;
@@ -133,14 +111,11 @@ message SupplyLimit {
   string limit = 1 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable) = false
-  ]; // the absolute supply limit for an asset
-  bool time_limited = 2 [
-    (gogoproto.moretags) = "yaml:\"time_limited\""
-  ]; // boolean for if the supply is also limited by time
+  ];                     // the absolute supply limit for an asset
+  bool time_limited = 2; // boolean for if the supply is also limited by time
   google.protobuf.Duration time_period = 3 [
     (gogoproto.nullable) = false,
-    (gogoproto.stdduration) = true,
-    (gogoproto.moretags) = "yaml:\"time_period\""
+    (gogoproto.stdduration) = true
   ]; // the duration for which the supply time limit applies
   string time_based_limit = 4 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",

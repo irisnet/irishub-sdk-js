@@ -1,6 +1,7 @@
 import * as Bech32 from 'bech32';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
 
 export class TxHelper {
     static getHexPubkey(pubkey:string):string{

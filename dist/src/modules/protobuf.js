@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Protobuf = void 0;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -23,10 +23,10 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
  */
 var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Protobuf(client) {
     (0, _classCallCheck2["default"])(this, Protobuf);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -36,7 +36,7 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
    * @param  {[type]} returnProtobufModel:bool If true, return the Protobuf model
    * @return {[type]} Tx object                        
    */
-  (0, _createClass2["default"])(Protobuf, [{
+  return (0, _createClass2["default"])(Protobuf, [{
     key: "deserializeTx",
     value: function deserializeTx(tx, returnProtobufModel) {
       var _this = this;
@@ -98,6 +98,41 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
             messageModelClass = types.MsgRedelegate.getModelClass();
             break;
           }
+        case types.TxType.MsgTokenizeShares:
+          {
+            messageModelClass = types.MsgTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgRedeemTokensForShares:
+          {
+            messageModelClass = types.MsgRedeemTokensForShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgTransferTokenizeShareRecord:
+          {
+            messageModelClass = types.MsgTransferTokenizeShareRecord.getModelClass();
+            break;
+          }
+        case types.TxType.MsgDisableTokenizeShares:
+          {
+            messageModelClass = types.MsgDisableTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgEnableTokenizeShares:
+          {
+            messageModelClass = types.MsgEnableTokenizeShares.getModelClass();
+            break;
+          }
+        case types.TxType.MsgValidatorBond:
+          {
+            messageModelClass = types.MsgValidatorBond.getModelClass();
+            break;
+          }
+        case types.TxType.MsgUnbondValidator:
+          {
+            messageModelClass = types.MsgUnbondValidator.getModelClass();
+            break;
+          }
         //distribution
         case types.TxType.MsgWithdrawDelegatorReward:
           {
@@ -117,6 +152,16 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
         case types.TxType.MsgFundCommunityPool:
           {
             messageModelClass = types.MsgFundCommunityPool.getModelClass();
+            break;
+          }
+        case types.TxType.MsgWithdrawTokenizeShareRecordReward:
+          {
+            messageModelClass = types.MsgWithdrawTokenizeShareRecordReward.getModelClass();
+            break;
+          }
+        case types.TxType.MsgWithdrawAllTokenizeShareRecordReward:
+          {
+            messageModelClass = types.MsgWithdrawAllTokenizeShareRecordReward.getModelClass();
             break;
           }
         //token
@@ -148,6 +193,16 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
         case types.TxType.MsgSwapFeeToken:
           {
             messageModelClass = types.MsgSwapFeeToken.getModelClass();
+            break;
+          }
+        case types.TxType.MsgSwapToERC20:
+          {
+            messageModelClass = types.MsgSwapToERC20.getModelClass();
+            break;
+          }
+        case types.TxType.MsgSwapFromERC20:
+          {
+            messageModelClass = types.MsgSwapFromERC20.getModelClass();
             break;
           }
         //coinswap
@@ -249,6 +304,12 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
         case types.TxType.MsgIbcNftTransfer:
           {
             messageModelClass = types.MsgIbcNftTransfer.getModelClass();
+            break;
+          }
+        //slashing
+        case types.TxType.MsgUnjail:
+          {
+            messageModelClass = types.MsgUnjail.getModelClass();
             break;
           }
         default:
@@ -509,5 +570,4 @@ var Protobuf = exports.Protobuf = /*#__PURE__*/function () {
       }
     }
   }]);
-  return Protobuf;
 }();

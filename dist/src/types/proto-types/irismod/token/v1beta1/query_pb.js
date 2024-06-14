@@ -491,7 +491,7 @@ proto.irismod.token.QueryTokenResponse.serializeBinaryToWriter = function(messag
 
 
 /**
- * optional google.protobuf.Any Token = 1;
+ * optional google.protobuf.Any token = 1;
  * @return {?proto.google.protobuf.Any}
  */
 proto.irismod.token.QueryTokenResponse.prototype.getToken = function() {
@@ -845,7 +845,7 @@ proto.irismod.token.QueryTokensResponse.serializeBinaryToWriter = function(messa
 
 
 /**
- * repeated google.protobuf.Any Tokens = 1;
+ * repeated google.protobuf.Any tokens = 1;
  * @return {!Array<!proto.google.protobuf.Any>}
  */
 proto.irismod.token.QueryTokensResponse.prototype.getTokensList = function() {

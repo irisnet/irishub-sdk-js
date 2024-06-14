@@ -21,6 +21,8 @@ var cosmos_feegrant_v1beta1_feegrant_pb = require('../../../cosmos/feegrant/v1be
 var cosmos_base_query_v1beta1_pagination_pb = require('../../../cosmos/base/query/v1beta1/pagination_pb.js')
 
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.feegrant = {};
@@ -235,6 +237,86 @@ proto.cosmos.feegrant.v1beta1.QueryPromiseClient.prototype.allowances =
       request,
       metadata || {},
       methodDescriptor_Query_Allowances);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest,
+ *   !proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse>}
+ */
+const methodDescriptor_Query_AllowancesByGranter = new grpc.web.MethodDescriptor(
+  '/cosmos.feegrant.v1beta1.Query/AllowancesByGranter',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest,
+  proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse,
+  /**
+   * @param {!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest,
+ *   !proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse>}
+ */
+const methodInfo_Query_AllowancesByGranter = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse,
+  /**
+   * @param {!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.feegrant.v1beta1.QueryClient.prototype.allowancesByGranter =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.feegrant.v1beta1.Query/AllowancesByGranter',
+      request,
+      metadata || {},
+      methodDescriptor_Query_AllowancesByGranter,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.feegrant.v1beta1.QueryAllowancesByGranterResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.feegrant.v1beta1.QueryPromiseClient.prototype.allowancesByGranter =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.feegrant.v1beta1.Query/AllowancesByGranter',
+      request,
+      metadata || {},
+      methodDescriptor_Query_AllowancesByGranter);
 };
 
 

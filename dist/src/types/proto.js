@@ -25,14 +25,17 @@ var random_tx_pb = exports.random_tx_pb = require('./proto-types/irismod/random/
 var record_tx_pb = exports.record_tx_pb = require('./proto-types/irismod/record/tx_pb');
 var service_tx_pb = exports.service_tx_pb = require('./proto-types/irismod/service/tx_pb');
 var token_tx_pb = exports.token_tx_pb = require('./proto-types/irismod/token/v1/tx_pb');
+
 //farm tx
 var farm_tx_pb = exports.farm_tx_pb = require('./proto-types/irismod/farm/tx_pb');
+
 //ibc tx
 var ibc_transfer_tx_pb = exports.ibc_transfer_tx_pb = require('./proto-types/ibc/applications/transfer/v1/tx_pb');
 var ibc_nft_transfer_tx_pb = exports.ibc_nft_transfer_tx_pb = require('./proto-types/ibc/applications/nft_transfer/v1/tx_pb');
 
 /***************QUERY***************/
 var base_query_pagination_pb = exports.base_query_pagination_pb = require('./proto-types/cosmos/base/query/v1beta1/pagination_pb');
+
 //cosmos query
 var auth_query_pb = exports.auth_query_pb = require('./proto-types/cosmos/auth/v1beta1/query_pb');
 var bank_query_pb = exports.bank_query_pb = require('./proto-types/cosmos/bank/v1beta1/query_pb');

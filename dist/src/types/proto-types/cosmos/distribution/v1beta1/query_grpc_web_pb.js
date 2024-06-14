@@ -25,6 +25,10 @@ var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 var cosmos_base_v1beta1_coin_pb = require('../../../cosmos/base/v1beta1/coin_pb.js')
 
 var cosmos_distribution_v1beta1_distribution_pb = require('../../../cosmos/distribution/v1beta1/distribution_pb.js')
+
+var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 const proto = {};
 proto.cosmos = {};
 proto.cosmos.distribution = {};
@@ -159,6 +163,86 @@ proto.cosmos.distribution.v1beta1.QueryPromiseClient.prototype.params =
       request,
       metadata || {},
       methodDescriptor_Query_Params);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest,
+ *   !proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse>}
+ */
+const methodDescriptor_Query_ValidatorDistributionInfo = new grpc.web.MethodDescriptor(
+  '/cosmos.distribution.v1beta1.Query/ValidatorDistributionInfo',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest,
+  proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse,
+  /**
+   * @param {!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest,
+ *   !proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse>}
+ */
+const methodInfo_Query_ValidatorDistributionInfo = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse,
+  /**
+   * @param {!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.distribution.v1beta1.QueryClient.prototype.validatorDistributionInfo =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.distribution.v1beta1.Query/ValidatorDistributionInfo',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ValidatorDistributionInfo,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.distribution.v1beta1.QueryValidatorDistributionInfoResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.distribution.v1beta1.QueryPromiseClient.prototype.validatorDistributionInfo =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.distribution.v1beta1.Query/ValidatorDistributionInfo',
+      request,
+      metadata || {},
+      methodDescriptor_Query_ValidatorDistributionInfo);
 };
 
 
@@ -799,6 +883,86 @@ proto.cosmos.distribution.v1beta1.QueryPromiseClient.prototype.communityPool =
       request,
       metadata || {},
       methodDescriptor_Query_CommunityPool);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest,
+ *   !proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse>}
+ */
+const methodDescriptor_Query_TokenizeShareRecordReward = new grpc.web.MethodDescriptor(
+  '/cosmos.distribution.v1beta1.Query/TokenizeShareRecordReward',
+  grpc.web.MethodType.UNARY,
+  proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest,
+  proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse,
+  /**
+   * @param {!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest,
+ *   !proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse>}
+ */
+const methodInfo_Query_TokenizeShareRecordReward = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse,
+  /**
+   * @param {!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.cosmos.distribution.v1beta1.QueryClient.prototype.tokenizeShareRecordReward =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/cosmos.distribution.v1beta1.Query/TokenizeShareRecordReward',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordReward,
+      callback);
+};
+
+
+/**
+ * @param {!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.cosmos.distribution.v1beta1.QueryTokenizeShareRecordRewardResponse>}
+ *     Promise that resolves to the response
+ */
+proto.cosmos.distribution.v1beta1.QueryPromiseClient.prototype.tokenizeShareRecordReward =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/cosmos.distribution.v1beta1.Query/TokenizeShareRecordReward',
+      request,
+      metadata || {},
+      methodDescriptor_Query_TokenizeShareRecordReward);
 };
 
 

@@ -16,6 +16,8 @@ var RIPEMD160 = _interopRequireWildcard(require("crypto-js/ripemd160"));
 var is = _interopRequireWildcard(require("is_js"));
 var _errors = require("../errors");
 var types = _interopRequireWildcard(require("../types"));
+var _buffer = require("buffer");
+var cryptoJs = _interopRequireWildcard(require("crypto-js"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof3(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 /**
@@ -26,7 +28,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   function Utils() {
     (0, _classCallCheck2["default"])(this, Utils);
   }
-  (0, _createClass2["default"])(Utils, null, [{
+  return (0, _createClass2["default"])(Utils, null, [{
     key: "str2ab",
     value:
     /**
@@ -364,12 +366,12 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   }, {
     key: "base64ToString",
     value: function base64ToString(b64) {
-      return Buffer.from(b64, 'base64').toString();
+      return _buffer.Buffer.from(b64, 'base64').toString();
     }
   }, {
     key: "bytesToBase64",
     value: function bytesToBase64(bytes) {
-      return Buffer.from(bytes).toString('base64');
+      return _buffer.Buffer.from(bytes).toString('base64');
     }
 
     /**
@@ -400,7 +402,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   }, {
     key: "getAminoPrefix",
     value: function getAminoPrefix(prefix) {
-      var b = Array.from(Buffer.from((typeof SHA256 === 'function' ? SHA256 : SHA256["default"])(prefix).toString(), 'hex'));
+      var b = Array.from(_buffer.Buffer.from((typeof SHA256 === 'function' ? SHA256 : SHA256["default"])(prefix).toString(), 'hex'));
       while (b[0] === 0) {
         b = b.slice(1);
       }
@@ -411,6 +413,26 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
       b = b.slice(0, 4);
       return b;
     }
+  }, {
+    key: "wordArrayToArrayBuffer",
+    value: function wordArrayToArrayBuffer(wordArray) {
+      var arrayBuffer = new ArrayBuffer(wordArray.sigBytes);
+      var uint8View = new Uint8Array(arrayBuffer);
+      for (var i = 0; i < wordArray.sigBytes; i++) {
+        uint8View[i] = wordArray.words[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
+      }
+      return arrayBuffer;
+    }
+  }, {
+    key: "bufferToWordArray",
+    value: function bufferToWordArray(buffer) {
+      var arrayBuffer = new ArrayBuffer(buffer.length);
+      var res = new Uint8Array(arrayBuffer);
+      for (var i = 0; i < buffer.length; ++i) {
+        res[i] = buffer[i];
+      }
+      var wordArray = cryptoJs.lib.WordArray.create(arrayBuffer);
+      return wordArray;
+    }
   }]);
-  return Utils;
 }();

@@ -1,18 +1,18 @@
 import * as csprng from 'secure-random';
 import * as bech32 from 'bech32';
-import * as cryp from 'crypto-browserify';
+import * as cryptoJs from 'crypto-js';
+import * as AES from 'crypto-js/aes';
 import * as uuid from 'uuid';
 import * as is from 'is_js';
-import * as bip32 from 'bip32';
-import * as bip39 from 'bip39';
+import {Slip10, Slip10Curve, Bip39, Random, EnglishMnemonic, ExtendedSecp256k1Signature, stringToPath } from '@cosmjs/crypto';
 import { ec as EC, eddsa as EdDSA } from 'elliptic';
 import * as ecc from 'tiny-secp256k1';
 import { Utils } from './utils';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
 
 const Sha256 = require('sha256');
-const Secp256k1 = require('secp256k1');
 const SM2 = require('sm-crypto-bj').sm2;
 
 const bcrypt = require('bcryptjs');
@@ -25,11 +25,12 @@ const nacl = require('tweetnacl');
 export class Crypto {
   // secp256k1 privkey is 32 bytes
   static PRIVKEY_LEN = 32;
-  static MNEMONIC_LEN = 256;
+  static MNEMONIC_LEN = 24;
   static DECODED_ADDRESS_LEN = 20;
 
   //hdpath
   static HDPATH = "44'/118'/0'/0/";
+  static HDPATH_MASTER = "m/"
 
   /**
    * Decodes an address in bech32 format.
@@ -276,6 +277,31 @@ export class Crypto {
   //   const msgHashHex = Buffer.from(msgHash, 'hex');
   //   return ecc.verify(msgHashHex, publicKey, Buffer.from(sigHex, 'hex'));
   // }
+  /**
+   * 
+   * @param messageHash 
+   * @param privkey The private key
+   * @returns 
+   */
+
+  private static createSignature(messageHash: Uint8Array, privkey: Uint8Array):ExtendedSecp256k1Signature {
+    if (messageHash.length === 0) {
+      throw new SdkError("Message hash must not be empty");
+    }
+    if (messageHash.length > 32) {
+      throw new SdkError("Message hash length must not exceed 32 bytes");
+    }
+    const secp256k1 = new EC("secp256k1")
+    const keypair = secp256k1.keyFromPrivate(privkey);
+    // the `canonical` option ensures creation of lowS signature representations
+    const { r, s, recoveryParam } = keypair.sign(messageHash, { canonical: true });
+    if (typeof recoveryParam !== "number") throw new SdkError("Recovery param missing");
+    return new ExtendedSecp256k1Signature(
+      Uint8Array.from(r.toArray()),
+      Uint8Array.from(s.toArray()),
+      recoveryParam,
+    );
+  }
 
   /**
    * Generates a signature (base64 string) for a signDocSerialize based on given private key.
@@ -303,10 +329,11 @@ export class Crypto {
         break;
         case types.PubkeyType.secp256k1:
         default:
-        const msghash:Buffer = Buffer.from(Sha256(signDocSerialize,{ asBytes: true }));
+        const msghash = Sha256(signDocSerialize,{ asBytes: true });
         let prikeyArr:Buffer = Buffer.from(private_key,'hex');
-        let Secp256k1Sig = Secp256k1.sign(msghash, prikeyArr);
-        signature = Secp256k1Sig.signature.toString('base64');
+        const secp256k1Signature = Crypto.createSignature(msghash, Uint8Array.from(prikeyArr))
+        const signatureBytes = new Uint8Array([...secp256k1Signature.r(32), ...secp256k1Signature.s(32)]);
+        signature = Buffer.from(signatureBytes).toString('base64');
         break;
       }
       if (!signature) { throw Error(' generate Signature error ') }
@@ -327,8 +354,8 @@ export class Crypto {
     prefix: string,
     iterations: number = 262144
   ): types.Keystore {
-    const salt = cryp.randomBytes(32);
-    const iv = cryp.randomBytes(16);
+    const salt = Buffer.from(Random.getBytes(32));
+    const iv = Buffer.from(Random.getBytes(16));
     const cipherAlg = 'aes-128-ctr';
 
     const kdf = 'pbkdf2';
@@ -338,29 +365,34 @@ export class Crypto {
       c: iterations,
       prf: 'hmac-sha256',
     };
+    const derivedKey = cryptoJs.PBKDF2(
+      password, 
+      Utils.bufferToWordArray(salt), { 
+        keySize: 8, 
+        iterations: kdfparams.c, 
+        hasher: cryptoJs.algo.SHA256 
+    });
 
-    const derivedKey = cryp.pbkdf2Sync(
-      Buffer.from(password),
-      salt,
-      kdfparams.c,
-      kdfparams.dklen,
-      'sha256'
-    );
-    const cipher = cryp.createCipheriv(cipherAlg, derivedKey.slice(0, 16), iv);
-    if (!cipher) {
-      throw new SdkError('Unsupported cipher',CODES.Internal);
-    }
+    const encrypted = AES.encrypt(
+      cryptoJs.enc.Hex.parse(privateKeyHex), 
+      cryptoJs.enc.Hex.parse(Buffer.from(Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), {
+        iv: cryptoJs.enc.Hex.parse(iv.toString('hex')), 
+        mode: cryptoJs.mode.CTR, 
+        padding: cryptoJs.pad.NoPadding
+      });
+      if (!encrypted) {
+        throw new SdkError('Unsupported encrypted',CODES.Internal);
+      }
+    const ciphertext = Buffer.from(Utils.wordArrayToArrayBuffer(encrypted.ciphertext));
 
-    const ciphertext = Buffer.concat([
-      cipher.update(Buffer.from(privateKeyHex, 'hex')),
-      cipher.final(),
+    const bufferValue = Buffer.concat([
+      Buffer.from(Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), 
+      ciphertext
     ]);
-    const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
-
     return {
       version: 1,
       id: uuid.v4({
-        random: cryp.randomBytes(16),
+        random: Buffer.from(Random.getBytes(16)),
       }),
       address: Crypto.getAddressFromPrivateKey(privateKeyHex, prefix),
       crypto: {
@@ -399,16 +431,16 @@ export class Crypto {
     if (kdfparams.prf !== 'hmac-sha256') {
       throw new SdkError('Unsupported parameters to PBKDF2',CODES.Internal);
     }
-
-    const derivedKey = cryp.pbkdf2Sync(
-      Buffer.from(password),
-      Buffer.from(kdfparams.salt, 'hex'),
-      kdfparams.c,
-      kdfparams.dklen,
-      'sha256'
-    );
+    const derivedKey = cryptoJs.PBKDF2(
+      password, 
+      Utils.bufferToWordArray(Buffer.from(kdfparams.salt, 'hex')), { 
+        keySize: 8, 
+        iterations: 
+        kdfparams.c,  
+        hasher: cryptoJs.algo.SHA256 
+      })
     const ciphertext = Buffer.from(json.crypto.ciphertext, 'hex');
-    const bufferValue = Buffer.concat([derivedKey.slice(16, 32), ciphertext]);
+    const bufferValue = Buffer.concat([Buffer.from(Utils.wordArrayToArrayBuffer(derivedKey).slice(16, 32)), ciphertext]);
 
     // try sha3 (new / ethereum keystore) mac first
     const mac = Utils.sha3(bufferValue.toString('hex'));
@@ -423,17 +455,13 @@ export class Crypto {
         );
       }
     }
-
-    const decipher = cryp.createDecipheriv(
-      json.crypto.cipher,
-      derivedKey.slice(0, 16),
-      Buffer.from(json.crypto.cipherparams.iv, 'hex')
-    );
-    const privateKey = Buffer.concat([
-      decipher.update(ciphertext),
-      decipher.final(),
-    ]).toString('hex');
-
+    const privateKey = AES.decrypt(
+      cryptoJs.enc.Base64.stringify(cryptoJs.enc.Hex.parse(json.crypto.ciphertext)), 
+      cryptoJs.enc.Hex.parse(Buffer.from(Utils.wordArrayToArrayBuffer(derivedKey)).slice(0, 16).toString('hex')), { 
+        iv: cryptoJs.enc.Hex.parse(json.crypto.cipherparams.iv), 
+        mode: cryptoJs.mode.CTR, 
+        padding: cryptoJs.pad.NoPadding
+      }).toString();
     return privateKey;
   }
 
@@ -484,7 +512,10 @@ export class Crypto {
    * @returns Mnemonic
    */
   static generateMnemonic(): string {
-    return bip39.generateMnemonic(Crypto.MNEMONIC_LEN);
+    const entropyLength = 4 * Math.floor((11 * Crypto.MNEMONIC_LEN) / 33);
+    const entropy = Random.getBytes(entropyLength);
+    const mnemonic = Bip39.encode(entropy);
+    return mnemonic.toString();
   }
 
   /**
@@ -492,7 +523,32 @@ export class Crypto {
    * @param mnemonic The mnemonic phrase words
    * @returns Validation result
    */
-  static validateMnemonic = bip39.validateMnemonic;
+  static validateMnemonic(mnemonic: string): boolean {
+    try {
+      Bip39.decode(new EnglishMnemonic(mnemonic));
+    }
+    catch (e) {
+        return false;
+    }
+    return true;
+  };
+
+  /**
+   * 
+   * @param mnemonic The mnemonic phrase words
+   * @param password 
+   * @returns 
+   */
+  private static mnemonicToSeed(mnemonic: string, password?: string): Buffer {
+    const mnemonicBuffer = Buffer.from(mnemonic).toString('utf8');
+    const saltBuffer = Buffer.from('mnemonic' + password).toString('utf8');
+    const res = cryptoJs.PBKDF2(mnemonicBuffer, saltBuffer, {
+        keySize: 16,
+        iterations: 2048,
+        hasher: cryptoJs.algo.SHA512
+    });
+    return Buffer.from(Utils.wordArrayToArrayBuffer(res));
+  };
 
   /**
    * Gets a private key from mnemonic words.
@@ -508,22 +564,19 @@ export class Crypto {
     derive = true,
     password = ''
   ): string {
-    if (!bip39.validateMnemonic(mnemonic)) {
+    if (!Crypto.validateMnemonic(mnemonic)) {
       throw new SdkError('wrong mnemonic format',CODES.InvalidMnemonic);
     }
-    const seed = bip39.mnemonicToSeedSync(mnemonic, password);
+    const seed = Uint8Array.from(Crypto.mnemonicToSeed(mnemonic, password));
+
     if (derive) {
-      const master = bip32.fromSeed(seed);
-      const child = master.derivePath(Crypto.HDPATH + index);
-      if (
-        typeof child === 'undefined' ||
-        typeof child.privateKey === 'undefined'
-      ) {
+      const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, stringToPath(Crypto.HDPATH_MASTER + Crypto.HDPATH + index));
+      if ( typeof privkey === 'undefined') {
         throw new SdkError('error getting private key from mnemonic',CODES.DerivePrivateKeyError);
       }
-      return child.privateKey.toString('hex');
+      return Buffer.from(privkey).toString('hex');
     }
-    return seed.toString('hex');
+    return Buffer.from(seed).toString('hex');
   }
 
   /**

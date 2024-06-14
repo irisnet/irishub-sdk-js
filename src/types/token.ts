@@ -1,9 +1,9 @@
-import {Coin, Msg, TxType} from './types';
+import { Coin, Msg, TxType } from './types';
 import { TxModelCreator } from '../helper';
 import * as is from "is_js";
 import * as pbs from "./proto";
 import { SdkError, CODES } from "../errors";
-import {doNotModify} from "./constants";
+import { doNotModify } from "./constants";
 
 export interface Token {
   symbol: string;
@@ -84,6 +84,24 @@ export interface SwapFeeTokenTxParam {
 }
 
 /**
+ * param struct for Swap To ERC20 tx
+ */
+export interface SwapToERC20TxParam {
+  amount: Coin;
+  sender: string;
+  receiver: string;
+}
+
+/**
+ * param struct for Swap From ERC20 tx
+ */
+export interface SwapFromERC20TxParam {
+  wanted_amount: Coin;
+  sender: string;
+  receiver: string;
+}
+
+/**
  * Msg struct for issue token
  * @hidden
  */
@@ -105,16 +123,16 @@ export class MsgIssueToken extends Msg {
       .setName(this.value.name)
       .setMinUnit(this.value.min_unit)
       .setOwner(this.value.owner);
-    if(is.not.undefined(this.value.scale)){
+    if (is.not.undefined(this.value.scale)) {
       msg.setScale(this.value.scale);
     }
-    if(is.not.undefined(this.value.initial_supply)){
+    if (is.not.undefined(this.value.initial_supply)) {
       msg.setInitialSupply(this.value.initial_supply);
     }
-    if(is.not.undefined(this.value.max_supply)){
+    if (is.not.undefined(this.value.max_supply)) {
       msg.setMaxSupply(this.value.max_supply);
     }
-    if(is.not.undefined(this.value.mintable)){
+    if (is.not.undefined(this.value.mintable)) {
       msg.setMintable(this.value.mintable);
     }
 
@@ -219,7 +237,7 @@ export class MsgMintToken extends Msg {
       .setCoin(TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount))
       .setOwner(this.value.owner);
     if (is.not.undefined(this.value.to)) {
-      msg.setTo(this.value.to)
+      msg.setReceiver(this.value.to)
     }
     return msg;
   }
@@ -371,3 +389,79 @@ export class MsgSwapFeeToken extends Msg {
   }
 }
 
+/**
+ * Msg struct for Swap To ERC20
+ */
+export class MsgSwapToERC20 extends Msg {
+  value: SwapToERC20TxParam;
+
+  constructor(msg: SwapToERC20TxParam) {
+    super(TxType.MsgSwapToERC20);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgSwapToERC20;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setSender(this.value.sender)
+      .setAmount(TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount))
+      .setReceiver(this.value.receiver);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    if (is.undefined(this.value.amount)) {
+      throw new SdkError("amount can not be empty");
+    }
+    if (is.undefined(this.value.receiver)) {
+      throw new SdkError("receiver can not be empty");
+    }
+    return true;
+  }
+}
+
+export class MsgSwapFromERC20 extends Msg {
+  value: SwapFromERC20TxParam;
+
+  constructor(msg: SwapFromERC20TxParam) {
+    super(TxType.MsgSwapFromERC20);
+    this.value = msg;
+  }
+
+  static getModelClass(): any {
+    return pbs.token_tx_pb.MsgSwapFromERC20;
+  }
+
+  getModel(): any {
+    const msg = new ((this.constructor as any).getModelClass())()
+      .setSender(this.value.sender)
+      .setWantedAmount(TxModelCreator.createCoinModel(this.value.wanted_amount.denom, this.value.wanted_amount.amount))
+      .setReceiver(this.value.receiver);
+    return msg;
+  }
+
+  /**
+   * validate necessary params
+   */
+  validate(): boolean {
+    if (is.undefined(this.value.sender)) {
+      throw new SdkError("sender can not be empty");
+    }
+    if (is.undefined(this.value.wanted_amount)) {
+      throw new SdkError("wanted amount can not be empty");
+    }
+    if (is.undefined(this.value.receiver)) {
+      throw new SdkError("receiver can not be empty");
+    }
+    return true;
+  }
+}

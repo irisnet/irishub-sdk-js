@@ -1,4 +1,6 @@
+/// <reference types="node" />
 import * as types from '../types';
+import { Buffer } from 'buffer';
 /**
  * IRISHub SDK JS Utils
  * @hidden
@@ -127,4 +129,6 @@ export declare class Utils {
    * @returns UintArray
    */
     static getAminoPrefix(prefix: string): Uint8Array;
+    static wordArrayToArrayBuffer(wordArray: any): ArrayBuffer;
+    static bufferToWordArray(buffer: Buffer): any;
 }

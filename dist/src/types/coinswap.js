@@ -8,18 +8,16 @@ Object.defineProperty(exports, "__esModule", {
 exports.MsgSwapOrder = exports.MsgRemoveLiquidity = exports.MsgAddLiquidity = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _types = require("./types");
 var _helper = require("../helper");
 var pbs = _interopRequireWildcard(require("./proto"));
 var _errors = require("../errors");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 /**
  * param struct for add liquidity tx
@@ -30,17 +28,15 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
  * @hidden
  */
 var MsgAddLiquidity = exports.MsgAddLiquidity = /*#__PURE__*/function (_Msg) {
-  (0, _inherits2["default"])(MsgAddLiquidity, _Msg);
-  var _super = _createSuper(MsgAddLiquidity);
   function MsgAddLiquidity(msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgAddLiquidity);
-    _this = _super.call(this, _types.TxType.MsgAddLiquidity);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
+    _this = _callSuper(this, MsgAddLiquidity, [_types.TxType.MsgAddLiquidity]);
     _this.value = msg;
     return _this;
   }
-  (0, _createClass2["default"])(MsgAddLiquidity, [{
+  (0, _inherits2["default"])(MsgAddLiquidity, _Msg);
+  return (0, _createClass2["default"])(MsgAddLiquidity, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -76,7 +72,6 @@ var MsgAddLiquidity = exports.MsgAddLiquidity = /*#__PURE__*/function (_Msg) {
       return pbs.coinswap_tx_pb.MsgAddLiquidity;
     }
   }]);
-  return MsgAddLiquidity;
 }(_types.Msg);
 /**
  * param struct for add liquidity tx
@@ -87,17 +82,15 @@ var MsgAddLiquidity = exports.MsgAddLiquidity = /*#__PURE__*/function (_Msg) {
  * @hidden
  */
 var MsgRemoveLiquidity = exports.MsgRemoveLiquidity = /*#__PURE__*/function (_Msg2) {
-  (0, _inherits2["default"])(MsgRemoveLiquidity, _Msg2);
-  var _super2 = _createSuper(MsgRemoveLiquidity);
   function MsgRemoveLiquidity(msg) {
     var _this2;
     (0, _classCallCheck2["default"])(this, MsgRemoveLiquidity);
-    _this2 = _super2.call(this, _types.TxType.MsgRemoveLiquidity);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
+    _this2 = _callSuper(this, MsgRemoveLiquidity, [_types.TxType.MsgRemoveLiquidity]);
     _this2.value = msg;
     return _this2;
   }
-  (0, _createClass2["default"])(MsgRemoveLiquidity, [{
+  (0, _inherits2["default"])(MsgRemoveLiquidity, _Msg2);
+  return (0, _createClass2["default"])(MsgRemoveLiquidity, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -133,7 +126,6 @@ var MsgRemoveLiquidity = exports.MsgRemoveLiquidity = /*#__PURE__*/function (_Ms
       return pbs.coinswap_tx_pb.MsgRemoveLiquidity;
     }
   }]);
-  return MsgRemoveLiquidity;
 }(_types.Msg);
 /**
  * param struct for add liquidity tx
@@ -144,17 +136,15 @@ var MsgRemoveLiquidity = exports.MsgRemoveLiquidity = /*#__PURE__*/function (_Ms
  * @hidden
  */
 var MsgSwapOrder = exports.MsgSwapOrder = /*#__PURE__*/function (_Msg3) {
-  (0, _inherits2["default"])(MsgSwapOrder, _Msg3);
-  var _super3 = _createSuper(MsgSwapOrder);
   function MsgSwapOrder(msg) {
     var _this3;
     (0, _classCallCheck2["default"])(this, MsgSwapOrder);
-    _this3 = _super3.call(this, _types.TxType.MsgSwapOrder);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
+    _this3 = _callSuper(this, MsgSwapOrder, [_types.TxType.MsgSwapOrder]);
     _this3.value = msg;
     return _this3;
   }
-  (0, _createClass2["default"])(MsgSwapOrder, [{
+  (0, _inherits2["default"])(MsgSwapOrder, _Msg3);
+  return (0, _createClass2["default"])(MsgSwapOrder, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())();
@@ -192,5 +182,4 @@ var MsgSwapOrder = exports.MsgSwapOrder = /*#__PURE__*/function (_Msg3) {
       return pbs.coinswap_tx_pb.MsgSwapOrder;
     }
   }]);
-  return MsgSwapOrder;
 }(_types.Msg);

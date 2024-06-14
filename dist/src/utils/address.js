@@ -16,7 +16,7 @@ var AddressUtils = exports.AddressUtils = /*#__PURE__*/function () {
   function AddressUtils() {
     (0, _classCallCheck2["default"])(this, AddressUtils);
   }
-  (0, _createClass2["default"])(AddressUtils, null, [{
+  return (0, _createClass2["default"])(AddressUtils, null, [{
     key: "getAddrHexFromBech32",
     value:
     /**
@@ -28,5 +28,4 @@ var AddressUtils = exports.AddressUtils = /*#__PURE__*/function () {
       return _utils.Utils.ab2hexstring(_crypto.Crypto.decodeAddress(addr));
     }
   }]);
-  return AddressUtils;
 }();
