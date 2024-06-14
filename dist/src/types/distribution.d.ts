@@ -107,3 +107,36 @@ export interface DelegationRewards {
     /** Delegation rewards */
     reward: Coin[];
 }
+export interface WithdrawTokenizeShareRecordRewardTxParam {
+    owner_address: string;
+    record_id: number;
+}
+export declare class MsgWithdrawTokenizeShareRecordReward extends Msg {
+    value: WithdrawTokenizeShareRecordRewardTxParam;
+    constructor(value: WithdrawTokenizeShareRecordRewardTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}
+export interface WithdrawAllTokenizeShareRecordRewardTxParam {
+    owner_address: string;
+}
+export declare class MsgWithdrawAllTokenizeShareRecordReward extends Msg {
+    value: WithdrawAllTokenizeShareRecordRewardTxParam;
+    constructor(value: WithdrawAllTokenizeShareRecordRewardTxParam);
+    static getModelClass(): any;
+    getModel(): any;
+    /**
+     * validate necessary params
+     *
+     * @return whether is is validated
+     * @throws `SdkError` if validate failed.
+     */
+    validate(): boolean;
+}

@@ -16,6 +16,23 @@ export declare class Distribution {
     /** @hidden */
     constructor(client: Client);
     /**
+     * withdraw reward for an owning TokenizeShareRecord
+     *
+     * @param recordId
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    withdrawTokenizeShareRecordReward(recordId: number, baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
+     * withdraw reward for all owning TokenizeShareRecord
+     *
+     * @param baseTx
+     * @returns
+     * @since v3.4.0
+     */
+    withdrawAllTokenizeShareRecordReward(baseTx: types.BaseTx): Promise<types.TxResult>;
+    /**
      * Set another address to receive the rewards instead of using the delegator address
      * @param withdrawAddress Bech32 account address
      * @param baseTx
@@ -95,4 +112,12 @@ export declare class Distribution {
      * CommunityPool queries the community pool coins.
      */
     queryCommunityPool(): Promise<object>;
+    /**
+     * TokenizeShareRecordReward queries the tokenize share record rewards
+     *
+     * @param owner_address
+     * @returns
+     * @since v3.4.0
+     */
+    queryTokenizeShareRecordReward(owner_address: string): Promise<object>;
 }

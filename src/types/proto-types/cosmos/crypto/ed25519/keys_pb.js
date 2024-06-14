@@ -12,6 +12,8 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+var amino_amino_pb = require('../../../amino/amino_pb.js');
+goog.object.extend(proto, amino_amino_pb);
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 goog.exportSymbol('proto.cosmos.crypto.ed25519.PrivKey', null, global);

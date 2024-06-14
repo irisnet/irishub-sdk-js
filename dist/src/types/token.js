@@ -5,14 +5,12 @@ var _typeof = require("@babel/runtime/helpers/typeof");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MsgTransferTokenOwner = exports.MsgSwapFeeToken = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = exports.MsgBurnToken = void 0;
+exports.MsgTransferTokenOwner = exports.MsgSwapToERC20 = exports.MsgSwapFromERC20 = exports.MsgSwapFeeToken = exports.MsgMintToken = exports.MsgIssueToken = exports.MsgEditToken = exports.MsgBurnToken = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 var _types = require("./types");
 var _helper = require("../helper");
 var is = _interopRequireWildcard(require("is_js"));
@@ -21,7 +19,7 @@ var _errors = require("../errors");
 var _constants = require("./constants");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
+function _callSuper(t, o, e) { return o = (0, _getPrototypeOf2["default"])(o), (0, _possibleConstructorReturn2["default"])(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], (0, _getPrototypeOf2["default"])(t).constructor) : o.apply(t, e)); }
 function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
 /**
  * param struct for issue token tx
@@ -42,21 +40,25 @@ function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.
  * param struct for Swap Fee Token tx
  */
 /**
+ * param struct for Swap To ERC20 tx
+ */
+/**
+ * param struct for Swap From ERC20 tx
+ */
+/**
  * Msg struct for issue token
  * @hidden
  */
 var MsgIssueToken = exports.MsgIssueToken = /*#__PURE__*/function (_Msg) {
-  (0, _inherits2["default"])(MsgIssueToken, _Msg);
-  var _super = _createSuper(MsgIssueToken);
   function MsgIssueToken(msg) {
     var _this;
     (0, _classCallCheck2["default"])(this, MsgIssueToken);
-    _this = _super.call(this, _types.TxType.MsgIssueToken);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this), "value", void 0);
+    _this = _callSuper(this, MsgIssueToken, [_types.TxType.MsgIssueToken]);
     _this.value = msg;
     return _this;
   }
-  (0, _createClass2["default"])(MsgIssueToken, [{
+  (0, _inherits2["default"])(MsgIssueToken, _Msg);
+  return (0, _createClass2["default"])(MsgIssueToken, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setSymbol(this.value.symbol).setName(this.value.name).setMinUnit(this.value.min_unit).setOwner(this.value.owner);
@@ -104,24 +106,21 @@ var MsgIssueToken = exports.MsgIssueToken = /*#__PURE__*/function (_Msg) {
       return pbs.token_tx_pb.MsgIssueToken;
     }
   }]);
-  return MsgIssueToken;
 }(_types.Msg);
 /**
  * Msg struct for edit token
  * @hidden
  */
 var MsgEditToken = exports.MsgEditToken = /*#__PURE__*/function (_Msg2) {
-  (0, _inherits2["default"])(MsgEditToken, _Msg2);
-  var _super2 = _createSuper(MsgEditToken);
   function MsgEditToken(msg) {
     var _this2;
     (0, _classCallCheck2["default"])(this, MsgEditToken);
-    _this2 = _super2.call(this, _types.TxType.MsgEditToken);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this2), "value", void 0);
+    _this2 = _callSuper(this, MsgEditToken, [_types.TxType.MsgEditToken]);
     _this2.value = msg;
     return _this2;
   }
-  (0, _createClass2["default"])(MsgEditToken, [{
+  (0, _inherits2["default"])(MsgEditToken, _Msg2);
+  return (0, _createClass2["default"])(MsgEditToken, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setSymbol(this.value.symbol).setOwner(this.value.owner);
@@ -162,29 +161,26 @@ var MsgEditToken = exports.MsgEditToken = /*#__PURE__*/function (_Msg2) {
       return pbs.token_tx_pb.MsgEditToken;
     }
   }]);
-  return MsgEditToken;
 }(_types.Msg);
 /**
  * Msg struct for mint token
  * @hidden
  */
 var MsgMintToken = exports.MsgMintToken = /*#__PURE__*/function (_Msg3) {
-  (0, _inherits2["default"])(MsgMintToken, _Msg3);
-  var _super3 = _createSuper(MsgMintToken);
   function MsgMintToken(msg) {
     var _this3;
     (0, _classCallCheck2["default"])(this, MsgMintToken);
-    _this3 = _super3.call(this, _types.TxType.MsgMintToken);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this3), "value", void 0);
+    _this3 = _callSuper(this, MsgMintToken, [_types.TxType.MsgMintToken]);
     _this3.value = msg;
     return _this3;
   }
-  (0, _createClass2["default"])(MsgMintToken, [{
+  (0, _inherits2["default"])(MsgMintToken, _Msg3);
+  return (0, _createClass2["default"])(MsgMintToken, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setCoin(_helper.TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount)).setOwner(this.value.owner);
       if (is.not.undefined(this.value.to)) {
-        msg.setTo(this.value.to);
+        msg.setReceiver(this.value.to);
       }
       return msg;
     }
@@ -212,24 +208,21 @@ var MsgMintToken = exports.MsgMintToken = /*#__PURE__*/function (_Msg3) {
       return pbs.token_tx_pb.MsgMintToken;
     }
   }]);
-  return MsgMintToken;
 }(_types.Msg);
 /**
  * Msg struct for mint token
  * @hidden
  */
 var MsgBurnToken = exports.MsgBurnToken = /*#__PURE__*/function (_Msg4) {
-  (0, _inherits2["default"])(MsgBurnToken, _Msg4);
-  var _super4 = _createSuper(MsgBurnToken);
   function MsgBurnToken(msg) {
     var _this4;
     (0, _classCallCheck2["default"])(this, MsgBurnToken);
-    _this4 = _super4.call(this, _types.TxType.MsgBurnToken);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this4), "value", void 0);
+    _this4 = _callSuper(this, MsgBurnToken, [_types.TxType.MsgBurnToken]);
     _this4.value = msg;
     return _this4;
   }
-  (0, _createClass2["default"])(MsgBurnToken, [{
+  (0, _inherits2["default"])(MsgBurnToken, _Msg4);
+  return (0, _createClass2["default"])(MsgBurnToken, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setCoin(_helper.TxModelCreator.createCoinModel(this.value.coin.denom, this.value.coin.amount)).setSender(this.value.sender);
@@ -259,24 +252,21 @@ var MsgBurnToken = exports.MsgBurnToken = /*#__PURE__*/function (_Msg4) {
       return pbs.token_tx_pb.MsgBurnToken;
     }
   }]);
-  return MsgBurnToken;
 }(_types.Msg);
 /**
  * Msg struct for transfer token owner
  * @hidden
  */
 var MsgTransferTokenOwner = exports.MsgTransferTokenOwner = /*#__PURE__*/function (_Msg5) {
-  (0, _inherits2["default"])(MsgTransferTokenOwner, _Msg5);
-  var _super5 = _createSuper(MsgTransferTokenOwner);
   function MsgTransferTokenOwner(msg) {
     var _this5;
     (0, _classCallCheck2["default"])(this, MsgTransferTokenOwner);
-    _this5 = _super5.call(this, _types.TxType.MsgTransferTokenOwner);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this5), "value", void 0);
+    _this5 = _callSuper(this, MsgTransferTokenOwner, [_types.TxType.MsgTransferTokenOwner]);
     _this5.value = msg;
     return _this5;
   }
-  (0, _createClass2["default"])(MsgTransferTokenOwner, [{
+  (0, _inherits2["default"])(MsgTransferTokenOwner, _Msg5);
+  return (0, _createClass2["default"])(MsgTransferTokenOwner, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setSymbol(this.value.symbol).setSrcOwner(this.value.src_owner).setDstOwner(this.value.dst_owner);
@@ -309,24 +299,21 @@ var MsgTransferTokenOwner = exports.MsgTransferTokenOwner = /*#__PURE__*/functio
       return pbs.token_tx_pb.MsgTransferTokenOwner;
     }
   }]);
-  return MsgTransferTokenOwner;
 }(_types.Msg);
 /**
  * Msg struct for Swap Fee Token
  * @hidden
  */
 var MsgSwapFeeToken = exports.MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
-  (0, _inherits2["default"])(MsgSwapFeeToken, _Msg6);
-  var _super6 = _createSuper(MsgSwapFeeToken);
   function MsgSwapFeeToken(msg) {
     var _this6;
     (0, _classCallCheck2["default"])(this, MsgSwapFeeToken);
-    _this6 = _super6.call(this, _types.TxType.MsgSwapFeeToken);
-    (0, _defineProperty2["default"])((0, _assertThisInitialized2["default"])(_this6), "value", void 0);
+    _this6 = _callSuper(this, MsgSwapFeeToken, [_types.TxType.MsgSwapFeeToken]);
     _this6.value = msg;
     return _this6;
   }
-  (0, _createClass2["default"])(MsgSwapFeeToken, [{
+  (0, _inherits2["default"])(MsgSwapFeeToken, _Msg6);
+  return (0, _createClass2["default"])(MsgSwapFeeToken, [{
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setFeePaid(_helper.TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount)).setSender(this.value.sender);
@@ -359,5 +346,87 @@ var MsgSwapFeeToken = exports.MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
       return pbs.token_tx_pb.MsgSwapFeeToken;
     }
   }]);
-  return MsgSwapFeeToken;
+}(_types.Msg);
+/**
+ * Msg struct for Swap To ERC20
+ */
+var MsgSwapToERC20 = exports.MsgSwapToERC20 = /*#__PURE__*/function (_Msg7) {
+  function MsgSwapToERC20(msg) {
+    var _this7;
+    (0, _classCallCheck2["default"])(this, MsgSwapToERC20);
+    _this7 = _callSuper(this, MsgSwapToERC20, [_types.TxType.MsgSwapToERC20]);
+    _this7.value = msg;
+    return _this7;
+  }
+  (0, _inherits2["default"])(MsgSwapToERC20, _Msg7);
+  return (0, _createClass2["default"])(MsgSwapToERC20, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setSender(this.value.sender).setAmount(_helper.TxModelCreator.createCoinModel(this.value.amount.denom, this.value.amount.amount)).setReceiver(this.value.receiver);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      if (is.undefined(this.value.amount)) {
+        throw new _errors.SdkError("amount can not be empty");
+      }
+      if (is.undefined(this.value.receiver)) {
+        throw new _errors.SdkError("receiver can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgSwapToERC20;
+    }
+  }]);
+}(_types.Msg);
+var MsgSwapFromERC20 = exports.MsgSwapFromERC20 = /*#__PURE__*/function (_Msg8) {
+  function MsgSwapFromERC20(msg) {
+    var _this8;
+    (0, _classCallCheck2["default"])(this, MsgSwapFromERC20);
+    _this8 = _callSuper(this, MsgSwapFromERC20, [_types.TxType.MsgSwapFromERC20]);
+    _this8.value = msg;
+    return _this8;
+  }
+  (0, _inherits2["default"])(MsgSwapFromERC20, _Msg8);
+  return (0, _createClass2["default"])(MsgSwapFromERC20, [{
+    key: "getModel",
+    value: function getModel() {
+      var msg = new (this.constructor.getModelClass())().setSender(this.value.sender).setWantedAmount(_helper.TxModelCreator.createCoinModel(this.value.wanted_amount.denom, this.value.wanted_amount.amount)).setReceiver(this.value.receiver);
+      return msg;
+    }
+
+    /**
+     * validate necessary params
+     */
+  }, {
+    key: "validate",
+    value: function validate() {
+      if (is.undefined(this.value.sender)) {
+        throw new _errors.SdkError("sender can not be empty");
+      }
+      if (is.undefined(this.value.wanted_amount)) {
+        throw new _errors.SdkError("wanted amount can not be empty");
+      }
+      if (is.undefined(this.value.receiver)) {
+        throw new _errors.SdkError("receiver can not be empty");
+      }
+      return true;
+    }
+  }], [{
+    key: "getModelClass",
+    value: function getModelClass() {
+      return pbs.token_tx_pb.MsgSwapFromERC20;
+    }
+  }]);
 }(_types.Msg);

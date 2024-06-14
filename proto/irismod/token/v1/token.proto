@@ -14,11 +14,12 @@ message Token {
   string symbol = 1;
   string name = 2;
   uint32 scale = 3;
-  string min_unit = 4 ;
+  string min_unit = 4;
   uint64 initial_supply = 5;
   uint64 max_supply = 6;
   bool mintable = 7;
   string owner = 8;
+  string contract = 9;
 }
 
 // Params defines token module's parameters
@@ -30,12 +31,14 @@ message Params {
     (gogoproto.nullable) = false
   ];
 
-  cosmos.base.v1beta1.Coin issue_token_base_fee = 2 [
-    (gogoproto.nullable) = false
-  ];
+  cosmos.base.v1beta1.Coin issue_token_base_fee = 2
+      [ (gogoproto.nullable) = false ];
 
   string mint_token_fee_ratio = 3 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable) = false
   ];
+
+  bool enable_erc20 = 4;
+  string beacon = 5;
 }

@@ -13,15 +13,13 @@ var _helper = require("../helper");
 var types = _interopRequireWildcard(require("../types"));
 var _errors = require("../errors");
 var _protobuf = require("../modules/protobuf");
+var _buffer = require("buffer");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 var Sha256 = require('sha256');
 var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
   function ProtoTx(properties, protoTxModel) {
     (0, _classCallCheck2["default"])(this, ProtoTx);
-    (0, _defineProperty2["default"])(this, "txData", void 0);
-    (0, _defineProperty2["default"])(this, "body", void 0);
-    (0, _defineProperty2["default"])(this, "authInfo", void 0);
     (0, _defineProperty2["default"])(this, "signatures", []);
     if (!properties && !protoTxModel) {
       throw new _errors.SdkError("there must be one properties or protoTxModel", _errors.CODES.Internal);
@@ -46,7 +44,7 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
       }
     }
   }
-  (0, _createClass2["default"])(ProtoTx, [{
+  return (0, _createClass2["default"])(ProtoTx, [{
     key: "addSignature",
     value:
     /**
@@ -184,7 +182,7 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
   }, {
     key: "getDisplayContent",
     value: function getDisplayContent() {
-      return new _protobuf.Protobuf({}).deserializeTx(Buffer.from(this.getData()).toString('base64'));
+      return new _protobuf.Protobuf({}).deserializeTx(_buffer.Buffer.from(this.getData()).toString('base64'));
     }
   }], [{
     key: "newStdTxFromProtoTxModel",
@@ -195,5 +193,4 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
       return new ProtoTx(undefined, protoTxModel);
     }
   }]);
-  return ProtoTx;
 }();

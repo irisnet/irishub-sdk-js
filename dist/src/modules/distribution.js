@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../types"));
 var _utils = require("../utils");
 var _helper = require("../helper");
@@ -29,21 +28,63 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Distribution = exports.Distribution = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Distribution(client) {
     (0, _classCallCheck2["default"])(this, Distribution);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
   /**
-   * Set another address to receive the rewards instead of using the delegator address
-   * @param withdrawAddress Bech32 account address
-   * @param baseTx
-   * @returns
-   * @since v0.17
+   * withdraw reward for an owning TokenizeShareRecord
+   * 
+   * @param recordId 
+   * @param baseTx 
+   * @returns 
+   * @since v3.4.0
    */
-  (0, _createClass2["default"])(Distribution, [{
+  return (0, _createClass2["default"])(Distribution, [{
+    key: "withdrawTokenizeShareRecordReward",
+    value: function withdrawTokenizeShareRecordReward(recordId, baseTx) {
+      var ownerAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgWithdrawTokenizeShareRecordReward,
+        value: {
+          owner_address: ownerAddr,
+          record_id: recordId
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * withdraw reward for all owning TokenizeShareRecord
+     * 
+     * @param baseTx 
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "withdrawAllTokenizeShareRecordReward",
+    value: function withdrawAllTokenizeShareRecordReward(baseTx) {
+      var ownerAddr = this.client.keys.show(baseTx.from);
+      var msgs = [{
+        type: types.TxType.MsgWithdrawAllTokenizeShareRecordReward,
+        value: {
+          owner_address: ownerAddr
+        }
+      }];
+      return this.client.tx.buildAndSend(msgs, baseTx);
+    }
+
+    /**
+     * Set another address to receive the rewards instead of using the delegator address
+     * @param withdrawAddress Bech32 account address
+     * @param baseTx
+     * @returns
+     * @since v0.17
+     */
+  }, {
     key: "setWithdrawAddr",
     value: (function () {
       var _setWithdrawAddr = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(withdrawAddress, baseTx) {
@@ -327,6 +368,22 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
       var request = new types.distribution_query_pb.QueryCommunityPoolRequest();
       return this.client.rpcClient.protoQuery('/cosmos.distribution.v1beta1.Query/CommunityPool', request, types.distribution_query_pb.QueryCommunityPoolResponse);
     }
+
+    /**
+     * TokenizeShareRecordReward queries the tokenize share record rewards
+     * 
+     * @param owner_address 
+     * @returns 
+     * @since v3.4.0
+     */
+  }, {
+    key: "queryTokenizeShareRecordReward",
+    value: function queryTokenizeShareRecordReward(owner_address) {
+      if (!owner_address) {
+        throw new _errors.SdkError("owner_address can ont be empty");
+      }
+      var request = new types.distribution_query_pb.QueryTokenizeShareRecordRewardRequest();
+      return this.client.rpcClient.protoQuery('/cosmos.distribution.v1beta1.Query/TokenizeShareRecordReward', request, types.distribution_query_pb.QueryTokenizeShareRecordRewardResponse);
+    }
   }]);
-  return Distribution;
 }();

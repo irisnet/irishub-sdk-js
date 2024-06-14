@@ -26,6 +26,53 @@ export class Distribution {
   }
 
   /**
+   * withdraw reward for an owning TokenizeShareRecord
+   * 
+   * @param recordId 
+   * @param baseTx 
+   * @returns 
+   * @since v3.4.0
+   */
+  withdrawTokenizeShareRecordReward(
+    recordId: number,
+    baseTx: types.BaseTx,
+  ): Promise<types.TxResult> {
+    const ownerAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgWithdrawTokenizeShareRecordReward,
+        value: {
+          owner_address: ownerAddr,
+          record_id: recordId,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
+   * withdraw reward for all owning TokenizeShareRecord
+   * 
+   * @param baseTx 
+   * @returns 
+   * @since v3.4.0
+   */
+  withdrawAllTokenizeShareRecordReward(
+    baseTx: types.BaseTx
+  ): Promise<types.TxResult> {
+    const ownerAddr = this.client.keys.show(baseTx.from);
+    const msgs: any[] = [
+      {
+        type: types.TxType.MsgWithdrawAllTokenizeShareRecordReward,
+        value: {
+          owner_address: ownerAddr,
+        }
+      }
+    ]
+    return this.client.tx.buildAndSend(msgs, baseTx);
+  }
+
+  /**
    * Set another address to receive the rewards instead of using the delegator address
    * @param withdrawAddress Bech32 account address
    * @param baseTx
@@ -284,4 +331,22 @@ export class Distribution {
     );
   }
 
+  /**
+   * TokenizeShareRecordReward queries the tokenize share record rewards
+   * 
+   * @param owner_address 
+   * @returns 
+   * @since v3.4.0
+   */
+  queryTokenizeShareRecordReward(owner_address: string): Promise<object> {
+    if (!owner_address) {
+      throw new SdkError("owner_address can ont be empty");
+    }
+    const request = new types.distribution_query_pb.QueryTokenizeShareRecordRewardRequest();
+    return this.client.rpcClient.protoQuery(
+      '/cosmos.distribution.v1beta1.Query/TokenizeShareRecordReward',
+      request,
+      types.distribution_query_pb.QueryTokenizeShareRecordRewardResponse
+    );
+  }
 }

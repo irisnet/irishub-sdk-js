@@ -10,7 +10,6 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var types = _interopRequireWildcard(require("../../types"));
 var _helper = require("../../helper");
 var _errors = require("../../errors");
@@ -24,10 +23,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var IbcNftTransfer = exports.IbcNftTransfer = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function IbcNftTransfer(client) {
     (0, _classCallCheck2["default"])(this, IbcNftTransfer);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -46,7 +45,7 @@ var IbcNftTransfer = exports.IbcNftTransfer = /*#__PURE__*/function () {
    * @returns
    * @since v3.3.0
    */
-  (0, _createClass2["default"])(IbcNftTransfer, [{
+  return (0, _createClass2["default"])(IbcNftTransfer, [{
     key: "transfer",
     value: (function () {
       var _transfer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(param, baseTx) {
@@ -156,5 +155,4 @@ var IbcNftTransfer = exports.IbcNftTransfer = /*#__PURE__*/function () {
       return this.client.rpcClient.protoQuery('/ibc.applications.nft_transfer.v1.Query/Params', request, types.ibc_nft_transfer_query_pb.QueryParamsResponse);
     }
   }]);
-  return IbcNftTransfer;
 }();

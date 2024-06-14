@@ -2,6 +2,7 @@
 import * as types from '../types';
 import { TxHelper } from './txHelper';
 import { SdkError, CODES } from '../errors';
+import { Buffer } from 'buffer';
 
 export class TxModelCreator {
     static createBodyModel(msgs:types.Msg[], memo:string, timeoutHeight:number):any{
@@ -78,7 +79,7 @@ export class TxModelCreator {
         if (!pk) {
             throw new SdkError("Unsupported public Key types",CODES.InvalidPubkey);
         }
-        pk.setKey(Buffer.from(pubByteArray));
+        pk.setKey(Uint8Array.from(Buffer.from(pubByteArray)));
         return { type:type, value:pk };
     }
 

@@ -3,6 +3,7 @@ import { Utils } from '../utils';
 import { SdkError, CODES } from '../errors';
 import * as is from 'is_js';
 import * as types from '../types';
+import { Buffer } from 'buffer';
 
 /**
  * Tendermint JSON RPC Client

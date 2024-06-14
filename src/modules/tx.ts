@@ -1,8 +1,8 @@
-import {Client} from '../client';
+import { Client } from '../client';
 import * as is from 'is_js';
 import * as types from '../types';
 import { SdkError, CODES } from '../errors';
-import {Utils, Crypto} from '../utils';
+import { Utils, Crypto } from '../utils';
 
 /**
  * Tx module allows you to sign or broadcast transactions
@@ -42,8 +42,8 @@ export class Tx {
    * @param  {[type]} protoTxModel:any instance of cosmos.tx.v1beta1.Tx 
    * @return {[type]} unsignedTx
    */
-  newStdTxFromProtoTxModel(protoTxModel:any):types.ProtoTx{
-    return  types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
+  newStdTxFromProtoTxModel(protoTxModel: any): types.ProtoTx {
+    return types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
   }
 
   /**
@@ -51,9 +51,9 @@ export class Tx {
    * @param  {[type]} TxData:string  base64 string form txBytes
    * @return {[type]} unsignedTx
    */
-  newStdTxFromTxData(TxDataString:string):types.ProtoTx{
+  newStdTxFromTxData(TxDataString: string): types.ProtoTx {
     const protoTxModel = this.client.protobuf.deserializeTx(TxDataString, true)
-    return  types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
+    return types.ProtoTx.newStdTxFromProtoTxModel(protoTxModel);
   }
 
   /**
@@ -113,7 +113,7 @@ export class Tx {
   async sign(
     stdTx: types.ProtoTx,
     baseTx: types.BaseTx,
-    offline:boolean = false
+    offline: boolean = false
   ): Promise<types.ProtoTx> {
     if (is.empty(baseTx.from)) {
       throw new SdkError(`baseTx.from of the key can not be empty`);
@@ -122,30 +122,30 @@ export class Tx {
       throw new SdkError(`baseTx.password of the key can not be empty`);
     }
     if (!this.client.config.keyDAO.decrypt) {
-      throw new SdkError(`Decrypt method of KeyDAO not implemented`,CODES.Panic);
+      throw new SdkError(`Decrypt method of KeyDAO not implemented`, CODES.Panic);
     }
 
     const keyObj = this.client.config.keyDAO.read(baseTx.from);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${baseTx.from}' not found`,CODES.KeyNotFound);
+      throw new SdkError(`Key with name '${baseTx.from}' not found`, CODES.KeyNotFound);
     }
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, baseTx.password);
     if (!privKey) {
-      throw new SdkError(`decrypto the private key error`,CODES.InvalidPassword);
+      throw new SdkError(`decrypto the private key error`, CODES.InvalidPassword);
     }
 
     let accountNumber = baseTx.account_number;
     let sequence = baseTx.sequence;
     // Query account info from block chain
     if ((typeof baseTx.account_number == 'undefined' || typeof baseTx.sequence == 'undefined') && !offline) {
-      const accountData:any = await this.client.auth.queryAccount(keyObj.address);
-      if(accountData?.account?.value){
-        const account:any = accountData.account.value;
+      const accountData: any = await this.client.auth.queryAccount(keyObj.address);
+      if (accountData?.account?.value) {
+        const account: any = accountData.account.value;
         if (account?.baseAccount) {// ModuleAccount
           accountNumber = account?.baseAccount?.accountNumber ?? 0;
           sequence = account?.baseAccount?.sequence ?? 0;
-        }else{
+        } else {
           accountNumber = account.accountNumber ?? 0;
           sequence = account.sequence ?? 0;
         }
@@ -154,9 +154,9 @@ export class Tx {
 
     if (!stdTx.hasPubKey()) {
       const pubKey = Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
-      stdTx.setPubKey(pubKey, sequence??undefined);
+      stdTx.setPubKey(pubKey, sequence ?? undefined);
     }
-    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber??undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
+    const signature = Crypto.generateSignature(stdTx.getSignDoc(accountNumber ?? undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
     stdTx.addSignature(signature);
     return stdTx;
   }
@@ -175,7 +175,7 @@ export class Tx {
     signDoc: Uint8Array,
     name: string,
     password: string,
-    type:types.PubkeyType = types.PubkeyType.secp256k1
+    type: types.PubkeyType = types.PubkeyType.secp256k1
   ): string {
     if (is.empty(name)) {
       throw new SdkError(`Name of the key can not be empty`);
@@ -189,7 +189,7 @@ export class Tx {
 
     const keyObj = this.client.config.keyDAO.read(name);
     if (!keyObj) {
-      throw new SdkError(`Key with name '${name}' not found`,CODES.KeyNotFound);
+      throw new SdkError(`Key with name '${name}' not found`, CODES.KeyNotFound);
     }
 
     const privKey = this.client.config.keyDAO.decrypt(keyObj.privateKey, password);
@@ -266,7 +266,7 @@ export class Tx {
         types.RpcMethods.BroadcastTxAsync,
       ])
     ) {
-      throw new SdkError(`Unsupported broadcast method: ${method}`,CODES.Internal);
+      throw new SdkError(`Unsupported broadcast method: ${method}`, CODES.Internal);
     }
 
     return this.client.rpcClient
@@ -292,10 +292,10 @@ export class Tx {
   //   return copyStdTx;
   // }
 
-  private newTxResult(response:any): types.TxResult {
-    let result:types.TxResult = { hash:response.hash };
+  private newTxResult(response: any): types.TxResult {
+    let result: types.TxResult = { hash: response.hash };
     if (response.height) {
-      result = { ...result, height:response.height };
+      result = { ...result, height: response.height };
     }
     if (response.deliver_tx) {
       result = {
@@ -340,6 +340,34 @@ export class Tx {
         msg = new types.MsgRedelegate(txMsg.value);
         break;
       }
+      case types.TxType.MsgTokenizeShares: {
+        msg = new types.MsgTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgTransferTokenizeShareRecord: {
+        msg = new types.MsgTransferTokenizeShareRecord(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgRedeemTokensForShares: {
+        msg = new types.MsgRedeemTokensForShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgDisableTokenizeShares: {
+        msg = new types.MsgDisableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgEnableTokenizeShares: {
+        msg = new types.MsgEnableTokenizeShares(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgValidatorBond: {
+        msg = new types.MsgValidatorBond(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgUnbondValidator: {
+        msg = new types.MsgUnbondValidator(txMsg.value);
+        break;
+      }
       //distribution
       case types.TxType.MsgWithdrawDelegatorReward: {
         msg = new types.MsgWithdrawDelegatorReward(txMsg.value);
@@ -355,6 +383,14 @@ export class Tx {
       }
       case types.TxType.MsgFundCommunityPool: {
         msg = new types.MsgFundCommunityPool(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawTokenizeShareRecordReward(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgWithdrawAllTokenizeShareRecordReward: {
+        msg = new types.MsgWithdrawAllTokenizeShareRecordReward(txMsg.value);
         break;
       }
       //token
@@ -382,18 +418,26 @@ export class Tx {
         msg = new types.MsgSwapFeeToken(txMsg.value);
         break;
       }
+      case types.TxType.MsgSwapToERC20: {
+        msg = new types.MsgSwapToERC20(txMsg.value);
+        break;
+      }
+      case types.TxType.MsgSwapFromERC20: {
+        msg = new types.MsgSwapFromERC20(txMsg.value);
+        break;
+      }
       //coinswap
       case types.TxType.MsgAddLiquidity: {
         msg = new types.MsgAddLiquidity(txMsg.value);
-          break;
-      } 
+        break;
+      }
       case types.TxType.MsgRemoveLiquidity: {
         msg = new types.MsgRemoveLiquidity(txMsg.value);
-          break;
-      } 
+        break;
+      }
       case types.TxType.MsgSwapOrder: {
         msg = new types.MsgSwapOrder(txMsg.value);
-          break;
+        break;
       }
       // farm
       case types.TxType.MsgStake: {
@@ -410,62 +454,67 @@ export class Tx {
       }
       //nft
       case types.TxType.MsgIssueDenom: {
-          msg = new types.MsgIssueDenom(txMsg.value)
-          break;
+        msg = new types.MsgIssueDenom(txMsg.value)
+        break;
       }
       case types.TxType.MsgMintNFT: {
-          msg = new types.MsgMintNFT(txMsg.value)
-          break;
+        msg = new types.MsgMintNFT(txMsg.value)
+        break;
       }
       case types.TxType.MsgEditNFT: {
-          msg = new types.MsgEditNFT(txMsg.value)
-          break;
+        msg = new types.MsgEditNFT(txMsg.value)
+        break;
       }
       case types.TxType.MsgTransferNFT: {
-          msg = new types.MsgTransferNFT(txMsg.value)
-          break;
+        msg = new types.MsgTransferNFT(txMsg.value)
+        break;
       }
       case types.TxType.MsgBurnNFT: {
-          msg = new types.MsgBurnNFT(txMsg.value)
-          break;
+        msg = new types.MsgBurnNFT(txMsg.value)
+        break;
       }
       //gov
       case types.TxType.MsgSubmitProposal: {
-          msg = new types.MsgSubmitProposal(txMsg.value)
-          break;
+        msg = new types.MsgSubmitProposal(txMsg.value)
+        break;
       }
       case types.TxType.MsgVote: {
-          msg = new types.MsgVote(txMsg.value)
-          break;
+        msg = new types.MsgVote(txMsg.value)
+        break;
       }
       case types.TxType.MsgVoteWeighted: {
-          msg = new types.MsgVoteWeighted(txMsg.value)
-          break;
+        msg = new types.MsgVoteWeighted(txMsg.value)
+        break;
       }
       case types.TxType.MsgDeposit: {
-          msg = new types.MsgDeposit(txMsg.value)
-          break;
+        msg = new types.MsgDeposit(txMsg.value)
+        break;
       }
       //htlc
       case types.TxType.MsgCreateHTLC: {
-          msg = new types.MsgCreateHTLC(txMsg.value)
-          break;
+        msg = new types.MsgCreateHTLC(txMsg.value)
+        break;
       }
       case types.TxType.MsgClaimHTLC: {
-          msg = new types.MsgClaimHTLC(txMsg.value)
-          break;
+        msg = new types.MsgClaimHTLC(txMsg.value)
+        break;
       }
       //ibc
       case types.TxType.MsgTransfer: {
-          msg = new types.MsgTransfer(txMsg.value);
-          break;
+        msg = new types.MsgTransfer(txMsg.value);
+        break;
       }
       case types.TxType.MsgIbcNftTransfer: {
-          msg = new types.MsgIbcNftTransfer(txMsg.value);
-          break;
+        msg = new types.MsgIbcNftTransfer(txMsg.value);
+        break;
+      }
+      //slashing
+      case types.TxType.MsgUnjail: {
+        msg = new types.MsgUnjail(txMsg.value);
+        break;
       }
       default: {
-          throw new SdkError("not exist tx type",CODES.InvalidType);
+        throw new SdkError("not exist tx type", CODES.InvalidType);
       }
     }
     return msg;

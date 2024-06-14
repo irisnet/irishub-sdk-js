@@ -15,7 +15,7 @@ describe('Staking Tests', () => {
           console.log(error);
         });
     });
-    
+
     test('query unbonding delegation', async () => {
       await BaseTest.getClient()
         .staking.queryUnbondingDelegation(
@@ -33,7 +33,7 @@ describe('Staking Tests', () => {
     test('query delegations of a delegator', async () => {
       await BaseTest.getClient()
         .staking.queryDelegations({
-          delegator_addr:'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
+          delegator_addr: 'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw'
         })
         .then(res => {
           console.log(res);
@@ -47,7 +47,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryDelegatorUnbondingDelegations(
           {
-            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            delegator_addr: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           }
         )
         .then(res => {
@@ -58,13 +58,13 @@ describe('Staking Tests', () => {
         });
     });
 
-    test('query redelegation', async () => {//TODO(lsc) there is only one node in current blockchain net, redelegate tx can not work properly
+    test('query redelegation', async () => {
       await BaseTest.getClient()
         .staking.queryRedelegation(
           {
-            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
-            /*src_validator_addr:'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
-            dst_validator_addr:'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',*/
+            delegator_addr: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            src_validator_addr: 'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+            dst_validator_addr: 'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
           }
         )
         .then(res => {
@@ -79,7 +79,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryDelegatorValidators(
           {
-            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            delegator_addr: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
           }
         )
         .then(res => {
@@ -94,8 +94,8 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryDelegatorValidator(
           {
-            delegator_addr:'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
-            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
+            delegator_addr: 'iaa14x8a7y88py9xkvkxzld3jxhgpjpm03whruzwzp',
+            validator_addr: 'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4',
           }
         )
         .then(res => {
@@ -106,11 +106,11 @@ describe('Staking Tests', () => {
         });
     });
 
-    test('queries the historical info for given height', async () => {//TODO(lsc) what can this api do?
+    test('queries the historical info for given height', async () => {
       await BaseTest.getClient()
         .staking.queryHistoricalInfo(
           {
-            height:1000,
+            height: 1000,
           }
         )
         .then(res => {
@@ -147,7 +147,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryValidatorDelegations(
           {
-            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
+            validator_addr: 'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
           }
         )
         .then(res => {
@@ -162,7 +162,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.queryValidatorUnbondingDelegations(
           {
-            validator_addr:'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
+            validator_addr: 'iva1lny43v3y496wj6v05m4xpv8nv9c4ra9q57l4y4'
           }
         )
         .then(res => {
@@ -187,12 +187,107 @@ describe('Staking Tests', () => {
     test('query all validators', async () => {
       await BaseTest.getClient()
         .staking.queryValidators({
-          pagination:{
+          pagination: {
             page_number: 2,
             page_size: 8
           },
           //status:'Bonded',
         })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share record by id', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordById(2)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share record by denom', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordByDenom('iva1svannhv2zaxefq83m7treg078udfk37lpjufkw/3')
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share recored owned', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareRecordsOwned('iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2')
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query all tokenize share records', async () => {
+      await BaseTest.getClient()
+        .staking.queryAllTokenizeShareRecords(
+          {
+            page_number: 2,
+            page_size: 5,
+          }
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query last tokenize share recordId', async () => {
+      await BaseTest.getClient()
+        .staking.queryLastTokenizeShareRecordId()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query total tokenize shared assets', async () => {
+      await BaseTest.getClient()
+        .staking.queryTotalTokenizeSharedAssets()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query total liquid staked', async () => {
+      await BaseTest.getClient()
+        .staking.queryTotalLiquidStaked()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+
+    test('query tokenize share lock info', async () => {
+      await BaseTest.getClient()
+        .staking.queryTokenizeShareLockInfo(
+          'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2'
+        )
         .then(res => {
           console.log(res);
         })
@@ -223,7 +318,7 @@ describe('Staking Tests', () => {
       await BaseTest.getClient()
         .staking.undelegate(
           'iva1g5uv7khupczd6w03a7t066mwjdx9zkma82rnk0',
-              { denom: 'udev', amount: '1' },
+          { denom: 'udev', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -240,7 +335,7 @@ describe('Staking Tests', () => {
         .staking.redelegate(
           'iva1geqzj2jjeqgurpu8u9x4asq5m6rw5lm7nn22c2',
           'iva1736ypcrmwvurylfprfgmjwr625c6ycdv8uyjlp',
-              { denom: 'udev', amount: '1' },
+          { denom: 'udev', amount: '1' },
           BaseTest.baseTx
         )
         .then(res => {
@@ -251,4 +346,104 @@ describe('Staking Tests', () => {
         });
     });
   });
+  describe('TokenizeShares', () => {
+    test('tokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.tokenizeShares(
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          { denom: 'unyan', amount: '100' },
+          'iaa1sf69k6n6m7rq0a49cp8u07gagy8jahx7h5pztk',
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+          return res;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      await BaseTest.getClient()
+        .staking.redeemTokensForShares(
+          { denom: 'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw/5', amount: '1000' },
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      await BaseTest.getClient()
+        .staking.transferTokenizeShareRecord(
+          1,
+          'iaa1eqvkfthtrr93g4p9qspp54w6dtjtrn27ar7rpw',
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('DisableTokenizeShares', () => {
+    test('disableTokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.disableTokenizeShares(
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('EnableTokenizeShares', () => {
+    test('enableTokenizeShares', async () => {
+      await BaseTest.getClient()
+        .staking.enableTokenizeShares(
+          BaseTest.baseTx
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('ValidatorBond', () => {
+    test('validatorBond', async () => {
+      await BaseTest.getClient()
+        .staking.validatorBond(
+          'iva1svannhv2zaxefq83m7treg078udfk37lpjufkw',
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
+  });
+  describe('UnbondValidator', () => {
+    test('unbondValidator', async () => {
+      await BaseTest.getClient()
+        .staking.unbondValidator(
+          BaseTest.baseTx,
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+
+        })
+    })
+  })
 });

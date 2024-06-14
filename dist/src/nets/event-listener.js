@@ -26,7 +26,7 @@ var EventDAO = /*#__PURE__*/function () {
     (0, _classCallCheck2["default"])(this, EventDAO);
     (0, _defineProperty2["default"])(this, "subscriptions", new Map());
   }
-  (0, _createClass2["default"])(EventDAO, [{
+  return (0, _createClass2["default"])(EventDAO, [{
     key: "setSubscription",
     value: function setSubscription(id, subscription) {
       this.subscriptions.set(id, subscription);
@@ -47,7 +47,6 @@ var EventDAO = /*#__PURE__*/function () {
       this.subscriptions.clear();
     }
   }]);
-  return EventDAO;
 }();
 /**
  * IRISHub Event Listener
@@ -55,15 +54,15 @@ var EventDAO = /*#__PURE__*/function () {
  */
 var EventListener = exports.EventListener = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
+
+  /** @hidden */
+
+  /** @hidden */
   function EventListener(client) {
     var _this = this;
     (0, _classCallCheck2["default"])(this, EventListener);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "wsClient", void 0);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "eventDAO", void 0);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
     this.wsClient = new _wsClient.WsClient(this.client.config.node);
     this.eventDAO = new EventDAO();
@@ -137,7 +136,7 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
    * Connect to server
    * @since v0.17
    */
-  (0, _createClass2["default"])(EventListener, [{
+  return (0, _createClass2["default"])(EventListener, [{
     key: "connect",
     value: function connect() {
       this.wsClient.connect();
@@ -486,5 +485,4 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
       callback(undefined, txResult);
     }
   }]);
-  return EventListener;
 }();

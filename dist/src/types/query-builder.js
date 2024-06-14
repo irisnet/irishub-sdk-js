@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.EventQueryBuilder = exports.EventKey = exports.EventAction = exports.Condition = void 0;
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _errors = require("../errors");
 var is = _interopRequireWildcard(require("is_js"));
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
@@ -16,14 +16,11 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
 var Condition = exports.Condition = /*#__PURE__*/function () {
   function Condition(key) {
     (0, _classCallCheck2["default"])(this, Condition);
-    (0, _defineProperty2["default"])(this, "key", void 0);
-    (0, _defineProperty2["default"])(this, "value", void 0);
-    (0, _defineProperty2["default"])(this, "op", void 0);
     this.key = key;
     this.value = '';
     this.op = '';
   }
-  (0, _createClass2["default"])(Condition, [{
+  return (0, _createClass2["default"])(Condition, [{
     key: "lte",
     value: function lte(value) {
       return this.fill(value, '<=');
@@ -69,7 +66,6 @@ var Condition = exports.Condition = /*#__PURE__*/function () {
       return this;
     }
   }]);
-  return Condition;
 }();
 /**
  * A builder for building event query strings
@@ -79,7 +75,7 @@ var EventQueryBuilder = exports.EventQueryBuilder = /*#__PURE__*/function () {
     (0, _classCallCheck2["default"])(this, EventQueryBuilder);
     (0, _defineProperty2["default"])(this, "conditions", new Array());
   }
-  (0, _createClass2["default"])(EventQueryBuilder, [{
+  return (0, _createClass2["default"])(EventQueryBuilder, [{
     key: "addCondition",
     value:
     /**
@@ -110,7 +106,6 @@ var EventQueryBuilder = exports.EventQueryBuilder = /*#__PURE__*/function () {
       return query;
     }
   }]);
-  return EventQueryBuilder;
 }();
 var EventKey = exports.EventKey = /*#__PURE__*/function (EventKey) {
   EventKey["Type"] = "tm.event";

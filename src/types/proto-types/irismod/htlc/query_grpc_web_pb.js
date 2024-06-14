@@ -20,6 +20,8 @@ var google_api_annotations_pb = require('../../google/api/annotations_pb.js')
 
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js')
 
+var cosmos_query_v1_query_pb = require('../../cosmos/query/v1/query_pb.js')
+
 var irismod_htlc_htlc_pb = require('../../irismod/htlc/htlc_pb.js')
 const proto = {};
 proto.irismod = {};

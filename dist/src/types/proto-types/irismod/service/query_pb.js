@@ -16,6 +16,8 @@ var cosmos_base_v1beta1_coin_pb = require('../../cosmos/base/v1beta1/coin_pb.js'
 goog.object.extend(proto, cosmos_base_v1beta1_coin_pb);
 var cosmos_base_query_v1beta1_pagination_pb = require('../../cosmos/base/query/v1beta1/pagination_pb.js');
 goog.object.extend(proto, cosmos_base_query_v1beta1_pagination_pb);
+var cosmos_query_v1_query_pb = require('../../cosmos/query/v1/query_pb.js');
+goog.object.extend(proto, cosmos_query_v1_query_pb);
 var gogoproto_gogo_pb = require('../../gogoproto/gogo_pb.js');
 goog.object.extend(proto, gogoproto_gogo_pb);
 var google_api_annotations_pb = require('../../google/api/annotations_pb.js');

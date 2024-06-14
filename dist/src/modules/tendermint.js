@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.Tendermint = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _types = require("../types");
 var _utils = require("../utils");
 var hexEncoding = _interopRequireWildcard(require("crypto-js/enc-hex"));
@@ -24,10 +23,10 @@ function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; 
  */
 var Tendermint = exports.Tendermint = /*#__PURE__*/function () {
   /** @hidden */
+
+  /** @hidden */
   function Tendermint(client) {
     (0, _classCallCheck2["default"])(this, Tendermint);
-    /** @hidden */
-    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
@@ -37,7 +36,7 @@ var Tendermint = exports.Tendermint = /*#__PURE__*/function () {
    * @returns
    * @since v0.17
    */
-  (0, _createClass2["default"])(Tendermint, [{
+  return (0, _createClass2["default"])(Tendermint, [{
     key: "queryBlock",
     value: function queryBlock(height) {
       var _this = this;
@@ -217,5 +216,4 @@ var Tendermint = exports.Tendermint = /*#__PURE__*/function () {
       });
     }
   }]);
-  return Tendermint;
 }();

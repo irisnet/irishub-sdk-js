@@ -22,11 +22,15 @@ var cosmos_proto_cosmos_pb = require('../../../cosmos_proto/cosmos_pb.js')
 
 var cosmos_base_query_v1beta1_pagination_pb = require('../../../cosmos/base/query/v1beta1/pagination_pb.js')
 
+var cosmos_query_v1_query_pb = require('../../../cosmos/query/v1/query_pb.js')
+
 var gogoproto_gogo_pb = require('../../../gogoproto/gogo_pb.js')
 
 var google_api_annotations_pb = require('../../../google/api/annotations_pb.js')
 
 var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js')
+
+var amino_amino_pb = require('../../../amino/amino_pb.js')
 
 var irismod_token_v1_token_pb = require('../../../irismod/token/v1/token_pb.js')
 const proto = {};
@@ -83,86 +87,6 @@ proto.irismod.token.v1.QueryPromiseClient =
    */
   this.hostname_ = hostname;
 
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.irismod.token.v1.QueryTokenRequest,
- *   !proto.irismod.token.v1.QueryTokenResponse>}
- */
-const methodDescriptor_Query_Token = new grpc.web.MethodDescriptor(
-  '/irismod.token.v1.Query/Token',
-  grpc.web.MethodType.UNARY,
-  proto.irismod.token.v1.QueryTokenRequest,
-  proto.irismod.token.v1.QueryTokenResponse,
-  /**
-   * @param {!proto.irismod.token.v1.QueryTokenRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.irismod.token.v1.QueryTokenResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.irismod.token.v1.QueryTokenRequest,
- *   !proto.irismod.token.v1.QueryTokenResponse>}
- */
-const methodInfo_Query_Token = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.irismod.token.v1.QueryTokenResponse,
-  /**
-   * @param {!proto.irismod.token.v1.QueryTokenRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.irismod.token.v1.QueryTokenResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.irismod.token.v1.QueryTokenRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.irismod.token.v1.QueryTokenResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.irismod.token.v1.QueryTokenResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.irismod.token.v1.QueryClient.prototype.token =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/irismod.token.v1.Query/Token',
-      request,
-      metadata || {},
-      methodDescriptor_Query_Token,
-      callback);
-};
-
-
-/**
- * @param {!proto.irismod.token.v1.QueryTokenRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.irismod.token.v1.QueryTokenResponse>}
- *     Promise that resolves to the response
- */
-proto.irismod.token.v1.QueryPromiseClient.prototype.token =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/irismod.token.v1.Query/Token',
-      request,
-      metadata || {},
-      methodDescriptor_Query_Token);
 };
 
 
@@ -243,6 +167,86 @@ proto.irismod.token.v1.QueryPromiseClient.prototype.tokens =
       request,
       metadata || {},
       methodDescriptor_Query_Tokens);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.token.v1.QueryTokenRequest,
+ *   !proto.irismod.token.v1.QueryTokenResponse>}
+ */
+const methodDescriptor_Query_Token = new grpc.web.MethodDescriptor(
+  '/irismod.token.v1.Query/Token',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.token.v1.QueryTokenRequest,
+  proto.irismod.token.v1.QueryTokenResponse,
+  /**
+   * @param {!proto.irismod.token.v1.QueryTokenRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.v1.QueryTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.token.v1.QueryTokenRequest,
+ *   !proto.irismod.token.v1.QueryTokenResponse>}
+ */
+const methodInfo_Query_Token = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.token.v1.QueryTokenResponse,
+  /**
+   * @param {!proto.irismod.token.v1.QueryTokenRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.v1.QueryTokenResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.token.v1.QueryTokenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.token.v1.QueryTokenResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.token.v1.QueryTokenResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.token.v1.QueryClient.prototype.token =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.token.v1.Query/Token',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Token,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.token.v1.QueryTokenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.token.v1.QueryTokenResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.token.v1.QueryPromiseClient.prototype.token =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.token.v1.Query/Token',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Token);
 };
 
 
@@ -483,6 +487,86 @@ proto.irismod.token.v1.QueryPromiseClient.prototype.totalBurn =
       request,
       metadata || {},
       methodDescriptor_Query_TotalBurn);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.irismod.token.v1.QueryBalancesRequest,
+ *   !proto.irismod.token.v1.QueryBalancesResponse>}
+ */
+const methodDescriptor_Query_Balances = new grpc.web.MethodDescriptor(
+  '/irismod.token.v1.Query/Balances',
+  grpc.web.MethodType.UNARY,
+  proto.irismod.token.v1.QueryBalancesRequest,
+  proto.irismod.token.v1.QueryBalancesResponse,
+  /**
+   * @param {!proto.irismod.token.v1.QueryBalancesRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.v1.QueryBalancesResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.irismod.token.v1.QueryBalancesRequest,
+ *   !proto.irismod.token.v1.QueryBalancesResponse>}
+ */
+const methodInfo_Query_Balances = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.irismod.token.v1.QueryBalancesResponse,
+  /**
+   * @param {!proto.irismod.token.v1.QueryBalancesRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.irismod.token.v1.QueryBalancesResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.irismod.token.v1.QueryBalancesRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.irismod.token.v1.QueryBalancesResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.irismod.token.v1.QueryBalancesResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.irismod.token.v1.QueryClient.prototype.balances =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/irismod.token.v1.Query/Balances',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Balances,
+      callback);
+};
+
+
+/**
+ * @param {!proto.irismod.token.v1.QueryBalancesRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.irismod.token.v1.QueryBalancesResponse>}
+ *     Promise that resolves to the response
+ */
+proto.irismod.token.v1.QueryPromiseClient.prototype.balances =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/irismod.token.v1.Query/Balances',
+      request,
+      metadata || {},
+      methodDescriptor_Query_Balances);
 };
 
 
