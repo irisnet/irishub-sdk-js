@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.Oracle = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _errors = require("../errors");
 /**
  * @category Modules
@@ -14,10 +15,10 @@ var _errors = require("../errors");
  */
 var Oracle = exports.Oracle = /*#__PURE__*/function () {
   /** @hidden */
-
-  /** @hidden */
   function Oracle(client) {
     (0, _classCallCheck2["default"])(this, Oracle);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 

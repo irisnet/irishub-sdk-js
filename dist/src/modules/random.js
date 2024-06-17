@@ -9,6 +9,7 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _random = require("../types/random");
 /**
  * @category Modules
@@ -16,10 +17,10 @@ var _random = require("../types/random");
  */
 var Random = exports.Random = /*#__PURE__*/function () {
   /** @hidden */
-
-  /** @hidden */
   function Random(client) {
     (0, _classCallCheck2["default"])(this, Random);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "client", void 0);
     this.client = client;
   }
 
