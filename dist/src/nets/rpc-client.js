@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.RpcClient = void 0;
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 var _axios = _interopRequireDefault(require("axios"));
 var _utils = require("../utils");
 var _errors = require("../errors");
@@ -15,16 +16,12 @@ var is = _interopRequireWildcard(require("is_js"));
 var types = _interopRequireWildcard(require("../types"));
 var _buffer = require("buffer");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
-function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && Object.prototype.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 /**
  * Tendermint JSON RPC Client
  * @since v0.17
  */
 var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
-  /** @hidden */
-
-  /** @hidden */
-
   /**
    * Initialize Tendermint JSON RPC Client
    * @param url Rpc address of irishub node
@@ -34,6 +31,10 @@ var RpcClient = exports.RpcClient = /*#__PURE__*/function () {
    */
   function RpcClient(config) {
     (0, _classCallCheck2["default"])(this, RpcClient);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "instance", void 0);
+    /** @hidden */
+    (0, _defineProperty2["default"])(this, "config", void 0);
     if (is.empty(config)) {
       throw new _errors.SdkError('RpcClient Config not initialized');
     }
