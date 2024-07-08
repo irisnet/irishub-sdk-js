@@ -367,7 +367,8 @@ export class MsgSwapFeeToken extends Msg {
       .setFeePaid(TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount))
       .setSender(this.value.sender);
     if (this.value.recipient) {
-      msg.setRecipient(this.value.recipient);
+      msg.setReceiver(this.value.recipient);
+
     }
     return msg;
   }
