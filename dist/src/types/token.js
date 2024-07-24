@@ -324,8 +324,8 @@ var MsgSwapFeeToken = exports.MsgSwapFeeToken = /*#__PURE__*/function (_Msg6) {
     key: "getModel",
     value: function getModel() {
       var msg = new (this.constructor.getModelClass())().setFeePaid(_helper.TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount)).setSender(this.value.sender);
-      if (this.value.recipient) {
-        msg.setReceiver(this.value.recipient);
+      if (this.value.receiver) {
+        msg.setReceiver(this.value.receiver);
       }
       return msg;
     }
