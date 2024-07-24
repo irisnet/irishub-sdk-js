@@ -52,6 +52,7 @@ var Auth = exports.Auth = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Auth, [{
     key: "newStdTx",
     value: function newStdTx(msgs, baseTx) {
+      var _baseTx$account_numbe, _baseTx$sequence;
       var stdFee = {
         amount: [],
         gasLimit: ''
@@ -69,8 +70,8 @@ var Auth = exports.Auth = /*#__PURE__*/function () {
         memo: baseTx.memo || '',
         stdFee: stdFee,
         chain_id: baseTx.chainId || this.client.config.chainId,
-        account_number: baseTx.account_number || undefined,
-        sequence: baseTx.sequence || undefined
+        account_number: (_baseTx$account_numbe = baseTx.account_number) !== null && _baseTx$account_numbe !== void 0 ? _baseTx$account_numbe : undefined,
+        sequence: (_baseTx$sequence = baseTx.sequence) !== null && _baseTx$sequence !== void 0 ? _baseTx$sequence : undefined
       });
       return protoTx;
     }

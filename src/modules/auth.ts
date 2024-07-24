@@ -54,11 +54,11 @@ export class Auth {
 
     let protoTx = new types.ProtoTx({
       msgs,
-      memo:baseTx.memo||'',
+      memo: baseTx.memo || '',
       stdFee,
-      chain_id:baseTx.chainId || this.client.config.chainId,
-      account_number:baseTx.account_number || undefined,
-      sequence:baseTx.sequence || undefined
+      chain_id: baseTx.chainId || this.client.config.chainId,
+      account_number: baseTx.account_number ?? undefined,
+      sequence: baseTx.sequence ?? undefined
     });
     return protoTx;
   }
@@ -67,7 +67,7 @@ export class Auth {
    * Account returns account details based on address.
    * @param address defines the address to query for.
    */
-  queryAccount(address:string): Promise<object> {
+  queryAccount(address: string): Promise<object> {
     if (!address) {
       throw new SdkError("address can ont be empty");
     }
@@ -78,7 +78,7 @@ export class Auth {
       '/cosmos.auth.v1beta1.Query/Account',
       request,
       types.auth_query_pb.QueryAccountResponse
-    ).then((res)=>{
+    ).then((res) => {
       if (res && res.account) {
         res.account = this.client.protobuf.deserializeAccount(res.account);
       }
@@ -89,8 +89,8 @@ export class Auth {
   /**
    * Accounts returns all the existing accounts
    */
-   queryAccounts(pagination?: types.Pagination): Promise<object[]> {
-    
+  queryAccounts(pagination?: types.Pagination): Promise<object[]> {
+
     const request = new types.auth_query_pb.QueryAccountsRequest();
     request.setPagination(ModelCreator.createPaginationModel(pagination));
 
@@ -98,9 +98,9 @@ export class Auth {
       '/cosmos.auth.v1beta1.Query/Accounts',
       request,
       types.auth_query_pb.QueryAccountsResponse
-    ).then((res)=>{
+    ).then((res) => {
       if (res && res.accountsList) {
-        res.accountsList = res.accountsList.map(((item:any) => {
+        res.accountsList = res.accountsList.map(((item: any) => {
           return this.client.protobuf.deserializeAccount(item);
         }));
       }
