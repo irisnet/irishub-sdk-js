@@ -65,7 +65,7 @@ export interface TransferTokenOwnerTxParam {
  */
 export interface SwapFeeTokenTxParam {
     fee_paid: Coin;
-    recipient?: string;
+    receiver?: string;
     sender: string;
 }
 /**
