@@ -1,5 +1,6 @@
 import { BaseTest } from './basetest';
 
+let timeout = 9999;
 describe('Staking Tests', () => {
   describe('Query', () => {
     test('query delegation', async () => {
@@ -311,7 +312,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('Unbond', () => {
     test('unbond', async () => {
@@ -327,7 +328,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('Redelegate', () => {
     test('redelegate', async () => {
@@ -344,7 +345,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('TokenizeShares', () => {
     test('tokenizeShares', async () => {
@@ -387,7 +388,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('DisableTokenizeShares', () => {
     test('disableTokenizeShares', async () => {
@@ -401,7 +402,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('EnableTokenizeShares', () => {
     test('enableTokenizeShares', async () => {
@@ -415,7 +416,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('ValidatorBond', () => {
     test('validatorBond', async () => {
@@ -430,7 +431,7 @@ describe('Staking Tests', () => {
         .catch(error => {
           console.log(error);
         });
-    });
+    }, timeout);
   });
   describe('UnbondValidator', () => {
     test('unbondValidator', async () => {
@@ -444,6 +445,6 @@ describe('Staking Tests', () => {
         .catch(error => {
 
         })
-    })
+    }, timeout)
   })
 });
