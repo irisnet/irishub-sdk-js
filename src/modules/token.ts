@@ -146,7 +146,7 @@ export class Token {
   async swapFeeToken(
     msg: {
       fee_paid: types.Coin,
-      recipient?: string
+      receiver?: string
     },
     baseTx: types.BaseTx
   ): Promise<types.TxResult> {

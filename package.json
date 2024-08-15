@@ -1,6 +1,6 @@
 {
   "name": "@irisnet/irishub-sdk",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
   "typings": "index.ts",
@@ -9,6 +9,7 @@
     "dist",
     "dist/*",
     "index.js",
+    "index.ts",
     "LICENSE",
     "package.json",
     "README.md"
@@ -39,22 +40,22 @@
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.9.0",
     "@types/jest": "^29.5.11",
-    "@types/node": "^20.11.30",
+    "@types/node": "^22.2.0",
     "babel-loader": "^9.1.2",
     "eslint": "^6.8.0",
     "eslint-loader": "^4.0.0",
     "gts": "^5.3.1",
     "jest": "29.7.0",
-    "rimraf": "^5.0.7",
+    "rimraf": "^6.0.1",
     "ts-loader": "^9.4.4",
     "tslint": "^6.1.0",
-    "typedoc": "^0.25.7",
+    "typedoc": "^0.26.5",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.8",
-    "@cosmjs/crypto": "^0.32.3",
-    "@types/mathjs": "6.0.11",
+    "@cosmjs/crypto": "^0.32.4",
+    "@types/mathjs": "^9.4.2",
     "@types/ws": "^8.5.10",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
@@ -66,7 +67,7 @@
     "grpc-web": "^1.2.1",
     "is_js": "^0.9.0",
     "isomorphic-ws": "^5.0.0",
-    "mathjs": "12.3.0",
+    "mathjs": "13.0.3",
     "ndjson": "^2.0.0",
     "pumpify": "^2.0.1",
     "secure-random": "^1.1.2",
@@ -74,6 +75,6 @@
     "sm-crypto-bj": "0.2.2",
     "tslib": "^2.6.2",
     "tweetnacl": "^1.0.3",
-    "uuid": "^9.0.0"
+    "uuid": "^10.0.0"
   }
 }

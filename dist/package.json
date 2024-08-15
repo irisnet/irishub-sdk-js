@@ -1,6 +1,6 @@
 {
   "name": "@irisnet/irishub-sdk",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
   "typings": "index.ts",
@@ -9,6 +9,7 @@
     "dist",
     "dist/*",
     "index.js",
+    "index.ts",
     "LICENSE",
     "package.json",
     "README.md"

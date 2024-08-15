@@ -70,7 +70,7 @@ export declare class Token {
      */
     swapFeeToken(msg: {
         fee_paid: types.Coin;
-        recipient?: string;
+        receiver?: string;
     }, baseTx: types.BaseTx): Promise<types.TxResult>;
     /**
      * @wapping some native token to its ERC20

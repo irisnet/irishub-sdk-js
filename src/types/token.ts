@@ -79,7 +79,7 @@ export interface TransferTokenOwnerTxParam {
  */
 export interface SwapFeeTokenTxParam {
   fee_paid: Coin;
-  recipient?: string;
+  receiver?: string;
   sender: string;
 }
 
@@ -366,9 +366,8 @@ export class MsgSwapFeeToken extends Msg {
     const msg = new ((this.constructor as any).getModelClass())()
       .setFeePaid(TxModelCreator.createCoinModel(this.value.fee_paid.denom, this.value.fee_paid.amount))
       .setSender(this.value.sender);
-    if (this.value.recipient) {
-      msg.setReceiver(this.value.recipient);
-
+    if (this.value.receiver) {
+      msg.setReceiver(this.value.receiver);
     }
     return msg;
   }
