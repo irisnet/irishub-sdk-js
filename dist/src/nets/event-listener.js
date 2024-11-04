@@ -149,7 +149,7 @@ var EventListener = exports.EventListener = /*#__PURE__*/function () {
   }, {
     key: "disconnect",
     value: (function () {
-      var _disconnect = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+      var _disconnect = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee() {
         var _this2 = this;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {

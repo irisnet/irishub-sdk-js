@@ -88,7 +88,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
   }, {
     key: "setWithdrawAddr",
     value: (function () {
-      var _setWithdrawAddr = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(withdrawAddress, baseTx) {
+      var _setWithdrawAddr = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(withdrawAddress, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -124,7 +124,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
   }, {
     key: "withdrawRewards",
     value: (function () {
-      var _withdrawRewards = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorAddr, baseTx) {
+      var _withdrawRewards = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorAddr, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -160,7 +160,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
   }, {
     key: "withdrawValidatorCommission",
     value: (function () {
-      var _withdrawValidatorCommission = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(validator_address, baseTx) {
+      var _withdrawValidatorCommission = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(validator_address, baseTx) {
         var msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -200,7 +200,7 @@ var Distribution = exports.Distribution = /*#__PURE__*/function () {
   }, {
     key: "fundCommunityPool",
     value: (function () {
-      var _fundCommunityPool = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(amount, baseTx) {
+      var _fundCommunityPool = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(amount, baseTx) {
         var depositor, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {

@@ -43,7 +43,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Coinswap, [{
     key: "addLiquidity",
     value: (function () {
-      var _addLiquidity = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(max_token, exact_standard_amt, min_liquidity, deadline, baseTx) {
+      var _addLiquidity = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(max_token, exact_standard_amt, min_liquidity, deadline, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -84,7 +84,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
   }, {
     key: "removeLiquidity",
     value: (function () {
-      var _removeLiquidity = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(withdraw_liquidity, min_token, min_standard_amt, deadline, baseTx) {
+      var _removeLiquidity = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(withdraw_liquidity, min_token, min_standard_amt, deadline, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -125,7 +125,7 @@ var Coinswap = exports.Coinswap = /*#__PURE__*/function () {
   }, {
     key: "swapOrder",
     value: (function () {
-      var _swapOrder = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(input, output, is_buy_order, deadline, baseTx) {
+      var _swapOrder = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(input, output, is_buy_order, deadline, baseTx) {
         var address, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {

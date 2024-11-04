@@ -85,7 +85,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
   }, {
     key: "buildAndSend",
     value: (function () {
-      var _buildAndSend = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(msgs, baseTx) {
+      var _buildAndSend = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(msgs, baseTx) {
         var unsignedTx, signedTx;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -146,7 +146,7 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
   }, {
     key: "sign",
     value: (function () {
-      var _sign = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
+      var _sign = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
         var _accountNumber;
         var offline,
           keyObj,

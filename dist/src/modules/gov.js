@@ -44,7 +44,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Gov, [{
     key: "submitProposal",
     value: (function () {
-      var _submitProposal = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(content, initial_deposit, baseTx) {
+      var _submitProposal = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(content, initial_deposit, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -82,7 +82,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
   }, {
     key: "vote",
     value: (function () {
-      var _vote = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(proposal_id, option, baseTx) {
+      var _vote = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(proposal_id, option, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -120,7 +120,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
   }, {
     key: "voteWeighted",
     value: (function () {
-      var _voteWeighted = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(proposal_id, options, baseTx) {
+      var _voteWeighted = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(proposal_id, options, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -158,7 +158,7 @@ var Gov = exports.Gov = /*#__PURE__*/function () {
   }, {
     key: "deposit",
     value: (function () {
-      var _deposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(proposal_id, amount, baseTx) {
+      var _deposit = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(proposal_id, amount, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
