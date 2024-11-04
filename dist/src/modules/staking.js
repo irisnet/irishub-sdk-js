@@ -221,7 +221,7 @@ var Staking = exports.Staking = /*#__PURE__*/function () {
   }, {
     key: "undelegate",
     value: (function () {
-      var _undelegate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(validatorAddr, amount, baseTx) {
+      var _undelegate = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(validatorAddr, amount, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -259,7 +259,7 @@ var Staking = exports.Staking = /*#__PURE__*/function () {
   }, {
     key: "redelegate",
     value: (function () {
-      var _redelegate = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorSrcAddr, validatorDstAddr, amount, baseTx) {
+      var _redelegate = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(validatorSrcAddr, validatorDstAddr, amount, baseTx) {
         var delegatorAddr, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {

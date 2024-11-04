@@ -86,4 +86,4 @@ var SdkError = exports.SdkError = /*#__PURE__*/function (_Error) {
   }
   (0, _inherits2["default"])(SdkError, _Error);
   return (0, _createClass2["default"])(SdkError);
-}( /*#__PURE__*/(0, _wrapNativeSuper2["default"])(Error));
+}(/*#__PURE__*/(0, _wrapNativeSuper2["default"])(Error));

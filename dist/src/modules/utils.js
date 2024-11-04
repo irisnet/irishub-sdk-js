@@ -50,7 +50,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Utils, [{
     key: "toMinCoin",
     value: (function () {
-      var _toMinCoin = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(coin) {
+      var _toMinCoin = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(coin) {
         var _this = this;
         var amt, token;
         return _regenerator["default"].wrap(function _callee$(_context) {
@@ -100,7 +100,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   }, {
     key: "toMinCoins",
     value: (function () {
-      var _toMinCoins = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(coins) {
+      var _toMinCoins = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(coins) {
         var _this2 = this;
         var promises;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -135,7 +135,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   }, {
     key: "toMainCoin",
     value: (function () {
-      var _toMainCoin = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(coin) {
+      var _toMainCoin = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(coin) {
         var _this3 = this;
         var amt, token;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
@@ -185,7 +185,7 @@ var Utils = exports.Utils = /*#__PURE__*/function () {
   }, {
     key: "toMainCoins",
     value: (function () {
-      var _toMainCoins = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(coins) {
+      var _toMainCoins = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(coins) {
         var _this4 = this;
         var promises;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
