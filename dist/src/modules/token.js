@@ -43,7 +43,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Token, [{
     key: "issueToken",
     value: (function () {
-      var _issueToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(token, baseTx) {
+      var _issueToken = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -76,7 +76,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   }, {
     key: "editToken",
     value: (function () {
-      var _editToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(token, baseTx) {
+      var _editToken = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -109,7 +109,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   }, {
     key: "mintToken",
     value: (function () {
-      var _mintToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(token, baseTx) {
+      var _mintToken = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -142,7 +142,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   }, {
     key: "burnToken",
     value: (function () {
-      var _burnToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(coin, baseTx) {
+      var _burnToken = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(coin, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
@@ -176,7 +176,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   }, {
     key: "transferTokenOwner",
     value: (function () {
-      var _transferTokenOwner = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(token, baseTx) {
+      var _transferTokenOwner = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(token, baseTx) {
         var owner, msgs;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
@@ -209,7 +209,7 @@ var Token = exports.Token = /*#__PURE__*/function () {
   }, {
     key: "swapFeeToken",
     value: (function () {
-      var _swapFeeToken = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(msg, baseTx) {
+      var _swapFeeToken = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(msg, baseTx) {
         var sender, msgs;
         return _regenerator["default"].wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
@@ -285,8 +285,8 @@ var Token = exports.Token = /*#__PURE__*/function () {
       if (is.not.undefined(owner)) {
         request.setOwner(owner);
       }
-      return new Promise( /*#__PURE__*/function () {
-        var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(resolve, reject) {
+      return new Promise(/*#__PURE__*/function () {
+        var _ref = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(resolve, reject) {
           var res, deserializedData;
           return _regenerator["default"].wrap(function _callee7$(_context7) {
             while (1) switch (_context7.prev = _context7.next) {
@@ -332,8 +332,8 @@ var Token = exports.Token = /*#__PURE__*/function () {
       }
       var request = new types.token_query_pb.QueryTokenRequest();
       request.setDenom(denom);
-      return new Promise( /*#__PURE__*/function () {
-        var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(resolve, reject) {
+      return new Promise(/*#__PURE__*/function () {
+        var _ref2 = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(resolve, reject) {
           var res, deserializedData;
           return _regenerator["default"].wrap(function _callee8$(_context8) {
             while (1) switch (_context8.prev = _context8.next) {

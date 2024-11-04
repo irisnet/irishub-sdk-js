@@ -196,7 +196,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "defineService",
     value: (function () {
-      var _defineService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(definition, baseTx) {
+      var _defineService = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(definition, baseTx) {
         var author, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -234,7 +234,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "bindService",
     value: (function () {
-      var _bindService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(binding, baseTx) {
+      var _bindService = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(binding, baseTx) {
         var provider, deposit, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
@@ -274,7 +274,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "updateServiceBinding",
     value: (function () {
-      var _updateServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(binding, baseTx) {
+      var _updateServiceBinding = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee3(binding, baseTx) {
         var provider, deposit, msgs;
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -314,7 +314,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "disableServiceBinding",
     value: (function () {
-      var _disableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(serviceName, baseTx) {
+      var _disableServiceBinding = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee4(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
@@ -346,7 +346,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "enableServiceBinding",
     value: (function () {
-      var _enableServiceBinding = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(serviceName, baseTx) {
+      var _enableServiceBinding = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee5(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
@@ -378,7 +378,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "invokeService",
     value: (function () {
-      var _invokeService = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(request, baseTx) {
+      var _invokeService = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee6(request, baseTx) {
         return _regenerator["default"].wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
@@ -406,7 +406,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "setWithdrawAddress",
     value: (function () {
-      var _setWithdrawAddress = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(withdrawAddress, baseTx) {
+      var _setWithdrawAddress = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee7(withdrawAddress, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
@@ -437,7 +437,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "refundServiceDeposit",
     value: (function () {
-      var _refundServiceDeposit = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(serviceName, baseTx) {
+      var _refundServiceDeposit = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee8(serviceName, baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
@@ -468,7 +468,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "startRequestContext",
     value: (function () {
-      var _startRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(requestContextID, baseTx) {
+      var _startRequestContext = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee9(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
@@ -499,7 +499,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "pauseRequestContext",
     value: (function () {
-      var _pauseRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(requestContextID, baseTx) {
+      var _pauseRequestContext = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee10(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
@@ -530,7 +530,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "killRequestContext",
     value: (function () {
-      var _killRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee11(requestContextID, baseTx) {
+      var _killRequestContext = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee11(requestContextID, baseTx) {
         var consumer, msgs;
         return _regenerator["default"].wrap(function _callee11$(_context11) {
           while (1) switch (_context11.prev = _context11.next) {
@@ -561,7 +561,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "updateRequestContext",
     value: (function () {
-      var _updateRequestContext = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee12(request, baseTx) {
+      var _updateRequestContext = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee12(request, baseTx) {
         var consumer, serviceFeeCap, msgs;
         return _regenerator["default"].wrap(function _callee12$(_context12) {
           while (1) switch (_context12.prev = _context12.next) {
@@ -613,7 +613,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "withdrawEarnedFees",
     value: (function () {
-      var _withdrawEarnedFees = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee13(baseTx) {
+      var _withdrawEarnedFees = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee13(baseTx) {
         var provider, msgs;
         return _regenerator["default"].wrap(function _callee13$(_context13) {
           while (1) switch (_context13.prev = _context13.next) {
@@ -644,7 +644,7 @@ var Service = exports.Service = /*#__PURE__*/function () {
   }, {
     key: "withdrawTax",
     value: (function () {
-      var _withdrawTax = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee14(destAddress, amount, baseTx) {
+      var _withdrawTax = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee14(destAddress, amount, baseTx) {
         var trustee, coins, msgs;
         return _regenerator["default"].wrap(function _callee14$(_context14) {
           while (1) switch (_context14.prev = _context14.next) {

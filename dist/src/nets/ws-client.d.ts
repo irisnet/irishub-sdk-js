@@ -1,6 +1,3 @@
-/// <reference path="../../../src/import.d.ts" />
-/// <reference types="node" />
-/// <reference types="node/events" />
 import EventEmitter from 'events';
 /**
  * IRISHub Websocket Client

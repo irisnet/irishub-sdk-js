@@ -47,7 +47,7 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
   return (0, _createClass2["default"])(Bank, [{
     key: "send",
     value: (function () {
-      var _send = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
+      var _send = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee(to, amount, baseTx) {
         var from, msgs;
         return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
@@ -91,7 +91,7 @@ var Bank = exports.Bank = /*#__PURE__*/function () {
   }, {
     key: "multiSend",
     value: (function () {
-      var _multiSend = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(to, amount, baseTx) {
+      var _multiSend = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(to, amount, baseTx) {
         var from, coins, msgs;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
