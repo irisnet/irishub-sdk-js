@@ -147,7 +147,6 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
     key: "sign",
     value: (function () {
       var _sign = (0, _asyncToGenerator2["default"])(/*#__PURE__*/_regenerator["default"].mark(function _callee2(stdTx, baseTx) {
-        var _accountNumber;
         var offline,
           keyObj,
           privKey,
@@ -162,7 +161,6 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
           _account$baseAccount2,
           _account$accountNumbe,
           _account$sequence,
-          _sequence,
           pubKey,
           signature,
           _args2 = arguments;
@@ -226,9 +224,9 @@ var Tx = exports.Tx = /*#__PURE__*/function () {
             case 20:
               if (!stdTx.hasPubKey()) {
                 pubKey = _utils.Crypto.getPublicKeyFromPrivateKey(privKey, baseTx.pubkeyType);
-                stdTx.setPubKey(pubKey, (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : undefined);
+                stdTx.setPubKey(pubKey, sequence !== null && sequence !== void 0 ? sequence : undefined);
               }
-              signature = _utils.Crypto.generateSignature(stdTx.getSignDoc((_accountNumber = accountNumber) !== null && _accountNumber !== void 0 ? _accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
+              signature = _utils.Crypto.generateSignature(stdTx.getSignDoc(accountNumber !== null && accountNumber !== void 0 ? accountNumber : undefined, baseTx.chainId || this.client.config.chainId).serializeBinary(), privKey, baseTx.pubkeyType);
               stdTx.addSignature(signature);
               return _context2.abrupt("return", stdTx);
             case 24:

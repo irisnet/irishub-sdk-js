@@ -69,8 +69,7 @@ var ProtoTx = exports.ProtoTx = /*#__PURE__*/function () {
   }, {
     key: "setPubKey",
     value: function setPubKey(pubkey, sequence) {
-      var _sequence;
-      sequence = (_sequence = sequence) !== null && _sequence !== void 0 ? _sequence : this.txData.sequence;
+      sequence = sequence !== null && sequence !== void 0 ? sequence : this.txData.sequence;
       if (typeof sequence == 'undefined') {
         throw new _errors.SdkError("sequence is empty", _errors.CODES.InvalidSequence);
       }
