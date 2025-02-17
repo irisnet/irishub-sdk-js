@@ -282,9 +282,9 @@ var ProposalType = exports.ProposalType = /*#__PURE__*/function (ProposalType) {
   ProposalType["Community_Pool_Spend_Proposal"] = "cosmos.distribution.v1beta1.CommunityPoolSpendProposal";
   ProposalType["Parameter_Change_Proposal"] = "cosmos.params.v1beta1.ParameterChangeProposal";
   ProposalType["Software_Upgrade_Proposal"] = "cosmos.upgrade.v1beta1.SoftwareUpgradeProposal";
-  ProposalType["Cancel_Software_Upgrade_Proposal"] = "cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal";
+  ProposalType["Cancel_Software_Upgrade_Proposal"] = "cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal"; // Client_Update_Proposal = 'ibc.core.client.v1.ClientUpdateProposal'
   return ProposalType;
-}({}); // Client_Update_Proposal = 'ibc.core.client.v1.ClientUpdateProposal'
+}({});
 /**
  * param struct for Text Proposal 
  */
@@ -331,12 +331,13 @@ var ProposalStatus = exports.ProposalStatus = /*#__PURE__*/function (ProposalSta
 }({});
 /************************** ClientState **************************/
 var HashOp = exports.HashOp = /*#__PURE__*/function (HashOp) {
+  // NO_HASH is the default if no data passed. Note this is an illegal argument some places.
   HashOp[HashOp["NO_HASH"] = 0] = "NO_HASH";
   HashOp[HashOp["SHA256"] = 1] = "SHA256";
   HashOp[HashOp["SHA512"] = 2] = "SHA512";
   HashOp[HashOp["KECCAK"] = 3] = "KECCAK";
   HashOp[HashOp["RIPEMD160"] = 4] = "RIPEMD160";
-  HashOp[HashOp["BITCOIN"] = 5] = "BITCOIN";
+  HashOp[HashOp["BITCOIN"] = 5] = "BITCOIN"; // ripemd160(sha256(x))
   return HashOp;
 }({});
 /**
@@ -346,14 +347,23 @@ algorithm, the length will be prepended to the key and value bytes.
 (Each one with it's own encoded length)
 */
 var LengthOp = exports.LengthOp = /*#__PURE__*/function (LengthOp) {
+  // NO_PREFIX don't include any length info
   LengthOp[LengthOp["NO_PREFIX"] = 0] = "NO_PREFIX";
+  // VAR_PROTO uses protobuf (and go-amino) varint encoding of the length
   LengthOp[LengthOp["VAR_PROTO"] = 1] = "VAR_PROTO";
+  // VAR_RLP uses rlp int encoding of the length
   LengthOp[LengthOp["VAR_RLP"] = 2] = "VAR_RLP";
+  // FIXED32_BIG uses big-endian encoding of the length as a 32 bit integer
   LengthOp[LengthOp["FIXED32_BIG"] = 3] = "FIXED32_BIG";
+  // FIXED32_LITTLE uses little-endian encoding of the length as a 32 bit integer
   LengthOp[LengthOp["FIXED32_LITTLE"] = 4] = "FIXED32_LITTLE";
+  // FIXED64_BIG uses big-endian encoding of the length as a 64 bit integer
   LengthOp[LengthOp["FIXED64_BIG"] = 5] = "FIXED64_BIG";
+  // FIXED64_LITTLE uses little-endian encoding of the length as a 64 bit integer
   LengthOp[LengthOp["FIXED64_LITTLE"] = 6] = "FIXED64_LITTLE";
+  // REQUIRE_32_BYTES is like NONE, but will fail if the input is not exactly 32 bytes (sha256 output)
   LengthOp[LengthOp["REQUIRE_32_BYTES"] = 7] = "REQUIRE_32_BYTES";
+  // REQUIRE_64_BYTES is like NONE, but will fail if the input is not exactly 64 bytes (sha512 output)
   LengthOp[LengthOp["REQUIRE_64_BYTES"] = 8] = "REQUIRE_64_BYTES";
   return LengthOp;
 }({});

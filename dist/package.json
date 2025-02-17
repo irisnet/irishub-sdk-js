@@ -1,6 +1,6 @@
 {
   "name": "@irisnet/irishub-sdk",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "IRISHub JavaScript SDK",
   "main": "index.js",
   "typings": "index.ts",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.23.8",
-    "@cosmjs/crypto": "^0.32.4",
+    "@cosmjs/crypto": "0.33.0",
     "@types/mathjs": "^9.4.2",
     "@types/ws": "^8.5.10",
     "axios": "^1.7.4",

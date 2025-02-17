@@ -116,13 +116,13 @@ var EventKey = exports.EventKey = /*#__PURE__*/function (EventKey) {
   EventKey["Sender"] = "sender";
   EventKey["Recipient"] = "recipient";
   EventKey["DestinationValidator"] = "destination-validator";
-  EventKey["RequestID"] = "request-id";
+  EventKey["RequestID"] = "request-id"; // TODO: more
   return EventKey;
-}({}); // TODO: more
+}({});
 var EventAction = exports.EventAction = /*#__PURE__*/function (EventAction) {
   EventAction["Send"] = "send";
   EventAction["Burn"] = "burn";
   EventAction["SetMemoRegexp"] = "set-memo-regexp";
-  EventAction["EditValidator"] = "edit_validator";
+  EventAction["EditValidator"] = "edit_validator"; // TODO: more
   return EventAction;
-}({}); // TODO: more
+}({});
