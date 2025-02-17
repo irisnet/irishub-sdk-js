@@ -60,8 +60,10 @@ var Msg = exports.Msg = /*#__PURE__*/function () {
   }]);
 }();
 var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
+  //bank
   TxType["MsgSend"] = "cosmos.bank.v1beta1.MsgSend";
   TxType["MsgMultiSend"] = "cosmos.bank.v1beta1.MsgMultiSend";
+  //staking
   TxType["MsgDelegate"] = "cosmos.staking.v1beta1.MsgDelegate";
   TxType["MsgUndelegate"] = "cosmos.staking.v1beta1.MsgUndelegate";
   TxType["MsgBeginRedelegate"] = "cosmos.staking.v1beta1.MsgBeginRedelegate";
@@ -72,23 +74,28 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgEnableTokenizeShares"] = "cosmos.staking.v1beta1.MsgEnableTokenizeShares";
   TxType["MsgValidatorBond"] = "cosmos.staking.v1beta1.MsgValidatorBond";
   TxType["MsgUnbondValidator"] = "cosmos.staking.v1beta1.MsgUnbondValidator";
+  //distribution
   TxType["MsgWithdrawDelegatorReward"] = "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward";
   TxType["MsgSetWithdrawAddress"] = "cosmos.distribution.v1beta1.MsgSetWithdrawAddress";
   TxType["MsgWithdrawValidatorCommission"] = "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission";
   TxType["MsgFundCommunityPool"] = "cosmos.distribution.v1beta1.MsgFundCommunityPool";
   TxType["MsgWithdrawTokenizeShareRecordReward"] = "cosmos.distribution.v1beta1.MsgWithdrawTokenizeShareRecordReward";
   TxType["MsgWithdrawAllTokenizeShareRecordReward"] = "cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward";
+  //coinswap
   TxType["MsgAddLiquidity"] = "irismod.coinswap.MsgAddLiquidity";
   TxType["MsgRemoveLiquidity"] = "irismod.coinswap.MsgRemoveLiquidity";
   TxType["MsgSwapOrder"] = "irismod.coinswap.MsgSwapOrder";
+  //farm
   TxType["MsgStake"] = "irismod.farm.MsgStake";
   TxType["MsgUnstake"] = "irismod.farm.MsgUnstake";
   TxType["MsgHarvest"] = "irismod.farm.MsgHarvest";
+  //nft
   TxType["MsgIssueDenom"] = "irismod.nft.MsgIssueDenom";
   TxType["MsgTransferNFT"] = "irismod.nft.MsgTransferNFT";
   TxType["MsgEditNFT"] = "irismod.nft.MsgEditNFT";
   TxType["MsgMintNFT"] = "irismod.nft.MsgMintNFT";
   TxType["MsgBurnNFT"] = "irismod.nft.MsgBurnNFT";
+  //token
   TxType["MsgIssueToken"] = "irismod.token.v1.MsgIssueToken";
   TxType["MsgEditToken"] = "irismod.token.v1.MsgEditToken";
   TxType["MsgMintToken"] = "irismod.token.v1.MsgMintToken";
@@ -97,14 +104,18 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
   TxType["MsgSwapFeeToken"] = "irismod.token.v1.MsgSwapFeeToken";
   TxType["MsgSwapToERC20"] = "irismod.token.v1.MsgSwapToERC20";
   TxType["MsgSwapFromERC20"] = "irismod.token.v1.MsgSwapFromERC20";
+  //gov
   TxType["MsgSubmitProposal"] = "cosmos.gov.v1beta1.MsgSubmitProposal";
   TxType["MsgVote"] = "cosmos.gov.v1beta1.MsgVote";
   TxType["MsgVoteWeighted"] = "cosmos.gov.v1beta1.MsgVoteWeighted";
   TxType["MsgDeposit"] = "cosmos.gov.v1beta1.MsgDeposit";
+  //htlc
   TxType["MsgCreateHTLC"] = "irismod.htlc.MsgCreateHTLC";
   TxType["MsgClaimHTLC"] = "irismod.htlc.MsgClaimHTLC";
+  //ibc
   TxType["MsgTransfer"] = "ibc.applications.transfer.v1.MsgTransfer";
   TxType["MsgIbcNftTransfer"] = "ibc.applications.nft_transfer.v1.MsgTransfer";
+  //slashing
   TxType["MsgUnjail"] = "cosmos.slashing.v1beta1.MsgUnjail";
   return TxType;
 }({});
@@ -135,6 +146,7 @@ var TxType = exports.TxType = /*#__PURE__*/function (TxType) {
 var PubkeyType = exports.PubkeyType = /*#__PURE__*/function (PubkeyType) {
   PubkeyType["secp256k1"] = "secp256k1";
   PubkeyType["ed25519"] = "ed25519";
+  //not implement
   PubkeyType["sm2"] = "sm2";
   return PubkeyType;
 }({});
